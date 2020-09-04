@@ -1,0 +1,133 @@
+=== BuddyPress Builder for Elementor - BuddyBuilder ===
+Contributors: staxwp, seventhqueen, codezz, rtynio, geowrge
+Tags: elementor, buddypress, buddypress builder, buddypress elementor, elementor buddypress, bp builder
+Requires at least: 4.0
+Requires PHP: 5.6
+Tested up to: 5.5.1
+Stable tag: 1.2.0
+License: GLPv2 or later
+
+Design, build and customize your BuddyPress site with Elementor builder.
+
+== Description ==
+BuddyBuilder gives you super powers to create a stunning BuddyPress community built with Elementor.
+Create your own page structure, add widgets and customize.
+We use a unique and smart approach to override default BuddyPress templates so you can design them as a regular page.
+You are no longer locked to a predefined design and you are free to build and customize your BuddyPress community site.
+Easy to use, deeply integrated in Elementor.
+
+= How BuddyBuilder can help you =
+- Have your own BuddyPress powered community on any theme, building yor own awesome design.
+- Use Elementor intuitive interface to create all of your BuddyPress pages with full control over design and structure.
+- Have full control over BuddyPress pages, build the whole design with Elementor widgets.
+- Easily import templates for all BuddyPress components for a quick start.
+
+= What you can build with BuddyBuilder =
+- Members Directory page
+- Member Profile
+- Members Directory
+- Groups Directory
+- Group Page
+- Site Wide Activity
+
+= How does it work =
+1. Super simple to use, create a new Elementor template.
+2. Select what BuddyPress component you are building(for example Member profile).
+3. Edit the Elementor template with our specific BuddyPress widgets especially built for the page you are designing.
+4. Save it and see your new design in action.
+
+= Easy to get started =
+We include a starter template to easily start your design.
+
+= Get more control with BuddyBuilder Pro =
+
+**Pro Template Kits**
+Beautifully designed Templates have a stunning community with a click of a button
+
+**Customize Activity Page**
+Build and style the activity/news feed. Total control over structure and design
+
+**Customize Member page generated content**
+You have full control to style profile tabs content for Activity, Profile, Messages, Notification, Settings
+
+**Customize Group page generated content**
+You have full control to style group tabs Activity, Members, Invite, Manage
+
+
+Get [Pro](https://staxwp.com/go/buddybuilder-pro) and take your community site to the next level
+
+## Privacy Policy
+Stax BuddyBuilder uses Appsero SDK to collect some telemetry data upon user's confirmation. This helps us to troubleshoot problems faster & make product improvements.
+
+== Installation ==
+
+1. Upload the plugin to your 'wp-content/plugins' directory or install it directly from WP admin - Plugins - New
+2. Activate the plugin
+3. Go to WP admin - BuddyBuilder
+4. Create new template for what component you need(for example Member profile)
+5. Build the template using the widget we provide for that component type
+6. Save the template and check your BuddyPress template
+7. That is it :)
+
+== Screenshots ==
+
+== Changelog ==
+
+= 1.2.0 =
+* FEATURE: Added List/Grid switcher for Members and Groups directory listing.
+Enable/disable the feature by editing the members/groups navigation widget
+* FEATURE: Allowing Pro Template Kit to be loaded when using Pro version
+
+= 1.1.3 =
+* Fixed admin error on some plugin activations
+* Fallback to BuddyPress default template if Elementor template exists but is empty
+
+= 1.1.2 =
+* Enhanced theme compatibility logic
+
+= 1.1.1 =
+* Wider plugins compatibility with plugins like rtMedia and others
+* Fix pagination links padding
+* Sitewide activity item — Style update
+* Profile member — Message filter style update
+
+= 1.1.0 =
+* Added responsive columns for listings
+* Rewrite style & settings for members & groups grid listings.
+* Member profile — Profile edit settings update.
+* Member profile — Settings - Export data form style update.
+* Groups & Members directory — Settings update.
+* Sitewide activity — Search style update.
+* Mobile view optimisations.
+
+= 1.0.5 =
+* Template import fixes
+* Profile groups — Manage photo style update.
+* Members directory — Style update.
+* Forms style update.
+
+= 1.0.4 =
+* Extra check when checking templates used.
+* Group Item — Cover style update.
+* Site wide — Meta style update.
+* Sitewide activity filters update.
+* Load more button style update.
+
+= 1.0.3 =
+* Fix profile navigation alignment
+* Group profile - Buttons settings update.
+* Profile group - Invite filters style update.
+* Member profile — Message filters style update.
+* Manage group members — Filter style update.
+* Group profile — Manage members style update.
+
+= 1.0.2 =
+* Member & Group Directory style updates.
+
+= 1.0.0 =
+* Initial release
+
+= Be a contributor =
+If you want to contribute, go to our [GitHub Repository](https://github.com/staxwp/buddybuilder).
+
+You can also add a new language via [translate.wordpress.org](https://translate.wordpress.org/projects/wp-plugins/stax-buddy-builder).
