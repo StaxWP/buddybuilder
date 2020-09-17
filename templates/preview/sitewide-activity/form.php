@@ -15,7 +15,7 @@
                           style="resize: vertical; height: auto;"></textarea>
             </div>
         </div>
-        <div id="whats-new-options">
+        <div id="whats-new-options" style="display: block; opacity: 1;">
             <div id="whats-new-post-in-box"">
                 <select name="whats-new-post-in" aria-label="Post in" id="whats-new-post-in">
                     <option value="profile">Post in: Profile</option>
@@ -24,11 +24,11 @@
                 <ul id="whats-new-post-in-box-items">
                     <li><input type="text" id="activity-autocomplete" placeholder="Start typing the group name..."></li>
                 </ul>
-            <div id="whats-new-submit">
-                <input type="submit" id="aw-whats-new-submit" class="button" name="aw-whats-new-submit"
-                       value="Post Update">
-                <input type="reset" id="aw-whats-new-reset" class="text-button small" value="Cancel">
-            </div>
+        </div>
+        <div id="whats-new-submit">
+            <input type="submit" id="aw-whats-new-submit" class="button" name="aw-whats-new-submit"
+                   value="Post Update">
+            <input type="reset" id="aw-whats-new-reset" class="text-button small" value="Cancel">
         </div>
     </form>
 </div>

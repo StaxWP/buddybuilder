@@ -55,7 +55,7 @@ do_action( BPB_HOOK_PREFIX . $current_slug . '_page_container_before' ); ?>
                         Go PRO »
                     </a>
                 </div>
-            </div>§
+            </div>
 
             <div class="ste-bg-white ste-p-6 lg:ste-p-10 ste-rounded ste-shadow-lg">
                 <div class="sqp_box">

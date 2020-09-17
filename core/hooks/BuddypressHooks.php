@@ -66,12 +66,28 @@ class BuddypressHooks {
 	 * Plugins loaded
 	 */
 	public function plugins_loaded() {
+
+
 		if ( ! $this->current_component_has_template() ) {
 			return;
 		}
 
-		// Stop Youzer functionality for the component.
-		remove_action( 'plugins_loaded', 'youzer', YOUZER_LATE_LOAD );
+		if ( class_exists( 'Youzer' ) ) {
+			/*remove_action( 'bp_init', array( \Youzer::instance(), 'buddypress_init' ) );
+			remove_filter( 'bp_get_template_part', 'yz_bp_replace_template', 10 );
+			remove_action( 'bp_init', 'yz_bp_overload_templates' );
+			remove_action( 'wp_print_styles', 'yz_deregister_bp_styles', 15 );
+			remove_filter( 'bp_get_theme_compat_url', 'yz_buddypress_assets_path' );*/
+
+			add_action( 'after_setup_theme', function () {
+				if ( function_exists( 'crum_mycred_user_balance_wp_widget' ) ) {
+					remove_action( 'widgets_init', 'crum_mycred_user_balance_wp_widget' );
+				}
+			} );
+
+			// Stop Youzer functionality for the component.
+			remove_action( 'plugins_loaded', 'youzer', YOUZER_LATE_LOAD );
+		}
 
 		// Make sure we use nouveau support.
 		add_theme_support( 'buddypress-use-nouveau' );
@@ -89,6 +105,7 @@ class BuddypressHooks {
 		// Get Templates Location from our plugin
 		if ( function_exists( 'bp_register_template_stack' ) ) {
 			bp_register_template_stack( [ $this, 'get_template_path' ], - 1 );
+			bp_register_template_stack( [ $this, 'get_child_theme_template_path' ], - 2 );
 		}
 	}
 
@@ -99,6 +116,15 @@ class BuddypressHooks {
 	 */
 	public function get_template_path() {
 		return BPB_BASE_PATH . 'templates/buddypress/';
+	}
+
+	/**
+	 * BuddyPress templats path
+	 *
+	 * @return string
+	 */
+	public function get_child_theme_template_path() {
+		return get_stylesheet_directory() . '/buddybuilder/';
 	}
 
 	/**
@@ -133,6 +159,7 @@ class BuddypressHooks {
 			}
 
 			array_unshift( $stack, BPB_BASE_PATH . 'templates/buddypress' );
+			array_unshift( $stack, get_stylesheet_directory() . '/buddybuilder' );
 		}
 
 		return $stack;
@@ -322,6 +349,7 @@ class BuddypressHooks {
 			'groups_dir_tabs'         => 0,
 			'sites_dir_layout'        => 0,
 			'sites_dir_tabs'          => 0,
+			'global_alignment'        => '',
 		] );
 	}
 
@@ -331,9 +359,18 @@ class BuddypressHooks {
 	 * @return bool
 	 */
 	private function current_component_has_template() {
+
 		// Return true when editing or previewing.
 		if ( bpb_is_edit_frame() || bpb_is_preview_mode() || bpb_is_front_library() ) {
 			return true;
+		}
+
+		if ( is_admin() && ! wp_doing_ajax() ) {
+			return false;
+		}
+
+		if ( isset( $_GET['elementor-preview'], $_GET['elementor_library'] ) ) {
+			return false;
 		}
 
 		$settings = bpb_get_settings();

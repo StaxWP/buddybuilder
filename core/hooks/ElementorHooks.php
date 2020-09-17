@@ -11,7 +11,6 @@ namespace Buddy_Builder;
 defined( 'ABSPATH' ) || die();
 
 use Buddy_Builder\Library\Documents\BuddyPress;
-use Elementor\Settings;
 
 /**
  * Class ElementorHooks
@@ -47,7 +46,7 @@ class ElementorHooks {
 		], 12, 2 );
 
 		if ( is_admin() ) {
-			add_action( 'elementor/admin/after_create_settings/' . Settings::PAGE_ID, [
+			add_action( 'elementor/admin/after_create_settings/' . \Elementor\Settings::PAGE_ID, [
 				$this,
 				'register_admin_fields'
 			], 20 );

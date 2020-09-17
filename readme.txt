@@ -4,7 +4,7 @@ Tags: elementor, buddypress, buddypress builder, buddypress elementor, elementor
 Requires at least: 4.0
 Requires PHP: 5.6
 Tested up to: 5.5.1
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 License: GLPv2 or later
 
 Design, build and customize your BuddyPress site with Elementor builder.
@@ -73,6 +73,13 @@ Stax BuddyBuilder uses Appsero SDK to collect some telemetry data upon user's co
 
 == Changelog ==
 
+= 1.2.1 =
+* Fix template full alignment on some themes
+* Allow template override in child theme under "buddybuilder" folder
+* Sitewide activity — Post form template preview update
+* Added more theme compatibility code
+* Added some compatibility with PHP 7.0
+
 = 1.2.0 =
 * FEATURE: Added List/Grid switcher for Members and Groups directory listing.
 Enable/disable the feature by editing the members/groups navigation widget
@@ -131,3 +138,4 @@ Enable/disable the feature by editing the members/groups navigation widget
 If you want to contribute, go to our [GitHub Repository](https://github.com/staxwp/buddybuilder).
 
 You can also add a new language via [translate.wordpress.org](https://translate.wordpress.org/projects/wp-plugins/stax-buddy-builder).
+

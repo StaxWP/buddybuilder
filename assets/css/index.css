@@ -432,4 +432,11 @@ body.buddypress .buddypress-wrap .elementor-heading-title {
 .stax-buddybuilder-template .buddypress-wrap .bp-feedback p {
   padding: 10px; }
 
+.stax-buddybuilder-template #buddypress #item-body {
+  padding: 0; }
+
+.elementor-widget-bpb-sitewide-form #whats-new-post-in-box {
+  float: none;
+  font-size: inherit; }
+
 /*# sourceMappingURL=index.css.map */
