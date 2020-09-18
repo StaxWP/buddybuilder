@@ -39,14 +39,15 @@ class BuddypressHooks {
 	 * BuddypressHooks constructor.
 	 */
 	public function __construct() {
+
 		add_action( 'plugins_loaded', [ $this, 'plugins_loaded' ], 1 );
 		add_action( 'bp_init', [ $this, 'bp_init' ] );
 
 		add_filter( 'bp_get_template_stack', [ $this, 'rewrite_template' ], ( PHP_INT_MAX - 1 ) );
 		add_filter( 'bp_get_theme_package_id', [ $this, 'rewrite_theme_id' ], ( PHP_INT_MAX - 1 ) );
 		add_filter( 'option__bp_theme_package_id', [ $this, 'rewrite_theme_id' ], ( PHP_INT_MAX - 1 ) );
-
 		add_filter( 'template_include', [ $this, 'change_buddypress_tpl' ], ( PHP_INT_MAX - 1 ) );
+		add_filter( 'rtmedia_located_template', [ $this, 'override_rtmedia_template' ], 10, 4 );
 
 		add_filter( 'body_class', [ $this, 'set_body_class' ] );
 		add_filter( 'bp_nouveau_customizer_controls', [ $this, 'customizer_controls' ], 20 );
@@ -62,36 +63,38 @@ class BuddypressHooks {
 		add_filter( 'bp_after_groups_cover_image_settings_parse_args', [ $this, 'change_cover_args' ] );
 	}
 
+	public function override_rtmedia_template( $located, $url, $ogpath, $template_name ) {
+		if ( $template_name === 'main.php' && $this->current_component_has_template() ) {
+			if ( $url ) {
+				return $this->get_template_url() . 'rtmedia/main.php';
+			}
+
+			return $this->get_template_path() . 'rtmedia/main.php';
+
+		}
+
+		return $located;
+	}
+
 	/**
 	 * Plugins loaded
 	 */
 	public function plugins_loaded() {
 
-
 		if ( ! $this->current_component_has_template() ) {
 			return;
 		}
 
-		if ( class_exists( 'Youzer' ) ) {
-			/*remove_action( 'bp_init', array( \Youzer::instance(), 'buddypress_init' ) );
-			remove_filter( 'bp_get_template_part', 'yz_bp_replace_template', 10 );
-			remove_action( 'bp_init', 'yz_bp_overload_templates' );
-			remove_action( 'wp_print_styles', 'yz_deregister_bp_styles', 15 );
-			remove_filter( 'bp_get_theme_compat_url', 'yz_buddypress_assets_path' );*/
+		// theme compat
+		add_action( 'after_setup_theme', function () {
+			remove_action( 'widgets_init', 'crum_mycred_user_balance_wp_widget' );
+			remove_action( 'wp_enqueue_scripts', 'sportix_print_bp_styles', 99 );
+		} );
 
-			add_action( 'after_setup_theme', function () {
-				if ( function_exists( 'crum_mycred_user_balance_wp_widget' ) ) {
-					remove_action( 'widgets_init', 'crum_mycred_user_balance_wp_widget' );
-				}
-			} );
+		// Stop Youzer functionality for the component.
+		remove_action( 'plugins_loaded', 'youzer', YOUZER_LATE_LOAD );
 
-			// Stop Youzer functionality for the component.
-			remove_action( 'plugins_loaded', 'youzer', YOUZER_LATE_LOAD );
-		}
-
-		// Make sure we use nouveau support.
-		add_theme_support( 'buddypress-use-nouveau' );
-		remove_theme_support( 'buddypress-use-legacy' );
+		add_action( 'after_setup_theme', [ $this, 'add_nouveau_compat' ], 50 );
 	}
 
 	/**
@@ -110,12 +113,22 @@ class BuddypressHooks {
 	}
 
 	/**
-	 * BuddyPress templats path
+	 * BuddyPress template path
 	 *
 	 * @return string
 	 */
 	public function get_template_path() {
 		return BPB_BASE_PATH . 'templates/buddypress/';
+	}
+
+
+	/**
+	 * BuddyPress template url
+	 *
+	 * @return string
+	 */
+	public function get_template_url() {
+		return BPB_BASE_URL . 'templates/buddypress/';
 	}
 
 	/**
@@ -125,6 +138,14 @@ class BuddypressHooks {
 	 */
 	public function get_child_theme_template_path() {
 		return get_stylesheet_directory() . '/buddybuilder/';
+	}
+
+	/**
+	 *  Make sure we use Nouveau template
+	 */
+	public function add_nouveau_compat() {
+		add_theme_support( 'buddypress-use-nouveau' );
+		remove_theme_support( 'buddypress-use-legacy' );
 	}
 
 	/**

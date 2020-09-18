@@ -87,7 +87,14 @@ class Content extends \Buddy_Builder\Widgets\Base {
 			?>
             <div class="bp-wrap">
                 <div id="item-body" class="item-body">
-					<?php bp_nouveau_group_template_part(); ?>
+					<?php
+					/*
+                     * Returning a truthy value from the filter will effectively short-circuit the logic
+                     */
+					if ( apply_filters( 'buddybuilder/tpl/profile-group/content/render', true ) ) {
+						bp_nouveau_group_template_part();
+					}
+					?>
                 </div>
             </div>
 			<?php

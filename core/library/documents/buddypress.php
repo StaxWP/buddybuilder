@@ -41,8 +41,8 @@ class BuddyPress extends Library_Document {
 
 		$properties['admin_tab_group'] = true;
 		$properties['library_view']    = 'list';
-		//$properties['group']           = 'blocks';
 		$properties['show_in_library'] = true;
+		$properties['support_kit']     = true;
 
 		return $properties;
 	}

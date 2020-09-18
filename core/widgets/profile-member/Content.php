@@ -80,6 +80,7 @@ class Content extends \Buddy_Builder\Widgets\Base {
 	}
 
 	protected function render() {
+
 		if ( bpb_is_elementor_editor() ) {
 			ob_start();
 			bpb_load_template( 'preview/profile-member/content' );
@@ -88,7 +89,14 @@ class Content extends \Buddy_Builder\Widgets\Base {
 			?>
             <div class="bp-wrap">
                 <div id="item-body" class="item-body">
-					<?php bp_nouveau_member_template_part(); ?>
+					<?php
+					/*
+					 * Returning a truthy value from the filter will effectively short-circuit the logic
+					 */
+					if ( apply_filters( 'buddybuilder/tpl/profile-member/content/render', true ) ) {
+						bp_nouveau_member_template_part();
+					}
+					?>
                 </div>
             </div>
 			<?php

@@ -40,65 +40,65 @@
 	    <h2 class="bp-screen-title bp-screen-reader-text">Member Activities</h2>
 	    <h2 class="bp-screen-reader-text">Post Update</h2>
 
-	    <div id="bp-nouveau-activity-form" class="activity-update-form">
-		    <form name="whats-new-form" method="post" id="whats-new-form" class="activity-form activity-form-expanded">
-			    <div id="whats-new-avatar">
-				    <a href="#">
-					    <img src="<?php echo esc_url( BPB_ASSETS_URL . 'img/member-avatar-50x50.png' ); ?>"
-					         class="avatar user-1-avatar avatar-50 photo" width="50" height="50"
-					         alt="Profile photo of admin">
-				    </a>
-			    </div>
-			    <div id="whats-new-content">
-				    <div id="whats-new-textarea">
+        <div id="bp-nouveau-activity-form" class="activity-update-form">
+            <form name="whats-new-form" method="post" id="whats-new-form" class="activity-form activity-form-expanded">
+                <div id="whats-new-avatar">
+                    <a href="#">
+                        <img src="<?php echo esc_url( BPB_ASSETS_URL . 'img/member-avatar-50x50.png' ); ?>"
+                             class="avatar user-1-avatar avatar-50 photo" width="50" height="50"
+                             alt="Profile photo of admin">
+                    </a>
+                </div>
+                <div id="whats-new-content">
+                    <div id="whats-new-textarea">
 				<textarea name="whats-new" cols="50" rows="4"
-				          placeholder="What's new, admin?" aria-label="Post what's new"
-				          id="whats-new" class="bp-suggestions"
-				          style="resize: vertical; height: auto;"></textarea>
-				    </div>
-			    </div>
-			    <div id="whats-new-options">
-				    <div id="whats-new-submit" class="in-profile">
-					    <input type="submit" id="aw-whats-new-submit"
-					           class="button" name="aw-whats-new-submit"
-					           value="Post Update">
-					    <input type="reset"
-					           id="aw-whats-new-reset"
-					           class="text-button small"
-					           value="Cancel">
-				    </div>
-			    </div>
-		    </form>
-	    </div>
+                          placeholder="What's new, admin?" aria-label="Post what's new"
+                          id="whats-new" class="bp-suggestions"
+                          style="resize: vertical; height: auto;"></textarea>
+                    </div>
+                </div>
+                <div id="whats-new-options" style="display: block; opacity: 1;">
+                    <div id="whats-new-submit" class="in-profile">
+                        <input type="submit" id="aw-whats-new-submit"
+                               class="button" name="aw-whats-new-submit"
+                               value="Post Update">
+                        <input type="reset"
+                               id="aw-whats-new-reset"
+                               class="text-button small"
+                               value="Cancel">
+                    </div>
+                </div>
+            </form>
+        </div>
 
-	    <div class="subnav-filters filters no-ajax" id="subnav-filters">
-		    <div class="subnav-search clearfix">
-			    <div class="feed">
-				    <a href="#" class="bp-tooltip" data-bp-tooltip="RSS Feed">
-					    <span class="bp-screen-reader-text">RSS</span>
-				    </a>
-			    </div>
-		    </div>
+        <div class="subnav-filters filters no-ajax" id="subnav-filters">
+            <div class="subnav-search clearfix">
+                <div class="feed">
+                    <a href="#" class="bp-tooltip" data-bp-tooltip="RSS Feed">
+                        <span class="bp-screen-reader-text">RSS</span>
+                    </a>
+                </div>
+            </div>
 
-		    <div id="comp-filters" class="component-filters clearfix">
-			    <div id="activity-filter-select" class="last filter">
-				    <label for="activity-filter-by" class="bp-screen-reader-text">
-					    <span>Show:</span>
-				    </label>
-				    <div class="select-wrap">
-					    <select id="activity-filter-by" data-bp-filter="activity">
-						    <option value="0">— Everything —</option>
-						    <option value="">Example</option>
-						    <option value="">Example</option>
-						    <option value="">Example</option>
-					    </select>
-					    <span class="select-arrow" aria-hidden="true"></span>
-				    </div>
-			    </div>
-		    </div>
-	    </div>
+            <div id="comp-filters" class="component-filters clearfix">
+                <div id="activity-filter-select" class="last filter">
+                    <label for="activity-filter-by" class="bp-screen-reader-text">
+                        <span>Show:</span>
+                    </label>
+                    <div class="select-wrap">
+                        <select id="activity-filter-by" data-bp-filter="activity">
+                            <option value="0">— Everything —</option>
+                            <option value="">Example</option>
+                            <option value="">Example</option>
+                            <option value="">Example</option>
+                        </select>
+                        <span class="select-arrow" aria-hidden="true"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-	    <div id="activity-stream" class="activity single-user">
+        <div id="activity-stream" class="activity single-user">
             <ul class="activity-list item-list bp-list">
                 <li class="groups activity_update activity-item" id="activity-105" data-bp-activity-id="105"
                     data-bp-timestamp="1589790450">
