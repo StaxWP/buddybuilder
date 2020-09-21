@@ -4,7 +4,7 @@ Tags: elementor, buddypress, buddypress builder, buddypress elementor, elementor
 Requires at least: 4.0
 Requires PHP: 5.6
 Tested up to: 5.5.1
-Stable tag: 1.2.1
+Stable tag: 1.2.2
 License: GLPv2 or later
 
 Design, build and customize your BuddyPress site with Elementor builder.
@@ -72,6 +72,11 @@ Stax BuddyBuilder uses Appsero SDK to collect some telemetry data upon user's co
 == Screenshots ==
 
 == Changelog ==
+
+= 1.2.2 =
+* Enable global fonts and colors for all BuddyBuilder templates
+* Added rtMedia compatibility
+* Added more theme compatibility code. Custom integration with Sportix theme added
 
 = 1.2.1 =
 * Fix template full alignment on some themes

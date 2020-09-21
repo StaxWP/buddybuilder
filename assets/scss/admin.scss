@@ -1,0 +1,50 @@
+@tailwind base;
+
+@tailwind components;
+
+.ste-elementor-admin-page #contextual-help-link-wrap {
+  display: none !important;
+}
+
+.ste-elementor-admin-page .ste-main ul li {
+  margin-bottom: 0;
+}
+
+.ste-elementor-admin-page .ste-main #go-pro-rocket-icon {
+  width: 100px;
+  transform: rotate(-45deg);
+}
+
+.ste-elementor-admin-page .ste-main .rocket-flame {
+  transform-origin: 15px 37.5px;
+}
+
+.ste-elementor-admin-page .ste-main a:focus {
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+
+.wp-admin .ste-container {
+  .wp-core-ui select {
+    border-color: red !important;
+  }
+}
+
+.toplevel_page_buddy-builder-settings {
+  &.wp-core-ui {
+    select {
+      @apply ste-flex;
+      @apply ste-flex-wrap;
+      @apply ste-justify-between;
+      @apply ste-items-center;
+      @apply ste-border-gray-400;
+      @apply ste-rounded;
+      @apply ste-p-2;
+      @apply text-gray-700;
+    }
+  }
+}
+
+@tailwind utilities;
+
