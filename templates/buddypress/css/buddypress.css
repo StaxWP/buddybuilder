@@ -1874,75 +1874,6 @@ body.no-js .single-item-header .js-self-profile-button {
 * Group Specific Item Header
 *-----------------------------------------------------
 */
-.groups-header .bp-group-type-list {
-  margin: 0; }
-
-.groups-header .bp-feedback {
-  clear: both; }
-
-.groups-header .group-item-actions {
-  float: left;
-  margin: 0 0 15px 15px;
-  padding-top: 0;
-  width: 100%; }
-
-.groups-header .moderators-lists {
-  margin-top: 0; }
-  .groups-header .moderators-lists .moderators-title {
-    font-size: 14px; }
-  .groups-header .moderators-lists .user-list {
-    margin: 0 0 5px; }
-    .groups-header .moderators-lists .user-list ul:after {
-      clear: both;
-      content: "";
-      display: table; }
-    .groups-header .moderators-lists .user-list li {
-      display: inline-block;
-      float: none;
-      margin-left: 4px;
-      padding: 4px; }
-  .groups-header .moderators-lists img.avatar {
-    -moz-box-shadow: none;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-    float: none;
-    height: 30px;
-    margin: 0;
-    max-width: 100%;
-    width: 30px; }
-
-@media screen and (min-width: 1025px) {
-  .groups-header div#item-header-content {
-    float: left;
-    margin-left: 10%;
-    text-align: left;
-    padding-top: 15px;
-    width: 42%; }
-  .groups-header .group-item-actions {
-    float: right;
-    margin: 0 0 15px 15px;
-    text-align: right;
-    width: 20%; }
-  .groups-header .groups-meta {
-    clear: both; } }
-
-.groups-header .desc-wrap {
-  background: #e2e8f0;
-  border: 1px solid #e2e8f0;
-  margin: 0 0 15px;
-  padding: 1em;
-  text-align: center; }
-  .groups-header .desc-wrap .group-description {
-    background: #f7fafc;
-    -webkit-box-shadow: inset 0 0 9px #cbd5e0;
-    -moz-box-shadow: inset 0 0 9px #cbd5e0;
-    box-shadow: inset 0 0 9px #cbd5e0;
-    padding: 1em;
-    text-align: left; }
-    .groups-header .desc-wrap .group-description p {
-      margin: 0;
-      padding: 0; }
-
 /**
 *-----------------------------------------------------
 * @subsection 5.1.2 - Item Header User Accounts
@@ -4503,5 +4434,3 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
         background: #718096;
         border: 1px solid #e2e8f0;
         color: #fff; } }
-
-/*# sourceMappingURL=buddypress.css.map */
