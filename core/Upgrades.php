@@ -38,7 +38,10 @@ class Upgrades extends Singleton {
 	 * @var array
 	 */
 	private $upgrades = [
-		'1.2.4' => '_upgrade_124',
+		'1.2.4' => [
+			'method'             => '_upgrade_124',
+			'skip_fresh_install' => true
+		],
 	];
 
 	/**
@@ -57,11 +60,11 @@ class Upgrades extends Singleton {
 		$old_upgrades    = get_option( $this->option_name, [] );
 		$current_version = $this->version;
 
-		foreach ( $this->upgrades as $version => $method ) {
+		foreach ( $this->upgrades as $version => $upgrade ) {
 			if ( ! isset( $old_upgrades[ $version ] ) && version_compare( $current_version, $version, '>=' ) ) {
 
 				// Run the upgrade.
-				$upgrade_result = $this->$method();
+				$upgrade_result = $this->{$upgrade['method']}();
 
 				// Early exit the loop if an error occurs.
 				if ( $upgrade_result === true ) {
@@ -104,7 +107,17 @@ class Upgrades extends Singleton {
 		$old_upgrades    = get_option( $this->option_name ) ?: [];
 		$current_version = $this->version;
 
-		foreach ( $this->upgrades as $version => $method ) {
+		foreach ( $this->upgrades as $version => $upgrade ) {
+
+			// fresh install
+			if ( isset( $upgrade['skip_fresh_install'] ) && $upgrade['skip_fresh_install'] &&
+			     ( empty( $old_upgrades ) && ! get_option( 'bpb_settings' ) ) ) {
+				$old_upgrades[ $version ] = true;
+				update_option( $this->option_name, $old_upgrades );
+
+				continue;
+			}
+
 			if ( ! isset( $old_upgrades[ $version ] ) && version_compare( $current_version, $version, '>=' ) ) {
 				return true;
 			}
@@ -139,7 +152,7 @@ class Upgrades extends Singleton {
 		$settings = bpb_get_settings();
 
 		foreach ( $settings['templates'] as $type => $post_id ) {
-			if ( ! in_array( $type, [ 'member-profile', 'group-profile' ] ) ) {
+			if ( ! $post_id || ! in_array( $type, [ 'member-profile', 'group-profile' ] ) ) {
 				continue;
 			}
 
