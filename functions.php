@@ -184,14 +184,15 @@ function bpb_set_template_id( $template_slug, $id ) {
  */
 function bpb_is_elementor_editor() {
 
-	$importing = isset( $_REQUEST['action'] ) && $_REQUEST['action'] === Module::IMPORT_KEY;
+	$importing    = isset( $_REQUEST['action'] ) && $_REQUEST['action'] === Module::IMPORT_KEY;
+	$is_ajax      = ( wp_doing_ajax() && ! isset( $_POST['object'] ) && ! isset( $_POST['target'] ) );
+	$is_db_update = isset( $_GET['buddybuilder_db_update'] );
 
 	return defined( 'ELEMENTOR_VERSION' ) &&
-	       ( ( wp_doing_ajax() && ! isset( $_POST['object'] ) && ! isset( $_POST['target'] ) ) ||
+	       ( $is_ajax || $importing || $is_db_update ||
 	         \Elementor\Plugin::$instance->editor->is_edit_mode() ||
 	         \Elementor\Plugin::$instance->preview->is_preview_mode() ||
-	         bpb_is_preview_mode() || bpb_is_front_library() ||
-	         $importing
+	         bpb_is_preview_mode() || bpb_is_front_library()
 	       );
 }
 

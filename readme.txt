@@ -3,8 +3,8 @@ Contributors: staxwp, seventhqueen, codezz, rtynio, geowrge
 Tags: elementor, buddypress, buddypress builder, buddypress elementor, elementor buddypress, bp builder
 Requires at least: 4.0
 Requires PHP: 5.6
-Tested up to: 5.5.1
-Stable tag: 1.2.3
+Tested up to: 5.5.2
+Stable tag: 1.2.4
 License: GLPv2 or later
 
 Design, build and customize your BuddyPress site with Elementor builder.
@@ -72,6 +72,12 @@ Stax BuddyBuilder uses Appsero SDK to collect some telemetry data upon user's co
 == Screenshots ==
 
 == Changelog ==
+
+= 1.2.4 =
+* WPML Integration
+* Cover position settings in Style tab && Fix template preview full width
+* Fix active Member Profile Navigation tab in preview.
+* Fix admin bar Edit with Elementor missing
 
 = 1.2.3 =
 * Added Group page action buttons fix.

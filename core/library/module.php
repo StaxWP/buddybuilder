@@ -62,7 +62,6 @@ class Module extends BaseModule {
 			'buddypress_template_options'
 		] );
 
-
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_admin_script' ] );
 	}
 

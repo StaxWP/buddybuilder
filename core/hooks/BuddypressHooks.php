@@ -17,28 +17,13 @@ use Buddy_Builder\Template\Module;
  * Class BuddypressHooks
  * @package Buddy_Builder
  */
-class BuddypressHooks {
-
-	/**
-	 * @var BuddypressHooks|null
-	 */
-	public static $instance;
-
-	/**
-	 * @return BuddypressHooks
-	 */
-	public static function get_instance() {
-		if ( self::$instance === null ) {
-			self::$instance = new self();
-		}
-
-		return self::$instance;
-	}
+class BuddypressHooks extends Singleton {
 
 	/**
 	 * BuddypressHooks constructor.
 	 */
 	public function __construct() {
+		parent::__construct();
 
 		add_action( 'plugins_loaded', [ $this, 'plugins_loaded' ], 1 );
 		add_action( 'bp_init', [ $this, 'bp_init' ] );
@@ -212,7 +197,9 @@ class BuddypressHooks {
 	 * @return string
 	 */
 	public function change_buddypress_tpl( $template ) {
-		if ( ! bp_is_blog_page() && $this->current_component_has_template() ) {
+
+		if ( $this->current_component_has_template() ) {
+
 			$template = BPB_BASE_PATH . 'templates/buddypress/buddypress.php';
 		}
 
@@ -427,26 +414,18 @@ class BuddypressHooks {
 				}
 
 				$bp_pages_ids = get_option( 'bp-pages' );
-				$bp_slugs     = [
+				$bp_pages_ids = array_map( [ $this, 'get_wpml_page_id' ], $bp_pages_ids );
+
+				$bp_slugs = [
 					'members'  => '',
 					'groups'   => '',
 					'activity' => '',
 				];
 
-				// Set members page slug
-				if ( isset( $bp_pages_ids['members'] ) ) {
-					$bp_slugs['members'] = get_post_field( 'post_name', $bp_pages_ids['members'] );
-				}
-
-				// Set groups page slug
-				if ( isset( $bp_pages_ids['groups'] ) ) {
-					$bp_slugs['groups'] = get_post_field( 'post_name', $bp_pages_ids['groups'] );
-				}
-
-
-				// Set activity page slug
-				if ( isset( $bp_pages_ids['activity'] ) ) {
-					$bp_slugs['activity'] = get_post_field( 'post_name', $bp_pages_ids['activity'] );
+				// Set page slugs
+				foreach ( $bp_pages_ids as $k => $bp_page_id ) {
+					$bp_page        = get_post( $bp_pages_ids[ $k ] );
+					$bp_slugs[ $k ] = $bp_page->post_name;
 				}
 
 				// Members directory.
@@ -530,6 +509,14 @@ class BuddypressHooks {
 		}
 
 		return false;
+	}
+
+	public function get_wpml_page_id( $id ) {
+		if ( function_exists( 'wpml_object_id_filter' ) && defined( 'ICL_LANGUAGE_CODE' ) ) {
+			return wpml_object_id_filter( $id, 'page', true, ICL_LANGUAGE_CODE );
+		}
+
+		return $id;
 	}
 
 	/**

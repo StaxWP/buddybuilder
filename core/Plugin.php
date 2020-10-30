@@ -158,11 +158,15 @@ final class Plugin {
 		add_action( 'wp_enqueue_scripts', [ $this, 'front_css' ] );
 		add_action( 'bp_enqueue_scripts', [ $this, 'bp_css' ] );
 
+		include_once BPB_BASE_PATH . 'core/Singleton.php';
+
 		include_once BPB_BASE_PATH . 'core/Helpers.php';
 		include_once BPB_BASE_PATH . 'core/Notices.php';
+		include_once BPB_BASE_PATH . 'core/Upgrades.php';
 
 		Helpers::get_instance();
 		Notices::get_instance();
+		Upgrades::get_instance();
 
 		register_activation_hook( BPB_FILE, [ $this, 'set_default_bp_data' ] );
 	}
@@ -203,7 +207,7 @@ final class Plugin {
 
 		// Check for the minimum required Elementor version.
 		if ( ! version_compare( ELEMENTOR_VERSION, self::$minimum_elementor_version, '>=' ) ) {
-			add_action( 'admin_notices', [ Notices::get_instance(), 'admin_notice_minimum_elementor_version' ] );
+			add_action( 'admin_notices', [ Notices::get_instance(), 'minimum_elementor_version_notice' ] );
 		}
 
 		spl_autoload_register( [ $this, 'autoload' ] );
@@ -215,10 +219,16 @@ final class Plugin {
 		do_action( 'buddybuilder_init' );
 	}
 
+	/**
+	 * Load compatibility
+	 */
 	public function load_compat() {
 		require_once self::$plugin_path . 'core/compat/index.php';
 	}
 
+	/**
+	 * Load components
+	 */
 	public function load_components() {
 		require_once self::$plugin_path . 'functions.php';
 

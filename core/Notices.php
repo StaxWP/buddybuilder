@@ -10,41 +10,12 @@ namespace Buddy_Builder;
 
 defined( 'ABSPATH' ) || die();
 
-final class Notices {
-
-	/**
-	 * Notices instance.
-	 *
-	 * @since 1.0.0
-	 * @access public
-	 *
-	 * @var Notices
-	 */
-	public static $instance;
-
-	/**
-	 * @return Notices
-	 */
-	public static function get_instance() {
-		if ( self::$instance === null ) {
-			self::$instance = new self();
-		}
-
-		return self::$instance;
-	}
-
-	/**
-	 * Notices constructor.
-	 */
-	public function __construct() {
-
-	}
+final class Notices extends Singleton {
 
 	/**
 	 * Elementor not installed notice
 	 */
 	public function elementor_notice() {
-
 		$class = 'notice notice-warning';
 		/* translators: %s: html tags */
 		$message = sprintf( __( '%1$sBuddyBuilder%2$s requires %1$sElementor%2$s plugin installed & activated.', 'stax-buddy-builder' ), '<strong>', '</strong>' );
@@ -80,8 +51,7 @@ final class Notices {
 	 * @since 1.0.0
 	 * @access public
 	 */
-	public function admin_notice_minimum_elementor_version() {
-
+	public function minimum_elementor_version_notice() {
 		if ( ! current_user_can( 'install_plugins' ) ) {
 			return;
 		}
@@ -116,7 +86,6 @@ final class Notices {
 	 * Buddypress not installed notice
 	 */
 	public function buddypress_notice() {
-
 		$class = 'notice notice-warning';
 		/* translators: %s: html tags */
 		$message = sprintf( __( '%1$sBuddyBuilder%2$s requires %1$sBuddyPress%2$s plugin installed & activated.', 'stax-buddy-builder' ), '<strong>', '</strong>' );
@@ -143,7 +112,44 @@ final class Notices {
 		$button = '<p><a href="' . $action_url . '" class="button-primary">' . $button_label . '</a></p><p></p>';
 
 		printf( '<div class="%1$s"><p>%2$s</p>%3$s</div>', esc_attr( $class ), $message, $button );
+	}
 
+	/**
+	 * Upgrade DB notice
+	 */
+	public function buddybuilder_upgrade_db_notice() {
+		?>
+        <div class="notice notice-warning">
+            <p>
+				<?php echo wp_kses_post( __( '<strong>BuddyBuilder - BuddyPress Builder for Elementor</strong> needs to update your database to the latest version. Please make sure to create a backup first.', 'stax-buddy-builder' ) ); ?>
+            </p>
+            <p>
+				<?php echo wp_kses_post( sprintf( __( '<a href="%s" class="button-primary">Update now</a>', 'stax-buddy-builder' ), wp_nonce_url( add_query_arg( 'buddybuilder_db_update', '' ), 'action' ) ) ); ?>
+            </p>
+        </div>
+		<?php
+	}
+
+	/**
+	 * Upgrade DB success notice
+	 */
+	public function buddybuilder_upgrade_db_success_notice() {
+		?>
+        <div class="notice notice-success">
+            <p><?php esc_html_e( 'Awesome! The database has been updated to the latest version!', 'stax-buddy-builder' ); ?></p>
+        </div>
+		<?php
+	}
+
+	/**
+	 * Upgrade DB failed notice
+	 */
+	public function buddybuilder_upgrade_db_failed_notice() {
+		?>
+		<div class="notice notice-warning">
+			<p><?php esc_html_e( 'Something went wrong. Please check your server logs or contact StaxWP.', 'stax-buddy-builder' ); ?></p>
+		</div>
+		<?php
 	}
 
 }

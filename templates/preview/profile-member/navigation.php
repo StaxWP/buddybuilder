@@ -2,13 +2,13 @@
      aria-label="Member menu">
     <ul>
 		<?php if ( $show_home ): ?>
-            <li id="front-personal-li" class="bp-personal-tab current selected">
+            <li id="front-personal-li" class="bp-personal-tab">
                 <a href="#" id="user-front">
                     Home
                 </a>
             </li>
 		<?php endif; ?>
-        <li id="activity-personal-li" class="bp-personal-tab">
+        <li id="activity-personal-li" class="bp-personal-tab current selected">
             <a href="#" id="user-activity">
                 Activity
             </a>

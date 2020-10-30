@@ -10,23 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Class Helpers
  * @package Buddy_Builder
  */
-class Helpers {
-
-	/**
-	 * @var null
-	 */
-	public static $instance;
-
-	/**
-	 * @return Helpers|null
-	 */
-	public static function get_instance() {
-		if ( self::$instance === null ) {
-			self::$instance = new self();
-		}
-
-		return self::$instance;
-	}
+class Helpers extends Singleton {
 
 	/**
 	 * Load template
@@ -103,6 +87,5 @@ class Helpers {
 
 		return isset( $plugins[ $plugin_path ] );
 	}
-
 
 }

@@ -16,29 +16,16 @@ use Buddy_Builder\Library\Documents\BuddyPress;
  * Class ElementorHooks
  * @package Buddy_Builder
  */
-class ElementorHooks {
-
-	/**
-	 * @var ElementorHooks|null
-	 */
-	public static $instance;
-
-	/**
-	 * @return ElementorHooks|null
-	 */
-	public static function get_instance() {
-		if ( self::$instance === null ) {
-			self::$instance = new self();
-		}
-
-		return self::$instance;
-	}
+class ElementorHooks extends Singleton {
 
 	/**
 	 * ElementorHooks constructor.
 	 */
 	public function __construct() {
-		add_action( 'elementor/init', [ $this, 'init' ], 0 );
+		parent::__construct();
+
+		add_action( 'elementor/init', [ $this, 'early_init' ], 0 );
+		add_action( 'init', [ $this, 'init' ] );
 
 		add_action( 'elementor/element/column/layout/before_section_end', [
 			$this,
@@ -58,9 +45,6 @@ class ElementorHooks {
 		add_action( 'elementor/editor/after_save', [ $this, 'save_buddypress_options' ], 10, 2 );
 
 		add_filter( 'template_include', [ $this, 'change_preview_and_edit_tpl' ] );
-
-		/* make sure admin bar loads in footer so all loaded templates can show */
-		remove_action( 'wp_body_open', 'wp_admin_bar_render', 0 );
 	}
 
 	/**
@@ -84,14 +68,22 @@ class ElementorHooks {
 	 * @since 1.0.0
 	 * @access public
 	 */
-	public function init() {
-
+	public function early_init() {
 		// Register modules.
 		new Library\Module();
 
 		// Template library.
 		new Template\Module();
+	}
 
+	/**
+	 * Init
+	 */
+	public function init() {
+		add_action( 'elementor/element/common/_section_position/before_section_end', [
+			$this,
+			'custom_position_cover'
+		], 12, 2 );
 	}
 
 	/**
@@ -296,4 +288,36 @@ class ElementorHooks {
 		return false;
 	}
 
+	/**
+	 * Conditionally remove the Position control in Advanced Tab
+	 *
+	 * @param \Elementor\Widget_Base $element
+	 */
+	public function custom_position_cover( $element ) {
+
+		return;
+		/* TODO: wait for Elementor update to remove the notice */
+
+		$condition = [
+			'conditions' => [
+				'terms' => [
+					[
+						'name'     => 'position',
+						'operator' => '==',
+						'value'    => null
+					],
+
+				]
+			]
+		];
+
+		$existing_control = \Elementor\Plugin::$instance->controls_manager->get_control_from_stack( $element->get_unique_name(), '_position' );
+		if ( ! is_wp_error( $existing_control ) ) {
+
+			$element->update_control(
+				'_position',
+				$condition
+			);
+		}
+	}
 }

@@ -8,7 +8,6 @@
 
 namespace Buddy_Builder\Template;
 
-use Buddy_Builder\Helpers;
 use Buddy_Builder\Library\Documents\BuddyPress;
 use Buddy_Builder\Templates;
 use Elementor\Core\Base\Document;

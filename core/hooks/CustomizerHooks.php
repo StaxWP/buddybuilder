@@ -14,28 +14,14 @@ defined( 'ABSPATH' ) || die();
  * Class CustomizerHooks
  * @package Buddy_Builder
  */
-class CustomizerHooks {
-
-	/**
-	 * @var
-	 */
-	public static $instance;
-
-	/**
-	 * @return BuddypressHooks|CustomizerHooks|null
-	 */
-	public static function get_instance() {
-		if ( self::$instance === null ) {
-			self::$instance = new self();
-		}
-
-		return self::$instance;
-	}
+class CustomizerHooks extends Singleton {
 
 	/**
 	 * CustomizerHooks constructor.
 	 */
 	public function __construct() {
+		parent::__construct();
+
 		add_action( 'customize_save_after', [ $this, 'update_elementor_templates' ] );
 	}
 
