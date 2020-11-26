@@ -4,7 +4,7 @@ Tags: elementor, buddypress, buddypress builder, buddypress elementor, elementor
 Requires at least: 4.0
 Requires PHP: 5.6
 Tested up to: 5.5.2
-Stable tag: 1.2.4
+Stable tag: 1.3.0
 License: GLPv2 or later
 
 Design, build and customize your BuddyPress site with Elementor builder.
@@ -23,12 +23,17 @@ Easy to use, deeply integrated in Elementor.
 - Easily import templates for all BuddyPress components for a quick start.
 
 = What you can build with BuddyBuilder =
-- Members Directory page
-- Member Profile
-- Members Directory
-- Groups Directory
-- Group Page
-- Site Wide Activity
+- **Members Directory**
+- **Member Profile**
+- **Members Directory**
+- **Groups Directory**
+- **Group Page**
+- **Site Wide Activity**
+
+= Use them anywhere on the site =
+- **Members Grid** - Elementor widget to show members in any page
+- **Groups Grid** - Elementor widget to show groups in any page
+- **Activity list** - Elementor widget to display activity entries in any page
 
 = How does it work =
 1. Super simple to use, create a new Elementor template.
@@ -37,7 +42,7 @@ Easy to use, deeply integrated in Elementor.
 4. Save it and see your new design in action.
 
 = Easy to get started =
-We include a starter template to easily start your design.
+We include a **starter template** to easily start your design.
 
 = Get more control with BuddyBuilder Pro =
 
@@ -53,10 +58,9 @@ You have full control to style profile tabs content for Activity, Profile, Messa
 **Customize Group page generated content**
 You have full control to style group tabs Activity, Members, Invite, Manage
 
-
 Get [Pro](https://staxwp.com/go/buddybuilder-pro) and take your community site to the next level
 
-## Privacy Policy
+= Privacy Policy =
 Stax BuddyBuilder uses Appsero SDK to collect some telemetry data upon user's confirmation. This helps us to troubleshoot problems faster & make product improvements.
 
 == Installation ==
@@ -70,8 +74,17 @@ Stax BuddyBuilder uses Appsero SDK to collect some telemetry data upon user's co
 7. That is it :)
 
 == Screenshots ==
-
+1. **Drag & Drop** elements to build your BuddyPress components templates
+2. **Specific elements** for each BuddyPress page
+3. **Infinite templates** but set the one that is active on the site
 == Changelog ==
+
+= 1.3.0 =
+* New Elementor Widget: Members list - List your members anywhere on the site
+* New Elementor Widget: Groups list - List your groups anywhere on the site
+* New Elementor Widget: Activity list - Show activity entries anywhere on the site
+* Added Site-Wide Activity Navigation widget
+* Listing type(List/Grid) toggle improvements
 
 = 1.2.4 =
 * WPML Integration

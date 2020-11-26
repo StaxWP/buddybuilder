@@ -136,7 +136,7 @@ final class Plugin {
 		if ( self::$instance === null ) {
 			self::$instance = new self();
 
-			do_action( 'buddybuilder_loaded' );
+			do_action( 'buddy_builder/loaded' );
 		}
 
 		return self::$instance;
@@ -155,8 +155,8 @@ final class Plugin {
 		}
 
 		add_action( 'plugins_loaded', [ $this, 'load_plugin' ], 0 );
-		add_action( 'wp_enqueue_scripts', [ $this, 'front_css' ] );
-		add_action( 'bp_enqueue_scripts', [ $this, 'bp_css' ] );
+		add_action( 'bp_enqueue_scripts', [ $this, 'bp_scripts' ] );
+		add_action( 'wp_enqueue_scripts', [ $this, 'front_css' ], 12 );
 
 		include_once BPB_BASE_PATH . 'core/Singleton.php';
 
@@ -216,7 +216,7 @@ final class Plugin {
 		$this->load_components();
 		$this->add_hooks();
 
-		do_action( 'buddybuilder_init' );
+		do_action( 'buddy_builder/init' );
 	}
 
 	/**
@@ -481,6 +481,29 @@ final class Plugin {
 			'template' => 'sitewide-activity'
 		];
 
+		$elements['sitewide-activity/Navigation'] = [
+			'name'     => 'bpb-sitewide-navigation',
+			'class'    => 'Sitewide\Navigation',
+			'template' => 'sitewide-activity'
+		];
+
+		// General
+
+		$elements['general/MembersListing'] = [
+			'name'  => 'bpb-general-members-list',
+			'class' => 'General\MembersListing',
+		];
+
+		$elements['general/GroupsListing'] = [
+			'name'  => 'bpb-general-groups-list',
+			'class' => 'General\GroupsListing',
+		];
+
+		$elements['general/ActivityListing'] = [
+			'name'  => 'bpb-general-activity-list',
+			'class' => 'General\ActivityListing',
+		];
+
 		foreach ( $elements as &$element ) {
 			$element['template_base_path']   = BPB_BASE_PATH . '/core/widgets/';
 			$element['class_base_namespace'] = '\Buddy_Builder\Widgets\\';
@@ -499,16 +522,16 @@ final class Plugin {
 			$min = '';
 		}
 
-		wp_enqueue_style(
-			'stax-buddy-builder' . '-front',
+		wp_register_style(
+			'stax-buddy-builder-front',
 			BPB_ASSETS_URL . 'css/index' . $min . '.css',
-			[],
+			[ 'stax-buddy-builder-bp' ],
 			BPB_VERSION
 		);
 
 		if ( bpb_is_elementor_editor() ) {
 			wp_enqueue_style(
-				'stax-buddy-builder' . '-avatar',
+				'stax-buddy-builder-avatar',
 				buddypress()->plugin_url . 'bp-core/css/avatar' . $min . '.css',
 				[],
 				BPB_VERSION
@@ -518,28 +541,65 @@ final class Plugin {
 		if ( ! bp_is_blog_page() ) {
 			wp_enqueue_style( 'dashicons' );
 		}
+
+		if ( isset( $_GET['elementor-preview'] ) ||
+		     bpb_is_edit_frame() ||
+		     bpb_is_preview_mode() ||
+		     bpb_is_front_library()
+		) {
+			wp_enqueue_style( 'stax-buddy-builder-front' );
+		}
 	}
 
 	/**
 	 * Enqueue Front CSS
 	 */
-	public function bp_css() {
+	public function bp_scripts() {
 		$min = '.min';
 
 		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
 			$min = '';
 		}
+
 		wp_register_style(
-			'stax-buddy-builder' . '-bp',
+			'stax-buddy-builder-bp',
 			BPB_BASE_URL . 'templates/buddypress/css/buddypress' . $min . '.css',
 			[],
 			BPB_VERSION
 		);
+		wp_register_script(
+			'bpb-grid-list-view',
+			BPB_ASSETS_URL . 'js/grid-list-view.js',
+			BPB_VERSION,
+			true
+		);
+	}
 
-		if ( ( function_exists( 'bp_is_active' ) && ! bp_is_blog_page() )
-		     || bpb_is_edit_frame() || bpb_is_preview_mode() || bpb_is_front_library() ) {
-			wp_enqueue_style( 'stax-buddy-builder' . '-bp' );
-		}
+	/**
+	 * @param $texts
+	 *
+	 * @return false|string
+	 */
+	public function go_pro_template( $texts ) {
+		ob_start();
+
+		?>
+        <div class="elementor-nerd-box">
+            <div class="elementor-nerd-box-title"><?php echo $texts['title']; ?></div>
+			<?php foreach ( $texts['messages'] as $message ): ?>
+                <div class="elementor-nerd-box-message"><?php echo $message; ?></div>
+			<?php endforeach; ?>
+
+			<?php if ( $texts['link'] ): ?>
+                <a class="elementor-button elementor-panel-scheme-title" href="<?php echo $texts['link']; ?>"
+                   target="_blank">
+					<?php echo __( 'Go PRO', 'stax-buddy-builder' ); ?>
+                </a>
+			<?php endif; ?>
+        </div>
+		<?php
+
+		return ob_get_clean();
 	}
 
 }

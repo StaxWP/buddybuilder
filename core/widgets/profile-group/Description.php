@@ -77,19 +77,20 @@ class Description extends \Buddy_Builder\Widgets\Base {
 			]
 		);
 
-        $this->add_group_control(
-            Group_Control_Typography::get_type(),
-            [
-                'name'     => 'description_typography',
-                'selector' => '{{WRAPPER}} .desc-wrap .group-description p',
-            ]
-        );
+		$this->add_group_control(
+			Group_Control_Typography::get_type(),
+			[
+				'name'     => 'description_typography',
+				'selector' => '{{WRAPPER}} .desc-wrap .group-description p',
+			]
+		);
 
 		$this->end_controls_section();
 
 	}
 
 	protected function render() {
+		parent::render();
 		if ( bpb_is_elementor_editor() ) {
 			bpb_load_template( 'preview/profile-group/description' );
 		} else {

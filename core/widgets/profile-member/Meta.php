@@ -97,13 +97,14 @@ class Meta extends \Buddy_Builder\Widgets\Base {
 	}
 
 	protected function render() {
+		parent::render();
 		if ( bpb_is_elementor_editor() ) {
 			bpb_load_template( 'preview/profile-member/meta' );
 		} else {
 			?>
             <div class="activity"
-                  data-livestamp="<?php bp_core_iso8601_date( bp_get_user_last_activity( bp_displayed_user_id() ) ); ?>">
-                <?php bp_last_activity( bp_displayed_user_id() ); ?>
+                 data-livestamp="<?php bp_core_iso8601_date( bp_get_user_last_activity( bp_displayed_user_id() ) ); ?>">
+				<?php bp_last_activity( bp_displayed_user_id() ); ?>
             </div>
 			<?php
 		}

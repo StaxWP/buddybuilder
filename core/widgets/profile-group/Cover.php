@@ -116,42 +116,42 @@ class Cover extends \Buddy_Builder\Widgets\Base {
 		$this->add_control(
 			'position',
 			[
-				'label' => __( 'Position', 'elementor' ),
-				'type' => Controls_Manager::SELECT,
-				'default' => 'absolute',
-				'options' => [
-					'' => __( 'Default', 'elementor' ),
+				'label'              => __( 'Position', 'elementor' ),
+				'type'               => Controls_Manager::SELECT,
+				'default'            => 'absolute',
+				'options'            => [
+					''         => __( 'Default', 'elementor' ),
 					'absolute' => __( 'Absolute', 'elementor' ),
-					'fixed' => __( 'Fixed', 'elementor' ),
+					'fixed'    => __( 'Fixed', 'elementor' ),
 				],
-				'prefix_class' => 'elementor-',
+				'prefix_class'       => 'elementor-',
 				'frontend_available' => true,
 			]
 		);
 
 		$start = is_rtl() ? __( 'Right', 'elementor' ) : __( 'Left', 'elementor' );
-		$end = ! is_rtl() ? __( 'Right', 'elementor' ) : __( 'Left', 'elementor' );
+		$end   = ! is_rtl() ? __( 'Right', 'elementor' ) : __( 'Left', 'elementor' );
 
 		$this->add_control(
 			'offset_orientation_h',
 			[
-				'label' => __( 'Horizontal Orientation', 'elementor' ),
-				'type' => Controls_Manager::CHOOSE,
-				'toggle' => false,
-				'default' => 'start',
-				'options' => [
+				'label'       => __( 'Horizontal Orientation', 'elementor' ),
+				'type'        => Controls_Manager::CHOOSE,
+				'toggle'      => false,
+				'default'     => 'start',
+				'options'     => [
 					'start' => [
 						'title' => $start,
-						'icon' => 'eicon-h-align-left',
+						'icon'  => 'eicon-h-align-left',
 					],
-					'end' => [
+					'end'   => [
 						'title' => $end,
-						'icon' => 'eicon-h-align-right',
+						'icon'  => 'eicon-h-align-right',
 					],
 				],
-				'classes' => 'elementor-control-start-end',
+				'classes'     => 'elementor-control-start-end',
 				'render_type' => 'ui',
-				'condition' => [
+				'condition'   => [
 					'position!' => '',
 				],
 			]
@@ -160,38 +160,38 @@ class Cover extends \Buddy_Builder\Widgets\Base {
 		$this->add_responsive_control(
 			'offset_x',
 			[
-				'label' => __( 'Offset', 'elementor' ),
-				'type' => Controls_Manager::SLIDER,
-				'range' => [
+				'label'      => __( 'Offset', 'elementor' ),
+				'type'       => Controls_Manager::SLIDER,
+				'range'      => [
 					'px' => [
-						'min' => -1000,
-						'max' => 1000,
+						'min'  => - 1000,
+						'max'  => 1000,
 						'step' => 1,
 					],
-					'%' => [
-						'min' => -200,
+					'%'  => [
+						'min' => - 200,
 						'max' => 200,
 					],
 					'vw' => [
-						'min' => -200,
+						'min' => - 200,
 						'max' => 200,
 					],
 					'vh' => [
-						'min' => -200,
+						'min' => - 200,
 						'max' => 200,
 					],
 				],
-				'default' => [
+				'default'    => [
 					'size' => '0',
 				],
 				'size_units' => [ 'px', '%', 'vw', 'vh' ],
-				'selectors' => [
+				'selectors'  => [
 					'body:not(.rtl) {{WRAPPER}}' => 'left: {{SIZE}}{{UNIT}}',
-					'body.rtl {{WRAPPER}}' => 'right: {{SIZE}}{{UNIT}}',
+					'body.rtl {{WRAPPER}}'       => 'right: {{SIZE}}{{UNIT}}',
 				],
-				'condition' => [
+				'condition'  => [
 					'offset_orientation_h!' => 'end',
-					'position!' => '',
+					'position!'             => '',
 				],
 			]
 		);
@@ -199,38 +199,38 @@ class Cover extends \Buddy_Builder\Widgets\Base {
 		$this->add_responsive_control(
 			'offset_x_end',
 			[
-				'label' => __( 'Offset', 'elementor' ),
-				'type' => Controls_Manager::SLIDER,
-				'range' => [
+				'label'      => __( 'Offset', 'elementor' ),
+				'type'       => Controls_Manager::SLIDER,
+				'range'      => [
 					'px' => [
-						'min' => -1000,
-						'max' => 1000,
+						'min'  => - 1000,
+						'max'  => 1000,
 						'step' => 0.1,
 					],
-					'%' => [
-						'min' => -200,
+					'%'  => [
+						'min' => - 200,
 						'max' => 200,
 					],
 					'vw' => [
-						'min' => -200,
+						'min' => - 200,
 						'max' => 200,
 					],
 					'vh' => [
-						'min' => -200,
+						'min' => - 200,
 						'max' => 200,
 					],
 				],
-				'default' => [
+				'default'    => [
 					'size' => '0',
 				],
 				'size_units' => [ 'px', '%', 'vw', 'vh' ],
-				'selectors' => [
+				'selectors'  => [
 					'body:not(.rtl) {{WRAPPER}}' => 'right: {{SIZE}}{{UNIT}}',
-					'body.rtl {{WRAPPER}}' => 'left: {{SIZE}}{{UNIT}}',
+					'body.rtl {{WRAPPER}}'       => 'left: {{SIZE}}{{UNIT}}',
 				],
-				'condition' => [
+				'condition'  => [
 					'offset_orientation_h' => 'end',
-					'position!' => '',
+					'position!'            => '',
 				],
 			]
 		);
@@ -238,22 +238,22 @@ class Cover extends \Buddy_Builder\Widgets\Base {
 		$this->add_control(
 			'offset_orientation_v',
 			[
-				'label' => __( 'Vertical Orientation', 'elementor' ),
-				'type' => Controls_Manager::CHOOSE,
-				'toggle' => false,
-				'default' => 'start',
-				'options' => [
+				'label'       => __( 'Vertical Orientation', 'elementor' ),
+				'type'        => Controls_Manager::CHOOSE,
+				'toggle'      => false,
+				'default'     => 'start',
+				'options'     => [
 					'start' => [
 						'title' => __( 'Top', 'elementor' ),
-						'icon' => 'eicon-v-align-top',
+						'icon'  => 'eicon-v-align-top',
 					],
-					'end' => [
+					'end'   => [
 						'title' => __( 'Bottom', 'elementor' ),
-						'icon' => 'eicon-v-align-bottom',
+						'icon'  => 'eicon-v-align-bottom',
 					],
 				],
 				'render_type' => 'ui',
-				'condition' => [
+				'condition'   => [
 					'position!' => '',
 				],
 			]
@@ -262,37 +262,37 @@ class Cover extends \Buddy_Builder\Widgets\Base {
 		$this->add_responsive_control(
 			'offset_y',
 			[
-				'label' => __( 'Offset', 'elementor' ),
-				'type' => Controls_Manager::SLIDER,
-				'range' => [
+				'label'      => __( 'Offset', 'elementor' ),
+				'type'       => Controls_Manager::SLIDER,
+				'range'      => [
 					'px' => [
-						'min' => -1000,
-						'max' => 1000,
+						'min'  => - 1000,
+						'max'  => 1000,
 						'step' => 1,
 					],
-					'%' => [
-						'min' => -200,
+					'%'  => [
+						'min' => - 200,
 						'max' => 200,
 					],
 					'vh' => [
-						'min' => -200,
+						'min' => - 200,
 						'max' => 200,
 					],
 					'vw' => [
-						'min' => -200,
+						'min' => - 200,
 						'max' => 200,
 					],
 				],
 				'size_units' => [ 'px', '%', 'vh', 'vw' ],
-				'default' => [
+				'default'    => [
 					'size' => '0',
 				],
-				'selectors' => [
+				'selectors'  => [
 					'{{WRAPPER}}' => 'top: {{SIZE}}{{UNIT}}',
 				],
-				'condition' => [
+				'condition'  => [
 					'offset_orientation_v!' => 'end',
-					'position!' => '',
+					'position!'             => '',
 				],
 			]
 		);
@@ -300,37 +300,37 @@ class Cover extends \Buddy_Builder\Widgets\Base {
 		$this->add_responsive_control(
 			'offset_y_end',
 			[
-				'label' => __( 'Offset', 'elementor' ),
-				'type' => Controls_Manager::SLIDER,
-				'range' => [
+				'label'      => __( 'Offset', 'elementor' ),
+				'type'       => Controls_Manager::SLIDER,
+				'range'      => [
 					'px' => [
-						'min' => -1000,
-						'max' => 1000,
+						'min'  => - 1000,
+						'max'  => 1000,
 						'step' => 1,
 					],
-					'%' => [
-						'min' => -200,
+					'%'  => [
+						'min' => - 200,
 						'max' => 200,
 					],
 					'vh' => [
-						'min' => -200,
+						'min' => - 200,
 						'max' => 200,
 					],
 					'vw' => [
-						'min' => -200,
+						'min' => - 200,
 						'max' => 200,
 					],
 				],
 				'size_units' => [ 'px', '%', 'vh', 'vw' ],
-				'default' => [
+				'default'    => [
 					'size' => '0',
 				],
-				'selectors' => [
+				'selectors'  => [
 					'{{WRAPPER}}' => 'bottom: {{SIZE}}{{UNIT}}',
 				],
-				'condition' => [
+				'condition'  => [
 					'offset_orientation_v' => 'end',
-					'position!' => '',
+					'position!'            => '',
 				],
 			]
 		);
@@ -356,9 +356,9 @@ class Cover extends \Buddy_Builder\Widgets\Base {
 				'separator'   => 'before',
 				'selectors'   => [
 					'#buddypress {{WRAPPER}} #header-cover-image' => 'height: {{SIZE}}{{UNIT}};',
-					'#buddypress {{WRAPPER}} .cover-bg-overlay' => 'height: {{SIZE}}{{UNIT}};',
+					'#buddypress {{WRAPPER}} .cover-bg-overlay'   => 'height: {{SIZE}}{{UNIT}};',
 				],
-				'condition' => [
+				'condition'   => [
 					'position!' => 'absolute',
 				],
 			]
@@ -465,6 +465,7 @@ class Cover extends \Buddy_Builder\Widgets\Base {
 	}
 
 	protected function render() {
+		parent::render();
 		$settings = $this->get_settings_for_display();
 		$this->add_render_attribute( 'header-cover-bg-overlay', [ 'class' => 'cover-bg-overlay' ] );
 		if ( bpb_is_elementor_editor() ) {

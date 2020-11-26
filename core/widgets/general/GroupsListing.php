@@ -1,25 +1,26 @@
 <?php
 
-namespace Buddy_Builder\Widgets\MembersDirectory;
+namespace Buddy_Builder\Widgets\General;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
+use Buddy_Builder\Plugin;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Background;
 use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Box_Shadow;
 use Elementor\Group_Control_Typography;
 
-class Listing extends \Buddy_Builder\Widgets\Base {
+class GroupsListing extends \Buddy_Builder\Widgets\Base {
 
 	public function get_name() {
-		return 'bpb-members-directory-list';
+		return 'bpb-general-groups-list';
 	}
 
 	public function get_title() {
-		return esc_html__( 'Members Listing', 'stax-buddy-builder' );
+		return esc_html__( 'Groups List', 'stax-buddy-builder' );
 	}
 
 	public function get_icon() {
@@ -31,8 +32,32 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 	}
 
 	protected function _register_controls() {
+		if ( ! function_exists( 'bpb_is_pro' ) ) {
+			$this->start_controls_section(
+				'go_pro_section',
+				[
+					'label' => __( 'Go PRO', 'stax-buddy-builder' )
+				]
+			);
 
-		do_action( 'buddy_builder/widget/members-directory/listing/settings', $this );
+			$this->add_control(
+				'go_pro_notice',
+				[
+					'type' => Controls_Manager::RAW_HTML,
+					'raw'  => Plugin::get_instance()->go_pro_template( [
+						'title'    => __( 'BuddyBuilder PRO', 'stax-buddy-builder' ),
+						'messages' => [
+							__( 'Power up up your listing with custom queries and templates.', 'stax-buddy-builder' ),
+						],
+						'link'     => 'https://staxwp.com/go/buddybuilder-pro',
+					] ),
+				]
+			);
+
+			$this->end_controls_section();
+		}
+
+		do_action( 'buddy_builder/widget/groups-listing/settings', $this );
 
 		$this->start_controls_section(
 			'section_content',
@@ -234,22 +259,101 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 		$this->end_controls_section();
 
 		$this->start_controls_section(
-			'section_style',
+			'section_groups_icons_content',
 			[
-				'label' => __( 'Listing', 'stax-buddy-builder' ),
-				'tab'   => Controls_Manager::TAB_STYLE,
+				'label' => __( 'Groups Icon', 'stax-buddy-builder' ),
+				'tab'   => Controls_Manager::TAB_CONTENT,
 			]
 		);
 
 		$this->add_control(
-			'listing_no_border',
+			'public_group_icon_sate',
 			[
-				'label'     => __( 'View', 'stax-buddy-builder' ),
+				'label'        => __( 'Public group icon', 'stax-buddy-builder' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => __( 'Show', 'stax-buddy-builder' ),
+				'label_off'    => __( 'Hide', 'stax-buddy-builder' ),
+				'return_value' => 'yes',
+				'default'      => '',
+			]
+		);
+
+		$this->add_control(
+			'public_group_icon',
+			[
+				'label'     => __( 'Show Yes', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::HIDDEN,
 				'default'   => '1',
 				'selectors' => [
-					'{{WRAPPER}} #members-list' => 'border: 0;',
+					'{{WRAPPER}} .item-entry.public .item-avatar > a:after' => 'content: "\e912";'
+				],
+				'condition' => [
+					'public_group_icon_sate' => 'yes'
 				]
+			]
+		);
+
+		$this->add_control(
+			'private_group_icon_sate',
+			[
+				'label'        => __( 'Private group icon', 'stax-buddy-builder' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => __( 'Show', 'stax-buddy-builder' ),
+				'label_off'    => __( 'Hide', 'stax-buddy-builder' ),
+				'return_value' => 'yes',
+				'default'      => '',
+			]
+		);
+
+		$this->add_control(
+			'private_group_icon',
+			[
+				'label'     => __( 'Show Yes', 'stax-buddy-builder' ),
+				'type'      => Controls_Manager::HIDDEN,
+				'default'   => '1',
+				'selectors' => [
+					'{{WRAPPER}} .item-entry.private .item-avatar > a:after' => 'content: "\e91d";'
+				],
+				'condition' => [
+					'private_group_icon_sate' => 'yes'
+				]
+			]
+		);
+
+		$this->add_control(
+			'hidden_group_icon_sate',
+			[
+				'label'        => __( 'Hidden group icon', 'stax-buddy-builder' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => __( 'Show', 'stax-buddy-builder' ),
+				'label_off'    => __( 'Hide', 'stax-buddy-builder' ),
+				'return_value' => 'yes',
+				'default'      => '',
+			]
+		);
+
+		$this->add_control(
+			'hidden_group_icon',
+			[
+				'label'     => __( 'Show Yes', 'stax-buddy-builder' ),
+				'type'      => Controls_Manager::HIDDEN,
+				'default'   => '1',
+				'selectors' => [
+					'{{WRAPPER}} .item-entry.hidden .item-avatar > a:after' => 'content: "\e91c";'
+				],
+				'condition' => [
+					'hidden_group_icon_sate' => 'yes'
+				]
+			]
+		);
+
+		$this->end_controls_section();
+
+		$this->start_controls_section(
+			'section_style',
+			[
+				'label' => __( 'Listing Groups', 'stax-buddy-builder' ),
+				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
 
@@ -259,7 +363,16 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'name'     => 'list_item_background',
 				'label'    => __( 'Background', 'stax-buddy-builder' ),
 				'types'    => [ 'classic', 'gradient' ],
-				'selector' => '{{WRAPPER}} #members-list > li > .list-wrap',
+				'selector' => '{{WRAPPER}} #groups-list > li > .list-wrap',
+			]
+		);
+
+		$this->start_controls_tabs( 'tabs_listing_style' );
+
+		$this->start_controls_tab(
+			'tab_listing_normal',
+			[
+				'label' => __( 'Normal', 'stax-buddy-builder' ),
 			]
 		);
 
@@ -267,15 +380,46 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 			Group_Control_Box_Shadow::get_type(),
 			[
 				'name'     => 'listing_box_shadow',
-				'selector' => '{{WRAPPER}} #members-list > li > .list-wrap',
+				'selector' => '{{WRAPPER}} #groups-list > li > .list-wrap',
+			]
+		);
+
+		$this->end_controls_tab();
+
+		$this->start_controls_tab(
+			'tab_listing_hover',
+			[
+				'label' => __( 'Hover', 'stax-buddy-builder' )
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Box_Shadow::get_type(),
+			[
+				'name'     => 'listing_box_shadow_hover',
+				'selector' => '{{WRAPPER}} #groups-list > li > .list-wrap:hover',
+			]
+		);
+
+		$this->end_controls_tab();
+
+		$this->end_controls_tabs();
+
+		$this->add_control(
+			'hr_listing',
+			[
+				'type' => Controls_Manager::DIVIDER,
 			]
 		);
 
 		$this->add_group_control(
 			Group_Control_Border::get_type(),
 			[
-				'name'     => 'listing_border',
-				'selector' => '{{WRAPPER}} #members-list > li > .list-wrap',
+				'name'      => 'listing_border',
+				'selector'  => '{{WRAPPER}} #groups-list > li > .list-wrap',
+				'condition' => [
+					'columns!' => '1'
+				]
 			]
 		);
 
@@ -286,19 +430,10 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', '%', 'em' ],
 				'selectors'  => [
-					'{{WRAPPER}} #members-list > li > .list-wrap' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'{{WRAPPER}} #groups-list > li > .list-wrap' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
-			]
-		);
-
-		$this->add_responsive_control(
-			'listing_margin',
-			[
-				'label'      => __( 'Margin', 'stax-buddy-builder' ),
-				'type'       => Controls_Manager::DIMENSIONS,
-				'size_units' => [ 'px', 'em', '%' ],
-				'selectors'  => [
-					'{{WRAPPER}} #members-list > li > .list-wrap' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				'condition'  => [
+					'columns!' => '1'
 				]
 			]
 		);
@@ -310,7 +445,137 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', 'em', '%' ],
 				'selectors'  => [
-					'{{WRAPPER}} #members-list > li > .list-wrap' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'{{WRAPPER}} #groups-list > li > .list-wrap' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+				'condition'  => [
+					'columns!' => '1'
+				]
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Border::get_type(),
+			[
+				'name'      => 'listing_border_one',
+				'selector'  => '{{WRAPPER}} #groups-list > li',
+				'condition' => [
+					'columns' => '1'
+				]
+			]
+		);
+
+		$this->add_control(
+			'listing_border_radius_one',
+			[
+				'label'      => esc_html__( 'Border Radius', 'stax-buddy-builder' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px', '%', 'em' ],
+				'selectors'  => [
+					'{{WRAPPER}} #groups-list > li' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+				'condition'  => [
+					'columns' => '1'
+				]
+			]
+		);
+
+		$this->add_responsive_control(
+			'listing_padding_one',
+			[
+				'label'      => __( 'Padding', 'stax-buddy-builder' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px', 'em', '%' ],
+				'selectors'  => [
+					'{{WRAPPER}} #groups-list > li' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+				'condition'  => [
+					'columns' => '1'
+				]
+			]
+		);
+
+		$this->end_controls_section();
+
+		$this->start_controls_section(
+			'section_groups_icons_style',
+			[
+				'label' => __( 'Groups Icon', 'stax-buddy-builder' ),
+				'tab'   => Controls_Manager::TAB_STYLE,
+			]
+		);
+
+		$this->add_control(
+			'group_icon_color',
+			[
+				'label'     => __( 'Color', 'stax-buddy-builder' ),
+				'type'      => Controls_Manager::COLOR,
+				'default'   => '',
+				'selectors' => [
+					'{{WRAPPER}} .item-entry .item-avatar > a:after' => 'color: {{VALUE}};',
+				]
+			]
+		);
+
+		$this->add_control(
+			'group_icon_background_color',
+			[
+				'label'     => __( 'Background Color', 'stax-buddy-builder' ),
+				'type'      => Controls_Manager::COLOR,
+				'default'   => '',
+				'selectors' => [
+					'{{WRAPPER}} .item-entry .item-avatar > a:after' => 'background-color: {{VALUE}};',
+				]
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Border::get_type(),
+			[
+				'name'      => 'group_icon_border',
+				'selector'  => '{{WRAPPER}} .item-entry .item-avatar > a:after',
+				'separator' => 'before'
+			]
+		);
+
+		$this->add_control(
+			'group_icon_v_position',
+			[
+				'label'      => __( 'Vertical position', 'stax-buddy-builder' ),
+				'type'       => Controls_Manager::SLIDER,
+				'size_units' => [ '%' ],
+				'separator'  => 'before',
+				'range'      => [
+					'%' => [
+						'max' => 100,
+					],
+				],
+				'default'    => [
+					'unit' => '%',
+					'size' => 16,
+				],
+				'selectors'  => [
+					'{{WRAPPER}} .item-entry .item-avatar > a:after' => 'top: calc({{SIZE}}{{UNIT}} - 0.75em);'
+				]
+			]
+		);
+
+		$this->add_control(
+			'group_icon_h_position',
+			[
+				'label'      => __( 'Horizontal position', 'stax-buddy-builder' ),
+				'type'       => Controls_Manager::SLIDER,
+				'size_units' => [ '%' ],
+				'range'      => [
+					'%' => [
+						'max' => 100,
+					],
+				],
+				'default'    => [
+					'unit' => '%',
+					'size' => 16,
+				],
+				'selectors'  => [
+					'{{WRAPPER}} .item-entry .item-avatar > a:after' => 'right: calc({{SIZE}}{{UNIT}} - 0.75em);'
 				]
 			]
 		);
@@ -344,7 +609,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::HIDDEN,
 				'default'   => '1',
 				'selectors' => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.top' => 'display: flex; align-items: center; justify-content: space-between;'
+					'{{WRAPPER}} #groups-dir-list .bp-pagination.top' => 'display: flex; align-items: center; justify-content: space-between;'
 				],
 				'condition' => [
 					'show_pag_top' => 'flex'
@@ -359,7 +624,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::HIDDEN,
 				'default'   => '1',
 				'selectors' => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.top' => 'display: none; align-items: center; justify-content: space-between;'
+					'{{WRAPPER}} #groups-dir-list .bp-pagination.top' => 'display: none; align-items: center; justify-content: space-between;'
 				],
 				'condition' => [
 					'show_pag_top!' => 'flex'
@@ -378,7 +643,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 					],
 				],
 				'selectors' => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.top' => 'margin-bottom: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} #groups-dir-list .bp-pagination.top' => 'margin-bottom: {{SIZE}}{{UNIT}};',
 				],
 				'condition' => [
 					'show_pag_top' => 'flex'
@@ -392,7 +657,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Background Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.top' => 'background-color: {{VALUE}};',
+					'{{WRAPPER}} #groups-dir-list .bp-pagination.top' => 'background-color: {{VALUE}};',
 				],
 				'condition' => [
 					'show_pag_top' => 'flex'
@@ -404,7 +669,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 			Group_Control_Box_Shadow::get_type(),
 			[
 				'name'      => 'pag_top_box_shadow',
-				'selector'  => '{{WRAPPER}} #members-dir-list .bp-pagination.top',
+				'selector'  => '{{WRAPPER}} #groups-dir-list .bp-pagination.top',
 				'condition' => [
 					'show_pag_top' => 'flex'
 				]
@@ -415,7 +680,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 			Group_Control_Border::get_type(),
 			[
 				'name'      => 'pag_top_border',
-				'selector'  => '{{WRAPPER}} #members-dir-list .bp-pagination.top',
+				'selector'  => '{{WRAPPER}} #groups-dir-list .bp-pagination.top',
 				'condition' => [
 					'show_pag_top' => 'flex'
 				]
@@ -429,7 +694,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', '%', 'em' ],
 				'selectors'  => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.top' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'{{WRAPPER}} #groups-dir-list .bp-pagination.top' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
 				'condition'  => [
 					'show_pag_top' => 'flex'
@@ -444,7 +709,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', 'em', '%' ],
 				'selectors'  => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.top' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'{{WRAPPER}} #groups-dir-list .bp-pagination.top' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
 				'condition'  => [
 					'show_pag_top' => 'flex'
@@ -467,7 +732,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 			[
 				'label'     => __( 'Text Typography', 'stax-buddy-builder' ),
 				'name'      => 'pag_top_typography',
-				'selector'  => '{{WRAPPER}} #members-dir-list .bp-pagination.top .pag-count.top',
+				'selector'  => '{{WRAPPER}} #groups-dir-list .bp-pagination.top .pag-count.top',
 				'condition' => [
 					'show_pag_top' => 'flex'
 				]
@@ -481,7 +746,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '',
 				'selectors' => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.top .pag-count.top' => 'color: {{VALUE}};',
+					'{{WRAPPER}} #groups-dir-list .bp-pagination.top .pag-count.top' => 'color: {{VALUE}};',
 				],
 				'condition' => [
 					'show_pag_top' => 'flex'
@@ -506,7 +771,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::HIDDEN,
 				'default'   => '1',
 				'selectors' => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.top .bp-pagination-links.top .page-numbers' => 'padding: 6px 0; text-align: center; min-width: 35px; display: inline-block;'
+					'{{WRAPPER}} #groups-dir-list .bp-pagination.top .bp-pagination-links.top .page-numbers' => 'padding: 6px 0; text-align: center; min-width: 35px; display: inline-block;'
 				],
 				'condition' => [
 					'show_pag_top' => 'flex'
@@ -525,8 +790,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 					],
 				],
 				'selectors' => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.top .bp-pagination-links.top .page-numbers'            => 'margin-right: {{SIZE}}{{UNIT}};',
-					'{{WRAPPER}} #members-dir-list .bp-pagination.top .bp-pagination-links.top .page-numbers:last-child' => 'margin-right: 0;'
+					'{{WRAPPER}} #groups-dir-list .bp-pagination.top .bp-pagination-links.top .page-numbers'            => 'margin-right: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} #groups-dir-list .bp-pagination.top .bp-pagination-links.top .page-numbers:last-child' => 'margin-right: 0;'
 				],
 				'condition' => [
 					'show_pag_top' => 'flex'
@@ -539,7 +804,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 			[
 				'label'     => __( 'Link Typography', 'stax-buddy-builder' ),
 				'name'      => 'pag_top_link_typography',
-				'selector'  => '{{WRAPPER}} #members-dir-list .bp-pagination.top .bp-pagination-links.top span, {{WRAPPER}} #members-dir-list .bp-pagination.top .bp-pagination-links.top a',
+				'selector'  => '{{WRAPPER}} #groups-dir-list .bp-pagination.top .bp-pagination-links.top span, {{WRAPPER}} #groups-dir-list .bp-pagination.top .bp-pagination-links.top a',
 				'condition' => [
 					'show_pag_top' => 'flex'
 				]
@@ -565,7 +830,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '',
 				'selectors' => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.top .bp-pagination-links.top a' => 'color: {{VALUE}};',
+					'{{WRAPPER}} #groups-dir-list .bp-pagination.top .bp-pagination-links.top a' => 'color: {{VALUE}};',
 				],
 				'condition' => [
 					'show_pag_top' => 'flex'
@@ -579,7 +844,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Background Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.top .bp-pagination-links.top a' => 'background-color: {{VALUE}};',
+					'{{WRAPPER}} #groups-dir-list .bp-pagination.top .bp-pagination-links.top a' => 'background-color: {{VALUE}};',
 				],
 				'condition' => [
 					'show_pag_top' => 'flex'
@@ -592,7 +857,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 			[
 				'label'     => __( 'Shadow', 'stax-buddy-builder' ),
 				'name'      => 'pag_top_link_shadow',
-				'selector'  => '{{WRAPPER}} #members-dir-list .bp-pagination.top .bp-pagination-links.top a, {{WRAPPER}} #members-dir-list .bp-pagination.top .bp-pagination-links.top span',
+				'selector'  => '{{WRAPPER}} #groups-dir-list .bp-pagination.top .bp-pagination-links.top a, {{WRAPPER}} #groups-dir-list .bp-pagination.top .bp-pagination-links.top span',
 				'condition' => [
 					'show_pag_top' => 'flex'
 				]
@@ -618,7 +883,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '',
 				'selectors' => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.top .bp-pagination-links.top a:hover' => 'color: {{VALUE}};',
+					'{{WRAPPER}} #groups-dir-list .bp-pagination.top .bp-pagination-links.top a:hover' => 'color: {{VALUE}};',
 				],
 				'condition' => [
 					'show_pag_top' => 'flex'
@@ -632,7 +897,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Background Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.top .bp-pagination-links.top a:hover' => 'background-color: {{VALUE}};',
+					'{{WRAPPER}} #groups-dir-list .bp-pagination.top .bp-pagination-links.top a:hover' => 'background-color: {{VALUE}};',
 				],
 				'condition' => [
 					'show_pag_top' => 'flex'
@@ -646,7 +911,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Border Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.top .bp-pagination-links.top a:hover' => 'border-color: {{VALUE}};',
+					'{{WRAPPER}} #groups-dir-list .bp-pagination.top .bp-pagination-links.top a:hover' => 'border-color: {{VALUE}};',
 				],
 				'condition' => [
 					'show_pag_top' => 'flex'
@@ -659,7 +924,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 			[
 				'label'     => __( 'Shadow', 'stax-buddy-builder' ),
 				'name'      => 'pag_top_link_hover_shadow',
-				'selector'  => '{{WRAPPER}} #members-dir-list .bp-pagination.top .bp-pagination-links.top a:hover',
+				'selector'  => '{{WRAPPER}} #groups-dir-list .bp-pagination.top .bp-pagination-links.top a:hover',
 				'condition' => [
 					'show_pag_top' => 'flex'
 				]
@@ -685,7 +950,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '',
 				'selectors' => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.top .bp-pagination-links.top span.page-numbers' => 'color: {{VALUE}};',
+					'{{WRAPPER}} #groups-dir-list .bp-pagination.top .bp-pagination-links.top span.page-numbers' => 'color: {{VALUE}};',
 				],
 				'condition' => [
 					'show_pag_top' => 'flex'
@@ -699,7 +964,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Background Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.top .bp-pagination-links.top span.page-numbers' => 'background-color: {{VALUE}};',
+					'{{WRAPPER}} #groups-dir-list .bp-pagination.top .bp-pagination-links.top span.page-numbers' => 'background-color: {{VALUE}};',
 				],
 				'condition' => [
 					'show_pag_top' => 'flex'
@@ -713,7 +978,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Border Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.top .bp-pagination-links.top span.page-numbers' => 'border-color: {{VALUE}};',
+					'{{WRAPPER}} #groups-dir-list .bp-pagination.top .bp-pagination-links.top span.page-numbers' => 'border-color: {{VALUE}};',
 				],
 				'condition' => [
 					'show_pag_top' => 'flex'
@@ -730,7 +995,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 			[
 				'label'     => __( 'Link Border', 'stax-buddy-builder' ),
 				'name'      => 'pag_top_link_border',
-				'selector'  => '{{WRAPPER}} #members-dir-list .bp-pagination.top .bp-pagination-links.top .page-numbers',
+				'selector'  => '{{WRAPPER}} #groups-dir-list .bp-pagination.top .bp-pagination-links.top .page-numbers',
 				'condition' => [
 					'show_pag_top' => 'flex'
 				]
@@ -744,7 +1009,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', '%', 'em' ],
 				'selectors'  => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.top .bp-pagination-links.top .page-numbers' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'{{WRAPPER}} #groups-dir-list .bp-pagination.top .bp-pagination-links.top .page-numbers' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
 				'condition'  => [
 					'show_pag_top' => 'flex'
@@ -759,7 +1024,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', 'em', '%' ],
 				'selectors'  => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.top .bp-pagination-links.top .page-numbers' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'{{WRAPPER}} #groups-dir-list .bp-pagination.top .bp-pagination-links.top .page-numbers' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
 				'condition'  => [
 					'show_pag_top' => 'flex'
@@ -796,7 +1061,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::HIDDEN,
 				'default'   => '1',
 				'selectors' => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom' => 'display: flex; align-items: center; justify-content: space-between;'
+					'{{WRAPPER}} #groups-dir-list .bp-pagination.bottom' => 'display: flex; align-items: center; justify-content: space-between;'
 				],
 				'condition' => [
 					'show_pag_bottom' => 'flex'
@@ -811,7 +1076,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::HIDDEN,
 				'default'   => '1',
 				'selectors' => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom' => 'display: none; align-items: center; justify-content: space-between;'
+					'{{WRAPPER}} #groups-dir-list .bp-pagination.bottom' => 'display: none; align-items: center; justify-content: space-between;'
 				],
 				'condition' => [
 					'show_pag_bottom!' => 'flex'
@@ -830,7 +1095,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 					],
 				],
 				'selectors' => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom' => 'margin-top: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} #groups-dir-list .bp-pagination.bottom' => 'margin-top: {{SIZE}}{{UNIT}};',
 				],
 				'condition' => [
 					'show_pag_bottom' => 'flex'
@@ -844,7 +1109,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Background Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom' => 'background-color: {{VALUE}};',
+					'{{WRAPPER}} #groups-dir-list .bp-pagination.bottom' => 'background-color: {{VALUE}};',
 				],
 				'condition' => [
 					'show_pag_bottom' => 'flex'
@@ -856,7 +1121,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 			Group_Control_Box_Shadow::get_type(),
 			[
 				'name'      => 'pag_bottom_box_shadow',
-				'selector'  => '{{WRAPPER}} #members-dir-list .bp-pagination.bottom',
+				'selector'  => '{{WRAPPER}} #groups-dir-list .bp-pagination.bottom',
 				'condition' => [
 					'show_pag_bottom' => 'flex'
 				]
@@ -867,7 +1132,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 			Group_Control_Border::get_type(),
 			[
 				'name'      => 'pag_bottom_border',
-				'selector'  => '{{WRAPPER}} #members-dir-list .bp-pagination.bottom',
+				'selector'  => '{{WRAPPER}} #groups-dir-list .bp-pagination.bottom',
 				'condition' => [
 					'show_pag_bottom' => 'flex'
 				]
@@ -881,7 +1146,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', '%', 'em' ],
 				'selectors'  => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'{{WRAPPER}} #groups-dir-list .bp-pagination.bottom' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
 				'condition'  => [
 					'show_pag_bottom' => 'flex'
@@ -896,7 +1161,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', 'em', '%' ],
 				'selectors'  => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'{{WRAPPER}} #groups-dir-list .bp-pagination.bottom' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
 				'condition'  => [
 					'show_pag_bottom' => 'flex'
@@ -919,7 +1184,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 			[
 				'label'     => __( 'Text Typography', 'stax-buddy-builder' ),
 				'name'      => 'pag_bottom_typography',
-				'selector'  => '{{WRAPPER}} #members-dir-list .bp-pagination.bottom .pag-count.bottom',
+				'selector'  => '{{WRAPPER}} #groups-dir-list .bp-pagination.bottom .pag-count.bottom',
 				'condition' => [
 					'show_pag_bottom' => 'flex'
 				]
@@ -933,7 +1198,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '',
 				'selectors' => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom .pag-count.bottom' => 'color: {{VALUE}};',
+					'{{WRAPPER}} #groups-dir-list .bp-pagination.bottom .pag-count.bottom' => 'color: {{VALUE}};',
 				],
 				'condition' => [
 					'show_pag_bottom' => 'flex'
@@ -958,7 +1223,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::HIDDEN,
 				'default'   => '1',
 				'selectors' => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom .bp-pagination-links.bottom .page-numbers' => 'padding: 4px 0; text-align: center; min-width: 35px; display: inline-block;'
+					'{{WRAPPER}} #groups-dir-list .bp-pagination.bottom .bp-pagination-links.bottom .page-numbers' => 'padding: 6px 0; text-align: center; min-width: 35px; display: inline-block;'
 				],
 				'condition' => [
 					'show_pag_bottom' => 'flex'
@@ -977,8 +1242,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 					],
 				],
 				'selectors' => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom .bp-pagination-links.bottom .page-numbers'            => 'margin-right: {{SIZE}}{{UNIT}};',
-					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom .bp-pagination-links.bottom .page-numbers:last-child' => 'margin-right: 0;'
+					'{{WRAPPER}} #groups-dir-list .bp-pagination.bottom .bp-pagination-links.bottom .page-numbers'            => 'margin-right: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} #groups-dir-list .bp-pagination.bottom .bp-pagination-links.bottom .page-numbers:last-child' => 'margin-right: 0;'
 				],
 				'condition' => [
 					'show_pag_bottom' => 'flex'
@@ -991,7 +1256,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 			[
 				'label'     => __( 'Link Typography', 'stax-buddy-builder' ),
 				'name'      => 'pag_bottom_link_typography',
-				'selector'  => '{{WRAPPER}} #members-dir-list .bp-pagination.bottom .bp-pagination-links.bottom span, {{WRAPPER}} #members-dir-list .bp-pagination.bottom .bp-pagination-links.bottom a',
+				'selector'  => '{{WRAPPER}} #groups-dir-list .bp-pagination.bottom .bp-pagination-links.bottom span, {{WRAPPER}} #groups-dir-list .bp-pagination.bottom .bp-pagination-links.bottom a',
 				'condition' => [
 					'show_pag_bottom' => 'flex'
 				]
@@ -1017,7 +1282,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '',
 				'selectors' => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom .bp-pagination-links.bottom a' => 'color: {{VALUE}};',
+					'{{WRAPPER}} #groups-dir-list .bp-pagination.bottom .bp-pagination-links.bottom a' => 'color: {{VALUE}};',
 				],
 				'condition' => [
 					'show_pag_bottom' => 'flex'
@@ -1031,7 +1296,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Background Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom .bp-pagination-links.bottom a' => 'background-color: {{VALUE}};',
+					'{{WRAPPER}} #groups-dir-list .bp-pagination.bottom .bp-pagination-links.bottom a' => 'background-color: {{VALUE}};',
 				],
 				'condition' => [
 					'show_pag_bottom' => 'flex'
@@ -1044,7 +1309,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 			[
 				'label'     => __( 'Shadow', 'stax-buddy-builder' ),
 				'name'      => 'pag_bottom_link_shadow',
-				'selector'  => '{{WRAPPER}} #members-dir-list .bp-pagination.bottom .bp-pagination-links.bottom a, {{WRAPPER}} #members-dir-list .bp-pagination.bottom .bp-pagination-links.bottom span',
+				'selector'  => '{{WRAPPER}} #groups-dir-list .bp-pagination.bottom .bp-pagination-links.bottom a, {{WRAPPER}} #groups-dir-list .bp-pagination.bottom .bp-pagination-links.bottom span',
 				'condition' => [
 					'show_pag_bottom' => 'flex'
 				]
@@ -1070,7 +1335,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '',
 				'selectors' => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom .bp-pagination-links.bottom a:hover' => 'color: {{VALUE}};',
+					'{{WRAPPER}} #groups-dir-list .bp-pagination.bottom .bp-pagination-links.bottom a:hover' => 'color: {{VALUE}};',
 				],
 				'condition' => [
 					'show_pag_bottom' => 'flex'
@@ -1084,7 +1349,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Background Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom .bp-pagination-links.bottom a:hover' => 'background-color: {{VALUE}};',
+					'{{WRAPPER}} #groups-dir-list .bp-pagination.bottom .bp-pagination-links.bottom a:hover' => 'background-color: {{VALUE}};',
 				],
 				'condition' => [
 					'show_pag_bottom' => 'flex'
@@ -1098,7 +1363,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Border Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom .bp-pagination-links.bottom a:hover' => 'border-color: {{VALUE}};',
+					'{{WRAPPER}} #groups-dir-list .bp-pagination.bottom .bp-pagination-links.bottom a:hover' => 'border-color: {{VALUE}};',
 				],
 				'condition' => [
 					'show_pag_bottom' => 'flex'
@@ -1111,7 +1376,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 			[
 				'label'     => __( 'Shadow', 'stax-buddy-builder' ),
 				'name'      => 'pag_bottom_link_hover_shadow',
-				'selector'  => '{{WRAPPER}} #members-dir-list .bp-pagination.bottom .bp-pagination-links.bottom a:hover',
+				'selector'  => '{{WRAPPER}} #groups-dir-list .bp-pagination.bottom .bp-pagination-links.bottom a:hover',
 				'condition' => [
 					'show_pag_bottom' => 'flex'
 				]
@@ -1137,7 +1402,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '',
 				'selectors' => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom .bp-pagination-links.bottom span.page-numbers' => 'color: {{VALUE}};',
+					'{{WRAPPER}} #groups-dir-list .bp-pagination.bottom .bp-pagination-links.bottom span.page-numbers' => 'color: {{VALUE}};',
 				],
 				'condition' => [
 					'show_pag_bottom' => 'flex'
@@ -1151,7 +1416,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Background Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom .bp-pagination-links.bottom span.page-numbers' => 'background-color: {{VALUE}};',
+					'{{WRAPPER}} #groups-dir-list .bp-pagination.bottom .bp-pagination-links.bottom span.page-numbers' => 'background-color: {{VALUE}};',
 				],
 				'condition' => [
 					'show_pag_bottom' => 'flex'
@@ -1165,7 +1430,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Border Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom .bp-pagination-links.bottom span.page-numbers' => 'border-color: {{VALUE}};',
+					'{{WRAPPER}} #groups-dir-list .bp-pagination.bottom .bp-pagination-links.bottom span.page-numbers' => 'border-color: {{VALUE}};',
 				],
 				'condition' => [
 					'show_pag_bottom' => 'flex'
@@ -1182,7 +1447,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 			[
 				'label'     => __( 'Link Border', 'stax-buddy-builder' ),
 				'name'      => 'pag_bottom_link_border',
-				'selector'  => '{{WRAPPER}} #members-dir-list .bp-pagination.bottom .bp-pagination-links.bottom .page-numbers',
+				'selector'  => '{{WRAPPER}} #groups-dir-list .bp-pagination.bottom .bp-pagination-links.bottom .page-numbers',
 				'condition' => [
 					'show_pag_bottom' => 'flex'
 				]
@@ -1196,7 +1461,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', '%', 'em' ],
 				'selectors'  => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom .bp-pagination-links.bottom .page-numbers' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'{{WRAPPER}} #groups-dir-list .bp-pagination.bottom .bp-pagination-links.bottom .page-numbers' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
 				'condition'  => [
 					'show_pag_bottom' => 'flex'
@@ -1211,7 +1476,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', 'em', '%' ],
 				'selectors'  => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom .bp-pagination-links.bottom .page-numbers' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'{{WRAPPER}} #groups-dir-list .bp-pagination.bottom .bp-pagination-links.bottom .page-numbers' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
 				'condition'  => [
 					'show_pag_bottom' => 'flex'
@@ -1220,28 +1485,62 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 		);
 
 		$this->end_controls_section();
-
 	}
 
 	protected function render() {
 		parent::render();
 		$settings = $this->get_settings_for_display();
 
+		$current_component = static function () {
+			return 'groups';
+		};
+
+		add_filter( 'buddy_builder/has_template/pre', '__return_true' );
+
+		$loop_classes = static function () use ( $settings ) {
+			return [
+				'item-list',
+				'members-list',
+				'bp-list',
+				'grid',
+				bpb_get_column_class( $settings['columns'] ),
+				bpb_get_column_class( $settings['columns_tablet'], 'tablet' ),
+				bpb_get_column_class( $settings['columns_mobile'], 'mobile' )
+			];
+		};
+
+		add_filter( 'bp_current_component', $current_component );
+		add_filter( 'bp_nouveau_get_loop_classes', $loop_classes );
+
+		apply_filters( 'buddy_builder/groups-loop/before/template', $settings );
+
+		add_filter( 'bp_get_groups_pagination_count', '__return_zero' );
+		add_filter( 'bp_get_groups_pagination_links', '__return_zero' );
+
 		?>
-		<?php if ( bpb_is_elementor_editor() ) : ?>
-			<?php bpb_load_template( 'preview/members-directory/listing', [
-				'columns' => [
-					'desktop' => $settings['columns'],
-					'tablet'  => $settings['columns_tablet'],
-					'mobile'  => $settings['columns_mobile']
-				]
-			] ); ?>
-		<?php else: ?>
-            <div id="members-dir-list" class="members dir-list" data-bp-list="members">
-                <div id="bp-ajax-loader"><?php bp_nouveau_user_feedback( 'directory-members-loading' ); ?></div>
+
+        <div id="buddypress" class="buddypress-wrap bp-dir-hori-nav groups">
+			<?php bp_nouveau_before_groups_directory_content(); ?>
+			<?php bp_nouveau_template_notices(); ?>
+
+            <div class="screen-content">
+                <div id="groups-dir-list" class="groups dir-list" data-bp-list="">
+	                <?php bp_get_template_part( 'groups/groups-loop' ); ?>
+                </div>
+
+				<?php bp_nouveau_after_groups_directory_content(); ?>
             </div>
-		<?php endif; ?>
+        </div>
+
 		<?php
+		remove_filter( 'bp_nouveau_get_loop_classes', $loop_classes );
+		remove_filter( 'bp_current_component', $current_component );
+
+		apply_filters( 'buddy_builder/groups-loop/after/template', $settings );
+
+		remove_filter( 'bp_get_groups_pagination_count', '__return_zero' );
+		remove_filter( 'bp_get_groups_pagination_links', '__return_zero' );
+		remove_filter( 'buddy_builder/has_template/pre', '__return_true' );
 	}
 
 }

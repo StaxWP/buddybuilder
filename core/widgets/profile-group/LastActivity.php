@@ -65,17 +65,17 @@ class LastActivity extends \Buddy_Builder\Widgets\Base {
 			]
 		);
 
-        $this->add_control(
-            'last_activity_text_color',
-            [
-                'label'     => __( 'Text Color', 'stax-buddy-builder' ),
-                'type'      => Controls_Manager::COLOR,
-                'default'   => '',
-                'selectors' => [
-                    '{{WRAPPER}} div.activity' => 'color: {{VALUE}};',
-                ],
-            ]
-        );
+		$this->add_control(
+			'last_activity_text_color',
+			[
+				'label'     => __( 'Text Color', 'stax-buddy-builder' ),
+				'type'      => Controls_Manager::COLOR,
+				'default'   => '',
+				'selectors' => [
+					'{{WRAPPER}} div.activity' => 'color: {{VALUE}};',
+				],
+			]
+		);
 
 		$this->add_group_control(
 			Group_Control_Typography::get_type(),
@@ -90,6 +90,7 @@ class LastActivity extends \Buddy_Builder\Widgets\Base {
 	}
 
 	protected function render() {
+		parent::render();
 		if ( bpb_is_elementor_editor() ) {
 			bpb_load_template( 'preview/profile-group/last-activity' );
 		} else {

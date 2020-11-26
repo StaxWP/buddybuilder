@@ -110,6 +110,7 @@ class Username extends \Buddy_Builder\Widgets\Base {
 	}
 
 	protected function render() {
+		parent::render();
 		if ( bpb_is_elementor_editor() ) {
 			bpb_load_template( 'preview/profile-member/username' );
 		} else {

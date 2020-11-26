@@ -90,17 +90,17 @@ class Form extends \Buddy_Builder\Widgets\Base {
 			]
 		);
 
-        $this->add_responsive_control(
-            'container_margin',
-            [
-                'label'      => __( 'Margin', 'stax-buddy-builder' ),
-                'type'       => Controls_Manager::DIMENSIONS,
-                'size_units' => [ 'px', 'em', '%' ],
-                'selectors'  => [
-                    '{{WRAPPER}} #bp-nouveau-activity-form' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                ]
-            ]
-        );
+		$this->add_responsive_control(
+			'container_margin',
+			[
+				'label'      => __( 'Margin', 'stax-buddy-builder' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px', 'em', '%' ],
+				'selectors'  => [
+					'{{WRAPPER}} #bp-nouveau-activity-form' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				]
+			]
+		);
 
 		$this->end_controls_section();
 
@@ -283,210 +283,210 @@ class Form extends \Buddy_Builder\Widgets\Base {
 
 		$this->end_controls_section();
 
-        $this->start_controls_section(
-            'post_in_section',
-            [
-                'label' => __( 'Post In Option', 'stax-buddy-builder' ),
-                'tab'   => Controls_Manager::TAB_STYLE
-            ]
-        );
+		$this->start_controls_section(
+			'post_in_section',
+			[
+				'label' => __( 'Post In Option', 'stax-buddy-builder' ),
+				'tab'   => Controls_Manager::TAB_STYLE
+			]
+		);
 
-        $this->add_group_control(
-            Group_Control_Typography::get_type(),
-            [
-                'label'    => __( 'Text Typography', 'stax-buddy-builder' ),
-                'name'     => 'post_in_select_typography',
-                'selector' => '{{WRAPPER}} #whats-new-post-in-box select, {{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete'
-            ]
-        );
+		$this->add_group_control(
+			Group_Control_Typography::get_type(),
+			[
+				'label'    => __( 'Text Typography', 'stax-buddy-builder' ),
+				'name'     => 'post_in_select_typography',
+				'selector' => '{{WRAPPER}} #whats-new-post-in-box select, {{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete'
+			]
+		);
 
-        $this->start_controls_tabs( 'post_in_select_state_style' );
+		$this->start_controls_tabs( 'post_in_select_state_style' );
 
-        $this->start_controls_tab(
-            'post_in_select_normal_style',
-            [
-                'label' => __( 'Normal', 'stax-buddy-builder' )
-            ]
-        );
+		$this->start_controls_tab(
+			'post_in_select_normal_style',
+			[
+				'label' => __( 'Normal', 'stax-buddy-builder' )
+			]
+		);
 
-        $this->add_control(
-            'post_in_select_bg_color',
-            [
-                'label'     => __( 'Background Color', 'stax-buddy-builder' ),
-                'type'      => Controls_Manager::COLOR,
-                'selectors' => [
-                    '{{WRAPPER}} #whats-new-post-in-box select' => 'background-color: {{VALUE}};',
-                    '{{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete' => 'background-color: {{VALUE}};',
-                ]
-            ]
-        );
+		$this->add_control(
+			'post_in_select_bg_color',
+			[
+				'label'     => __( 'Background Color', 'stax-buddy-builder' ),
+				'type'      => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} #whats-new-post-in-box select'                       => 'background-color: {{VALUE}};',
+					'{{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete' => 'background-color: {{VALUE}};',
+				]
+			]
+		);
 
-        $this->add_control(
-            'post_in_select_color',
-            [
-                'label'     => __( 'Text Color', 'stax-buddy-builder' ),
-                'type'      => Controls_Manager::COLOR,
-                'default'   => '',
-                'selectors' => [
-                    '{{WRAPPER}} #whats-new-post-in-box select' => 'color: {{VALUE}};',
-                    '{{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete' => 'color: {{VALUE}};',
-                ]
-            ]
-        );
+		$this->add_control(
+			'post_in_select_color',
+			[
+				'label'     => __( 'Text Color', 'stax-buddy-builder' ),
+				'type'      => Controls_Manager::COLOR,
+				'default'   => '',
+				'selectors' => [
+					'{{WRAPPER}} #whats-new-post-in-box select'                       => 'color: {{VALUE}};',
+					'{{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete' => 'color: {{VALUE}};',
+				]
+			]
+		);
 
-        $this->add_control(
-            'post_in_placeholder_color',
-            [
-                'label'     => __( 'Placeholder Input Color', 'stax-buddy-builder' ),
-                'type'      => Controls_Manager::COLOR,
-                'default'   => '',
-                'selectors' => [
-                    '{{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete::placeholder' => 'color: {{VALUE}};',
-                    '{{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete:-ms-input-placeholder'  => 'color: {{VALUE}};',
-                    '{{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete::-ms-input-placeholder' => 'color: {{VALUE}};',
-                ]
-            ]
-        );
+		$this->add_control(
+			'post_in_placeholder_color',
+			[
+				'label'     => __( 'Placeholder Input Color', 'stax-buddy-builder' ),
+				'type'      => Controls_Manager::COLOR,
+				'default'   => '',
+				'selectors' => [
+					'{{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete::placeholder'           => 'color: {{VALUE}};',
+					'{{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete:-ms-input-placeholder'  => 'color: {{VALUE}};',
+					'{{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete::-ms-input-placeholder' => 'color: {{VALUE}};',
+				]
+			]
+		);
 
-        $this->add_control(
-            'post_in_select_arrow_color',
-            [
-                'label'     => __( 'Select Arrow Color', 'stax-buddy-builder' ),
-                'type'      => Controls_Manager::COLOR,
-                'selectors' => [
-                    '{{WRAPPER}} #whats-new-post-in-box select' => 'background-image: linear-gradient(45deg, transparent 50%, {{VALUE}} 50%), linear-gradient(135deg, {{VALUE}} 50%, transparent 50%);',
-                ]
-            ]
-        );
+		$this->add_control(
+			'post_in_select_arrow_color',
+			[
+				'label'     => __( 'Select Arrow Color', 'stax-buddy-builder' ),
+				'type'      => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} #whats-new-post-in-box select' => 'background-image: linear-gradient(45deg, transparent 50%, {{VALUE}} 50%), linear-gradient(135deg, {{VALUE}} 50%, transparent 50%);',
+				]
+			]
+		);
 
-        $this->add_group_control(
-            Group_Control_Box_Shadow::get_type(),
-            [
-                'name'     => 'post_in_select_shadow',
-                'selector' => '{{WRAPPER}} #whats-new-post-in-box select, {{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete'
-            ]
-        );
+		$this->add_group_control(
+			Group_Control_Box_Shadow::get_type(),
+			[
+				'name'     => 'post_in_select_shadow',
+				'selector' => '{{WRAPPER}} #whats-new-post-in-box select, {{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete'
+			]
+		);
 
-        $this->end_controls_tab();
+		$this->end_controls_tab();
 
-        $this->start_controls_tab(
-            'post_in_select_focus_style',
-            [
-                'label' => __( 'Focus', 'stax-buddy-builder' )
-            ]
-        );
+		$this->start_controls_tab(
+			'post_in_select_focus_style',
+			[
+				'label' => __( 'Focus', 'stax-buddy-builder' )
+			]
+		);
 
-        $this->add_control(
-            'post_in_select_focus_bg_color',
-            [
-                'label'     => __( 'Background Color', 'stax-buddy-builder' ),
-                'type'      => Controls_Manager::COLOR,
-                'selectors' => [
-                    '{{WRAPPER}} #whats-new-post-in-box select:focus' => 'background-color: {{VALUE}};',
-                    '{{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete:focus' => 'background-color: {{VALUE}};',
-                ]
-            ]
-        );
+		$this->add_control(
+			'post_in_select_focus_bg_color',
+			[
+				'label'     => __( 'Background Color', 'stax-buddy-builder' ),
+				'type'      => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} #whats-new-post-in-box select:focus'                       => 'background-color: {{VALUE}};',
+					'{{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete:focus' => 'background-color: {{VALUE}};',
+				]
+			]
+		);
 
-        $this->add_control(
-            'post_in_select_focus_color',
-            [
-                'label'     => __( 'Text Color', 'stax-buddy-builder' ),
-                'type'      => Controls_Manager::COLOR,
-                'default'   => '',
-                'selectors' => [
-                    '{{WRAPPER}} #whats-new-post-in-box select:focus' => 'color: {{VALUE}};',
-                    '{{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete:focus' => 'color: {{VALUE}};',
-                ]
-            ]
-        );
+		$this->add_control(
+			'post_in_select_focus_color',
+			[
+				'label'     => __( 'Text Color', 'stax-buddy-builder' ),
+				'type'      => Controls_Manager::COLOR,
+				'default'   => '',
+				'selectors' => [
+					'{{WRAPPER}} #whats-new-post-in-box select:focus'                       => 'color: {{VALUE}};',
+					'{{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete:focus' => 'color: {{VALUE}};',
+				]
+			]
+		);
 
-        $this->add_control(
-            'post_in_placeholder_focus_color',
-            [
-                'label'     => __( 'Placeholder Input Color', 'stax-buddy-builder' ),
-                'type'      => Controls_Manager::COLOR,
-                'default'   => '',
-                'selectors' => [
-                    '{{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete:focus::placeholder' => 'color: {{VALUE}};',
-                    '{{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete:focus:-ms-input-placeholder'  => 'color: {{VALUE}};',
-                    '{{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete:focus::-ms-input-placeholder' => 'color: {{VALUE}};',
-                ]
-            ]
-        );
+		$this->add_control(
+			'post_in_placeholder_focus_color',
+			[
+				'label'     => __( 'Placeholder Input Color', 'stax-buddy-builder' ),
+				'type'      => Controls_Manager::COLOR,
+				'default'   => '',
+				'selectors' => [
+					'{{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete:focus::placeholder'           => 'color: {{VALUE}};',
+					'{{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete:focus:-ms-input-placeholder'  => 'color: {{VALUE}};',
+					'{{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete:focus::-ms-input-placeholder' => 'color: {{VALUE}};',
+				]
+			]
+		);
 
-        $this->add_control(
-            'post_in_select_arrow_focus_color',
-            [
-                'label'     => __( 'Select Arrow Color', 'stax-buddy-builder' ),
-                'type'      => Controls_Manager::COLOR,
-                'selectors' => [
-                    '{{WRAPPER}} #whats-new-post-in-box select:focus' => 'background-image: linear-gradient(45deg, transparent 50%, {{VALUE}} 50%), linear-gradient(135deg, {{VALUE}} 50%, transparent 50%);',
-                ]
-            ]
-        );
+		$this->add_control(
+			'post_in_select_arrow_focus_color',
+			[
+				'label'     => __( 'Select Arrow Color', 'stax-buddy-builder' ),
+				'type'      => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} #whats-new-post-in-box select:focus' => 'background-image: linear-gradient(45deg, transparent 50%, {{VALUE}} 50%), linear-gradient(135deg, {{VALUE}} 50%, transparent 50%);',
+				]
+			]
+		);
 
-        $this->add_control(
-            'post_in_select_focus_border_color',
-            [
-                'label'     => __( 'Border Color', 'stax-buddy-builder' ),
-                'type'      => Controls_Manager::COLOR,
-                'default'   => '',
-                'selectors' => [
-                    '{{WRAPPER}} #whats-new-post-in-box select:focus' => 'border-color: {{VALUE}};',
-                    '{{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete:focus' => 'border-color: {{VALUE}};',
-                ]
-            ]
-        );
+		$this->add_control(
+			'post_in_select_focus_border_color',
+			[
+				'label'     => __( 'Border Color', 'stax-buddy-builder' ),
+				'type'      => Controls_Manager::COLOR,
+				'default'   => '',
+				'selectors' => [
+					'{{WRAPPER}} #whats-new-post-in-box select:focus'                       => 'border-color: {{VALUE}};',
+					'{{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete:focus' => 'border-color: {{VALUE}};',
+				]
+			]
+		);
 
-        $this->add_group_control(
-            Group_Control_Box_Shadow::get_type(),
-            [
-                'name'     => 'post_in_select_focus_shadow',
-                'selector' => '{{WRAPPER}} #whats-new-post-in-box:focus select, {{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete:focus'
-            ]
-        );
+		$this->add_group_control(
+			Group_Control_Box_Shadow::get_type(),
+			[
+				'name'     => 'post_in_select_focus_shadow',
+				'selector' => '{{WRAPPER}} #whats-new-post-in-box:focus select, {{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete:focus'
+			]
+		);
 
-        $this->end_controls_tab();
+		$this->end_controls_tab();
 
-        $this->end_controls_tabs();
+		$this->end_controls_tabs();
 
-        $this->add_group_control(
-            Group_Control_Border::get_type(),
-            [
-                'name'      => 'post_in_select_border',
-                'selector'  => '{{WRAPPER}} #whats-new-post-in-box select, {{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete',
-                'separator' => 'before'
-            ]
-        );
+		$this->add_group_control(
+			Group_Control_Border::get_type(),
+			[
+				'name'      => 'post_in_select_border',
+				'selector'  => '{{WRAPPER}} #whats-new-post-in-box select, {{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete',
+				'separator' => 'before'
+			]
+		);
 
-        $this->add_control(
-            'post_in_select_border_radius',
-            [
-                'label'      => esc_html__( 'Border Radius', 'stax-buddy-builder' ),
-                'type'       => Controls_Manager::DIMENSIONS,
-                'size_units' => [ 'px', '%', 'em' ],
-                'selectors'  => [
-                    '{{WRAPPER}} #whats-new-post-in-box select' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                    '{{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};'
-                ]
-            ]
-        );
+		$this->add_control(
+			'post_in_select_border_radius',
+			[
+				'label'      => esc_html__( 'Border Radius', 'stax-buddy-builder' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px', '%', 'em' ],
+				'selectors'  => [
+					'{{WRAPPER}} #whats-new-post-in-box select'                       => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'{{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};'
+				]
+			]
+		);
 
-        $this->add_responsive_control(
-            'post_in_select_padding',
-            [
-                'label'      => __( 'Padding', 'stax-buddy-builder' ),
-                'type'       => Controls_Manager::DIMENSIONS,
-                'size_units' => [ 'px', 'em', '%' ],
-                'selectors'  => [
-                    '{{WRAPPER}} #whats-new-post-in-box select' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                    '#buddypress {{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};'
-                ]
-            ]
-        );
+		$this->add_responsive_control(
+			'post_in_select_padding',
+			[
+				'label'      => __( 'Padding', 'stax-buddy-builder' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px', 'em', '%' ],
+				'selectors'  => [
+					'{{WRAPPER}} #whats-new-post-in-box select'                                   => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'#buddypress {{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};'
+				]
+			]
+		);
 
-        $this->end_controls_section();
+		$this->end_controls_section();
 
 		$this->start_controls_section(
 			'post_btn_section',
@@ -779,6 +779,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 	}
 
 	protected function render() {
+		parent::render();
 		if ( bpb_is_elementor_editor() ) {
 			bpb_load_template( 'preview/sitewide-activity/form' );
 		} else {

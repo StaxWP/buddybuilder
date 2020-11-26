@@ -28,7 +28,7 @@
                     </li>
 				<?php endforeach; ?>
 
-				<?php if( $has_pro ) :?>
+				<?php if( ! $has_pro ) :?>
                     <li class="ste-flex ste-items-end ste-relative ste-pr-20 ste-flex-grow ste-justify-end ste-mb-0">
                         <a href="<?php echo esc_url( 'https://staxwp.com/go/buddybuilder-pro/' ); ?>" target="_blank" class="ste-no-underline ste-text-white hover:ste-text-white ste-text-lg ste-font-medium ste-py-4 ste-leading-normal focus:ste-shadow-none">
                             Go PRO

@@ -7,34 +7,41 @@
  */
 ?>
 <div class="subnav-filters filters no-ajax" id="subnav-filters">
-	<?php if ( in_array( bp_current_component(), [ 'members', 'groups', 'friends' ] ) ): ?>
-		<?php
-		$current_component = bp_current_component();
 
+	<?php
+	$show_list_toggle = apply_filters( 'buddy_builder/widget/filters/list_toggle/enabled', false );
+	$current_component = bp_current_component();
+
+	if ( $show_list_toggle && in_array( $current_component, [ 'members', 'groups', 'friends' ] ) ): ?>
+		<?php
 		if ( $current_component === 'friends' ) {
 			$current_component = 'members';
 		}
-
-		$listing_type = 'grid';
-
-		if ( isset( $_COOKIE[ $current_component ] ) && in_array( $_COOKIE[ $current_component ], [
-				'list',
-				'grid'
-			] ) ) {
-			$listing_type = $_COOKIE[ $current_component ];
-		}
-
-		$list_class = $listing_type === 'list' ? 'bpb-active' : '';
-		$grid_class = $listing_type === 'grid' ? 'bpb-active' : '';
 		?>
         <div class="bpb-listing-type" data-component="<?php echo esc_attr( $current_component ); ?>">
-            <span class="bpb-list-mode <?php echo esc_attr( $list_class ); ?>">
+            <span class="bpb-list-change bpb-list-mode" data-list-type="list">
                 <span class="dashicons dashicons-list-view"></span>
             </span>
-            <span class="bpb-grid-mode <?php echo esc_attr( $grid_class ); ?>">
+            <span class="bpb-list-change bpb-grid-mode bpb-active" data-list-type="grid">
                 <span class="dashicons dashicons-grid-view"></span>
             </span>
         </div>
+
+        <?php wp_enqueue_script( 'bpb-grid-list-view' ); ?>
+
+    <?php else: ?>
+        <script>
+            var storeType = 'bp-<?php echo esc_attr( $current_component ); ?>';
+            var storeData = sessionStorage.getItem( storeType );
+
+            if ( storeData ) {
+                storeData = JSON.parse( storeData );
+                if ( undefined !== storeData[ 'bpb-list-mode' ] && undefined === storeData[ 'bpb-list-hidden' ] ) {
+                    storeData[ 'bpb-list-hidden' ] = 1;
+                    sessionStorage.setItem( storeType, JSON.stringify( storeData ) )
+                }
+            }
+        </script>
 	<?php endif; ?>
 
 	<?php if ( 'friends' !== bp_current_component() ) : ?>

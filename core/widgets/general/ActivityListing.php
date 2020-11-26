@@ -1,29 +1,30 @@
 <?php
 
-namespace Buddy_Builder\Widgets\Sitewide;
+namespace Buddy_Builder\Widgets\General;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
+use Buddy_Builder\Plugin;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Background;
 use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Box_Shadow;
 use Elementor\Group_Control_Typography;
 
-class Content extends \Buddy_Builder\Widgets\Base {
+class ActivityListing extends \Buddy_Builder\Widgets\Base {
 
 	public function get_name() {
-		return 'bpb-sitewide-content';
+		return 'bpb-general-activity-list';
 	}
 
 	public function get_title() {
-		return esc_html__( 'Content', 'stax-buddy-builder' );
+		return esc_html__( 'Activity List', 'stax-buddy-builder' );
 	}
 
 	public function get_icon() {
-		return 'sq-icon-bp_section sq-widget-label';
+		return 'sq-icon-bp_listing sq-widget-label';
 	}
 
 	public function get_categories() {
@@ -31,8 +32,32 @@ class Content extends \Buddy_Builder\Widgets\Base {
 	}
 
 	protected function _register_controls() {
+		if ( ! function_exists( 'bpb_is_pro' ) ) {
+			$this->start_controls_section(
+				'go_pro_section',
+				[
+					'label' => __( 'Go PRO', 'stax-buddy-builder' )
+				]
+			);
 
-		do_action( 'buddy_builder/widget/sitewide-activity/content/settings', $this );
+			$this->add_control(
+				'go_pro_notice',
+				[
+					'type' => Controls_Manager::RAW_HTML,
+					'raw'  => Plugin::get_instance()->go_pro_template( [
+						'title'    => __( 'BuddyBuilder PRO', 'stax-buddy-builder' ),
+						'messages' => [
+							__( 'Power up up your listing with custom queries and templates.', 'stax-buddy-builder' ),
+						],
+						'link'     => 'https://staxwp.com/go/buddybuilder-pro',
+					] ),
+				]
+			);
+
+			$this->end_controls_section();
+		}
+
+		do_action( 'buddy_builder/widget/activity-listing/settings', $this );
 
 		$this->start_controls_section(
 			'activity_item_container_section',
@@ -337,28 +362,53 @@ class Content extends \Buddy_Builder\Widgets\Base {
 		);
 
 		$this->end_controls_section();
-
 	}
 
 	protected function render() {
 		parent::render();
-		if ( bpb_is_elementor_editor() ) {
-			bpb_load_template( 'preview/sitewide-activity/content' );
-		} else {
-			bp_nouveau_activity_hook( 'before_directory', 'list' );
+		$settings = $this->get_settings_for_display();
 
-			?>
-            <div id="activity-stream" class="activity" data-bp-list="activity">
-                <div id="bp-ajax-loader"><?php bp_nouveau_user_feedback( 'directory-activity-loading' ); ?></div>
+		$current_component = static function () {
+			return 'activity';
+		};
+
+		add_filter( 'buddy_builder/has_template/pre', '__return_true' );
+
+		add_filter( 'bp_current_component', $current_component );
+
+		apply_filters( 'buddy_builder/activity-loop/before/template', $settings );
+
+//		add_filter( 'bp_get_groups_pagination_count', '__return_zero' );
+//		add_filter( 'bp_get_groups_pagination_links', '__return_zero' );
+
+		do_action('bp_before_directory_activity');
+
+		?>
+
+        <div id="buddypress" class="buddypress-wrap bp-dir-hori-nav activity">
+
+			<?php bp_nouveau_before_activity_directory_content(); ?>
+
+            <div class="screen-content">
+				<?php bp_nouveau_activity_hook( 'before_directory', 'list' ); ?>
+
+                <div id="activity-stream" class="activity" data-bp-list="activity">
+                    <div id="bp-ajax-loader"><?php bp_nouveau_user_feedback( 'directory-activity-loading' ); ?></div>
+                </div>
+
+				<?php bp_nouveau_after_activity_directory_content(); ?>
+
             </div>
-			<?php
+        </div>
 
-			bp_nouveau_after_activity_directory_content();
-		}
-	}
+		<?php
+		remove_filter( 'bp_current_component', $current_component );
 
-	public function render_plain_content() {
-		return '';
+		apply_filters( 'buddy_builder/activity-loop/after/template', $settings );
+
+//		remove_filter( 'bp_get_groups_pagination_count', '__return_zero' );
+//		remove_filter( 'bp_get_groups_pagination_links', '__return_zero' );
+		remove_filter( 'buddy_builder/has_template/pre', '__return_true' );
 	}
 
 }

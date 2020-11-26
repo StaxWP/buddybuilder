@@ -6,6 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
+use Buddy_Builder\Plugin;
 use Elementor\Controls_Manager;
 
 class Content extends \Buddy_Builder\Widgets\Base {
@@ -40,7 +41,7 @@ class Content extends \Buddy_Builder\Widgets\Base {
 				'go_pro_notice',
 				[
 					'type' => Controls_Manager::RAW_HTML,
-					'raw'  => $this->go_pro_template( [
+					'raw'  => Plugin::get_instance()->go_pro_template( [
 						'title'    => __( 'BuddyBuilder PRO', 'stax-buddy-builder' ),
 						'messages' => [
 							__( 'Step up your game and customize your profile content with ease.', 'stax-buddy-builder' ),
@@ -53,38 +54,16 @@ class Content extends \Buddy_Builder\Widgets\Base {
 			$this->end_controls_section();
 		}
 
-		do_action( 'buddybuilder/widget/member-profile/content', $this );
-	}
-
-	public function go_pro_template( $texts ) {
-		ob_start();
-
-		?>
-        <div class="elementor-nerd-box">
-            <div class="elementor-nerd-box-title"><?php echo $texts['title']; ?></div>
-			<?php foreach ( $texts['messages'] as $message ) { ?>
-                <div class="elementor-nerd-box-message"><?php echo $message; ?></div>
-			<?php }
-
-			if ( $texts['link'] ) { ?>
-                <a class="elementor-button elementor-panel-scheme-title" href="<?php echo $texts['link']; ?>"
-                   target="_blank">
-					<?php echo __( 'Go PRO', 'stax-buddy-builder' ); ?>
-                </a>
-			<?php }
-			?>
-        </div>
-		<?php
-
-		return ob_get_clean();
+		do_action( 'buddy_builder/widget/member-profile/settings', $this );
 	}
 
 	protected function render() {
+		parent::render();
 
 		if ( bpb_is_elementor_editor() ) {
 			ob_start();
 			bpb_load_template( 'preview/profile-member/content' );
-			echo apply_filters( 'buddybuilder/widget/member-profile/preview', ob_get_clean(), $this );
+			echo apply_filters( 'buddy_builder/widget/member-profile/preview', ob_get_clean(), $this );
 		} else {
 			?>
             <div class="bp-wrap">
@@ -93,7 +72,7 @@ class Content extends \Buddy_Builder\Widgets\Base {
 					/*
 					 * Returning a truthy value from the filter will effectively short-circuit the logic
 					 */
-					if ( apply_filters( 'buddybuilder/tpl/profile-member/content/render', true ) ) {
+					if ( apply_filters( 'buddy_builder/tpl/profile-member/content/render', true ) ) {
 						bp_nouveau_member_template_part();
 					}
 					?>

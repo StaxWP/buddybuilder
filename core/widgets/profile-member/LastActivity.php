@@ -38,31 +38,31 @@ class LastActivity extends \Buddy_Builder\Widgets\Base {
 			]
 		);
 
-        $this->add_responsive_control(
-            'activity_text_align',
-            [
-                'label'     => __( 'Alignment', 'stax-buddy-builder' ),
-                'type'      => Controls_Manager::CHOOSE,
-                'options'   => [
-                    'left'   => [
-                        'title' => __( 'Left', 'stax-buddy-builder' ),
-                        'icon'  => 'eicon-text-align-left',
-                    ],
-                    'center' => [
-                        'title' => __( 'Center', 'stax-buddy-builder' ),
-                        'icon'  => 'eicon-text-align-center',
-                    ],
-                    'right'  => [
-                        'title' => __( 'Right', 'stax-buddy-builder' ),
-                        'icon'  => 'eicon-text-align-right',
-                    ],
-                ],
-                'selectors' => [
-                    '{{WRAPPER}} #item-meta #latest-update' => 'text-align: {{VALUE}};',
-                ],
-                'default'   => '',
-            ]
-        );
+		$this->add_responsive_control(
+			'activity_text_align',
+			[
+				'label'     => __( 'Alignment', 'stax-buddy-builder' ),
+				'type'      => Controls_Manager::CHOOSE,
+				'options'   => [
+					'left'   => [
+						'title' => __( 'Left', 'stax-buddy-builder' ),
+						'icon'  => 'eicon-text-align-left',
+					],
+					'center' => [
+						'title' => __( 'Center', 'stax-buddy-builder' ),
+						'icon'  => 'eicon-text-align-center',
+					],
+					'right'  => [
+						'title' => __( 'Right', 'stax-buddy-builder' ),
+						'icon'  => 'eicon-text-align-right',
+					],
+				],
+				'selectors' => [
+					'{{WRAPPER}} #item-meta #latest-update' => 'text-align: {{VALUE}};',
+				],
+				'default'   => '',
+			]
+		);
 
 		$this->add_control(
 			'activity_text_color',
@@ -127,6 +127,7 @@ class LastActivity extends \Buddy_Builder\Widgets\Base {
 	}
 
 	protected function render() {
+		parent::render();
 		if ( bpb_is_elementor_editor() ) {
 			bpb_load_template( 'preview/profile-member/activity-status' );
 		} else {

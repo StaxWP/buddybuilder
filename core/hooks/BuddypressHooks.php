@@ -46,6 +46,8 @@ class BuddypressHooks extends Singleton {
 			add_filter( 'bp_after_xprofile_cover_image_settings_parse_args', [ $this, 'change_cover_args' ] );
 		}
 		add_filter( 'bp_after_groups_cover_image_settings_parse_args', [ $this, 'change_cover_args' ] );
+
+		add_filter('bp_ajax_querystring', [$this, 'filter_bp_ajax_querystring'], 10, 2 );
 	}
 
 	public function override_rtmedia_template( $located, $url, $ogpath, $template_name ) {
@@ -141,7 +143,7 @@ class BuddypressHooks extends Singleton {
 	 * @return mixed
 	 */
 	public function change_cover_args( $args ) {
-		$args['theme_handle'] = 'stax-buddy-builder' . '-bp';
+		$args['theme_handle'] = 'stax-buddy-builder-bp';
 		$args['width']        = 1300;
 		$args['height']       = 900;
 
@@ -198,7 +200,7 @@ class BuddypressHooks extends Singleton {
 	 */
 	public function change_buddypress_tpl( $template ) {
 
-		if ( $this->current_component_has_template() ) {
+		if ( $this->current_component_has_template( false ) ) {
 
 			$template = BPB_BASE_PATH . 'templates/buddypress/buddypress.php';
 		}
@@ -364,9 +366,16 @@ class BuddypressHooks extends Singleton {
 	/**
 	 * Check if current Buddypress component has Elementor template
 	 *
+	 * @param bool $with_filter
+	 *
 	 * @return bool
 	 */
-	private function current_component_has_template() {
+	private function current_component_has_template( $with_filter = true ) {
+
+		// short circuit and force
+		if ( $with_filter && apply_filters( 'buddy_builder/has_template/pre', false ) ) {
+			return true;
+		}
 
 		// Return true when editing or previewing.
 		if ( bpb_is_edit_frame() || bpb_is_preview_mode() || bpb_is_front_library() ) {
@@ -482,7 +491,7 @@ class BuddypressHooks extends Singleton {
 			}
 
 			// Groups dir
-			if ( $settings['groups-directory'] && bp_is_groups_directory() ) {
+			if ( $settings['groups-directory'] && ! empty( bp_is_active( 'groups' ) ) && bp_is_groups_directory() ) {
 				return bpb_is_template_id_populated( $settings['groups-directory'] );
 			}
 
@@ -498,17 +507,30 @@ class BuddypressHooks extends Singleton {
 			}
 
 			// Group profile
-			if ( $settings['group-profile'] && bp_is_single_item() && bp_is_groups_component() ) {
+			if ( $settings['group-profile'] && ! empty( bp_is_active( 'groups' ) )&& bp_is_single_item() && bp_is_groups_component() ) {
 				return bpb_is_template_id_populated( $settings['group-profile'] );
 			}
 
 			// Site-wide activity
-			if ( $settings['sitewide-activity'] && bp_is_activity_directory() ) {
+			if ( $settings['sitewide-activity'] && ! empty( bp_is_active( 'activity' ) ) && bp_is_activity_directory() ) {
 				return bpb_is_template_id_populated( $settings['sitewide-activity'] );
 			}
 		}
 
-		return false;
+		// if we are anywhere else in WP, then we can load our logic for general widgets
+		return bp_is_blog_page();
+	}
+
+	public function filter_bp_ajax_querystring($query, $object ) {
+
+		if ( isset( $_REQUEST['bpb-list-mode'] ) && $_REQUEST['bpb-list-mode'] === 'list' && ! isset( $_REQUEST['bpb-list-hidden'] ) ) {
+			add_filter('bp_nouveau_get_loop_classes', function ( $classes = [] ) {
+				$classes[] = 'grid-one-force';
+				return $classes;
+			} );
+		}
+
+		return $query;
 	}
 
 	public function get_wpml_page_id( $id ) {

@@ -9,8 +9,8 @@
  * @version 3.0.0
  */
 
-$activity_item = bpb_get_shortcode_str( 'sitewide-activity-item' );
-$render        = bpb_is_template_populated( 'sitewide-activity-item' );
+$activity_item = apply_filters( 'buddy_builder/activity-loop/item', bpb_get_shortcode_str( 'sitewide-activity-item' ) );
+$render        = apply_filters( 'buddy_builder/activity-loop/render', bpb_is_template_populated( 'sitewide-activity-item' ) );
 
 bp_nouveau_activity_hook( 'before', 'entry' ); ?>
 

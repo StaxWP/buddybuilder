@@ -32,6 +32,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 
 	protected function _register_controls() {
 
+		do_action( 'buddy_builder/widget/groups-directory/listing/settings', $this );
+
 		$this->start_controls_section(
 			'section_content',
 			[
@@ -1462,6 +1464,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 	}
 
 	protected function render() {
+		parent::render();
 		$settings = $this->get_settings_for_display();
 
 		?>

@@ -158,6 +158,7 @@ class Avatar extends \Buddy_Builder\Widgets\Base {
 	}
 
 	protected function render() {
+		parent::render();
 		if ( bpb_is_elementor_editor() ) {
 			bpb_load_template( 'preview/profile-member/avatar' );
 		} else {
@@ -166,7 +167,7 @@ class Avatar extends \Buddy_Builder\Widgets\Base {
 			?>
             <div class="elementor-image-bpb-avatar">
                 <a href="<?php bp_displayed_user_link(); ?>">
-                    <?php bp_displayed_user_avatar( $args ); ?>
+					<?php bp_displayed_user_avatar( $args ); ?>
                 </a>
             </div>
 			<?php

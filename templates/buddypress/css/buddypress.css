@@ -49,6 +49,8 @@ Hello, this is the BuddyPress Nouveau stylesheet.
 8.0 - Classes - Messages, Ajax, Widgets, Buttons, Tooltips
 
 9.0 - Layout Classes.
+
+10.0 - Third Party Plugins Compatibility
 --------------------------------------------------------------*/
 /**
 *-------------------------------------------------------------------------------
@@ -211,7 +213,8 @@ body.buddypress article.page > .entry-header {
 .bp-navs {
   background: #f7fafc;
   clear: both;
-  border-radius: 4px; }
+  border-radius: 4px;
+  box-shadow: none; }
   .bp-navs ul {
     margin: 0;
     padding: 0;
@@ -254,12 +257,14 @@ body.buddypress article.page > .entry-header {
       border: 1px solid #cbd5e0;
       border-radius: 50%;
       color: #718096;
-      display: inline;
-      font-size: 12px;
-      margin-left: 2px;
-      padding: 3px 6px;
+      padding: 4px 0;
+      min-width: 30px;
       text-align: center;
+      font-size: 12px;
+      margin-left: 6px;
       vertical-align: middle; }
+    .bp-navs ul li .count:not(:empty) {
+      display: inline-block; }
     .bp-navs ul li.selected a,
     .bp-navs ul li.current a {
       color: #4a5568;
@@ -400,8 +405,10 @@ body.buddypress article.page > .entry-header {
     float: left; } }
 
 .buddypress_object_nav .bp-navs li a .count {
-  display: inline-block;
   float: right; }
+
+.buddypress_object_nav .bp-navs li a .count:not(:empty) {
+  display: inline-block; }
 
 @media screen and (min-width: 1025px) {
   .bp-dir-vert-nav .bp-navs.dir-navs {
@@ -555,7 +562,6 @@ body.buddypress article.page > .entry-header {
     font-size: 24px; }
   .buddypress-wrap .subnav-filters .messages-button {
     border-color: #e2e8f0;
-    line-height: 1.5;
     margin-left: 10px; }
     .buddypress-wrap .subnav-filters .messages-button:hover {
       border-color: #c0cddf;
@@ -746,6 +752,24 @@ body.buddypress article.page > .entry-header {
         display: inline-block;
         font-size: 14px;
         margin: 5px; }
+      .bp-list li .action select {
+        border: 1px solid #e2e8f0;
+        font-size: 16px;
+        margin-top: 0;
+        padding: 0.5rem 1rem;
+        width: auto;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-image: linear-gradient(45deg, transparent 50%, #cbd5e0 50%), linear-gradient(135deg, #cbd5e0 50%, transparent 50%);
+        background-position: calc(100% - 20px) calc(50% + 2px), calc(100% - (20px - 7px)) calc(50% + 2px);
+        background-size: 7px 7px, 7px 7px;
+        background-repeat: no-repeat; }
+        .bp-list li .action select:hover {
+          cursor: pointer;
+          border: 1px solid #c0cddf; }
       .bp-list li .action div.generic-button a {
         display: block; }
     @media screen and (min-width: 768px) {
@@ -1107,8 +1131,8 @@ body.buddypress article.page > .entry-header {
       -webkit-appearance: none;
       -moz-appearance: none;
       background-image: linear-gradient(45deg, transparent 50%, #cbd5e0 50%), linear-gradient(135deg, #cbd5e0 50%, transparent 50%);
-      background-position: calc(100% - 20px) calc(50% + 2px), calc(100% - (20px - 5px)) calc(50% + 2px);
-      background-size: 5px 5px, 5px 5px;
+      background-position: calc(100% - 20px) calc(50% + 2px), calc(100% - (20px - 7px)) calc(50% + 2px);
+      background-size: 7px 7px, 7px 7px;
       background-repeat: no-repeat; }
       .activity-update-form #whats-new-post-in-box select:focus, .activity-update-form #whats-new-post-in-box select:hover {
         /*background-image:
@@ -1262,7 +1286,10 @@ body.buddypress article.page > .entry-header {
     word-wrap: break-word; }
   .activity-list .activity-item .activity-read-more {
     margin-left: 1em;
-    white-space: nowrap; }
+    white-space: nowrap;
+    font-size: 14px;
+    display: inline-block;
+    margin-bottom: 20px; }
   .activity-list .activity-item ul.activity-meta {
     margin: 0;
     padding-left: 0; }
@@ -1272,7 +1299,9 @@ body.buddypress article.page > .entry-header {
   .activity-list .activity-item .activity-meta.action {
     padding: 2px;
     position: relative;
-    text-align: left; }
+    text-align: left;
+    display: flex;
+    align-items: center; }
     .activity-list .activity-item .activity-meta.action div.generic-button {
       margin: 0; }
     .activity-list .activity-item .activity-meta.action .button {
@@ -2884,7 +2913,16 @@ body.buddypress.settings.data #buddypress.buddypress-wrap .item-body p a {
   width: auto; }
 
 .buddypress-wrap .standard-form select {
-  padding: 3px; }
+  padding: 3px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, #cbd5e0 50%), linear-gradient(135deg, #cbd5e0 50%, transparent 50%);
+  background-position: calc(100% - 20px) calc(50% + 2px), calc(100% - (20px - 7px)) calc(50% + 2px);
+  background-size: 7px 7px, 7px 7px;
+  background-repeat: no-repeat; }
 
 .buddypress-wrap .standard-form textarea {
   height: 120px; }
@@ -2898,7 +2936,7 @@ body.buddypress.settings.data #buddypress.buddypress-wrap .item-body p a {
 .buddypress-wrap .standard-form input:focus,
 .buddypress-wrap .standard-form textarea:focus,
 .buddypress-wrap .standard-form select:focus {
-  background: #f7fafc;
+  background-color: #f7fafc;
   color: #718096;
   outline: 0; }
 
@@ -4435,3 +4473,211 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
         border: 1px solid #e2e8f0;
         color: #fff; } }
 
+/**
+*-------------------------------------------------------------------------------
+* @section 10.0 - Third Party Plugins Compatibility
+*-------------------------------------------------------------------------------
+*/
+.stax-buddybuilder-template #whats-new-form .rtmedia-container {
+  margin-left: 0; }
+  @media screen and (min-width: 768px) {
+    .stax-buddybuilder-template #whats-new-form .rtmedia-container .rtmedia-uploader-div,
+    .stax-buddybuilder-template #whats-new-form .rtmedia-container .rtmedia-uploader {
+      margin-left: 55px; } }
+  .stax-buddybuilder-template #whats-new-form .rtmedia-container select {
+    width: auto; }
+
+.stax-buddybuilder-template #whats-new-form .rtmedia-plupload-container {
+  float: none;
+  width: auto; }
+
+.stax-buddybuilder-template #whats-new-form #whats-new-options #whats-new-post-in-box select {
+  border: 1px solid #e2e8f0;
+  padding: 0.5rem 2.5rem 0.5rem 1rem;
+  font-size: inherit; }
+  .stax-buddybuilder-template #whats-new-form #whats-new-options #whats-new-post-in-box select:hover {
+    cursor: pointer;
+    border: 1px solid #c0cddf; }
+
+.stax-buddybuilder-template #whats-new-form #rtmedia-add-media-button-post-update {
+  padding: 0.55rem 1rem; }
+
+.stax-buddybuilder-template #whats-new-form #aw-whats-new-submit {
+  font-size: 14px;
+  line-height: 1;
+  padding: 0.75em 1em; }
+
+.stax-buddybuilder-template #whats-new-form #aw-whats-new-submit,
+.stax-buddybuilder-template #whats-new-form .rtmedia-add-media-button {
+  display: inline-block; }
+
+.stax-buddybuilder-template .rtmedia-container select {
+  border: 1px solid #e2e8f0;
+  font-size: 16px;
+  margin-top: 0;
+  padding: 0.5rem 2.5rem 0.5rem 1rem;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, #cbd5e0 50%), linear-gradient(135deg, #cbd5e0 50%, transparent 50%);
+  background-position: calc(100% - 20px) calc(50% + 2px), calc(100% - (20px - 7px)) calc(50% + 2px);
+  background-size: 7px 7px, 7px 7px;
+  background-repeat: no-repeat; }
+  .stax-buddybuilder-template .rtmedia-container select:hover {
+    cursor: pointer;
+    border: 1px solid #c0cddf; }
+
+.stax-buddybuilder-template .rtmedia-container #rtSelectPrivacy {
+  float: none; }
+
+.stax-buddybuilder-template .rtmedia-container textarea,
+.stax-buddybuilder-template .rtmedia-container input[type="text"] {
+  background: #f7fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 0;
+  font: inherit;
+  font-size: 100%;
+  padding: 0.5em; }
+
+.stax-buddybuilder-template .rtmedia-container input:focus,
+.stax-buddybuilder-template .rtmedia-container textarea:focus {
+  background-color: #fff;
+  color: #718096;
+  outline: 0; }
+
+.stax-buddybuilder-template .rtmedia-container fieldset {
+  border: 2px solid #e2e8f0; }
+  .stax-buddybuilder-template .rtmedia-container fieldset legend {
+    padding: 0 10px; }
+
+.stax-buddybuilder-template .rtmedia-container .rtm-form .rtm-field-wrap label {
+  margin-right: 10px; }
+
+.stax-buddybuilder-template .rtmedia-container .media_search.media_search {
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  border-radius: 4px;
+  background-clip: padding-box;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #e2e8f0;
+  padding: 0;
+  display: flex;
+  align-items: center; }
+  .stax-buddybuilder-template .rtmedia-container .media_search.media_search:hover {
+    border-color: #c0cddf; }
+  .stax-buddybuilder-template .rtmedia-container .media_search.media_search .media_search_input {
+    max-height: none;
+    padding: 10px;
+    border: 0; }
+    .stax-buddybuilder-template .rtmedia-container .media_search.media_search .media_search_input::placeholder {
+      color: #718096; }
+    .stax-buddybuilder-template .rtmedia-container .media_search.media_search .media_search_input:focus {
+      box-shadow: none; }
+  .stax-buddybuilder-template .rtmedia-container .media_search.media_search .search_option {
+    padding: 7px 0.8em;
+    color: #8BA1BA; }
+    .stax-buddybuilder-template .rtmedia-container .media_search.media_search .search_option:hover {
+      background: transparent; }
+
+.stax-buddybuilder-template .rtmedia-container .rtm-media-options {
+  color: #718096;
+  display: flex;
+  align-items: center; }
+  .stax-buddybuilder-template .rtmedia-container .rtm-media-options .media_search {
+    margin-left: auto; }
+  .stax-buddybuilder-template .rtmedia-container .rtm-media-options .rtm-options a {
+    color: #fff; }
+    .stax-buddybuilder-template .rtmedia-container .rtm-media-options .rtm-options a:hover {
+      color: #fff;
+      opacity: 0.75; }
+
+.stax-buddybuilder-template .rtmedia-container ul.rtmedia-list li.rtmedia-list-item div.rtmedia-item-thumbnail {
+  width: inherit;
+  height: inherit;
+  line-height: inherit; }
+
+.stax-buddybuilder-template .rtmedia-container .rtmedia-list {
+  display: flex;
+  flex-wrap: wrap; }
+  .stax-buddybuilder-template .rtmedia-container .rtmedia-list .rtmedia-list-item {
+    width: 100%;
+    height: auto;
+    flex-basis: 18.8%;
+    max-width: 18.8%; }
+    .stax-buddybuilder-template .rtmedia-container .rtmedia-list .rtmedia-list-item .rtmedia-item-thumbnail img {
+      max-width: none;
+      max-height: none;
+      width: 100%;
+      -webkit-border-radius: 4px;
+      -moz-border-radius: 4px;
+      -ms-border-radius: 4px;
+      border-radius: 4px;
+      background-clip: padding-box; }
+  .stax-buddybuilder-template .rtmedia-container .rtmedia-list .rtmedia-gallery-item-actions {
+    display: flex;
+    justify-content: space-between; }
+    .stax-buddybuilder-template .rtmedia-container .rtmedia-list .rtmedia-gallery-item-actions a {
+      padding: 4px 10px;
+      color: #fff; }
+      .stax-buddybuilder-template .rtmedia-container .rtmedia-list .rtmedia-gallery-item-actions a:hover {
+        color: #fff;
+        opacity: 0.75; }
+
+.stax-buddybuilder-template .rtmedia-container .rtm-load-more {
+  background-color: transparent; }
+
+.stax-buddybuilder-template .rtmedia-container .rtmedia_next_prev a {
+  max-width: 120px;
+  background: #fff;
+  border-color: #cbd5e0;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 3px;
+  color: #718096;
+  padding: 0.75em 1em;
+  margin: auto;
+  text-align: center;
+  text-decoration: none;
+  width: auto;
+  line-height: 1;
+  -webkit-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s; }
+  .stax-buddybuilder-template .rtmedia-container .rtmedia_next_prev a:hover {
+    background: #edf2f7;
+    border-color: #8ba1ba;
+    color: #4a5568; }
+
+.stax-buddybuilder-template .rtmedia-container .rtm-album-privacy .dashicons {
+  line-height: inherit; }
+
+.stax-buddybuilder-template .rtmedia-container .rtm-upload-tab-content {
+  margin-top: 30px; }
+
+.stax-buddybuilder-template .rtmedia-container .rtmedia-album-media-count {
+  padding: 0 8px;
+  border-top-right-radius: 4px;
+  border-bottom-left-radius: 4px; }
+
+.stax-buddybuilder-template .rtmedia-container .gallery-description,
+.stax-buddybuilder-template .rtmedia-container .gallery-album-description {
+  margin-bottom: 20px; }
+
+.stax-buddybuilder-template .rtmedia-container .imgedit-undo-redo-separator + button {
+  margin-top: 10px; }
+
+.stax-buddybuilder-template .rtmedia-container .rtmedia-editor-buttons {
+  margin-top: 10px; }
+
+.stax-buddybuilder-template #buddypress ul.rtmedia-album-list li.rtmedia-list-item {
+  border: 0;
+  padding: 0; }
+
+.stax-buddybuilder-template #buddypress a.rtm-button-back {
+  padding: 0.75em 1em; }
+
+/*# sourceMappingURL=buddypress.css.map */

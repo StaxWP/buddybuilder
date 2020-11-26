@@ -1,7 +1,7 @@
 <?php
 defined( 'ABSPATH' ) || die();
 
-add_filter( 'buddybuilder/tpl/profile-member/content/render', function () {
+add_filter( 'buddy_builder/tpl/profile-member/content/render', function () {
 	if ( bp_current_component() === 'media' ) {
 		?>
 		<?php do_action( 'bp_before_member_body' ); ?>
@@ -31,7 +31,7 @@ add_filter( 'buddybuilder/tpl/profile-member/content/render', function () {
 } );
 
 
-add_filter( 'buddybuilder/tpl/profile-group/content/render', function () {
+add_filter( 'buddy_builder/tpl/profile-group/content/render', function () {
 
 	if ( bp_current_component() === 'groups' && bp_current_action() === 'media' ) {
 		?>

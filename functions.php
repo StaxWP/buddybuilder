@@ -12,8 +12,12 @@ use Elementor\Core\Base\Document;
  * @return bool|string
  */
 function bpb_get_shortcode_str( $template, $preview = false ) {
-	$settings    = bpb_get_settings();
-	$template_id = isset( $settings['templates'][ $template ] ) ? $settings['templates'][ $template ] : 0;
+	if ( ! is_int( $template ) ) {
+		$settings    = bpb_get_settings();
+		$template_id = isset( $settings['templates'][ $template ] ) ? $settings['templates'][ $template ] : 0;
+	} else {
+		$template_id = $template;
+	}
 
 	if ( ! get_post( $template_id ) ) {
 		return '';
@@ -35,9 +39,17 @@ function bpb_get_shortcode_str( $template, $preview = false ) {
  *
  * @return bool
  */
-function bpb_is_template_populated( $template ) {
-	$settings    = bpb_get_settings();
-	$template_id = isset( $settings['templates'][ $template ] ) ? $settings['templates'][ $template ] : 0;
+function bpb_is_template_populated( $template = null ) {
+	if ( ! $template ) {
+		return false;
+	}
+
+	if ( ! is_int( $template ) ) {
+		$settings    = bpb_get_settings();
+		$template_id = isset( $settings['templates'][ $template ] ) ? $settings['templates'][ $template ] : 0;
+	} else {
+		$template_id = $template;
+	}
 
 	if ( ! get_post( $template_id ) ) {
 		return false;
@@ -183,7 +195,6 @@ function bpb_set_template_id( $template_slug, $id ) {
  * @return bool
  */
 function bpb_is_elementor_editor() {
-
 	$importing    = isset( $_REQUEST['action'] ) && $_REQUEST['action'] === Module::IMPORT_KEY;
 	$is_ajax      = ( wp_doing_ajax() && ! isset( $_POST['object'] ) && ! isset( $_POST['target'] ) );
 	$is_db_update = isset( $_GET['buddybuilder_db_update'] );

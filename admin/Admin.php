@@ -153,7 +153,7 @@ class Admin {
 		$site_url      = apply_filters( BPB_HOOK_PREFIX . 'admin_site_url', 'https://staxwp.com' );
 		$wrapper_class = apply_filters( BPB_HOOK_PREFIX . 'welcome_wrapper_class', [ $this->current_slug ] );
 		$menu          = apply_filters( BPB_HOOK_PREFIX . 'admin_menu', [] );
-		$has_pro       = '#';
+		$has_pro       = function_exists( 'bpb_is_pro' );
 
 		if ( ! empty( $menu ) ) {
 			usort( $menu, static function ( $a, $b ) {

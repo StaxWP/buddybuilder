@@ -45,6 +45,25 @@ class ElementorHooks extends Singleton {
 		add_action( 'elementor/editor/after_save', [ $this, 'save_buddypress_options' ], 10, 2 );
 
 		add_filter( 'template_include', [ $this, 'change_preview_and_edit_tpl' ] );
+
+		add_action( 'wp', function () {
+			if ( is_singular() ) {
+				$meta     = get_post_meta( get_the_ID(), '_elementor_controls_usage', true );
+				$elements = [];
+
+				$register_widgets = Plugin::get_instance()->get_elements();
+
+				foreach ( $register_widgets as $widget ) {
+					if ( ! isset( $widget['template'] ) ) {
+						$elements[ $widget['name'] ] = true;
+					}
+				}
+
+				if ( is_array( $meta ) && count( array_intersect_key( $elements, $meta ) ) > 0 ) {
+					add_filter( 'buddy_builder/has_template/pre', '__return_true' );
+				}
+			}
+		} );
 	}
 
 	/**

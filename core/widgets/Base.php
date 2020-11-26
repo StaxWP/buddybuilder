@@ -17,14 +17,6 @@ class Base extends \Elementor\Widget_Base {
 	 */
 	public function __construct( $data = [], $args = null ) {
 		parent::__construct( $data, $args );
-
-		wp_register_script(
-			'bpb-grid-list-view',
-			BPB_ASSETS_URL . 'js/grid-list-view.js',
-			[ 'elementor-frontend' ],
-			BPB_VERSION,
-			true
-		);
 	}
 
 	/**
@@ -44,24 +36,30 @@ class Base extends \Elementor\Widget_Base {
 	 * @return bool
 	 */
 	public function show_in_panel() {
-
 		global $post;
 
 		$template_type = get_post_meta( $post->ID, BuddyPress::REMOTE_CATEGORY_META_KEY, true );
 		$show          = false;
 
-		if ( ! $template_type ) {
-			return $show;
-		}
-		$elements = Plugin::get_instance()->get_elements();
-
-		foreach ( $elements as $element ) {
-			if ( $element['template'] === $template_type && $element['name'] === $this->get_name() ) {
-				$show = true;
+		foreach ( Plugin::get_instance()->get_elements() as $element ) {
+			if ( $element['name'] === $this->get_name() ) {
+				if ( ! isset( $element['template'] ) && ! $template_type ) {
+					// Display general widgets only on non buddypress pages
+					$show = true;
+				} elseif ( isset( $element['template'] ) && $template_type && $element['template'] === $template_type ) {
+					$show = true;
+				}
 			}
 		}
 
 		return $show;
+	}
+
+	/**
+	 * Render
+	 */
+	protected function render() {
+		wp_print_styles( [ 'stax-buddy-builder-front' ] );
 	}
 
 }

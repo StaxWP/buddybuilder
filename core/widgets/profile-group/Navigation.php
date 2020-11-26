@@ -63,7 +63,7 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 		$this->start_controls_section(
 			'section_content_style',
 			[
-				'label' => __( 'Navigation Content', 'stax-buddy-builder' ),
+				'label' => __( 'Navigation', 'stax-buddy-builder' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
@@ -159,7 +159,7 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} nav ul, {{WRAPPER}} #item-nav ul'                  => 'padding: 0; margin: 0; height: auto; display: block;',
 					'{{WRAPPER}} nav ul li, {{WRAPPER}} #item-nav ul li'            => 'display: {{VALUE}}; float: none;',
 					'{{WRAPPER}} nav ul li a, {{WRAPPER}} #item-nav ul li a'        => 'display: inline-block;',
-					'{{WRAPPER}} nav ul li .count, {{WRAPPER}} nav ul li .no-count' => 'display: inline-block; padding: 4px 0; min-width: 30px; text-align: center;'
+					// '{{WRAPPER}} nav ul li .count, {{WRAPPER}} nav ul li .no-count' => 'display: inline-block; padding: 4px 0; min-width: 30px; text-align: center;'
 				],
 			]
 		);
@@ -194,6 +194,10 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 						'min' => 0,
 						'max' => 100,
 					],
+				],
+				'default'   => [
+					'unit' => 'px',
+					'size' => 100,
 				],
 				'selectors' => [
 					'{{WRAPPER}} nav ul li a, {{WRAPPER}} #item-nav ul li a' => 'width: {{SIZE}}%;',
@@ -609,6 +613,7 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 	}
 
 	protected function render() {
+		parent::render();
 		$settings = $this->get_settings_for_display();
 
 		if ( bpb_is_elementor_editor() ) {

@@ -6,8 +6,8 @@
  * @version 3.0.0
  */
 
-$members_item = bpb_get_shortcode_str( 'members-directory-item' );
-$render       = bpb_is_template_populated( 'members-directory-item' );
+$members_item = apply_filters( 'buddy_builder/members-loop/item', bpb_get_shortcode_str( 'members-directory-item' ) );
+$render       = apply_filters( 'buddy_builder/members-loop/render', bpb_is_template_populated( 'members-directory-item' ) );
 
 bp_nouveau_before_loop(); ?>
 

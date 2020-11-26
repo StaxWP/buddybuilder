@@ -1,6 +1,6 @@
 <?php
 
-namespace Buddy_Builder\Widgets\MembersDirectory;
+namespace Buddy_Builder\Widgets\Sitewide;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -14,11 +14,11 @@ use Elementor\Group_Control_Typography;
 class Navigation extends \Buddy_Builder\Widgets\Base {
 
 	public function get_name() {
-		return 'bpb-members-directory-navigation';
+		return 'bpb-sitewide-navigation';
 	}
 
 	public function get_title() {
-		return esc_html__( 'Members Navigation', 'stax-buddy-builder' );
+		return esc_html__( 'Navigation', 'stax-buddy-builder' );
 	}
 
 	public function get_icon() {
@@ -38,7 +38,6 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
-
 
 		$this->add_control(
 			'nav_background_color',
@@ -640,8 +639,8 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 	protected function render() {
 		parent::render();
 		if ( bpb_is_elementor_editor() ) {
-			bpb_load_template( 'preview/members-directory/navigation' );
-		} else if ( ! bp_nouveau_is_object_nav_in_sidebar() ) {
+			bpb_load_template( 'preview/sitewide-activity/navigation' );
+		} else {
 			bp_get_template_part( 'common/nav/directory-nav' );
 		}
 	}

@@ -10,7 +10,7 @@
  * Text Domain: stax-buddy-builder
  */
 
-define( 'BPB_VERSION', '1.2.4' );
+define( 'BPB_VERSION', '1.3.0' );
 define( 'BPB_HOOK_PREFIX', 'bpb_' );
 define( 'BPB_ADMIN_PREFIX', 'buddy-builder-' );
 

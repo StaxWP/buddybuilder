@@ -6,8 +6,8 @@
  * @version 3.1.0
  */
 
-$group_item = bpb_get_shortcode_str( 'groups-directory-item' );
-$render     = bpb_is_template_populated( 'groups-directory-item' );
+$group_item = apply_filters( 'buddy_builder/groups-loop/item', bpb_get_shortcode_str( 'groups-directory-item' ) );
+$render     = apply_filters( 'buddy_builder/groups-loop/render', bpb_is_template_populated( 'groups-directory-item' ) );
 
 bp_nouveau_before_loop(); ?>
 

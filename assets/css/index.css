@@ -317,12 +317,6 @@ body.profile_page_bp-profile-edit.modal-open #TB_ajaxContent p.warning {
 .bp-list .elementor-widget-bpb-groups-directory-item-last-activity .item-meta {
   font-size: inherit; }
 
-body.buddypress .buddypress-wrap h1,
-body.buddypress .buddypress-wrap h2,
-body.buddypress .buddypress-wrap h3,
-body.buddypress .buddypress-wrap h4,
-body.buddypress .buddypress-wrap h5,
-body.buddypress .buddypress-wrap h6,
 body.buddypress .buddypress-wrap .elementor-heading-title {
   margin: initial; }
 
@@ -431,9 +425,6 @@ body.buddypress .buddypress-wrap .elementor-heading-title {
 
 .stax-buddybuilder-template .buddypress-wrap .bp-feedback p {
   padding: 10px; }
-
-.stax-buddybuilder-template #buddypress #item-body {
-  padding: 0; }
 
 .elementor-widget-bpb-sitewide-form #whats-new-post-in-box {
   float: none;

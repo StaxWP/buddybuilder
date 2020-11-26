@@ -59,7 +59,7 @@ class Module {
 		Plugin::instance()->templates_manager->register_source( __NAMESPACE__ . '\Source_Buddy_Builder' );
 
 		// Register proper AJAX actions for Buddy_Builder templates.
-		add_action( 'elementor/ajax/register_actions', array( $this, 'register_ajax_actions' ), 20 );
+		add_action( 'elementor/ajax/register_actions', [ $this, 'register_ajax_actions' ], 20 );
 
 		add_action( 'admin_init', [ $this, 'import_starter_templates' ] );
 
