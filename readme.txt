@@ -3,7 +3,7 @@ Contributors: staxwp, seventhqueen, codezz, rtynio, geowrge
 Tags: elementor, buddypress, buddypress builder, buddypress elementor, elementor buddypress, bp builder
 Requires at least: 4.0
 Requires PHP: 5.6
-Tested up to: 5.5.2
+Tested up to: 5.6.0
 Stable tag: 1.3.0
 License: GLPv2 or later
 
@@ -85,6 +85,8 @@ Stax BuddyBuilder uses Appsero SDK to collect some telemetry data upon user's co
 * New Elementor Widget: Activity list - Show activity entries anywhere on the site
 * Added Site-Wide Activity Navigation widget
 * Listing type(List/Grid) toggle improvements
+* rtMedia compatibility style update.
+* Some style fixes for activity update form.
 
 = 1.2.4 =
 * WPML Integration

@@ -378,9 +378,6 @@ class ActivityListing extends \Buddy_Builder\Widgets\Base {
 
 		apply_filters( 'buddy_builder/activity-loop/before/template', $settings );
 
-//		add_filter( 'bp_get_groups_pagination_count', '__return_zero' );
-//		add_filter( 'bp_get_groups_pagination_links', '__return_zero' );
-
 		do_action('bp_before_directory_activity');
 
 		?>
@@ -392,8 +389,8 @@ class ActivityListing extends \Buddy_Builder\Widgets\Base {
             <div class="screen-content">
 				<?php bp_nouveau_activity_hook( 'before_directory', 'list' ); ?>
 
-                <div id="activity-stream" class="activity" data-bp-list="activity">
-                    <div id="bp-ajax-loader"><?php bp_nouveau_user_feedback( 'directory-activity-loading' ); ?></div>
+                <div id="activity-stream" class="activity" data-bp-list="">
+	                <?php bp_get_template_part( 'activity/activity-loop' ); ?>
                 </div>
 
 				<?php bp_nouveau_after_activity_directory_content(); ?>
@@ -406,8 +403,6 @@ class ActivityListing extends \Buddy_Builder\Widgets\Base {
 
 		apply_filters( 'buddy_builder/activity-loop/after/template', $settings );
 
-//		remove_filter( 'bp_get_groups_pagination_count', '__return_zero' );
-//		remove_filter( 'bp_get_groups_pagination_links', '__return_zero' );
 		remove_filter( 'buddy_builder/has_template/pre', '__return_true' );
 	}
 

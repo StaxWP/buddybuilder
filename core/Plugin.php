@@ -217,6 +217,12 @@ final class Plugin {
 		$this->add_hooks();
 
 		do_action( 'buddy_builder/init' );
+
+		/*
+		 * @deprecated
+		 * @use buddy_builder/init
+		 */
+		do_action( 'buddybuilder_init' );
 	}
 
 	/**

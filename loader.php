@@ -5,7 +5,7 @@
  * Plugin URI: https://staxwp.com/go/buddybuilder/
  * Author: StaxWP
  * Author URI: https://staxwp.com
- * Version: 1.2.4
+ * Version: 1.3.0
  *
  * Text Domain: stax-buddy-builder
  */

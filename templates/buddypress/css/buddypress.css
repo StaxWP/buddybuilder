@@ -1123,7 +1123,12 @@ body.buddypress article.page > .entry-header {
       -moz-box-shadow: 0 0 6px 0 #e2e8f0;
       box-shadow: 0 0 6px 0 #e2e8f0; }
   .activity-update-form #whats-new-post-in-box {
-    margin: 10px 0; }
+    margin: 10px 0;
+    display: flex;
+    align-items: center; }
+    @media screen and (max-width: 767px) {
+      .activity-update-form #whats-new-post-in-box {
+        flex-wrap: wrap; } }
     .activity-update-form #whats-new-post-in-box select {
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
@@ -1152,16 +1157,23 @@ body.buddypress article.page > .entry-header {
 				outline: 0;*/ }
     .activity-update-form #whats-new-post-in-box #whats-new-post-in-box-items {
       list-style: none;
-      margin: 10px 0;
       padding-left: 0; }
-      .activity-update-form #whats-new-post-in-box #whats-new-post-in-box-items li {
-        margin-bottom: 10px; }
+      @media screen and (max-width: 767px) {
+        .activity-update-form #whats-new-post-in-box #whats-new-post-in-box-items {
+          margin: 10px 0;
+          flex: 100%; } }
+      @media screen and (min-width: 768px) {
+        .activity-update-form #whats-new-post-in-box #whats-new-post-in-box-items li {
+          margin-left: 10px; } }
       .activity-update-form #whats-new-post-in-box #whats-new-post-in-box-items button.bp-remove-item {
         margin-left: 10px;
         height: auto; }
       .activity-update-form #whats-new-post-in-box #whats-new-post-in-box-items #activity-autocomplete {
-        padding: 0.3em;
-        width: 100%; }
+        width: 100%;
+        border: 1px solid #CBD5E0; }
+        @media screen and (min-width: 768px) {
+          .activity-update-form #whats-new-post-in-box #whats-new-post-in-box-items #activity-autocomplete {
+            width: 260px; } }
       .activity-update-form #whats-new-post-in-box #whats-new-post-in-box-items .bp-activity-object {
         display: -webkit-box;
         display: -ms-flexbox;
@@ -1184,9 +1196,9 @@ body.buddypress article.page > .entry-header {
         .activity-update-form #whats-new-post-in-box #whats-new-post-in-box-items .bp-activity-object.selected {
           border: 1px solid #e2e8f0; }
   .activity-update-form #whats-new-submit {
-    margin: 15px 0 10px; }
+    margin: 10px 0; }
     .activity-update-form #whats-new-submit input {
-      font-size: 14px;
+      font-size: 16px;
       line-height: 1;
       margin-bottom: 10px;
       margin-right: 10px;
@@ -4478,6 +4490,17 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 * @section 10.0 - Third Party Plugins Compatibility
 *-------------------------------------------------------------------------------
 */
+.stax-buddybuilder-template #whats-new-form.activity-form-expanded #whats-new-options {
+  display: flex;
+  flex-wrap: wrap;
+  overflow: visible; }
+  .stax-buddybuilder-template #whats-new-form.activity-form-expanded #whats-new-options #whats-new-submit {
+    flex: 100%; }
+    @media screen and (min-width: 768px) {
+      .stax-buddybuilder-template #whats-new-form.activity-form-expanded #whats-new-options #whats-new-submit {
+        flex: none;
+        margin-left: auto; } }
+
 .stax-buddybuilder-template #whats-new-form .rtmedia-container {
   margin-left: 0; }
   @media screen and (min-width: 768px) {
@@ -4485,14 +4508,21 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
     .stax-buddybuilder-template #whats-new-form .rtmedia-container .rtmedia-uploader {
       margin-left: 55px; } }
   .stax-buddybuilder-template #whats-new-form .rtmedia-container select {
-    width: auto; }
+    width: auto;
+    border: 1px solid #CBD5E0; }
+    .stax-buddybuilder-template #whats-new-form .rtmedia-container select:hover {
+      border: 1px solid #c0cddf; }
 
 .stax-buddybuilder-template #whats-new-form .rtmedia-plupload-container {
   float: none;
   width: auto; }
 
+@media screen and (max-width: 767px) {
+  .stax-buddybuilder-template #whats-new-form #whats-new-options #whats-new-post-in-box {
+    width: 100%; } }
+
 .stax-buddybuilder-template #whats-new-form #whats-new-options #whats-new-post-in-box select {
-  border: 1px solid #e2e8f0;
+  border: 1px solid #CBD5E0;
   padding: 0.5rem 2.5rem 0.5rem 1rem;
   font-size: inherit; }
   .stax-buddybuilder-template #whats-new-form #whats-new-options #whats-new-post-in-box select:hover {
@@ -4503,7 +4533,7 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
   padding: 0.55rem 1rem; }
 
 .stax-buddybuilder-template #whats-new-form #aw-whats-new-submit {
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1;
   padding: 0.75em 1em; }
 

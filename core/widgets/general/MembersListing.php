@@ -394,9 +394,6 @@ class MembersListing extends \Buddy_Builder\Widgets\Base {
 		remove_filter( 'bp_members_pagination_count', '__return_zero' );
 		remove_filter( 'bp_get_members_pagination_links', '__return_zero' );
 		remove_filter( 'buddy_builder/has_template/pre', '__return_true' );
-		?>
-
-		<?php
 	}
 
 }

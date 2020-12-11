@@ -46,8 +46,12 @@ class Base extends \Elementor\Widget_Base {
 				if ( ! isset( $element['template'] ) && ! $template_type ) {
 					// Display general widgets only on non buddypress pages
 					$show = true;
-				} elseif ( isset( $element['template'] ) && $template_type && $element['template'] === $template_type ) {
-					$show = true;
+				} elseif ( isset( $element['template'] ) && $template_type ) {
+					if ( is_array( $element['template'] ) && in_array( $template_type, $element['template'], true ) ) {
+						$show = true;
+					} else if ( $element['template'] === $template_type ) {
+						$show = true;
+					}
 				}
 			}
 		}
