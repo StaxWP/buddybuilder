@@ -8,6 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Class Widgets
+ *
  * @package Buddy_Builder
  */
 class Widgets extends Base {
@@ -31,9 +32,12 @@ class Widgets extends Base {
 	 * Panel content
 	 */
 	public function panel_content() {
-		Helpers::load_template( 'core/admin/pages/templates/widgets', [
-			'widgets' => []
-		] );
+		Helpers::load_template(
+			'core/admin/pages/templates/widgets',
+			[
+				'widgets' => [],
+			]
+		);
 	}
 
 	/**
@@ -47,7 +51,7 @@ class Widgets extends Base {
 			'name'     => __( 'Widgets', 'stax-buddy-builder' ),
 			'link'     => admin_url( 'admin.php?page=' . BPB_ADMIN_PREFIX . $this->current_slug ),
 			'query'    => BPB_ADMIN_PREFIX . $this->current_slug,
-			'priority' => 2
+			'priority' => 2,
 		];
 
 		return $menu;
@@ -55,4 +59,4 @@ class Widgets extends Base {
 
 }
 
-Widgets::instance();
+Widgets::get_instance();

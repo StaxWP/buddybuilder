@@ -96,11 +96,11 @@ class Description extends \Buddy_Builder\Widgets\Base {
 		} else {
 			?>
 			<?php if ( ! bp_nouveau_groups_front_page_description() && bp_nouveau_group_has_meta( 'description' ) ) : ?>
-                <div class="desc-wrap">
-                    <div class="group-description">
+				<div class="desc-wrap">
+					<div class="group-description">
 						<?php bp_group_description(); ?>
-                    </div>
-                </div>
+					</div>
+				</div>
 			<?php endif; ?>
 			<?php
 		}

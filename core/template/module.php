@@ -25,8 +25,8 @@ defined( 'ABSPATH' ) || die();
  */
 class Module {
 
-	const IMPORT_KEY = 'bpb_import';
-	const IMPORT_NONCE_KEY = 'bpb-ajax-import';
+	const IMPORT_KEY         = 'bpb_import';
+	const IMPORT_NONCE_KEY   = 'bpb-ajax-import';
 	const TEMPLATE_ID_PREFIX = 'buddy_builder_';
 
 	/**
@@ -70,8 +70,8 @@ class Module {
 	public function save_subtype_on_import( $template_id, $data ) {
 
 		if ( isset( $data['page_settings']['bpb_type'] ) &&
-		     ! get_post_meta( $template_id, BuddyPress::REMOTE_CATEGORY_META_KEY, true ) &&
-		     get_post_meta( $template_id, Document::TYPE_META_KEY, true ) === 'bpb-buddypress' ) {
+			 ! get_post_meta( $template_id, BuddyPress::REMOTE_CATEGORY_META_KEY, true ) &&
+			 get_post_meta( $template_id, Document::TYPE_META_KEY, true ) === 'bpb-buddypress' ) {
 			update_post_meta( $template_id, BuddyPress::REMOTE_CATEGORY_META_KEY, $data['page_settings']['bpb_type'] );
 		}
 
@@ -147,7 +147,7 @@ class Module {
 	 * Import failed
 	 */
 	private function send_error() {
-		wp_redirect( add_query_arg( 'bpb_import_status', 'error', admin_url( 'admin.php?page=' . Templates::instance()->get_slug() ) ) );
+		wp_redirect( add_query_arg( 'bpb_import_status', 'error', admin_url( 'admin.php?page=' . Templates::get_instance()->get_slug() ) ) );
 		exit;
 
 	}
@@ -156,7 +156,7 @@ class Module {
 	 * Import success
 	 */
 	private function send_success() {
-		wp_redirect( add_query_arg( 'bpb_import_status', 'success', admin_url( 'admin.php?page=' . Templates::instance()->get_slug() ) ) );
+		wp_redirect( add_query_arg( 'bpb_import_status', 'success', admin_url( 'admin.php?page=' . Templates::get_instance()->get_slug() ) ) );
 		exit;
 	}
 
@@ -167,7 +167,6 @@ class Module {
 	 *
 	 * @return array Template data.
 	 * @since 1.0.0
-	 *
 	 */
 	public static function import_template_data( $args ) {
 		$source = Plugin::instance()->templates_manager->get_source( 'buddy_builder' );
@@ -180,13 +179,15 @@ class Module {
 			return false;
 		}
 
-		return $source->import_item( [
-			'content'       => $data['content'],
-			'title'         => $data['title'],
-			'type'          => 'bpb-buddypress',
-			'subtype'       => $data['subtype'],
-			'page_settings' => [],
-		] );
+		return $source->import_item(
+			[
+				'content'       => $data['content'],
+				'title'         => $data['title'],
+				'type'          => 'bpb-buddypress',
+				'subtype'       => $data['subtype'],
+				'page_settings' => [],
+			]
+		);
 	}
 
 	/**
@@ -197,7 +198,6 @@ class Module {
 	 * @return bool True if request nonce verified, False otherwise.
 	 * @since 2.3.0
 	 * @access public
-	 *
 	 */
 	public function verify_request_nonce() {
 		return ! empty( $_REQUEST['_wpnonce'] ) && wp_verify_nonce( $_REQUEST['_wpnonce'], self::IMPORT_NONCE_KEY );
@@ -212,15 +212,17 @@ class Module {
 	 * @return array|\WP_Error.
 	 * @since 1.0.0
 	 * @access public
-	 *
 	 */
 	public static function get_templates( $category = '' ) {
 
 		$url = sprintf( self::$api_url, $category );
 
-		$response = wp_remote_get( $url, [
-			'timeout' => 40,
-		] );
+		$response = wp_remote_get(
+			$url,
+			[
+				'timeout' => 40,
+			]
+		);
 
 		if ( is_wp_error( $response ) ) {
 			return $response;
@@ -252,7 +254,6 @@ class Module {
 	 *
 	 * @return array Template data.
 	 * @since 1.0.0
-	 *
 	 */
 	public static function get_template_data( $args ) {
 		$source = Plugin::instance()->templates_manager->get_source( 'buddy_builder' );
@@ -270,14 +271,16 @@ class Module {
 	 * @return \WP_Error|array
 	 * @since 1.0.0
 	 * @access public
-	 *
 	 */
 	public static function get_template_content( $template_id ) {
 		$url = sprintf( self::$api_url, 'id/' . $template_id );
 
-		$response = wp_remote_get( $url, [
-			'timeout' => 15,
-		] );
+		$response = wp_remote_get(
+			$url,
+			[
+				'timeout' => 15,
+			]
+		);
 
 		if ( is_wp_error( $response ) ) {
 			return $response;
@@ -309,7 +312,6 @@ class Module {
 	 * @param array $ajax AJAX manager.
 	 *
 	 * @since 1.0.0
-	 *
 	 */
 	public function register_ajax_actions( $ajax ) {
 		if ( ! isset( $_REQUEST['actions'] ) ) {
@@ -345,7 +347,7 @@ class Module {
 		}
 
 		// Once found out that current request is for Buddy_Builder then replace the native action.
-		$ajax->register_ajax_action( 'get_template_data', array( $this, 'get_template_data' ) );
+		$ajax->register_ajax_action( 'get_template_data', [ $this, 'get_template_data' ] );
 	}
 
 
@@ -356,7 +358,6 @@ class Module {
 	 *
 	 * @return array $data Modified library data.
 	 * @since 1.0.0
-	 *
 	 */
 	public function add_categories( $data ) {
 		$bpb_templates            = bpb_get_template_types();

@@ -47,8 +47,8 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				'default' => 'inline-block',
 				'options' => [
 					'inline-block' => __( 'Inline', 'stax-buddy-builder' ),
-					'block'        => __( 'Block', 'stax-buddy-builder' )
-				]
+					'block'        => __( 'Block', 'stax-buddy-builder' ),
+				],
 			]
 		);
 
@@ -76,8 +76,8 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				],
 				'default'   => '',
 				'condition' => [
-					'button_display' => 'inline-block'
-				]
+					'button_display' => 'inline-block',
+				],
 			]
 		);
 
@@ -88,12 +88,12 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::HIDDEN,
 				'default'   => 'inline-block',
 				'condition' => [
-					'button_display' => 'inline-block'
+					'button_display' => 'inline-block',
 				],
 				'selectors' => [
-					'{{WRAPPER}} .member-header-actions'                                              => 'display: flex; flex-wrap: wrap;',
+					'{{WRAPPER}} .member-header-actions' => 'display: flex; flex-wrap: wrap;',
 					'{{WRAPPER}} .member-header-actions a, {{WRAPPER}} .member-header-actions button' => 'display: inline-flex;',
-				]
+				],
 			]
 		);
 
@@ -104,11 +104,11 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::HIDDEN,
 				'default'   => 'block',
 				'condition' => [
-					'button_display' => 'block'
+					'button_display' => 'block',
 				],
 				'selectors' => [
-					'{{WRAPPER}} .member-header-actions a, {{WRAPPER}} .member-header-actions button' => 'display: inline-block;'
-				]
+					'{{WRAPPER}} .member-header-actions a, {{WRAPPER}} .member-header-actions button' => 'display: inline-block;',
+				],
 			]
 		);
 
@@ -136,8 +136,8 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				],
 				'default'   => '',
 				'condition' => [
-					'button_display' => 'block'
-				]
+					'button_display' => 'block',
+				],
 			]
 		);
 
@@ -156,8 +156,8 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} .member-header-actions div:last-child' => 'margin-right: 0;',
 				],
 				'condition' => [
-					'button_display' => 'inline-block'
-				]
+					'button_display' => 'inline-block',
+				],
 			]
 		);
 
@@ -175,7 +175,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} .member-header-actions div' => 'margin-top: calc({{SIZE}}{{UNIT}} / 2); margin-bottom: calc({{SIZE}}{{UNIT}} / 2);',
 				],
 				'condition' => [
-					'button_display' => 'inline-block'
+					'button_display' => 'inline-block',
 				],
 			]
 		);
@@ -195,8 +195,8 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} .member-header-actions div:last-child' => 'margin-bottom: 0;',
 				],
 				'condition' => [
-					'button_display' => 'block'
-				]
+					'button_display' => 'block',
+				],
 			]
 		);
 
@@ -215,8 +215,8 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} .member-header-actions div a, {{WRAPPER}} .member-header-actions div button' => 'min-width: {{SIZE}}%;',
 				],
 				'condition' => [
-					'button_display' => 'block'
-				]
+					'button_display' => 'block',
+				],
 			]
 		);
 
@@ -224,7 +224,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 			Group_Control_Typography::get_type(),
 			[
 				'name'     => 'button_typography',
-				'selector' => '{{WRAPPER}} .member-header-actions a, {{WRAPPER}} .member-header-actions button'
+				'selector' => '{{WRAPPER}} .member-header-actions a, {{WRAPPER}} .member-header-actions button',
 			]
 		);
 
@@ -328,7 +328,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 			[
 				'name'      => 'button_border',
 				'selector'  => '{{WRAPPER}} .member-header-actions a, {{WRAPPER}} .member-header-actions button',
-				'separator' => 'before'
+				'separator' => 'before',
 			]
 		);
 
@@ -352,7 +352,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				'size_units' => [ 'px', 'em', '%' ],
 				'selectors'  => [
 					'{{WRAPPER}} .member-header-actions a, {{WRAPPER}} .member-header-actions button' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				]
+				],
 			]
 		);
 
@@ -382,7 +382,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '',
 				'selectors' => [
-					'{{WRAPPER}} .member-header-actions button.friendship-button.add' => 'fill: {{VALUE}}; color: {{VALUE}};',
+					'{{WRAPPER}} .member-header-actions .generic-button .friendship-button.add' => 'fill: {{VALUE}}; color: {{VALUE}};',
 				],
 			]
 		);
@@ -393,7 +393,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Background Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .member-header-actions button.friendship-button.add' => 'background-color: {{VALUE}};',
+					'{{WRAPPER}} .member-header-actions .generic-button .friendship-button.add' => 'background-color: {{VALUE}};',
 				],
 			]
 		);
@@ -404,7 +404,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Border Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .member-header-actions button.friendship-button.add' => 'border-color: {{VALUE}};',
+					'{{WRAPPER}} .member-header-actions .generic-button .friendship-button.add' => 'border-color: {{VALUE}};',
 				],
 			]
 		);
@@ -413,7 +413,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 			Group_Control_Box_Shadow::get_type(),
 			[
 				'name'     => 'add_friendship_button_box_shadow',
-				'selector' => '{{WRAPPER}} .member-header-actions button.friendship-button.add',
+				'selector' => '{{WRAPPER}} .member-header-actions .generic-button .friendship-button.add',
 			]
 		);
 
@@ -433,7 +433,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '',
 				'selectors' => [
-					'{{WRAPPER}} .member-header-actions button.friendship-button.add:hover' => 'fill: {{VALUE}}; color: {{VALUE}};',
+					'{{WRAPPER}} .member-header-actions .generic-button .friendship-button.add:hover' => 'fill: {{VALUE}}; color: {{VALUE}};',
 				],
 			]
 		);
@@ -444,7 +444,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Background Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .member-header-actions button.friendship-button.add:hover' => 'background-color: {{VALUE}};',
+					'{{WRAPPER}} .member-header-actions .generic-button .friendship-button.add:hover' => 'background-color: {{VALUE}};',
 				],
 			]
 		);
@@ -455,7 +455,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Border Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .member-header-actions button.friendship-button.add:hover' => 'border-color: {{VALUE}};',
+					'{{WRAPPER}} .member-header-actions .generic-button .friendship-button.add:hover' => 'border-color: {{VALUE}};',
 				],
 			]
 		);
@@ -464,7 +464,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 			Group_Control_Box_Shadow::get_type(),
 			[
 				'name'     => 'add_friendship_button_box_hover_shadow',
-				'selector' => '{{WRAPPER}} .member-header-actions button.friendship-button.add:hover',
+				'selector' => '{{WRAPPER}} .member-header-actions .generic-button .friendship-button.add:hover',
 			]
 		);
 
@@ -498,7 +498,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '',
 				'selectors' => [
-					'{{WRAPPER}} .member-header-actions button.friendship-button.requested' => 'fill: {{VALUE}}; color: {{VALUE}};',
+					'{{WRAPPER}} .member-header-actions .generic-button .friendship-button.requested' => 'fill: {{VALUE}}; color: {{VALUE}};',
 				],
 			]
 		);
@@ -509,7 +509,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Background Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .member-header-actions button.friendship-button.requested' => 'background-color: {{VALUE}};',
+					'{{WRAPPER}} .member-header-actions .generic-button .friendship-button.requested' => 'background-color: {{VALUE}};',
 				],
 			]
 		);
@@ -520,7 +520,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Border Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .member-header-actions button.friendship-button.requested' => 'border-color: {{VALUE}};',
+					'{{WRAPPER}} .member-header-actions .generic-button .friendship-button.requested' => 'border-color: {{VALUE}};',
 				],
 			]
 		);
@@ -529,7 +529,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 			Group_Control_Box_Shadow::get_type(),
 			[
 				'name'     => 'friendship_request_button_box_shadow',
-				'selector' => '{{WRAPPER}} .member-header-actions button.friendship-button.requested',
+				'selector' => '{{WRAPPER}} .member-header-actions .generic-button .friendship-button.requested',
 			]
 		);
 
@@ -549,7 +549,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '',
 				'selectors' => [
-					'{{WRAPPER}} .member-header-actions button.friendship-button.requested:hover' => 'fill: {{VALUE}}; color: {{VALUE}};',
+					'{{WRAPPER}} .member-header-actions .generic-button .friendship-button.requested:hover' => 'fill: {{VALUE}}; color: {{VALUE}};',
 				],
 			]
 		);
@@ -560,7 +560,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Background Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .member-header-actions button.friendship-button.requested:hover' => 'background-color: {{VALUE}};',
+					'{{WRAPPER}} .member-header-actions .generic-button .friendship-button.requested:hover' => 'background-color: {{VALUE}};',
 				],
 			]
 		);
@@ -571,7 +571,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Border Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .member-header-actions button.friendship-button.requested:hover' => 'border-color: {{VALUE}};',
+					'{{WRAPPER}} .member-header-actions .generic-button .friendship-button.requested:hover' => 'border-color: {{VALUE}};',
 				],
 			]
 		);
@@ -580,7 +580,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 			Group_Control_Box_Shadow::get_type(),
 			[
 				'name'     => 'friendship_request_button_box_hover_shadow',
-				'selector' => '{{WRAPPER}} .member-header-actions button.friendship-button.requested:hover',
+				'selector' => '{{WRAPPER}} .member-header-actions .generic-button .friendship-button.requested:hover',
 			]
 		);
 
@@ -614,7 +614,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '',
 				'selectors' => [
-					'{{WRAPPER}} .member-header-actions button.friendship-button.remove' => 'fill: {{VALUE}}; color: {{VALUE}};',
+					'{{WRAPPER}} .member-header-actions .generic-button .friendship-button.remove' => 'fill: {{VALUE}}; color: {{VALUE}};',
 				],
 			]
 		);
@@ -625,7 +625,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Background Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .member-header-actions button.friendship-button.remove' => 'background-color: {{VALUE}};',
+					'{{WRAPPER}} .member-header-actions .generic-button .friendship-button.remove' => 'background-color: {{VALUE}};',
 				],
 			]
 		);
@@ -636,7 +636,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Border Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .member-header-actions button.friendship-button.remove' => 'border-color: {{VALUE}};',
+					'{{WRAPPER}} .member-header-actions .generic-button .friendship-button.remove' => 'border-color: {{VALUE}};',
 				],
 			]
 		);
@@ -645,7 +645,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 			Group_Control_Box_Shadow::get_type(),
 			[
 				'name'     => 'cancel_friendship_button_box_shadow',
-				'selector' => '{{WRAPPER}} .member-header-actions button.friendship-button.remove',
+				'selector' => '{{WRAPPER}} .member-header-actions .generic-button .friendship-button.remove',
 			]
 		);
 
@@ -665,7 +665,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '',
 				'selectors' => [
-					'{{WRAPPER}} .member-header-actions button.friendship-button.remove:hover' => 'fill: {{VALUE}}; color: {{VALUE}};',
+					'{{WRAPPER}} .member-header-actions .generic-button .friendship-button.remove:hover' => 'fill: {{VALUE}}; color: {{VALUE}};',
 				],
 			]
 		);
@@ -676,7 +676,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Background Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .member-header-actions button.friendship-button.remove:hover' => 'background-color: {{VALUE}};',
+					'{{WRAPPER}} .member-header-actions .generic-button .friendship-button.remove:hover' => 'background-color: {{VALUE}};',
 				],
 			]
 		);
@@ -687,7 +687,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Border Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .member-header-actions button.friendship-button.remove:hover' => 'border-color: {{VALUE}};',
+					'{{WRAPPER}} .member-header-actions .generic-button .friendship-button.remove:hover' => 'border-color: {{VALUE}};',
 				],
 			]
 		);
@@ -696,7 +696,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 			Group_Control_Box_Shadow::get_type(),
 			[
 				'name'     => 'cancel_friendship_button_box_hover_shadow',
-				'selector' => '{{WRAPPER}} .member-header-actions button.friendship-button.remove:hover',
+				'selector' => '{{WRAPPER}} .member-header-actions .generic-button .friendship-button.remove:hover',
 			]
 		);
 
@@ -713,7 +713,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 		if ( bpb_is_elementor_editor() ) {
 			bpb_load_template( 'preview/profile-member/buttons' );
 		} else {
-			bp_nouveau_member_header_buttons( array( 'container_classes' => array( 'member-header-actions' ) ) );
+			bp_nouveau_member_header_buttons( [ 'container_classes' => [ 'member-header-actions' ] ] );
 		}
 	}
 

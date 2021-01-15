@@ -17,7 +17,7 @@ class ExtraMeta extends \Buddy_Builder\Widgets\Base {
 	}
 
 	public function get_icon() {
-		return 'eicon-photo-library';
+		return 'sq-icon-bp_status sq-widget-label';
 	}
 
 	public function get_categories() {
@@ -37,9 +37,9 @@ class ExtraMeta extends \Buddy_Builder\Widgets\Base {
 
 			?>
 			<?php if ( bp_nouveau_group_has_meta_extra() ) : ?>
-                <div class="item-meta">
-					<?php echo bp_nouveau_group_meta()->extra; ?>
-                </div>
+				<div class="item-meta">
+					<?php echo bp_nouveau_the_group_meta( array( 'keys' => 'extra' ) ); ?>
+				</div>
 			<?php endif; ?>
 			<?php
 		}

@@ -3,8 +3,8 @@ Contributors: staxwp, seventhqueen, codezz, rtynio, geowrge
 Tags: elementor, buddypress, buddypress builder, buddypress elementor, elementor buddypress, bp builder
 Requires at least: 4.0
 Requires PHP: 5.6
-Tested up to: 5.6.0
-Stable tag: 1.3.0
+Tested up to: 5.6.1
+Stable tag: 1.4.0
 License: GLPv2 or later
 
 Design, build and customize your BuddyPress site with Elementor builder.
@@ -78,6 +78,18 @@ Stax BuddyBuilder uses Appsero SDK to collect some telemetry data upon user's co
 2. **Specific elements** for each BuddyPress page
 3. **Infinite templates** but set the one that is active on the site
 == Changelog ==
+
+
+= 1.4.0 =
+* PHP 8 Compatibility
+* rtMedia style update.
+* Fix rtMedia image popup preview
+* Fix button classes for ajax
+* Refactoring to meet WordPress Coding standards
+* Template updates for latest BuddyPress 7.x
+
+= 1.3.1 =
+* Extra checks in BuddyBuilder logic so it loads assets and templates just when needed.
 
 = 1.3.0 =
 * New Elementor Widget: Members list - List your members anywhere on the site

@@ -8,18 +8,6 @@ use Buddy_Builder\Plugin;
 class Base extends \Elementor\Widget_Base {
 
 	/**
-	 * Base constructor.
-	 *
-	 * @param array $data
-	 * @param null $args
-	 *
-	 * @throws \Exception
-	 */
-	public function __construct( $data = [], $args = null ) {
-		parent::__construct( $data, $args );
-	}
-
-	/**
 	 * @return array|mixed|void
 	 */
 	public function get_script_depends() {
@@ -49,7 +37,7 @@ class Base extends \Elementor\Widget_Base {
 				} elseif ( isset( $element['template'] ) && $template_type ) {
 					if ( is_array( $element['template'] ) && in_array( $template_type, $element['template'], true ) ) {
 						$show = true;
-					} else if ( $element['template'] === $template_type ) {
+					} elseif ( $element['template'] === $template_type ) {
 						$show = true;
 					}
 				}

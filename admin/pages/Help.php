@@ -8,6 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Class Help
+ *
  * @package Buddy_Builder
  */
 class Help extends Base {
@@ -37,7 +38,7 @@ class Help extends Base {
 			'name'     => __( 'Help', 'stax-buddy-builder' ),
 			'link'     => admin_url( 'admin.php?page=' . BPB_ADMIN_PREFIX . $this->current_slug ),
 			'query'    => BPB_ADMIN_PREFIX . $this->current_slug,
-			'priority' => 6
+			'priority' => 6,
 		];
 
 		return $menu;
@@ -45,4 +46,4 @@ class Help extends Base {
 
 }
 
-Help::instance();
+Help::get_instance();

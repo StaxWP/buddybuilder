@@ -25,6 +25,15 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.sq-icon-bp_notifications:before {
+    content: "\e91f";
+}
+.sq-icon-bp_xprofile:before {
+    content: "\e920";
+}
+.sq-icon-bp_status:before {
+    content: "\e921";
+}
 .sq-icon-bp_hidden:before {
     content: "\e91c";
 }

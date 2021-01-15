@@ -34,6 +34,7 @@ if ( 'nouveau' === $bp_template && ! $rt_ajax_request && function_exists( 'bp_no
 
 <div id="buddypress" class="<?php echo esc_attr( $class ); ?>">
 <?php
+
 // if it's not an ajax request, load headers.
 if ( ! $rt_ajax_request ) {
 	// if this is a BuddyPress page, set template type to buddypress to load appropriate headers.
@@ -57,55 +58,56 @@ if ( ! $rt_ajax_request ) {
 				?>
 				<?php bp_nouveau_member_hook( 'before', 'home_content' ); ?>
 
-				<?php if ( $render ):
-                    ?>
-                    <div id="item-header" role="complementary" data-bp-item-id="<?php echo esc_attr( bp_displayed_user_id() ); ?>" data-bp-item-component="members">
+				<?php
+				if ( $render ) :
+					?>
+					<div id="item-header" role="complementary" data-bp-item-id="<?php echo esc_attr( bp_displayed_user_id() ); ?>" data-bp-item-component="members">
 
-	                    <?php echo do_shortcode( $member_profile ); ?>
+						<?php echo do_shortcode( $member_profile ); ?>
 
-                    </div><!-- #item-header -->
-				<?php else: ?>
-                    <div id="item-header" role="complementary" data-bp-item-id="<?php echo esc_attr( bp_displayed_user_id() ); ?>" data-bp-item-component="members" class="users-header single-headers">
+					</div><!-- #item-header -->
+				<?php else : ?>
+					<div id="item-header" role="complementary" data-bp-item-id="<?php echo esc_attr( bp_displayed_user_id() ); ?>" data-bp-item-component="members" class="users-header single-headers">
 
 						<?php bp_nouveau_member_header_template_part(); ?>
 
-                    </div><!-- #item-header -->
+					</div><!-- #item-header -->
 
-                    <div class="bp-wrap">
-                        <?php if ( ! bp_nouveau_is_object_nav_in_sidebar() ) : ?>
+					<div class="bp-wrap">
+						<?php if ( ! bp_nouveau_is_object_nav_in_sidebar() ) : ?>
 
-                            <?php bp_get_template_part( 'members/single/parts/item-nav' ); ?>
+							<?php bp_get_template_part( 'members/single/parts/item-nav' ); ?>
 
-                        <?php endif; ?>
+						<?php endif; ?>
 
-                        <div id="item-body" class="item-body">
+						<div id="item-body" class="item-body">
 
-                            <?php do_action( 'bp_before_member_body' ); ?>
-                            <?php do_action( 'bp_before_member_media' ); ?>
-                            <nav class="<?php bp_nouveau_single_item_subnav_classes(); ?>" id="subnav" role="navigation" aria-label="<?php esc_attr_e( 'rtMedia menu', 'buddypress-media' ); ?>">
-                                <ul class="subnav">
+							<?php do_action( 'bp_before_member_body' ); ?>
+							<?php do_action( 'bp_before_member_media' ); ?>
+							<nav class="<?php bp_nouveau_single_item_subnav_classes(); ?>" id="subnav" role="navigation" aria-label="<?php esc_attr_e( 'rtMedia menu', 'buddypress-media' ); ?>">
+								<ul class="subnav">
 
-                                    <?php rtmedia_sub_nav(); ?>
+									<?php rtmedia_sub_nav(); ?>
 
-                                    <?php do_action( 'rtmedia_sub_nav' ); ?>
+									<?php do_action( 'rtmedia_sub_nav' ); ?>
 
-                                </ul>
-                            </nav><!-- .item-list-tabs#subnav -->
+								</ul>
+							</nav><!-- .item-list-tabs#subnav -->
 
-                            <?php
-                            rtmedia_load_template();
+							<?php
+							rtmedia_load_template();
 
-                            do_action( 'bp_after_member_media' );
-                            do_action( 'bp_after_member_body' );
-                            ?>
-                        </div><!--#item-body-->
-                    </div><!-- // .bp-wrap -->
+							do_action( 'bp_after_member_media' );
+							do_action( 'bp_after_member_body' );
+							?>
+						</div><!--#item-body-->
+					</div><!-- // .bp-wrap -->
 
 				<?php endif; ?>
 
 				<?php bp_nouveau_member_hook( 'after', 'home_content' ); ?>
 				<?php
-			} else if ( bp_is_group() ) {
+			} elseif ( bp_is_group() ) {
 
 				$group_profile = bpb_get_shortcode_str( 'group-profile' );
 				$render        = bpb_is_template_populated( 'group-profile' );
@@ -119,71 +121,71 @@ if ( ! $rt_ajax_request ) {
 
 
 						<?php if ( $render ) : ?>
-						    <?php echo do_shortcode( $group_profile ); ?>
-					    <?php else: ?>
-                            <div id="item-header" role="complementary" data-bp-item-id="<?php bp_group_id(); ?>" data-bp-item-component="groups" class="groups-header single-headers">
+							<?php echo do_shortcode( $group_profile ); ?>
+						<?php else : ?>
+							<div id="item-header" role="complementary" data-bp-item-id="<?php bp_group_id(); ?>" data-bp-item-component="groups" class="groups-header single-headers">
 
-                                <?php bp_nouveau_group_header_template_part(); ?>
+								<?php bp_nouveau_group_header_template_part(); ?>
 
-                            </div><!-- #item-header -->
+							</div><!-- #item-header -->
 
-                            <div class="bp-wrap">
+							<div class="bp-wrap">
 
-                                <?php if ( ! bp_nouveau_is_object_nav_in_sidebar() ) : ?>
+								<?php if ( ! bp_nouveau_is_object_nav_in_sidebar() ) : ?>
 
-                                    <?php bp_get_template_part( 'groups/single/parts/item-nav' ); ?>
+									<?php bp_get_template_part( 'groups/single/parts/item-nav' ); ?>
 
-                                <?php endif; ?>
+								<?php endif; ?>
 
-                                <div id="item-body" class="item-body">
+								<div id="item-body" class="item-body">
 
-                                    <?php
-                                    do_action( 'bp_before_group_body' );
-                                    do_action( 'bp_before_group_media' );
+									<?php
+									do_action( 'bp_before_group_body' );
+									do_action( 'bp_before_group_media' );
 
-                                    $bp_is_group_home = bp_is_group_home();
-                                    if ( $bp_is_group_home && ! bp_current_user_can( 'groups_access_group' ) ) {
-                                        /**
-                                         * Fires before the display of the group status message.
-                                         *
-                                         * @since 1.1.0
-                                         */
-                                        do_action( 'bp_before_group_status_message' );
-                                        ?>
+									$bp_is_group_home = bp_is_group_home();
+									if ( $bp_is_group_home && ! bp_current_user_can( 'groups_access_group' ) ) {
+										/**
+										 * Fires before the display of the group status message.
+										 *
+										 * @since 1.1.0
+										 */
+										do_action( 'bp_before_group_status_message' );
+										?>
 
-                                        <div id="message" class="info">
-                                            <p><?php bp_group_status_message(); ?></p>
-                                        </div>
+										<div id="message" class="info">
+											<p><?php bp_group_status_message(); ?></p>
+										</div>
 
-                                        <?php
+										<?php
 
-                                        /**
-                                         * Fires after the display of the group status message.
-                                         *
-                                         * @since 1.1.0
-                                         */
-                                        do_action( 'bp_after_group_status_message' );
-                                    } else {
-                                        ?>
-                                        <nav class="<?php bp_nouveau_single_item_subnav_classes(); ?>" id="subnav" role="navigation" aria-label="<?php esc_attr_e( 'rtMedia menu', 'buddypress-media' ); ?>">
-                                            <ul class="subnav">
-                                                <?php rtmedia_sub_nav(); ?>
-                                                <?php do_action( 'rtmedia_sub_nav' ); ?>
-                                            </ul>
-                                        </nav><!-- .item-list-tabs#subnav -->
-                                        <?php
+										/**
+										 * Fires after the display of the group status message.
+										 *
+										 * @since 1.1.0
+										 */
+										do_action( 'bp_after_group_status_message' );
+									} else {
+										?>
+										<nav class="<?php bp_nouveau_single_item_subnav_classes(); ?>" id="subnav" role="navigation" aria-label="<?php esc_attr_e( 'rtMedia menu', 'buddypress-media' ); ?>">
+											<ul class="subnav">
+												<?php rtmedia_sub_nav(); ?>
+												<?php do_action( 'rtmedia_sub_nav' ); ?>
+											</ul>
+										</nav><!-- .item-list-tabs#subnav -->
+										<?php
 
-                                        rtmedia_load_template();
-                                    }
+										rtmedia_load_template();
+									}
 
-                                    do_action( 'bp_after_group_media' );
-                                    do_action( 'bp_after_group_body' );
-                                    ?>
+									do_action( 'bp_after_group_media' );
+									do_action( 'bp_after_group_body' );
+									?>
 
-                                </div><!-- // .item-body -->
+								</div><!-- // .item-body -->
 
-                            </div><!-- // .bp-wrap -->
-                        <?php endif; ?>
+							</div><!-- // .bp-wrap -->
+						<?php endif; ?>
 				
 						<?php bp_nouveau_group_hook( 'after', 'home_content' ); ?>
 				
@@ -268,7 +270,7 @@ if ( ! $rt_ajax_request ) {
 				<?php
 				// if it is a buddypress member profile.
 
-			} else if ( bp_is_group() ) {
+			} elseif ( bp_is_group() ) {
 
 				// not a member profile, but a group.
 				?>

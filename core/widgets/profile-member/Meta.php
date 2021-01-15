@@ -102,10 +102,10 @@ class Meta extends \Buddy_Builder\Widgets\Base {
 			bpb_load_template( 'preview/profile-member/meta' );
 		} else {
 			?>
-            <div class="activity"
-                 data-livestamp="<?php bp_core_iso8601_date( bp_get_user_last_activity( bp_displayed_user_id() ) ); ?>">
+			<div class="activity"
+				 data-livestamp="<?php bp_core_iso8601_date( bp_get_user_last_activity( bp_displayed_user_id() ) ); ?>">
 				<?php bp_last_activity( bp_displayed_user_id() ); ?>
-            </div>
+			</div>
 			<?php
 		}
 	}

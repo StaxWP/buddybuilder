@@ -35,7 +35,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 			'container_style',
 			[
 				'label' => __( 'Container', 'stax-buddy-builder' ),
-				'tab'   => Controls_Manager::TAB_STYLE
+				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
 
@@ -46,7 +46,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .subnav-filters' => 'background-color: {{VALUE}};',
-				]
+				],
 			]
 		);
 
@@ -63,7 +63,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 			[
 				'name'      => 'content_border',
 				'selector'  => '{{WRAPPER}} .subnav-filters',
-				'separator' => 'before'
+				'separator' => 'before',
 			]
 		);
 
@@ -75,7 +75,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 				'size_units' => [ 'px', '%', 'em' ],
 				'selectors'  => [
 					'{{WRAPPER}} .subnav-filters' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				]
+				],
 			]
 		);
 
@@ -87,7 +87,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 				'size_units' => [ 'px', 'em', '%' ],
 				'selectors'  => [
 					'{{WRAPPER}} .subnav-filters' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				]
+				],
 			]
 		);
 
@@ -97,7 +97,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 			'rss_style',
 			[
 				'label' => __( 'RSS', 'stax-buddy-builder' ),
-				'tab'   => Controls_Manager::TAB_STYLE
+				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
 
@@ -108,7 +108,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .feed a' => 'color: {{VALUE}}',
-				]
+				],
 			]
 		);
 
@@ -121,8 +121,8 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 				'max'       => 100,
 				'step'      => 1,
 				'selectors' => [
-					'{{WRAPPER}} .feed a:before' => 'font-size: {{VALUE}}px;'
-				]
+					'{{WRAPPER}} .feed a:before' => 'font-size: {{VALUE}}px;',
+				],
 			]
 		);
 
@@ -132,7 +132,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 			'sorting_style',
 			[
 				'label' => __( 'Sorting', 'stax-buddy-builder' ),
-				'tab'   => Controls_Manager::TAB_STYLE
+				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
 
@@ -150,7 +150,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 		$this->start_controls_tab(
 			'sorting_select_normal_style',
 			[
-				'label' => __( 'Normal', 'stax-buddy-builder' )
+				'label' => __( 'Normal', 'stax-buddy-builder' ),
 			]
 		);
 
@@ -161,7 +161,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .select-wrap' => 'background-color: {{VALUE}};',
-				]
+				],
 			]
 		);
 
@@ -173,7 +173,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 				'default'   => '',
 				'selectors' => [
 					'{{WRAPPER}} .select-wrap select' => 'color: {{VALUE}};',
-				]
+				],
 			]
 		);
 
@@ -185,7 +185,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 				'default'   => '',
 				'selectors' => [
 					'{{WRAPPER}} .select-wrap .select-arrow:before' => 'color: {{VALUE}};',
-				]
+				],
 			]
 		);
 
@@ -193,7 +193,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 			Group_Control_Box_Shadow::get_type(),
 			[
 				'name'     => 'sorting_select_shadow',
-				'selector' => '{{WRAPPER}} .select-wrap'
+				'selector' => '{{WRAPPER}} .select-wrap',
 			]
 		);
 
@@ -202,7 +202,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 		$this->start_controls_tab(
 			'sorting_select_hover_style',
 			[
-				'label' => __( 'Hover', 'stax-buddy-builder' )
+				'label' => __( 'Hover', 'stax-buddy-builder' ),
 			]
 		);
 
@@ -213,7 +213,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .select-wrap:hover' => 'background-color: {{VALUE}};',
-				]
+				],
 			]
 		);
 
@@ -225,7 +225,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 				'default'   => '',
 				'selectors' => [
 					'{{WRAPPER}} .select-wrap:hover select' => 'color: {{VALUE}};',
-				]
+				],
 			]
 		);
 
@@ -237,7 +237,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 				'default'   => '',
 				'selectors' => [
 					'{{WRAPPER}} .select-wrap:hover .select-arrow:before' => 'color: {{VALUE}};',
-				]
+				],
 			]
 		);
 
@@ -249,7 +249,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 				'default'   => '',
 				'selectors' => [
 					'{{WRAPPER}} .select-wrap:hover' => 'border-color: {{VALUE}};',
-				]
+				],
 			]
 		);
 
@@ -257,7 +257,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 			Group_Control_Box_Shadow::get_type(),
 			[
 				'name'     => 'sorting_select_hover_shadow',
-				'selector' => '{{WRAPPER}} .select-wrap:hover'
+				'selector' => '{{WRAPPER}} .select-wrap:hover',
 			]
 		);
 
@@ -269,7 +269,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 			Group_Control_Border::get_type(),
 			[
 				'name'     => 'sorting_select_border',
-				'selector' => '{{WRAPPER}} .select-wrap'
+				'selector' => '{{WRAPPER}} .select-wrap',
 			]
 		);
 
@@ -281,7 +281,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 				'size_units' => [ 'px', '%', 'em' ],
 				'selectors'  => [
 					'{{WRAPPER}} .select-wrap' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				]
+				],
 			]
 		);
 
@@ -293,8 +293,8 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 				'size_units' => [ 'px', 'em', '%' ],
 				'selectors'  => [
 					'{{WRAPPER}} #activity-filter-by' => 'padding: {{TOP}}{{UNIT}} calc({{RIGHT}}{{UNIT}} + 32px) {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-					'{{WRAPPER}} .select-arrow'       => 'padding: {{TOP}}{{UNIT}} 10px {{BOTTOM}}{{UNIT}};'
-				]
+					'{{WRAPPER}} .select-arrow'       => 'padding: {{TOP}}{{UNIT}} 10px {{BOTTOM}}{{UNIT}};',
+				],
 			]
 		);
 
@@ -304,7 +304,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 			'search_style',
 			[
 				'label' => __( 'Search', 'stax-buddy-builder' ),
-				'tab'   => Controls_Manager::TAB_STYLE
+				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
 
@@ -317,7 +317,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 				'selectors' => [
 					'{{WRAPPER}} #dir-activity-search-form #dir-activity-search::-ms-clear'                    => 'visibility: hidden;',
 					'{{WRAPPER}} #dir-activity-search-form #dir-activity-search::-webkit-search-cancel-button' => 'visibility: hidden;',
-				]
+				],
 			]
 		);
 
@@ -326,7 +326,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 			[
 				'label'    => __( 'Text Typography', 'stax-buddy-builder' ),
 				'name'     => 'search_box_typography',
-				'selector' => '{{WRAPPER}} #dir-activity-search-form #dir-activity-search'
+				'selector' => '{{WRAPPER}} #dir-activity-search-form #dir-activity-search',
 			]
 		);
 
@@ -335,7 +335,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 		$this->start_controls_tab(
 			'search_box_normal_tab',
 			[
-				'label' => __( 'Normal', 'stax-buddy-builder' )
+				'label' => __( 'Normal', 'stax-buddy-builder' ),
 			]
 		);
 
@@ -346,7 +346,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} #dir-activity-search-form' => 'background-color: {{VALUE}};',
-				]
+				],
 			]
 		);
 
@@ -358,7 +358,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 				'default'   => '',
 				'selectors' => [
 					'{{WRAPPER}} #dir-activity-search-form #dir-activity-search' => 'color: {{VALUE}};',
-				]
+				],
 			]
 		);
 
@@ -372,7 +372,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} #dir-activity-search-form #dir-activity-search::placeholder'           => 'color: {{VALUE}};',
 					'{{WRAPPER}} #dir-activity-search-form #dir-activity-search:-ms-input-placeholder'  => 'color: {{VALUE}};',
 					'{{WRAPPER}} #dir-activity-search-form #dir-activity-search::-ms-input-placeholder' => 'color: {{VALUE}};',
-				]
+				],
 			]
 		);
 
@@ -384,13 +384,12 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 			]
 		);
 
-
 		$this->end_controls_tab();
 
 		$this->start_controls_tab(
 			'search_box_hover_tab',
 			[
-				'label' => __( 'Hover', 'stax-buddy-builder' )
+				'label' => __( 'Hover', 'stax-buddy-builder' ),
 			]
 		);
 
@@ -401,7 +400,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} #dir-activity-search-form:hover' => 'background-color: {{VALUE}};',
-				]
+				],
 			]
 		);
 
@@ -413,7 +412,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 				'default'   => '',
 				'selectors' => [
 					'{{WRAPPER}} #dir-activity-search-form:hover #dir-activity-search' => 'color: {{VALUE}};',
-				]
+				],
 			]
 		);
 
@@ -427,7 +426,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} #dir-activity-search-form:hover #dir-activity-search::placeholder'           => 'color: {{VALUE}};',
 					'{{WRAPPER}} #dir-activity-search-form:hover #dir-activity-search:-ms-input-placeholder'  => 'color: {{VALUE}};',
 					'{{WRAPPER}} #dir-activity-search-form:hover #dir-activity-search::-ms-input-placeholder' => 'color: {{VALUE}};',
-				]
+				],
 			]
 		);
 
@@ -439,7 +438,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 				'default'   => '',
 				'selectors' => [
 					'{{WRAPPER}} #dir-activity-search-form:hover' => 'border-color: {{VALUE}};',
-				]
+				],
 			]
 		);
 
@@ -493,7 +492,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 			'search_btn_style',
 			[
 				'label' => __( 'Search Button', 'stax-buddy-builder' ),
-				'tab'   => Controls_Manager::TAB_STYLE
+				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
 
@@ -502,7 +501,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 		$this->start_controls_tab(
 			'search_submit_button_normal_style',
 			[
-				'label' => __( 'Normal', 'stax-buddy-builder' )
+				'label' => __( 'Normal', 'stax-buddy-builder' ),
 			]
 		);
 
@@ -525,7 +524,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 				'default'   => '',
 				'selectors' => [
 					'{{WRAPPER}} #dir-activity-search-submit .dashicons' => 'color: {{VALUE}};',
-				]
+				],
 			]
 		);
 
@@ -542,7 +541,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 		$this->start_controls_tab(
 			'search_submit_button_hover_style',
 			[
-				'label' => __( 'Hover', 'stax-buddy-builder' )
+				'label' => __( 'Hover', 'stax-buddy-builder' ),
 			]
 		);
 
@@ -565,7 +564,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 				'default'   => '',
 				'selectors' => [
 					'{{WRAPPER}} #dir-activity-search-submit:hover' => 'color: {{VALUE}};',
-				]
+				],
 			]
 		);
 
@@ -577,7 +576,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 				'default'   => '',
 				'selectors' => [
 					'{{WRAPPER}} #dir-activity-search-submit:hover' => 'border-color: {{VALUE}};',
-				]
+				],
 			]
 		);
 
@@ -610,7 +609,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 				'size_units' => [ 'px', '%', 'em' ],
 				'selectors'  => [
 					'{{WRAPPER}} #dir-activity-search-submit' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				]
+				],
 			]
 		);
 

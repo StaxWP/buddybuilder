@@ -1,5 +1,5 @@
 <?php if ( isset( $message ) ) : ?>
-    <div class="ste-p-4 ste-mb-6 ste-text-white ste-font-medium ste-bg-green-500 ste-rounded">
+	<div class="ste-p-4 ste-mb-6 ste-text-white ste-font-medium ste-bg-green-500 ste-rounded">
 		<?php echo $message; ?>
-    </div>
+	</div>
 <?php endif; ?>

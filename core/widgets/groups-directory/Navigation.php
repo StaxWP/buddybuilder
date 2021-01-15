@@ -46,7 +46,7 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} nav' => 'background-color: {{VALUE}};',
-				]
+				],
 			]
 		);
 
@@ -63,7 +63,7 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 			[
 				'name'      => 'nav_border',
 				'selector'  => '#buddypress {{WRAPPER}} nav',
-				'separator' => 'before'
+				'separator' => 'before',
 			]
 		);
 
@@ -75,7 +75,7 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 				'size_units' => [ 'px', '%', 'em' ],
 				'selectors'  => [
 					'#buddypress {{WRAPPER}} nav' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				]
+				],
 			]
 		);
 
@@ -87,7 +87,7 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 				'size_units' => [ 'px', 'em', '%' ],
 				'selectors'  => [
 					'#buddypress {{WRAPPER}} nav' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				]
+				],
 			]
 		);
 
@@ -135,7 +135,7 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 				'default'   => 'inline-block',
 				'options'   => [
 					'inline-block' => __( 'Inline', 'stax-buddy-builder' ),
-					'block'        => __( 'Block', 'stax-buddy-builder' )
+					'block'        => __( 'Block', 'stax-buddy-builder' ),
 				],
 				'selectors' => [
 					'{{WRAPPER}} nav, {{WRAPPER}} #item-nav'                        => 'border-top: 0; border-bottom: 0; box-shadow: none;',
@@ -171,8 +171,8 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 				],
 				'default'   => 'center',
 				'condition' => [
-					'nav_display' => 'block'
-				]
+					'nav_display' => 'block',
+				],
 			]
 		);
 
@@ -191,8 +191,8 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} nav ul li:last-child, {{WRAPPER}} #item-nav ul li:last-child' => 'margin-right: 0;',
 				],
 				'condition' => [
-					'nav_display' => 'inline-block'
-				]
+					'nav_display' => 'inline-block',
+				],
 			]
 		);
 
@@ -215,8 +215,8 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} nav ul li a, {{WRAPPER}} #item-nav ul li a' => 'width: {{SIZE}}%;',
 				],
 				'condition' => [
-					'nav_display' => 'block'
-				]
+					'nav_display' => 'block',
+				],
 			]
 		);
 
@@ -235,8 +235,8 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} nav ul li:last-child, {{WRAPPER}} #item-nav ul li:last-child' => 'margin-bottom: 0;',
 				],
 				'condition' => [
-					'nav_display' => 'block'
-				]
+					'nav_display' => 'block',
+				],
 			]
 		);
 
@@ -400,7 +400,7 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 			[
 				'name'      => 'nav_item_border',
 				'selector'  => '{{WRAPPER}} nav ul li a',
-				'separator' => 'before'
+				'separator' => 'before',
 			]
 		);
 
@@ -424,7 +424,7 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 				'size_units' => [ 'px', 'em', '%' ],
 				'selectors'  => [
 					'{{WRAPPER}} nav ul li a' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				]
+				],
 			]
 		);
 
@@ -538,7 +538,7 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 			[
 				'name'      => 'create_group_item_border',
 				'selector'  => '{{WRAPPER}} nav ul li.create-button a',
-				'separator' => 'before'
+				'separator' => 'before',
 			]
 		);
 
@@ -562,7 +562,7 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 				'size_units' => [ 'px', 'em', '%' ],
 				'selectors'  => [
 					'{{WRAPPER}} nav ul li.create-button a' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				]
+				],
 			]
 		);
 
@@ -574,7 +574,7 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 				'size_units' => [ 'px', 'em', '%' ],
 				'selectors'  => [
 					'#buddypress {{WRAPPER}} nav ul li.create-button' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				]
+				],
 			]
 		);
 
@@ -600,7 +600,7 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 				],
 				'selectors' => [
 					'{{WRAPPER}} nav ul li a span.count, {{WRAPPER}} #item-nav ul li a span.count, {{WRAPPER}} #item-nav ul li a span.no-count' => 'margin-left: {{SIZE}}{{UNIT}};',
-				]
+				],
 			]
 		);
 
@@ -742,7 +742,7 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 			[
 				'name'      => 'nav_item_counter_border',
 				'selector'  => '{{WRAPPER}} nav ul li a span.count, {{WRAPPER}} #item-nav ul li a span.count, {{WRAPPER}} #item-nav ul li a span.no-count',
-				'separator' => 'before'
+				'separator' => 'before',
 			]
 		);
 
@@ -766,7 +766,7 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 				'size_units' => [ 'px', 'em', '%' ],
 				'selectors'  => [
 					'{{WRAPPER}} nav ul li a span.count, {{WRAPPER}} #item-nav ul li a span.count, {{WRAPPER}} #item-nav ul li a span.no-count' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				]
+				],
 			]
 		);
 
@@ -778,7 +778,7 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 		parent::render();
 		if ( bpb_is_elementor_editor() ) {
 			bpb_load_template( 'preview/groups-directory/navigation' );
-		} else if ( ! bp_nouveau_is_object_nav_in_sidebar() ) {
+		} elseif ( ! bp_nouveau_is_object_nav_in_sidebar() ) {
 			bp_get_template_part( 'common/nav/directory-nav' );
 		}
 	}

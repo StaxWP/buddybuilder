@@ -15,7 +15,7 @@ $render   = bpb_is_template_populated( 'sitewide-activity' );
 
 <?php if ( $render ) : ?>
 	<?php echo do_shortcode( $activity ); ?>
-<?php else: ?>
+<?php else : ?>
 
 	<?php if ( is_user_logged_in() ) : ?>
 
@@ -31,21 +31,21 @@ $render   = bpb_is_template_populated( 'sitewide-activity' );
 
 	<?php endif; ?>
 
-    <div class="screen-content">
+	<div class="screen-content">
 
 		<?php bp_get_template_part( 'common/search-and-filters-bar' ); ?>
 
 		<?php bp_nouveau_activity_hook( 'before_directory', 'list' ); ?>
 
-        <div id="activity-stream" class="activity" data-bp-list="activity">
+		<div id="activity-stream" class="activity" data-bp-list="activity">
 
-            <div id="bp-ajax-loader"><?php bp_nouveau_user_feedback( 'directory-activity-loading' ); ?></div>
+			<div id="bp-ajax-loader"><?php bp_nouveau_user_feedback( 'directory-activity-loading' ); ?></div>
 
-        </div><!-- .activity -->
+		</div><!-- .activity -->
 
 		<?php bp_nouveau_after_activity_directory_content(); ?>
 
-    </div><!-- // .screen-content -->
+	</div><!-- // .screen-content -->
 
 <?php endif; ?>
 

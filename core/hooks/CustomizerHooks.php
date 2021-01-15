@@ -12,6 +12,7 @@ defined( 'ABSPATH' ) || die();
 
 /**
  * Class CustomizerHooks
+ *
  * @package Buddy_Builder
  */
 class CustomizerHooks extends Singleton {
@@ -38,21 +39,24 @@ class CustomizerHooks extends Singleton {
 			$document = \Elementor\Plugin::$instance->documents->get( $id );
 
 			if ( $document ) {
-				$elements = \Elementor\Plugin::$instance->db->iterate_data( $document->get_elements_data(), static function ( $element ) use ( $bp_appearance ) {
-					if ( empty( $element['widgetType'] ) ) {
+				$elements = \Elementor\Plugin::$instance->db->iterate_data(
+					$document->get_elements_data(),
+					static function ( $element ) use ( $bp_appearance ) {
+						if ( empty( $element['widgetType'] ) ) {
+							return $element;
+						}
+
+						if ( $element['widgetType'] === 'bpb-profile-member-navigation' && isset( $element['settings']['show_home_tab'] ) ) {
+							$element['settings']['show_home_tab'] = $bp_appearance['user_front_page'] ? 'yes' : 'no';
+						}
+
+						if ( $element['widgetType'] === 'bpb-profile-group-navigation' && isset( $element['settings']['show_home_tab'] ) ) {
+							$element['settings']['show_home_tab'] = $bp_appearance['group_front_page'] ? 'yes' : 'no';
+						}
+
 						return $element;
 					}
-
-					if ( $element['widgetType'] === 'bpb-profile-member-navigation' && isset( $element['settings']['show_home_tab'] ) ) {
-						$element['settings']['show_home_tab'] = $bp_appearance['user_front_page'] ? 'yes' : 'no';
-					}
-
-					if ( $element['widgetType'] === 'bpb-profile-group-navigation' && isset( $element['settings']['show_home_tab'] ) ) {
-						$element['settings']['show_home_tab'] = $bp_appearance['group_front_page'] ? 'yes' : 'no';
-					}
-
-					return $element;
-				} );
+				);
 
 				if ( is_array( $elements ) ) {
 					$editor_data = $document->get_elements_raw_data( $elements );

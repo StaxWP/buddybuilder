@@ -19,54 +19,54 @@ $render       = bpb_is_template_populated( 'members-directory-item' );
 
 	<?php bp_nouveau_group_hook( 'before', 'members_list' ); ?>
 
-    <ul id="members-list" class="<?php bp_nouveau_loop_classes(); ?>">
+	<ul id="members-list" class="<?php bp_nouveau_loop_classes(); ?>">
 
 		<?php
 		while ( bp_group_members() ) :
 			bp_group_the_member();
 			?>
 
-            <li <?php bp_member_class( array( 'item-entry' ) ); ?>
-                    data-bp-item-id="<?php echo esc_attr( bp_get_group_member_id() ); ?>"
-                    data-bp-item-component="members">
+			<li <?php bp_member_class( [ 'item-entry' ] ); ?>
+					data-bp-item-id="<?php echo esc_attr( bp_get_group_member_id() ); ?>"
+					data-bp-item-component="members">
 
-                <div class="list-wrap">
+				<div class="list-wrap">
 
 					<?php if ( $render ) : ?>
 						<?php echo do_shortcode( $members_item ); ?>
-					<?php else: ?>
+					<?php else : ?>
 
-                        <div class="item-avatar">
-                            <a href="<?php bp_group_member_domain(); ?>">
+						<div class="item-avatar">
+							<a href="<?php bp_group_member_domain(); ?>">
 								<?php bp_group_member_avatar(); ?>
-                            </a>
-                        </div>
+							</a>
+						</div>
 
-                        <div class="item">
+						<div class="item">
 
-                            <div class="item-block">
-                                <h3 class="list-title member-name"><?php bp_group_member_link(); ?></h3>
+							<div class="item-block">
+								<h3 class="list-title member-name"><?php bp_group_member_link(); ?></h3>
 
-                                <p class="joined item-meta">
+								<p class="joined item-meta">
 									<?php bp_group_member_joined_since(); ?>
-                                </p>
+								</p>
 
 								<?php bp_nouveau_group_hook( '', 'members_list_item' ); ?>
 
 								<?php bp_nouveau_members_loop_buttons(); ?>
-                            </div>
+							</div>
 
-                        </div>
+						</div>
 
 					<?php endif; ?>
 
-                </div><!-- // .list-wrap -->
+				</div><!-- // .list-wrap -->
 
-            </li>
+			</li>
 
 		<?php endwhile; ?>
 
-    </ul>
+	</ul>
 
 	<?php bp_nouveau_group_hook( 'after', 'members_list' ); ?>
 
@@ -74,7 +74,8 @@ $render       = bpb_is_template_populated( 'members-directory-item' );
 
 	<?php bp_nouveau_group_hook( 'after', 'members_content' ); ?>
 
-<?php else :
+	<?php
+else :
 
 	bp_nouveau_user_feedback( 'group-members-none' );
 

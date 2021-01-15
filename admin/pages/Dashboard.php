@@ -8,6 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Class Dashboard
+ *
  * @package Buddy_Builder
  */
 class Dashboard extends Base {
@@ -37,7 +38,7 @@ class Dashboard extends Base {
 			'name'     => __( 'Dashboard', 'stax-buddy-builder' ),
 			'link'     => admin_url( 'admin.php?page=' . BPB_ADMIN_PREFIX . $this->current_slug ),
 			'query'    => BPB_ADMIN_PREFIX . $this->current_slug,
-			'priority' => 1
+			'priority' => 1,
 		];
 
 		return $menu;
@@ -45,4 +46,4 @@ class Dashboard extends Base {
 
 }
 
-Dashboard::instance();
+Dashboard::get_instance();

@@ -115,9 +115,9 @@ class Name extends \Buddy_Builder\Widgets\Base {
 			bpb_load_template( 'preview/profile-group/name' );
 		} else {
 			?>
-            <div class="bpb-group-name">
+			<div class="bpb-group-name">
 				<?php bp_current_group_name(); ?>
-            </div>
+			</div>
 			<?php
 		}
 	}

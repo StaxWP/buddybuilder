@@ -18,7 +18,7 @@ $render    = bpb_is_template_populated( 'groups-directory' );
 <?php if ( $render ) : ?>
 	<?php echo do_shortcode( $directory ); ?>
 	<?php bp_nouveau_after_groups_directory_content(); ?>
-<?php else: ?>
+<?php else : ?>
 
 	<?php if ( ! bp_nouveau_is_object_nav_in_sidebar() ) : ?>
 
@@ -26,14 +26,14 @@ $render    = bpb_is_template_populated( 'groups-directory' );
 
 	<?php endif; ?>
 
-    <div class="screen-content">
+	<div class="screen-content">
 
 		<?php bp_get_template_part( 'common/search-and-filters-bar' ); ?>
 
-        <div id="groups-dir-list" class="groups dir-list" data-bp-list="groups">
-            <div id="bp-ajax-loader"><?php bp_nouveau_user_feedback( 'directory-groups-loading' ); ?></div>
-        </div>
+		<div id="groups-dir-list" class="groups dir-list" data-bp-list="groups">
+			<div id="bp-ajax-loader"><?php bp_nouveau_user_feedback( 'directory-groups-loading' ); ?></div>
+		</div>
 
 		<?php bp_nouveau_after_groups_directory_content(); ?>
-    </div>
+	</div>
 <?php endif; ?>

@@ -133,15 +133,15 @@ class LastActivity extends \Buddy_Builder\Widgets\Base {
 		} else {
 			do_action( 'bp_before_member_header_meta' );
 			?>
-            <div id="item-meta">
+			<div id="item-meta">
 				<?php if ( bp_is_active( 'activity' ) ) : ?>
-                    <div id="latest-update">
+					<div id="latest-update">
 						<?php bp_activity_latest_update( bp_displayed_user_id() ); ?>
-                    </div>
+					</div>
 				<?php endif; ?>
 
 				<?php do_action( 'bp_profile_header_meta' ); ?>
-            </div>
+			</div>
 			<?php
 		}
 	}

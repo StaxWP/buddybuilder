@@ -7,7 +7,7 @@ use Elementor\Core\Base\Document;
  * Get shortcode string
  *
  * @param $template
- * @param bool $preview
+ * @param bool     $preview
  *
  * @return bool|string
  */
@@ -74,35 +74,42 @@ function bpb_is_template_id_populated( $id ) {
 
 /**
  * Get available plugin template types
+ *
  * @return array
  */
 function bpb_get_template_types() {
-	$templates_types = apply_filters( 'buddy_builder/get_template_types', [
-		'member-profile'    => [
-			'name'  => __( 'Member Profile', 'stax-buddy-builder' ),
-			'order' => 1
-		],
-		'members-directory' => [
-			'name'  => __( 'Members Directory', 'stax-buddy-builder' ),
-			'order' => 2
-		],
-		'group-profile'     => [
-			'name'  => __( 'Group Profile', 'stax-buddy-builder' ),
-			'order' => 4
-		],
-		'groups-directory'  => [
-			'name'  => __( 'Groups Directory', 'stax-buddy-builder' ),
-			'order' => 5
-		],
-		'sitewide-activity' => [
-			'name'  => __( 'Site-Wide Activity', 'stax-buddy-builder' ),
-			'order' => 7
-		],
-	] );
+	$templates_types = apply_filters(
+		'buddy_builder/get_template_types',
+		[
+			'member-profile'    => [
+				'name'  => __( 'Member Profile', 'stax-buddy-builder' ),
+				'order' => 1,
+			],
+			'members-directory' => [
+				'name'  => __( 'Members Directory', 'stax-buddy-builder' ),
+				'order' => 2,
+			],
+			'group-profile'     => [
+				'name'  => __( 'Group Profile', 'stax-buddy-builder' ),
+				'order' => 4,
+			],
+			'groups-directory'  => [
+				'name'  => __( 'Groups Directory', 'stax-buddy-builder' ),
+				'order' => 5,
+			],
+			'sitewide-activity' => [
+				'name'  => __( 'Site-Wide Activity', 'stax-buddy-builder' ),
+				'order' => 7,
+			],
+		]
+	);
 
-	uasort( $templates_types, static function ( $a, $b ) {
-		return $a['order'] - $b['order'];
-	} );
+	uasort(
+		$templates_types,
+		static function ( $a, $b ) {
+			return $a['order'] - $b['order'];
+		}
+	);
 
 	return $templates_types;
 }
@@ -121,7 +128,7 @@ function bpb_get_settings() {
 			'members-directory' => 0,
 			'group-profile'     => 0,
 			'groups-directory'  => 0,
-			'sitewide-activity' => 0
+			'sitewide-activity' => 0,
 		],
 	];
 
@@ -138,7 +145,7 @@ function bpb_get_settings() {
 									$defaults[ $section ][ $key ][ $itemKey ] = $options[ $section ][ $key ][ $itemKey ];
 								}
 							}
-						} else if ( isset( $options[ $section ][ $key ] ) ) {
+						} elseif ( isset( $options[ $section ][ $key ] ) ) {
 							$defaults[ $section ][ $key ] = $options[ $section ][ $key ];
 						}
 					}
@@ -200,11 +207,11 @@ function bpb_is_elementor_editor() {
 	$is_db_update = isset( $_GET['buddybuilder_db_update'] );
 
 	return defined( 'ELEMENTOR_VERSION' ) &&
-	       ( $is_ajax || $importing || $is_db_update ||
-	         \Elementor\Plugin::$instance->editor->is_edit_mode() ||
-	         \Elementor\Plugin::$instance->preview->is_preview_mode() ||
-	         bpb_is_preview_mode() || bpb_is_front_library()
-	       );
+		   ( $is_ajax || $importing || $is_db_update ||
+			 \Elementor\Plugin::$instance->editor->is_edit_mode() ||
+			 \Elementor\Plugin::$instance->preview->is_preview_mode() ||
+			 bpb_is_preview_mode() || bpb_is_front_library()
+		   );
 }
 
 /**
@@ -229,7 +236,7 @@ function bpb_get_column_class( $type, $viewport = '' ) {
 		'1' => 'grid-one',
 		'2' => 'grid-two',
 		'3' => 'grid-three',
-		'4' => 'grid-four'
+		'4' => 'grid-four',
 	];
 
 	if ( $viewport === 'tablet' ) {
@@ -252,15 +259,18 @@ function bpb_get_listing_columns() {
 	$default = [
 		'desktop' => '3',
 		'tablet'  => '2',
-		'mobile'  => '1'
+		'mobile'  => '1',
 	];
 
-	$default_data = apply_filters( 'buddy_builder/loop_columns', [
-		'members_directory'      => $default,
-		'groups_directory'       => $default,
-		'group_profile_members'  => $default,
-		'member_profile_friends' => $default,
-	] );
+	$default_data = apply_filters(
+		'buddy_builder/loop_columns',
+		[
+			'members_directory'      => $default,
+			'groups_directory'       => $default,
+			'group_profile_members'  => $default,
+			'member_profile_friends' => $default,
+		]
+	);
 
 	return get_option( 'bpb_listings', $default_data );
 }
@@ -338,7 +348,7 @@ function bpb_is_doc_type( $id = 0 ) {
 /**
  * @param $name
  * @param array $args
- * @param bool $require_once
+ * @param bool  $require_once
  */
 function bpb_load_template( $name, $args = [], $require_once = false ) {
 	if ( ! $name ) {
@@ -349,7 +359,7 @@ function bpb_load_template( $name, $args = [], $require_once = false ) {
 	$name = trim( $name );
 
 	ob_start();
-	include( __DIR__ . '/templates/' . $name . '.php' );
+	include __DIR__ . '/templates/' . $name . '.php';
 	echo ob_get_clean();
 }
 
@@ -379,7 +389,7 @@ function appsero_init_tracker_stax_buddy_builder() {
 		return;
 	}
 
-	$client = new Appsero\Client( '3c249edb-b9b3-4811-b254-f77c9ac85f66', 'BuddyBuilder', __FILE__ );
+	$client = new Appsero\Client( '3c249edb-b9b3-4811-b254-f77c9ac85f66', 'BuddyBuilder', BPB_FILE );
 
 	// Active insights
 	$client->insights()->init();

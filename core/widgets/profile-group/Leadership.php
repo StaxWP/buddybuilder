@@ -72,7 +72,7 @@ class Leadership extends \Buddy_Builder\Widgets\Base {
 				'default'   => 'block',
 				'options'   => [
 					'inline-block' => __( 'Inline', 'stax-buddy-builder' ),
-					'block'        => __( 'Block', 'stax-buddy-builder' )
+					'block'        => __( 'Block', 'stax-buddy-builder' ),
 				],
 				'selectors' => [
 					'{{WRAPPER}} dl' => 'display: {{VALUE}}',
@@ -92,7 +92,7 @@ class Leadership extends \Buddy_Builder\Widgets\Base {
 				],
 				'selectors' => [
 					'{{WRAPPER}} dl' => 'margin-left: {{SIZE}}{{UNIT}}; margin-right: {{SIZE}}{{UNIT}};',
-				]
+				],
 			]
 		);
 
@@ -109,7 +109,7 @@ class Leadership extends \Buddy_Builder\Widgets\Base {
 				'selectors' => [
 					'{{WRAPPER}} dl'            => 'margin-bottom: {{SIZE}}{{UNIT}};',
 					'{{WRAPPER}} dl:last-child' => 'margin-bottom: 0;',
-				]
+				],
 			]
 		);
 
@@ -142,7 +142,7 @@ class Leadership extends \Buddy_Builder\Widgets\Base {
 				'size_units' => [ 'px', 'em', '%' ],
 				'selectors'  => [
 					'{{WRAPPER}} .moderators-lists' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				]
+				],
 			]
 		);
 
@@ -151,7 +151,7 @@ class Leadership extends \Buddy_Builder\Widgets\Base {
 			[
 				'name'      => 'moderators_border',
 				'selector'  => '{{WRAPPER}} .moderators-lists',
-				'separator' => 'before'
+				'separator' => 'before',
 			]
 		);
 
@@ -209,7 +209,7 @@ class Leadership extends \Buddy_Builder\Widgets\Base {
 				],
 				'selectors' => [
 					'{{WRAPPER}} .moderators-title' => 'margin-bottom: {{SIZE}}{{UNIT}};',
-				]
+				],
 			]
 		);
 
@@ -228,10 +228,9 @@ class Leadership extends \Buddy_Builder\Widgets\Base {
 			[
 				'label'    => __( 'Img Border', 'stax-buddy-builder' ),
 				'name'     => 'avatar_img_border',
-				'selector' => '{{WRAPPER}} .avatar'
+				'selector' => '{{WRAPPER}} .avatar',
 			]
 		);
-
 
 		$this->add_control(
 			'avatar_img_border_radius',
@@ -258,7 +257,7 @@ class Leadership extends \Buddy_Builder\Widgets\Base {
 				],
 				'selectors' => [
 					'{{WRAPPER}} .moderators-lists .user-list > ul > li' => 'margin-left: {{SIZE}}{{UNIT}}; margin-right: {{SIZE}}{{UNIT}};',
-				]
+				],
 			]
 		);
 

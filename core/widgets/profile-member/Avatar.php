@@ -72,7 +72,7 @@ class Avatar extends \Buddy_Builder\Widgets\Base {
 				'type'    => Controls_Manager::SELECT,
 				'options' => [
 					'thumb' => __( 'Thumb', 'stax-buddy-builder' ),
-					'full'  => __( 'Full', 'stax-buddy-builder' )
+					'full'  => __( 'Full', 'stax-buddy-builder' ),
 				],
 				'default' => 'full',
 			]
@@ -90,7 +90,7 @@ class Avatar extends \Buddy_Builder\Widgets\Base {
 				],
 				'selectors' => [
 					'{{WRAPPER}} .avatar' => 'width: {{SIZE}}{{UNIT}};',
-				]
+				],
 			]
 		);
 
@@ -165,11 +165,11 @@ class Avatar extends \Buddy_Builder\Widgets\Base {
 			$settings = $this->get_settings_for_display();
 			$args     = 'type=' . $settings['avatar_size'];
 			?>
-            <div class="elementor-image-bpb-avatar">
-                <a href="<?php bp_displayed_user_link(); ?>">
+			<div class="elementor-image-bpb-avatar">
+				<a href="<?php bp_displayed_user_link(); ?>">
 					<?php bp_displayed_user_avatar( $args ); ?>
-                </a>
-            </div>
+				</a>
+			</div>
 			<?php
 		}
 	}

@@ -11,6 +11,7 @@ use WP_Query;
 
 /**
  * Class Settings
+ *
  * @package Buddy_Builder
  */
 class Settings extends Base {
@@ -77,9 +78,12 @@ class Settings extends Base {
 	 */
 	public function save_notification() {
 		if ( isset( $_GET['did_save'] ) ) {
-			Helpers::load_template( 'admin/pages/templates/parts/notification-success', [
-				'message' => __( 'YEY! Your settings have been saved successfully!', 'stax-buddy-builder' )
-			] );
+			Helpers::load_template(
+				'admin/pages/templates/parts/notification-success',
+				[
+					'message' => __( 'YEY! Your settings have been saved successfully!', 'stax-buddy-builder' ),
+				]
+			);
 		}
 	}
 
@@ -109,7 +113,7 @@ class Settings extends Base {
 			'sitewide-activity' => [
 				'title' => __( 'Site-Wide Activity', 'stax-buddy-builder' ),
 				'order' => 5,
-			]
+			],
 		];
 
 		$templates = apply_filters( 'buddy_builder/admin/templates_list', $templates );
@@ -129,9 +133,9 @@ class Settings extends Base {
 				[
 					'key'     => '_elementor_template_type',
 					'value'   => 'bpb-buddypress',
-					'compare' => '='
-				]
-			]
+					'compare' => '=',
+				],
+			],
 		];
 
 		foreach ( $templates as $slug => $item ) {
@@ -139,7 +143,7 @@ class Settings extends Base {
 			$query_args['meta_query'][] = [
 				'key'     => BuddyPress::REMOTE_CATEGORY_META_KEY,
 				'value'   => $slug,
-				'compare' => '='
+				'compare' => '=',
 			];
 
 			$query = new WP_Query( $query_args );
@@ -157,7 +161,7 @@ class Settings extends Base {
 				'title' => $item['title'],
 				'pro'   => isset( $item['pro'] ) && $item['pro'],
 				'order' => $item['order'],
-				'posts' => $posts
+				'posts' => $posts,
 			];
 
 			wp_reset_query();
@@ -170,35 +174,40 @@ class Settings extends Base {
 			'inner' => [
 				'members-directory' => $data['members-directory'],
 			],
-			'order' => $data['members-directory']['order']
+			'order' => $data['members-directory']['order'],
 		];
 
 		$new_data['groups'] = [
 			'inner' => [
 				'groups-directory' => $data['groups-directory'],
 			],
-			'order' => $data['groups-directory']['order']
+			'order' => $data['groups-directory']['order'],
 		];
 
 		$new_data['sitewide'] = [
 			'inner' => [
 				'sitewide-activity' => $data['sitewide-activity'],
 			],
-			'order' => $data['sitewide-activity']['order']
+			'order' => $data['sitewide-activity']['order'],
 		];
 
 		unset( $data['members-directory'], $data['groups-directory'], $data['sitewide-activity'] );
 
 		$new_data = apply_filters( 'buddy_builder/admin/templates_list/after_restructure', array_merge( $new_data, $data ) );
 
-		uasort( $new_data, static function ( $a, $b ) {
-			return $a['order'] - $b['order'];
-		} );
+		uasort(
+			$new_data,
+			static function ( $a, $b ) {
+				return $a['order'] - $b['order'];
+			}
+		);
 
-
-		Helpers::load_template( 'admin/pages/templates/settings', [
-			'data' => $new_data
-		] );
+		Helpers::load_template(
+			'admin/pages/templates/settings',
+			[
+				'data' => $new_data,
+			]
+		);
 	}
 
 	/**
@@ -214,7 +223,7 @@ class Settings extends Base {
 			'name'     => __( 'Settings', 'stax-buddy-builder' ),
 			'link'     => admin_url( 'admin.php?page=' . BPB_ADMIN_PREFIX . $this->current_slug ),
 			'query'    => BPB_ADMIN_PREFIX . $this->current_slug,
-			'priority' => 1
+			'priority' => 1,
 		];
 
 		return $menu;
@@ -223,4 +232,4 @@ class Settings extends Base {
 
 }
 
-Settings::instance();
+Settings::get_instance();

@@ -1,4 +1,5 @@
 <?php
+
 defined( 'ABSPATH' ) || die();
 
 global $buddyboss_platform_plugin_file;

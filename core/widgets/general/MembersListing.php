@@ -35,7 +35,7 @@ class MembersListing extends \Buddy_Builder\Widgets\Base {
 			$this->start_controls_section(
 				'go_pro_section',
 				[
-					'label' => __( 'Go PRO', 'stax-buddy-builder' )
+					'label' => __( 'Go PRO', 'stax-buddy-builder' ),
 				]
 			);
 
@@ -43,13 +43,15 @@ class MembersListing extends \Buddy_Builder\Widgets\Base {
 				'go_pro_notice',
 				[
 					'type' => Controls_Manager::RAW_HTML,
-					'raw'  => Plugin::get_instance()->go_pro_template( [
-						'title'    => __( 'BuddyBuilder PRO', 'stax-buddy-builder' ),
-						'messages' => [
-							__( 'Power up up your listing with custom queries and templates.', 'stax-buddy-builder' ),
-						],
-						'link'     => 'https://staxwp.com/go/buddybuilder-pro',
-					] ),
+					'raw'  => Plugin::get_instance()->go_pro_template(
+						[
+							'title'    => __( 'BuddyBuilder PRO', 'stax-buddy-builder' ),
+							'messages' => [
+								__( 'Power up up your listing with custom queries and templates.', 'stax-buddy-builder' ),
+							],
+							'link'     => 'https://staxwp.com/go/buddybuilder-pro',
+						]
+					),
 				]
 			);
 
@@ -100,11 +102,11 @@ class MembersListing extends \Buddy_Builder\Widgets\Base {
 					'size' => 20,
 				],
 				'selectors'  => [
-					'{{WRAPPER}} .bp-list > li:not(:last-child)' => 'margin-bottom: {{SIZE}}{{UNIT}};'
+					'{{WRAPPER}} .bp-list > li:not(:last-child)' => 'margin-bottom: {{SIZE}}{{UNIT}};',
 				],
 				'condition'  => [
-					'columns' => '1'
-				]
+					'columns' => '1',
+				],
 			]
 		);
 
@@ -124,11 +126,11 @@ class MembersListing extends \Buddy_Builder\Widgets\Base {
 					'size' => 20,
 				],
 				'selectors'  => [
-					'{{WRAPPER}} .grid-two > li' => 'padding-bottom: {{SIZE}}{{UNIT}};'
+					'{{WRAPPER}} .grid-two > li' => 'padding-bottom: {{SIZE}}{{UNIT}};',
 				],
 				'condition'  => [
-					'columns' => '2'
-				]
+					'columns' => '2',
+				],
 			]
 		);
 
@@ -149,11 +151,11 @@ class MembersListing extends \Buddy_Builder\Widgets\Base {
 				],
 				'selectors'  => [
 					'{{WRAPPER}} .grid-two'      => 'margin-left: -{{SIZE}}{{UNIT}}; margin-right: -{{SIZE}}{{UNIT}};',
-					'{{WRAPPER}} .grid-two > li' => 'padding-left: {{SIZE}}{{UNIT}}; padding-right: {{SIZE}}{{UNIT}};'
+					'{{WRAPPER}} .grid-two > li' => 'padding-left: {{SIZE}}{{UNIT}}; padding-right: {{SIZE}}{{UNIT}};',
 				],
 				'condition'  => [
-					'columns' => '2'
-				]
+					'columns' => '2',
+				],
 			]
 		);
 
@@ -173,11 +175,11 @@ class MembersListing extends \Buddy_Builder\Widgets\Base {
 					'size' => 20,
 				],
 				'selectors'  => [
-					'{{WRAPPER}} .grid-three > li' => 'padding-bottom: {{SIZE}}{{UNIT}};'
+					'{{WRAPPER}} .grid-three > li' => 'padding-bottom: {{SIZE}}{{UNIT}};',
 				],
 				'condition'  => [
-					'columns' => '3'
-				]
+					'columns' => '3',
+				],
 			]
 		);
 
@@ -198,11 +200,11 @@ class MembersListing extends \Buddy_Builder\Widgets\Base {
 				],
 				'selectors'  => [
 					'{{WRAPPER}} .grid-three'      => 'margin-left: -{{SIZE}}{{UNIT}}; margin-right: -{{SIZE}}{{UNIT}};',
-					'{{WRAPPER}} .grid-three > li' => 'padding-left: {{SIZE}}{{UNIT}}; padding-right: {{SIZE}}{{UNIT}};'
+					'{{WRAPPER}} .grid-three > li' => 'padding-left: {{SIZE}}{{UNIT}}; padding-right: {{SIZE}}{{UNIT}};',
 				],
 				'condition'  => [
-					'columns' => '3'
-				]
+					'columns' => '3',
+				],
 			]
 		);
 
@@ -222,11 +224,11 @@ class MembersListing extends \Buddy_Builder\Widgets\Base {
 					'size' => 20,
 				],
 				'selectors'  => [
-					'{{WRAPPER}} .grid-four > li' => 'padding-bottom: {{SIZE}}{{UNIT}};'
+					'{{WRAPPER}} .grid-four > li' => 'padding-bottom: {{SIZE}}{{UNIT}};',
 				],
 				'condition'  => [
-					'columns' => '4'
-				]
+					'columns' => '4',
+				],
 			]
 		);
 
@@ -247,11 +249,11 @@ class MembersListing extends \Buddy_Builder\Widgets\Base {
 				],
 				'selectors'  => [
 					'{{WRAPPER}} .grid-four'      => 'margin-left: -{{SIZE}}{{UNIT}}; margin-right: -{{SIZE}}{{UNIT}};',
-					'{{WRAPPER}} .grid-four > li' => 'padding-left: {{SIZE}}{{UNIT}}; padding-right: {{SIZE}}{{UNIT}};'
+					'{{WRAPPER}} .grid-four > li' => 'padding-left: {{SIZE}}{{UNIT}}; padding-right: {{SIZE}}{{UNIT}};',
 				],
 				'condition'  => [
-					'columns' => '4'
-				]
+					'columns' => '4',
+				],
 			]
 		);
 
@@ -273,7 +275,7 @@ class MembersListing extends \Buddy_Builder\Widgets\Base {
 				'default'   => '1',
 				'selectors' => [
 					'{{WRAPPER}} #members-list' => 'border: 0;',
-				]
+				],
 			]
 		);
 
@@ -323,7 +325,7 @@ class MembersListing extends \Buddy_Builder\Widgets\Base {
 				'size_units' => [ 'px', 'em', '%' ],
 				'selectors'  => [
 					'{{WRAPPER}} #members-list > li > .list-wrap' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				]
+				],
 			]
 		);
 
@@ -335,7 +337,7 @@ class MembersListing extends \Buddy_Builder\Widgets\Base {
 				'size_units' => [ 'px', 'em', '%' ],
 				'selectors'  => [
 					'{{WRAPPER}} #members-list > li > .list-wrap' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				]
+				],
 			]
 		);
 
@@ -360,7 +362,7 @@ class MembersListing extends \Buddy_Builder\Widgets\Base {
 				'grid',
 				bpb_get_column_class( $settings['columns'] ),
 				bpb_get_column_class( $settings['columns_tablet'], 'tablet' ),
-				bpb_get_column_class( $settings['columns_mobile'], 'mobile' )
+				bpb_get_column_class( $settings['columns_mobile'], 'mobile' ),
 			];
 		};
 
@@ -373,17 +375,17 @@ class MembersListing extends \Buddy_Builder\Widgets\Base {
 		add_filter( 'bp_get_members_pagination_links', '__return_zero' );
 		?>
 
-        <div id="buddypress" class="buddypress-wrap bp-dir-hori-nav members">
+		<div id="buddypress" class="buddypress-wrap bp-dir-hori-nav members">
 			<?php bp_nouveau_before_members_directory_content(); ?>
 
-            <div class="screen-content">
-                <div id="members-dir-list" class="members dir-list" data-bp-list="">
+			<div class="screen-content">
+				<div id="members-dir-list" class="members dir-list" data-bp-list="">
 					<?php bp_get_template_part( 'members/members-loop' ); ?>
-                </div>
+				</div>
 
 				<?php bp_nouveau_after_members_directory_content(); ?>
-            </div>
-        </div>
+			</div>
+		</div>
 
 		<?php
 		remove_filter( 'bp_nouveau_get_loop_classes', $loop_classes );

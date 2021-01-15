@@ -10,6 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Class Templates
+ *
  * @package Buddy_Builder
  */
 class Templates extends Base {
@@ -24,10 +25,13 @@ class Templates extends Base {
 			add_filter( BPB_HOOK_PREFIX . 'current_slug', [ $this, 'set_page_slug' ] );
 			add_filter( BPB_HOOK_PREFIX . 'welcome_wrapper_class', [ $this, 'set_wrapper_classes' ] );
 
-			add_action( BPB_HOOK_PREFIX . $this->current_slug . '_page_content_before', [
-				$this,
-				'save_notification'
-			] );
+			add_action(
+				BPB_HOOK_PREFIX . $this->current_slug . '_page_content_before',
+				[
+					$this,
+					'save_notification',
+				]
+			);
 			add_action( BPB_HOOK_PREFIX . $this->current_slug . '_page_content', [ $this, 'panel_content' ] );
 		}
 
@@ -40,13 +44,19 @@ class Templates extends Base {
 	public function save_notification() {
 		if ( isset( $_GET['bpb_import_status'] ) ) {
 			if ( sanitize_text_field( $_GET['bpb_import_status'] ) === 'success' ) {
-				Helpers::load_template( 'admin/pages/templates/parts/notification-success', [
-					'message' => __( 'YEY! The template was imported successfully!', 'stax-buddy-builder' )
-				] );
+				Helpers::load_template(
+					'admin/pages/templates/parts/notification-success',
+					[
+						'message' => __( 'YEY! The template was imported successfully!', 'stax-buddy-builder' ),
+					]
+				);
 			} else {
-				Helpers::load_template( 'admin/pages/templates/parts/notification-error', [
-					'message' => __( 'Oops! An error occurred while importing the template!', 'stax-buddy-builder' )
-				] );
+				Helpers::load_template(
+					'admin/pages/templates/parts/notification-error',
+					[
+						'message' => __( 'Oops! An error occurred while importing the template!', 'stax-buddy-builder' ),
+					]
+				);
 			}
 		}
 	}
@@ -71,15 +81,18 @@ class Templates extends Base {
 					),
 					Module::IMPORT_NONCE_KEY
 				),
-				'image' => 'https://demo.staxwp.com/elementor-buddybuilder/wp-content/uploads/sites/3/2020/05/STARTER-TEMPLATE-300x225.jpg',
-			]
+				'image'       => 'https://demo.staxwp.com/elementor-buddybuilder/wp-content/uploads/sites/3/2020/05/STARTER-TEMPLATE-300x225.jpg',
+			],
 		];
 
 		$templates = apply_filters( 'buddy_builder/admin/import_templates', $templates, $imported_templates );
 
-		Helpers::load_template( 'admin/pages/templates/templates', [
-			'templates' => $templates
-		] );
+		Helpers::load_template(
+			'admin/pages/templates/templates',
+			[
+				'templates' => $templates,
+			]
+		);
 	}
 
 	/**
@@ -101,4 +114,4 @@ class Templates extends Base {
 
 }
 
-Templates::instance();
+Templates::get_instance();

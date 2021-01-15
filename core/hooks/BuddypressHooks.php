@@ -15,6 +15,7 @@ use Buddy_Builder\Template\Module;
 
 /**
  * Class BuddypressHooks
+ *
  * @package Buddy_Builder
  */
 class BuddypressHooks extends Singleton {
@@ -31,7 +32,7 @@ class BuddypressHooks extends Singleton {
 		add_filter( 'bp_get_template_stack', [ $this, 'rewrite_template' ], ( PHP_INT_MAX - 1 ) );
 		add_filter( 'bp_get_theme_package_id', [ $this, 'rewrite_theme_id' ], ( PHP_INT_MAX - 1 ) );
 		add_filter( 'option__bp_theme_package_id', [ $this, 'rewrite_theme_id' ], ( PHP_INT_MAX - 1 ) );
-		add_filter( 'template_include', [ $this, 'change_buddypress_tpl' ], ( PHP_INT_MAX - 1 ) );
+		add_filter( 'template_include', [ $this, 'change_buddypress_tpl_for_edit' ], ( PHP_INT_MAX - 1 ) ); // maybe remove?
 		add_filter( 'rtmedia_located_template', [ $this, 'override_rtmedia_template' ], 10, 4 );
 
 		add_filter( 'body_class', [ $this, 'set_body_class' ] );
@@ -47,7 +48,7 @@ class BuddypressHooks extends Singleton {
 		}
 		add_filter( 'bp_after_groups_cover_image_settings_parse_args', [ $this, 'change_cover_args' ] );
 
-		add_filter('bp_ajax_querystring', [$this, 'filter_bp_ajax_querystring'], 10, 2 );
+		add_filter( 'bp_ajax_querystring', [ $this, 'filter_bp_ajax_querystring' ], 10, 2 );
 	}
 
 	public function override_rtmedia_template( $located, $url, $ogpath, $template_name ) {
@@ -73,10 +74,13 @@ class BuddypressHooks extends Singleton {
 		}
 
 		// theme compat
-		add_action( 'after_setup_theme', function () {
-			remove_action( 'widgets_init', 'crum_mycred_user_balance_wp_widget' );
-			remove_action( 'wp_enqueue_scripts', 'sportix_print_bp_styles', 99 );
-		} );
+		add_action(
+			'after_setup_theme',
+			function () {
+				remove_action( 'widgets_init', 'crum_mycred_user_balance_wp_widget' );
+				remove_action( 'wp_enqueue_scripts', 'sportix_print_bp_styles', 99 );
+			}
+		);
 
 		// Stop Youzer functionality for the component.
 		remove_action( 'plugins_loaded', 'youzer', YOUZER_LATE_LOAD );
@@ -198,10 +202,8 @@ class BuddypressHooks extends Singleton {
 	 *
 	 * @return string
 	 */
-	public function change_buddypress_tpl( $template ) {
-
-		if ( $this->current_component_has_template( false ) ) {
-
+	public function change_buddypress_tpl_for_edit( $template ) {
+		if ( $this->current_component_has_template( false, true ) && bpb_is_preview_mode() ) {
 			$template = BPB_BASE_PATH . 'templates/buddypress/buddypress.php';
 		}
 
@@ -340,37 +342,41 @@ class BuddypressHooks extends Singleton {
 	 * @return array
 	 */
 	public function default_customizer_options( $options ) {
-		return array_merge( $options, [
-			'avatar_style'            => 0,
-			'user_front_bio'          => 0,
-			'user_nav_display'        => 0,
-			'user_nav_tabs'           => 0,
-			'user_subnav_tabs'        => 0,
-			'members_dir_tabs'        => 0,
-			'members_dir_layout'      => 0,
-			'activity_dir_layout'     => 0,
-			'activity_dir_tabs'       => 0,
-			'group_front_boxes'       => 0,
-			'group_front_description' => 0,
-			'group_nav_display'       => 0,
-			'group_nav_tabs'          => 0,
-			'group_subnav_tabs'       => 0,
-			'groups_dir_layout'       => 0,
-			'groups_dir_tabs'         => 0,
-			'sites_dir_layout'        => 0,
-			'sites_dir_tabs'          => 0,
-			'global_alignment'        => '',
-		] );
+		return array_merge(
+			$options,
+			[
+				'avatar_style'            => 0,
+				'user_front_bio'          => 0,
+				'user_nav_display'        => 0,
+				'user_nav_tabs'           => 0,
+				'user_subnav_tabs'        => 0,
+				'members_dir_tabs'        => 0,
+				'members_dir_layout'      => 0,
+				'activity_dir_layout'     => 0,
+				'activity_dir_tabs'       => 0,
+				'group_front_boxes'       => 0,
+				'group_front_description' => 0,
+				'group_nav_display'       => 0,
+				'group_nav_tabs'          => 0,
+				'group_subnav_tabs'       => 0,
+				'groups_dir_layout'       => 0,
+				'groups_dir_tabs'         => 0,
+				'sites_dir_layout'        => 0,
+				'sites_dir_tabs'          => 0,
+				'global_alignment'        => '',
+			]
+		);
 	}
 
 	/**
 	 * Check if current Buddypress component has Elementor template
 	 *
 	 * @param bool $with_filter
+	 * @param bool $strict
 	 *
 	 * @return bool
 	 */
-	private function current_component_has_template( $with_filter = true ) {
+	private function current_component_has_template( $with_filter = true, $strict = false ) {
 
 		// short circuit and force
 		if ( $with_filter && apply_filters( 'buddy_builder/has_template/pre', false ) ) {
@@ -498,8 +504,8 @@ class BuddypressHooks extends Singleton {
 			// Member profile
 			if ( $settings['member-profile'] && bp_is_user() ) {
 				if ( ( ! isset( $settings['sitewide-activity-item'] ) || ! $settings['sitewide-activity-item'] ) &&
-				     bp_current_component() === 'activity' &&
-				     is_numeric( bp_current_action() ) ) {
+					 bp_current_component() === 'activity' &&
+					 is_numeric( bp_current_action() ) ) {
 					return false;
 				}
 
@@ -507,7 +513,7 @@ class BuddypressHooks extends Singleton {
 			}
 
 			// Group profile
-			if ( $settings['group-profile'] && ! empty( bp_is_active( 'groups' ) )&& bp_is_single_item() && bp_is_groups_component() ) {
+			if ( $settings['group-profile'] && ! empty( bp_is_active( 'groups' ) ) && bp_is_single_item() && bp_is_groups_component() ) {
 				return bpb_is_template_id_populated( $settings['group-profile'] );
 			}
 
@@ -518,21 +524,36 @@ class BuddypressHooks extends Singleton {
 		}
 
 		// if we are anywhere else in WP, then we can load our logic for general widgets
-		return bp_is_blog_page();
+		return ! $strict && bp_is_blog_page();
 	}
 
-	public function filter_bp_ajax_querystring($query, $object ) {
-
+	/**
+	 * Filter ajax query strings
+	 *
+	 * @param object $query
+	 * @param object $object
+	 * @return object
+	 */
+	public function filter_bp_ajax_querystring( $query, $object ) {
 		if ( isset( $_REQUEST['bpb-list-mode'] ) && $_REQUEST['bpb-list-mode'] === 'list' && ! isset( $_REQUEST['bpb-list-hidden'] ) ) {
-			add_filter('bp_nouveau_get_loop_classes', function ( $classes = [] ) {
-				$classes[] = 'grid-one-force';
-				return $classes;
-			} );
+			add_filter(
+				'bp_nouveau_get_loop_classes',
+				function ( $classes = [] ) {
+					$classes[] = 'grid-one-force';
+					return $classes;
+				}
+			);
 		}
 
 		return $query;
 	}
 
+	/**
+	 * Get WPML page ID
+	 *
+	 * @param int $id
+	 * @return int
+	 */
 	public function get_wpml_page_id( $id ) {
 		if ( function_exists( 'wpml_object_id_filter' ) && defined( 'ICL_LANGUAGE_CODE' ) ) {
 			return wpml_object_id_filter( $id, 'page', true, ICL_LANGUAGE_CODE );
@@ -543,6 +564,7 @@ class BuddypressHooks extends Singleton {
 
 	/**
 	 * Get the current page url
+	 *
 	 * @return string
 	 */
 	public function get_page_slug() {
@@ -553,7 +575,7 @@ class BuddypressHooks extends Singleton {
 		} else {
 			if ( empty( $_SERVER['HTTPS'] ) ) {
 				$s = '';
-			} else if ( $_SERVER['HTTPS'] === 'on' ) {
+			} elseif ( $_SERVER['HTTPS'] === 'on' ) {
 				$s = 's';
 			} else {
 				$s = '';

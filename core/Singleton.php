@@ -8,6 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Class Singleton
+ *
  * @package Buddy_Builder
  */
 class Singleton {
@@ -25,14 +26,27 @@ class Singleton {
 
 	/**
 	 * Disables class cloning and throw an error on object clone.
+	 *
+	 * The whole idea of the singleton design pattern is that there is a single
+	 * object. Therefore, we don't want the object to be cloned.
+	 *
+	 * @access public
+	 * @since 1.0.0
 	 */
-	final private function __clone() {
+	public function __clone() {
+		// Cloning instances of the class is forbidden.
+		_doing_it_wrong( __FUNCTION__, esc_html__( 'Cheatin&#8217; huh?', 'stax-buddy-builder' ), '1.0.0' );
 	}
 
 	/**
 	 * Disables unserializing of the class.
+	 *
+	 * @access public
+	 * @since 1.0.0
 	 */
-	final private function __wakeup() {
+	public function __wakeup() {
+		// Unserializing instances of the class is forbidden.
+		_doing_it_wrong( __FUNCTION__, esc_html__( 'Cheatin&#8217; huh?', 'stax-buddy-builder' ), '1.0.0' );
 	}
 
 	/**
@@ -44,7 +58,7 @@ class Singleton {
 		$class = static::class;
 
 		if ( ! isset( self::$instances[ $class ] ) ) {
-			self::$instances[ $class ] = new $class;
+			self::$instances[ $class ] = new $class();
 		}
 
 		return self::$instances[ $class ];

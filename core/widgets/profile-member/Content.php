@@ -33,7 +33,7 @@ class Content extends \Buddy_Builder\Widgets\Base {
 			$this->start_controls_section(
 				'go_pro_section',
 				[
-					'label' => __( 'Go PRO', 'stax-buddy-builder' )
+					'label' => __( 'Go PRO', 'stax-buddy-builder' ),
 				]
 			);
 
@@ -41,13 +41,15 @@ class Content extends \Buddy_Builder\Widgets\Base {
 				'go_pro_notice',
 				[
 					'type' => Controls_Manager::RAW_HTML,
-					'raw'  => Plugin::get_instance()->go_pro_template( [
-						'title'    => __( 'BuddyBuilder PRO', 'stax-buddy-builder' ),
-						'messages' => [
-							__( 'Step up your game and customize your profile content with ease.', 'stax-buddy-builder' ),
-						],
-						'link'     => 'https://staxwp.com/go/buddybuilder-pro/',
-					] ),
+					'raw'  => Plugin::get_instance()->go_pro_template(
+						[
+							'title'    => __( 'BuddyBuilder PRO', 'stax-buddy-builder' ),
+							'messages' => [
+								__( 'Step up your game and customize your profile content with ease.', 'stax-buddy-builder' ),
+							],
+							'link'     => 'https://staxwp.com/go/buddybuilder-pro/',
+						]
+					),
 				]
 			);
 
@@ -66,8 +68,8 @@ class Content extends \Buddy_Builder\Widgets\Base {
 			echo apply_filters( 'buddy_builder/widget/member-profile/preview', ob_get_clean(), $this );
 		} else {
 			?>
-            <div class="bp-wrap">
-                <div id="item-body" class="item-body">
+			<div class="bp-wrap">
+				<div id="item-body" class="item-body">
 					<?php
 					/*
 					 * Returning a truthy value from the filter will effectively short-circuit the logic
@@ -76,8 +78,8 @@ class Content extends \Buddy_Builder\Widgets\Base {
 						bp_nouveau_member_template_part();
 					}
 					?>
-                </div>
-            </div>
+				</div>
+			</div>
 			<?php
 		}
 	}

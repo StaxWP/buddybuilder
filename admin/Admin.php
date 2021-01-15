@@ -18,55 +18,17 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @package Buddy_Builder
  */
-class Admin {
-
-	public static $plugin_path;
+final class Admin extends Singleton {
 
 	/**
-	 * @var null
+	 * @var string
 	 */
-	public static $instance;
+	public static $plugin_path;
 
 	/**
 	 * @var string
 	 */
 	private $current_slug = '';
-
-	/**
-	 * @return Admin|null
-	 */
-	public static function instance() {
-		if ( self::$instance === null ) {
-			self::$instance = new self();
-		}
-
-		return self::$instance;
-	}
-
-	/**
-	 * Disables class cloning and throw an error on object clone.
-	 *
-	 * The whole idea of the singleton design pattern is that there is a single
-	 * object. Therefore, we don't want the object to be cloned.
-	 *
-	 * @access public
-	 * @since 1.0.0
-	 */
-	public function __clone() {
-		// Cloning instances of the class is forbidden.
-		_doing_it_wrong( __FUNCTION__, esc_html__( 'Cheatin&#8217; huh?', 'stax-buddy-builder' ), '1.0.0' );
-	}
-
-	/**
-	 * Disables unserializing of the class.
-	 *
-	 * @access public
-	 * @since 1.0.0
-	 */
-	public function __wakeup() {
-		// Unserializing instances of the class is forbidden.
-		_doing_it_wrong( __FUNCTION__, esc_html__( 'Cheatin&#8217; huh?', 'stax-buddy-builder' ), '1.0.0' );
-	}
 
 	/*
 	 * Constructor
@@ -78,14 +40,15 @@ class Admin {
 			self::$plugin_path = trailingslashit( plugin_dir_path( BPB_FILE ) );
 		}
 
+		// Admin pages.
 		require_once self::$plugin_path . '/admin/pages/Base.php';
-		//require_once self::$plugin_path . '/admin/pages/Dashboard.php';
+		// require_once self::$plugin_path . '/admin/pages/Dashboard.php';
 		require_once self::$plugin_path . '/admin/pages/Templates.php';
 		require_once self::$plugin_path . '/admin/pages/Settings.php';
-		//require_once self::$plugin_path . '/admin/pages/Help.php';
-		//require_once self::$plugin_path . '/admin/pages/Widgets.php';
-		//require_once self::$plugin_path . '/admin/pages/Plugins.php';
-		//require_once self::$plugin_path . '/admin/pages/Modules.php';
+		// require_once self::$plugin_path . '/admin/pages/Help.php';
+		// require_once self::$plugin_path . '/admin/pages/Widgets.php';
+		// require_once self::$plugin_path . '/admin/pages/Plugins.php';
+		// require_once self::$plugin_path . '/admin/pages/Modules.php';
 	}
 
 	/**
@@ -113,7 +76,7 @@ class Admin {
 			'58.9'
 		);
 
-		//Submenus
+		// Submenus.
 		$sub_menus = apply_filters( BPB_HOOK_PREFIX . 'admin_menu', [] );
 
 		if ( ! empty( $sub_menus ) ) {
@@ -125,7 +88,7 @@ class Admin {
 				}
 				add_submenu_page(
 					Helpers::get_instance()->get_slug(),
-					sprintf( __( 'STAX Elementor - %', 'stax-buddy-builder' ), $submenu['name'] ),
+					sprintf( __( 'STAX Elementor - %s', 'stax-buddy-builder' ), $submenu['name'] ),
 					$submenu['name'],
 					'manage_options',
 					$submenu_slug,
@@ -156,17 +119,23 @@ class Admin {
 		$has_pro       = function_exists( 'bpb_is_pro' );
 
 		if ( ! empty( $menu ) ) {
-			usort( $menu, static function ( $a, $b ) {
-				return $a['priority'] - $b['priority'];
-			} );
+			usort(
+				$menu,
+				static function ( $a, $b ) {
+					return $a['priority'] - $b['priority'];
+				}
+			);
 		}
 
-		Helpers::load_template( 'admin/layout', [
-			'site_url'      => $site_url,
-			'wrapper_class' => $wrapper_class,
-			'menu'          => $menu,
-			'has_pro'       => $has_pro
-		] );
+		Helpers::load_template(
+			'admin/layout',
+			[
+				'site_url'      => $site_url,
+				'wrapper_class' => $wrapper_class,
+				'menu'          => $menu,
+				'has_pro'       => $has_pro,
+			]
+		);
 	}
 
 	/**
@@ -190,9 +159,12 @@ class Admin {
 	public function main_panel() {
 		$current_slug = apply_filters( BPB_HOOK_PREFIX . 'current_slug', $this->current_slug );
 
-		Helpers::load_template( 'admin/actions', [
-			'current_slug' => $current_slug
-		] );
+		Helpers::load_template(
+			'admin/actions',
+			[
+				'current_slug' => $current_slug,
+			]
+		);
 	}
 
 	/**
@@ -216,8 +188,26 @@ class Admin {
 
 			wp_enqueue_style( 'stax-buddy-addons-tw' );
 		}
+
+		wp_register_style(
+			'stax-buddy-notice',
+			BPB_ADMIN_ASSETS_URL . 'css/notice' . $min . '.css',
+			[],
+			BPB_VERSION,
+			'all'
+		);
+
+		wp_enqueue_style( 'stax-buddy-notice' );
+
+		wp_enqueue_script(
+			'stax-buddy-admin',
+			BPB_ADMIN_ASSETS_URL . 'js/admin.js',
+			[ 'jquery' ],
+			BPB_VERSION,
+			true
+		);
 	}
 
 }
 
-Admin::instance();
+Admin::get_instance();

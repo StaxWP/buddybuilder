@@ -22,7 +22,7 @@ class BuddyPress extends Library_Document {
 	/**
 	 * Document sub type meta key.
 	 */
-	const REMOTE_CATEGORY_META_KEY = '_bpb_page';
+	const REMOTE_CATEGORY_META_KEY   = '_bpb_page';
 	const SET_AS_ACTIVE_CATEGORY_KEY = '_bpb_set_as_active';
 
 	/**
@@ -34,7 +34,6 @@ class BuddyPress extends Library_Document {
 	 * @since 1.0.0
 	 * @access public
 	 * @static
-	 *
 	 */
 	public static function get_properties() {
 		$properties = parent::get_properties();
@@ -55,7 +54,6 @@ class BuddyPress extends Library_Document {
 	 * @return string Document name.
 	 * @since 1.0.0
 	 * @access public
-	 *
 	 */
 	public function get_name() {
 		return 'bpb-buddypress';
@@ -70,7 +68,6 @@ class BuddyPress extends Library_Document {
 	 * @since 1.0.0
 	 * @access public
 	 * @static
-	 *
 	 */
 	public static function get_title() {
 		if ( is_admin() ) {
@@ -90,7 +87,7 @@ class BuddyPress extends Library_Document {
 
 		// Save template sub type
 		if ( ! empty( $_REQUEST[ self::REMOTE_CATEGORY_META_KEY ] )
-		     && array_key_exists( $_REQUEST[ self::REMOTE_CATEGORY_META_KEY ], bpb_get_template_types() ) ) {
+			 && array_key_exists( $_REQUEST[ self::REMOTE_CATEGORY_META_KEY ], bpb_get_template_types() ) ) {
 
 			$sub_type = $_REQUEST[ self::REMOTE_CATEGORY_META_KEY ];
 

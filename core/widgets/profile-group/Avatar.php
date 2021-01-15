@@ -58,7 +58,7 @@ class Avatar extends \Buddy_Builder\Widgets\Base {
 					],
 				],
 				'selectors' => [
-					'{{WRAPPER}} #item-header-avatar'                                        => 'width: 100%; text-align: {{VALUE}}; margin: 0; float: none;',
+					'{{WRAPPER}} #item-header-avatar' => 'width: 100%; text-align: {{VALUE}}; margin: 0; float: none;',
 					'{{WRAPPER}} #item-header-avatar a, {{WRAPPER}} #item-header-avatar img' => 'display: inline-block; margin: 0;',
 				],
 				'default'   => '',
@@ -72,7 +72,7 @@ class Avatar extends \Buddy_Builder\Widgets\Base {
 				'type'    => Controls_Manager::SELECT,
 				'options' => [
 					'thumb' => __( 'Thumb', 'stax-buddy-builder' ),
-					'full'  => __( 'Full', 'stax-buddy-builder' )
+					'full'  => __( 'Full', 'stax-buddy-builder' ),
 				],
 				'default' => 'full',
 			]
@@ -90,7 +90,7 @@ class Avatar extends \Buddy_Builder\Widgets\Base {
 				],
 				'selectors' => [
 					'{{WRAPPER}} .avatar' => 'width: {{SIZE}}{{UNIT}};',
-				]
+				],
 			]
 		);
 
@@ -166,12 +166,12 @@ class Avatar extends \Buddy_Builder\Widgets\Base {
 			$args     = 'type=' . $settings['avatar_size'];
 			?>
 			<?php if ( ! bp_disable_group_avatar_uploads() ) : ?>
-                <div id="item-header-avatar">
-                    <a href="<?php echo esc_url( bp_get_group_permalink() ); ?>"
-                       title="<?php echo esc_attr( bp_get_group_name() ); ?>">
+				<div id="item-header-avatar">
+					<a href="<?php echo esc_url( bp_get_group_permalink() ); ?>"
+					   title="<?php echo esc_attr( bp_get_group_name() ); ?>">
 						<?php bp_group_avatar( $args ); ?>
-                    </a>
-                </div>
+					</a>
+				</div>
 			<?php endif; ?>
 			<?php
 		}

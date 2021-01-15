@@ -116,7 +116,7 @@ class Username extends \Buddy_Builder\Widgets\Base {
 		} else {
 			?>
 			<?php if ( bp_is_active( 'activity' ) && bp_activity_do_mentions() ) : ?>
-                <h2 class="user-nicename">@<?php bp_displayed_user_mentionname(); ?></h2>
+				<h2 class="user-nicename">@<?php bp_displayed_user_mentionname(); ?></h2>
 			<?php endif; ?>
 			<?php
 		}

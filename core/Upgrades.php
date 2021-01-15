@@ -10,6 +10,7 @@ use WP_Error;
 
 /**
  * Class Upgrades
+ *
  * @package Buddy_Builder
  */
 class Upgrades extends Singleton {
@@ -23,24 +24,27 @@ class Upgrades extends Singleton {
 
 	/**
 	 * Current plugin version
+	 *
 	 * @var string
 	 */
 	private $version = BPB_VERSION;
 
 	/**
 	 * Keep track if the data was updated during current request
+	 *
 	 * @var bool
 	 */
 	private $updated = false;
 
 	/**
 	 * Upgrade versions and method callbacks
+	 *
 	 * @var array
 	 */
 	private $upgrades = [
 		'1.2.4' => [
 			'method'             => '_upgrade_124',
-			'skip_fresh_install' => true
+			'skip_fresh_install' => true,
 		],
 	];
 
@@ -111,7 +115,7 @@ class Upgrades extends Singleton {
 
 			// fresh install
 			if ( isset( $upgrade['skip_fresh_install'] ) && $upgrade['skip_fresh_install'] &&
-			     ( empty( $old_upgrades ) && ! get_option( 'bpb_settings' ) ) ) {
+				 ( empty( $old_upgrades ) && ! get_option( 'bpb_settings' ) ) ) {
 				$old_upgrades[ $version ] = true;
 				update_option( $this->option_name, $old_upgrades );
 
@@ -159,45 +163,48 @@ class Upgrades extends Singleton {
 			$document = \Elementor\Plugin::$instance->documents->get( $post_id );
 
 			if ( $document ) {
-				$elements = \Elementor\Plugin::$instance->db->iterate_data( $document->get_elements_data(), static function ( $element ) {
-					if ( empty( $element['widgetType'] ) || $element['elType'] !== 'widget' ) {
+				$elements = \Elementor\Plugin::$instance->db->iterate_data(
+					$document->get_elements_data(),
+					static function ( $element ) {
+						if ( empty( $element['widgetType'] ) || $element['elType'] !== 'widget' ) {
+							return $element;
+						}
+
+						if ( $element['widgetType'] === 'bpb-profile-member-cover' || $element['widgetType'] === 'bpb-profile-group-cover' ) {
+							if ( isset( $element['settings']['_position'] ) ) {
+								$element['settings']['position'] = $element['settings']['_position'];
+							}
+
+							if ( isset( $element['settings']['_offset_orientation_h'] ) ) {
+								$element['settings']['offset_orientation_h'] = $element['settings']['_offset_orientation_h'];
+							}
+
+							if ( isset( $element['settings']['_offset_x'] ) ) {
+								$element['settings']['offset_x'] = $element['settings']['_offset_x'];
+							}
+
+							if ( isset( $element['settings']['_offset_x_end'] ) ) {
+								$element['settings']['offset_x_end'] = $element['settings']['_offset_x_end'];
+							}
+
+							if ( isset( $element['settings']['_offset_orientation_v'] ) ) {
+								$element['settings']['offset_orientation_v'] = $element['settings']['_offset_orientation_v'];
+							}
+
+							if ( isset( $element['settings']['_offset_y'] ) ) {
+								$element['settings']['offset_y'] = $element['settings']['_offset_y'];
+							}
+
+							if ( isset( $element['settings']['_offset_y_end'] ) ) {
+								$element['settings']['offset_y_end'] = $element['settings']['_offset_y_end'];
+							}
+
+							$element['settings']['_position'] = '';
+						}
+
 						return $element;
 					}
-
-					if ( $element['widgetType'] === 'bpb-profile-member-cover' || $element['widgetType'] === 'bpb-profile-group-cover' ) {
-						if ( isset( $element['settings']['_position'] ) ) {
-							$element['settings']['position'] = $element['settings']['_position'];
-						}
-
-						if ( isset( $element['settings']['_offset_orientation_h'] ) ) {
-							$element['settings']['offset_orientation_h'] = $element['settings']['_offset_orientation_h'];
-						}
-
-						if ( isset( $element['settings']['_offset_x'] ) ) {
-							$element['settings']['offset_x'] = $element['settings']['_offset_x'];
-						}
-
-						if ( isset( $element['settings']['_offset_x_end'] ) ) {
-							$element['settings']['offset_x_end'] = $element['settings']['_offset_x_end'];
-						}
-
-						if ( isset( $element['settings']['_offset_orientation_v'] ) ) {
-							$element['settings']['offset_orientation_v'] = $element['settings']['_offset_orientation_v'];
-						}
-
-						if ( isset( $element['settings']['_offset_y'] ) ) {
-							$element['settings']['offset_y'] = $element['settings']['_offset_y'];
-						}
-
-						if ( isset( $element['settings']['_offset_y_end'] ) ) {
-							$element['settings']['offset_y_end'] = $element['settings']['_offset_y_end'];
-						}
-
-						$element['settings']['_position'] = '';
-					}
-
-					return $element;
-				} );
+				);
 
 				if ( is_array( $elements ) ) {
 					$editor_data = $document->get_elements_raw_data( $elements );

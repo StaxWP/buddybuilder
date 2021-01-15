@@ -17,7 +17,7 @@ class TypeList extends \Buddy_Builder\Widgets\Base {
 	}
 
 	public function get_icon() {
-		return 'eicon-photo-library';
+		return 'sq-icon-bp_status sq-widget-label';
 	}
 
 	public function get_categories() {
@@ -33,7 +33,16 @@ class TypeList extends \Buddy_Builder\Widgets\Base {
 		if ( bpb_is_elementor_editor() ) {
 			bpb_load_template( 'preview/profile-group/type' );
 		} else {
-			echo bp_nouveau_group_meta()->group_type_list;
+			bp_member_type_list(
+				bp_displayed_user_id(),
+				array(
+					'label'        => array(
+						'plural'   => __( 'Member Types', 'buddypress' ),
+						'singular' => __( 'Member Type', 'buddypress' ),
+					),
+					'list_element' => 'span',
+				)
+			);
 		}
 	}
 

@@ -95,13 +95,13 @@ class LastActivity extends \Buddy_Builder\Widgets\Base {
 			bpb_load_template( 'preview/profile-group/last-activity' );
 		} else {
 			?>
-            <div class="activity"
-                 data-livestamp="<?php bp_core_iso8601_date( bp_get_group_last_active( 0, array( 'relative' => false ) ) ); ?>">
+			<div class="activity"
+				 data-livestamp="<?php bp_core_iso8601_date( bp_get_group_last_active( 0, [ 'relative' => false ] ) ); ?>">
 				<?php
 				/* translators: %s = last activity timestamp (e.g. "active 1 hour ago") */
 				printf( __( 'active %s', 'buddypress' ), bp_get_group_last_active() );
 				?>
-            </div>
+			</div>
 			<?php
 		}
 	}

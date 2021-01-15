@@ -145,10 +145,12 @@ class Source_Buddy_Builder extends Source_Base {
 			$template_data['content'] = $this->replace_elements_ids( $template_data['content'] );
 		}
 
-		$document->save( [
-			'elements' => $template_data['content'],
-			'settings' => $template_data['page_settings'],
-		] );
+		$document->save(
+			[
+				'elements' => $template_data['content'],
+				'settings' => $template_data['page_settings'],
+			]
+		);
 
 		// Stax Set subtype
 		if ( $template_data['subtype'] ) {

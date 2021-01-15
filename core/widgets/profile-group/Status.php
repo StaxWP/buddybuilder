@@ -21,7 +21,7 @@ class Status extends \Buddy_Builder\Widgets\Base {
 	}
 
 	public function get_icon() {
-		return 'eicon-photo-library';
+		return 'sq-icon-bp_status sq-widget-label';
 	}
 
 	public function get_categories() {
@@ -115,11 +115,11 @@ class Status extends \Buddy_Builder\Widgets\Base {
 			bpb_load_template( 'preview/profile-group/status' );
 		} else {
 			?>
-            <p class="highlight group-status">
+			<p class="highlight group-status">
 				<?php
-				echo wp_kses_post( bp_nouveau_group_meta()->status );
+				bp_nouveau_the_group_meta( array( 'keys' => 'status' ) );
 				?>
-            </p>
+			</p>
 			<?php
 		}
 	}

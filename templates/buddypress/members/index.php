@@ -16,21 +16,21 @@ $render    = bpb_is_template_populated( 'members-directory' );
 <?php if ( $render ) : ?>
 	<?php echo do_shortcode( $directory ); ?>
 	<?php bp_nouveau_after_members_directory_content(); ?>
-<?php else: ?>
+<?php else : ?>
 	<?php if ( ! bp_nouveau_is_object_nav_in_sidebar() ) : ?>
 
 		<?php bp_get_template_part( 'common/nav/directory-nav' ); ?>
 
 	<?php endif; ?>
 
-    <div class="screen-content">
+	<div class="screen-content">
 
 		<?php bp_get_template_part( 'common/search-and-filters-bar' ); ?>
 
-        <div id="members-dir-list" class="members dir-list" data-bp-list="members">
-            <div id="bp-ajax-loader"><?php bp_nouveau_user_feedback( 'directory-members-loading' ); ?></div>
-        </div><!-- #members-dir-list -->
+		<div id="members-dir-list" class="members dir-list" data-bp-list="members">
+			<div id="bp-ajax-loader"><?php bp_nouveau_user_feedback( 'directory-members-loading' ); ?></div>
+		</div><!-- #members-dir-list -->
 
 		<?php bp_nouveau_after_members_directory_content(); ?>
-    </div><!-- // .screen-content -->
+	</div><!-- // .screen-content -->
 <?php endif; ?>

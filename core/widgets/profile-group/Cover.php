@@ -31,7 +31,6 @@ class Cover extends \Buddy_Builder\Widgets\Base {
 
 	protected function _register_controls() {
 
-
 		$this->start_controls_section(
 			'section_style',
 			[
@@ -346,12 +345,12 @@ class Cover extends \Buddy_Builder\Widgets\Base {
 					'px' => [
 						'min'  => 0,
 						'max'  => 1000,
-						'step' => 5
+						'step' => 5,
 					],
 				],
 				'default'     => [
 					'unit' => 'px',
-					'size' => '525'
+					'size' => '525',
 				],
 				'separator'   => 'before',
 				'selectors'   => [
@@ -429,7 +428,7 @@ class Cover extends \Buddy_Builder\Widgets\Base {
 			'overlay_style',
 			[
 				'label' => __( 'Overlay', 'stax-buddy-builder' ),
-				'tab'   => Controls_Manager::TAB_STYLE
+				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
 
@@ -473,9 +472,9 @@ class Cover extends \Buddy_Builder\Widgets\Base {
 		} else {
 			?>
 			<?php if ( ! empty( $settings['overlay_background'] ) ) : ?>
-                <div <?php echo $this->get_render_attribute_string( 'header-cover-bg-overlay' ); ?>></div>
+				<div <?php echo $this->get_render_attribute_string( 'header-cover-bg-overlay' ); ?>></div>
 			<?php endif; ?>
-            <div id="header-cover-image"></div>
+			<div id="header-cover-image"></div>
 			<?php
 		}
 	}

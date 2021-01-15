@@ -8,6 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Class Helpers
+ *
  * @package Buddy_Builder
  */
 class Helpers extends Singleton {
@@ -17,7 +18,7 @@ class Helpers extends Singleton {
 	 *
 	 * @param $name
 	 * @param array $args
-	 * @param bool $echo
+	 * @param bool  $echo
 	 *
 	 * @return false|string|void
 	 */
@@ -29,7 +30,7 @@ class Helpers extends Singleton {
 		extract( $args );
 
 		ob_start();
-		include( BPB_BASE_PATH . trim( $name ) . '.php' );
+		include BPB_BASE_PATH . trim( $name ) . '.php';
 
 		if ( $echo ) {
 			echo ob_get_clean();

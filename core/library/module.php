@@ -57,10 +57,13 @@ class Module extends BaseModule {
 			add_shortcode( 'elementor-template-preview', [ $this, 'register_preview_shortcode' ] );
 		}
 
-		add_action( 'elementor/template-library/create_new_dialog_fields', [
-			$this,
-			'buddypress_template_options'
-		] );
+		add_action(
+			'elementor/template-library/create_new_dialog_fields',
+			[
+				$this,
+				'buddypress_template_options',
+			]
+		);
 
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_admin_script' ] );
 	}
@@ -73,7 +76,6 @@ class Module extends BaseModule {
 	 * @return string Module name.
 	 * @since 1.0.0
 	 * @access public
-	 *
 	 */
 	public function get_name() {
 		return 'library';
@@ -88,7 +90,7 @@ class Module extends BaseModule {
 		if ( 'edit.php' !== $hook || ! isset( $_GET['post_type'] ) || sanitize_text_field( $_GET['post_type'] ) !== 'elementor_library' ) {
 			return;
 		}
-		wp_enqueue_script( 'bpb-admin-library', BPB_ASSETS_URL . 'js/admin-library.js', array(), '1.0' );
+		wp_enqueue_script( 'bpb-admin-library', BPB_ASSETS_URL . 'js/admin-library.js', [], '1.0' );
 	}
 
 	/**
@@ -99,7 +101,6 @@ class Module extends BaseModule {
 	 * @return array Default columns.
 	 * @since 1.0.0
 	 * @access public
-	 *
 	 */
 	public function add_column_head( $defaults ) {
 		if ( isset( $defaults['shortcode'], $defaults['template-type'] ) ) {
@@ -115,13 +116,12 @@ class Module extends BaseModule {
 	/**
 	 * Add column content.
 	 *
-	 * @param string $column_name The column name.
+	 * @param string  $column_name The column name.
 	 * @param integer $post_ID The post ID.
 	 *
 	 * @return void.
 	 * @since 1.0.0
 	 * @access public
-	 *
 	 */
 	public function add_column_content( $column_name, $post_ID ) {
 		if ( 'shortcode' !== $column_name ) {
@@ -174,7 +174,6 @@ class Module extends BaseModule {
 	 * @return mixed Content.
 	 * @since 1.0.0
 	 * @access public
-	 *
 	 */
 	public function register_shortcode( $atts ) {
 		if ( empty( $atts['id'] ) ) {
@@ -189,21 +188,21 @@ class Module extends BaseModule {
 
 	public function buddypress_template_options() {
 		?>
-        <div id="elementor-new-template__form__template-bpb__wrapper" class="elementor-form-field">
-            <label for="elementor-new-template__form__template-bpb"
-                   class="elementor-form-field__label"><?php echo esc_html__( 'Select the type of Buddypress page', 'stax-buddy-builder' ); ?></label>
-            <div class="elementor-form-field__select__wrapper">
-                <select id="elementor-new-template__form__template-bpb" class="elementor-form-field__select"
-                        name="<?php echo BuddyPress::REMOTE_CATEGORY_META_KEY; ?>">
-                    <option value=""><?php echo __( 'Select', 'elementor' ); ?>...</option>
+		<div id="elementor-new-template__form__template-bpb__wrapper" class="elementor-form-field">
+			<label for="elementor-new-template__form__template-bpb"
+				   class="elementor-form-field__label"><?php echo esc_html__( 'Select the type of Buddypress page', 'stax-buddy-builder' ); ?></label>
+			<div class="elementor-form-field__select__wrapper">
+				<select id="elementor-new-template__form__template-bpb" class="elementor-form-field__select"
+						name="<?php echo BuddyPress::REMOTE_CATEGORY_META_KEY; ?>">
+					<option value=""><?php echo __( 'Select', 'elementor' ); ?>...</option>
 					<?php
 					foreach ( $this->templates as $type => $template ) {
 						printf( '<option value="%1$s">%2$s</option>', $type, $template['name'] );
 					}
 					?>
-                </select>
-            </div>
-        </div>
+				</select>
+			</div>
+		</div>
 		<?php
 	}
 

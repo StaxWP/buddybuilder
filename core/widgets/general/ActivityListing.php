@@ -36,7 +36,7 @@ class ActivityListing extends \Buddy_Builder\Widgets\Base {
 			$this->start_controls_section(
 				'go_pro_section',
 				[
-					'label' => __( 'Go PRO', 'stax-buddy-builder' )
+					'label' => __( 'Go PRO', 'stax-buddy-builder' ),
 				]
 			);
 
@@ -44,13 +44,15 @@ class ActivityListing extends \Buddy_Builder\Widgets\Base {
 				'go_pro_notice',
 				[
 					'type' => Controls_Manager::RAW_HTML,
-					'raw'  => Plugin::get_instance()->go_pro_template( [
-						'title'    => __( 'BuddyBuilder PRO', 'stax-buddy-builder' ),
-						'messages' => [
-							__( 'Power up up your listing with custom queries and templates.', 'stax-buddy-builder' ),
-						],
-						'link'     => 'https://staxwp.com/go/buddybuilder-pro',
-					] ),
+					'raw'  => Plugin::get_instance()->go_pro_template(
+						[
+							'title'    => __( 'BuddyBuilder PRO', 'stax-buddy-builder' ),
+							'messages' => [
+								__( 'Power up up your listing with custom queries and templates.', 'stax-buddy-builder' ),
+							],
+							'link'     => 'https://staxwp.com/go/buddybuilder-pro',
+						]
+					),
 				]
 			);
 
@@ -63,7 +65,7 @@ class ActivityListing extends \Buddy_Builder\Widgets\Base {
 			'activity_item_container_section',
 			[
 				'label' => __( 'Activity Item Container', 'stax-buddy-builder' ),
-				'tab'   => Controls_Manager::TAB_STYLE
+				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
 
@@ -89,7 +91,7 @@ class ActivityListing extends \Buddy_Builder\Widgets\Base {
 			Group_Control_Border::get_type(),
 			[
 				'name'     => 'container_border',
-				'selector' => '{{WRAPPER}} .activity > ul.activity-list > li'
+				'selector' => '{{WRAPPER}} .activity > ul.activity-list > li',
 			]
 		);
 
@@ -113,7 +115,7 @@ class ActivityListing extends \Buddy_Builder\Widgets\Base {
 				'size_units' => [ 'px', 'em', '%' ],
 				'selectors'  => [
 					'{{WRAPPER}} .activity > ul.activity-list > li' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				]
+				],
 			]
 		);
 
@@ -129,8 +131,8 @@ class ActivityListing extends \Buddy_Builder\Widgets\Base {
 				],
 				'selectors' => [
 					'{{WRAPPER}} .activity > ul.activity-list > li'            => 'margin-top: 0; margin-bottom: {{SIZE}}{{UNIT}};',
-					'{{WRAPPER}} .activity > ul.activity-list > li:last-child' => 'margin-bottom: 0;'
-				]
+					'{{WRAPPER}} .activity > ul.activity-list > li:last-child' => 'margin-bottom: 0;',
+				],
 			]
 		);
 
@@ -141,7 +143,7 @@ class ActivityListing extends \Buddy_Builder\Widgets\Base {
 			[
 				'label'      => __( 'Load More Button', 'stax-buddy-builder' ),
 				'tab'        => Controls_Manager::TAB_STYLE,
-				'conditions' => []
+				'conditions' => [],
 			]
 		);
 
@@ -154,7 +156,7 @@ class ActivityListing extends \Buddy_Builder\Widgets\Base {
 				'selectors' => [
 					'{{WRAPPER}} .load-more'   => 'background-color: transparent; border: none; margin: 0;',
 					'{{WRAPPER}} .load-newest' => 'background-color: transparent; border: none; margin: 0;',
-				]
+				],
 			]
 		);
 
@@ -166,14 +168,13 @@ class ActivityListing extends \Buddy_Builder\Widgets\Base {
 				'default'   => 'block',
 				'options'   => [
 					'inline-block' => __( 'Inline', 'stax-buddy-builder' ),
-					'block'        => __( 'Block', 'stax-buddy-builder' )
+					'block'        => __( 'Block', 'stax-buddy-builder' ),
 				],
 				'selectors' => [
 					'{{WRAPPER}} .load-more a' => 'display: block;',
 				],
 			]
 		);
-
 
 		$this->add_responsive_control(
 			'load_more_btn_align',
@@ -198,7 +199,7 @@ class ActivityListing extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} .load-more' => 'text-align: {{VALUE}};',
 				],
 				'condition' => [
-					'load_more_btn_display_type' => 'inline-block'
+					'load_more_btn_display_type' => 'inline-block',
 				],
 				'default'   => '',
 			]
@@ -214,8 +215,8 @@ class ActivityListing extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} .load-more a' => 'display: inline-block;',
 				],
 				'condition' => [
-					'load_more_btn_display_type' => 'inline-block'
-				]
+					'load_more_btn_display_type' => 'inline-block',
+				],
 			]
 		);
 
@@ -310,7 +311,7 @@ class ActivityListing extends \Buddy_Builder\Widgets\Base {
 			Group_Control_Box_Shadow::get_type(),
 			[
 				'name'     => 'load_more_btn_hover_shadow',
-				'selector' => '#buddypress {{WRAPPER}} .load-more a:hover, #buddypress {{WRAPPER}} .load-newest a:hover'
+				'selector' => '#buddypress {{WRAPPER}} .load-more a:hover, #buddypress {{WRAPPER}} .load-newest a:hover',
 			]
 		);
 
@@ -323,7 +324,7 @@ class ActivityListing extends \Buddy_Builder\Widgets\Base {
 			[
 				'name'      => 'load_more_btn_border',
 				'selector'  => '{{WRAPPER}} .load-more a, {{WRAPPER}} .load-newest a',
-				'separator' => 'before'
+				'separator' => 'before',
 			]
 		);
 
@@ -344,7 +345,7 @@ class ActivityListing extends \Buddy_Builder\Widgets\Base {
 			Group_Control_Box_Shadow::get_type(),
 			[
 				'name'     => 'load_more_btn_shadow',
-				'selector' => '#buddypress {{WRAPPER}} .load-more a, #buddypress {{WRAPPER}} .load-newest a'
+				'selector' => '#buddypress {{WRAPPER}} .load-more a, #buddypress {{WRAPPER}} .load-newest a',
 			]
 		);
 
@@ -357,7 +358,7 @@ class ActivityListing extends \Buddy_Builder\Widgets\Base {
 				'selectors'  => [
 					'{{WRAPPER}} .load-more a'   => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 					'{{WRAPPER}} .load-newest a' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				]
+				],
 			]
 		);
 
@@ -378,25 +379,25 @@ class ActivityListing extends \Buddy_Builder\Widgets\Base {
 
 		apply_filters( 'buddy_builder/activity-loop/before/template', $settings );
 
-		do_action('bp_before_directory_activity');
+		do_action( 'bp_before_directory_activity' );
 
 		?>
 
-        <div id="buddypress" class="buddypress-wrap bp-dir-hori-nav activity">
+		<div id="buddypress" class="buddypress-wrap bp-dir-hori-nav activity">
 
 			<?php bp_nouveau_before_activity_directory_content(); ?>
 
-            <div class="screen-content">
+			<div class="screen-content">
 				<?php bp_nouveau_activity_hook( 'before_directory', 'list' ); ?>
 
-                <div id="activity-stream" class="activity" data-bp-list="">
-	                <?php bp_get_template_part( 'activity/activity-loop' ); ?>
-                </div>
+				<div id="activity-stream" class="activity" data-bp-list="">
+					<?php bp_get_template_part( 'activity/activity-loop' ); ?>
+				</div>
 
 				<?php bp_nouveau_after_activity_directory_content(); ?>
 
-            </div>
-        </div>
+			</div>
+		</div>
 
 		<?php
 		remove_filter( 'bp_current_component', $current_component );

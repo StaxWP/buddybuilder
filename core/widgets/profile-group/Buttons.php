@@ -47,8 +47,8 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				'default' => 'inline-block',
 				'options' => [
 					'inline-block' => __( 'Inline', 'stax-buddy-builder' ),
-					'block'        => __( 'Block', 'stax-buddy-builder' )
-				]
+					'block'        => __( 'Block', 'stax-buddy-builder' ),
+				],
 			]
 		);
 
@@ -76,8 +76,8 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				],
 				'default'   => '',
 				'condition' => [
-					'button_display' => 'inline-block'
-				]
+					'button_display' => 'inline-block',
+				],
 			]
 		);
 
@@ -88,12 +88,12 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::HIDDEN,
 				'default'   => 'inline-block',
 				'condition' => [
-					'button_display' => 'inline-block'
+					'button_display' => 'inline-block',
 				],
 				'selectors' => [
-					'{{WRAPPER}} .groups-meta'                                    => 'display: flex; flex-wrap: wrap;',
+					'{{WRAPPER}} .groups-meta' => 'display: flex; flex-wrap: wrap;',
 					'{{WRAPPER}} .groups-meta a, {{WRAPPER}} .groups-meta button' => 'display: inline-flex;',
-				]
+				],
 			]
 		);
 
@@ -104,11 +104,11 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::HIDDEN,
 				'default'   => 'block',
 				'condition' => [
-					'button_display' => 'block'
+					'button_display' => 'block',
 				],
 				'selectors' => [
-					'{{WRAPPER}} .groups-meta a, {{WRAPPER}} .groups-meta button' => 'display: inline-block;'
-				]
+					'{{WRAPPER}} .groups-meta a, {{WRAPPER}} .groups-meta button' => 'display: inline-block;',
+				],
 			]
 		);
 
@@ -136,8 +136,8 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				],
 				'default'   => '',
 				'condition' => [
-					'button_display' => 'block'
-				]
+					'button_display' => 'block',
+				],
 			]
 		);
 
@@ -152,12 +152,12 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 					],
 				],
 				'selectors' => [
-					'{{WRAPPER}} .groups-meta.action div'            => 'margin-right: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .groups-meta.action div' => 'margin-right: {{SIZE}}{{UNIT}};',
 					'{{WRAPPER}} .groups-meta.action div:last-child' => 'margin-right: 0;',
 				],
 				'condition' => [
-					'button_display' => 'inline-block'
-				]
+					'button_display' => 'inline-block',
+				],
 			]
 		);
 
@@ -175,7 +175,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} .groups-meta.action div' => 'margin-top: calc({{SIZE}}{{UNIT}} / 2); margin-bottom: calc({{SIZE}}{{UNIT}} / 2);',
 				],
 				'condition' => [
-					'button_display' => 'inline-block'
+					'button_display' => 'inline-block',
 				],
 			]
 		);
@@ -191,12 +191,12 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 					],
 				],
 				'selectors' => [
-					'{{WRAPPER}} .groups-meta.action div'            => 'margin-bottom: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .groups-meta.action div' => 'margin-bottom: {{SIZE}}{{UNIT}};',
 					'{{WRAPPER}} .groups-meta.action div:last-child' => 'margin-bottom: 0;',
 				],
 				'condition' => [
-					'button_display' => 'block'
-				]
+					'button_display' => 'block',
+				],
 			]
 		);
 
@@ -215,8 +215,8 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} .groups-meta.action div a, {{WRAPPER}} .groups-meta.action div button' => 'min-width: {{SIZE}}%;',
 				],
 				'condition' => [
-					'button_display' => 'block'
-				]
+					'button_display' => 'block',
+				],
 			]
 		);
 
@@ -328,7 +328,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 			[
 				'name'      => 'button_border',
 				'selector'  => '{{WRAPPER}} .groups-meta.action button',
-				'separator' => 'before'
+				'separator' => 'before',
 			]
 		);
 
@@ -352,7 +352,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				'size_units' => [ 'px', 'em', '%' ],
 				'selectors'  => [
 					'{{WRAPPER}} .groups-meta.action button' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				]
+				],
 			]
 		);
 

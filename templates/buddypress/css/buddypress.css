@@ -4490,6 +4490,9 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 * @section 10.0 - Third Party Plugins Compatibility
 *-------------------------------------------------------------------------------
 */
+.stax-buddybuilder-template #buddypress #item-body {
+  padding: 0; }
+
 .stax-buddybuilder-template #whats-new-form.activity-form-expanded #whats-new-options {
   display: flex;
   flex-wrap: wrap;
@@ -4710,4 +4713,3 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 .stax-buddybuilder-template #buddypress a.rtm-button-back {
   padding: 0.75em 1em; }
 
-/*# sourceMappingURL=buddypress.css.map */

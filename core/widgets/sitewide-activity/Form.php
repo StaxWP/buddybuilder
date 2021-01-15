@@ -35,7 +35,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 			'container_section',
 			[
 				'label' => __( 'Form Container', 'stax-buddy-builder' ),
-				'tab'   => Controls_Manager::TAB_STYLE
+				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
 
@@ -45,7 +45,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Background', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} #bp-nouveau-activity-form' => 'background-color: {{VALUE}}'
+					'{{WRAPPER}} #bp-nouveau-activity-form' => 'background-color: {{VALUE}}',
 				],
 			]
 		);
@@ -62,7 +62,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 			Group_Control_Border::get_type(),
 			[
 				'name'     => 'container_border',
-				'selector' => '{{WRAPPER}} #bp-nouveau-activity-form'
+				'selector' => '{{WRAPPER}} #bp-nouveau-activity-form',
 			]
 		);
 
@@ -86,7 +86,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 				'size_units' => [ 'px', 'em', '%' ],
 				'selectors'  => [
 					'{{WRAPPER}} #bp-nouveau-activity-form' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				]
+				],
 			]
 		);
 
@@ -98,7 +98,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 				'size_units' => [ 'px', 'em', '%' ],
 				'selectors'  => [
 					'{{WRAPPER}} #bp-nouveau-activity-form' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				]
+				],
 			]
 		);
 
@@ -108,7 +108,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 			'avatar_section',
 			[
 				'label' => __( 'Avatar', 'stax-buddy-builder' ),
-				'tab'   => Controls_Manager::TAB_STYLE
+				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
 
@@ -138,7 +138,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 			'textarea_section',
 			[
 				'label' => __( 'Textarea', 'stax-buddy-builder' ),
-				'tab'   => Controls_Manager::TAB_STYLE
+				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
 
@@ -165,7 +165,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Background', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} #whats-new-textarea textarea' => 'background-color: {{VALUE}}'
+					'{{WRAPPER}} #whats-new-textarea textarea' => 'background-color: {{VALUE}}',
 				],
 			]
 		);
@@ -176,7 +176,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} #whats-new-textarea textarea' => 'color: {{VALUE}}'
+					'{{WRAPPER}} #whats-new-textarea textarea' => 'color: {{VALUE}}',
 				],
 			]
 		);
@@ -187,7 +187,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Placeholder Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} #whats-new-textarea textarea::placeholder' => 'color: {{VALUE}}'
+					'{{WRAPPER}} #whats-new-textarea textarea::placeholder' => 'color: {{VALUE}}',
 				],
 			]
 		);
@@ -207,7 +207,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Background', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} #whats-new-textarea textarea:focus' => 'background-color: {{VALUE}}'
+					'{{WRAPPER}} #whats-new-textarea textarea:focus' => 'background-color: {{VALUE}}',
 				],
 			]
 		);
@@ -218,7 +218,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} #whats-new-textarea textarea:focus' => 'color: {{VALUE}}'
+					'{{WRAPPER}} #whats-new-textarea textarea:focus' => 'color: {{VALUE}}',
 				],
 			]
 		);
@@ -229,7 +229,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Placeholder Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} #whats-new-textarea textarea:focus::placeholder' => 'color: {{VALUE}}'
+					'{{WRAPPER}} #whats-new-textarea textarea:focus::placeholder' => 'color: {{VALUE}}',
 				],
 			]
 		);
@@ -240,7 +240,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Border Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} #whats-new-textarea textarea:focus' => 'border-color: {{VALUE}}'
+					'{{WRAPPER}} #whats-new-textarea textarea:focus' => 'border-color: {{VALUE}}',
 				],
 			]
 		);
@@ -253,7 +253,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 			Group_Control_Border::get_type(),
 			[
 				'name'     => 'textarea_border',
-				'selector' => '{{WRAPPER}} #whats-new-textarea textarea'
+				'selector' => '{{WRAPPER}} #whats-new-textarea textarea',
 			]
 		);
 
@@ -277,7 +277,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 				'size_units' => [ 'px', 'em', '%' ],
 				'selectors'  => [
 					'{{WRAPPER}} #whats-new-textarea textarea' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				]
+				],
 			]
 		);
 
@@ -287,7 +287,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 			'post_in_section',
 			[
 				'label' => __( 'Post In Option', 'stax-buddy-builder' ),
-				'tab'   => Controls_Manager::TAB_STYLE
+				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
 
@@ -296,7 +296,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 			[
 				'label'    => __( 'Text Typography', 'stax-buddy-builder' ),
 				'name'     => 'post_in_select_typography',
-				'selector' => '{{WRAPPER}} #whats-new-post-in-box select, {{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete'
+				'selector' => '{{WRAPPER}} #whats-new-post-in-box select, {{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete',
 			]
 		);
 
@@ -305,7 +305,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 		$this->start_controls_tab(
 			'post_in_select_normal_style',
 			[
-				'label' => __( 'Normal', 'stax-buddy-builder' )
+				'label' => __( 'Normal', 'stax-buddy-builder' ),
 			]
 		);
 
@@ -317,7 +317,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 				'selectors' => [
 					'{{WRAPPER}} #whats-new-post-in-box select'                       => 'background-color: {{VALUE}};',
 					'{{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete' => 'background-color: {{VALUE}};',
-				]
+				],
 			]
 		);
 
@@ -330,7 +330,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 				'selectors' => [
 					'{{WRAPPER}} #whats-new-post-in-box select'                       => 'color: {{VALUE}};',
 					'{{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete' => 'color: {{VALUE}};',
-				]
+				],
 			]
 		);
 
@@ -344,7 +344,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete::placeholder'           => 'color: {{VALUE}};',
 					'{{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete:-ms-input-placeholder'  => 'color: {{VALUE}};',
 					'{{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete::-ms-input-placeholder' => 'color: {{VALUE}};',
-				]
+				],
 			]
 		);
 
@@ -355,7 +355,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} #whats-new-post-in-box select' => 'background-image: linear-gradient(45deg, transparent 50%, {{VALUE}} 50%), linear-gradient(135deg, {{VALUE}} 50%, transparent 50%);',
-				]
+				],
 			]
 		);
 
@@ -363,7 +363,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 			Group_Control_Box_Shadow::get_type(),
 			[
 				'name'     => 'post_in_select_shadow',
-				'selector' => '{{WRAPPER}} #whats-new-post-in-box select, {{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete'
+				'selector' => '{{WRAPPER}} #whats-new-post-in-box select, {{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete',
 			]
 		);
 
@@ -372,7 +372,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 		$this->start_controls_tab(
 			'post_in_select_focus_style',
 			[
-				'label' => __( 'Focus', 'stax-buddy-builder' )
+				'label' => __( 'Focus', 'stax-buddy-builder' ),
 			]
 		);
 
@@ -384,7 +384,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 				'selectors' => [
 					'{{WRAPPER}} #whats-new-post-in-box select:focus'                       => 'background-color: {{VALUE}};',
 					'{{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete:focus' => 'background-color: {{VALUE}};',
-				]
+				],
 			]
 		);
 
@@ -397,7 +397,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 				'selectors' => [
 					'{{WRAPPER}} #whats-new-post-in-box select:focus'                       => 'color: {{VALUE}};',
 					'{{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete:focus' => 'color: {{VALUE}};',
-				]
+				],
 			]
 		);
 
@@ -411,7 +411,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete:focus::placeholder'           => 'color: {{VALUE}};',
 					'{{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete:focus:-ms-input-placeholder'  => 'color: {{VALUE}};',
 					'{{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete:focus::-ms-input-placeholder' => 'color: {{VALUE}};',
-				]
+				],
 			]
 		);
 
@@ -422,7 +422,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} #whats-new-post-in-box select:focus' => 'background-image: linear-gradient(45deg, transparent 50%, {{VALUE}} 50%), linear-gradient(135deg, {{VALUE}} 50%, transparent 50%);',
-				]
+				],
 			]
 		);
 
@@ -435,7 +435,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 				'selectors' => [
 					'{{WRAPPER}} #whats-new-post-in-box select:focus'                       => 'border-color: {{VALUE}};',
 					'{{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete:focus' => 'border-color: {{VALUE}};',
-				]
+				],
 			]
 		);
 
@@ -443,7 +443,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 			Group_Control_Box_Shadow::get_type(),
 			[
 				'name'     => 'post_in_select_focus_shadow',
-				'selector' => '{{WRAPPER}} #whats-new-post-in-box:focus select, {{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete:focus'
+				'selector' => '{{WRAPPER}} #whats-new-post-in-box:focus select, {{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete:focus',
 			]
 		);
 
@@ -456,7 +456,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 			[
 				'name'      => 'post_in_select_border',
 				'selector'  => '{{WRAPPER}} #whats-new-post-in-box select, {{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete',
-				'separator' => 'before'
+				'separator' => 'before',
 			]
 		);
 
@@ -468,8 +468,8 @@ class Form extends \Buddy_Builder\Widgets\Base {
 				'size_units' => [ 'px', '%', 'em' ],
 				'selectors'  => [
 					'{{WRAPPER}} #whats-new-post-in-box select'                       => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-					'{{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};'
-				]
+					'{{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
 			]
 		);
 
@@ -481,8 +481,8 @@ class Form extends \Buddy_Builder\Widgets\Base {
 				'size_units' => [ 'px', 'em', '%' ],
 				'selectors'  => [
 					'{{WRAPPER}} #whats-new-post-in-box select'                                   => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-					'#buddypress {{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};'
-				]
+					'#buddypress {{WRAPPER}} #whats-new-post-in-box-items #activity-autocomplete' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
 			]
 		);
 
@@ -492,7 +492,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 			'post_btn_section',
 			[
 				'label' => __( 'Post Button', 'stax-buddy-builder' ),
-				'tab'   => Controls_Manager::TAB_STYLE
+				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
 
@@ -520,7 +520,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Background', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} #bp-nouveau-activity-form #aw-whats-new-submit' => 'background-color: {{VALUE}}'
+					'{{WRAPPER}} #bp-nouveau-activity-form #aw-whats-new-submit' => 'background-color: {{VALUE}}',
 				],
 			]
 		);
@@ -531,7 +531,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} #bp-nouveau-activity-form #aw-whats-new-submit' => 'color: {{VALUE}}'
+					'{{WRAPPER}} #bp-nouveau-activity-form #aw-whats-new-submit' => 'color: {{VALUE}}',
 				],
 			]
 		);
@@ -559,7 +559,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Background', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} #bp-nouveau-activity-form #aw-whats-new-submit:hover' => 'background-color: {{VALUE}}'
+					'{{WRAPPER}} #bp-nouveau-activity-form #aw-whats-new-submit:hover' => 'background-color: {{VALUE}}',
 				],
 			]
 		);
@@ -570,7 +570,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} #bp-nouveau-activity-form #aw-whats-new-submit:hover' => 'color: {{VALUE}}'
+					'{{WRAPPER}} #bp-nouveau-activity-form #aw-whats-new-submit:hover' => 'color: {{VALUE}}',
 				],
 			]
 		);
@@ -581,7 +581,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Border Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} #bp-nouveau-activity-form #aw-whats-new-submit:hover' => 'border-color: {{VALUE}}'
+					'{{WRAPPER}} #bp-nouveau-activity-form #aw-whats-new-submit:hover' => 'border-color: {{VALUE}}',
 				],
 			]
 		);
@@ -602,7 +602,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 			Group_Control_Border::get_type(),
 			[
 				'name'     => 'post_btn_border',
-				'selector' => '{{WRAPPER}} #bp-nouveau-activity-form #aw-whats-new-submit'
+				'selector' => '{{WRAPPER}} #bp-nouveau-activity-form #aw-whats-new-submit',
 			]
 		);
 
@@ -626,7 +626,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 				'size_units' => [ 'px', 'em', '%' ],
 				'selectors'  => [
 					'{{WRAPPER}} #bp-nouveau-activity-form #aw-whats-new-submit' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				]
+				],
 			]
 		);
 
@@ -636,7 +636,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 			'cancel_btn_section',
 			[
 				'label' => __( 'Cancel Button', 'stax-buddy-builder' ),
-				'tab'   => Controls_Manager::TAB_STYLE
+				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
 
@@ -664,7 +664,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Background', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} #bp-nouveau-activity-form #aw-whats-new-reset' => 'background-color: {{VALUE}}'
+					'{{WRAPPER}} #bp-nouveau-activity-form #aw-whats-new-reset' => 'background-color: {{VALUE}}',
 				],
 			]
 		);
@@ -675,7 +675,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} #bp-nouveau-activity-form #aw-whats-new-reset' => 'color: {{VALUE}}'
+					'{{WRAPPER}} #bp-nouveau-activity-form #aw-whats-new-reset' => 'color: {{VALUE}}',
 				],
 			]
 		);
@@ -703,7 +703,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Background', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} #bp-nouveau-activity-form #aw-whats-new-reset:hover' => 'background-color: {{VALUE}}'
+					'{{WRAPPER}} #bp-nouveau-activity-form #aw-whats-new-reset:hover' => 'background-color: {{VALUE}}',
 				],
 			]
 		);
@@ -714,7 +714,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} #bp-nouveau-activity-form #aw-whats-new-reset:hover' => 'color: {{VALUE}}'
+					'{{WRAPPER}} #bp-nouveau-activity-form #aw-whats-new-reset:hover' => 'color: {{VALUE}}',
 				],
 			]
 		);
@@ -725,7 +725,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Border Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} #bp-nouveau-activity-form #aw-whats-new-reset:hover' => 'border-color: {{VALUE}}'
+					'{{WRAPPER}} #bp-nouveau-activity-form #aw-whats-new-reset:hover' => 'border-color: {{VALUE}}',
 				],
 			]
 		);
@@ -746,7 +746,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 			Group_Control_Border::get_type(),
 			[
 				'name'     => 'cancel_btn_border',
-				'selector' => '{{WRAPPER}} #bp-nouveau-activity-form #aw-whats-new-reset'
+				'selector' => '{{WRAPPER}} #bp-nouveau-activity-form #aw-whats-new-reset',
 			]
 		);
 
@@ -770,7 +770,7 @@ class Form extends \Buddy_Builder\Widgets\Base {
 				'size_units' => [ 'px', 'em', '%' ],
 				'selectors'  => [
 					'{{WRAPPER}} #bp-nouveau-activity-form #aw-whats-new-reset' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				]
+				],
 			]
 		);
 

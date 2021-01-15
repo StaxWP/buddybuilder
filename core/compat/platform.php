@@ -20,7 +20,6 @@ if ( ! function_exists( 'bp_nouveau_after_directory_page' ) ) {
 		 */
 		do_action( "bp_after_directory_{$component}_page" );
 	}
-
 }
 
 if ( ! function_exists( 'bp_nouveau_group_description_excerpt' ) ) {
@@ -29,11 +28,10 @@ if ( ! function_exists( 'bp_nouveau_group_description_excerpt' ) ) {
 	 *
 	 * @param object $group Optional. The group being referenced.
 	 *                      Defaults to the group currently being iterated on in the groups loop.
-	 * @param int $length Optional. Length of returned string, including ellipsis. Default: 100.
+	 * @param int    $length Optional. Length of returned string, including ellipsis. Default: 100.
 	 *
 	 * @return string Excerpt.
 	 * @since 3.0.0
-	 *
 	 */
 	function bp_nouveau_group_description_excerpt( $group = null, $length = null ) {
 		echo bp_nouveau_get_group_description_excerpt( $group, $length );
@@ -49,11 +47,10 @@ if ( ! function_exists( 'bp_nouveau_get_group_description_excerpt' ) ) {
 	 *
 	 * @param object $group Optional. The group being referenced. Defaults to the group currently being
 	 *                      iterated on in the groups loop.
-	 * @param int $length Optional. Length of returned string, including ellipsis. Default: 100.
+	 * @param int    $length Optional. Length of returned string, including ellipsis. Default: 100.
 	 *
 	 * @return string Excerpt.
 	 * @since 3.0.0
-	 *
 	 */
 	function bp_nouveau_get_group_description_excerpt( $group = null, $length = null ) {
 		global $groups_template;
@@ -82,14 +79,13 @@ if ( ! function_exists( 'bp_nouveau_get_group_description_excerpt' ) ) {
 		 * @param object $group Object for group whose description is made into an excerpt.
 		 *
 		 * @since 3.0.0
-		 *
 		 */
 		return apply_filters( 'bp_nouveau_get_group_description_excerpt', bp_create_excerpt( $group->description, $length ), $group );
 	}
 }
 
 
-if ( ! function_exists( 'bp_member_latest_update' )) {
+if ( ! function_exists( 'bp_member_latest_update' ) ) {
 	/**
 	 * Output the latest update of the current member in the loop.
 	 *
@@ -102,66 +98,67 @@ if ( ! function_exists( 'bp_member_latest_update' )) {
 	}
 }
 
-	if ( ! function_exists( 'bp_get_member_latest_update' )) {
+if ( ! function_exists( 'bp_get_member_latest_update' ) ) {
+	/**
+	 * Get the latest update from the current member in the loop.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @param array|string $args {
+	 *     Array of optional arguments.
+	 *     @type int  $length    Truncation length. Default: 225.
+	 *     @type bool $view_link Whether to provide a 'View' link for
+	 *                           truncated entries. Default: false.
+	 * }
+	 * @return string
+	 */
+	function bp_get_member_latest_update( $args = '' ) {
+		global $members_template;
+
+		$defaults = [
+			'length'    => 225,
+			'view_link' => true,
+		];
+
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r );
+
+		if ( ! bp_is_active( 'activity' ) || empty( $members_template->member->latest_update ) || ! $update = maybe_unserialize( $members_template->member->latest_update ) ) {
+			return false;
+		}
+
 		/**
-		 * Get the latest update from the current member in the loop.
+		 * Filters the excerpt of the latest update for current member in the loop.
+		 *
+		 * @since 1.2.5
+		 * @since 2.6.0 Added the `$r` parameter.
+		 *
+		 * @param string $value Excerpt of the latest update for current member in the loop.
+		 * @param array  $r     Array of parsed arguments.
+		 */
+		$update_content = apply_filters( 'bp_get_activity_latest_update_excerpt', trim( strip_tags( bp_create_excerpt( $update['content'], $length ) ) ), $r );
+
+		/* translators: %s: the member latest activity update */
+		$update_content = sprintf( _x( '- &quot;%s&quot;', 'member latest update in member directory', 'buddypress' ), $update_content );
+
+		// If $view_link is true and the text returned by bp_create_excerpt() is different from the original text (ie it's
+		// been truncated), add the "View" link.
+		if ( $view_link && ( $update_content != $update['content'] ) ) {
+			$view = __( 'View', 'buddypress' );
+
+			$update_content .= '<span class="activity-read-more"><a href="' . bp_activity_get_permalink( $update['id'] ) . '" rel="nofollow">' . $view . '</a></span>';
+		}
+
+		/**
+		 * Filters the latest update from the current member in the loop.
 		 *
 		 * @since 1.2.0
+		 * @since 2.6.0 Added the `$r` parameter.
 		 *
-		 * @param array|string $args {
-		 *     Array of optional arguments.
-		 *     @type int  $length    Truncation length. Default: 225.
-		 *     @type bool $view_link Whether to provide a 'View' link for
-		 *                           truncated entries. Default: false.
-		 * }
-		 * @return string
+		 * @param string $update_content Formatted latest update for current member.
+		 * @param array  $r              Array of parsed arguments.
 		 */
-		function bp_get_member_latest_update( $args = '' ) {
-			global $members_template;
-
-			$defaults = array(
-				'length'    => 225,
-				'view_link' => true
-			);
-
-			$r = wp_parse_args( $args, $defaults );
-			extract( $r );
-
-			if ( !bp_is_active( 'activity' ) || empty( $members_template->member->latest_update ) || !$update = maybe_unserialize( $members_template->member->latest_update ) )
-				return false;
-
-			/**
-			 * Filters the excerpt of the latest update for current member in the loop.
-			 *
-			 * @since 1.2.5
-			 * @since 2.6.0 Added the `$r` parameter.
-			 *
-			 * @param string $value Excerpt of the latest update for current member in the loop.
-			 * @param array  $r     Array of parsed arguments.
-			 */
-			$update_content = apply_filters( 'bp_get_activity_latest_update_excerpt', trim( strip_tags( bp_create_excerpt( $update['content'], $length ) ) ), $r );
-
-			/* translators: %s: the member latest activity update */
-			$update_content = sprintf( _x( '- &quot;%s&quot;', 'member latest update in member directory', 'buddypress' ), $update_content );
-
-			// If $view_link is true and the text returned by bp_create_excerpt() is different from the original text (ie it's
-			// been truncated), add the "View" link.
-			if ( $view_link && ( $update_content != $update['content'] ) ) {
-				$view = __( 'View', 'buddypress' );
-
-				$update_content .= '<span class="activity-read-more"><a href="' . bp_activity_get_permalink( $update['id'] ) . '" rel="nofollow">' . $view . '</a></span>';
-			}
-
-			/**
-			 * Filters the latest update from the current member in the loop.
-			 *
-			 * @since 1.2.0
-			 * @since 2.6.0 Added the `$r` parameter.
-			 *
-			 * @param string $update_content Formatted latest update for current member.
-			 * @param array  $r              Array of parsed arguments.
-			 */
-			return apply_filters( 'bp_get_member_latest_update', $update_content, $r );
-		}
+		return apply_filters( 'bp_get_member_latest_update', $update_content, $r );
 	}
+}
 

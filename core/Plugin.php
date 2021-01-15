@@ -130,7 +130,6 @@ final class Plugin {
 	 * @since 1.0.0
 	 * @access public
 	 * @static
-	 *
 	 */
 	public static function get_instance() {
 		if ( self::$instance === null ) {
@@ -223,6 +222,8 @@ final class Plugin {
 		 * @use buddy_builder/init
 		 */
 		do_action( 'buddybuilder_init' );
+
+		add_action( 'admin_notices', [ Notices::get_instance(), 'rate_us_notice' ] );
 	}
 
 	/**
@@ -249,7 +250,6 @@ final class Plugin {
 	 *
 	 * @since 1.0.0
 	 * @access public
-	 *
 	 */
 	public function autoload( $class ) {
 		// Return if Buddy_Builder name space is not set.
@@ -262,11 +262,15 @@ final class Plugin {
 		 *
 		 * @todo Refactor to use preg_replace.
 		 */
-		$filename = str_replace( array( __NAMESPACE__ . '\\', '\\', '_' ), array(
-			'',
-			DIRECTORY_SEPARATOR,
-			'-'
-		), $class );
+		$filename = str_replace(
+			[ __NAMESPACE__ . '\\', '\\', '_' ],
+			[
+				'',
+				DIRECTORY_SEPARATOR,
+				'-',
+			],
+			$class
+		);
 		$filename = __DIR__ . '/' . strtolower( $filename ) . '.php';
 
 		// Return if file is not found.
@@ -320,19 +324,19 @@ final class Plugin {
 		$elements['groups-directory/Listing'] = [
 			'name'     => 'bpb-groups-directory-list',
 			'class'    => 'GroupsDirectory\Listing',
-			'template' => 'groups-directory'
+			'template' => 'groups-directory',
 		];
 
 		$elements['groups-directory/Filters'] = [
 			'name'     => 'bpb-groups-directory-filters',
 			'class'    => 'GroupsDirectory\Filters',
-			'template' => 'groups-directory'
+			'template' => 'groups-directory',
 		];
 
 		$elements['groups-directory/Navigation'] = [
 			'name'     => 'bpb-groups-directory-navigation',
 			'class'    => 'GroupsDirectory\Navigation',
-			'template' => 'groups-directory'
+			'template' => 'groups-directory',
 		];
 
 		// Group profile
@@ -340,61 +344,61 @@ final class Plugin {
 		$elements['profile-group/Name'] = [
 			'name'     => 'bpb-profile-group-name',
 			'class'    => 'ProfileGroup\Name',
-			'template' => 'group-profile'
+			'template' => 'group-profile',
 		];
 
 		$elements['profile-group/Avatar'] = [
 			'name'     => 'bpb-profile-group-avatar',
 			'class'    => 'ProfileGroup\Avatar',
-			'template' => 'group-profile'
+			'template' => 'group-profile',
 		];
 
 		$elements['profile-group/Buttons'] = [
 			'name'     => 'bpb-profile-group-buttons',
 			'class'    => 'ProfileGroup\Buttons',
-			'template' => 'group-profile'
+			'template' => 'group-profile',
 		];
 
 		$elements['profile-group/Cover'] = [
 			'name'     => 'bpb-profile-group-cover',
 			'class'    => 'ProfileGroup\Cover',
-			'template' => 'group-profile'
+			'template' => 'group-profile',
 		];
 
 		$elements['profile-group/Description'] = [
 			'name'     => 'bpb-profile-group-description',
 			'class'    => 'ProfileGroup\Description',
-			'template' => 'group-profile'
+			'template' => 'group-profile',
 		];
 
 		$elements['profile-group/Leadership'] = [
 			'name'     => 'bpb-profile-group-leadership',
 			'class'    => 'ProfileGroup\Leadership',
-			'template' => 'group-profile'
+			'template' => 'group-profile',
 		];
 
 		$elements['profile-group/LastActivity'] = [
 			'name'     => 'bpb-profile-group-last-activity',
 			'class'    => 'ProfileGroup\LastActivity',
-			'template' => 'group-profile'
+			'template' => 'group-profile',
 		];
 
 		$elements['profile-group/Navigation'] = [
 			'name'     => 'bpb-profile-group-navigation',
 			'class'    => 'ProfileGroup\Navigation',
-			'template' => 'group-profile'
+			'template' => 'group-profile',
 		];
 
 		$elements['profile-group/Status'] = [
 			'name'     => 'bpb-profile-group-status',
 			'class'    => 'ProfileGroup\Status',
-			'template' => 'group-profile'
+			'template' => 'group-profile',
 		];
 
 		$elements['profile-group/Content'] = [
 			'name'     => 'bpb-profile-group-content',
 			'class'    => 'ProfileGroup\Content',
-			'template' => 'group-profile'
+			'template' => 'group-profile',
 		];
 
 		// Members directory
@@ -402,19 +406,19 @@ final class Plugin {
 		$elements['members-directory/Listing'] = [
 			'name'     => 'bpb-members-directory-list',
 			'class'    => 'MembersDirectory\Listing',
-			'template' => 'members-directory'
+			'template' => 'members-directory',
 		];
 
 		$elements['members-directory/Filters'] = [
 			'name'     => 'bpb-members-directory-filters',
 			'class'    => 'MembersDirectory\Filters',
-			'template' => 'members-directory'
+			'template' => 'members-directory',
 		];
 
 		$elements['members-directory/Navigation'] = [
 			'name'     => 'bpb-members-directory-navigation',
 			'class'    => 'MembersDirectory\Navigation',
-			'template' => 'members-directory'
+			'template' => 'members-directory',
 		];
 
 		// Member profile
@@ -422,49 +426,49 @@ final class Plugin {
 		$elements['profile-member/Avatar'] = [
 			'name'     => 'bpb-profile-member-avatar',
 			'class'    => 'ProfileMember\Avatar',
-			'template' => 'member-profile'
+			'template' => 'member-profile',
 		];
 
 		$elements['profile-member/Cover'] = [
 			'name'     => 'bpb-profile-member-cover',
 			'class'    => 'ProfileMember\Cover',
-			'template' => 'member-profile'
+			'template' => 'member-profile',
 		];
 
 		$elements['profile-member/Buttons'] = [
 			'name'     => 'bpb-profile-member-buttons',
 			'class'    => 'ProfileMember\Buttons',
-			'template' => 'member-profile'
+			'template' => 'member-profile',
 		];
 
 		$elements['profile-member/Content'] = [
 			'name'     => 'bpb-profile-member-content',
 			'class'    => 'ProfileMember\Content',
-			'template' => 'member-profile'
+			'template' => 'member-profile',
 		];
 
 		$elements['profile-member/Meta'] = [
 			'name'     => 'bpb-profile-member-meta',
 			'class'    => 'ProfileMember\Meta',
-			'template' => 'member-profile'
+			'template' => 'member-profile',
 		];
 
 		$elements['profile-member/Username'] = [
 			'name'     => 'bpb-profile-member-username',
 			'class'    => 'ProfileMember\Username',
-			'template' => 'member-profile'
+			'template' => 'member-profile',
 		];
 
 		$elements['profile-member/Navigation'] = [
 			'name'     => 'bpb-profile-member-navigation',
 			'class'    => 'ProfileMember\Navigation',
-			'template' => 'member-profile'
+			'template' => 'member-profile',
 		];
 
 		$elements['profile-member/LastActivity'] = [
 			'name'     => 'bpb-profile-member-last-activity',
 			'class'    => 'ProfileMember\LastActivity',
-			'template' => 'member-profile'
+			'template' => 'member-profile',
 		];
 
 		// Sitewide activity
@@ -472,25 +476,25 @@ final class Plugin {
 		$elements['sitewide-activity/Form'] = [
 			'name'     => 'bpb-sitewide-form',
 			'class'    => 'Sitewide\Form',
-			'template' => 'sitewide-activity'
+			'template' => 'sitewide-activity',
 		];
 
 		$elements['sitewide-activity/Filters'] = [
 			'name'     => 'bpb-sitewide-filters',
 			'class'    => 'Sitewide\Filters',
-			'template' => 'sitewide-activity'
+			'template' => 'sitewide-activity',
 		];
 
 		$elements['sitewide-activity/Content'] = [
 			'name'     => 'bpb-sitewide-content',
 			'class'    => 'Sitewide\Content',
-			'template' => 'sitewide-activity'
+			'template' => 'sitewide-activity',
 		];
 
 		$elements['sitewide-activity/Navigation'] = [
 			'name'     => 'bpb-sitewide-navigation',
 			'class'    => 'Sitewide\Navigation',
-			'template' => 'sitewide-activity'
+			'template' => 'sitewide-activity',
 		];
 
 		// General
@@ -549,9 +553,9 @@ final class Plugin {
 		}
 
 		if ( isset( $_GET['elementor-preview'] ) ||
-		     bpb_is_edit_frame() ||
-		     bpb_is_preview_mode() ||
-		     bpb_is_front_library()
+			 bpb_is_edit_frame() ||
+			 bpb_is_preview_mode() ||
+			 bpb_is_front_library()
 		) {
 			wp_enqueue_style( 'stax-buddy-builder-front' );
 		}
@@ -590,22 +594,39 @@ final class Plugin {
 		ob_start();
 
 		?>
-        <div class="elementor-nerd-box">
-            <div class="elementor-nerd-box-title"><?php echo $texts['title']; ?></div>
-			<?php foreach ( $texts['messages'] as $message ): ?>
-                <div class="elementor-nerd-box-message"><?php echo $message; ?></div>
+		<div class="elementor-nerd-box">
+			<div class="elementor-nerd-box-title"><?php echo $texts['title']; ?></div>
+			<?php foreach ( $texts['messages'] as $message ) : ?>
+				<div class="elementor-nerd-box-message"><?php echo $message; ?></div>
 			<?php endforeach; ?>
 
-			<?php if ( $texts['link'] ): ?>
-                <a class="elementor-button elementor-panel-scheme-title" href="<?php echo $texts['link']; ?>"
-                   target="_blank">
+			<?php if ( $texts['link'] ) : ?>
+				<a class="elementor-button elementor-panel-scheme-title" href="<?php echo $texts['link']; ?>"
+				   target="_blank">
 					<?php echo __( 'Go PRO', 'stax-buddy-builder' ); ?>
-                </a>
+				</a>
 			<?php endif; ?>
-        </div>
+		</div>
 		<?php
 
 		return ob_get_clean();
+	}
+
+	/**
+	 * Get install time
+	 *
+	 * @return int
+	 */
+	public function get_install_time() {
+		$installed_time = get_option( '_bpb_installed_time' );
+
+		if ( ! $installed_time ) {
+			$installed_time = time();
+
+			update_option( '_bpb_installed_time', $installed_time );
+		}
+
+		return (int) $installed_time;
 	}
 
 }

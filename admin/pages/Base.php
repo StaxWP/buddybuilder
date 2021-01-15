@@ -8,32 +8,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Class Base
+ *
  * @package Buddy_Builder
  */
-class Base {
-
-	/**
-	 * @var null
-	 */
-	protected static $instances;
+class Base extends Singleton {
 
 	/**
 	 * @var string
 	 */
 	protected $current_slug;
-
-	/**
-	 * @return Base|null
-	 */
-	public static function instance() {
-		$class = static::class;
-
-		if ( ! isset( self::$instances[ $class ] ) ) {
-			self::$instances[ $class ] = new $class;
-		}
-
-		return self::$instances[ $class ];
-	}
 
 	/**
 	 * @return string
