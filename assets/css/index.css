@@ -333,9 +333,9 @@ body.buddypress .buddypress-wrap .elementor-heading-title {
   margin-bottom: 0; }
 
 @font-face {
-  font-family: 'sq-icons';
-  src: url("../../assets/fonts/sq-icons.eot?yzq8vh");
-  src: url("../../assets/fonts/sq-icons.eot?yzq8vh#iefix") format("embedded-opentype"), url("../../assets/fonts/sq-icons.ttf?yzq8vh") format("truetype"), url("../../assets/fonts/sq-icons.woff?yzq8vh") format("woff"), url("../../assets/fonts/sq-icons.svg?yzq8vh#sq-icons") format("svg");
+  font-family: 'sq-icons-v-1-1-3';
+  src: url("../../assets/fonts/sq-icons-v-1-1-3.eot?v41v8d");
+  src: url("../../assets/fonts/sq-icons-v-1-1-3.eot?v41v8d#iefix") format("embedded-opentype"), url("../../assets/fonts/sq-icons-v-1-1-3.ttf?v41v8d") format("truetype"), url("../../assets/fonts/sq-icons-v-1-1-3.woff?v41v8d") format("woff"), url("../../assets/fonts/sq-icons-v-1-1-3.svg?v41v8d#sq-icons-v-1-1-3") format("svg");
   font-weight: normal;
   font-style: normal;
   font-display: block; }
@@ -347,7 +347,7 @@ body.buddypress .buddypress-wrap .elementor-heading-title {
   z-index: 0; }
 
 .groups-list .item-entry .item-avatar > a:after {
-  font-family: 'sq-icons' !important;
+  font-family: 'sq-icons-v-1-1-3' !important;
   font-size: 1.2em;
   display: inline-block;
   position: absolute;
@@ -428,5 +428,4 @@ body.buddypress .buddypress-wrap .elementor-heading-title {
 
 .elementor-widget-bpb-sitewide-form #whats-new-post-in-box {
   font-size: inherit; }
-
-/*# sourceMappingURL=index.css.map */
+  

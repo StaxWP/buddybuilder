@@ -51,6 +51,15 @@ class BuddypressHooks extends Singleton {
 		add_filter( 'bp_ajax_querystring', [ $this, 'filter_bp_ajax_querystring' ], 10, 2 );
 	}
 
+	/**
+	 * Override RTmedia template
+	 *
+	 * @param $located
+	 * @param $url
+	 * @param $ogpath
+	 * @param $template_name
+	 * @return void
+	 */
 	public function override_rtmedia_template( $located, $url, $ogpath, $template_name ) {
 		if ( $template_name === 'main.php' && $this->current_component_has_template() ) {
 			if ( $url ) {
@@ -68,7 +77,6 @@ class BuddypressHooks extends Singleton {
 	 * Plugins loaded
 	 */
 	public function plugins_loaded() {
-
 		if ( ! $this->current_component_has_template() ) {
 			return;
 		}
@@ -111,7 +119,6 @@ class BuddypressHooks extends Singleton {
 	public function get_template_path() {
 		return BPB_BASE_PATH . 'templates/buddypress/';
 	}
-
 
 	/**
 	 * BuddyPress template url
@@ -269,7 +276,7 @@ class BuddypressHooks extends Singleton {
 
 		bpb_load_template( 'preview/wrapper', [ 'content' => $content ] );
 
-		return ob_get_clean();
+		return apply_filters( 'buddy_builder/preview/content', ob_get_clean(), $template_type, $content );
 	}
 
 	/**
@@ -421,7 +428,6 @@ class BuddypressHooks extends Singleton {
 					return true;
 				}
 			} else {
-				// Check if members directory
 				$slug = $this->get_page_slug();
 
 				if ( empty( $slug ) ) {
@@ -437,7 +443,7 @@ class BuddypressHooks extends Singleton {
 					'activity' => '',
 				];
 
-				// Set page slugs
+				// Set page slugs.
 				foreach ( $bp_pages_ids as $k => $bp_page_id ) {
 					$bp_page        = get_post( $bp_pages_ids[ $k ] );
 					$bp_slugs[ $k ] = $bp_page->post_name;
@@ -491,17 +497,17 @@ class BuddypressHooks extends Singleton {
 				}
 			}
 		} else {
-			// Members dir
+			// Members directory.
 			if ( $settings['members-directory'] && bp_is_members_directory() ) {
 				return bpb_is_template_id_populated( $settings['members-directory'] );
 			}
 
-			// Groups dir
+			// Groups directory.
 			if ( $settings['groups-directory'] && ! empty( bp_is_active( 'groups' ) ) && bp_is_groups_directory() ) {
 				return bpb_is_template_id_populated( $settings['groups-directory'] );
 			}
 
-			// Member profile
+			// Member profile.
 			if ( $settings['member-profile'] && bp_is_user() ) {
 				if ( ( ! isset( $settings['sitewide-activity-item'] ) || ! $settings['sitewide-activity-item'] ) &&
 					 bp_current_component() === 'activity' &&
@@ -512,18 +518,23 @@ class BuddypressHooks extends Singleton {
 				return bpb_is_template_id_populated( $settings['member-profile'] );
 			}
 
-			// Group profile
+			// Group profile.
 			if ( $settings['group-profile'] && ! empty( bp_is_active( 'groups' ) ) && bp_is_single_item() && bp_is_groups_component() ) {
 				return bpb_is_template_id_populated( $settings['group-profile'] );
 			}
 
-			// Site-wide activity
+			// Site-wide activity.
 			if ( $settings['sitewide-activity'] && ! empty( bp_is_active( 'activity' ) ) && bp_is_activity_directory() ) {
 				return bpb_is_template_id_populated( $settings['sitewide-activity'] );
 			}
+
+			// Register page.
+			if ( $settings['sitewide-activity'] ) {
+				return bpb_is_template_id_populated( $settings['register-page'] );
+			}
 		}
 
-		// if we are anywhere else in WP, then we can load our logic for general widgets
+		// If we are anywhere else in WP, then we can load our logic for general widgets.
 		return ! $strict && bp_is_blog_page();
 	}
 

@@ -117,7 +117,7 @@ class Status extends \Buddy_Builder\Widgets\Base {
 			?>
 			<p class="highlight group-status">
 				<?php
-				bp_nouveau_the_group_meta( array( 'keys' => 'status' ) );
+				bp_nouveau_the_group_meta( [ 'keys' => 'status' ] );
 				?>
 			</p>
 			<?php

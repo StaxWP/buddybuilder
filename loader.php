@@ -5,12 +5,12 @@
  * Plugin URI: https://staxwp.com/go/buddybuilder/
  * Author: StaxWP
  * Author URI: https://staxwp.com
- * Version: 1.4.0
+ * Version: 1.5.0
  *
  * Text Domain: stax-buddy-builder
  */
 
-define( 'BPB_VERSION', '1.4.0' );
+define( 'BPB_VERSION', '1.5.0' );
 define( 'BPB_HOOK_PREFIX', 'bpb_' );
 define( 'BPB_ADMIN_PREFIX', 'buddy-builder-' );
 

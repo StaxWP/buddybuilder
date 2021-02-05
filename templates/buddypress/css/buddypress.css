@@ -1696,14 +1696,17 @@ form.ac-form {
   .register-page .signup-form #signup-avatar img {
     margin: 0 15px 10px 0; }
   .register-page .signup-form .wp-pwd button {
-    vertical-align: middle; }
+    vertical-align: middle;
+    padding: 10px 15px; }
   .register-page .signup-form #pass1,
   .register-page .signup-form #pass1-text,
   .register-page .signup-form #pass-strength-result {
     width: 10em; }
   .register-page .signup-form #pass1 {
     display: inline-block;
-    margin-bottom: inherit; }
+    margin-bottom: inherit;
+    float: left;
+    margin-right: 10px; }
   .register-page .signup-form #pass1-text,
   .register-page .signup-form .pw-weak {
     display: none; }
@@ -2335,8 +2338,7 @@ body.no-js .buddypress-wrap .field-visibility-settings {
   margin: 0; }
 
 .buddypress-wrap .standard-form .field-visibility-settings label {
-  font-weight: 400;
-  margin: 0; }
+  font-weight: 400; }
 
 .buddypress-wrap .standard-form .field-visibility-settings .radio {
   list-style: none;
@@ -2894,26 +2896,25 @@ body.buddypress.settings.data #buddypress.buddypress-wrap .item-body p a {
 .buddypress-wrap .standard-form textarea[required],
 .buddypress-wrap .standard-form select[required] {
   box-shadow: none;
-  border-width: 2px;
+  border-width: 1px;
   outline: 0; }
-  .buddypress-wrap .standard-form input[required]:invalid,
-  .buddypress-wrap .standard-form textarea[required]:invalid,
-  .buddypress-wrap .standard-form select[required]:invalid {
-    border-color: #b71717; }
-  .buddypress-wrap .standard-form input[required]:valid,
-  .buddypress-wrap .standard-form textarea[required]:valid,
-  .buddypress-wrap .standard-form select[required]:valid {
-    border-color: #91cc2c; }
   .buddypress-wrap .standard-form input[required]:focus,
   .buddypress-wrap .standard-form textarea[required]:focus,
   .buddypress-wrap .standard-form select[required]:focus {
-    border-color: #e2e8f0;
-    border-width: 1px; }
+    border-color: #e2e8f0; }
 
 .buddypress-wrap .standard-form input.invalid[required],
 .buddypress-wrap .standard-form textarea.invalid[required],
 .buddypress-wrap .standard-form select.invalid[required] {
   border-color: #b71717; }
+
+.buddypress-wrap .standard-form label .bp-required-field-label, .buddypress-wrap .standard-form legend .bp-required-field-label {
+  font-size: 82%;
+  font-style: italic;
+  opacity: 0.65; }
+
+.buddypress-wrap .standard-form legend .bp-required-field-label {
+  margin-left: 5px; }
 
 .buddypress-wrap .standard-form input:not(.small),
 .buddypress-wrap .standard-form textarea {
@@ -3801,9 +3802,6 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 
 .buddypress-wrap #pass-strength-result {
   background-color: #eee;
-  border-color: #ddd;
-  border-style: solid;
-  border-width: 1px;
   display: none;
   font-weight: 700;
   margin: 10px 0 10px 0;
@@ -3819,19 +3817,19 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
   .buddypress-wrap #pass-strength-result.error, .buddypress-wrap #pass-strength-result.bad {
     background-color: #ffb78c;
     border-color: #ff853c;
-    color: #4a5568; }
+    color: #be5200; }
   .buddypress-wrap #pass-strength-result.short {
     background-color: #ffa0a0;
     border-color: #f04040;
-    color: #4a5568; }
+    color: #ce2823; }
   .buddypress-wrap #pass-strength-result.good {
     background-color: #ffec8b;
     border-color: #fc0;
-    color: #4a5568; }
+    color: #f26a00; }
   .buddypress-wrap #pass-strength-result.strong {
     background-color: #66d66e;
     border-color: #438c48;
-    color: #4a5568; }
+    color: #006d00; }
 
 .buddypress-wrap .standard-form#signup_form div div.error {
   background: #faa;
