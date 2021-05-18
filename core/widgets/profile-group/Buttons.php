@@ -22,7 +22,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 	}
 
 	public function get_icon() {
-		return 'sq-icon-bp_actions sq-widget-label';
+		return 'bbl-groups-action-buttons sq-widget-label';
 	}
 
 	public function get_categories() {
@@ -827,7 +827,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 	protected function render() {
 		parent::render();
 		if ( bpb_is_elementor_editor() ) {
-			bpb_load_template( 'preview/profile-group/buttons' );
+			bpb_load_preview_template( 'profile-group/buttons' );
 		} else {
 			bp_nouveau_group_header_buttons();
 		}

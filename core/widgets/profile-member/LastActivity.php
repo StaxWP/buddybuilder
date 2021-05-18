@@ -21,7 +21,7 @@ class LastActivity extends \Buddy_Builder\Widgets\Base {
 	}
 
 	public function get_icon() {
-		return 'sq-icon-bp_chat sq-widget-label';
+		return 'bbl-members-last-activity sq-widget-label';
 	}
 
 	public function get_categories() {
@@ -129,7 +129,7 @@ class LastActivity extends \Buddy_Builder\Widgets\Base {
 	protected function render() {
 		parent::render();
 		if ( bpb_is_elementor_editor() ) {
-			bpb_load_template( 'preview/profile-member/activity-status' );
+			bpb_load_preview_template( 'profile-member/activity-status' );
 		} else {
 			do_action( 'bp_before_member_header_meta' );
 			?>

@@ -22,7 +22,7 @@ class LastActivity extends \Buddy_Builder\Widgets\Base {
 	}
 
 	public function get_icon() {
-		return 'sq-icon-bp_chat sq-widget-label';
+		return 'bbl-groups-last-activity sq-widget-label';
 	}
 
 	public function get_categories() {
@@ -92,7 +92,7 @@ class LastActivity extends \Buddy_Builder\Widgets\Base {
 	protected function render() {
 		parent::render();
 		if ( bpb_is_elementor_editor() ) {
-			bpb_load_template( 'preview/profile-group/last-activity' );
+			bpb_load_preview_template( 'profile-group/last-activity' );
 		} else {
 			?>
 			<div class="activity"

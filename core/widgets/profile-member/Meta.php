@@ -21,7 +21,7 @@ class Meta extends \Buddy_Builder\Widgets\Base {
 	}
 
 	public function get_icon() {
-		return 'sq-icon-bp_info sq-widget-label';
+		return 'bbl-members-meta sq-widget-label';
 	}
 
 	public function get_categories() {
@@ -99,7 +99,7 @@ class Meta extends \Buddy_Builder\Widgets\Base {
 	protected function render() {
 		parent::render();
 		if ( bpb_is_elementor_editor() ) {
-			bpb_load_template( 'preview/profile-member/meta' );
+			bpb_load_preview_template( 'profile-member/meta' );
 		} else {
 			?>
 			<div class="activity"

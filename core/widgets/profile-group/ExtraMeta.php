@@ -17,7 +17,7 @@ class ExtraMeta extends \Buddy_Builder\Widgets\Base {
 	}
 
 	public function get_icon() {
-		return 'sq-icon-bp_status sq-widget-label';
+		return 'bbl-groups-meta sq-widget-label';
 	}
 
 	public function get_categories() {
@@ -31,14 +31,18 @@ class ExtraMeta extends \Buddy_Builder\Widgets\Base {
 	protected function render() {
 		parent::render();
 		if ( bpb_is_elementor_editor() ) {
-			bpb_load_template( 'preview/profile-group/meta' );
+			bpb_load_preview_template( 'profile-group/meta' );
 		} else {
 			bp_nouveau_group_hook( 'before', 'header_meta' );
 
 			?>
 			<?php if ( bp_nouveau_group_has_meta_extra() ) : ?>
 				<div class="item-meta">
-					<?php echo bp_nouveau_the_group_meta( array( 'keys' => 'extra' ) ); ?>
+					<?php if ( bpb_is_buddyboss() ) : ?>
+						<?php echo bp_nouveau_group_meta( [ 'keys' => 'extra' ] ); ?>
+					<?php else : ?>
+						<?php echo bp_nouveau_the_group_meta( [ 'keys' => 'extra' ] ); ?>
+					<?php endif; ?>
 				</div>
 			<?php endif; ?>
 			<?php

@@ -20,7 +20,7 @@ class Content extends \Buddy_Builder\Widgets\Base {
 	}
 
 	public function get_icon() {
-		return 'sq-icon-bp_section sq-widget-label';
+		return 'bbl-groups-content sq-widget-label';
 	}
 
 	public function get_categories() {
@@ -28,7 +28,7 @@ class Content extends \Buddy_Builder\Widgets\Base {
 	}
 
 	protected function _register_controls() {
-		if ( ! function_exists( 'bpb_is_pro' ) ) {
+		if ( ! function_exists( 'bpb_is_pro' ) && ! bpb_is_buddyboss() ) {
 			$this->start_controls_section(
 				'go_pro_section',
 				[
@@ -61,9 +61,8 @@ class Content extends \Buddy_Builder\Widgets\Base {
 	protected function render() {
 		parent::render();
 		if ( bpb_is_elementor_editor() ) {
-			ob_start();
-			bpb_load_template( 'preview/profile-group/content' );
-			echo apply_filters( 'buddy_builder/widget/group-profile/preview', ob_get_clean(), $this );
+			$template = bpb_load_preview_template( 'profile-group/content', [], false );
+			echo apply_filters( 'buddy_builder/widget/group-profile/preview', $template, $this );
 		} else {
 			?>
 			<div class="bp-wrap">

@@ -48,7 +48,15 @@ bp_nouveau_before_loop(); ?>
 
 								<?php if ( bp_nouveau_group_has_meta() ) : ?>
 
-									<p class="item-meta group-details"><?php bp_nouveau_the_group_meta( array( 'keys' => array( 'status', 'count' ) ) ); ?></p>
+									<p class="item-meta group-details">
+				
+										<?php if ( bpb_is_buddyboss() ) : ?>
+											<?php echo bp_nouveau_group_meta( [ 'keys' => [ 'status', 'count' ] ] ); ?>
+										<?php else : ?>
+											<?php echo bp_nouveau_the_group_meta( [ 'keys' => [ 'status', 'count' ] ] ); ?>
+										<?php endif; ?>
+									
+									</p>
 
 								<?php endif; ?>
 

@@ -24,7 +24,7 @@ class ActivityListing extends \Buddy_Builder\Widgets\Base {
 	}
 
 	public function get_icon() {
-		return 'sq-icon-bp_listing sq-widget-label';
+		return 'bbl-activity-list sq-widget-label';
 	}
 
 	public function get_categories() {
@@ -75,7 +75,7 @@ class ActivityListing extends \Buddy_Builder\Widgets\Base {
 				'name'     => 'container_background',
 				'label'    => __( 'Background', 'stax-buddy-builder' ),
 				'types'    => [ 'classic', 'gradient' ],
-				'selector' => '{{WRAPPER}} .activity > ul.activity-list > li',
+				'selector' => '{{WRAPPER}} .activity > ul.activity-list > li.activity-item',
 			]
 		);
 
@@ -83,7 +83,7 @@ class ActivityListing extends \Buddy_Builder\Widgets\Base {
 			Group_Control_Box_Shadow::get_type(),
 			[
 				'name'     => 'container_box_shadow',
-				'selector' => '{{WRAPPER}} .activity > ul.activity-list > li',
+				'selector' => '{{WRAPPER}} .activity > ul.activity-list > li.activity-item',
 			]
 		);
 
@@ -91,7 +91,7 @@ class ActivityListing extends \Buddy_Builder\Widgets\Base {
 			Group_Control_Border::get_type(),
 			[
 				'name'     => 'container_border',
-				'selector' => '{{WRAPPER}} .activity > ul.activity-list > li',
+				'selector' => '{{WRAPPER}} .activity > ul.activity-list > li.activity-item',
 			]
 		);
 
@@ -102,7 +102,7 @@ class ActivityListing extends \Buddy_Builder\Widgets\Base {
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', '%', 'em' ],
 				'selectors'  => [
-					'{{WRAPPER}} .activity > ul.activity-list > li' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'{{WRAPPER}} .activity > ul.activity-list > li.activity-item' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
 			]
 		);
@@ -114,7 +114,7 @@ class ActivityListing extends \Buddy_Builder\Widgets\Base {
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', 'em', '%' ],
 				'selectors'  => [
-					'{{WRAPPER}} .activity > ul.activity-list > li' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'{{WRAPPER}} .activity > ul.activity-list > li.activity-item' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
 			]
 		);
@@ -130,8 +130,8 @@ class ActivityListing extends \Buddy_Builder\Widgets\Base {
 					],
 				],
 				'selectors' => [
-					'{{WRAPPER}} .activity > ul.activity-list > li'            => 'margin-top: 0; margin-bottom: {{SIZE}}{{UNIT}};',
-					'{{WRAPPER}} .activity > ul.activity-list > li:last-child' => 'margin-bottom: 0;',
+					'{{WRAPPER}} .activity > ul.activity-list > li.activity-item'            => 'margin-top: 0; margin-bottom: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .activity > ul.activity-list > li.activity-item:last-child' => 'margin-bottom: 0;',
 				],
 			]
 		);

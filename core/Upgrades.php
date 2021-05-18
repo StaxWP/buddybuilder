@@ -71,7 +71,7 @@ class Upgrades extends Singleton {
 				$upgrade_result = $this->{$upgrade['method']}();
 
 				// Early exit the loop if an error occurs.
-				if ( $upgrade_result === true ) {
+				if ( true === $upgrade_result ) {
 					$old_upgrades[ $version ] = true;
 					$this->updated            = true;
 				}
@@ -141,7 +141,7 @@ class Upgrades extends Singleton {
 				$this->run();
 			}
 
-			if ( $this->updated === true ) {
+			if ( true === $this->updated ) {
 				Notices::get_instance()->buddybuilder_upgrade_db_success_notice();
 			} else {
 				Notices::get_instance()->buddybuilder_upgrade_db_failed_notice();
@@ -170,7 +170,7 @@ class Upgrades extends Singleton {
 							return $element;
 						}
 
-						if ( $element['widgetType'] === 'bpb-profile-member-cover' || $element['widgetType'] === 'bpb-profile-group-cover' ) {
+						if ( 'bpb-profile-member-cover' === $element['widgetType'] || 'bpb-profile-group-cover' === $element['widgetType'] ) {
 							if ( isset( $element['settings']['_position'] ) ) {
 								$element['settings']['position'] = $element['settings']['_position'];
 							}

@@ -21,7 +21,7 @@ class Status extends \Buddy_Builder\Widgets\Base {
 	}
 
 	public function get_icon() {
-		return 'sq-icon-bp_status sq-widget-label';
+		return 'bbl-groups-status sq-widget-label';
 	}
 
 	public function get_categories() {
@@ -112,13 +112,15 @@ class Status extends \Buddy_Builder\Widgets\Base {
 	protected function render() {
 		parent::render();
 		if ( bpb_is_elementor_editor() ) {
-			bpb_load_template( 'preview/profile-group/status' );
+			bpb_load_preview_template( 'profile-group/status' );
 		} else {
 			?>
 			<p class="highlight group-status">
-				<?php
-				bp_nouveau_the_group_meta( [ 'keys' => 'status' ] );
-				?>
+				<?php if ( bpb_is_buddyboss() ) : ?>
+					<?php echo bp_get_group_type(); ?>
+				<?php else : ?>
+					<?php echo bp_nouveau_the_group_meta( [ 'keys' => 'status' ] ); ?>
+				<?php endif; ?>
 			</p>
 			<?php
 		}

@@ -15,16 +15,17 @@
 					</div>
 
 					<div class="ste-text-center ste-px-4 ste-my-4">
-						<?php if ( $template['is_imported'] ) : ?>
-							<span class="ste-bg-ash-600 ste-text-white ste-font-medium ste-py-2 ste-px-4 ste-rounded ste-block ste-cursor-default">
-								<?php esc_html_e( 'Imported', 'stax-buddy-builder' ); ?>
-							</span>
-						<?php else : ?>
-							<a href="<?php echo esc_url( $template['url'] ); ?>"
-							   class="bpb-import-starter ste-no-underline ste-bg-green-500 ste-text-white ste-font-medium ste-py-2 ste-px-4 ste-rounded ste-block hover:ste-text-white hover:ste-shadow-lg">
-								<?php esc_html_e( 'Import', 'stax-buddy-builder' ); ?>
-							</a>
-						<?php endif; ?>
+						<?php if ( $template['is_imported'] ) {
+						    $text = esc_html__( 'Import again', 'stax-buddy-builder' );
+                        } else {
+						    $text = esc_html__( 'Import', 'stax-buddy-builder' );
+                        } ?>
+
+                        <a href="<?php echo esc_url( $template['url'] ); ?>"
+                           class="bpb-import-starter ste-no-underline ste-bg-green-500 ste-text-white ste-font-medium ste-py-2 ste-px-4 ste-rounded ste-block hover:ste-text-white hover:ste-shadow-lg">
+                            <?php echo $text; ?>
+                        </a>
+
 					</div>
 				</div>
 			</div>

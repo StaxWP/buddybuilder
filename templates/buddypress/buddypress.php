@@ -3,8 +3,19 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
+
+$custom_template = apply_filters( 'buddy_builder/page_template ', false );
+if ( ! empty( $custom_template ) ) {
+	if ( file_exists( $custom_template ) ) {
+		include $custom_template;
+	}
+
+	return;
+}
+
 if ( ! class_exists( '\Elementor\Plugin' ) ) {
 	get_template_part( 'page' );
+
 	return;
 }
 

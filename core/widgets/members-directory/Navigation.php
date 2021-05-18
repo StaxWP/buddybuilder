@@ -22,7 +22,7 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 	}
 
 	public function get_icon() {
-		return 'sq-icon-bp_menu sq-widget-label';
+		return 'bbl-members-navigation sq-widget-label';
 	}
 
 	public function get_categories() {
@@ -142,7 +142,6 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} nav ul, {{WRAPPER}} #item-nav ul'                  => 'padding: 0; margin: 0; height: auto; display: block;',
 					'{{WRAPPER}} nav ul li, {{WRAPPER}} #item-nav ul li'            => 'display: {{VALUE}}; float: none;',
 					'{{WRAPPER}} nav ul li a, {{WRAPPER}} #item-nav ul li a'        => 'display: inline-block;',
-					// '{{WRAPPER}} nav ul li .count, {{WRAPPER}} nav ul li .no-count' => 'display: inline-block; padding: 4px 0; min-width: 30px; text-align: center;'
 				],
 			]
 		);
@@ -639,7 +638,7 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 	protected function render() {
 		parent::render();
 		if ( bpb_is_elementor_editor() ) {
-			bpb_load_template( 'preview/members-directory/navigation' );
+			bpb_load_preview_template( 'members-directory/navigation' );
 		} elseif ( ! bp_nouveau_is_object_nav_in_sidebar() ) {
 			bp_get_template_part( 'common/nav/directory-nav' );
 		}

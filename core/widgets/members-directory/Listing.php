@@ -23,7 +23,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 	}
 
 	public function get_icon() {
-		return 'sq-icon-bp_listing sq-widget-label';
+		return 'bbl-members-list sq-widget-label';
 	}
 
 	public function get_categories() {
@@ -76,11 +76,11 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 					'size' => 20,
 				],
 				'selectors'  => [
-					'{{WRAPPER}} .bp-list > li:not(:last-child)' => 'margin-bottom: {{SIZE}}{{UNIT}};'
+					'{{WRAPPER}} .bp-list > li:not(:last-child)' => 'margin-bottom: {{SIZE}}{{UNIT}};',
 				],
 				'condition'  => [
-					'columns' => '1'
-				]
+					'columns' => '1',
+				],
 			]
 		);
 
@@ -100,11 +100,11 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 					'size' => 20,
 				],
 				'selectors'  => [
-					'{{WRAPPER}} .grid-two > li' => 'padding-bottom: {{SIZE}}{{UNIT}};'
+					'{{WRAPPER}} .grid-two > li' => 'padding-bottom: {{SIZE}}{{UNIT}};',
 				],
 				'condition'  => [
-					'columns' => '2'
-				]
+					'columns' => '2',
+				],
 			]
 		);
 
@@ -125,11 +125,11 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				],
 				'selectors'  => [
 					'{{WRAPPER}} .grid-two'      => 'margin-left: -{{SIZE}}{{UNIT}}; margin-right: -{{SIZE}}{{UNIT}};',
-					'{{WRAPPER}} .grid-two > li' => 'padding-left: {{SIZE}}{{UNIT}}; padding-right: {{SIZE}}{{UNIT}};'
+					'{{WRAPPER}} .grid-two > li' => 'padding-left: {{SIZE}}{{UNIT}}; padding-right: {{SIZE}}{{UNIT}};',
 				],
 				'condition'  => [
-					'columns' => '2'
-				]
+					'columns' => '2',
+				],
 			]
 		);
 
@@ -149,11 +149,11 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 					'size' => 20,
 				],
 				'selectors'  => [
-					'{{WRAPPER}} .grid-three > li' => 'padding-bottom: {{SIZE}}{{UNIT}};'
+					'{{WRAPPER}} .grid-three > li' => 'padding-bottom: {{SIZE}}{{UNIT}};',
 				],
 				'condition'  => [
-					'columns' => '3'
-				]
+					'columns' => '3',
+				],
 			]
 		);
 
@@ -174,11 +174,11 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				],
 				'selectors'  => [
 					'{{WRAPPER}} .grid-three'      => 'margin-left: -{{SIZE}}{{UNIT}}; margin-right: -{{SIZE}}{{UNIT}};',
-					'{{WRAPPER}} .grid-three > li' => 'padding-left: {{SIZE}}{{UNIT}}; padding-right: {{SIZE}}{{UNIT}};'
+					'{{WRAPPER}} .grid-three > li' => 'padding-left: {{SIZE}}{{UNIT}}; padding-right: {{SIZE}}{{UNIT}};',
 				],
 				'condition'  => [
-					'columns' => '3'
-				]
+					'columns' => '3',
+				],
 			]
 		);
 
@@ -198,11 +198,11 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 					'size' => 20,
 				],
 				'selectors'  => [
-					'{{WRAPPER}} .grid-four > li' => 'padding-bottom: {{SIZE}}{{UNIT}};'
+					'{{WRAPPER}} .grid-four > li' => 'padding-bottom: {{SIZE}}{{UNIT}};',
 				],
 				'condition'  => [
-					'columns' => '4'
-				]
+					'columns' => '4',
+				],
 			]
 		);
 
@@ -223,11 +223,11 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				],
 				'selectors'  => [
 					'{{WRAPPER}} .grid-four'      => 'margin-left: -{{SIZE}}{{UNIT}}; margin-right: -{{SIZE}}{{UNIT}};',
-					'{{WRAPPER}} .grid-four > li' => 'padding-left: {{SIZE}}{{UNIT}}; padding-right: {{SIZE}}{{UNIT}};'
+					'{{WRAPPER}} .grid-four > li' => 'padding-left: {{SIZE}}{{UNIT}}; padding-right: {{SIZE}}{{UNIT}};',
 				],
 				'condition'  => [
-					'columns' => '4'
-				]
+					'columns' => '4',
+				],
 			]
 		);
 
@@ -249,7 +249,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'default'   => '1',
 				'selectors' => [
 					'{{WRAPPER}} #members-list' => 'border: 0;',
-				]
+				],
 			]
 		);
 
@@ -299,7 +299,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'size_units' => [ 'px', 'em', '%' ],
 				'selectors'  => [
 					'{{WRAPPER}} #members-list > li > .list-wrap' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				]
+				],
 			]
 		);
 
@@ -311,7 +311,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'size_units' => [ 'px', 'em', '%' ],
 				'selectors'  => [
 					'{{WRAPPER}} #members-list > li > .list-wrap' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				]
+				],
 			]
 		);
 
@@ -344,11 +344,11 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::HIDDEN,
 				'default'   => '1',
 				'selectors' => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.top' => 'display: flex; align-items: center; justify-content: space-between;'
+					'{{WRAPPER}} #members-dir-list .bp-pagination.top' => 'display: flex; align-items: center; justify-content: space-between;',
 				],
 				'condition' => [
-					'show_pag_top' => 'flex'
-				]
+					'show_pag_top' => 'flex',
+				],
 			]
 		);
 
@@ -359,11 +359,11 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::HIDDEN,
 				'default'   => '1',
 				'selectors' => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.top' => 'display: none; align-items: center; justify-content: space-between;'
+					'{{WRAPPER}} #members-dir-list .bp-pagination.top' => 'display: none; align-items: center; justify-content: space-between;',
 				],
 				'condition' => [
-					'show_pag_top!' => 'flex'
-				]
+					'show_pag_top!' => 'flex',
+				],
 			]
 		);
 
@@ -381,8 +381,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} #members-dir-list .bp-pagination.top' => 'margin-bottom: {{SIZE}}{{UNIT}};',
 				],
 				'condition' => [
-					'show_pag_top' => 'flex'
-				]
+					'show_pag_top' => 'flex',
+				],
 			]
 		);
 
@@ -395,8 +395,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} #members-dir-list .bp-pagination.top' => 'background-color: {{VALUE}};',
 				],
 				'condition' => [
-					'show_pag_top' => 'flex'
-				]
+					'show_pag_top' => 'flex',
+				],
 			]
 		);
 
@@ -406,8 +406,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'name'      => 'pag_top_box_shadow',
 				'selector'  => '{{WRAPPER}} #members-dir-list .bp-pagination.top',
 				'condition' => [
-					'show_pag_top' => 'flex'
-				]
+					'show_pag_top' => 'flex',
+				],
 			]
 		);
 
@@ -417,8 +417,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'name'      => 'pag_top_border',
 				'selector'  => '{{WRAPPER}} #members-dir-list .bp-pagination.top',
 				'condition' => [
-					'show_pag_top' => 'flex'
-				]
+					'show_pag_top' => 'flex',
+				],
 			]
 		);
 
@@ -432,8 +432,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} #members-dir-list .bp-pagination.top' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
 				'condition'  => [
-					'show_pag_top' => 'flex'
-				]
+					'show_pag_top' => 'flex',
+				],
 			]
 		);
 
@@ -447,8 +447,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} #members-dir-list .bp-pagination.top' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
 				'condition'  => [
-					'show_pag_top' => 'flex'
-				]
+					'show_pag_top' => 'flex',
+				],
 			]
 		);
 
@@ -457,8 +457,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 			[
 				'type'      => Controls_Manager::DIVIDER,
 				'condition' => [
-					'show_pag_top' => 'flex'
-				]
+					'show_pag_top' => 'flex',
+				],
 			]
 		);
 
@@ -469,8 +469,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'name'      => 'pag_top_typography',
 				'selector'  => '{{WRAPPER}} #members-dir-list .bp-pagination.top .pag-count.top',
 				'condition' => [
-					'show_pag_top' => 'flex'
-				]
+					'show_pag_top' => 'flex',
+				],
 			]
 		);
 
@@ -484,8 +484,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} #members-dir-list .bp-pagination.top .pag-count.top' => 'color: {{VALUE}};',
 				],
 				'condition' => [
-					'show_pag_top' => 'flex'
-				]
+					'show_pag_top' => 'flex',
+				],
 			]
 		);
 
@@ -494,8 +494,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 			[
 				'type'      => Controls_Manager::DIVIDER,
 				'condition' => [
-					'show_pag_top' => 'flex'
-				]
+					'show_pag_top' => 'flex',
+				],
 			]
 		);
 
@@ -506,11 +506,11 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::HIDDEN,
 				'default'   => '1',
 				'selectors' => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.top .bp-pagination-links.top .page-numbers' => 'padding: 6px 0; text-align: center; min-width: 35px; display: inline-block;'
+                    '{{WRAPPER}} #members-dir-list .bp-pagination.top .bp-pagination-links.top .page-numbers' => 'display: inline-block; float: left;',
 				],
 				'condition' => [
-					'show_pag_top' => 'flex'
-				]
+					'show_pag_top' => 'flex',
+				],
 			]
 		);
 
@@ -526,11 +526,11 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				],
 				'selectors' => [
 					'{{WRAPPER}} #members-dir-list .bp-pagination.top .bp-pagination-links.top .page-numbers'            => 'margin-right: {{SIZE}}{{UNIT}};',
-					'{{WRAPPER}} #members-dir-list .bp-pagination.top .bp-pagination-links.top .page-numbers:last-child' => 'margin-right: 0;'
+					'{{WRAPPER}} #members-dir-list .bp-pagination.top .bp-pagination-links.top .page-numbers:last-child' => 'margin-right: 0;',
 				],
 				'condition' => [
-					'show_pag_top' => 'flex'
-				]
+					'show_pag_top' => 'flex',
+				],
 			]
 		);
 
@@ -541,8 +541,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'name'      => 'pag_top_link_typography',
 				'selector'  => '{{WRAPPER}} #members-dir-list .bp-pagination.top .bp-pagination-links.top span, {{WRAPPER}} #members-dir-list .bp-pagination.top .bp-pagination-links.top a',
 				'condition' => [
-					'show_pag_top' => 'flex'
-				]
+					'show_pag_top' => 'flex',
+				],
 			]
 		);
 
@@ -553,8 +553,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 			[
 				'label'     => __( 'Normal', 'stax-buddy-builder' ),
 				'condition' => [
-					'show_pag_top' => 'flex'
-				]
+					'show_pag_top' => 'flex',
+				],
 			]
 		);
 
@@ -568,8 +568,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} #members-dir-list .bp-pagination.top .bp-pagination-links.top a' => 'color: {{VALUE}};',
 				],
 				'condition' => [
-					'show_pag_top' => 'flex'
-				]
+					'show_pag_top' => 'flex',
+				],
 			]
 		);
 
@@ -582,8 +582,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} #members-dir-list .bp-pagination.top .bp-pagination-links.top a' => 'background-color: {{VALUE}};',
 				],
 				'condition' => [
-					'show_pag_top' => 'flex'
-				]
+					'show_pag_top' => 'flex',
+				],
 			]
 		);
 
@@ -594,8 +594,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'name'      => 'pag_top_link_shadow',
 				'selector'  => '{{WRAPPER}} #members-dir-list .bp-pagination.top .bp-pagination-links.top a, {{WRAPPER}} #members-dir-list .bp-pagination.top .bp-pagination-links.top span',
 				'condition' => [
-					'show_pag_top' => 'flex'
-				]
+					'show_pag_top' => 'flex',
+				],
 			]
 		);
 
@@ -606,8 +606,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 			[
 				'label'     => __( 'Hover', 'stax-buddy-builder' ),
 				'condition' => [
-					'show_pag_top' => 'flex'
-				]
+					'show_pag_top' => 'flex',
+				],
 			]
 		);
 
@@ -621,8 +621,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} #members-dir-list .bp-pagination.top .bp-pagination-links.top a:hover' => 'color: {{VALUE}};',
 				],
 				'condition' => [
-					'show_pag_top' => 'flex'
-				]
+					'show_pag_top' => 'flex',
+				],
 			]
 		);
 
@@ -635,8 +635,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} #members-dir-list .bp-pagination.top .bp-pagination-links.top a:hover' => 'background-color: {{VALUE}};',
 				],
 				'condition' => [
-					'show_pag_top' => 'flex'
-				]
+					'show_pag_top' => 'flex',
+				],
 			]
 		);
 
@@ -649,8 +649,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} #members-dir-list .bp-pagination.top .bp-pagination-links.top a:hover' => 'border-color: {{VALUE}};',
 				],
 				'condition' => [
-					'show_pag_top' => 'flex'
-				]
+					'show_pag_top' => 'flex',
+				],
 			]
 		);
 
@@ -661,8 +661,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'name'      => 'pag_top_link_hover_shadow',
 				'selector'  => '{{WRAPPER}} #members-dir-list .bp-pagination.top .bp-pagination-links.top a:hover',
 				'condition' => [
-					'show_pag_top' => 'flex'
-				]
+					'show_pag_top' => 'flex',
+				],
 			]
 		);
 
@@ -673,8 +673,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 			[
 				'label'     => __( 'Current', 'stax-buddy-builder' ),
 				'condition' => [
-					'show_pag_top' => 'flex'
-				]
+					'show_pag_top' => 'flex',
+				],
 			]
 		);
 
@@ -688,8 +688,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} #members-dir-list .bp-pagination.top .bp-pagination-links.top span.page-numbers' => 'color: {{VALUE}};',
 				],
 				'condition' => [
-					'show_pag_top' => 'flex'
-				]
+					'show_pag_top' => 'flex',
+				],
 			]
 		);
 
@@ -702,8 +702,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} #members-dir-list .bp-pagination.top .bp-pagination-links.top span.page-numbers' => 'background-color: {{VALUE}};',
 				],
 				'condition' => [
-					'show_pag_top' => 'flex'
-				]
+					'show_pag_top' => 'flex',
+				],
 			]
 		);
 
@@ -716,8 +716,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} #members-dir-list .bp-pagination.top .bp-pagination-links.top span.page-numbers' => 'border-color: {{VALUE}};',
 				],
 				'condition' => [
-					'show_pag_top' => 'flex'
-				]
+					'show_pag_top' => 'flex',
+				],
 			]
 		);
 
@@ -732,8 +732,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'name'      => 'pag_top_link_border',
 				'selector'  => '{{WRAPPER}} #members-dir-list .bp-pagination.top .bp-pagination-links.top .page-numbers',
 				'condition' => [
-					'show_pag_top' => 'flex'
-				]
+					'show_pag_top' => 'flex',
+				],
 			]
 		);
 
@@ -747,8 +747,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} #members-dir-list .bp-pagination.top .bp-pagination-links.top .page-numbers' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
 				'condition'  => [
-					'show_pag_top' => 'flex'
-				]
+					'show_pag_top' => 'flex',
+				],
 			]
 		);
 
@@ -762,8 +762,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} #members-dir-list .bp-pagination.top .bp-pagination-links.top .page-numbers' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
 				'condition'  => [
-					'show_pag_top' => 'flex'
-				]
+					'show_pag_top' => 'flex',
+				],
 			]
 		);
 
@@ -796,11 +796,11 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::HIDDEN,
 				'default'   => '1',
 				'selectors' => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom' => 'display: flex; align-items: center; justify-content: space-between;'
+					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom' => 'display: flex; align-items: center; justify-content: space-between;',
 				],
 				'condition' => [
-					'show_pag_bottom' => 'flex'
-				]
+					'show_pag_bottom' => 'flex',
+				],
 			]
 		);
 
@@ -811,11 +811,11 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::HIDDEN,
 				'default'   => '1',
 				'selectors' => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom' => 'display: none; align-items: center; justify-content: space-between;'
+					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom' => 'display: none; align-items: center; justify-content: space-between;',
 				],
 				'condition' => [
-					'show_pag_bottom!' => 'flex'
-				]
+					'show_pag_bottom!' => 'flex',
+				],
 			]
 		);
 
@@ -833,8 +833,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom' => 'margin-top: {{SIZE}}{{UNIT}};',
 				],
 				'condition' => [
-					'show_pag_bottom' => 'flex'
-				]
+					'show_pag_bottom' => 'flex',
+				],
 			]
 		);
 
@@ -847,8 +847,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom' => 'background-color: {{VALUE}};',
 				],
 				'condition' => [
-					'show_pag_bottom' => 'flex'
-				]
+					'show_pag_bottom' => 'flex',
+				],
 			]
 		);
 
@@ -858,8 +858,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'name'      => 'pag_bottom_box_shadow',
 				'selector'  => '{{WRAPPER}} #members-dir-list .bp-pagination.bottom',
 				'condition' => [
-					'show_pag_bottom' => 'flex'
-				]
+					'show_pag_bottom' => 'flex',
+				],
 			]
 		);
 
@@ -869,8 +869,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'name'      => 'pag_bottom_border',
 				'selector'  => '{{WRAPPER}} #members-dir-list .bp-pagination.bottom',
 				'condition' => [
-					'show_pag_bottom' => 'flex'
-				]
+					'show_pag_bottom' => 'flex',
+				],
 			]
 		);
 
@@ -884,8 +884,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
 				'condition'  => [
-					'show_pag_bottom' => 'flex'
-				]
+					'show_pag_bottom' => 'flex',
+				],
 			]
 		);
 
@@ -899,8 +899,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
 				'condition'  => [
-					'show_pag_bottom' => 'flex'
-				]
+					'show_pag_bottom' => 'flex',
+				],
 			]
 		);
 
@@ -909,8 +909,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 			[
 				'type'      => Controls_Manager::DIVIDER,
 				'condition' => [
-					'show_pag_bottom' => 'flex'
-				]
+					'show_pag_bottom' => 'flex',
+				],
 			]
 		);
 
@@ -921,8 +921,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'name'      => 'pag_bottom_typography',
 				'selector'  => '{{WRAPPER}} #members-dir-list .bp-pagination.bottom .pag-count.bottom',
 				'condition' => [
-					'show_pag_bottom' => 'flex'
-				]
+					'show_pag_bottom' => 'flex',
+				],
 			]
 		);
 
@@ -936,8 +936,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom .pag-count.bottom' => 'color: {{VALUE}};',
 				],
 				'condition' => [
-					'show_pag_bottom' => 'flex'
-				]
+					'show_pag_bottom' => 'flex',
+				],
 			]
 		);
 
@@ -946,8 +946,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 			[
 				'type'      => Controls_Manager::DIVIDER,
 				'condition' => [
-					'show_pag_bottom' => 'flex'
-				]
+					'show_pag_bottom' => 'flex',
+				],
 			]
 		);
 
@@ -958,11 +958,11 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::HIDDEN,
 				'default'   => '1',
 				'selectors' => [
-					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom .bp-pagination-links.bottom .page-numbers' => 'padding: 4px 0; text-align: center; min-width: 35px; display: inline-block;'
+					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom .bp-pagination-links.bottom .page-numbers' => 'display: inline-block; float: left;',
 				],
 				'condition' => [
-					'show_pag_bottom' => 'flex'
-				]
+					'show_pag_bottom' => 'flex',
+				],
 			]
 		);
 
@@ -978,11 +978,11 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				],
 				'selectors' => [
 					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom .bp-pagination-links.bottom .page-numbers'            => 'margin-right: {{SIZE}}{{UNIT}};',
-					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom .bp-pagination-links.bottom .page-numbers:last-child' => 'margin-right: 0;'
+					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom .bp-pagination-links.bottom .page-numbers:last-child' => 'margin-right: 0;',
 				],
 				'condition' => [
-					'show_pag_bottom' => 'flex'
-				]
+					'show_pag_bottom' => 'flex',
+				],
 			]
 		);
 
@@ -993,8 +993,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'name'      => 'pag_bottom_link_typography',
 				'selector'  => '{{WRAPPER}} #members-dir-list .bp-pagination.bottom .bp-pagination-links.bottom span, {{WRAPPER}} #members-dir-list .bp-pagination.bottom .bp-pagination-links.bottom a',
 				'condition' => [
-					'show_pag_bottom' => 'flex'
-				]
+					'show_pag_bottom' => 'flex',
+				],
 			]
 		);
 
@@ -1005,8 +1005,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 			[
 				'label'     => __( 'Normal', 'stax-buddy-builder' ),
 				'condition' => [
-					'show_pag_bottom' => 'flex'
-				]
+					'show_pag_bottom' => 'flex',
+				],
 			]
 		);
 
@@ -1020,8 +1020,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom .bp-pagination-links.bottom a' => 'color: {{VALUE}};',
 				],
 				'condition' => [
-					'show_pag_bottom' => 'flex'
-				]
+					'show_pag_bottom' => 'flex',
+				],
 			]
 		);
 
@@ -1034,8 +1034,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom .bp-pagination-links.bottom a' => 'background-color: {{VALUE}};',
 				],
 				'condition' => [
-					'show_pag_bottom' => 'flex'
-				]
+					'show_pag_bottom' => 'flex',
+				],
 			]
 		);
 
@@ -1046,8 +1046,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'name'      => 'pag_bottom_link_shadow',
 				'selector'  => '{{WRAPPER}} #members-dir-list .bp-pagination.bottom .bp-pagination-links.bottom a, {{WRAPPER}} #members-dir-list .bp-pagination.bottom .bp-pagination-links.bottom span',
 				'condition' => [
-					'show_pag_bottom' => 'flex'
-				]
+					'show_pag_bottom' => 'flex',
+				],
 			]
 		);
 
@@ -1058,8 +1058,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 			[
 				'label'     => __( 'Hover', 'stax-buddy-builder' ),
 				'condition' => [
-					'show_pag_bottom' => 'flex'
-				]
+					'show_pag_bottom' => 'flex',
+				],
 			]
 		);
 
@@ -1073,8 +1073,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom .bp-pagination-links.bottom a:hover' => 'color: {{VALUE}};',
 				],
 				'condition' => [
-					'show_pag_bottom' => 'flex'
-				]
+					'show_pag_bottom' => 'flex',
+				],
 			]
 		);
 
@@ -1087,8 +1087,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom .bp-pagination-links.bottom a:hover' => 'background-color: {{VALUE}};',
 				],
 				'condition' => [
-					'show_pag_bottom' => 'flex'
-				]
+					'show_pag_bottom' => 'flex',
+				],
 			]
 		);
 
@@ -1101,8 +1101,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom .bp-pagination-links.bottom a:hover' => 'border-color: {{VALUE}};',
 				],
 				'condition' => [
-					'show_pag_bottom' => 'flex'
-				]
+					'show_pag_bottom' => 'flex',
+				],
 			]
 		);
 
@@ -1113,8 +1113,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'name'      => 'pag_bottom_link_hover_shadow',
 				'selector'  => '{{WRAPPER}} #members-dir-list .bp-pagination.bottom .bp-pagination-links.bottom a:hover',
 				'condition' => [
-					'show_pag_bottom' => 'flex'
-				]
+					'show_pag_bottom' => 'flex',
+				],
 			]
 		);
 
@@ -1125,8 +1125,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 			[
 				'label'     => __( 'Current', 'stax-buddy-builder' ),
 				'condition' => [
-					'show_pag_bottom' => 'flex'
-				]
+					'show_pag_bottom' => 'flex',
+				],
 			]
 		);
 
@@ -1140,8 +1140,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom .bp-pagination-links.bottom span.page-numbers' => 'color: {{VALUE}};',
 				],
 				'condition' => [
-					'show_pag_bottom' => 'flex'
-				]
+					'show_pag_bottom' => 'flex',
+				],
 			]
 		);
 
@@ -1154,8 +1154,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom .bp-pagination-links.bottom span.page-numbers' => 'background-color: {{VALUE}};',
 				],
 				'condition' => [
-					'show_pag_bottom' => 'flex'
-				]
+					'show_pag_bottom' => 'flex',
+				],
 			]
 		);
 
@@ -1168,8 +1168,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom .bp-pagination-links.bottom span.page-numbers' => 'border-color: {{VALUE}};',
 				],
 				'condition' => [
-					'show_pag_bottom' => 'flex'
-				]
+					'show_pag_bottom' => 'flex',
+				],
 			]
 		);
 
@@ -1184,8 +1184,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'name'      => 'pag_bottom_link_border',
 				'selector'  => '{{WRAPPER}} #members-dir-list .bp-pagination.bottom .bp-pagination-links.bottom .page-numbers',
 				'condition' => [
-					'show_pag_bottom' => 'flex'
-				]
+					'show_pag_bottom' => 'flex',
+				],
 			]
 		);
 
@@ -1199,8 +1199,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom .bp-pagination-links.bottom .page-numbers' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
 				'condition'  => [
-					'show_pag_bottom' => 'flex'
-				]
+					'show_pag_bottom' => 'flex',
+				],
 			]
 		);
 
@@ -1214,8 +1214,8 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} #members-dir-list .bp-pagination.bottom .bp-pagination-links.bottom .page-numbers' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
 				'condition'  => [
-					'show_pag_bottom' => 'flex'
-				]
+					'show_pag_bottom' => 'flex',
+				],
 			]
 		);
 
@@ -1229,17 +1229,22 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 
 		?>
 		<?php if ( bpb_is_elementor_editor() ) : ?>
-			<?php bpb_load_template( 'preview/members-directory/listing', [
-				'columns' => [
-					'desktop' => $settings['columns'],
-					'tablet'  => $settings['columns_tablet'],
-					'mobile'  => $settings['columns_mobile']
+			<?php
+			bpb_load_preview_template(
+				'members-directory/listing',
+				[
+					'columns' => [
+						'desktop' => $settings['columns'],
+						'tablet'  => $settings['columns_tablet'],
+						'mobile'  => $settings['columns_mobile'],
+					],
 				]
-			] ); ?>
-		<?php else: ?>
-            <div id="members-dir-list" class="members dir-list" data-bp-list="members">
-                <div id="bp-ajax-loader"><?php bp_nouveau_user_feedback( 'directory-members-loading' ); ?></div>
-            </div>
+			);
+			?>
+		<?php else : ?>
+			<div id="members-dir-list" class="members dir-list" data-bp-list="members">
+				<div id="bp-ajax-loader"><?php bp_nouveau_user_feedback( 'directory-members-loading' ); ?></div>
+			</div>
 		<?php endif; ?>
 		<?php
 	}

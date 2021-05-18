@@ -15,7 +15,12 @@ $render        = apply_filters( 'buddy_builder/activity-loop/render', bpb_is_tem
 bp_nouveau_activity_hook( 'before', 'entry' ); ?>
 
 	<li class="<?php bp_activity_css_class(); ?>" id="activity-<?php bp_activity_id(); ?>"
-		data-bp-activity-id="<?php bp_activity_id(); ?>" data-bp-timestamp="<?php bp_nouveau_activity_timestamp(); ?>">
+		data-bp-activity-id="<?php bp_activity_id(); ?>" data-bp-timestamp="<?php bp_nouveau_activity_timestamp(); ?>" 
+		<?php
+		if ( bpb_is_buddyboss() ) :
+			?>
+			 data-bp-activity="<?php bp_nouveau_edit_activity_data(); ?>" <?php endif; ?>
+		>
 
 		<?php if ( $render ) : ?>
 			<?php echo do_shortcode( $activity_item ); ?>

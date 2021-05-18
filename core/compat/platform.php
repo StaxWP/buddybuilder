@@ -28,7 +28,7 @@ if ( ! function_exists( 'bp_nouveau_group_description_excerpt' ) ) {
 	 *
 	 * @param object $group Optional. The group being referenced.
 	 *                      Defaults to the group currently being iterated on in the groups loop.
-	 * @param int    $length Optional. Length of returned string, including ellipsis. Default: 100.
+	 * @param int $length Optional. Length of returned string, including ellipsis. Default: 100.
 	 *
 	 * @return string Excerpt.
 	 * @since 3.0.0
@@ -47,7 +47,7 @@ if ( ! function_exists( 'bp_nouveau_get_group_description_excerpt' ) ) {
 	 *
 	 * @param object $group Optional. The group being referenced. Defaults to the group currently being
 	 *                      iterated on in the groups loop.
-	 * @param int    $length Optional. Length of returned string, including ellipsis. Default: 100.
+	 * @param int $length Optional. Length of returned string, including ellipsis. Default: 100.
 	 *
 	 * @return string Excerpt.
 	 * @since 3.0.0
@@ -89,9 +89,10 @@ if ( ! function_exists( 'bp_member_latest_update' ) ) {
 	/**
 	 * Output the latest update of the current member in the loop.
 	 *
+	 * @param array|string $args {@see bp_get_member_latest_update()}.
+	 *
 	 * @since 1.2.0
 	 *
-	 * @param array|string $args {@see bp_get_member_latest_update()}.
 	 */
 	function bp_member_latest_update( $args = '' ) {
 		echo bp_get_member_latest_update( $args );
@@ -102,15 +103,16 @@ if ( ! function_exists( 'bp_get_member_latest_update' ) ) {
 	/**
 	 * Get the latest update from the current member in the loop.
 	 *
-	 * @since 1.2.0
-	 *
 	 * @param array|string $args {
 	 *     Array of optional arguments.
-	 *     @type int  $length    Truncation length. Default: 225.
-	 *     @type bool $view_link Whether to provide a 'View' link for
+	 *
+	 * @type int $length Truncation length. Default: 225.
+	 * @type bool $view_link Whether to provide a 'View' link for
 	 *                           truncated entries. Default: false.
 	 * }
 	 * @return string
+	 * @since 1.2.0
+	 *
 	 */
 	function bp_get_member_latest_update( $args = '' ) {
 		global $members_template;
@@ -130,11 +132,12 @@ if ( ! function_exists( 'bp_get_member_latest_update' ) ) {
 		/**
 		 * Filters the excerpt of the latest update for current member in the loop.
 		 *
+		 * @param string $value Excerpt of the latest update for current member in the loop.
+		 * @param array $r Array of parsed arguments.
+		 *
 		 * @since 1.2.5
 		 * @since 2.6.0 Added the `$r` parameter.
 		 *
-		 * @param string $value Excerpt of the latest update for current member in the loop.
-		 * @param array  $r     Array of parsed arguments.
 		 */
 		$update_content = apply_filters( 'bp_get_activity_latest_update_excerpt', trim( strip_tags( bp_create_excerpt( $update['content'], $length ) ) ), $r );
 
@@ -152,13 +155,59 @@ if ( ! function_exists( 'bp_get_member_latest_update' ) ) {
 		/**
 		 * Filters the latest update from the current member in the loop.
 		 *
+		 * @param string $update_content Formatted latest update for current member.
+		 * @param array $r Array of parsed arguments.
+		 *
 		 * @since 1.2.0
 		 * @since 2.6.0 Added the `$r` parameter.
 		 *
-		 * @param string $update_content Formatted latest update for current member.
-		 * @param array  $r              Array of parsed arguments.
 		 */
 		return apply_filters( 'bp_get_member_latest_update', $update_content, $r );
 	}
 }
 
+if (! function_exists( 'bp_is_running_wp' ) ) {
+	/**
+	 * Check whether the current version of WP exceeds a given version.
+	 *
+	 * @since 7.0.0
+	 *
+	 * @param string $version WP version, in "PHP-standardized" format.
+	 * @param string $compare Optional. Comparison operator. Default '>='.
+	 * @return bool
+	 */
+	function bp_is_running_wp( $version, $compare = '>=' ) {
+		return version_compare( $GLOBALS['wp_version'], $version, $compare );
+	}
+}
+
+
+if ( ! function_exists( 'bp_signup_requires_privacy_policy_acceptance' ) ) {
+	/**
+	 * Determines whether privacy policy acceptance is required for registration.
+	 *
+	 * @return bool
+	 * @since 4.0.0
+	 *
+	 */
+	function bp_signup_requires_privacy_policy_acceptance() {
+		// Bail if we're running a version of WP that doesn't have the Privacy Policy feature.
+		if ( bp_is_running_wp( '4.9.6', '<' ) ) {
+			return false;
+		}
+
+		// Default to true when a published Privacy Policy page exists.
+		$privacy_policy_url = get_privacy_policy_url();
+		$required           = ! empty( $privacy_policy_url );
+
+		/**
+		 * Filters whether privacy policy acceptance is required for registration.
+		 *
+		 * @param bool $required Whether privacy policy acceptance is required.
+		 *
+		 * @since 4.0.0
+		 *
+		 */
+		return (bool) apply_filters( 'bp_signup_requires_privacy_policy_acceptance', $required );
+	}
+}

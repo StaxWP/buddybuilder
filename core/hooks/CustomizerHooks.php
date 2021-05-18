@@ -46,11 +46,11 @@ class CustomizerHooks extends Singleton {
 							return $element;
 						}
 
-						if ( $element['widgetType'] === 'bpb-profile-member-navigation' && isset( $element['settings']['show_home_tab'] ) ) {
+						if ( 'bpb-profile-member-navigation' === $element['widgetType'] && isset( $element['settings']['show_home_tab'] ) ) {
 							$element['settings']['show_home_tab'] = $bp_appearance['user_front_page'] ? 'yes' : 'no';
 						}
 
-						if ( $element['widgetType'] === 'bpb-profile-group-navigation' && isset( $element['settings']['show_home_tab'] ) ) {
+						if ( 'bpb-profile-group-navigation' === $element['widgetType'] && isset( $element['settings']['show_home_tab'] ) ) {
 							$element['settings']['show_home_tab'] = $bp_appearance['group_front_page'] ? 'yes' : 'no';
 						}
 

@@ -45,7 +45,7 @@ class Settings extends Base {
 		$action   = sanitize_text_field( $_POST['action'] );
 		$did_save = '';
 
-		if ( ! empty( $action ) && $action === 'bpb_settings' ) {
+		if ( ! empty( $action ) && 'bpb_settings' === $action ) {
 			$settings = bpb_get_settings();
 
 			$simple_array_settings = [

@@ -140,9 +140,9 @@ function bpb_get_settings() {
 				if ( is_array( $default ) ) {
 					foreach ( $default as $key => $item ) {
 						if ( is_array( $item ) ) {
-							foreach ( $item as $itemKey => $itemValue ) {
-								if ( isset( $options[ $section ][ $key ][ $itemKey ] ) ) {
-									$defaults[ $section ][ $key ][ $itemKey ] = $options[ $section ][ $key ][ $itemKey ];
+							foreach ( $item as $item_key => $item_value ) {
+								if ( isset( $options[ $section ][ $key ][ $item_key ] ) ) {
+									$defaults[ $section ][ $key ][ $item_key ] = $options[ $section ][ $key ][ $item_key ];
 								}
 							}
 						} elseif ( isset( $options[ $section ][ $key ] ) ) {
@@ -239,11 +239,11 @@ function bpb_get_column_class( $type, $viewport = '' ) {
 		'4' => 'grid-four',
 	];
 
-	if ( $viewport === 'tablet' ) {
+	if ( 'tablet' === $viewport ) {
 		return 'md-' . $classes[ $type ];
 	}
 
-	if ( $viewport === 'mobile' ) {
+	if ( 'mobile' === $viewport ) {
 		return 'sm-' . $classes[ $type ];
 	}
 
@@ -296,7 +296,7 @@ function bpb_is_front_library() {
 
 	$tpl_id = (int) get_the_ID();
 
-	if ( $tpl_id === 0 ) {
+	if ( 0 === $tpl_id ) {
 		$slug = sanitize_text_field( $_GET['elementor_library'] );
 		$tpl  = get_page_by_path( $slug, OBJECT, 'elementor_library' );
 		if ( $tpl ) {
@@ -319,7 +319,7 @@ function bpb_is_edit_frame() {
 
 	$post_id = (int) $_GET['elementor-preview'];
 
-	if ( $post_id === 0 ) {
+	if ( 0 === $post_id ) {
 		return false;
 	}
 
@@ -342,15 +342,18 @@ function bpb_is_doc_type( $id = 0 ) {
 		return false;
 	}
 
-	return get_post_meta( $id, Document::TYPE_META_KEY, true ) === 'bpb-buddypress';
+	return 'bpb-buddypress' === get_post_meta( $id, Document::TYPE_META_KEY, true );
 }
 
 /**
- * @param $name
- * @param array $args
- * @param bool  $require_once
+ * Load preview template
+ *
+ * @param string  $name
+ * @param array   $args
+ * @param boolean $echo
+ * @return void
  */
-function bpb_load_template( $name, $args = [], $require_once = false ) {
+function bpb_load_preview_template( $name, $args = [], $echo = true ) {
 	if ( ! $name ) {
 		return;
 	}
@@ -358,9 +361,25 @@ function bpb_load_template( $name, $args = [], $require_once = false ) {
 	extract( $args );
 	$name = trim( $name );
 
+	$template           = __DIR__ . '/templates/preview/buddypress/' . $name . '.php';
+	$buddyboss_template = __DIR__ . '/templates/preview/buddyboss/' . $name . '.php';
+
+	if ( bpb_is_buddyboss() && file_exists( $buddyboss_template ) ) {
+		$template = $buddyboss_template;
+	}
+
+	if ( ! file_exists( $template ) ) {
+		return false;
+	}
+
 	ob_start();
-	include __DIR__ . '/templates/' . $name . '.php';
-	echo ob_get_clean();
+	include $template;
+
+	if ( $echo ) {
+		echo ob_get_clean();
+	} else {
+		return ob_get_clean();
+	}
 }
 
 /**
@@ -377,6 +396,30 @@ function bpb_get_appearance() {
  */
 function bpb_update_appearance( $data ) {
 	return update_option( 'bp_nouveau_appearance', $data );
+}
+
+/**
+ * Check if using BuddyBoss
+ *
+ * @return bool
+ */
+function bpb_is_buddyboss() {
+	return defined( 'BP_PLATFORM_VERSION' );
+}
+
+/**
+ * Get dummy avatar url
+ *
+ * @param string $type
+ * @param int    $size
+ * @return void
+ */
+function bpb_get_dummy_avatar_url( $type, $size = null ) {
+	if ( $size ) {
+		return BPB_ASSETS_URL . 'img/' . $type . '-avatar-' . $size . 'x' . $size . '.png';
+	}
+
+	return BPB_ASSETS_URL . 'img/' . $type . '-avatar.png';
 }
 
 /**

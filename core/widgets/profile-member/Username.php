@@ -21,7 +21,7 @@ class Username extends \Buddy_Builder\Widgets\Base {
 	}
 
 	public function get_icon() {
-		return 'sq-icon-bp_name sq-widget-label';
+		return 'bbl-members-name sq-widget-label';
 	}
 
 	public function get_categories() {
@@ -112,7 +112,7 @@ class Username extends \Buddy_Builder\Widgets\Base {
 	protected function render() {
 		parent::render();
 		if ( bpb_is_elementor_editor() ) {
-			bpb_load_template( 'preview/profile-member/username' );
+			bpb_load_preview_template( 'profile-member/username' );
 		} else {
 			?>
 			<?php if ( bp_is_active( 'activity' ) && bp_activity_do_mentions() ) : ?>

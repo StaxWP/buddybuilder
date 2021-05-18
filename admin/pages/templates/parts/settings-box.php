@@ -19,7 +19,7 @@ $active_post_name = false;
 			</option>
 
 			<?php
-			if ( $post['status'] === true ) {
+			if ( true === $post['status'] ) {
 				$active_post_id   = $post['id'];
 				$active_post_name = $post['title'];
 			}

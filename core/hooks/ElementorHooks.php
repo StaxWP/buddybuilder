@@ -55,6 +55,7 @@ class ElementorHooks extends Singleton {
 		add_action( 'elementor/editor/after_save', [ $this, 'save_buddypress_options' ], 10, 2 );
 
 		add_filter( 'template_include', [ $this, 'change_preview_and_edit_tpl' ] );
+		add_filter( 'elementor/document/urls/exit_to_dashboard', [ $this, 'redirect_to_bpb_dashboard' ], 10, 2 );
 
 		add_action(
 			'wp',
@@ -77,6 +78,21 @@ class ElementorHooks extends Singleton {
 				}
 			}
 		);
+	}
+
+	/**
+	 * Override exit editor link
+	 *
+	 * @param string $url
+	 * @param object $document
+	 * @return string
+	 */
+	public function redirect_to_bpb_dashboard( $url, $document ) {
+		if ( 'bpb-buddypress' === $document->get_template_type() ) {
+			return admin_url( 'admin.php?page=buddy-builder-settings' );
+		}
+
+		return $url;
 	}
 
 	/**
@@ -211,6 +227,23 @@ class ElementorHooks extends Singleton {
 			foreach ( $elements as $k => $element ) {
 				if ( $template_file = $this->get_element_path( $element['template_base_path'] . $k ) ) {
 
+					// Add widget's settings based on buddypress/buddyboss.
+					if ( isset( $element['extra'] ) ) {
+						if ( isset( $element['extra']['buddypress'] ) && ! bpb_is_buddyboss() ) {
+							$buddypress_settings_template_file = $this->get_element_path( $element['template_base_path'] . $element['extra']['buddypress'] );
+							if ( $buddypress_settings_template_file ) {
+								require_once $buddypress_settings_template_file;
+							}
+						}
+
+						if ( isset( $element['extra']['buddyboss'] ) && bpb_is_buddyboss() ) {
+							$buddyboss_settings_template_file = $this->get_element_path( $element['template_base_path'] . $element['extra']['buddyboss'] );
+							if ( $buddyboss_settings_template_file ) {
+								require_once $buddyboss_settings_template_file;
+							}
+						}
+					}
+
 					require_once $template_file;
 					$class_name = $element['class_base_namespace'] . $element['class'];
 					$elementor->widgets_manager->register_widget_type( new $class_name() );
@@ -246,7 +279,7 @@ class ElementorHooks extends Singleton {
 							return $element;
 						}
 
-						if ( $element['widgetType'] === 'bpb-members-directory-list' ) {
+						if ( 'bpb-members-directory-list' === $element['widgetType'] ) {
 							$listing_columns = bpb_get_listing_columns();
 
 							$listing_columns['members_directory'] = [
@@ -258,7 +291,7 @@ class ElementorHooks extends Singleton {
 							bpb_update_listing_columns( $listing_columns );
 						}
 
-						if ( $element['widgetType'] === 'bpb-groups-directory-list' ) {
+						if ( 'bpb-groups-directory-list' === $element['widgetType'] ) {
 							$listing_columns = bpb_get_listing_columns();
 
 							$listing_columns['groups_directory'] = [
@@ -270,18 +303,18 @@ class ElementorHooks extends Singleton {
 							bpb_update_listing_columns( $listing_columns );
 						}
 
-						if ( $element['widgetType'] === 'bpb-profile-member-navigation' && isset( $element['settings']['show_home_tab'] ) ) {
+						if ( 'bpb-profile-member-navigation' === $element['widgetType'] && isset( $element['settings']['show_home_tab'] ) ) {
 							$bp_appearance = bpb_get_appearance();
 
-							$bp_appearance['user_front_page'] = $element['settings']['show_home_tab'] === 'yes' ? 1 : 0;
+							$bp_appearance['user_front_page'] = 'yes' === $element['settings']['show_home_tab'] ? 1 : 0;
 
 							bpb_update_appearance( $bp_appearance );
 						}
 
-						if ( $element['widgetType'] === 'bpb-profile-group-navigation' && isset( $element['settings']['show_home_tab'] ) ) {
+						if ( 'bpb-profile-group-navigation' === $element['widgetType'] && isset( $element['settings']['show_home_tab'] ) ) {
 							$bp_appearance = bpb_get_appearance();
 
-							$bp_appearance['group_front_page'] = $element['settings']['show_home_tab'] === 'yes' ? 1 : 0;
+							$bp_appearance['group_front_page'] = 'yes' === $element['settings']['show_home_tab'] ? 1 : 0;
 
 							bpb_update_appearance( $bp_appearance );
 						}
@@ -298,14 +331,14 @@ class ElementorHooks extends Singleton {
 	 */
 	public function editor_css() {
 		wp_enqueue_style(
-			'stax-elementor-panel-style',
+			'stax-elementor-bb-icons-tyle',
 			BPB_ADMIN_ASSETS_URL . 'css/icons.css',
 			null,
 			BPB_VERSION
 		);
 
 		wp_enqueue_style(
-			'stax-elementor-panel-label-style',
+			'stax-elementor-bb-label-style',
 			BPB_ADMIN_ASSETS_URL . 'css/label.css',
 			null,
 			BPB_VERSION

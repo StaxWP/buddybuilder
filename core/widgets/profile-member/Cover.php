@@ -22,7 +22,7 @@ class Cover extends \Buddy_Builder\Widgets\Base {
 	}
 
 	public function get_icon() {
-		return 'sq-icon-bp_image sq-widget-label';
+		return 'bbl-members-profile-cover sq-widget-label';
 	}
 
 	public function get_categories() {
@@ -466,13 +466,16 @@ class Cover extends \Buddy_Builder\Widgets\Base {
 
 	protected function render() {
 		parent::render();
+
 		$settings = $this->get_settings_for_display();
+
 		$this->add_render_attribute( 'header-cover-bg-overlay', [ 'class' => 'cover-bg-overlay' ] );
+
 		if ( bpb_is_elementor_editor() ) {
-			bpb_load_template( 'preview/profile-member/cover' );
+			bpb_load_preview_template( 'profile-member/cover', $settings );
 		} else {
 			?>
-			<?php if ( ! empty( $settings['overlay_background'] ) ) : ?>
+			<?php if ( $settings['overlay_background'] ) : ?>
 				<div <?php echo $this->get_render_attribute_string( 'header-cover-bg-overlay' ); ?>></div>
 			<?php endif; ?>
 			<div id="header-cover-image"></div>

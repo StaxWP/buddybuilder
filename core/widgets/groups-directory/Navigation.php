@@ -22,7 +22,7 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 	}
 
 	public function get_icon() {
-		return 'sq-icon-bp_menu sq-widget-label';
+		return 'bbl-groups-navigation sq-widget-label';
 	}
 
 	public function get_categories() {
@@ -428,6 +428,18 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 			]
 		);
 
+        $this->add_responsive_control(
+            'nav_item_margin',
+            [
+                'label'      => __( 'Items Margin', 'stax-buddy-builder' ),
+                'type'       => Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', 'em', '%' ],
+                'selectors'  => [
+                    '{{WRAPPER}} nav ul li a' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
 		$this->end_controls_section();
 
 		$this->start_controls_section(
@@ -777,7 +789,7 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 	protected function render() {
 		parent::render();
 		if ( bpb_is_elementor_editor() ) {
-			bpb_load_template( 'preview/groups-directory/navigation' );
+			bpb_load_preview_template( 'groups-directory/navigation' );
 		} elseif ( ! bp_nouveau_is_object_nav_in_sidebar() ) {
 			bp_get_template_part( 'common/nav/directory-nav' );
 		}

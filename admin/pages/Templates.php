@@ -43,11 +43,11 @@ class Templates extends Base {
 	 */
 	public function save_notification() {
 		if ( isset( $_GET['bpb_import_status'] ) ) {
-			if ( sanitize_text_field( $_GET['bpb_import_status'] ) === 'success' ) {
+			if ( 'success' === sanitize_text_field( $_GET['bpb_import_status'] ) ) {
 				Helpers::load_template(
 					'admin/pages/templates/parts/notification-success',
 					[
-						'message' => __( 'YEY! The template was imported successfully!', 'stax-buddy-builder' ),
+						'message' => __( 'YAY! The template was imported successfully!', 'stax-buddy-builder' ),
 					]
 				);
 			} else {

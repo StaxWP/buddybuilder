@@ -16,7 +16,9 @@ $render        = bpb_is_template_populated( 'register-page' );
 
 			<?php bp_nouveau_template_notices(); ?>
 
-				<?php bp_nouveau_user_feedback( bp_get_current_signup_step() ); ?>
+                <?php if ( ! $render ) : ?>
+                    <?php bp_nouveau_user_feedback( bp_get_current_signup_step() ); ?>
+                <?php endif; ?>
 
 				<form action="" name="signup_form" id="signup-form" class="standard-form signup-form clearfix" method="post" enctype="multipart/form-data">
 

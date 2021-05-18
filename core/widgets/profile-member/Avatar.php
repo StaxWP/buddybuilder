@@ -21,7 +21,7 @@ class Avatar extends \Buddy_Builder\Widgets\Base {
 	}
 
 	public function get_icon() {
-		return 'sq-icon-bp_avatar sq-widget-label';
+		return 'bbl-members-avatar sq-widget-label';
 	}
 
 	public function get_categories() {
@@ -120,6 +120,17 @@ class Avatar extends \Buddy_Builder\Widgets\Base {
 			]
 		);
 
+        $this->add_control(
+            'avatar_border_color_hover',
+            [
+                'label'     => __( 'Border Color', 'stax-buddy-builder' ),
+                'type'      => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .avatar:hover' => 'border-color: {{VALUE}};',
+                ],
+            ]
+        );
+
 		$this->add_group_control(
 			Group_Control_Box_Shadow::get_type(),
 			[
@@ -160,7 +171,7 @@ class Avatar extends \Buddy_Builder\Widgets\Base {
 	protected function render() {
 		parent::render();
 		if ( bpb_is_elementor_editor() ) {
-			bpb_load_template( 'preview/profile-member/avatar' );
+			bpb_load_preview_template( 'profile-member/avatar' );
 		} else {
 			$settings = $this->get_settings_for_display();
 			$args     = 'type=' . $settings['avatar_size'];

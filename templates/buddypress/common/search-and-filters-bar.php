@@ -15,7 +15,7 @@
 	if ( $show_list_toggle && in_array( $current_component, [ 'members', 'groups', 'friends' ] ) ) :
 		?>
 		<?php
-		if ( $current_component === 'friends' ) {
+		if ( 'friends' === $current_component ) {
 			$current_component = 'members';
 		}
 		?>

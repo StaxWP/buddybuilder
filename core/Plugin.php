@@ -132,7 +132,7 @@ final class Plugin {
 	 * @static
 	 */
 	public static function get_instance() {
-		if ( self::$instance === null ) {
+		if ( null === self::$instance ) {
 			self::$instance = new self();
 
 			do_action( 'buddy_builder/loaded' );
@@ -148,12 +148,12 @@ final class Plugin {
 	 * @access private
 	 */
 	private function __construct() {
-
 		if ( ! defined( 'YOUZER_LATE_LOAD' ) ) {
 			define( 'YOUZER_LATE_LOAD', 2 );
 		}
 
 		add_action( 'plugins_loaded', [ $this, 'load_plugin' ], 0 );
+		add_action( 'wp_enqueue_scripts', [ $this, 'remove_buddypress_style' ], 11 );
 		add_action( 'bp_enqueue_scripts', [ $this, 'bp_scripts' ] );
 		add_action( 'wp_enqueue_scripts', [ $this, 'front_css' ], 12 );
 
@@ -192,14 +192,10 @@ final class Plugin {
 	 * @access public
 	 */
 	public function load_plugin() {
+		do_action( 'buddy_builder/pre_init' );
+
 		if ( ! defined( 'ELEMENTOR_VERSION' ) ) {
 			add_action( 'admin_notices', [ Notices::get_instance(), 'elementor_notice' ] );
-
-			return;
-		}
-
-		if ( ! function_exists( 'bp_is_active' ) ) {
-			add_action( 'admin_notices', [ Notices::get_instance(), 'buddypress_notice' ] );
 
 			return;
 		}
@@ -209,19 +205,22 @@ final class Plugin {
 			add_action( 'admin_notices', [ Notices::get_instance(), 'minimum_elementor_version_notice' ] );
 		}
 
+		if ( ! function_exists( 'bp_is_active' ) ) {
+			add_action( 'admin_notices', [ Notices::get_instance(), 'buddypress_notice' ] );
+
+			return;
+		}
+
+		do_action( 'buddy_builder/mid_init' );
+
 		spl_autoload_register( [ $this, 'autoload' ] );
 
 		$this->define_constants();
-		$this->load_components();
+		$this->load_functions();
+		$this->load_admin_panel();
 		$this->add_hooks();
 
 		do_action( 'buddy_builder/init' );
-
-		/*
-		 * @deprecated
-		 * @use buddy_builder/init
-		 */
-		do_action( 'buddybuilder_init' );
 
 		add_action( 'admin_notices', [ Notices::get_instance(), 'rate_us_notice' ] );
 	}
@@ -234,12 +233,16 @@ final class Plugin {
 	}
 
 	/**
-	 * Load components
+	 * Load functions
 	 */
-	public function load_components() {
+	public function load_functions() {
 		require_once self::$plugin_path . 'functions.php';
+	}
 
-		// Admin pages
+	/**
+	 * Load admin panel
+	 */
+	public function load_admin_panel() {
 		include_once self::$plugin_path . '/admin/Admin.php';
 	}
 
@@ -319,7 +322,7 @@ final class Plugin {
 	public function get_elements() {
 		$elements = [];
 
-		// Groups directory
+		// Groups directory.
 
 		$elements['groups-directory/Listing'] = [
 			'name'     => 'bpb-groups-directory-list',
@@ -339,7 +342,7 @@ final class Plugin {
 			'template' => 'groups-directory',
 		];
 
-		// Group profile
+		// Group profile.
 
 		$elements['profile-group/Name'] = [
 			'name'     => 'bpb-profile-group-name',
@@ -375,6 +378,10 @@ final class Plugin {
 			'name'     => 'bpb-profile-group-leadership',
 			'class'    => 'ProfileGroup\Leadership',
 			'template' => 'group-profile',
+			'extra'    => [
+				'buddypress' => 'profile-group/leadership/BuddypressSettings',
+				'buddyboss'  => 'profile-group/leadership/BuddybossSettings',
+			],
 		];
 
 		$elements['profile-group/LastActivity'] = [
@@ -401,7 +408,7 @@ final class Plugin {
 			'template' => 'group-profile',
 		];
 
-		// Members directory
+		// Members directory.
 
 		$elements['members-directory/Listing'] = [
 			'name'     => 'bpb-members-directory-list',
@@ -421,7 +428,7 @@ final class Plugin {
 			'template' => 'members-directory',
 		];
 
-		// Member profile
+		// Member profile.
 
 		$elements['profile-member/Avatar'] = [
 			'name'     => 'bpb-profile-member-avatar',
@@ -471,33 +478,49 @@ final class Plugin {
 			'template' => 'member-profile',
 		];
 
-		// Sitewide activity
+		// Sitewide activity.
 
 		$elements['sitewide-activity/Form'] = [
 			'name'     => 'bpb-sitewide-form',
 			'class'    => 'Sitewide\Form',
 			'template' => 'sitewide-activity',
+			'extra'    => [
+				'buddypress' => 'sitewide-activity/form/BuddypressSettings',
+				'buddyboss'  => 'sitewide-activity/form/BuddybossSettings',
+			],
 		];
 
 		$elements['sitewide-activity/Filters'] = [
 			'name'     => 'bpb-sitewide-filters',
 			'class'    => 'Sitewide\Filters',
 			'template' => 'sitewide-activity',
+			'extra'    => [
+				'buddypress' => 'sitewide-activity/filters/BuddypressSettings',
+				'buddyboss'  => 'sitewide-activity/filters/BuddybossSettings',
+			],
 		];
 
 		$elements['sitewide-activity/Content'] = [
 			'name'     => 'bpb-sitewide-content',
 			'class'    => 'Sitewide\Content',
 			'template' => 'sitewide-activity',
+			'extra'    => [
+				'buddypress' => 'sitewide-activity/content/BuddypressSettings',
+				'buddyboss'  => 'sitewide-activity/content/BuddybossSettings',
+			],
 		];
 
 		$elements['sitewide-activity/Navigation'] = [
 			'name'     => 'bpb-sitewide-navigation',
 			'class'    => 'Sitewide\Navigation',
 			'template' => 'sitewide-activity',
+			'extra'    => [
+				'buddypress' => 'sitewide-activity/navigation/BuddypressSettings',
+				'buddyboss'  => 'sitewide-activity/navigation/BuddybossSettings',
+			],
 		];
 
-		// General
+		// General.
 
 		$elements['general/MembersListing'] = [
 			'name'  => 'bpb-general-members-list',
@@ -523,9 +546,24 @@ final class Plugin {
 	}
 
 	/**
+	 * Remove default Buddypress css
+	 *
+	 * @return void
+	 */
+	public function remove_buddypress_style() {
+		if ( ! defined( 'BP_PLATFORM_VERSION' ) ) {
+			wp_dequeue_style( 'bp-nouveau' );
+		}
+	}
+
+	/**
 	 * Enqueue Front CSS
 	 */
 	public function front_css() {
+		if ( ! function_exists( 'bp_is_active' ) ) {
+			return;
+		}
+
 		$min = '.min';
 
 		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
@@ -539,6 +577,15 @@ final class Plugin {
 			BPB_VERSION
 		);
 
+		if ( bpb_is_buddyboss() ) {
+			wp_enqueue_style(
+				'stax-buddy-builder-boss',
+				BPB_ASSETS_URL . 'css/buddyboss' . $min . '.css',
+				[],
+				BPB_VERSION
+			);
+		}
+
 		if ( bpb_is_elementor_editor() ) {
 			wp_enqueue_style(
 				'stax-buddy-builder-avatar',
@@ -546,6 +593,15 @@ final class Plugin {
 				[],
 				BPB_VERSION
 			);
+
+			if ( bpb_is_buddyboss() ) {
+				wp_enqueue_style(
+					'stax-buddyboss-preview',
+					BPB_ASSETS_URL . 'css/preview' . $min . '.css',
+					[],
+					BPB_VERSION
+				);
+			}
 		}
 
 		if ( ! bp_is_blog_page() ) {
@@ -571,12 +627,15 @@ final class Plugin {
 			$min = '';
 		}
 
-		wp_register_style(
-			'stax-buddy-builder-bp',
-			BPB_BASE_URL . 'templates/buddypress/css/buddypress' . $min . '.css',
-			[],
-			BPB_VERSION
-		);
+		if ( ! defined( 'BP_PLATFORM_VERSION' ) ) {
+			wp_register_style(
+				'stax-buddy-builder-bp',
+				BPB_BASE_URL . 'templates/buddypress/assets/buddypress' . $min . '.css',
+				[],
+				BPB_VERSION
+			);
+		}
+
 		wp_register_script(
 			'bpb-grid-list-view',
 			BPB_ASSETS_URL . 'js/grid-list-view.js',

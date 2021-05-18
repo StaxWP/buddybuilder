@@ -333,9 +333,9 @@ body.buddypress .buddypress-wrap .elementor-heading-title {
   margin-bottom: 0; }
 
 @font-face {
-  font-family: 'sq-icons-v-1-1-3';
-  src: url("../../assets/fonts/sq-icons-v-1-1-3.eot?v41v8d");
-  src: url("../../assets/fonts/sq-icons-v-1-1-3.eot?v41v8d#iefix") format("embedded-opentype"), url("../../assets/fonts/sq-icons-v-1-1-3.ttf?v41v8d") format("truetype"), url("../../assets/fonts/sq-icons-v-1-1-3.woff?v41v8d") format("woff"), url("../../assets/fonts/sq-icons-v-1-1-3.svg?v41v8d#sq-icons-v-1-1-3") format("svg");
+  font-family: 'stax-bb-line-v-1-12';
+  src: url("../../assets/fonts/stax-bb-line-v-1-12.eot?xwnks5");
+  src: url("../../assets/fonts/stax-bb-line-v-1-12.eot?xwnks5#iefix") format("embedded-opentype"), url("../../assets/fonts/stax-bb-line-v-1-12.ttf?xwnks5") format("truetype"), url("../../assets/fonts/stax-bb-line-v-1-12.woff?xwnks5") format("woff"), url("../../assets/fonts/stax-bb-line-v-1-12.svg?xwnks5#stax-bb-line-v-1-1") format("svg");
   font-weight: normal;
   font-style: normal;
   font-display: block; }
@@ -347,7 +347,7 @@ body.buddypress .buddypress-wrap .elementor-heading-title {
   z-index: 0; }
 
 .groups-list .item-entry .item-avatar > a:after {
-  font-family: 'sq-icons-v-1-1-3' !important;
+  font-family: 'stax-bb-line-v-1-12' !important;
   font-size: 1.2em;
   display: inline-block;
   position: absolute;
@@ -428,4 +428,24 @@ body.buddypress .buddypress-wrap .elementor-heading-title {
 
 .elementor-widget-bpb-sitewide-form #whats-new-post-in-box {
   font-size: inherit; }
-  
+
+.bpb-group-members-wrap .bpb-group-members {
+  display: inline-block;
+  margin-right: 12px; }
+  .bpb-group-members-wrap .bpb-group-members img {
+    border: 1px solid #fff;
+    max-width: 26px;
+    display: inline-block;
+    margin-right: -8px;
+    position: relative;
+    z-index: 3;
+    vertical-align: middle; }
+    .bpb-group-members-wrap .bpb-group-members img:nth-child(2) {
+      z-index: 2; }
+    .bpb-group-members-wrap .bpb-group-members img:nth-child(3) {
+      z-index: 1; }
+
+.bpb-group-members-wrap .bpb-members {
+  letter-spacing: -.24px; }
+
+/*# sourceMappingURL=index.css.map */

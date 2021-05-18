@@ -24,7 +24,7 @@ class GroupsListing extends \Buddy_Builder\Widgets\Base {
 	}
 
 	public function get_icon() {
-		return 'sq-icon-bp_listing sq-widget-label';
+		return 'bbl-groups-list sq-widget-label';
 	}
 
 	public function get_categories() {

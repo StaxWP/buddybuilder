@@ -22,7 +22,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 	}
 
 	public function get_icon() {
-		return 'sq-icon-bp_filter sq-widget-label';
+		return 'bbl-groups-filter sq-widget-label';
 	}
 
 	public function get_categories() {
@@ -787,6 +787,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 				'default'   => '',
 				'selectors' => [
 					'{{WRAPPER}} #dir-groups-search-submit .dashicons:before' => 'color: {{VALUE}};',
+					'{{WRAPPER}} #dir-groups-search-submit .bb-icon-search:before' => 'color: {{VALUE}};',
 				],
 			]
 		);
@@ -827,6 +828,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 				'default'   => '',
 				'selectors' => [
 					'{{WRAPPER}} #dir-groups-search-submit:hover .dashicons:before' => 'color: {{VALUE}};',
+					'{{WRAPPER}} #dir-groups-search-submit:hover .bb-icon-search:before' => 'color: {{VALUE}};',
 				],
 			]
 		);
@@ -1084,7 +1086,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 		$settings = $this->get_settings_for_display();
 
 		if ( bpb_is_elementor_editor() ) {
-			bpb_load_template( 'preview/groups-directory/filters' );
+			bpb_load_preview_template( 'groups-directory/filters' );
 		} else {
 			$has_list_toggle = ! in_array( $settings['content_display'], [ 9, 10, 13, 15 ], false );
 

@@ -22,7 +22,7 @@ class Description extends \Buddy_Builder\Widgets\Base {
 	}
 
 	public function get_icon() {
-		return 'sq-icon-bp_info sq-widget-label';
+		return 'bbl-groups-description sq-widget-label';
 	}
 
 	public function get_categories() {
@@ -92,7 +92,7 @@ class Description extends \Buddy_Builder\Widgets\Base {
 	protected function render() {
 		parent::render();
 		if ( bpb_is_elementor_editor() ) {
-			bpb_load_template( 'preview/profile-group/description' );
+			bpb_load_preview_template( 'profile-group/description' );
 		} else {
 			?>
 			<?php if ( ! bp_nouveau_groups_front_page_description() && bp_nouveau_group_has_meta( 'description' ) ) : ?>

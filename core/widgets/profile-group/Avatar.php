@@ -21,7 +21,7 @@ class Avatar extends \Buddy_Builder\Widgets\Base {
 	}
 
 	public function get_icon() {
-		return 'sq-icon-bp_groups sq-widget-label';
+		return 'bbl-groups-avatar sq-widget-label';
 	}
 
 	public function get_categories() {
@@ -89,7 +89,7 @@ class Avatar extends \Buddy_Builder\Widgets\Base {
 					],
 				],
 				'selectors' => [
-					'{{WRAPPER}} .avatar' => 'width: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} #item-header-avatar .avatar' => 'width: {{SIZE}}{{UNIT}};',
 				],
 			]
 		);
@@ -107,7 +107,7 @@ class Avatar extends \Buddy_Builder\Widgets\Base {
 			Group_Control_Box_Shadow::get_type(),
 			[
 				'name'     => 'avatar_box_shadow',
-				'selector' => '{{WRAPPER}} .avatar',
+				'selector' => '{{WRAPPER}} #item-header-avatar .avatar',
 			]
 		);
 
@@ -124,7 +124,7 @@ class Avatar extends \Buddy_Builder\Widgets\Base {
 			Group_Control_Box_Shadow::get_type(),
 			[
 				'name'     => 'avatar_box_shadow_hover',
-				'selector' => '{{WRAPPER}} .avatar:hover',
+				'selector' => '{{WRAPPER}} #item-header-avatar .avatar:hover',
 			]
 		);
 
@@ -136,7 +136,7 @@ class Avatar extends \Buddy_Builder\Widgets\Base {
 			Group_Control_Border::get_type(),
 			[
 				'name'      => 'avatar_border',
-				'selector'  => '{{WRAPPER}} .avatar',
+				'selector'  => '{{WRAPPER}} #item-header-avatar .avatar',
 				'separator' => 'before',
 			]
 		);
@@ -148,7 +148,7 @@ class Avatar extends \Buddy_Builder\Widgets\Base {
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', '%' ],
 				'selectors'  => [
-					'{{WRAPPER}} .avatar' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'{{WRAPPER}} #item-header-avatar .avatar' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
 			]
 		);
@@ -160,7 +160,7 @@ class Avatar extends \Buddy_Builder\Widgets\Base {
 	protected function render() {
 		parent::render();
 		if ( bpb_is_elementor_editor() ) {
-			bpb_load_template( 'preview/profile-group/avatar' );
+			bpb_load_preview_template( 'profile-group/avatar' );
 		} else {
 			$settings = $this->get_settings_for_display();
 			$args     = 'type=' . $settings['avatar_size'];

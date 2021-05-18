@@ -25,8 +25,8 @@ defined( 'ABSPATH' ) || die();
  */
 class Module {
 
-	const IMPORT_KEY         = 'bpb_import';
-	const IMPORT_NONCE_KEY   = 'bpb-ajax-import';
+	const IMPORT_KEY = 'bpb_import';
+	const IMPORT_NONCE_KEY = 'bpb-ajax-import';
 	const TEMPLATE_ID_PREFIX = 'buddy_builder_';
 
 	/**
@@ -40,6 +40,18 @@ class Module {
 	 * @var string API URL.
 	 */
 	private static $api_url = 'https://demo.staxwp.com/elementor-buddybuilder/wp-json/stax-feed/v1/templates/%s';
+
+	/**
+	 * API URL for BuddyBoss tempaltes
+	 *
+	 * Holds the URL of the API.
+	 *
+	 * @access private
+	 * @static
+	 *
+	 * @var string API URL.
+	 */
+	private static $api_url_bboss = 'https://demo.staxwp.com/buddybuilder-bboss/wp-json/stax-feed/v1/templates/%s';
 
 	/**
 	 * Initialize Buddy_Builder template library module.
@@ -67,11 +79,21 @@ class Module {
 		add_action( 'elementor/template-library/after_save_template', [ $this, 'save_subtype_on_import' ], 10, 2 );
 	}
 
+	public static function get_api_url() {
+		$api_type = apply_filters( 'buddy_builder/admin/api/type', 'buddypress' );
+
+		if ( $api_type === 'buddyboss' ) {
+			return self::$api_url_bboss;
+		}
+
+		return self::$api_url;
+	}
+
 	public function save_subtype_on_import( $template_id, $data ) {
 
 		if ( isset( $data['page_settings']['bpb_type'] ) &&
-			 ! get_post_meta( $template_id, BuddyPress::REMOTE_CATEGORY_META_KEY, true ) &&
-			 get_post_meta( $template_id, Document::TYPE_META_KEY, true ) === 'bpb-buddypress' ) {
+		     ! get_post_meta( $template_id, BuddyPress::REMOTE_CATEGORY_META_KEY, true ) &&
+		     'bpb-buddypress' === get_post_meta( $template_id, Document::TYPE_META_KEY, true ) ) {
 			update_post_meta( $template_id, BuddyPress::REMOTE_CATEGORY_META_KEY, $data['page_settings']['bpb_type'] );
 		}
 
@@ -104,9 +126,17 @@ class Module {
 			$this->send_error();
 		}
 
+		$imported_templates = get_option( 'bpb_imported_templates', [] );
 		$imported_ids = [];
 
 		if ( ! empty( $templates ) ) {
+
+			// Remove old imported templates
+			if ( isset( $imported_templates[ $bpb_template ] ) && is_array( $imported_templates[ $bpb_template ] ) ) {
+				foreach ( $imported_templates[ $bpb_template ] as $old_id ) {
+					wp_trash_post( $old_id );
+				}
+			}
 
 			foreach ( $templates as $template ) {
 
@@ -132,12 +162,10 @@ class Module {
 			if ( ! empty( Source_Buddy_Builder::$imported_templates ) ) {
 				bpb_bulk_save_settings( Source_Buddy_Builder::$imported_templates );
 			}
+
+			$imported_templates[ $bpb_template ] = $imported_ids;
+			update_option( 'bpb_imported_templates', $imported_templates );
 		}
-
-		$imported_templates                  = get_option( 'bpb_imported_templates', [] );
-		$imported_templates[ $bpb_template ] = $imported_ids;
-
-		update_option( 'bpb_imported_templates', $imported_templates );
 
 		$this->send_success();
 
@@ -215,7 +243,7 @@ class Module {
 	 */
 	public static function get_templates( $category = '' ) {
 
-		$url = sprintf( self::$api_url, $category );
+		$url = sprintf( self::get_api_url(), $category );
 
 		$response = wp_remote_get(
 			$url,
@@ -273,7 +301,7 @@ class Module {
 	 * @access public
 	 */
 	public static function get_template_content( $template_id ) {
-		$url = sprintf( self::$api_url, 'id/' . $template_id );
+		$url = sprintf( self::get_api_url(), 'id/' . $template_id );
 
 		$response = wp_remote_get(
 			$url,

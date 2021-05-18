@@ -17,35 +17,35 @@ if ( bp_has_groups() ) :
 		<?php bp_nouveau_group_hook( 'before', 'home_content' ); ?>
 
 		<?php if ( $render ) : ?>
-            <div id="item-header" role="complementary" data-bp-item-id="<?php bp_group_id(); ?>"
-                 data-bp-item-component="groups" class="groups-header">
+			<div id="item-header" role="complementary" data-bp-item-id="<?php bp_group_id(); ?>"
+				 data-bp-item-component="groups" class="groups-header">
 
-                <?php echo do_shortcode( $group_profile ); ?>
-            </div>
-        <?php else : ?>
-            <div id="item-header" role="complementary" data-bp-item-id="<?php bp_group_id(); ?>"
-                 data-bp-item-component="groups" class="groups-header single-headers">
+				<?php echo do_shortcode( $group_profile ); ?>
+			</div>
+		<?php else : ?>
+			<div id="item-header" role="complementary" data-bp-item-id="<?php bp_group_id(); ?>"
+				 data-bp-item-component="groups" class="groups-header single-headers">
 
-                <?php bp_nouveau_group_header_template_part(); ?>
+				<?php bp_nouveau_group_header_template_part(); ?>
 
-            </div><!-- #item-header -->
+			</div><!-- #item-header -->
 
-            <div class="bp-wrap">
+			<div class="bp-wrap">
 
-                <?php if ( ! bp_nouveau_is_object_nav_in_sidebar() ) : ?>
+				<?php if ( ! bp_nouveau_is_object_nav_in_sidebar() ) : ?>
 
-                    <?php bp_get_template_part( 'groups/single/parts/item-nav' ); ?>
+					<?php bp_get_template_part( 'groups/single/parts/item-nav' ); ?>
 
-                <?php endif; ?>
+				<?php endif; ?>
 
-                <div id="item-body" class="item-body">
+				<div id="item-body" class="item-body">
 
-                    <?php bp_nouveau_group_template_part(); ?>
+					<?php bp_nouveau_group_template_part(); ?>
 
-                </div><!-- #item-body -->
+				</div><!-- #item-body -->
 
-            </div><!-- // .bp-wrap -->
-        <?php endif; ?>
+			</div><!-- // .bp-wrap -->
+		<?php endif; ?>
 
 		<?php bp_nouveau_group_hook( 'after', 'home_content' ); ?>
 

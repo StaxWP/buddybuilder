@@ -20,7 +20,7 @@ class Content extends \Buddy_Builder\Widgets\Base {
 	}
 
 	public function get_icon() {
-		return 'sq-icon-bp_section sq-widget-label';
+		return 'bbl-members-content sq-widget-label';
 	}
 
 	public function get_categories() {
@@ -63,9 +63,8 @@ class Content extends \Buddy_Builder\Widgets\Base {
 		parent::render();
 
 		if ( bpb_is_elementor_editor() ) {
-			ob_start();
-			bpb_load_template( 'preview/profile-member/content' );
-			echo apply_filters( 'buddy_builder/widget/member-profile/preview', ob_get_clean(), $this );
+			$template = bpb_load_preview_template( 'profile-member/content', [], false );
+			echo apply_filters( 'buddy_builder/widget/member-profile/preview', $template, $this );
 		} else {
 			?>
 			<div class="bp-wrap">
@@ -75,7 +74,35 @@ class Content extends \Buddy_Builder\Widgets\Base {
 					 * Returning a truthy value from the filter will effectively short-circuit the logic
 					 */
 					if ( apply_filters( 'buddy_builder/tpl/profile-member/content/render', true ) ) {
-						bp_nouveau_member_template_part();
+
+						?>
+						<?php if ( bp_nouveau_has_nav( [ 'type' => 'secondary' ] ) ) : ?>
+							<nav class="<?php bp_nouveau_single_item_subnav_classes(); ?>" id="subnav" role="navigation" aria-label="<?php esc_attr_e( 'Sub Menu', 'buddyboss' ); ?>">
+								<ul class="subnav">
+								<?php
+								while ( bp_nouveau_nav_items() ) :
+									bp_nouveau_nav_item();
+									?>
+									<li id="<?php bp_nouveau_nav_id(); ?>" class="<?php bp_nouveau_nav_classes(); ?>" <?php bp_nouveau_nav_scope(); ?>>
+										<a href="<?php bp_nouveau_nav_link(); ?>" id="<?php bp_nouveau_nav_link_id(); ?>">
+											<?php bp_nouveau_nav_link_text(); ?>
+
+											<?php if ( bp_nouveau_nav_has_count() ) : ?>
+											<span class="count"><?php bp_nouveau_nav_count(); ?></span>
+											<?php endif; ?>
+										</a>
+									</li>
+
+								<?php endwhile; ?>
+								</ul>
+							</nav>
+						<?php endif; ?>
+						
+						<div class="bpb-settings-container">
+							<?php bp_nouveau_member_template_part(); ?>
+						</div>
+
+						<?php
 					}
 					?>
 				</div>

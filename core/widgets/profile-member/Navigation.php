@@ -22,7 +22,7 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 	}
 
 	public function get_icon() {
-		return 'sq-icon-bp_menu sq-widget-label';
+		return 'bbl-members-navigation sq-widget-label';
 	}
 
 	public function get_categories() {
@@ -31,34 +31,36 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 
 	protected function _register_controls() {
 
-		$this->start_controls_section(
-			'section_content_settings',
-			[
-				'label' => __( 'Settings', 'stax-buddy-builder' ),
-				'tab'   => Controls_Manager::TAB_CONTENT,
-			]
-		);
+		if ( ! bpb_is_buddyboss() ) {
+			$this->start_controls_section(
+				'section_content_settings',
+				[
+					'label' => __( 'Settings', 'stax-buddy-builder' ),
+					'tab'   => Controls_Manager::TAB_CONTENT,
+				]
+			);
 
-		$appearance    = bpb_get_appearance();
-		$show_home_tab = 'yes';
+			$appearance    = bpb_get_appearance();
+			$show_home_tab = 'yes';
 
-		if ( isset( $appearance['user_front_page'] ) ) {
-			$show_home_tab = $appearance['user_front_page'] ? 'yes' : 'no';
+			if ( isset( $appearance['user_front_page'] ) ) {
+				$show_home_tab = $appearance['user_front_page'] ? 'yes' : 'no';
+			}
+
+			$this->add_control(
+				'show_home_tab',
+				[
+					'label'        => __( 'Enable default front page', 'stax-buddy-builder' ),
+					'type'         => Controls_Manager::SWITCHER,
+					'label_on'     => __( 'Yes', 'stax-buddy-builder' ),
+					'label_off'    => __( 'No', 'stax-buddy-builder' ),
+					'return_value' => 'yes',
+					'default'      => $show_home_tab,
+				]
+			);
+
+			$this->end_controls_section();
 		}
-
-		$this->add_control(
-			'show_home_tab',
-			[
-				'label'        => __( 'Enable default front page', 'stax-buddy-builder' ),
-				'type'         => Controls_Manager::SWITCHER,
-				'label_on'     => __( 'Yes', 'stax-buddy-builder' ),
-				'label_off'    => __( 'No', 'stax-buddy-builder' ),
-				'return_value' => 'yes',
-				'default'      => $show_home_tab,
-			]
-		);
-
-		$this->end_controls_section();
 
 		$this->start_controls_section(
 			'section_content_style',
@@ -447,6 +449,18 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 			]
 		);
 
+        $this->add_responsive_control(
+            'nav_margin',
+            [
+                'label'      => __( 'Items Margin', 'stax-buddy-builder' ),
+                'type'       => Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', 'em', '%' ],
+                'selectors'  => [
+                    '{{WRAPPER}} nav ul li a, {{WRAPPER}} #item-nav ul li a' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
 		$this->end_controls_section();
 
 		$this->start_controls_section(
@@ -660,7 +674,7 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 		$settings = $this->get_settings_for_display();
 
 		if ( bpb_is_elementor_editor() ) {
-			bpb_load_template( 'preview/profile-member/navigation', [ 'show_home' => $settings['show_home_tab'] ] );
+			bpb_load_preview_template( 'profile-member/navigation', [ 'show_home' => isset( $settings['show_home_tab'] ) ? $settings['show_home_tab'] : '' ] );
 		} else {
 			bp_get_template_part( 'members/single/parts/item-nav' );
 		}
