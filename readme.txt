@@ -4,7 +4,7 @@ Tags: elementor, buddypress, buddypress builder, buddypress elementor, elementor
 Requires at least: 4.0
 Requires PHP: 5.6
 Tested up to: 5.7.2
-Stable tag: 1.6.0
+Stable tag: 1.6.1
 License: GLPv2 or later
 
 Design, build and customize your BuddyPress site with Elementor builder.
@@ -49,6 +49,12 @@ We include a **starter template** to easily start your design.
 **Pro Template Kits**
 Beautifully designed Templates have a stunning community with a click of a button
 
+**BuddyPress Live notifications Elementor widget**
+Show anywhere, in your menu or in content, a notifications icon that automatically gets updated and shows latest notifications from your community.
+
+**BuddyPress Live Messages Elementor widget**
+Show anywhere, in your menu or in content, a messages icon that automatically gets updated and shows latest messages.
+
 **Customize Activity Page**
 Build and style the activity/news feed. Total control over structure and design
 
@@ -79,6 +85,9 @@ Stax BuddyBuilder uses Appsero SDK to collect some telemetry data upon user's co
 3. **Infinite templates** but set the one that is active on the site
 
 == Changelog ==
+
+= 1.6.1 =
+* BuddyBoss Theme compatibility - Sitewide activity, Members directory, Groups directory & Member profile.
 
 = 1.6.0 =
 * BuddyBoss Platform compatibility.

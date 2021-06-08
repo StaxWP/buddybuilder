@@ -270,6 +270,9 @@ class BuddypressHooks extends Singleton {
 	 */
 	public function set_content_preview( $content ) {
 		global $post;
+		if ( ! is_object( $post ) ) {
+			return $content;
+		}
 
 		$template_type = get_post_meta( $post->ID, BuddyPress::REMOTE_CATEGORY_META_KEY, true );
 
@@ -517,8 +520,8 @@ class BuddypressHooks extends Singleton {
 			// Member profile.
 			if ( $settings['member-profile'] && bp_is_user() ) {
 				if ( ( ! isset( $settings['sitewide-activity-item'] ) || ! $settings['sitewide-activity-item'] ) &&
-					 bp_current_component() === 'activity' &&
-					 is_numeric( bp_current_action() ) ) {
+				     bp_current_component() === 'activity' &&
+				     is_numeric( bp_current_action() ) ) {
 					return false;
 				}
 

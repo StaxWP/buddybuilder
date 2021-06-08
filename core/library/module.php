@@ -42,8 +42,10 @@ class Module extends BaseModule {
 		Plugin::$instance->documents
 			->register_document_type( 'bpb-buddypress', Documents\BuddyPress::get_class_full_name() );
 
-		add_filter( 'manage_elementor_library_posts_columns', [ $this, 'add_column_head' ], 99 );
-		add_action( 'manage_elementor_library_posts_custom_column', [ $this, 'add_column_template_type' ], 10, 2 );
+		if( isset( $_GET['elementor_library_type'] ) && $_GET['elementor_library_type'] === 'bpb-buddypress' ) {
+			add_filter( 'manage_elementor_library_posts_columns', [ $this, 'add_column_head' ], 99 );
+			add_action( 'manage_elementor_library_posts_custom_column', [ $this, 'add_column_template_type' ], 10, 2 );
+		}
 
 		if ( ! class_exists( 'ElementorPro\Plugin' ) ) {
 			add_action( 'manage_elementor_library_posts_custom_column', [ $this, 'add_column_content' ], 10, 2 );

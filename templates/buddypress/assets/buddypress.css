@@ -497,6 +497,9 @@ body.buddypress article.page > .entry-header {
   clear: both;
   display: table; }
 
+body.friends.friend-requests .buddypress-wrap .subnav-filters {
+  display: none; }
+
 .buddypress-wrap .dir-component-filters .filter label {
   display: inline; }
 
@@ -4708,5 +4711,3 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 
 .stax-buddybuilder-template #buddypress a.rtm-button-back {
   padding: 0.75em 1em; }
-
-/*# sourceMappingURL=buddypress.css.map */

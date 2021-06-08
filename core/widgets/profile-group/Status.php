@@ -80,7 +80,7 @@ class Status extends \Buddy_Builder\Widgets\Base {
 			Group_Control_Typography::get_type(),
 			[
 				'name'     => 'status_typography',
-				'selector' => '{{WRAPPER}} .highlight.group-status',
+				'selector' => '#buddypress {{WRAPPER}} .highlight.group-status',
 			]
 		);
 
@@ -100,7 +100,7 @@ class Status extends \Buddy_Builder\Widgets\Base {
 				'separator'  => 'before',
 				'size_units' => [ 'px', '%' ],
 				'selectors'  => [
-					'{{WRAPPER}} .highlight.group-status' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'#buddypress {{WRAPPER}} .highlight.group-status' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
 			]
 		);

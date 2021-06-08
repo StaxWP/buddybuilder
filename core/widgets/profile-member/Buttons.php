@@ -92,7 +92,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				],
 				'selectors' => [
 					'{{WRAPPER}} .member-header-actions' => 'display: flex; flex-wrap: wrap;',
-					'{{WRAPPER}} .member-header-actions a, {{WRAPPER}} .member-header-actions button' => 'display: inline-flex;',
+					'#buddypress {{WRAPPER}} .member-header-actions a, #buddypress {{WRAPPER}} .member-header-actions button' => 'display: inline-flex;',
 				],
 			]
 		);
@@ -107,7 +107,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 					'button_display' => 'block',
 				],
 				'selectors' => [
-					'{{WRAPPER}} .member-header-actions a, {{WRAPPER}} .member-header-actions button' => 'display: inline-block;',
+					'#buddypress {{WRAPPER}} .member-header-actions a, #buddypress {{WRAPPER}} .member-header-actions button' => 'display: inline-block;',
 				],
 			]
 		);
@@ -212,7 +212,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 					],
 				],
 				'selectors' => [
-					'{{WRAPPER}} .member-header-actions div a, {{WRAPPER}} .member-header-actions div button' => 'min-width: {{SIZE}}%;',
+					'#buddypress {{WRAPPER}} .member-header-actions div a, #buddypress {{WRAPPER}} .member-header-actions div button' => 'min-width: {{SIZE}}%;',
 				],
 				'condition' => [
 					'button_display' => 'block',
@@ -224,7 +224,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 			Group_Control_Typography::get_type(),
 			[
 				'name'     => 'button_typography',
-				'selector' => '{{WRAPPER}} .member-header-actions a, {{WRAPPER}} .member-header-actions button',
+				'selector' => '#buddypress {{WRAPPER}} .member-header-actions a, #buddypress {{WRAPPER}} .member-header-actions button',
 			]
 		);
 
@@ -244,7 +244,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '',
 				'selectors' => [
-					'{{WRAPPER}} .member-header-actions a, {{WRAPPER}} .member-header-actions button' => 'fill: {{VALUE}}; color: {{VALUE}};',
+					'#buddypress {{WRAPPER}} .member-header-actions a, #buddypress {{WRAPPER}} .member-header-actions button' => 'fill: {{VALUE}}; color: {{VALUE}};',
 				],
 			]
 		);
@@ -255,7 +255,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Background Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .member-header-actions a, {{WRAPPER}} .member-header-actions button' => 'background-color: {{VALUE}};',
+					'#buddypress {{WRAPPER}} .member-header-actions a, #buddypress {{WRAPPER}} .member-header-actions button' => 'background-color: {{VALUE}};',
 				],
 			]
 		);
@@ -264,7 +264,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 			Group_Control_Box_Shadow::get_type(),
 			[
 				'name'     => 'button_box_shadow',
-				'selector' => '{{WRAPPER}} .member-header-actions a, {{WRAPPER}} .member-header-actions button',
+				'selector' => '#buddypress {{WRAPPER}} .member-header-actions a, #buddypress {{WRAPPER}} .member-header-actions button',
 			]
 		);
 
@@ -284,7 +284,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '',
 				'selectors' => [
-					'{{WRAPPER}} .member-header-actions a:hover, {{WRAPPER}} .member-header-actions button:hover' => 'fill: {{VALUE}}; color: {{VALUE}};',
+					'#buddypress {{WRAPPER}} .member-header-actions a:hover, #buddypress {{WRAPPER}} .member-header-actions button:hover' => 'fill: {{VALUE}}; color: {{VALUE}};',
 				],
 			]
 		);
@@ -295,7 +295,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Background Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .member-header-actions a:hover, {{WRAPPER}} .member-header-actions button:hover' => 'background-color: {{VALUE}};',
+					'#buddypress {{WRAPPER}} .member-header-actions a:hover, #buddypress {{WRAPPER}} .member-header-actions button:hover' => 'background-color: {{VALUE}};',
 				],
 			]
 		);
@@ -306,7 +306,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Border Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .member-header-actions a:hover, {{WRAPPER}} .member-header-actions button:hover' => 'border-color: {{VALUE}};',
+					'#buddypress {{WRAPPER}} .member-header-actions a:hover, #buddypress {{WRAPPER}} .member-header-actions button:hover' => 'border-color: {{VALUE}};',
 				],
 			]
 		);
@@ -315,7 +315,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 			Group_Control_Box_Shadow::get_type(),
 			[
 				'name'     => 'button_box_hover_shadow',
-				'selector' => '{{WRAPPER}} .member-header-actions a:hover, {{WRAPPER}} .member-header-actions button:hover',
+				'selector' => '#buddypress {{WRAPPER}} .member-header-actions a:hover, #buddypress {{WRAPPER}} .member-header-actions button:hover',
 			]
 		);
 
@@ -327,7 +327,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 			Group_Control_Border::get_type(),
 			[
 				'name'      => 'button_border',
-				'selector'  => '{{WRAPPER}} .member-header-actions a, {{WRAPPER}} .member-header-actions button',
+				'selector'  => '#buddypress {{WRAPPER}} .member-header-actions a, #buddypress {{WRAPPER}} .member-header-actions button',
 				'separator' => 'before',
 			]
 		);
@@ -339,7 +339,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', '%', 'em' ],
 				'selectors'  => [
-					'{{WRAPPER}} .member-header-actions a, {{WRAPPER}} .member-header-actions button' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'#buddypress {{WRAPPER}} .member-header-actions a, #buddypress {{WRAPPER}} .member-header-actions button' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
 			]
 		);
@@ -351,7 +351,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', 'em', '%' ],
 				'selectors'  => [
-					'{{WRAPPER}} .member-header-actions a, {{WRAPPER}} .member-header-actions button' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'#buddypress {{WRAPPER}} .member-header-actions a, #buddypress {{WRAPPER}} .member-header-actions button' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
 			]
 		);

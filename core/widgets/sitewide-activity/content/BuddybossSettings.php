@@ -108,7 +108,7 @@ class BuddybossSettings extends Singleton {
 				'name'     => self::PREFIX . 'item_container_background',
 				'label'    => __( 'Background', 'stax-buddy-builder' ),
 				'types'    => [ 'classic', 'gradient' ],
-				'selector' => '{{WRAPPER}} .activity > ul.activity-list > li.activity-item',
+				'selector' => '#buddypress {{WRAPPER}} .activity > ul.activity-list > li.activity-item',
 			]
 		);
 
@@ -116,7 +116,7 @@ class BuddybossSettings extends Singleton {
 			Group_Control_Box_Shadow::get_type(),
 			[
 				'name'     => self::PREFIX . 'item_container_box_shadow',
-				'selector' => '{{WRAPPER}} .activity > ul.activity-list > li.activity-item',
+				'selector' => '#buddypress {{WRAPPER}} .activity > ul.activity-list > li.activity-item',
 			]
 		);
 
@@ -124,7 +124,7 @@ class BuddybossSettings extends Singleton {
 			Group_Control_Border::get_type(),
 			[
 				'name'     => self::PREFIX . 'item_container_border',
-				'selector' => '{{WRAPPER}} .activity > ul.activity-list > li.activity-item',
+				'selector' => '#buddypress {{WRAPPER}} .activity > ul.activity-list > li.activity-item',
 			]
 		);
 
