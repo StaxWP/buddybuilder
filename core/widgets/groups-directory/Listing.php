@@ -260,7 +260,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::HIDDEN,
 				'default'   => '1',
 				'selectors' => [
-					'{{WRAPPER}} .item-entry.public .item-avatar > a:after' => 'content: "\e912";',
+					'{{WRAPPER}} .item-entry.public .item-avatar > a:after' => 'content: "\e90f";',
 				],
 				'condition' => [
 					'public_group_icon_sate' => 'yes',
@@ -287,7 +287,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::HIDDEN,
 				'default'   => '1',
 				'selectors' => [
-					'{{WRAPPER}} .item-entry.private .item-avatar > a:after' => 'content: "\e91d";',
+					'{{WRAPPER}} .item-entry.private .item-avatar > a:after' => 'content: "\e929";',
 				],
 				'condition' => [
 					'private_group_icon_sate' => 'yes',
@@ -314,7 +314,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::HIDDEN,
 				'default'   => '1',
 				'selectors' => [
-					'{{WRAPPER}} .item-entry.hidden .item-avatar > a:after' => 'content: "\e91c";',
+					'{{WRAPPER}} .item-entry.hidden .item-avatar > a:after' => 'content: "\e915";',
 				],
 				'condition' => [
 					'hidden_group_icon_sate' => 'yes',

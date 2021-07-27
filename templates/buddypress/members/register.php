@@ -34,6 +34,8 @@ $render        = bpb_is_template_populated( 'register-page' );
 
 								<div class="register-section default-profile" id="basic-details-section">
 
+									<?php /***** Basic Account Details ******/ ?>
+
 									<h2 class="bp-heading"><?php esc_html_e( 'Account Details', 'buddypress' ); ?></h2>
 
 									<?php bp_nouveau_signup_form(); ?>
@@ -42,7 +44,16 @@ $render        = bpb_is_template_populated( 'register-page' );
 
 									<?php bp_nouveau_signup_hook( 'after', 'account_details' ); ?>
 
-									<?php if ( bp_is_active( 'xprofile' ) && bp_nouveau_base_account_has_xprofile() ) : ?>
+									<?php /***** Extra Profile Details ******/ ?>
+
+									<?php
+                                    if ( version_compare( buddypress()->version, '8.0.0', '<' ) ) {
+                                        $has_xprofile_check = bp_nouveau_base_account_has_xprofile();
+                                    } else {
+	                                    $has_xprofile_check = bp_nouveau_has_signup_xprofile_fields( true );
+                                    }
+
+                                    if ( bp_is_active( 'xprofile' ) && $has_xprofile_check ) : ?>
 
 										<?php bp_nouveau_signup_hook( 'before', 'signup_profile' ); ?>
 
@@ -50,10 +61,8 @@ $render        = bpb_is_template_populated( 'register-page' );
 
 										<h2 class="bp-heading"><?php esc_html_e( 'Profile Details', 'buddypress' ); ?></h2>
 
-										<?php
-										while ( bp_profile_groups() ) :
-											bp_the_profile_group();
-											?>
+						                <?php /* Use the profile field loop to render input fields for the 'base' profile field group */ ?>
+										<?php while ( bp_profile_groups() ) :bp_the_profile_group(); ?>
 
 											<?php
 											while ( bp_profile_fields() ) :
@@ -91,6 +100,8 @@ $render        = bpb_is_template_populated( 'register-page' );
 
 										<?php bp_nouveau_signup_hook( 'before', 'blog_details' ); ?>
 
+                                    <?php /***** Blog Creation Details ******/ ?>
+
 									<div class="register-section blog-details" id="blog-details-section">
 
 										<h2><?php esc_html_e( 'Site Details', 'buddypress' ); ?></h2>
@@ -113,7 +124,7 @@ $render        = bpb_is_template_populated( 'register-page' );
 
 								<?php endif; ?>
 
-							<?php endif; ?>
+							<?php endif; // request-details signup step ?>
 
 						</div>
 

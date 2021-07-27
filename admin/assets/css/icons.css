@@ -25,6 +25,9 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.bbl-groups-private:before {
+    content: "\e929";
+}
 .bbl-group-members:before {
     content: "\e928";
 }

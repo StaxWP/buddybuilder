@@ -287,7 +287,7 @@ class GroupsListing extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::HIDDEN,
 				'default'   => '1',
 				'selectors' => [
-					'{{WRAPPER}} .item-entry.public .item-avatar > a:after' => 'content: "\e912"; font-family: "sq-icons" !important;',
+					'{{WRAPPER}} .item-entry.public .item-avatar > a:after' => 'content: "\e90f"; font-family: "sq-icons" !important;',
 				],
 				'condition' => [
 					'public_group_icon_sate' => 'yes',
@@ -314,7 +314,7 @@ class GroupsListing extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::HIDDEN,
 				'default'   => '1',
 				'selectors' => [
-					'{{WRAPPER}} .item-entry.private .item-avatar > a:after' => 'content: "\e91d"; font-family: "sq-icons" !important',
+					'{{WRAPPER}} .item-entry.private .item-avatar > a:after' => 'content: "\e929"; font-family: "sq-icons" !important',
 				],
 				'condition' => [
 					'private_group_icon_sate' => 'yes',
@@ -341,7 +341,7 @@ class GroupsListing extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::HIDDEN,
 				'default'   => '1',
 				'selectors' => [
-					'{{WRAPPER}} .item-entry.hidden .item-avatar > a:after' => 'content: "\e91c"; font-family: "sq-icons" !important',
+					'{{WRAPPER}} .item-entry.hidden .item-avatar > a:after' => 'content: "\e915"; font-family: "sq-icons" !important',
 				],
 				'condition' => [
 					'hidden_group_icon_sate' => 'yes',

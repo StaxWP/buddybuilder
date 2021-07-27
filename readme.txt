@@ -3,16 +3,16 @@ Contributors: staxwp, seventhqueen, codezz, rtynio, geowrge
 Tags: elementor, buddypress, buddypress builder, buddypress elementor, elementor buddypress, bp builder
 Requires at least: 4.0
 Requires PHP: 5.6
-Tested up to: 5.7.2
-Stable tag: 1.6.1
+Tested up to: 5.8.0
+Stable tag: 1.6.3
 License: GLPv2 or later
 
 Design, build and customize your BuddyPress site with Elementor builder.
 
 == Description ==
 BuddyBuilder gives you super powers to create a stunning BuddyPress community built with Elementor.
-Create your own page structure, add widgets and customize.
-We use a unique and smart approach to override default BuddyPress templates so you can design them as a regular page.
+Create your own page structure, add widgets and customize all from Elementor Builder.
+We use a unique and smart approach to override default BuddyPress templates so you can design them as any regular page.
 You are no longer locked to a predefined design and you are free to build and customize your BuddyPress community site.
 Easy to use, deeply integrated in Elementor.
 
@@ -36,13 +36,13 @@ Easy to use, deeply integrated in Elementor.
 - **Activity list** - Elementor widget to display activity entries in any page
 
 = How does it work =
-1. Super simple to use, create a new Elementor template.
+1. Super simple to use, create a new Elementor template from the BuddyPress section.
 2. Select what BuddyPress component you are building(for example Member profile).
 3. Edit the Elementor template with our specific BuddyPress widgets especially built for the page you are designing.
 4. Save it and see your new design in action.
 
-= Easy to get started =
-We include a **starter template** to easily start your design.
+= BuddyPress Templates Kits =
+Get started right away with our **starter template** that you can import with a click of a button.
 
 = Get more control with BuddyBuilder Pro =
 
@@ -61,8 +61,8 @@ Build and style the activity/news feed. Total control over structure and design
 **Customize Member page generated content**
 You have full control to style profile tabs content for Activity, Profile, Messages, Notification, Settings
 
-**Customize Group page generated content**
-You have full control to style group tabs Activity, Members, Invite, Manage
+**Customize Group page content**
+You have full control to style group tabs Activity, Members, Invite, Manage.
 
 Get [Pro](https://staxwp.com/go/buddybuilder-pro) and take your community site to the next level
 
@@ -85,6 +85,14 @@ Stax BuddyBuilder uses Appsero SDK to collect some telemetry data upon user's co
 3. **Infinite templates** but set the one that is active on the site
 
 == Changelog ==
+
+= 1.6.3 =
+* CSS improvement for members/groups grid list.
+* Icons library updated
+* Bug fixes
+
+= 1.6.2 =
+* BuddyPress 8.0 compatibility
 
 = 1.6.1 =
 * BuddyBoss Theme compatibility - Sitewide activity, Members directory, Groups directory & Member profile.
