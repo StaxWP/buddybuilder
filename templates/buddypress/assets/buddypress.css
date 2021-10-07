@@ -302,7 +302,10 @@ body.buddypress article.page > .entry-header {
   .buddypress-wrap .main-navs.vertical li.current a {
     background: #718096;
     color: #f7fafc;
-    text-decoration: none; } }
+    text-decoration: none; }
+  .buddypress-wrap.bp-dir-hori-nav:not(.bp-vertical-navs) nav:not(.tabbed-links) {
+    border: 0;
+    box-shadow: none; } }
 
 .buddypress-wrap .bp-subnavs li.selected a,
 .buddypress-wrap .bp-subnavs li.current a {
@@ -570,7 +573,7 @@ body.friends.friend-requests .buddypress-wrap .subnav-filters {
   .buddypress-wrap .subnav-filters .last.filter label {
     display: inline-flex; }
   .buddypress-wrap .subnav-filters .last.filter .dashicons {
-    font-size: 24px; }
+    vertical-align: middle; }
   .buddypress-wrap .subnav-filters .messages-button {
     border-color: #e2e8f0;
     margin-left: 10px; }
@@ -1409,10 +1412,26 @@ body.friends.friend-requests .buddypress-wrap .subnav-filters {
     .buddypress-wrap .activity-list .load-newest a:hover {
       background: #fff;
       color: #4a5568; }
+    .buddypress-wrap .activity-list .load-more a.loading:after,
+    .buddypress-wrap .activity-list .load-newest a.loading:after {
+      content: "\e92a";
+      font-family: 'stax-bb-line' !important;
+      font-size: 18px;
+      line-height: 1;
+      text-align: center;
+      display: inline-block;
+      -webkit-animation: spin 3s infinite linear;
+      animation: spin 3s infinite linear; }
   .buddypress-wrap .activity-list .load-more:focus, .buddypress-wrap .activity-list .load-more:hover,
   .buddypress-wrap .activity-list .load-newest:focus,
   .buddypress-wrap .activity-list .load-newest:hover {
     border-color: #d1dbe7; }
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg); }
+  100% {
+    transform: rotate(360deg); } }
 
 body.activity-permalink .activity-list li {
   border-width: 1px;
@@ -1483,6 +1502,8 @@ body.activity-permalink .activity-list .activity-comments {
       padding: 1em 0 0; }
       .buddypress-wrap .activity-comments ul li ul {
         margin-left: 5%; }
+        .buddypress-wrap .activity-comments ul li ul li:first-child {
+          border-top: 1px solid #e2e8f0; }
     .buddypress-wrap .activity-comments ul li:first-child {
       border-top: 0; }
     .buddypress-wrap .activity-comments ul li:last-child {
@@ -1561,7 +1582,6 @@ form.ac-form {
         color: #718096;
         font-family: inherit;
         font-size: 100%;
-        height: 50px;
         margin: 0;
         outline: none;
         padding: 1em 2em;
@@ -1577,8 +1597,7 @@ form.ac-form {
       font-size: 14px; }
 
 .activity-comments li form.ac-form {
-  clear: both;
-  margin-right: 15px; }
+  clear: both; }
 
 .activity-comments form.root {
   margin-left: 0; }
@@ -4048,33 +4067,21 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 
 @-webkit-keyframes loader-pulsate {
   from {
-    border-color: #aaa;
-    -webkit-box-shadow: 0 0 6px #ccc;
-    box-shadow: 0 0 6px #ccc; }
+    border-color: #aaa; }
   to {
-    border-color: #ccc;
-    -webkit-box-shadow: 0 0 6px #f8f8f8;
-    box-shadow: 0 0 6px #f8f8f8; } }
+    border-color: #ccc; } }
 
 @-moz-keyframes loader-pulsate {
   from {
-    border-color: #aaa;
-    -moz-box-shadow: 0 0 6px #ccc;
-    box-shadow: 0 0 6px #ccc; }
+    border-color: #aaa; }
   to {
-    border-color: #ccc;
-    -moz-box-shadow: 0 0 6px #f8f8f8;
-    box-shadow: 0 0 6px #f8f8f8; } }
+    border-color: #ccc; } }
 
 @keyframes loader-pulsate {
   from {
-    border-color: #aaa;
-    -moz-box-shadow: 0 0 6px #ccc;
-    box-shadow: 0 0 6px #ccc; }
+    border-color: #aaa; }
   to {
-    border-color: #ccc;
-    -moz-box-shadow: 0 0 6px #f8f8f8;
-    box-shadow: 0 0 6px #f8f8f8; } }
+    border-color: #ccc; } }
 
 .buddypress-wrap a.loading:hover,
 .buddypress-wrap input.loading:hover {
@@ -4525,8 +4532,7 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 
 .stax-buddybuilder-template #whats-new-form #whats-new-options #whats-new-post-in-box select {
   border: 1px solid #CBD5E0;
-  padding: 0.5rem 2.5rem 0.5rem 1rem;
-  font-size: inherit; }
+  padding: 0.5rem 2.5rem 0.5rem 1rem; }
   .stax-buddybuilder-template #whats-new-form #whats-new-options #whats-new-post-in-box select:hover {
     cursor: pointer;
     border: 1px solid #c0cddf; }
@@ -4711,3 +4717,4 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 
 .stax-buddybuilder-template #buddypress a.rtm-button-back {
   padding: 0.75em 1em; }
+

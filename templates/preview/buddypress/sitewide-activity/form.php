@@ -1,3 +1,4 @@
+<h2 class="bp-screen-title">Member Activities</h2>
 <h2 class="bp-screen-reader-text">Post Update</h2>
 
 <div id="bp-nouveau-activity-form" class="activity-update-form">

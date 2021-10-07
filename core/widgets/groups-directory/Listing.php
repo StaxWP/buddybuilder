@@ -746,7 +746,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::HIDDEN,
 				'default'   => '1',
 				'selectors' => [
-					'{{WRAPPER}} #groups-dir-list .bp-pagination.top .bp-pagination-links.top .page-numbers' => 'padding: 6px 0; text-align: center; min-width: 35px; display: inline-block;',
+					'{{WRAPPER}} #groups-dir-list .bp-pagination.top .bp-pagination-links.top .page-numbers' => 'padding: 6px 0; text-align: center; display: inline-block;',
 				],
 				'condition' => [
 					'show_pag_top' => 'flex',
@@ -1198,7 +1198,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::HIDDEN,
 				'default'   => '1',
 				'selectors' => [
-					'{{WRAPPER}} #groups-dir-list .bp-pagination.bottom .bp-pagination-links.bottom .page-numbers' => 'padding: 6px 0; text-align: center; min-width: 35px; display: inline-block;',
+					'{{WRAPPER}} #groups-dir-list .bp-pagination.bottom .bp-pagination-links.bottom .page-numbers' => 'padding: 6px 0; text-align: center; display: inline-block;',
 				],
 				'condition' => [
 					'show_pag_bottom' => 'flex',

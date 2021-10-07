@@ -27,7 +27,7 @@ class MembersListing extends \Buddy_Builder\Widgets\Base {
 	}
 
 	public function get_categories() {
-		return [ 'buddy-builder-elements' ];
+		return [ 'buddy-builder-general-elements' ];
 	}
 
 	protected function _register_controls() {

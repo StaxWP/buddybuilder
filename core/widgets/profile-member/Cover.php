@@ -363,7 +363,14 @@ class Cover extends \Buddy_Builder\Widgets\Base {
 			]
 		);
 
-		$this->start_controls_tabs( 'tab_cover_style' );
+		$this->start_controls_tabs(
+			'tab_cover_style',
+			[
+				'condition' => [
+					'cover_advanced_settings' => '',
+				],
+			]
+		);
 
 		$this->start_controls_tab(
 			'tab_cover_normal',
@@ -407,6 +414,9 @@ class Cover extends \Buddy_Builder\Widgets\Base {
 				'name'      => 'cover_border',
 				'selector'  => '{{WRAPPER}} #header-cover-image',
 				'separator' => 'before',
+				'condition' => [
+					'cover_advanced_settings' => '',
+				],
 			]
 		);
 
@@ -419,48 +429,131 @@ class Cover extends \Buddy_Builder\Widgets\Base {
 				'selectors'  => [
 					'{{WRAPPER}} #header-cover-image' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
+				'condition'  => [
+					'cover_advanced_settings' => '',
+				],
 			]
 		);
 
-		$this->end_controls_section();
+		if ( ! bpb_is_buddyboss() ) {
 
-		$this->start_controls_section(
-			'overlay_style',
-			[
-				'label' => __( 'Overlay', 'stax-buddy-builder' ),
-				'tab'   => Controls_Manager::TAB_STYLE,
-			]
-		);
+			$this->add_control(
+				'cover_advanced_settings',
+				[
+					'label'        => __( 'Advanced Settings', 'stax-buddy-builder' ),
+					'type'         => Controls_Manager::SWITCHER,
+					'return_value' => 'yes',
+					'default'      => '',
+					'separator'    => 'before',
+				]
+			);
 
-		$this->add_control(
-			'overlay_background',
-			[
-				'label'   => __( 'Overlay', 'stax-buddy-builder' ),
-				'type'    => Controls_Manager::SWITCHER,
-				'default' => '',
-			]
-		);
-
-		$this->add_group_control(
-			Group_Control_Background::get_type(),
-			[
-				'name'           => 'cover_background',
-				'types'          => [ 'classic', 'gradient' ],
-				'exclude'        => [ 'image' ],
-				'selector'       => '{{WRAPPER}} .cover-bg-overlay',
-				'fields_options' => [
-					'background' => [
-						'label' => __( 'Overlay type', 'stax-buddy-builder' ),
+			$this->add_control(
+				'cover_advanced_border_radius',
+				[
+					'label'      => __( 'Border Radius', 'stax-buddy-builder' ),
+					'type'       => Controls_Manager::SLIDER,
+					'size_units' => [ 'px' ],
+					'range'      => [
+						'px' => [
+							'min'  => 0,
+							'max'  => 1000,
+							'step' => 1,
+						],
 					],
-				],
-				'condition'      => [
-					'overlay_background' => 'yes',
-				],
-			]
-		);
+					'default'    => [
+						'unit' => 'px',
+						'size' => '16',
+					],
+					'selectors'  => [
+						'#buddypress {{WRAPPER}} #header-cover-image' => 'border-radius: {{SIZE}}{{UNIT}};',
+						'#buddypress {{WRAPPER}} #header-cover-image:before' => 'border-radius: {{SIZE}}{{UNIT}}; border-bottom-right-radius: {{SIZE}}{{UNIT}}; transform-origin: {{SIZE}}{{UNIT}};',
+					],
+					'condition'  => [
+						'cover_advanced_settings' => 'yes',
+					],
+				]
+			);
+
+			$this->add_control(
+				'cover_advanced_skew',
+				[
+					'label'      => __( 'Skew', 'stax-buddy-builder' ),
+					'type'       => Controls_Manager::SLIDER,
+					'size_units' => [ 'px' ],
+					'range'      => [
+						'px' => [
+							'min'  => 0,
+							'max'  => 1000,
+							'step' => 1,
+						],
+					],
+					'default'    => [
+						'unit' => 'px',
+						'size' => '5',
+					],
+					'selectors'  => [
+						'#buddypress {{WRAPPER}} #header-cover-image:before' => 'transform: skewy(-{{SIZE}}deg);',
+					],
+					'condition'  => [
+						'cover_advanced_settings' => 'yes',
+					],
+				]
+			);
+		} else {
+			$this->add_control(
+				'cover_advanced_settings',
+				[
+					'label'   => __( 'Advanced Settings', 'stax-buddy-builder' ),
+					'type'    => Controls_Manager::HIDDEN,
+					'default' => '',
+				]
+			);
+		}
 
 		$this->end_controls_section();
 
+		if ( ! bpb_is_buddyboss() ) {
+			$this->start_controls_section(
+				'overlay_style',
+				[
+					'label'     => __( 'Overlay', 'stax-buddy-builder' ),
+					'tab'       => Controls_Manager::TAB_STYLE,
+					'condition' => [
+						'cover_advanced_settings' => '',
+					],
+				]
+			);
+
+			$this->add_control(
+				'overlay_background',
+				[
+					'label'   => __( 'Overlay', 'stax-buddy-builder' ),
+					'type'    => Controls_Manager::SWITCHER,
+					'default' => '',
+				]
+			);
+
+			$this->add_group_control(
+				Group_Control_Background::get_type(),
+				[
+					'name'           => 'cover_background',
+					'types'          => [ 'classic', 'gradient' ],
+					'exclude'        => [ 'image' ],
+					'selector'       => '{{WRAPPER}} .cover-bg-overlay',
+					'fields_options' => [
+						'background' => [
+							'label' => __( 'Overlay type', 'stax-buddy-builder' ),
+						],
+					],
+					'condition'      => [
+						'overlay_background' => 'yes',
+					],
+				]
+			);
+
+			$this->end_controls_section();
+		}
 	}
 
 
@@ -472,15 +565,51 @@ class Cover extends \Buddy_Builder\Widgets\Base {
 		$this->add_render_attribute( 'header-cover-bg-overlay', [ 'class' => 'cover-bg-overlay' ] );
 
 		if ( bpb_is_elementor_editor() ) {
+			$settings['cover_url'] = BPB_ASSETS_URL . 'img/profile-cover-preview.jpg';
 			bpb_load_preview_template( 'profile-member/cover', $settings );
 		} else {
+			if ( isset( $settings['cover_advanced_settings'] ) && $settings['cover_advanced_settings'] ) {
+				$cover_url = bp_attachments_get_attachment(
+					'url',
+					[
+						'item_id' => bp_displayed_user_id(),
+					]
+				);
+
+				$settings['cover_url'] = $cover_url;
+			}
+
 			?>
-			<?php if ( $settings['overlay_background'] ) : ?>
+			<?php if ( isset( $settings['overlay_background'] ) && $settings['overlay_background'] && ! bpb_is_buddyboss() ) : ?>
 				<div <?php echo $this->get_render_attribute_string( 'header-cover-bg-overlay' ); ?>></div>
 			<?php endif; ?>
 			<div id="header-cover-image"></div>
 			<?php
 		}
+		?>
+		<?php if ( isset( $settings['cover_url'] ) && ! bpb_is_buddyboss() ) : ?>
+			<style>
+				#header-cover-image {
+					position: relative;
+					overflow:hidden;
+					z-index: 0;
+					background-image: none !important;
+				}
+
+				#header-cover-image:before {
+					content: "";
+					position:  absolute;
+					background: url(<?php echo esc_url( $settings['cover_url'] ); ?>);
+					background-size: cover;
+					z-index: -1;
+					top:0;
+					left:0;
+					bottom:0;
+					right:0;
+				}
+			</style>
+		<?php endif; ?>
+		<?php
 	}
 
 }

@@ -116,7 +116,7 @@ class BuddypressHooks extends Singleton {
 	 * @return string
 	 */
 	public function get_template_path() {
-		if ( defined( 'BP_PLATFORM_VERSION' ) ) {
+		if ( bpb_is_buddyboss() ) {
 			return BPB_BASE_PATH . 'templates/platform/';
 		}
 
@@ -129,7 +129,7 @@ class BuddypressHooks extends Singleton {
 	 * @return string
 	 */
 	public function get_template_url() {
-		if ( defined( 'BP_PLATFORM_VERSION' ) ) {
+		if ( bpb_is_buddyboss() ) {
 			return BPB_BASE_URL . 'templates/platform/';
 		}
 
@@ -235,6 +235,10 @@ class BuddypressHooks extends Singleton {
 	 * @return array
 	 */
 	public function loop_classes( $classes, $component ) {
+		if ( ! bpb_is_current_template_populated() ) {
+			return $classes;
+		}
+
 		$listing_columns = bpb_get_listing_columns();
 		$components      = [ 'members', 'groups' ];
 
@@ -248,15 +252,24 @@ class BuddypressHooks extends Singleton {
 
 		if ( 'members' === $component ) {
 			$classes[] = 'grid';
+
 			foreach ( $listing_columns['members_directory'] as $type => $list_class ) {
 				$classes[] = bpb_get_column_class( $list_class, $type );
 			}
 		}
 
 		if ( 'groups' === $component ) {
-			$classes[] = 'grid';
-			foreach ( $listing_columns['groups_directory'] as $type => $list_class ) {
-				$classes[] = bpb_get_column_class( $list_class, $type );
+			$classes[]       = 'grid';
+			$profile_columns = get_option( 'bpb_profile_listings', [] );
+
+			if ( isset( $profile_columns['groups'] ) && bp_displayed_user_id() ) {
+				foreach ( $profile_columns['groups'] as $type => $list_class ) {
+					$classes[] = bpb_get_column_class( $list_class, $type );
+				}
+			} else {
+				foreach ( $listing_columns['groups_directory'] as $type => $list_class ) {
+					$classes[] = bpb_get_column_class( $list_class, $type );
+				}
 			}
 		}
 
@@ -438,7 +451,7 @@ class BuddypressHooks extends Singleton {
 					return true;
 				}
 			} else {
-				$slug = $this->get_page_slug();
+				$slug = bpb_get_page_slug();
 
 				if ( empty( $slug ) ) {
 					return false;
@@ -520,8 +533,8 @@ class BuddypressHooks extends Singleton {
 			// Member profile.
 			if ( $settings['member-profile'] && bp_is_user() ) {
 				if ( ( ! isset( $settings['sitewide-activity-item'] ) || ! $settings['sitewide-activity-item'] ) &&
-				     bp_current_component() === 'activity' &&
-				     is_numeric( bp_current_action() ) ) {
+					 bp_current_component() === 'activity' &&
+					 is_numeric( bp_current_action() ) ) {
 					return false;
 				}
 
@@ -584,39 +597,6 @@ class BuddypressHooks extends Singleton {
 		}
 
 		return $id;
-	}
-
-	/**
-	 * Get the current page url
-	 *
-	 * @return string
-	 */
-	public function get_page_slug() {
-		if ( ! isset( $_SERVER['SERVER_NAME'] ) ) {
-			global $wp;
-
-			$url = home_url( $wp->request );
-		} else {
-			if ( empty( $_SERVER['HTTPS'] ) ) {
-				$s = '';
-			} elseif ( 'on' === $_SERVER['HTTPS'] ) {
-				$s = 's';
-			} else {
-				$s = '';
-			}
-
-			$protocol = strtolower( substr( $_SERVER['SERVER_PROTOCOL'], 0, strpos( $_SERVER['SERVER_PROTOCOL'], '/' ) ) ) . $s;
-			$uri      = $protocol . '://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-			$segments = explode( '?', $uri, 2 );
-			$url      = $segments[0];
-		}
-
-		$home_url = home_url( '/' );
-		$home_url = str_replace( [ 'www.', 'https://', 'http://' ], '', $home_url );
-		$url      = str_replace( [ 'www.', 'https://', 'http://', $home_url ], '', $url );
-		$url      = rtrim( $url, '/' );
-
-		return $url;
 	}
 
 }

@@ -1,10 +1,10 @@
 @font-face {
-    font-family: 'stax-bb-line-v-1-12';
-    src:  url('../../../assets/fonts/stax-bb-line-v-1-12.eot?xwnks5');
-    src:  url('../../../assets/fonts/stax-bb-line-v-1-12.eot?xwnks5#iefix') format('embedded-opentype'),
-    url('../../../assets/fonts/stax-bb-line-v-1-12.ttf?xwnks5') format('truetype'),
-    url('../../../assets/fonts/stax-bb-line-v-1-12.woff?xwnks5') format('woff'),
-    url('../../../assets/fonts/stax-bb-line-v-1-12.svg?xwnks5#stax-bb-line-v-1-1') format('svg');
+    font-family: 'stax-bb-line';
+    src:  url('../../../assets/fonts/stax-bb-line.eot?3fcduy');
+    src:  url('../../../assets/fonts/stax-bb-line.eot?3fcduy#iefix') format('embedded-opentype'),
+    url('../../../assets/fonts/stax-bb-line.ttf?3fcduy') format('truetype'),
+    url('../../../assets/fonts/stax-bb-line.woff?3fcduy') format('woff'),
+    url('../../../assets/fonts/stax-bb-line.svg?3fcduy#stax-bb-line') format('svg');
     font-weight: normal;
     font-style: normal;
     font-display: block;
@@ -12,7 +12,7 @@
 
 [class^="bbl-"], [class*=" bbl-"] {
     /* use !important to prevent issues with browser extensions that change fonts */
-    font-family: 'stax-bb-line-v-1-12' !important;
+    font-family: 'stax-bb-line' !important;
     speak: never;
     font-style: normal;
     font-weight: normal;
@@ -24,7 +24,9 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
-
+.bbl-spin-loader:before {
+    content: "\e92a";
+}
 .bbl-groups-private:before {
     content: "\e929";
 }

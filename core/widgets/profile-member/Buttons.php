@@ -382,7 +382,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '',
 				'selectors' => [
-					'{{WRAPPER}} .member-header-actions .generic-button .friendship-button.add' => 'fill: {{VALUE}}; color: {{VALUE}};',
+					'#buddypress {{WRAPPER}} .member-header-actions .generic-button .friendship-button.add' => 'fill: {{VALUE}}; color: {{VALUE}};',
 				],
 			]
 		);
@@ -393,7 +393,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Background Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .member-header-actions .generic-button .friendship-button.add' => 'background-color: {{VALUE}};',
+					'#buddypress {{WRAPPER}} .member-header-actions .generic-button .friendship-button.add' => 'background-color: {{VALUE}};',
 				],
 			]
 		);
@@ -404,7 +404,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Border Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .member-header-actions .generic-button .friendship-button.add' => 'border-color: {{VALUE}};',
+					'#buddypress {{WRAPPER}} .member-header-actions .generic-button .friendship-button.add' => 'border-color: {{VALUE}};',
 				],
 			]
 		);
@@ -413,7 +413,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 			Group_Control_Box_Shadow::get_type(),
 			[
 				'name'     => 'add_friendship_button_box_shadow',
-				'selector' => '{{WRAPPER}} .member-header-actions .generic-button .friendship-button.add',
+				'selector' => '#buddypress {{WRAPPER}} .member-header-actions .generic-button .friendship-button.add',
 			]
 		);
 
@@ -433,7 +433,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '',
 				'selectors' => [
-					'{{WRAPPER}} .member-header-actions .generic-button .friendship-button.add:hover' => 'fill: {{VALUE}}; color: {{VALUE}};',
+					'#buddypress {{WRAPPER}} .member-header-actions .generic-button .friendship-button.add:hover' => 'fill: {{VALUE}}; color: {{VALUE}};',
 				],
 			]
 		);
@@ -444,7 +444,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Background Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .member-header-actions .generic-button .friendship-button.add:hover' => 'background-color: {{VALUE}};',
+					'#buddypress {{WRAPPER}} .member-header-actions .generic-button .friendship-button.add:hover' => 'background-color: {{VALUE}};',
 				],
 			]
 		);
@@ -455,7 +455,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Border Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .member-header-actions .generic-button .friendship-button.add:hover' => 'border-color: {{VALUE}};',
+					'#buddypress {{WRAPPER}} .member-header-actions .generic-button .friendship-button.add:hover' => 'border-color: {{VALUE}};',
 				],
 			]
 		);
@@ -464,7 +464,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 			Group_Control_Box_Shadow::get_type(),
 			[
 				'name'     => 'add_friendship_button_box_hover_shadow',
-				'selector' => '{{WRAPPER}} .member-header-actions .generic-button .friendship-button.add:hover',
+				'selector' => '#buddypress {{WRAPPER}} .member-header-actions .generic-button .friendship-button.add:hover',
 			]
 		);
 

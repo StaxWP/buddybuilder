@@ -211,6 +211,14 @@ class ElementorHooks extends Singleton {
 				'icon'  => 'fa fa-plug',
 			]
 		);
+
+		\Elementor\Plugin::instance()->elements_manager->add_category(
+			'buddy-builder-general-elements',
+			[
+				'title' => 'BuddyBuilder General',
+				'icon'  => 'fa fa-plug',
+			]
+		);
 	}
 
 	/**

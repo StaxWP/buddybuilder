@@ -31,8 +31,7 @@ class Base extends \Elementor\Widget_Base {
 
 		foreach ( Plugin::get_instance()->get_elements() as $element ) {
 			if ( $element['name'] === $this->get_name() ) {
-				if ( ! isset( $element['template'] ) && ! $template_type ) {
-					// Display general widgets only on non buddypress pages
+				if ( ! isset( $element['template'] ) ) {
 					$show = true;
 				} elseif ( isset( $element['template'] ) && $template_type ) {
 					if ( is_array( $element['template'] ) && in_array( $template_type, $element['template'], true ) ) {

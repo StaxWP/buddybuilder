@@ -28,10 +28,41 @@ class BuddypressSettings extends Singleton {
 	 * @param \Buddy_Builder\Widgets\Base $widget
 	 */
 	public function add_settings( \Buddy_Builder\Widgets\Base $widget ) {
+
+        $widget->start_controls_section(
+            'activity_items_section',
+            [
+                'label' => __( 'Activity Items', 'stax-buddy-builder' ),
+                'tab'   => Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $widget->add_group_control(
+            Group_Control_Border::get_type(),
+            [
+                'name'     => 'activity_items_border',
+                'selector' => '{{WRAPPER}} .activity > ul.activity-list.item-list',
+            ]
+        );
+
+        $widget->add_control(
+            'activity_items_border_radius',
+            [
+                'label'      => __( 'Border Radius', 'stax-buddy-builder' ),
+                'type'       => Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', '%', 'em' ],
+                'selectors'  => [
+                    '{{WRAPPER}} .activity > ul.activity-list.item-list' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $widget->end_controls_section();
+
 		$widget->start_controls_section(
 			'activity_item_container_section',
 			[
-				'label' => __( 'Activity Item Container', 'stax-buddy-builder' ),
+				'label' => __( 'Activity Item', 'stax-buddy-builder' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
@@ -138,7 +169,7 @@ class BuddypressSettings extends Singleton {
 					'block'        => __( 'Block', 'stax-buddy-builder' ),
 				],
 				'selectors' => [
-					'{{WRAPPER}} .load-more a' => 'display: block;',
+					'{{WRAPPER}} .load-more a' => 'display: flex; justify-content: center;',
 				],
 			]
 		);
@@ -179,7 +210,7 @@ class BuddypressSettings extends Singleton {
 				'type'      => Controls_Manager::HIDDEN,
 				'default'   => '1',
 				'selectors' => [
-					'{{WRAPPER}} .load-more a' => 'display: inline-block;',
+					'{{WRAPPER}} .load-more a' => 'display: inline-flex;',
 				],
 				'condition' => [
 					'load_more_btn_display_type' => 'inline-block',
@@ -328,6 +359,37 @@ class BuddypressSettings extends Singleton {
 				],
 			]
 		);
+
+        $widget->add_responsive_control(
+            'load_more_btn_margin',
+            [
+                'label'      => __( 'Margin', 'stax-buddy-builder' ),
+                'type'       => Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', 'em', '%' ],
+                'selectors'  => [
+                    '{{WRAPPER}} .load-more a'   => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .load-newest a' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        bpb_elementor_heading( $widget, 'load_more_icon_heading', __( 'Loading icon', 'stax-buddy-builder' ) );
+
+        $widget->add_responsive_control(
+            'load_more_icon_spacing',
+            [
+                'label'     => __( 'Spacing', 'stax-buddy-builder' ),
+                'type'      => Controls_Manager::SLIDER,
+                'range'     => [
+                    'px' => [
+                        'max' => 50,
+                    ],
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} nav ul li, {{WRAPPER}} .activity-list .load-more a.loading:after'                       => 'margin-left: {{SIZE}}{{UNIT}};'
+                ],
+            ]
+        );
 
 		$widget->end_controls_section();
 	}

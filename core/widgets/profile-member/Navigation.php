@@ -157,7 +157,7 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 					'block'        => __( 'Block', 'stax-buddy-builder' ),
 				],
 				'selectors' => [
-					'{{WRAPPER}} nav, {{WRAPPER}} #item-nav'                        => 'border-top: 0; border-bottom: 0; box-shadow: none;',
+					// '{{WRAPPER}} nav, {{WRAPPER}} #item-nav'                        => 'border-top: 0; border-bottom: 0; box-shadow: none;',
 					'{{WRAPPER}} nav ul, {{WRAPPER}} #item-nav ul'                  => 'padding: 0; margin: 0; height: auto; display: block;',
 					'{{WRAPPER}} nav ul li, {{WRAPPER}} #item-nav ul li'            => 'display: {{VALUE}}; float: none;',
 					'{{WRAPPER}} nav ul li a, {{WRAPPER}} #item-nav ul li a'        => 'display: inline-block;',

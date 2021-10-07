@@ -17,7 +17,7 @@ class Username extends \Buddy_Builder\Widgets\Base {
 	}
 
 	public function get_title() {
-		return esc_html__( 'Username', 'stax-buddy-builder' );
+		return esc_html__( 'Name/Username', 'stax-buddy-builder' );
 	}
 
 	public function get_icon() {
@@ -31,9 +31,50 @@ class Username extends \Buddy_Builder\Widgets\Base {
 	protected function _register_controls() {
 
 		$this->start_controls_section(
+			'section_content',
+			[
+				'label' => __( 'Name', 'stax-buddy-builder' ),
+				'tab'   => Controls_Manager::TAB_CONTENT,
+			]
+		);
+
+		$this->add_control(
+			'username_type',
+			[
+				'label'   => __( 'What to generate', 'stax-buddy-builder' ),
+				'type'    => Controls_Manager::SELECT,
+				'options' => [
+					'username'  => '@Username',
+					'full_name' => 'Name',
+				],
+				'default' => 'username',
+			]
+		);
+
+		$this->add_control(
+			'username_tag',
+			[
+				'label'   => __( 'HTML Tag', 'stax-buddy-builder' ),
+				'type'    => Controls_Manager::SELECT,
+				'options' => [
+					'h1'  => 'H1',
+					'h2'  => 'H2',
+					'h3'  => 'H3',
+					'h4'  => 'H4',
+					'h5'  => 'H5',
+					'h6'  => 'H6',
+					'div' => 'div',
+				],
+				'default' => 'h2',
+			]
+		);
+
+		$this->end_controls_section();
+
+		$this->start_controls_section(
 			'section_style',
 			[
-				'label' => __( 'Username', 'stax-buddy-builder' ),
+				'label' => __( 'Name', 'stax-buddy-builder' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
@@ -111,13 +152,21 @@ class Username extends \Buddy_Builder\Widgets\Base {
 
 	protected function render() {
 		parent::render();
+
+		$settings = $this->get_settings_for_display();
+
 		if ( bpb_is_elementor_editor() ) {
-			bpb_load_preview_template( 'profile-member/username' );
-		} else {
-			?>
-			<?php if ( bp_is_active( 'activity' ) && bp_activity_do_mentions() ) : ?>
-				<h2 class="user-nicename">@<?php bp_displayed_user_mentionname(); ?></h2>
-			<?php endif; ?>
+			bpb_load_preview_template( 'profile-member/username', $settings );
+		} else { ?>
+
+            <<?php echo esc_attr( $settings['username_tag'] ); ?> class="user-nicename">
+                <?php if ( $settings['username_type'] === 'full_name' ) : ?>
+                    <?php bp_displayed_user_fullname(); ?>
+                <?php elseif ( bp_is_active( 'activity' ) && bp_activity_do_mentions() ) : ?>
+                    @<?php bp_displayed_user_mentionname(); ?>
+                <?php endif; ?>
+            </<?php echo esc_attr( $settings['username_tag'] ); ?>>
+
 			<?php
 		}
 	}

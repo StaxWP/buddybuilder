@@ -156,6 +156,7 @@ final class Plugin {
 		add_action( 'wp_enqueue_scripts', [ $this, 'remove_buddypress_style' ], 11 );
 		add_action( 'bp_enqueue_scripts', [ $this, 'bp_scripts' ] );
 		add_action( 'wp_enqueue_scripts', [ $this, 'front_css' ], 12 );
+		add_filter( 'bp_nouveau_enqueue_styles', [ $this, 'remove_nouveau_style' ] );
 
 		include_once BPB_BASE_PATH . 'core/Singleton.php';
 
@@ -194,6 +195,9 @@ final class Plugin {
 	public function load_plugin() {
 		do_action( 'buddy_builder/pre_init' );
 
+		$this->define_constants();
+		$this->load_functions();
+
 		if ( ! defined( 'ELEMENTOR_VERSION' ) ) {
 			add_action( 'admin_notices', [ Notices::get_instance(), 'elementor_notice' ] );
 
@@ -215,8 +219,6 @@ final class Plugin {
 
 		spl_autoload_register( [ $this, 'autoload' ] );
 
-		$this->define_constants();
-		$this->load_functions();
 		$this->load_admin_panel();
 		$this->add_hooks();
 
@@ -538,7 +540,7 @@ final class Plugin {
 		];
 
 		foreach ( $elements as &$element ) {
-			$element['template_base_path']   = BPB_BASE_PATH . '/core/widgets/';
+			$element['template_base_path']   = BPB_BASE_PATH . 'core/widgets/';
 			$element['class_base_namespace'] = '\Buddy_Builder\Widgets\\';
 		}
 
@@ -551,9 +553,40 @@ final class Plugin {
 	 * @return void
 	 */
 	public function remove_buddypress_style() {
-		if ( ! defined( 'BP_PLATFORM_VERSION' ) ) {
+		if ( ! bpb_is_buddyboss() && bpb_is_current_template_populated() ) {
 			wp_dequeue_style( 'bp-nouveau' );
 		}
+	}
+
+	/**
+	 * Remove Buddypress nouveau css from messages pages
+	 *
+	 * @param array $styles
+	 * @return array
+	 */
+	public function remove_nouveau_style( $styles ) {
+		if ( ! bpb_is_buddyboss() ) {
+			$settings = bpb_get_settings();
+			$settings = $settings['templates'];
+
+			if ( ( isset( $_GET['elementor-preview'] ) ||
+			 bpb_is_edit_frame() ||
+			 bpb_is_preview_mode() ||
+			 bpb_is_front_library() ) ) {
+				unset( $styles['bp-nouveau'] );
+
+				return $styles;
+
+			}
+
+			if ( isset( $styles['bp-nouveau'] ) && $settings['member-profile'] && bp_is_user() && bpb_is_template_id_populated( $settings['member-profile'] ) ) {
+				unset( $styles['bp-nouveau'] );
+			}
+
+			return $styles;
+		}
+
+		return $styles;
 	}
 
 	/**
@@ -561,6 +594,13 @@ final class Plugin {
 	 */
 	public function front_css() {
 		if ( ! function_exists( 'bp_is_active' ) ) {
+			return;
+		}
+
+		if ( bpb_is_buddyboss() && ! bpb_is_current_template_populated() && ( ! isset( $_GET['elementor-preview'] ) ||
+			 ! bpb_is_edit_frame() ||
+			 ! bpb_is_preview_mode() ||
+			 ! bpb_is_front_library() ) ) {
 			return;
 		}
 
@@ -627,7 +667,7 @@ final class Plugin {
 			$min = '';
 		}
 
-		if ( ! defined( 'BP_PLATFORM_VERSION' ) ) {
+		if ( ! bpb_is_buddyboss() ) {
 			wp_register_style(
 				'stax-buddy-builder-bp',
 				BPB_BASE_URL . 'templates/buddypress/assets/buddypress' . $min . '.css',
