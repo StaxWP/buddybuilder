@@ -372,9 +372,9 @@ class BuddypressSettings extends Singleton {
                 ],
             ]
         );
-
-        bpb_elementor_heading( $widget, 'load_more_icon_heading', __( 'Loading icon', 'stax-buddy-builder' ) );
-
+		if ( function_exists( 'bpb_elementor_heading' ) ) {
+			bpb_elementor_heading( $widget, 'load_more_icon_heading', __( 'Loading icon', 'stax-buddy-builder' ) );
+		}
         $widget->add_responsive_control(
             'load_more_icon_spacing',
             [

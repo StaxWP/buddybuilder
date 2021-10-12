@@ -11,6 +11,7 @@ namespace Buddy_Builder;
 defined( 'ABSPATH' ) || die();
 
 use Buddy_Builder\Library\Documents\BuddyPress;
+use Elementor\Controls_Manager;
 
 /**
  * Class ElementorHooks
@@ -254,7 +255,7 @@ class ElementorHooks extends Singleton {
 
 					require_once $template_file;
 					$class_name = $element['class_base_namespace'] . $element['class'];
-					$elementor->widgets_manager->register_widget_type( new $class_name() );
+					$elementor->widgets_manager->register( new $class_name() );
 				}
 			}
 		}

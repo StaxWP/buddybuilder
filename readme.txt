@@ -4,7 +4,7 @@ Tags: elementor, buddypress, buddypress builder, buddypress elementor, elementor
 Requires at least: 4.0
 Requires PHP: 5.6
 Tested up to: 5.8.1
-Stable tag: 1.6.4
+Stable tag: 1.6.5
 License: GLPv2 or later
 
 Design, build and customize your BuddyPress site with Elementor builder.
@@ -86,9 +86,12 @@ Stax BuddyBuilder uses Appsero SDK to collect some telemetry data upon user's co
 
 == Changelog ==
 
+= 1.6.5 =
+* Fix error on import when not using the Pro version
+
 = 1.6.4 =
 * BuddyBoss platform compatibility
-* Font library upadate
+* Font library update
 * New Username widget option to show also the Name of the user on profile page
 * Fix groups columns on member profile
 * Fix for cover images

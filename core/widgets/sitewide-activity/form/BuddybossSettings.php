@@ -17,7 +17,7 @@ class BuddybossSettings extends Singleton {
 	const PREFIX = 'boss_';
 
 	/**
-	 * BuddypressSettings constructor.
+	 * BuddybossSettings constructor.
 	 */
 	public function __construct() {
 		add_action( 'buddy_builder/widget/sitewide-activity/form/settings', [ $this, 'add_settings' ] );
