@@ -7,7 +7,7 @@ use Elementor\Core\Base\Document;
  * Get shortcode string
  *
  * @param $template
- * @param bool     $preview
+ * @param bool $preview
  *
  * @return bool|string
  */
@@ -80,8 +80,8 @@ function bpb_is_current_template_populated() {
 	// Member profile.
 	if ( $settings['member-profile'] && bp_is_user() ) {
 		if ( ( ! isset( $settings['sitewide-activity-item'] ) || ! $settings['sitewide-activity-item'] ) &&
-			 bp_current_component() === 'activity' &&
-			 is_numeric( bp_current_action() ) ) {
+		     bp_current_component() === 'activity' &&
+		     is_numeric( bp_current_action() ) ) {
 			return false;
 		}
 
@@ -256,11 +256,11 @@ function bpb_is_elementor_editor() {
 	$is_db_update = isset( $_GET['buddybuilder_db_update'] );
 
 	return defined( 'ELEMENTOR_VERSION' ) &&
-		   ( $is_ajax || $importing || $is_db_update ||
-			 \Elementor\Plugin::$instance->editor->is_edit_mode() ||
-			 \Elementor\Plugin::$instance->preview->is_preview_mode() ||
-			 bpb_is_preview_mode() || bpb_is_front_library()
-		   );
+	       ( $is_ajax || $importing || $is_db_update ||
+	         \Elementor\Plugin::$instance->editor->is_edit_mode() ||
+	         \Elementor\Plugin::$instance->preview->is_preview_mode() ||
+	         bpb_is_preview_mode() || bpb_is_front_library()
+	       );
 }
 
 /**
@@ -287,6 +287,10 @@ function bpb_get_column_class( $type, $viewport = '' ) {
 		'3' => 'grid-three',
 		'4' => 'grid-four',
 	];
+
+	if ( ! isset( $classes[ $type ] ) ) {
+		return '';
+	}
 
 	if ( 'tablet' === $viewport ) {
 		return 'md-' . $classes[ $type ];
@@ -397,8 +401,8 @@ function bpb_is_doc_type( $id = 0 ) {
 /**
  * Load preview template
  *
- * @param string  $name
- * @param array   $args
+ * @param string $name
+ * @param array $args
  * @param boolean $echo
  *
  * @return void
@@ -461,7 +465,7 @@ function bpb_is_buddyboss() {
  * Get dummy avatar url
  *
  * @param string $type
- * @param int    $size
+ * @param int $size
  *
  * @return void
  */

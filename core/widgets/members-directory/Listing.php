@@ -1234,9 +1234,9 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'members-directory/listing',
 				[
 					'columns' => [
-						'desktop' => $settings['columns'],
-						'tablet'  => $settings['columns_tablet'],
-						'mobile'  => $settings['columns_mobile'],
+						'desktop' => $settings['columns'] ?? 3,
+						'tablet'  => $settings['columns_tablet'] ?? 2,
+						'mobile'  => $settings['columns_mobile'] ?? 1,
 					],
 				]
 			);

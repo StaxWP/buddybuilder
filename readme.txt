@@ -86,6 +86,9 @@ Stax BuddyBuilder uses Appsero SDK to collect some telemetry data upon user's co
 
 == Changelog ==
 
+= 1.6.6 =
+* Changed register widget method to support older Elementor versions too
+
 = 1.6.5 =
 * Fix error on import when not using the Pro version
 
