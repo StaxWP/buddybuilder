@@ -129,6 +129,14 @@ textarea {
   box-shadow: none;
   border: none; }
 
+.activity-list .elementor-widget-bpb-sitewide-item-meta {
+  position: static !important; }
+  .activity-list .elementor-widget-bpb-sitewide-item-meta .bb-activity-more-options-wrap {
+    top: 0;
+    right: 0; }
+  .activity-list .elementor-widget-bpb-sitewide-item-meta .bb-activity-more-options {
+    top: auto; }
+
 .activity-list .activity-item .bp-generic-meta.action div.generic-button {
   margin-bottom: 5px;
   margin-right: 15px; }
@@ -1833,4 +1841,3 @@ body.buddyboss-theme .bpb-messages-count {
   border-right: none;
   border-top: 1px solid #e7e9ec;
   border-bottom: 1px solid #e7e9ec; }
-

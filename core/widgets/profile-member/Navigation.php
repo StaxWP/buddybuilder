@@ -29,7 +29,7 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 		return [ 'buddy-builder-elements' ];
 	}
 
-	protected function _register_controls() {
+	protected function register_controls() {
 
 		if ( ! bpb_is_buddyboss() ) {
 			$this->start_controls_section(

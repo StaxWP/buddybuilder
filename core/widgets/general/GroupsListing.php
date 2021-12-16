@@ -31,7 +31,7 @@ class GroupsListing extends \Buddy_Builder\Widgets\Base {
 		return [ 'buddy-builder-general-elements' ];
 	}
 
-	protected function _register_controls() {
+	protected function register_controls() {
 		if ( ! function_exists( 'bpb_is_pro' ) ) {
 			$this->start_controls_section(
 				'go_pro_section',

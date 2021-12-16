@@ -16,8 +16,8 @@ final class Notices extends Singleton {
 	 * Notices constructor.
 	 */
 	public function __construct() {
-		add_action( 'wp_ajax_bpb_admin_notice_viewed', [ __CLASS__, 'bpb_admin_notice_viewed' ] );
-		add_action( 'admin_post_bpb_admin_notice_viewed', [ __CLASS__, 'bpb_admin_notice_viewed' ] );
+		add_action( 'wp_ajax_bpb_admin_notice_viewed', [ $this, 'bpb_admin_notice_viewed' ] );
+		add_action( 'admin_post_bpb_admin_notice_viewed', [ $this, 'bpb_admin_notice_viewed' ] );
 	}
 
 	/**

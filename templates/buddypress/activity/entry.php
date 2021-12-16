@@ -14,49 +14,68 @@ $render        = apply_filters( 'buddy_builder/activity-loop/render', bpb_is_tem
 
 bp_nouveau_activity_hook( 'before', 'entry' ); ?>
 
-	<li class="<?php bp_activity_css_class(); ?>" id="activity-<?php bp_activity_id(); ?>"
-		data-bp-activity-id="<?php bp_activity_id(); ?>" data-bp-timestamp="<?php bp_nouveau_activity_timestamp(); ?>" 
+    <li class="<?php bp_activity_css_class(); ?>" id="activity-<?php bp_activity_id(); ?>"
+        data-bp-activity-id="<?php bp_activity_id(); ?>" data-bp-timestamp="<?php bp_nouveau_activity_timestamp(); ?>"
 		<?php
 		if ( bpb_is_buddyboss() ) :
 			?>
-			 data-bp-activity="<?php bp_nouveau_edit_activity_data(); ?>" <?php endif; ?>
-		>
+            data-bp-activity="<?php bp_nouveau_edit_activity_data(); ?>" <?php endif; ?>
+    >
 
 		<?php if ( $render ) : ?>
 			<?php echo do_shortcode( $activity_item ); ?>
 		<?php else : ?>
-			<div class="activity-avatar item-avatar">
-				<a href="<?php bp_activity_user_link(); ?>">
-					<?php bp_activity_avatar( [ 'type' => 'full' ] ); ?>
-				</a>
-			</div>
 
-			<div class="activity-content">
-				<div class="activity-header">
+			<?php if ( bpb_is_buddyboss() ) : ?>
+				<?php bb_nouveau_activity_entry_bubble_buttons(); ?>
+			<?php endif; ?>
+
+            <div class="activity-avatar item-avatar">
+                <a href="<?php bp_activity_user_link(); ?>">
+					<?php bp_activity_avatar( [ 'type' => 'full' ] ); ?>
+                </a>
+            </div>
+
+            <div class="activity-content">
+                <div class="activity-header">
 					<?php bp_activity_action(); ?>
-				</div>
+
+					<?php if ( bpb_is_buddyboss() ) : ?>
+						<?php bp_nouveau_activity_is_edited(); ?>
+
+						<?php bp_nouveau_activity_privacy(); ?>
+					<?php endif; ?>
+                </div>
+
+	            <?php bp_nouveau_activity_hook( 'before', 'activity_content' ); ?>
 
 				<?php if ( bp_nouveau_activity_has_content() ) : ?>
-					<div class="activity-inner">
+                    <div class="activity-inner">
 						<?php bp_nouveau_activity_content(); ?>
-					</div>
+                    </div>
+				<?php endif; ?>
+
+				<?php bp_nouveau_activity_hook( 'after', 'activity_content' ); ?>
+
+				<?php if ( bpb_is_buddyboss() ) : ?>
+					<?php bp_nouveau_activity_state(); ?>
 				<?php endif; ?>
 
 				<?php bp_nouveau_activity_entry_buttons(); ?>
-			</div>
+            </div>
 
 			<?php bp_nouveau_activity_hook( 'before', 'entry_comments' ); ?>
 
 			<?php if ( bp_activity_get_comment_count() || ( is_user_logged_in() && ( bp_activity_can_comment() || bp_is_single_activity() ) ) ) : ?>
-				<div class="activity-comments">
+                <div class="activity-comments">
 					<?php bp_activity_comments(); ?>
 					<?php bp_nouveau_activity_comment_form(); ?>
-				</div>
+                </div>
 			<?php endif; ?>
 
 			<?php bp_nouveau_activity_hook( 'after', 'entry_comments' ); ?>
 		<?php endif; ?>
-	</li>
+    </li>
 
 <?php
 bp_nouveau_activity_hook( 'after', 'entry' );

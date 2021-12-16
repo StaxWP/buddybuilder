@@ -28,7 +28,7 @@ class Leadership extends \Buddy_Builder\Widgets\Base {
 		return [ 'buddy-builder-elements' ];
 	}
 
-	protected function _register_controls() {
+	protected function register_controls() {
 		do_action( 'buddy_builder/widget/profile-group/leadership/settings', $this );
 	}
 

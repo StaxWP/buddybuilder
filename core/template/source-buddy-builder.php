@@ -42,13 +42,19 @@ class Source_Buddy_Builder extends Source_Base {
 		$templates = [];
 
 		foreach ( $templates_data as $template_data ) {
-			$templates[] = $this->get_item( $template_data );
+			$templates[] = $this->prepare_template( $template_data );
 		}
 
 		return $templates;
 	}
 
-	public function get_item( $template_data ) {
+	public function get_item( $template_id ) {
+		$templates = $this->get_items();
+
+		return $templates[ $template_id ];
+	}
+
+	public function prepare_template( $template_data ) {
 		$favorite_templates = $this->get_user_meta( 'favorites' );
 
 		return [
@@ -62,6 +68,7 @@ class Source_Buddy_Builder extends Source_Base {
 			'author'          => $template_data['author'],
 			'tags'            => $template_data['tags'],
 			'isPro'           => 0,
+			'accessLevel' => 0,
 			'popularityIndex' => (int) $template_data['popularity_index'],
 			'trendIndex'      => (int) $template_data['trend_index'],
 			'hasPageSettings' => ( '1' === $template_data['has_page_settings'] ),
