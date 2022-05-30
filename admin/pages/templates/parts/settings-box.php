@@ -27,12 +27,12 @@ $active_post_name = false;
 		<?php endforeach; ?>
 	<?php endif; ?>
 </select>
-<div class="ste-flex ste-justify-between  ste-w-full">
+<div class="ste-flex ste-justify-between ste-w-full">
 	<div class="ste-mt-4 ste-flex ste-leading-none">
 		<?php
 		printf(
-			'<a href="%1$s" class="ste-text-xs ste-text-blue-500 ste-no-underline focus:ste-shadow-none">' .
-			'<span class="dashicons dashicons-plus ste-text-sm ste-leading-none"></span> ' .
+			'<a href="%1$s" class="ste-text-xs ste-text-blue-500 ste-no-underline focus:ste-shadow-none ste-flex ste-items-center">' .
+			'<i class="eicon-plus-circle-o ste-mr-1"></i> ' .
 			'%2$s' .
 			'</a>',
 			add_query_arg(
@@ -66,8 +66,8 @@ $active_post_name = false;
 		<div class="ste-mt-4 ste-flex ste-leading-none">
 			<?php
 			printf(
-				'<a href="%1$s" class="ste-text-xs ste-text-blue-500 ste-no-underline focus:ste-shadow-none">' .
-				'<span class="dashicons dashicons-edit ste-text-sm ste-leading-none"></span> ' .
+				'<a href="%1$s" class="ste-text-xs ste-text-blue-500 ste-no-underline focus:ste-shadow-none ste-flex ste-items-center ste-lea">' .
+				'<i class="eicon-edit ste-mr-1"></i> ' .
 				'%2$s' .
 				'</a>',
 				add_query_arg(

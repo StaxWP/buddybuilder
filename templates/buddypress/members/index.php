@@ -8,7 +8,6 @@
 $directory = bpb_get_shortcode_str( 'members-directory' );
 $render    = bpb_is_template_populated( 'members-directory' );
 
-
 ?>
 
 <?php bp_nouveau_before_members_directory_content(); ?>

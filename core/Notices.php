@@ -58,7 +58,7 @@ final class Notices extends Singleton {
 	 * @return boolean
 	 */
 	private function one_week_passed() {
-		$install_time        = Plugin::get_instance()->get_install_time();
+		$install_time        = buddy_builder()->get_install_time();
 		$after_one_week_time = $install_time + 604800;
 
 		if ( $after_one_week_time < time() ) {

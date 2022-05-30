@@ -176,19 +176,21 @@ class BuddypressHooks extends Singleton {
 	 * @return mixed
 	 */
 	public function rewrite_template( $stack ) {
-		if ( $this->current_component_has_template() ) {
-			$theme_path = get_template_directory();
-			$key        = array_search( $theme_path . '/buddypress', $stack, true );
-
-			if ( false !== $key ) {
-				unset( $stack[ $key ] );
-			}
-
-			array_unshift( $stack, BPB_BASE_PATH . 'templates/buddypress' );
-
-			// Current themes' BuddyBuilder overwrites.
-			array_unshift( $stack, get_stylesheet_directory() . '/buddybuilder' );
+		if ( ! $this->current_component_has_template() ) {
+			return $stack;
 		}
+
+		$theme_path = get_template_directory();
+		$key        = array_search( $theme_path . '/buddypress', $stack, true );
+
+		if ( false !== $key ) {
+			unset( $stack[ $key ] );
+		}
+
+		array_unshift( $stack, BPB_BASE_PATH . 'templates/buddypress' );
+
+		// Current themes' BuddyBuilder overwrites.
+		array_unshift( $stack, get_stylesheet_directory() . '/buddybuilder' );
 
 		return $stack;
 	}
@@ -341,8 +343,6 @@ class BuddypressHooks extends Singleton {
 	 */
 	public function customizer_controls( $controls ) {
 		unset(
-			$controls['members_layout'],
-			$controls['groups_layout'],
 			$controls['bp_site_avatars'],
 			$controls['group_front_boxes'],
 			$controls['group_front_description'],
@@ -360,6 +360,14 @@ class BuddypressHooks extends Singleton {
 			$controls['group_dir_layout'],
 			$controls['group_dir_tabs']
 		);
+
+		if ( bpb_get_shortcode_str( 'members-directory' ) || bpb_is_template_populated( 'members-directory' ) ) {
+			unset( $controls['members_layout'] );
+		}
+
+		if ( bpb_get_shortcode_str( 'groups-directory' ) || bpb_is_template_populated( 'groups-directory' ) ) {
+			unset( $controls['groups_layout'] );
+		}
 
 		return $controls;
 	}
@@ -406,8 +414,7 @@ class BuddypressHooks extends Singleton {
 	 *
 	 * @return bool
 	 */
-	private function current_component_has_template( $with_filter = true, $strict = false ) {
-
+	public function current_component_has_template( $with_filter = true, $strict = false ) {
 		// short circuit and force
 		if ( $with_filter && apply_filters( 'buddy_builder/has_template/pre', false ) ) {
 			return true;
@@ -528,6 +535,14 @@ class BuddypressHooks extends Singleton {
 			// Groups directory.
 			if ( $settings['groups-directory'] && ! empty( bp_is_active( 'groups' ) ) && bp_is_groups_directory() ) {
 				return bpb_is_template_id_populated( $settings['groups-directory'] );
+			}
+
+			if ( strpos( bpb_get_page_slug(), 'groups/create' ) !== false ) {
+				if ( ! isset( $settings['groups-create'] ) || ! $settings['groups-create'] ) {
+					return false;
+				}
+
+				return bpb_is_template_id_populated( $settings['groups-create'] );
 			}
 
 			// Member profile.

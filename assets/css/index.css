@@ -16,6 +16,9 @@
 #buddypress .elementor-widget-bpb-profile-member-cover #header-cover-image,
 #buddypress .elementor-widget-bpb-profile-group-cover #header-cover-image {
   height: 100%; }
+  #buddypress .elementor-widget-bpb-profile-member-cover #header-cover-image:before,
+  #buddypress .elementor-widget-bpb-profile-group-cover #header-cover-image:before {
+    background-color: #F6F7F8; }
 
 .elementor-widget-bpb-profile-group-cover .cover-bg-overlay,
 .elementor-widget-bpb-profile-member-cover .cover-bg-overlay {
@@ -34,6 +37,9 @@
 .elementor-widget-bpb-groups-directory-item-cover-image .svq-cover-img-el {
   overflow: hidden;
   position: relative; }
+  .elementor-widget-bpb-members-directory-item-cover-image .svq-cover-img-el:before,
+  .elementor-widget-bpb-groups-directory-item-cover-image .svq-cover-img-el:before {
+    background-color: #F6F7F8; }
   .elementor-widget-bpb-members-directory-item-cover-image .svq-cover-img-el:before,
   .elementor-widget-bpb-groups-directory-item-cover-image .svq-cover-img-el:before {
     content: "";
@@ -334,8 +340,8 @@ body.buddypress .buddypress-wrap .elementor-heading-title {
 
 @font-face {
   font-family: 'stax-bb-line';
-  src: url("../../assets/fonts/stax-bb-line.eot?3fcduy");
-  src: url("../../assets/fonts/stax-bb-line.eot?3fcduy#iefix") format("embedded-opentype"), url("../../assets/fonts/stax-bb-line.ttf?3fcduy") format("truetype"), url("../../assets/fonts/stax-bb-line.woff?3fcduy") format("woff"), url("../../assets/fonts/stax-bb-line.svg?3fcduy#stax-bb-line") format("svg");
+  src: url("../../assets/fonts/stax-bb-line.eot?ih00gq");
+  src: url("../../assets/fonts/stax-bb-line.eot?ih00gq#iefix") format("embedded-opentype"), url("../../assets/fonts/stax-bb-line.ttf?ih00gq") format("truetype"), url("../../assets/fonts/stax-bb-line.woff?ih00gq") format("woff"), url("../../assets/fonts/stax-bb-line.svg?ih00gq#stax-bb-line") format("svg");
   font-weight: normal;
   font-style: normal;
   font-display: block; }

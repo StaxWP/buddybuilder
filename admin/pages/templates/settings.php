@@ -1,62 +1,85 @@
-<h3 class="ste-block ste-mt-0 ste-text-xl"><?php esc_html_e( 'Templates Settings', 'stax-buddy-builder' ); ?></h3>
+<h2 class="ste-my-0 ste-leading-none ste-text-2xl ste-text-gray-900 ste-font-bold ste-tracking-wide">
+	<?php esc_html_e( 'Templates Settings', 'stax-buddy-builder' ); ?>
+</h2>
 
-<p><?php esc_html_e( 'You can override the BuddyPress\' default templates with the ones you\'ve created using Elementor using the form below.', 'stax-buddy-builder' ); ?></p>
+<div class="ste-text-sm ste-text-gray-7700 ste-mt-2">
+	<?php esc_html_e( 'You can override the BuddyPress\' default templates with the ones you\'ve created using Elementor using the form below.', 'stax-buddy-builder' ); ?>
+</div>
 
-<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="POST" enctype="multipart/form-data">
-	<div class="ste-flex ste-flex-wrap ste--mx-2">
+<div class="ste-mt-5">
+	<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="POST" enctype="multipart/form-data">
+		<div class="ste-grid ste-grid-cols-1 md:ste-grid-cols-2 ste-gap-8">
 
-		<?php foreach ( $data as $slug => $setting ) : ?>
-			<div class="ste-my-2 ste-w-full md:ste-w-1/2 xl:ste-w-1/2">
-				<div class="ste-mx-2 ste-flex ste-flex-wrap ste-justify-between ste-items-center ste-border-2 ste-border-solid ste-border-ash-300 ste-rounded ste-bg-ash-100 ste-p-4 hover:ste-border-ash-500">
-					<?php if ( isset( $setting['title'] ) ) : ?>
-						<div class="ste-mb-3 ste-flex ste-items-center">
-							<?php if ( isset( $setting['pro'] ) && $setting['pro'] ) : ?>
-								<span class="ste-inline-block ste-text-white ste-text-xs ste-bg-red-500 ste-rounded-full ste-px-3 ste-font-normal ste-mr-2">PRO</span>
-							<?php endif; ?>
-							<label for="<?php echo $slug; ?>"
-								   class="ste-inline-block ste-w-full ste-text-gray-700 ste-text-lg ste-font-medium">
-								<?php echo $setting['title']; ?>
-							</label>
-						</div>
-					<?php endif; ?>
-
+			<?php foreach ( $data as $slug => $setting ) : ?>
+				<div>
 					<?php if ( isset( $setting['inner'] ) ) : ?>
 						<?php foreach ( $setting['inner'] as $key => $item ) : ?>
-							<div class="ste-w-full ste-mb-4 last:ste-mb-0">
-								<div class="ste-w-full ste-mb-3 ste-flex ste-items-center">
+							<?php
+							$main_class    = 'ste-rounded ste-p-4 ste-bg-gradient-to-r ste-from-ash-300 ste-to-ash-200 ste-shadow';
+							$inner_1_class = '';
+							$inner_2_class = '';
+
+							if ( isset( $item['pro'] ) && $item['pro'] ) {
+								$main_class    = '';
+								$inner_1_class = 'ste-flex';
+								$inner_2_class = 'ste-rounded ste-w-11/12 ste-p-4 ste-bg-gradient-to-r ste-from-ash-300 ste-to-ash-200 ste-mt-2 ste-shadow';
+							}
+							?>
+							<div class="<?php echo esc_attr( $main_class ); ?>">
+								<div class="ste-mb-4 last:ste-mb-0 <?php echo esc_attr( $inner_1_class ); ?>">
 									<?php if ( isset( $item['pro'] ) && $item['pro'] ) : ?>
-										<span class="ste-inline-block ste-text-white ste-text-xs ste-bg-red-500 ste-rounded-full ste-px-2 ste-font-normal ste-mr-2">PRO</span>
+										<div class="ste-w-1/12 ste-text-ash-400 ste-p-5 ">
+											<svg class="ste-w-full ste-fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 126.92 81.36"><title>214651_arrow_enter_icon</title><polygon points="0 0 0 67.51 15 67.51 15 67.5 95.97 67.5 95.97 81.36 111.45 70.68 126.92 60 111.45 49.31 95.97 38.63 95.97 52.49 15 52.49 15 0 0 0"/></svg>
+										</div>
 									<?php endif; ?>
-									<label class="ste-inline-block ste-text-gray-700 ste-text-lg ste-font-medium">
-										<?php echo $item['title']; ?>
-									</label>
+									<div class="<?php echo esc_attr( $inner_2_class ); ?>">
+										<div class="ste-mb-3 ste-flex ste-items-center">
+											<?php if ( isset( $item['pro'] ) && $item['pro'] ) : ?>
+												<i class="eicon-pro-icon ste-pro-icon ste-mr-2"></i>
+											<?php endif; ?>
+											<label class="ste-inline-block ste-text-ash-900 ste-text-md ste-font-bold">
+												<?php echo $item['title']; ?>
+											</label>
+										</div>
+										<?php include 'parts/settings-box.php'; ?>
+									</div>
 								</div>
-								<?php include 'parts/settings-box.php'; ?>
 							</div>
 						<?php endforeach; ?>
 					<?php else : ?>
+						<div class="ste-p-4 ste-rounded ste-bg-gradient-to-r ste-from-ash-300 ste-to-ash-200 ste-shadow">
+							<div class="ste-mb-3 ste-flex ste-items-center">
+								<?php if ( isset( $setting['pro'] ) && $setting['pro'] ) : ?>
+									<i class="eicon-pro-icon ste-pro-icon ste-mr-2"></i>
+								<?php endif; ?>
+								<label for="<?php echo $slug; ?>"
+										class="ste-inline-block ste-w-full ste-text-ash-900 ste-text-md ste-font-bold">
+									<?php echo $setting['title']; ?>
+								</label>
+							</div>
 
-						<?php
-						$item = $setting;
-						$key  = $slug;
-						include 'parts/settings-box.php';
-						?>
-
+							<?php
+							$item = $setting;
+							$key  = $slug;
+							include 'parts/settings-box.php';
+							?>
+						</div>
 					<?php endif; ?>
 				</div>
-			</div>
-		<?php endforeach; ?>
-	</div>
+			<?php endforeach; ?>
+			
+		</div>
 
-	<input type="hidden" name="action" value="bpb_settings">
+		<input type="hidden" name="action" value="bpb_settings">
 
-	<div class="ste-mt-5">
-		<button type="submit"
-				class="ste-bg-green-500 ste-text-md ste-text-white ste-py-2 ste-pl-4 ste-pr-6 ste-rounded ste-border-0 ste-shadow-xl hover:ste-shadow-lg ste-cursor-pointer ste-uppercase">
+		<div class="ste-mt-5">
+			<button type="submit"
+					class="ste-bg-gradient-to-r ste-from-green-500 ste-to-green-400 ste-text-md ste-text-white ste-py-3 ste-px-6 ste-rounded ste-border-0 ste-shadow-xl hover:ste-shadow-lg ste-cursor-pointer">
 				<span class="ste-flex ste-items-center">
-					<span class="dashicons dashicons-yes"></span>
-					<span class="ste-leading-normal ste-ml-2"><?php esc_html_e( 'Save', 'stax-buddy-builder' ); ?></span>
+					<svg class="ste-fill-current" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"><path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"/></svg>
+					<span class="ste-leading-none ste-font-bold ste-ml-2 ste-uppercase"><?php esc_html_e( 'Save', 'stax-buddy-builder' ); ?></span>
 				</span>
-		</button>
-	</div>
-</form>
+			</button>
+		</div>
+	</form>
+</div>

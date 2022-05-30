@@ -120,16 +120,16 @@ class Avatar extends \Buddy_Builder\Widgets\Base {
 			]
 		);
 
-        $this->add_control(
-            'avatar_border_color_hover',
-            [
-                'label'     => __( 'Border Color', 'stax-buddy-builder' ),
-                'type'      => Controls_Manager::COLOR,
-                'selectors' => [
-                    '{{WRAPPER}} .avatar:hover' => 'border-color: {{VALUE}};',
-                ],
-            ]
-        );
+		$this->add_control(
+			'avatar_border_color_hover',
+			[
+				'label'     => __( 'Border Color', 'stax-buddy-builder' ),
+				'type'      => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .avatar:hover' => 'border-color: {{VALUE}};',
+				],
+			]
+		);
 
 		$this->add_group_control(
 			Group_Control_Box_Shadow::get_type(),

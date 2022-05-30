@@ -45,7 +45,8 @@ class Cover extends \Buddy_Builder\Widgets\Base {
 				'label'     => __( 'Background Color', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'#buddypress {{WRAPPER}} #header-cover-image' => 'background-color: {{VALUE}};',
+                    '#buddypress {{WRAPPER}} #header-cover-image' => 'background-color: {{VALUE}};',
+					'#buddypress {{WRAPPER}} #header-cover-image:before' => 'background-color: {{VALUE}};',
 				],
 			]
 		);
@@ -71,6 +72,7 @@ class Cover extends \Buddy_Builder\Widgets\Base {
 				],
 				'selectors' => [
 					'#buddypress {{WRAPPER}} #header-cover-image' => 'background-position: {{VALUE}};',
+					'#buddypress {{WRAPPER}} #header-cover-image:before' => 'background-position: {{VALUE}};',
 				],
 			]
 		);
@@ -90,6 +92,7 @@ class Cover extends \Buddy_Builder\Widgets\Base {
 				],
 				'selectors' => [
 					'#buddypress {{WRAPPER}} #header-cover-image' => 'background-repeat: {{VALUE}};',
+					'#buddypress {{WRAPPER}} #header-cover-image:before' => 'background-repeat: {{VALUE}};',
 				],
 			]
 		);
@@ -108,6 +111,7 @@ class Cover extends \Buddy_Builder\Widgets\Base {
 				],
 				'selectors' => [
 					'#buddypress {{WRAPPER}} #header-cover-image' => 'background-size: {{VALUE}};',
+					'#buddypress {{WRAPPER}} #header-cover-image:before' => 'background-size: {{VALUE}};',
 				],
 			]
 		);
@@ -117,7 +121,7 @@ class Cover extends \Buddy_Builder\Widgets\Base {
 			[
 				'label'              => __( 'Position', 'elementor' ),
 				'type'               => Controls_Manager::SELECT,
-				'default'            => 'absolute',
+				'default'            => '',
 				'options'            => [
 					''         => __( 'Default', 'elementor' ),
 					'absolute' => __( 'Absolute', 'elementor' ),
@@ -565,7 +569,7 @@ class Cover extends \Buddy_Builder\Widgets\Base {
 		$this->add_render_attribute( 'header-cover-bg-overlay', [ 'class' => 'cover-bg-overlay' ] );
 
 		if ( bpb_is_elementor_editor() ) {
-			$settings['cover_url'] = BPB_ASSETS_URL . 'img/profile-cover-preview.jpg';
+			$settings['cover_url'] = BPB_ASSETS_URL . 'img/profile-cover-preview.png';
 			bpb_load_preview_template( 'profile-member/cover', $settings );
 		} else {
 			if ( isset( $settings['cover_advanced_settings'] ) && $settings['cover_advanced_settings'] ) {
@@ -587,25 +591,38 @@ class Cover extends \Buddy_Builder\Widgets\Base {
 			<?php
 		}
 		?>
-		<?php if ( isset( $settings['cover_url'] ) && ! bpb_is_buddyboss() ) : ?>
+
+        <?php if ( isset( $settings['cover_url'] ) && ! bpb_is_buddyboss() ) : ?>
+
+            <style>
+                #header-cover-image {
+                    background-color: transparent !important;
+                }
+                #header-cover-image:before {
+                    content: "";
+                    position:  absolute;
+                    background-size: cover;
+                    top: 0;
+                    left: 0;
+                    bottom: 0;
+                    right: 0;
+                }
+            </style>
+
+        <?php endif; ?>
+
+		<?php if ( isset( $settings['cover_url'] ) && $settings['cover_url'] && ! bpb_is_buddyboss() ) : ?>
 			<style>
 				#header-cover-image {
 					position: relative;
-					overflow:hidden;
+					overflow: hidden;
 					z-index: 0;
 					background-image: none !important;
 				}
 
 				#header-cover-image:before {
-					content: "";
-					position:  absolute;
-					background: url(<?php echo esc_url( $settings['cover_url'] ); ?>);
-					background-size: cover;
-					z-index: -1;
-					top:0;
-					left:0;
-					bottom:0;
-					right:0;
+					background-image: url(<?php echo esc_url( $settings['cover_url'] ); ?>);
+                    z-index: -1;
 				}
 			</style>
 		<?php endif; ?>

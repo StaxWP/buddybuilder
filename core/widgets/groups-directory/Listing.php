@@ -124,7 +124,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 					'size' => 20,
 				],
 				'selectors'  => [
-					'{{WRAPPER}} #groups-list.grid-two'      => 'margin-left: -{{SIZE}}{{UNIT}}; margin-right: -{{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} #groups-list.grid-two' => 'margin-left: -{{SIZE}}{{UNIT}}; margin-right: -{{SIZE}}{{UNIT}};',
 					'{{WRAPPER}} #groups-list.grid-two > li' => 'padding-left: {{SIZE}}{{UNIT}}; padding-right: {{SIZE}}{{UNIT}};',
 				],
 				'condition'  => [
@@ -173,7 +173,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 					'size' => 20,
 				],
 				'selectors'  => [
-					'{{WRAPPER}} #groups-list.grid-three'      => 'margin-left: -{{SIZE}}{{UNIT}}; margin-right: -{{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} #groups-list.grid-three' => 'margin-left: -{{SIZE}}{{UNIT}}; margin-right: -{{SIZE}}{{UNIT}};',
 					'{{WRAPPER}} #groups-list.grid-three > li' => 'padding-left: {{SIZE}}{{UNIT}}; padding-right: {{SIZE}}{{UNIT}};',
 				],
 				'condition'  => [
@@ -222,7 +222,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 					'size' => 20,
 				],
 				'selectors'  => [
-					'{{WRAPPER}} #groups-list.grid-four'      => 'margin-left: -{{SIZE}}{{UNIT}}; margin-right: -{{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} #groups-list.grid-four' => 'margin-left: -{{SIZE}}{{UNIT}}; margin-right: -{{SIZE}}{{UNIT}};',
 					'{{WRAPPER}} #groups-list.grid-four > li' => 'padding-left: {{SIZE}}{{UNIT}}; padding-right: {{SIZE}}{{UNIT}};',
 				],
 				'condition'  => [
@@ -1474,9 +1474,9 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'groups-directory/listing',
 				[
 					'columns' => [
-						'desktop' => $settings['columns'],
-						'tablet'  => $settings['columns_tablet'],
-						'mobile'  => $settings['columns_mobile'],
+						'desktop' => isset( $settings['columns'] ) && $settings['columns'] ? $settings['columns'] : 3,
+						'tablet'  => isset( $settings['columns_tablet'] ) && $settings['columns_tablet'] ? $settings['columns_tablet'] : 2,
+						'mobile'  => isset($settings['columns_mobile']) && $settings['columns_mobile'] ? $settings['columns_mobile'] : 1,
 					],
 				]
 			);

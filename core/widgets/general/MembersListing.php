@@ -43,7 +43,7 @@ class MembersListing extends \Buddy_Builder\Widgets\Base {
 				'go_pro_notice',
 				[
 					'type' => Controls_Manager::RAW_HTML,
-					'raw'  => Plugin::get_instance()->go_pro_template(
+					'raw'  => buddy_builder()->go_pro_template(
 						[
 							'title'    => __( 'BuddyBuilder PRO', 'stax-buddy-builder' ),
 							'messages' => [
@@ -361,8 +361,8 @@ class MembersListing extends \Buddy_Builder\Widgets\Base {
 				'bp-list',
 				'grid',
 				bpb_get_column_class( $settings['columns'] ),
-				bpb_get_column_class( $settings['columns_tablet'], 'tablet' ),
-				bpb_get_column_class( $settings['columns_mobile'], 'mobile' ),
+				bpb_get_column_class( isset( $settings['columns_tablet'] ) ? $settings['columns_tablet'] : $settings['columns'], 'tablet' ),
+				bpb_get_column_class( isset( $settings['columns_mobile'] ) ? $settings['columns_mobile'] : $settings['columns'], 'mobile' ),
 			];
 		};
 

@@ -2,15 +2,15 @@
 Contributors: staxwp, seventhqueen, codezz, rtynio, geowrge
 Tags: elementor, buddypress, buddypress builder, buddypress elementor, elementor buddypress, bp builder
 Requires at least: 5.0
-Requires PHP: 5.6
-Tested up to: 5.8.2
-Stable tag: 1.6.7
+Requires PHP: 7.0
+Tested up to: 6.0
+Stable tag: 1.7.0
 License: GLPv2 or later
 
 Design, build and customize your BuddyPress site with Elementor builder.
 
 == Description ==
-BuddyBuilder gives you super powers to create a stunning BuddyPress community built with Elementor.
+BuddyBuilder gives you superpowers to create a stunning BuddyPress community built with Elementor.
 Create your own page structure, add widgets and customize all from Elementor Builder.
 We use a unique and smart approach to override default BuddyPress templates so you can design them as any regular page.
 You are no longer locked to a predefined design and you are free to build and customize your BuddyPress community site.
@@ -66,6 +66,14 @@ You have full control to style group tabs Activity, Members, Invite, Manage.
 
 Get [Pro](https://staxwp.com/go/buddybuilder-pro) and take your community site to the next level
 
+= More from StaxWP =
+- [Visibility Logic for Elementor - Plugin](https://wordpress.org/plugins/visibility-logic-elementor/)
+Hide or show Elementor widgets or section based on various conditions: User Meta, User IP, Browser, etc.
+- [Elementor Addons, Widgets & Enhancements - Plugin](https://staxwp.com/go/addons-for-elementor)
+Powerfull Elementor widgets to help you build stunning pages
+- [Woo Addons for Elementor - Plugin](https://staxwp.com/go/woo-addons-for-elementor/)
+Elementor enhancements for Woocommerce to help you build stunning pages
+
 = Privacy Policy =
 Stax BuddyBuilder uses Appsero SDK to collect some telemetry data upon user's confirmation. This helps us to troubleshoot problems faster & make product improvements.
 
@@ -85,6 +93,22 @@ Stax BuddyBuilder uses Appsero SDK to collect some telemetry data upon user's co
 3. **Infinite templates** but set the one that is active on the site
 
 == Changelog ==
+
+= 1.7.0 =
+* Added new Notifications widget
+* Cover widget settings and style update.
+* New option added to Create Group button.
+* Fix group invites for BuddyPress v10+
+* Alignment fix for members and groups directory navigation.
+* Member & Groups directory navigation - Fix empty space between navs items.
+* Fix for directory column toggles on small resolutions
+* Fix enqueue buddyboss css for editor
+* Added support for group create template
+
+= 1.6.8 =
+* Fix: Customizer error on save
+* Fix: Error in Customizer when switching from BuddyBoss to BuddyPress
+* Improved admin panel UI
 
 = 1.6.7 =
 * Fix: BuddyBoss activity entry menu for Edit and Delete actions

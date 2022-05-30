@@ -13,8 +13,6 @@ $render    = bpb_is_template_populated( 'groups-directory' );
 
 <?php bp_nouveau_before_groups_directory_content(); ?>
 
-<?php bp_nouveau_template_notices(); ?>
-
 <?php if ( $render ) : ?>
 	<?php echo do_shortcode( $directory ); ?>
 	<?php bp_nouveau_after_groups_directory_content(); ?>

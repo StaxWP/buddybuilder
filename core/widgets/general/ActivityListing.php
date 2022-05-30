@@ -44,7 +44,7 @@ class ActivityListing extends \Buddy_Builder\Widgets\Base {
 				'go_pro_notice',
 				[
 					'type' => Controls_Manager::RAW_HTML,
-					'raw'  => Plugin::get_instance()->go_pro_template(
+					'raw'  => buddy_builder()->go_pro_template(
 						[
 							'title'    => __( 'BuddyBuilder PRO', 'stax-buddy-builder' ),
 							'messages' => [

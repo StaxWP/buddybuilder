@@ -42,13 +42,8 @@ final class Admin extends Singleton {
 
 		// Admin pages.
 		require_once self::$plugin_path . '/admin/pages/Base.php';
-		// require_once self::$plugin_path . '/admin/pages/Dashboard.php';
 		require_once self::$plugin_path . '/admin/pages/Templates.php';
 		require_once self::$plugin_path . '/admin/pages/Settings.php';
-		// require_once self::$plugin_path . '/admin/pages/Help.php';
-		// require_once self::$plugin_path . '/admin/pages/Widgets.php';
-		// require_once self::$plugin_path . '/admin/pages/Plugins.php';
-		// require_once self::$plugin_path . '/admin/pages/Modules.php';
 	}
 
 	/**
@@ -116,7 +111,6 @@ final class Admin extends Singleton {
 		$site_url      = apply_filters( BPB_HOOK_PREFIX . 'admin_site_url', 'https://staxwp.com' );
 		$wrapper_class = apply_filters( BPB_HOOK_PREFIX . 'welcome_wrapper_class', [ $this->current_slug ] );
 		$menu          = apply_filters( BPB_HOOK_PREFIX . 'admin_menu', [] );
-		$has_pro       = function_exists( 'bpb_is_pro' );
 
 		if ( ! empty( $menu ) ) {
 			usort(
@@ -133,9 +127,17 @@ final class Admin extends Singleton {
 				'site_url'      => $site_url,
 				'wrapper_class' => $wrapper_class,
 				'menu'          => $menu,
-				'has_pro'       => $has_pro,
 			]
 		);
+	}
+
+	/**
+	 * Check if plugin is PRO
+	 *
+	 * @return boolean
+	 */
+	public function has_pro() {
+		return defined( 'BPB_PRO_VERSION' ) || function_exists( 'bpb_is_pro' );
 	}
 
 	/**
@@ -146,8 +148,8 @@ final class Admin extends Singleton {
 	 * @return string
 	 */
 	public function add_admin_body_class( $classes ) {
-		if ( isset( $_GET['page'] ) && strpos( sanitize_text_field( $_GET['page'] ), 'bpb-elementor' ) !== false ) {
-			$classes .= ' bpb-elementor-admin-page';
+		if ( isset( $_GET['page'] ) && strpos( sanitize_text_field( $_GET['page'] ), 'buddy-builder' ) !== false ) {
+			$classes .= ' stax-buddybuilder-admin-page';
 		}
 
 		return $classes;

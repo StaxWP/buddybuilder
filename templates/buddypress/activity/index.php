@@ -23,8 +23,6 @@ $render   = bpb_is_template_populated( 'sitewide-activity' );
 
 	<?php endif; ?>
 
-	<?php bp_nouveau_template_notices(); ?>
-
 	<?php if ( ! bp_nouveau_is_object_nav_in_sidebar() ) : ?>
 
 		<?php bp_get_template_part( 'common/nav/directory-nav' ); ?>

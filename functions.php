@@ -7,7 +7,7 @@ use Elementor\Core\Base\Document;
  * Get shortcode string
  *
  * @param $template
- * @param bool $preview
+ * @param bool     $preview
  *
  * @return bool|string
  */
@@ -67,6 +67,10 @@ function bpb_is_current_template_populated() {
 	$settings = bpb_get_settings();
 	$settings = $settings['templates'];
 
+	if ( ! function_exists( 'bp_is_active' ) ) {
+		return false;
+	}
+
 	// Members directory.
 	if ( $settings['members-directory'] && bp_is_members_directory() ) {
 		return bpb_is_template_id_populated( $settings['members-directory'] );
@@ -80,8 +84,8 @@ function bpb_is_current_template_populated() {
 	// Member profile.
 	if ( $settings['member-profile'] && bp_is_user() ) {
 		if ( ( ! isset( $settings['sitewide-activity-item'] ) || ! $settings['sitewide-activity-item'] ) &&
-		     bp_current_component() === 'activity' &&
-		     is_numeric( bp_current_action() ) ) {
+			 bp_current_component() === 'activity' &&
+			 is_numeric( bp_current_action() ) ) {
 			return false;
 		}
 
@@ -147,7 +151,7 @@ function bpb_get_template_types() {
 			],
 			'sitewide-activity' => [
 				'name'  => __( 'Site-Wide Activity', 'stax-buddy-builder' ),
-				'order' => 7,
+				'order' => 8,
 			],
 		]
 	);
@@ -183,25 +187,29 @@ function bpb_get_settings() {
 
 	$defaults = apply_filters( 'buddy_builder/default_settings', $defaults );
 
-	if ( $options ) {
-		foreach ( $defaults as $section => $default ) {
-			if ( isset( $options[ $section ] ) ) {
-				if ( is_array( $default ) ) {
-					foreach ( $default as $key => $item ) {
-						if ( is_array( $item ) ) {
-							foreach ( $item as $item_key => $item_value ) {
-								if ( isset( $options[ $section ][ $key ][ $item_key ] ) ) {
-									$defaults[ $section ][ $key ][ $item_key ] = $options[ $section ][ $key ][ $item_key ];
-								}
-							}
-						} elseif ( isset( $options[ $section ][ $key ] ) ) {
-							$defaults[ $section ][ $key ] = $options[ $section ][ $key ];
+	if ( empty( $options ) ) {
+		return $defaults;
+	}
+
+	foreach ( $defaults as $section => $default ) {
+		if ( ! isset( $options[ $section ] ) ) {
+			continue;
+		}
+
+		if ( is_array( $default ) ) {
+			foreach ( $default as $key => $item ) {
+				if ( is_array( $item ) ) {
+					foreach ( $item as $item_key => $item_value ) {
+						if ( isset( $options[ $section ][ $key ][ $item_key ] ) ) {
+							$defaults[ $section ][ $key ][ $item_key ] = $options[ $section ][ $key ][ $item_key ];
 						}
 					}
-				} else {
-					$defaults[ $section ] = $options[ $section ];
+				} elseif ( isset( $options[ $section ][ $key ] ) ) {
+					$defaults[ $section ][ $key ] = $options[ $section ][ $key ];
 				}
 			}
+		} else {
+			$defaults[ $section ] = $options[ $section ];
 		}
 	}
 
@@ -256,11 +264,11 @@ function bpb_is_elementor_editor() {
 	$is_db_update = isset( $_GET['buddybuilder_db_update'] );
 
 	return defined( 'ELEMENTOR_VERSION' ) &&
-	       ( $is_ajax || $importing || $is_db_update ||
-	         \Elementor\Plugin::$instance->editor->is_edit_mode() ||
-	         \Elementor\Plugin::$instance->preview->is_preview_mode() ||
-	         bpb_is_preview_mode() || bpb_is_front_library()
-	       );
+		   ( $is_ajax || $importing || $is_db_update ||
+			 \Elementor\Plugin::$instance->editor->is_edit_mode() ||
+			 \Elementor\Plugin::$instance->preview->is_preview_mode() ||
+			 bpb_is_preview_mode() || bpb_is_front_library()
+		   );
 }
 
 /**
@@ -401,8 +409,8 @@ function bpb_is_doc_type( $id = 0 ) {
 /**
  * Load preview template
  *
- * @param string $name
- * @param array $args
+ * @param string  $name
+ * @param array   $args
  * @param boolean $echo
  *
  * @return void
@@ -465,7 +473,7 @@ function bpb_is_buddyboss() {
  * Get dummy avatar url
  *
  * @param string $type
- * @param int $size
+ * @param int    $size
  *
  * @return void
  */

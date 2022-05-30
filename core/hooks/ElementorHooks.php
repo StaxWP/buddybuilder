@@ -65,9 +65,7 @@ class ElementorHooks extends Singleton {
 					$meta     = get_post_meta( get_the_ID(), '_elementor_controls_usage', true );
 					$elements = [];
 
-					$register_widgets = Plugin::get_instance()->get_elements();
-
-					foreach ( $register_widgets as $widget ) {
+					foreach ( buddy_builder()->get_elements() as $widget ) {
 						if ( ! isset( $widget['template'] ) ) {
 							$elements[ $widget['name'] ] = true;
 						}
@@ -229,11 +227,9 @@ class ElementorHooks extends Singleton {
 		$elementor = \Elementor\Plugin::instance();
 
 		if ( isset( $elementor->widgets_manager ) && method_exists( $elementor->widgets_manager, 'register_widget_type' ) ) {
-
-			$elements = Plugin::get_instance()->get_elements();
 			include_once BPB_BASE_PATH . 'core/widgets/Base.php';
 
-			foreach ( $elements as $k => $element ) {
+			foreach ( buddy_builder()->get_elements() as $k => $element ) {
 				if ( $template_file = $this->get_element_path( $element['template_base_path'] . $k ) ) {
 
 					// Add widget's settings based on buddypress/buddyboss.

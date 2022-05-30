@@ -36,13 +36,17 @@ class CustomizerHooks extends Singleton {
 		$bpb_settings  = bpb_get_settings();
 
 		foreach ( $bpb_settings['templates'] as $type => $id ) {
+			if ( ! in_array( $type, [ 'member-profile', 'group-profile' ] ) ) {
+				continue;
+			}
+
 			$document = \Elementor\Plugin::$instance->documents->get( $id );
 
 			if ( $document ) {
 				$elements = \Elementor\Plugin::$instance->db->iterate_data(
 					$document->get_elements_data(),
 					static function ( $element ) use ( $bp_appearance ) {
-						if ( empty( $element['widgetType'] ) ) {
+						if ( ! isset( $element['widgetType'] ) || empty( $element['widgetType'] ) ) {
 							return $element;
 						}
 

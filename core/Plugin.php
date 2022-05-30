@@ -539,6 +539,18 @@ final class Plugin {
 			'class' => 'General\ActivityListing',
 		];
 
+		$elements['general/SaveNotification'] = [
+			'name'     => 'bpb-general-save-notification',
+			'class'    => 'General\SaveNotification',
+			'template' => [
+				'sitewide-activity',
+				'member-profile',
+				'members-directory',
+				'group-profile',
+				'groups-directory',
+			],
+		];
+
 		foreach ( $elements as &$element ) {
 			$element['template_base_path']   = BPB_BASE_PATH . 'core/widgets/';
 			$element['class_base_namespace'] = '\Buddy_Builder\Widgets\\';
@@ -569,14 +581,13 @@ final class Plugin {
 			$settings = bpb_get_settings();
 			$settings = $settings['templates'];
 
-			if ( ( isset( $_GET['elementor-preview'] ) ||
-			 bpb_is_edit_frame() ||
-			 bpb_is_preview_mode() ||
-			 bpb_is_front_library() ) ) {
+			if ( isset( $_GET['elementor-preview'] ) ||
+				bpb_is_edit_frame() ||
+				bpb_is_preview_mode() ||
+				bpb_is_front_library() ) {
 				unset( $styles['bp-nouveau'] );
 
 				return $styles;
-
 			}
 
 			if ( isset( $styles['bp-nouveau'] ) && $settings['member-profile'] && bp_is_user() && bpb_is_template_id_populated( $settings['member-profile'] ) ) {
@@ -597,10 +608,7 @@ final class Plugin {
 			return;
 		}
 
-		if ( bpb_is_buddyboss() && ! bpb_is_current_template_populated() && ( ! isset( $_GET['elementor-preview'] ) ||
-			 ! bpb_is_edit_frame() ||
-			 ! bpb_is_preview_mode() ||
-			 ! bpb_is_front_library() ) ) {
+		if ( ! bpb_is_current_template_populated() && ! bpb_is_elementor_editor() ) {
 			return;
 		}
 
@@ -726,6 +734,17 @@ final class Plugin {
 		}
 
 		return (int) $installed_time;
+	}
+
+	/**
+	 * Check if has pro and has license
+	 *
+	 * @return boolean
+	 */
+	public function has_pro_license() {
+		return class_exists( '\Buddy_Builder_Pro\Plugin' ) &&
+			method_exists( \Buddy_Builder_Pro\Plugin::get_instance(), 'is_license_active' ) &&
+			\Buddy_Builder_Pro\Plugin::get_instance()->is_license_active();
 	}
 
 }

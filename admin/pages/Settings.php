@@ -118,7 +118,7 @@ class Settings extends Base {
 
 		$templates = apply_filters( 'buddy_builder/admin/templates_list', $templates );
 
-		// set active template
+		// Set active template
 		foreach ( $templates as $key => $item ) {
 			if ( isset( $settings['templates'][ $key ] ) ) {
 				$templates[ $key ]['template'] = (int) $settings['templates'][ $key ];
@@ -203,7 +203,7 @@ class Settings extends Base {
 		);
 
 		Helpers::load_template(
-			'admin/pages/templates/settings',
+			'admin/pages/templates/' . $this->current_slug,
 			[
 				'data' => $new_data,
 			]

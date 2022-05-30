@@ -506,7 +506,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'type'      => Controls_Manager::HIDDEN,
 				'default'   => '1',
 				'selectors' => [
-                    '{{WRAPPER}} #members-dir-list .bp-pagination.top .bp-pagination-links.top .page-numbers' => 'display: inline-block; float: left;',
+					'{{WRAPPER}} #members-dir-list .bp-pagination.top .bp-pagination-links.top .page-numbers' => 'display: inline-block; float: left;',
 				],
 				'condition' => [
 					'show_pag_top' => 'flex',
@@ -1234,9 +1234,9 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 				'members-directory/listing',
 				[
 					'columns' => [
-						'desktop' => $settings['columns'] ?? 3,
-						'tablet'  => $settings['columns_tablet'] ?? 2,
-						'mobile'  => $settings['columns_mobile'] ?? 1,
+						'desktop' => isset( $settings['columns'] ) && $settings['columns'] ? $settings['columns'] : 3,
+						'tablet'  => isset( $settings['columns_tablet'] ) && $settings['columns_tablet'] ? $settings['columns_tablet'] : 2,
+						'mobile'  => isset($settings['columns_mobile']) && $settings['columns_mobile'] ? $settings['columns_mobile'] : 1,
 					],
 				]
 			);

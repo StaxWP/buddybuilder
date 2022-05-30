@@ -121,56 +121,101 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 					],
 				],
 				'selectors' => [
-					'{{WRAPPER}} nav ul, {{WRAPPER}} #item-nav ul' => 'text-align: {{VALUE}}; display: block;',
+					'{{WRAPPER}} nav ul, {{WRAPPER}} #item-nav ul' => 'justify-content: {{VALUE}};',
 				],
-				'default'   => 'left',
+				'default'   => 'initial',
 			]
 		);
+
+        $this->add_responsive_control(
+            'nav_items_content_align',
+            [
+                'label'     => __( 'Content Align', 'stax-buddy-builder' ),
+                'type'      => Controls_Manager::CHOOSE,
+                'options'   => [
+                    'left'   => [
+                        'title' => __( 'Left', 'stax-buddy-builder' ),
+                        'icon'  => 'eicon-text-align-left',
+                    ],
+                    'center' => [
+                        'title' => __( 'Center', 'stax-buddy-builder' ),
+                        'icon'  => 'eicon-text-align-center',
+                    ],
+                    'right'  => [
+                        'title' => __( 'Right', 'stax-buddy-builder' ),
+                        'icon'  => 'eicon-text-align-right',
+                    ],
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} nav ul li, {{WRAPPER}} #item-nav ul li'            => 'flex: 100%;',
+                    '{{WRAPPER}} nav ul li a, {{WRAPPER}} #item-nav ul li a' => 'text-align: {{VALUE}};',
+                ],
+                'default'   => 'center',
+                'condition' => [
+                    'nav_display' => '100%',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'nav_items_content_align_left',
+            [
+                'label'     => __( 'Left space', 'stax-buddy-builder' ),
+                'type'      => Controls_Manager::HIDDEN,
+                'default'   => 'auto',
+                'selectors' => [
+                    '{{WRAPPER}} nav ul li a, {{WRAPPER}} #item-nav ul li a' => 'margin-right: {{VALUE}};',
+                ],
+                'condition' => [
+                    'nav_items_content_align' => 'left',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'nav_items_content_align_center',
+            [
+                'label'     => __( 'Left and right space', 'stax-buddy-builder' ),
+                'type'      => Controls_Manager::HIDDEN,
+                'default'   => 'auto',
+                'selectors' => [
+                    '{{WRAPPER}} nav ul li a, {{WRAPPER}} #item-nav ul li a' => 'margin: {{VALUE}};',
+                ],
+                'condition' => [
+                    'nav_items_content_align' => 'center',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'nav_items_content_align_right',
+            [
+                'label'     => __( 'Right space', 'stax-buddy-builder' ),
+                'type'      => Controls_Manager::HIDDEN,
+                'default'   => 'auto',
+                'selectors' => [
+                    '{{WRAPPER}} nav ul li a, {{WRAPPER}} #item-nav ul li a' => 'margin-left: {{VALUE}};',
+                ],
+                'condition' => [
+                    'nav_items_content_align' => 'right',
+                ],
+            ]
+        );
 
 		$this->add_control(
 			'nav_display',
 			[
 				'label'     => __( 'Display', 'stax-buddy-builder' ),
 				'type'      => Controls_Manager::SELECT,
-				'default'   => 'inline-block',
+				'default'   => 'initial',
 				'options'   => [
-					'inline-block' => __( 'Inline', 'stax-buddy-builder' ),
-					'block'        => __( 'Block', 'stax-buddy-builder' ),
+					'initial' => __( 'Inline', 'stax-buddy-builder' ),
+					'100%'        => __( 'Block', 'stax-buddy-builder' ),
 				],
 				'selectors' => [
 					'{{WRAPPER}} nav, {{WRAPPER}} #item-nav'                        => 'border-top: 0; border-bottom: 0; box-shadow: none;',
-					'{{WRAPPER}} nav ul, {{WRAPPER}} #item-nav ul'                  => 'padding: 0; margin: 0; height: auto; display: block;',
-					'{{WRAPPER}} nav ul li, {{WRAPPER}} #item-nav ul li'            => 'display: {{VALUE}}; float: none;',
-					'{{WRAPPER}} nav ul li a, {{WRAPPER}} #item-nav ul li a'        => 'display: inline-block;',
-				],
-			]
-		);
-
-		$this->add_responsive_control(
-			'nav_items_content_align',
-			[
-				'label'     => __( 'Content Align', 'stax-buddy-builder' ),
-				'type'      => Controls_Manager::CHOOSE,
-				'options'   => [
-					'left'   => [
-						'title' => __( 'Left', 'stax-buddy-builder' ),
-						'icon'  => 'eicon-text-align-left',
-					],
-					'center' => [
-						'title' => __( 'Center', 'stax-buddy-builder' ),
-						'icon'  => 'eicon-text-align-center',
-					],
-					'right'  => [
-						'title' => __( 'Right', 'stax-buddy-builder' ),
-						'icon'  => 'eicon-text-align-right',
-					],
-				],
-				'selectors' => [
-					'{{WRAPPER}} nav ul li a, {{WRAPPER}} #item-nav ul li a' => 'text-align: {{VALUE}};',
-				],
-				'default'   => 'center',
-				'condition' => [
-					'nav_display' => 'block',
+					'{{WRAPPER}} nav ul, {{WRAPPER}} #item-nav ul'                  => 'padding: 0; margin: 0; height: auto;',
+					'{{WRAPPER}} nav ul li, {{WRAPPER}} #item-nav ul li'            => 'flex: {{VALUE}};',
 				],
 			]
 		);
@@ -190,7 +235,7 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} nav ul li:last-child, {{WRAPPER}} #item-nav ul li:last-child' => 'margin-right: 0;',
 				],
 				'condition' => [
-					'nav_display' => 'inline-block',
+					'nav_display' => 'initial',
 				],
 			]
 		);
@@ -214,7 +259,7 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} nav ul li a, {{WRAPPER}} #item-nav ul li a' => 'width: {{SIZE}}%;',
 				],
 				'condition' => [
-					'nav_display' => 'block',
+					'nav_display' => '100%',
 				],
 			]
 		);
@@ -234,7 +279,7 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 					'{{WRAPPER}} nav ul li:last-child, {{WRAPPER}} #item-nav ul li:last-child' => 'margin-bottom: 0;',
 				],
 				'condition' => [
-					'nav_display' => 'block',
+					'nav_display' => '100%',
 				],
 			]
 		);

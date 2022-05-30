@@ -81,14 +81,15 @@ class Templates extends Base {
 					),
 					Module::IMPORT_NONCE_KEY
 				),
-				'image'       => 'https://demo.staxwp.com/elementor-buddybuilder/wp-content/uploads/sites/3/2020/05/STARTER-TEMPLATE-300x225.jpg',
+				'image'       => 'https://demo.staxwp.com/elementor-buddybuilder/wp-content/uploads/sites/3/2022/03/Starter-Kit.png',
+				'demo'        => 'https://demo.staxwp.com/buddybuilder-starter-kit/',
 			],
 		];
 
 		$templates = apply_filters( 'buddy_builder/admin/import_templates', $templates, $imported_templates );
 
 		Helpers::load_template(
-			'admin/pages/templates/templates',
+			'admin/pages/templates/' . $this->current_slug,
 			[
 				'templates' => $templates,
 			]

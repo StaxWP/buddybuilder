@@ -33,7 +33,6 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 		if ( bpb_is_elementor_editor() ) {
 			bpb_load_preview_template( 'sitewide-activity/filters' );
 		} else {
-			bp_nouveau_template_notices();
 			bp_get_template_part( 'common/search-and-filters-bar' );
 		}
 	}

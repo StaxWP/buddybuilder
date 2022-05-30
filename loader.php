@@ -5,7 +5,7 @@
  * Plugin URI: https://staxwp.com/go/buddybuilder/
  * Author: StaxWP
  * Author URI: https://staxwp.com
- * Version: 1.6.7
+ * Version: 1.7.0
  *
  * Elementor tested up to: 3.6.0
  * Elementor Pro tested up to: 3.6.0
@@ -13,7 +13,7 @@
  * Text Domain: stax-buddy-builder
  */
 
-define( 'BPB_VERSION', '1.6.7' );
+define( 'BPB_VERSION', '1.7.0' );
 define( 'BPB_HOOK_PREFIX', 'bpb_' );
 define( 'BPB_ADMIN_PREFIX', 'buddy-builder-' );
 
@@ -39,6 +39,11 @@ function buddy_builder() {
 	return \Buddy_Builder\Plugin::get_instance();
 }
 
+/**
+ * Plugin localization
+ *
+ * @return void
+ */
 function buddybuilder_load_plugin_textdomain() {
 	load_plugin_textdomain( 'stax-buddy-builder', false, basename( __DIR__ ) . '/languages/' );
 }

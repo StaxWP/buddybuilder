@@ -44,7 +44,7 @@ class GroupsListing extends \Buddy_Builder\Widgets\Base {
 				'go_pro_notice',
 				[
 					'type' => Controls_Manager::RAW_HTML,
-					'raw'  => Plugin::get_instance()->go_pro_template(
+					'raw'  => buddy_builder()->go_pro_template(
 						[
 							'title'    => __( 'BuddyBuilder PRO', 'stax-buddy-builder' ),
 							'messages' => [
@@ -602,8 +602,8 @@ class GroupsListing extends \Buddy_Builder\Widgets\Base {
 				'bp-list',
 				'grid',
 				bpb_get_column_class( $settings['columns'] ),
-				bpb_get_column_class( $settings['columns_tablet'], 'tablet' ),
-				bpb_get_column_class( $settings['columns_mobile'], 'mobile' ),
+				bpb_get_column_class( isset( $settings['columns_tablet'] ) ? $settings['columns_tablet'] : $settings['columns'], 'tablet' ),
+				bpb_get_column_class( isset( $settings['columns_mobile'] ) ? $settings['columns_mobile'] : $settings['columns'], 'mobile' ),
 			];
 		};
 
@@ -619,7 +619,6 @@ class GroupsListing extends \Buddy_Builder\Widgets\Base {
 
 		<div id="buddypress" class="buddypress-wrap bp-dir-hori-nav groups">
 			<?php bp_nouveau_before_groups_directory_content(); ?>
-			<?php bp_nouveau_template_notices(); ?>
 
 			<div class="screen-content">
 				<div id="groups-dir-list" class="groups dir-list" data-bp-list="">

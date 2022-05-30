@@ -29,7 +29,7 @@ class Base extends \Elementor\Widget_Base {
 		$template_type = get_post_meta( $post->ID, BuddyPress::REMOTE_CATEGORY_META_KEY, true );
 		$show          = false;
 
-		foreach ( Plugin::get_instance()->get_elements() as $element ) {
+		foreach ( buddy_builder()->get_elements() as $element ) {
 			if ( $element['name'] === $this->get_name() ) {
 				if ( ! isset( $element['template'] ) ) {
 					$show = true;
