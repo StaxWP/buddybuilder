@@ -1,10 +1,10 @@
 @font-face {
     font-family: 'stax-bb-line';
-    src:  url('../../../assets/fonts/stax-bb-line.eot?ih00gq');
-    src:  url('../../../assets/fonts/stax-bb-line.eot?ih00gq#iefix') format('embedded-opentype'),
-    url('../../../assets/fonts/stax-bb-line.ttf?ih00gq') format('truetype'),
-    url('../../../assets/fonts/stax-bb-line.woff?ih00gq') format('woff'),
-    url('../../../assets/fonts/stax-bb-line.svg?ih00gq#stax-bb-line') format('svg');
+    src:  url('../../../assets/fonts/stax-bb-line.eot?75mkc1');
+    src:  url('../../../assets/fonts/stax-bb-line.eot?75mkc1#iefix') format('embedded-opentype'),
+    url('../../../assets/fonts/stax-bb-line.ttf?75mkc1') format('truetype'),
+    url('../../../assets/fonts/stax-bb-line.woff?75mkc1') format('woff'),
+    url('../../../assets/fonts/stax-bb-line.svg?75mkc1#stax-bb-line') format('svg');
     font-weight: normal;
     font-style: normal;
     font-display: block;
@@ -23,6 +23,16 @@
     /* Better Font Rendering =========== */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+.bbl-post-update-form:before {
+    content: "\e92e";
+}
+.bbl-groups-tab-list:before {
+    content: "\e92c";
+}
+.bbl-members-tab-list:before {
+    content: "\e92d";
 }
 .bbl-status-message:before {
     content: "\e92b";

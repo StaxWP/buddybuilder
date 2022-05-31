@@ -15,6 +15,8 @@ $render        = bpb_is_template_populated( 'register-page' );
 		<div id="register-page"class="page register-page">
 
 				<?php if ( ! $render ) : ?>
+					<?php bp_nouveau_template_notices(); ?>
+
 					<?php bp_nouveau_user_feedback( bp_get_current_signup_step() ); ?>
 				<?php endif; ?>
 
