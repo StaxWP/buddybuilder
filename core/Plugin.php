@@ -548,6 +548,7 @@ final class Plugin {
 				'members-directory',
 				'group-profile',
 				'groups-directory',
+                'register-page',
 			],
 		];
 

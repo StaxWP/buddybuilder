@@ -4,7 +4,7 @@ Tags: elementor, buddypress, buddypress builder, buddypress elementor, elementor
 Requires at least: 5.0
 Requires PHP: 7.0
 Tested up to: 6.0
-Stable tag: 1.7.1
+Stable tag: 1.7.2
 License: GLPv2 or later
 
 Design, build and customize your BuddyPress site with Elementor builder.
@@ -93,6 +93,9 @@ Stax BuddyBuilder uses Appsero SDK to collect some telemetry data upon user's co
 3. **Infinite templates** but set the one that is active on the site
 
 == Changelog ==
+
+= 1.7.2 =
+* Upgrade Appsero SDK
 
 = 1.7.1 =
 * NOTICE: Version 1.7.0 removes the Notices code from templates and now it is available as a Widget for more customization freedom. After the update please add the Notices widget to Activity Directory, Members Directory, Groups Directory, Member Profile and Group profile templates.

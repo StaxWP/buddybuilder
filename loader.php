@@ -5,15 +5,15 @@
  * Plugin URI: https://staxwp.com/go/buddybuilder/
  * Author: StaxWP
  * Author URI: https://staxwp.com
- * Version: 1.7.1
+ * Version: 1.7.2
  *
- * Elementor tested up to: 3.6.0
- * Elementor Pro tested up to: 3.6.0
+ * Elementor tested up to: 3.7.5
+ * Elementor Pro tested up to: 3.7.11
  *
  * Text Domain: stax-buddy-builder
  */
 
-define( 'BPB_VERSION', '1.7.1' );
+define( 'BPB_VERSION', '1.7.2' );
 define( 'BPB_HOOK_PREFIX', 'bpb_' );
 define( 'BPB_ADMIN_PREFIX', 'buddy-builder-' );
 
