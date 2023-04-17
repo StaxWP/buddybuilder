@@ -141,9 +141,8 @@ class ActivityListing extends \Buddy_Builder\Widgets\Base {
 		$this->start_controls_section(
 			'load_more_section',
 			[
-				'label'      => __( 'Load More Button', 'stax-buddy-builder' ),
-				'tab'        => Controls_Manager::TAB_STYLE,
-				'conditions' => [],
+				'label' => __( 'Load More Button', 'stax-buddy-builder' ),
+				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
 

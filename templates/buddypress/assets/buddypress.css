@@ -2941,6 +2941,7 @@ body.buddypress.settings.data #buddypress.buddypress-wrap .item-body p a {
 .buddypress-wrap .standard-form [data-bp-search] input[type="text"],
 .buddypress-wrap .standard-form .groups-members-search input[type="search"],
 .buddypress-wrap .standard-form .groups-members-search input[type="text"] {
+  color: #718096;
   background: #f7fafc;
   border: 1px solid #e2e8f0;
   border-radius: 0;
@@ -2964,7 +2965,8 @@ body.buddypress.settings.data #buddypress.buddypress-wrap .item-body p a {
 .buddypress-wrap .standard-form select.invalid[required] {
   border-color: #b71717; }
 
-.buddypress-wrap .standard-form label .bp-required-field-label, .buddypress-wrap .standard-form legend .bp-required-field-label {
+.buddypress-wrap .standard-form label .bp-required-field-label,
+.buddypress-wrap .standard-form legend .bp-required-field-label {
   font-size: 82%;
   font-style: italic;
   opacity: 0.65; }
@@ -3041,7 +3043,7 @@ body.buddypress.settings.data #buddypress.buddypress-wrap .item-body p a {
   color: #737373;
   margin: 5px 0; }
 
-.buddypress-wrap .standard-form div.checkbox label:nth-child(n+2),
+.buddypress-wrap .standard-form div.checkbox label:nth-child(n + 2),
 .buddypress-wrap .standard-form div.radio div label {
   color: #737373;
   font-size: 100%;

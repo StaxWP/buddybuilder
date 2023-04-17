@@ -387,7 +387,6 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 				'conditions' => [
 					'relation' => 'and',
 					'terms'    => [
-
 						[
 							'name'     => 'content_display',
 							'operator' => '!in',

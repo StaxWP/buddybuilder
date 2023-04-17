@@ -5,10 +5,10 @@
  * Plugin URI: https://staxwp.com/go/buddybuilder/
  * Author: StaxWP
  * Author URI: https://staxwp.com
- * Version: 1.7.2
+ * Version: 1.7.3
  *
- * Elementor tested up to: 3.7.5
- * Elementor Pro tested up to: 3.7.11
+ * Elementor tested up to: 3.12
+ * Elementor Pro tested up to: 3.12
  *
  * Text Domain: stax-buddy-builder
  */

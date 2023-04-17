@@ -29,35 +29,35 @@ class BuddypressSettings extends Singleton {
 	 */
 	public function add_settings( \Buddy_Builder\Widgets\Base $widget ) {
 
-        $widget->start_controls_section(
-            'activity_items_section',
-            [
-                'label' => __( 'Activity Items', 'stax-buddy-builder' ),
-                'tab'   => Controls_Manager::TAB_STYLE,
-            ]
-        );
+		$widget->start_controls_section(
+			'activity_items_section',
+			[
+				'label' => __( 'Activity Items', 'stax-buddy-builder' ),
+				'tab'   => Controls_Manager::TAB_STYLE,
+			]
+		);
 
-        $widget->add_group_control(
-            Group_Control_Border::get_type(),
-            [
-                'name'     => 'activity_items_border',
-                'selector' => '{{WRAPPER}} .activity > ul.activity-list.item-list',
-            ]
-        );
+		$widget->add_group_control(
+			Group_Control_Border::get_type(),
+			[
+				'name'     => 'activity_items_border',
+				'selector' => '{{WRAPPER}} .activity > ul.activity-list.item-list',
+			]
+		);
 
-        $widget->add_control(
-            'activity_items_border_radius',
-            [
-                'label'      => __( 'Border Radius', 'stax-buddy-builder' ),
-                'type'       => Controls_Manager::DIMENSIONS,
-                'size_units' => [ 'px', '%', 'em' ],
-                'selectors'  => [
-                    '{{WRAPPER}} .activity > ul.activity-list.item-list' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                ],
-            ]
-        );
+		$widget->add_control(
+			'activity_items_border_radius',
+			[
+				'label'      => __( 'Border Radius', 'stax-buddy-builder' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px', '%', 'em' ],
+				'selectors'  => [
+					'{{WRAPPER}} .activity > ul.activity-list.item-list' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+			]
+		);
 
-        $widget->end_controls_section();
+		$widget->end_controls_section();
 
 		$widget->start_controls_section(
 			'activity_item_container_section',
@@ -139,9 +139,8 @@ class BuddypressSettings extends Singleton {
 		$widget->start_controls_section(
 			'load_more_section',
 			[
-				'label'      => __( 'Load More Button', 'stax-buddy-builder' ),
-				'tab'        => Controls_Manager::TAB_STYLE,
-				'conditions' => [],
+				'label' => __( 'Load More Button', 'stax-buddy-builder' ),
+				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
 
@@ -360,36 +359,36 @@ class BuddypressSettings extends Singleton {
 			]
 		);
 
-        $widget->add_responsive_control(
-            'load_more_btn_margin',
-            [
-                'label'      => __( 'Margin', 'stax-buddy-builder' ),
-                'type'       => Controls_Manager::DIMENSIONS,
-                'size_units' => [ 'px', 'em', '%' ],
-                'selectors'  => [
-                    '{{WRAPPER}} .load-more a'   => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                    '{{WRAPPER}} .load-newest a' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                ],
-            ]
-        );
+		$widget->add_responsive_control(
+			'load_more_btn_margin',
+			[
+				'label'      => __( 'Margin', 'stax-buddy-builder' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px', 'em', '%' ],
+				'selectors'  => [
+					'{{WRAPPER}} .load-more a'   => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'{{WRAPPER}} .load-newest a' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+			]
+		);
 		if ( function_exists( 'bpb_elementor_heading' ) ) {
 			bpb_elementor_heading( $widget, 'load_more_icon_heading', __( 'Loading icon', 'stax-buddy-builder' ) );
 		}
-        $widget->add_responsive_control(
-            'load_more_icon_spacing',
-            [
-                'label'     => __( 'Spacing', 'stax-buddy-builder' ),
-                'type'      => Controls_Manager::SLIDER,
-                'range'     => [
-                    'px' => [
-                        'max' => 50,
-                    ],
-                ],
-                'selectors' => [
-                    '{{WRAPPER}} nav ul li, {{WRAPPER}} .activity-list .load-more a.loading:after'                       => 'margin-left: {{SIZE}}{{UNIT}};'
-                ],
-            ]
-        );
+		$widget->add_responsive_control(
+			'load_more_icon_spacing',
+			[
+				'label'     => __( 'Spacing', 'stax-buddy-builder' ),
+				'type'      => Controls_Manager::SLIDER,
+				'range'     => [
+					'px' => [
+						'max' => 50,
+					],
+				],
+				'selectors' => [
+					'{{WRAPPER}} nav ul li, {{WRAPPER}} .activity-list .load-more a.loading:after'                       => 'margin-left: {{SIZE}}{{UNIT}};',
+				],
+			]
+		);
 
 		$widget->end_controls_section();
 	}
