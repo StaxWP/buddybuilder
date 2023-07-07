@@ -22,7 +22,10 @@
 
 					<?php if ( ! buddy_builder()->has_pro_license() && isset( $template['pro'] ) && $template['pro'] ) : ?>
 						<div class="ste-text-center ste-text-xs ste-my-4 ste-px-3 ste-text-neutral-500">
-							<?php esc_html_e( 'Please add your license key in order to be able to import this template.', 'stax-buddy-builder' ); ?>
+							<?php
+                            esc_html_e( 'Please add your license key in order to be able to import this template.',
+                                'stax-buddy-builder'
+                            ); ?>
 						</div>
 					<?php endif; ?>
 

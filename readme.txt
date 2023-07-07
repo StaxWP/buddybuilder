@@ -4,7 +4,7 @@ Tags: elementor, buddypress, buddypress builder, buddypress elementor, elementor
 Requires at least: 5.0
 Requires PHP: 7.0
 Tested up to: 6.2
-Stable tag: 1.7.3
+Stable tag: 1.7.4
 License: GLPv2 or later
 
 Design, build and customize your BuddyPress site with Elementor builder.
@@ -77,6 +77,9 @@ Elementor enhancements for Woocommerce to help you build stunning pages
 = Privacy Policy =
 Stax BuddyBuilder uses Appsero SDK to collect some telemetry data upon user's confirmation. This helps us to troubleshoot problems faster & make product improvements.
 
+= Found a bug? =
+You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team help validate, triage and handle any security vulnerabilities. [Report bug](https://patchstack.com/database/vdp/stax-buddy-builder).
+
 == Installation ==
 
 1. Upload the plugin to your 'wp-content/plugins' directory or install it directly from WP admin - Plugins - New
@@ -93,6 +96,9 @@ Stax BuddyBuilder uses Appsero SDK to collect some telemetry data upon user's co
 3. **Infinite templates** but set the one that is active on the site
 
 == Changelog ==
+
+= 1.7.4 =
+* Add security nonce check to settings page.
 
 = 1.7.3 =
 * Text color fix for input forms.
