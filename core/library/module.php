@@ -152,19 +152,56 @@ class Module extends BaseModule {
 	}
 
 	/**
+	 * Checks if template is visible
+	 *
+	 * @param int $template_id The template ID to check
+	 * @return bool
+	 */
+	protected function is_template_visible($template_id) {
+		$post = get_post($template_id);
+		
+		if (!$post) {
+			return false;
+		}
+
+		$visible = true;
+
+		// Check post status
+		if ('trash' === $post->post_status) {
+			$visible = false;
+		} elseif ('publish' !== $post->post_status && !current_user_can('edit_post', $template_id)) {
+			$visible = false;
+		}
+
+		// Verify post type
+		if ($post->post_type !== 'elementor_library') {
+			$visible = false;
+		}
+
+		// Check password protection
+		if (!empty($post->post_password)) {
+			$visible = false;
+		}
+
+		return apply_filters('buddy_builder/template/is_visible', $visible, $template_id);
+	}
+
+	/**
 	 * Register preview shortcode
 	 *
 	 * @param $atts
-	 *
 	 * @return string
 	 */
-	public function register_preview_shortcode( $atts ) {
-		if ( empty( $atts['id'] ) ) {
+	public function register_preview_shortcode($atts) {
+		if (empty($atts['id'])) {
 			return '';
 		}
 
-		$content = \Elementor\Plugin::instance()->frontend->get_builder_content( $atts['id'], true );
+		if (!$this->is_template_visible($atts['id'])) {
+			return '';
+		}
 
+		$content = \Elementor\Plugin::instance()->frontend->get_builder_content($atts['id'], true);
 		return $content;
 	}
 
@@ -172,18 +209,20 @@ class Module extends BaseModule {
 	 * Register shortcode.
 	 *
 	 * @param array $atts The shortcode attributes.
-	 *
 	 * @return mixed Content.
 	 * @since 1.0.0
 	 * @access public
 	 */
-	public function register_shortcode( $atts ) {
-		if ( empty( $atts['id'] ) ) {
+	public function register_shortcode($atts) {
+		if (empty($atts['id'])) {
 			return '';
 		}
 
-		$content = \Elementor\Plugin::instance()->frontend->get_builder_content_for_display( $atts['id'] );
+		if (!$this->is_template_visible($atts['id'])) {
+			return '';
+		}
 
+		$content = \Elementor\Plugin::instance()->frontend->get_builder_content_for_display($atts['id']);
 		return $content;
 	}
 

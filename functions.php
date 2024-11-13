@@ -533,9 +533,6 @@ function appsero_init_tracker_stax_buddy_builder() {
 	// Active insights
 	$client->insights()->init();
 
-	// Active automatic updater
-	$client->updater();
-
 }
 
 appsero_init_tracker_stax_buddy_builder();
