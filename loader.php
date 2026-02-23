@@ -47,7 +47,7 @@ function buddy_builder() {
 function buddybuilder_load_plugin_textdomain() {
 	load_plugin_textdomain( 'stax-buddy-builder', false, basename( __DIR__ ) . '/languages/' );
 }
-add_action( 'init', 'buddybuilder_load_plugin_textdomain' );
+add_action( 'init', 'buddybuilder_load_plugin_textdomain', 0 );
 
 /**
  * Initializes the Plugin application.
