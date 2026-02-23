@@ -535,4 +535,4 @@ function appsero_init_tracker_stax_buddy_builder() {
 
 }
 
-appsero_init_tracker_stax_buddy_builder();
+add_action( 'init', 'appsero_init_tracker_stax_buddy_builder' );
