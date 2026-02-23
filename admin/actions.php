@@ -60,14 +60,14 @@ do_action( BPB_HOOK_PREFIX . $current_slug . '_page_container_before' );
 					<?php if ( buddy_builder()->has_pro_license() ) : ?>
 						Thank you for your purchase and your support!
 						<br><br>
-						<a href="<?php echo esc_url( admin_url( 'options-general.php?page=wc_am_client_buddybuilder_dashboard' ) ); ?>"
+						<a href="<?php echo esc_url( admin_url( 'options-general.php?page=wc_am_client_25_dashboard' ) ); ?>"
 							class="ste-no-underline">
 							Manage License Key »
 						</a>
 					<?php else : ?>
 						<strong>Licence is not activated yet!</strong>
 						<br>
-						<a href="<?php echo esc_url( admin_url( 'options-general.php?page=wc_am_client_buddybuilder_dashboard' ) ); ?>"
+						<a href="<?php echo esc_url( admin_url( 'options-general.php?page=wc_am_client_25_dashboard' ) ); ?>"
 							class="ste-no-underline">
 							Add your License Key »
 						</a>
