@@ -1,99 +1,117 @@
 === BuddyPress Builder for Elementor - BuddyBuilder ===
 Contributors: staxwp, seventhqueen, codezz, rtynio, geowrge
-Tags: elementor, buddypress, buddypress builder, buddypress elementor, elementor buddypress
+Tags: elementor, buddypress, buddyboss, community builder, buddypress builder
 Requires at least: 5.0
 Requires PHP: 7.4
 Tested up to: 6.9
 Stable tag: 1.9.0
 License: GPLv2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Design, build and customize your BuddyPress site with Elementor builder.
+Build and customize your BuddyPress community site with Elementor — full drag & drop control.
 
 == Description ==
-BuddyBuilder gives you superpowers to create a stunning BuddyPress community built with Elementor.
-Create your own page structure, add widgets and customize all from Elementor Builder.
-We use a unique and smart approach to override default BuddyPress templates so you can design them as any regular page.
-You are no longer locked to a predefined design and you are free to build and customize your BuddyPress community site.
-Easy to use, deeply integrated in Elementor.
 
-= How BuddyBuilder can help you =
-- Have your own BuddyPress powered community on any theme, building yor own awesome design.
-- Use Elementor intuitive interface to create all of your BuddyPress pages with full control over design and structure.
-- Have full control over BuddyPress pages, build the whole design with Elementor widgets.
-- Easily import templates for all BuddyPress components for a quick start.
+BuddyBuilder lets you **design every BuddyPress page with Elementor** — member profiles, group pages, activity feeds, directories, and more. No code, no locked-in themes, full creative control.
 
-= What you can build with BuddyBuilder =
-- **Members Directory**
-- **Member Profile**
-- **Members Directory**
-- **Groups Directory**
-- **Group Page**
-- **Site Wide Activity**
+Instead of being limited to your theme's BuddyPress templates, BuddyBuilder overrides them with Elementor-powered layouts that you build yourself. Works with any theme, including BuddyBoss.
+
+= What you can build =
+- **Members Directory** — custom grid/list layout for your community members
+- **Member Profile** — fully designed profile page with Elementor widgets
+- **Groups Directory** — showcase all BuddyPress groups
+- **Group Page** — custom group layout with cover, activity, and members
+- **Site Wide Activity** — design the main activity feed
 
 = Use them anywhere on the site =
-- **Members Grid** - Elementor widget to show members in any page
-- **Groups Grid** - Elementor widget to show groups in any page
-- **Activity list** - Elementor widget to display activity entries in any page
+- **Members Grid** — Elementor widget to display members on any page
+- **Groups Grid** — Elementor widget to display groups on any page
+- **Activity List** — Elementor widget to show activity entries on any page
 
 = How does it work =
-1. Super simple to use, create a new Elementor template from the BuddyPress section.
-2. Select what BuddyPress component you are building(for example Member profile).
-3. Edit the Elementor template with our specific BuddyPress widgets especially built for the page you are designing.
-4. Save it and see your new design in action.
+1. Create a new Elementor template from the BuddyPress section
+2. Select the BuddyPress component you're building (e.g., Member Profile)
+3. Edit with our BuddyPress-specific Elementor widgets
+4. Save and see your new design live
 
-= BuddyPress Templates Kits =
-Get started right away with our **starter template** that you can import with a click of a button.
+= Starter Template Kits =
+Get started instantly with our **ready-made template kit** — import with a single click and customize from there.
 
-= Get more control with BuddyBuilder Pro =
+= BuddyBoss Compatible =
+BuddyBuilder works with both BuddyPress and BuddyBoss Platform, giving you full Elementor control over your community regardless of which platform you use.
+
+= Get more with BuddyBuilder Pro =
 
 **Pro Template Kits**
-Beautifully designed Templates have a stunning community with a click of a button
+Beautifully designed template kits — build a stunning community with one click.
 
-**BuddyPress Live notifications Elementor widget**
-Show anywhere, in your menu or in content, a notifications icon that automatically gets updated and shows latest notifications from your community.
+**Live Notifications Widget**
+Real-time notifications icon for your menu or content area — auto-updates with latest community notifications.
 
-**BuddyPress Live Messages Elementor widget**
-Show anywhere, in your menu or in content, a messages icon that automatically gets updated and shows latest messages.
+**Live Messages Widget**
+Real-time messages icon that shows latest private messages from your community.
 
 **Customize Activity Page**
-Build and style the activity/news feed. Total control over structure and design
+Full control over the activity/news feed — structure, design, and styling.
 
-**Customize Member page generated content**
-You have full control to style profile tabs content for Activity, Profile, Messages, Notification, Settings
+**Customize Member Profile Tabs**
+Style profile tab content for Activity, Profile, Messages, Notifications, and Settings.
 
-**Customize Group page content**
-You have full control to style group tabs Activity, Members, Invite, Manage.
+**Customize Group Page Tabs**
+Design group tabs for Activity, Members, Invite, and Manage sections.
 
-Get [Pro](https://staxwp.com/go/buddybuilder-pro) and take your community site to the next level
+Get [BuddyBuilder Pro](https://staxwp.com/go/buddybuilder-pro) and take your community to the next level.
 
 = More from StaxWP =
-- [Visibility Logic for Elementor - Plugin](https://wordpress.org/plugins/visibility-logic-elementor/)
-Hide or show Elementor widgets or section based on various conditions: User Meta, User IP, Browser, etc.
-- [Elementor Addons, Widgets & Enhancements - Plugin](https://staxwp.com/go/addons-for-elementor)
-Powerfull Elementor widgets to help you build stunning pages
-- [Woo Addons for Elementor - Plugin](https://staxwp.com/go/woo-addons-for-elementor/)
-Elementor enhancements for Woocommerce to help you build stunning pages
+- [Visibility Logic for Elementor](https://wordpress.org/plugins/visibility-logic-elementor/) — show or hide Elementor widgets based on conditions: user role, device, browser, ACF fields, and more.
+- [Elementor Addons & Widgets](https://staxwp.com/go/addons-for-elementor) — powerful Elementor widgets to help you build stunning pages.
+- [Woo Addons for Elementor](https://staxwp.com/go/woo-addons-for-elementor/) — Elementor enhancements for WooCommerce.
 
 = Privacy Policy =
-Stax BuddyBuilder uses Appsero SDK to collect some telemetry data upon user's confirmation. This helps us to troubleshoot problems faster & make product improvements.
+BuddyBuilder uses the Appsero SDK to collect telemetry data upon user confirmation. This helps us troubleshoot problems faster and make product improvements.
 
 = Found a bug? =
-You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team help validate, triage and handle any security vulnerabilities. [Report bug](https://patchstack.com/database/vdp/stax-buddy-builder).
+Report security bugs through the [Patchstack Vulnerability Disclosure Program](https://patchstack.com/database/vdp/stax-buddy-builder). The Patchstack team helps validate, triage, and handle any security vulnerabilities.
 
 == Installation ==
 
-1. Upload the plugin to your 'wp-content/plugins' directory or install it directly from WP admin - Plugins - New
+1. Upload the plugin to your `wp-content/plugins` directory or install directly from WP Admin → Plugins → Add New
 2. Activate the plugin
-3. Go to WP admin - BuddyBuilder
-4. Create new template for what component you need(for example Member profile)
-5. Build the template using the widget we provide for that component type
-6. Save the template and check your BuddyPress template
-7. That is it :)
+3. Go to WP Admin → BuddyBuilder
+4. Create a new template for the component you need (e.g., Member Profile)
+5. Build the template using our BuddyPress-specific widgets
+6. Save and check your BuddyPress pages — done!
+
+== Frequently Asked Questions ==
+
+= Does BuddyBuilder work with any theme? =
+Yes. BuddyBuilder overrides BuddyPress templates with Elementor layouts, so it works with any properly coded WordPress theme.
+
+= Is BuddyBoss supported? =
+Yes. BuddyBuilder is compatible with both BuddyPress and BuddyBoss Platform.
+
+= Do I need Elementor Pro? =
+No. BuddyBuilder works with the free version of Elementor. Elementor Pro is not required.
+
+= Can I use my own design instead of the starter templates? =
+Absolutely. The starter templates are optional — you can build everything from scratch using the Elementor editor.
+
+= Can I display members or groups on any page? =
+Yes. BuddyBuilder includes Members Grid, Groups Grid, and Activity List widgets that you can place on any Elementor page.
+
+= Does BuddyBuilder affect site performance? =
+No. BuddyBuilder only loads assets on pages where BuddyPress templates are active. It does not add overhead to other pages.
+
+= What does BuddyBuilder Pro add? =
+Pro adds live notifications and messages widgets, additional template kits, full activity page customization, and the ability to style all member profile and group page tabs.
+
+= Where can I get support? =
+Visit the [WordPress.org support forum](https://wordpress.org/support/plugin/stax-buddy-builder/) or our [website](https://staxwp.com/).
 
 == Screenshots ==
-1. **Drag & Drop** elements to build your BuddyPress components templates
-2. **Specific elements** for each BuddyPress page
-3. **Infinite templates** but set the one that is active on the site
+1. **Drag & Drop** — build your BuddyPress templates visually with Elementor
+2. **Specific Widgets** — dedicated BuddyPress widgets for each page type
+3. **Multiple Templates** — create unlimited templates and set the active one
 
 == Changelog ==
 
@@ -102,6 +120,7 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 * Compatibility: Elementor 3.35
 * Compatibility: PHP 7.4 minimum required
 * Fix: Translation loading moved to init hook for WordPress 6.7+ compatibility
+* Fix: Appsero early initialization causing translation notice
 * Fix: Readme tags reduced to 5 (WordPress.org limit)
 * Fix: License field corrected to GPLv2
 
@@ -276,4 +295,3 @@ Enable/disable the feature by editing the members/groups navigation widget
 If you want to contribute, go to our [GitHub Repository](https://github.com/staxwp/buddybuilder).
 
 You can also add a new language via [translate.wordpress.org](https://translate.wordpress.org/projects/wp-plugins/stax-buddy-builder).
-
