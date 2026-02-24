@@ -4,7 +4,7 @@ Tags: elementor, buddypress, buddyboss, community builder, buddypress builder
 Requires at least: 5.0
 Requires PHP: 7.4
 Tested up to: 6.9
-Stable tag: 1.9.0
+Stable tag: 1.9.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,6 +120,12 @@ Visit the [WordPress.org support forum](https://wordpress.org/support/plugin/sta
 3. **Multiple Templates** — create unlimited templates and set the active one
 
 == Changelog ==
+
+= 1.9.1 =
+* Fix: BuddyPress CSS not loading on frontend when template is active
+* Fix: PHP 8.x compatibility — null check on $wp->request
+* Update: BuddyPress Nouveau CSS updated to match BuddyPress 14.4.0
+* Compatibility: BuddyPress 14.4.0
 
 = 1.9.0 =
 * Compatibility: WordPress 6.9
