@@ -664,6 +664,12 @@ final class Plugin {
 		) {
 			wp_enqueue_style( 'stax-buddy-builder-front' );
 		}
+
+		// Always enqueue BuddyBuilder BP styles on the frontend when a template is active.
+		// This replaces the BP Nouveau CSS that gets dequeued by remove_buddypress_style().
+		if ( ! bpb_is_buddyboss() && bpb_is_current_template_populated() ) {
+			wp_enqueue_style( 'stax-buddy-builder-bp' );
+		}
 	}
 
 	/**

@@ -494,7 +494,7 @@ function bpb_get_page_slug() {
 	if ( ! isset( $_SERVER['SERVER_NAME'] ) ) {
 		global $wp;
 
-		$url = home_url( $wp->request );
+		$url = home_url( $wp ? $wp->request : '' );
 	} else {
 		if ( empty( $_SERVER['HTTPS'] ) ) {
 			$s = '';
