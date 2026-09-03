@@ -3,8 +3,8 @@ Contributors: staxwp, seventhqueen, codezz, rtynio, geowrge
 Tags: elementor, buddypress, buddyboss, community builder, buddypress builder
 Requires at least: 5.0
 Requires PHP: 7.4
-Tested up to: 7.0
-Stable tag: 1.9.1
+Tested up to: 7.1
+Stable tag: 1.9.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,6 +120,12 @@ Visit the [WordPress.org support forum](https://wordpress.org/support/plugin/sta
 3. **Multiple Templates** — create unlimited templates and set the active one
 
 == Changelog ==
+
+= 1.9.2 =
+* Compatibility: WordPress 7.1
+* Compatibility: Elementor 4.2.4
+* Compatibility: Elementor Pro 4.2.4
+* Fix: Updated Elementor widget registration to use the current widgets manager API while retaining the older registration fallback.
 
 = 1.9.1 =
 * Fix: BuddyPress CSS not loading on frontend when template is active
@@ -302,6 +308,11 @@ Enable/disable the feature by editing the members/groups navigation widget
 
 = 1.0.0 =
 * Initial release
+
+== Upgrade Notice ==
+
+= 1.9.2 =
+Elementor 4.2.4 compatibility update. Upgrade if you use Elementor 4.x or want the latest WordPress compatibility metadata.
 
 = Be a contributor =
 If you want to contribute, go to our [GitHub Repository](https://github.com/staxwp/buddybuilder).

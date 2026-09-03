@@ -51,7 +51,7 @@ class ElementorHooks extends Singleton {
 		}
 
 		add_action( 'elementor/elements/categories_registered', [ $this, 'categories_registered' ] );
-		add_action( 'elementor/widgets/widgets_registered', [ $this, 'widgets_registered' ] );
+		add_action( 'elementor/widgets/register', [ $this, 'widgets_registered' ] );
 		add_action( 'elementor/editor/after_enqueue_styles', [ $this, 'editor_css' ] );
 		add_action( 'elementor/editor/after_save', [ $this, 'save_buddypress_options' ], 10, 2 );
 
@@ -223,10 +223,14 @@ class ElementorHooks extends Singleton {
 	/**
 	 * Register elementor widgets
 	 */
-	public function widgets_registered() {
+	public function widgets_registered( $widgets_manager = null ) {
 		$elementor = \Elementor\Plugin::instance();
 
-		if ( isset( $elementor->widgets_manager ) && method_exists( $elementor->widgets_manager, 'register_widget_type' ) ) {
+		if ( null === $widgets_manager && isset( $elementor->widgets_manager ) ) {
+			$widgets_manager = $elementor->widgets_manager;
+		}
+
+		if ( $widgets_manager && ( method_exists( $widgets_manager, 'register' ) || method_exists( $widgets_manager, 'register_widget_type' ) ) ) {
 			include_once BPB_BASE_PATH . 'core/widgets/Base.php';
 
 			foreach ( buddy_builder()->get_elements() as $k => $element ) {
@@ -251,7 +255,12 @@ class ElementorHooks extends Singleton {
 
 					require_once $template_file;
 					$class_name = $element['class_base_namespace'] . $element['class'];
-					$elementor->widgets_manager->register_widget_type( new $class_name() );
+
+					if ( method_exists( $widgets_manager, 'register' ) ) {
+						$widgets_manager->register( new $class_name() );
+					} else {
+						$widgets_manager->register_widget_type( new $class_name() );
+					}
 				}
 			}
 		}
