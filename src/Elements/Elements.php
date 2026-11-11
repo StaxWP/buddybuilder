@@ -73,7 +73,7 @@ final class Elements {
 					'elementor_wrap'    => 'widget',
 					'labels'            => [
 						'basic'    => __( 'Settings', 'stax-buddy-builder' ),
-						'advanced' => __( 'Advanced', 'stax-buddy-builder' ),
+						'advanced' => __( 'More settings', 'stax-buddy-builder' ), // Not "Advanced": core already has an Advanced panel.
 						'empty'    => __( 'Nothing to show for this preview.', 'stax-buddy-builder' ),
 					],
 					'editor_query_args' => [
