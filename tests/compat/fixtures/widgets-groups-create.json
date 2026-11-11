@@ -1,0 +1,65 @@
+{
+    "name": "widgets-groups-create",
+    "title": "Every widget: groups-create",
+    "type": "groups-create",
+    "builder": "elementor",
+    "source": "synthetic: every element registered for this type in 1.9.2 / Pro 1.7.0, default settings",
+    "widgets": [
+        "bpb-groups-create-navigation",
+        "bpb-groups-create-form"
+    ],
+    "elementor_data": [
+        {
+            "id": "34d2b77",
+            "elType": "section",
+            "settings": {},
+            "isInner": false,
+            "elements": [
+                {
+                    "id": "b24dcf7",
+                    "elType": "column",
+                    "settings": {
+                        "_column_size": 100
+                    },
+                    "isInner": false,
+                    "elements": [
+                        {
+                            "id": "74ab7ca",
+                            "elType": "widget",
+                            "widgetType": "bpb-groups-create-navigation",
+                            "settings": {},
+                            "elements": [],
+                            "isInner": false
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "22a4188",
+            "elType": "section",
+            "settings": {},
+            "isInner": false,
+            "elements": [
+                {
+                    "id": "ff223ae",
+                    "elType": "column",
+                    "settings": {
+                        "_column_size": 100
+                    },
+                    "isInner": false,
+                    "elements": [
+                        {
+                            "id": "e015355",
+                            "elType": "widget",
+                            "widgetType": "bpb-groups-create-form",
+                            "settings": {},
+                            "elements": [],
+                            "isInner": false
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

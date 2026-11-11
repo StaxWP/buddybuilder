@@ -1,0 +1,125 @@
+{
+ "name": "s4-member-profile",
+ "title": "s4 member-profile",
+ "type": "member-profile",
+ "builder": "elementor",
+ "source": "KLEO 7 spike S4 (kleo7.test), post 48",
+ "elementor_data": [
+  {
+   "id": "s1",
+   "elType": "section",
+   "settings": [],
+   "elements": [
+    {
+     "id": "c1",
+     "elType": "column",
+     "settings": {
+      "_column_size": 100
+     },
+     "elements": [
+      {
+       "id": "w1",
+       "elType": "widget",
+       "widgetType": "bpb-profile-member-cover",
+       "settings": {
+        "overlay_background": ""
+       },
+       "elements": []
+      }
+     ]
+    }
+   ],
+   "isInner": false
+  },
+  {
+   "id": "s2",
+   "elType": "section",
+   "settings": [],
+   "elements": [
+    {
+     "id": "c2",
+     "elType": "column",
+     "settings": {
+      "_column_size": 25
+     },
+     "elements": [
+      {
+       "id": "w2",
+       "elType": "widget",
+       "widgetType": "bpb-profile-member-avatar",
+       "settings": {
+        "avatar_size": "full"
+       },
+       "elements": []
+      }
+     ]
+    },
+    {
+     "id": "c3",
+     "elType": "column",
+     "settings": {
+      "_column_size": 75
+     },
+     "elements": [
+      {
+       "id": "w3",
+       "elType": "widget",
+       "widgetType": "bpb-profile-member-username",
+       "settings": {
+        "username_type": "full_name",
+        "username_tag": "h2"
+       },
+       "elements": []
+      },
+      {
+       "id": "w4",
+       "elType": "widget",
+       "widgetType": "bpb-profile-member-meta",
+       "settings": [],
+       "elements": []
+      },
+      {
+       "id": "w5",
+       "elType": "widget",
+       "widgetType": "bpb-profile-member-buttons",
+       "settings": [],
+       "elements": []
+      }
+     ]
+    }
+   ],
+   "isInner": false
+  },
+  {
+   "id": "s3",
+   "elType": "section",
+   "settings": [],
+   "elements": [
+    {
+     "id": "c4",
+     "elType": "column",
+     "settings": {
+      "_column_size": 100
+     },
+     "elements": [
+      {
+       "id": "w6",
+       "elType": "widget",
+       "widgetType": "bpb-profile-member-navigation",
+       "settings": [],
+       "elements": []
+      },
+      {
+       "id": "w7",
+       "elType": "widget",
+       "widgetType": "bpb-profile-member-content",
+       "settings": [],
+       "elements": []
+      }
+     ]
+    }
+   ],
+   "isInner": false
+  }
+ ]
+}
