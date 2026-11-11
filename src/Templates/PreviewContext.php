@@ -240,6 +240,25 @@ final class PreviewContext {
 		$bp->is_item_admin         = bp_current_user_can( 'bp_moderate' ) || groups_is_user_admin( get_current_user_id(), $group_id );
 		$bp->is_item_mod           = (bool) groups_is_user_mod( get_current_user_id(), $group_id );
 
+		// As BP_Groups_Component::setup_current_group() does on a real group page.
+		$group->front_template = bp_groups_get_front_template( $group );
+		do_action_ref_array( 'bp_groups_set_current_group', [ $group ] );
+
+		if ( empty( $bp->groups->nav ) ) {
+			$bp->groups->nav = new \BP_Core_Nav( $group->id, $bp->groups->id );
+		}
+
+		// groups/single/home.php renders inside the single-group loop: the group template tags read it.
+		if ( bp_has_groups(
+			[
+				'include'     => [ $group->id ],
+				'show_hidden' => true,
+				'per_page'    => 1,
+			]
+		) ) {
+			bp_the_group();
+		}
+
 		self::setup_nav();
 	}
 

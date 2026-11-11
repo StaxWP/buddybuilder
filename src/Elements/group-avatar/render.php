@@ -17,7 +17,7 @@ $bpb_args = 'type=' . $attrs['avatar_size'];
 ?>
 <?php if ( ! bp_disable_group_avatar_uploads() ) : ?>
 	<div id="item-header-avatar">
-		<a href="<?php echo esc_url( bp_get_group_permalink() ); ?>"
+		<a href="<?php echo esc_url( function_exists( 'bp_get_group_url' ) ? bp_get_group_url( groups_get_current_group() ) : bp_get_group_permalink() ); ?>"
 			title="<?php echo esc_attr( bp_get_group_name() ); ?>">
 			<?php bp_group_avatar( $bpb_args ); ?>
 		</a>

@@ -153,6 +153,10 @@ if ( ! function_exists( 'bpb_render_general_loop' ) ) {
 			'groups'  => [ 'bp_get_groups_pagination_count', 'bp_get_groups_pagination_links' ],
 		];
 
+		// The 1.x loop hooks receive the Elementor widget settings (BuddyBuilder Pro 1.x reads its own keys there);
+		// block layouts fire the "/block" variants instead.
+		$hook = is_array( $settings ) ? 'template' : 'block';
+
 		add_filter( 'buddy_builder/has_template/pre', '__return_true' );
 		add_filter( 'bp_current_component', $current_component );
 
@@ -160,7 +164,7 @@ if ( ! function_exists( 'bpb_render_general_loop' ) ) {
 			add_filter( 'bp_nouveau_get_loop_classes', $loop_classes );
 		}
 
-		apply_filters( 'buddy_builder/' . $object . '-loop/before/template', $payload );
+		apply_filters( 'buddy_builder/' . $object . '-loop/before/' . $hook, $payload ); // phpcs:ignore WordPress.NamingConventions.ValidHookName
 
 		if ( isset( $pagination[ $object ] ) ) {
 			foreach ( $pagination[ $object ] as $hook ) {
@@ -215,7 +219,7 @@ if ( ! function_exists( 'bpb_render_general_loop' ) ) {
 
 		remove_filter( 'bp_current_component', $current_component );
 
-		apply_filters( 'buddy_builder/' . $object . '-loop/after/template', $payload );
+		apply_filters( 'buddy_builder/' . $object . '-loop/after/' . $hook, $payload ); // phpcs:ignore WordPress.NamingConventions.ValidHookName
 
 		if ( isset( $pagination[ $object ] ) ) {
 			foreach ( $pagination[ $object ] as $hook ) {
