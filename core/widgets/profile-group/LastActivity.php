@@ -13,6 +13,13 @@ use Elementor\Group_Control_Typography;
 
 class LastActivity extends \Buddy_Builder\Widgets\Base {
 
+	/**
+	 * Element rendered by this widget (src/Elements/group-last-activity).
+	 *
+	 * @var string
+	 */
+	protected $bpb_element = 'group-last-activity';
+
 	public function get_name() {
 		return 'bpb-profile-group-last-activity';
 	}
@@ -91,18 +98,11 @@ class LastActivity extends \Buddy_Builder\Widgets\Base {
 
 	protected function render() {
 		parent::render();
+
 		if ( bpb_is_elementor_editor() ) {
 			bpb_load_preview_template( 'profile-group/last-activity' );
 		} else {
-			?>
-			<div class="activity"
-				 data-livestamp="<?php bp_core_iso8601_date( bp_get_group_last_active( 0, [ 'relative' => false ] ) ); ?>">
-				<?php
-				/* translators: %s = last activity timestamp (e.g. "active 1 hour ago") */
-				printf( __( 'active %s', 'buddypress' ), bp_get_group_last_active() );
-				?>
-			</div>
-			<?php
+			$this->kit_render();
 		}
 	}
 

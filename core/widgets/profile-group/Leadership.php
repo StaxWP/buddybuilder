@@ -12,6 +12,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Leadership extends \Buddy_Builder\Widgets\Base {
 
+	/**
+	 * Element rendered by this widget (src/Elements/group-leadership).
+	 *
+	 * @var string
+	 */
+	protected $bpb_element = 'group-leadership';
+
 	public function get_name() {
 		return 'bpb-profile-group-leadership';
 	}
@@ -34,10 +41,11 @@ class Leadership extends \Buddy_Builder\Widgets\Base {
 
 	protected function render() {
 		parent::render();
+
 		if ( bpb_is_elementor_editor() ) {
 			bpb_load_preview_template( 'profile-group/leadership' );
 		} else {
-			bp_get_template_part( 'groups/single/parts/header-item-actions' );
+			$this->kit_render();
 		}
 	}
 

@@ -12,6 +12,13 @@ use Elementor\Group_Control_Typography;
 
 class Meta extends \Buddy_Builder\Widgets\Base {
 
+	/**
+	 * Element rendered by this widget (src/Elements/member-meta).
+	 *
+	 * @var string
+	 */
+	protected $bpb_element = 'member-meta';
+
 	public function get_name() {
 		return 'bpb-profile-member-meta';
 	}
@@ -102,7 +109,7 @@ class Meta extends \Buddy_Builder\Widgets\Base {
 		if ( bpb_is_elementor_editor() ) {
 			bpb_load_preview_template( 'profile-member/meta' );
 		} else {
-			\Buddy_Builder\Elements\Renderer::render_elementor( 'member-meta', [] );
+			$this->kit_render();
 		}
 	}
 

@@ -1,0 +1,48 @@
+{
+	"version": 1,
+	"name": "member-content",
+	"title": "Member content",
+	"category": "buddybuilder",
+	"icon": "text-page",
+	"description": "The member's current screen: activity, profile, friends, groups, messages.",
+	"keywords": [
+		"activity",
+		"profile",
+		"tabs",
+		"buddypress",
+		"buddybuilder"
+	],
+	"templateTypes": [
+		"member-profile"
+	],
+	"attributes": {},
+	"supports": {
+		"html": false,
+		"align": [
+			"wide",
+			"full"
+		],
+		"color": {
+			"background": true,
+			"text": true,
+			"link": true
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true
+		},
+		"__experimentalBorder": {
+			"radius": true,
+			"width": true,
+			"color": true
+		}
+	},
+	"legacy": {
+		"elementor": [
+			"bpb-profile-member-content"
+		]
+	}
+}

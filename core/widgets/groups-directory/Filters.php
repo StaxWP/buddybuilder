@@ -13,6 +13,13 @@ use Elementor\Group_Control_Typography;
 
 class Filters extends \Buddy_Builder\Widgets\Base {
 
+	/**
+	 * Element rendered by this widget (src/Elements/directory-filters).
+	 *
+	 * @var string
+	 */
+	protected $bpb_element = 'directory-filters';
+
 	public function get_name() {
 		return 'bpb-groups-directory-filters';
 	}
@@ -1082,18 +1089,11 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 
 	protected function render() {
 		parent::render();
-		$settings = $this->get_settings_for_display();
 
 		if ( bpb_is_elementor_editor() ) {
 			bpb_load_preview_template( 'groups-directory/filters' );
 		} else {
-			$has_list_toggle = ! in_array( $settings['content_display'], [ 9, 10, 13, 15 ], false );
-
-			if ( $has_list_toggle ) {
-				add_filter( 'buddy_builder/widget/filters/list_toggle/enabled', '__return_true' );
-			}
-
-			bp_get_template_part( 'common/search-and-filters-bar' );
+			$this->kit_render();
 		}
 	}
 

@@ -15,6 +15,13 @@ use Elementor\Group_Control_Typography;
 
 class ActivityListing extends \Buddy_Builder\Widgets\Base {
 
+	/**
+	 * Element rendered by this widget (src/Elements/activity-loop).
+	 *
+	 * @var string
+	 */
+	protected $bpb_element = 'activity-loop';
+
 	public function get_name() {
 		return 'bpb-general-activity-list';
 	}
@@ -366,44 +373,7 @@ class ActivityListing extends \Buddy_Builder\Widgets\Base {
 
 	protected function render() {
 		parent::render();
-		$settings = $this->get_settings_for_display();
-
-		$current_component = static function () {
-			return 'activity';
-		};
-
-		add_filter( 'buddy_builder/has_template/pre', '__return_true' );
-
-		add_filter( 'bp_current_component', $current_component );
-
-		apply_filters( 'buddy_builder/activity-loop/before/template', $settings );
-
-		do_action( 'bp_before_directory_activity' );
-
-		?>
-
-		<div id="buddypress" class="buddypress-wrap bp-dir-hori-nav activity">
-
-			<?php bp_nouveau_before_activity_directory_content(); ?>
-
-			<div class="screen-content">
-				<?php bp_nouveau_activity_hook( 'before_directory', 'list' ); ?>
-
-				<div id="activity-stream" class="activity" data-bp-list="">
-					<?php bp_get_template_part( 'activity/activity-loop' ); ?>
-				</div>
-
-				<?php bp_nouveau_after_activity_directory_content(); ?>
-
-			</div>
-		</div>
-
-		<?php
-		remove_filter( 'bp_current_component', $current_component );
-
-		apply_filters( 'buddy_builder/activity-loop/after/template', $settings );
-
-		remove_filter( 'buddy_builder/has_template/pre', '__return_true' );
+		$this->kit_render();
 	}
 
 }

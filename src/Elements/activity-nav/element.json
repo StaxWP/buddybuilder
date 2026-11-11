@@ -1,0 +1,46 @@
+{
+	"version": 1,
+	"name": "activity-nav",
+	"title": "Activity tabs",
+	"category": "buddybuilder",
+	"icon": "menu",
+	"description": "All / Friends / Groups / Mentions tabs of the activity directory.",
+	"keywords": [
+		"tabs",
+		"buddypress",
+		"buddybuilder"
+	],
+	"templateTypes": [
+		"sitewide-activity"
+	],
+	"attributes": {},
+	"supports": {
+		"html": false,
+		"align": [
+			"wide",
+			"full"
+		],
+		"color": {
+			"background": true,
+			"text": true,
+			"link": true
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true
+		},
+		"__experimentalBorder": {
+			"radius": true,
+			"width": true,
+			"color": true
+		}
+	},
+	"legacy": {
+		"elementor": [
+			"bpb-sitewide-navigation"
+		]
+	}
+}

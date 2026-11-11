@@ -14,6 +14,13 @@ use Elementor\Group_Control_Box_Shadow;
 
 class MembersListing extends \Buddy_Builder\Widgets\Base {
 
+	/**
+	 * Element rendered by this widget (src/Elements/members-loop).
+	 *
+	 * @var string
+	 */
+	protected $bpb_element = 'members-loop';
+
 	public function get_name() {
 		return 'bpb-general-members-list';
 	}
@@ -346,56 +353,7 @@ class MembersListing extends \Buddy_Builder\Widgets\Base {
 
 	protected function render() {
 		parent::render();
-		$settings = $this->get_settings_for_display();
-
-		$current_component = static function () {
-			return 'members';
-		};
-
-		add_filter( 'buddy_builder/has_template/pre', '__return_true' );
-
-		$loop_classes = static function () use ( $settings ) {
-			return [
-				'item-list',
-				'members-list',
-				'bp-list',
-				'grid',
-				bpb_get_column_class( $settings['columns'] ),
-				bpb_get_column_class( isset( $settings['columns_tablet'] ) ? $settings['columns_tablet'] : $settings['columns'], 'tablet' ),
-				bpb_get_column_class( isset( $settings['columns_mobile'] ) ? $settings['columns_mobile'] : $settings['columns'], 'mobile' ),
-			];
-		};
-
-		add_filter( 'bp_current_component', $current_component );
-		add_filter( 'bp_nouveau_get_loop_classes', $loop_classes );
-
-		apply_filters( 'buddy_builder/members-loop/before/template', $settings );
-
-		add_filter( 'bp_members_pagination_count', '__return_zero' );
-		add_filter( 'bp_get_members_pagination_links', '__return_zero' );
-		?>
-
-		<div id="buddypress" class="buddypress-wrap bp-dir-hori-nav members">
-			<?php bp_nouveau_before_members_directory_content(); ?>
-
-			<div class="screen-content">
-				<div id="members-dir-list" class="members dir-list" data-bp-list="">
-					<?php bp_get_template_part( 'members/members-loop' ); ?>
-				</div>
-
-				<?php bp_nouveau_after_members_directory_content(); ?>
-			</div>
-		</div>
-
-		<?php
-		remove_filter( 'bp_nouveau_get_loop_classes', $loop_classes );
-		remove_filter( 'bp_current_component', $current_component );
-
-		apply_filters( 'buddy_builder/members-loop/after/template', $settings );
-
-		remove_filter( 'bp_members_pagination_count', '__return_zero' );
-		remove_filter( 'bp_get_members_pagination_links', '__return_zero' );
-		remove_filter( 'buddy_builder/has_template/pre', '__return_true' );
+		$this->kit_render();
 	}
 
 }

@@ -8,6 +8,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Content extends \Buddy_Builder\Widgets\Base {
 
+	/**
+	 * Element rendered by this widget (src/Elements/activity-stream).
+	 *
+	 * @var string
+	 */
+	protected $bpb_element = 'activity-stream';
+
 	public function get_name() {
 		return 'bpb-sitewide-content';
 	}
@@ -30,18 +37,11 @@ class Content extends \Buddy_Builder\Widgets\Base {
 
 	protected function render() {
 		parent::render();
+
 		if ( bpb_is_elementor_editor() ) {
 			bpb_load_preview_template( 'sitewide-activity/content' );
 		} else {
-			bp_nouveau_activity_hook( 'before_directory', 'list' );
-
-			?>
-			<div id="activity-stream" class="activity" data-bp-list="activity">
-				<div id="bp-ajax-loader"><?php bp_nouveau_user_feedback( 'directory-activity-loading' ); ?></div>
-			</div>
-			<?php
-
-			bp_nouveau_after_activity_directory_content();
+			$this->kit_render();
 		}
 	}
 

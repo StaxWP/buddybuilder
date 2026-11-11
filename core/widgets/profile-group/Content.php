@@ -11,6 +11,13 @@ use Elementor\Controls_Manager;
 
 class Content extends \Buddy_Builder\Widgets\Base {
 
+	/**
+	 * Element rendered by this widget (src/Elements/group-content).
+	 *
+	 * @var string
+	 */
+	protected $bpb_element = 'group-content';
+
 	public function get_name() {
 		return 'bpb-profile-group-content';
 	}
@@ -60,24 +67,12 @@ class Content extends \Buddy_Builder\Widgets\Base {
 
 	protected function render() {
 		parent::render();
+
 		if ( bpb_is_elementor_editor() ) {
 			$template = bpb_load_preview_template( 'profile-group/content', [], false );
-			echo apply_filters( 'buddy_builder/widget/group-profile/preview', $template, $this );
+			echo apply_filters( 'buddy_builder/widget/group-profile/preview', $template, $this ); // phpcs:ignore WordPress.Security.EscapeOutput
 		} else {
-			?>
-			<div class="bp-wrap">
-				<div id="item-body" class="item-body">
-					<?php
-					/*
-					 * Returning a truthy value from the filter will effectively short-circuit the logic
-					 */
-					if ( apply_filters( 'buddy_builder/tpl/profile-group/content/render', true ) ) {
-						bp_nouveau_group_template_part();
-					}
-					?>
-				</div>
-			</div>
-			<?php
+			$this->kit_render();
 		}
 	}
 

@@ -12,6 +12,13 @@ use Elementor\Group_Control_Box_Shadow;
 
 class Avatar extends \Buddy_Builder\Widgets\Base {
 
+	/**
+	 * Element rendered by this widget (src/Elements/member-avatar).
+	 *
+	 * @var string
+	 */
+	protected $bpb_element = 'member-avatar';
+
 	public function get_name() {
 		return 'bpb-profile-member-avatar';
 	}
@@ -174,7 +181,7 @@ class Avatar extends \Buddy_Builder\Widgets\Base {
 		if ( bpb_is_elementor_editor() ) {
 			bpb_load_preview_template( 'profile-member/avatar' );
 		} else {
-			\Buddy_Builder\Elements\Renderer::render_elementor( 'member-avatar', $this->get_settings_for_display() );
+			$this->kit_render();
 		}
 	}
 

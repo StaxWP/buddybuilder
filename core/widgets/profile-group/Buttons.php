@@ -13,6 +13,13 @@ use Elementor\Group_Control_Typography;
 
 class Buttons extends \Buddy_Builder\Widgets\Base {
 
+	/**
+	 * Element rendered by this widget (src/Elements/group-buttons).
+	 *
+	 * @var string
+	 */
+	protected $bpb_element = 'group-buttons';
+
 	public function get_name() {
 		return 'bpb-profile-group-buttons';
 	}
@@ -826,10 +833,11 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 
 	protected function render() {
 		parent::render();
+
 		if ( bpb_is_elementor_editor() ) {
 			bpb_load_preview_template( 'profile-group/buttons' );
 		} else {
-			bp_nouveau_group_header_buttons();
+			$this->kit_render();
 		}
 	}
 

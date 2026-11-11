@@ -12,6 +12,13 @@ use Elementor\Group_Control_Typography;
 
 class Status extends \Buddy_Builder\Widgets\Base {
 
+	/**
+	 * Element rendered by this widget (src/Elements/group-status).
+	 *
+	 * @var string
+	 */
+	protected $bpb_element = 'group-status';
+
 	public function get_name() {
 		return 'bpb-profile-group-status';
 	}
@@ -111,18 +118,11 @@ class Status extends \Buddy_Builder\Widgets\Base {
 
 	protected function render() {
 		parent::render();
+
 		if ( bpb_is_elementor_editor() ) {
 			bpb_load_preview_template( 'profile-group/status' );
 		} else {
-			?>
-			<p class="highlight group-status">
-				<?php if ( bpb_is_buddyboss() ) : ?>
-					<?php echo bp_get_group_type(); ?>
-				<?php else : ?>
-					<?php echo bp_nouveau_the_group_meta( [ 'keys' => 'status' ] ); ?>
-				<?php endif; ?>
-			</p>
-			<?php
+			$this->kit_render();
 		}
 	}
 

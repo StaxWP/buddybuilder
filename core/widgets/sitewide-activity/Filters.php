@@ -8,6 +8,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Filters extends \Buddy_Builder\Widgets\Base {
 
+	/**
+	 * Element rendered by this widget (src/Elements/activity-filters).
+	 *
+	 * @var string
+	 */
+	protected $bpb_element = 'activity-filters';
+
 	public function get_name() {
 		return 'bpb-sitewide-filters';
 	}
@@ -30,10 +37,11 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 
 	protected function render() {
 		parent::render();
+
 		if ( bpb_is_elementor_editor() ) {
 			bpb_load_preview_template( 'sitewide-activity/filters' );
 		} else {
-			bp_get_template_part( 'common/search-and-filters-bar' );
+			$this->kit_render();
 		}
 	}
 

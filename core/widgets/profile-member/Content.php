@@ -11,6 +11,13 @@ use Elementor\Controls_Manager;
 
 class Content extends \Buddy_Builder\Widgets\Base {
 
+	/**
+	 * Element rendered by this widget (src/Elements/member-content).
+	 *
+	 * @var string
+	 */
+	protected $bpb_element = 'member-content';
+
 	public function get_name() {
 		return 'bpb-profile-member-content';
 	}
@@ -66,7 +73,7 @@ class Content extends \Buddy_Builder\Widgets\Base {
 			$template = bpb_load_preview_template( 'profile-member/content', [], false );
 			echo apply_filters( 'buddy_builder/widget/member-profile/preview', $template, $this ); // phpcs:ignore WordPress.Security.EscapeOutput
 		} else {
-			\Buddy_Builder\Elements\Renderer::render_elementor( 'member-content', [] );
+			$this->kit_render();
 		}
 	}
 

@@ -14,6 +14,13 @@ use Elementor\Group_Control_Typography;
 
 class Listing extends \Buddy_Builder\Widgets\Base {
 
+	/**
+	 * Element rendered by this widget (src/Elements/groups-listing).
+	 *
+	 * @var string
+	 */
+	protected $bpb_element = 'groups-listing';
+
 	public function get_name() {
 		return 'bpb-groups-directory-list';
 	}
@@ -1465,28 +1472,27 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 
 	protected function render() {
 		parent::render();
+
+		if ( bpb_is_elementor_editor() ) {
+			bpb_load_preview_template( 'groups-directory/listing', [ 'columns' => $this->preview_columns() ] );
+		} else {
+			$this->kit_render();
+		}
+	}
+
+	/**
+	 * Columns for the static editor preview (1.x defaults).
+	 *
+	 * @return array
+	 */
+	private function preview_columns() {
 		$settings = $this->get_settings_for_display();
 
-		?>
-		<?php if ( bpb_is_elementor_editor() ) : ?>
-			<?php
-			bpb_load_preview_template(
-				'groups-directory/listing',
-				[
-					'columns' => [
-						'desktop' => isset( $settings['columns'] ) && $settings['columns'] ? $settings['columns'] : 3,
-						'tablet'  => isset( $settings['columns_tablet'] ) && $settings['columns_tablet'] ? $settings['columns_tablet'] : 2,
-						'mobile'  => isset($settings['columns_mobile']) && $settings['columns_mobile'] ? $settings['columns_mobile'] : 1,
-					],
-				]
-			);
-			?>
-		<?php else : ?>
-			<div id="groups-dir-list" class="groups dir-list" data-bp-list="groups">
-				<div id="bp-ajax-loader"><?php bp_nouveau_user_feedback( 'directory-groups-loading' ); ?></div>
-			</div>
-		<?php endif; ?>
-		<?php
+		return [
+			'desktop' => isset( $settings['columns'] ) && $settings['columns'] ? $settings['columns'] : 3,
+			'tablet'  => isset( $settings['columns_tablet'] ) && $settings['columns_tablet'] ? $settings['columns_tablet'] : 2,
+			'mobile'  => isset( $settings['columns_mobile'] ) && $settings['columns_mobile'] ? $settings['columns_mobile'] : 1,
+		];
 	}
 
 }

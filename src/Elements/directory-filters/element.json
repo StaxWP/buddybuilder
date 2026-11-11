@@ -1,0 +1,75 @@
+{
+	"version": 1,
+	"name": "directory-filters",
+	"title": "Directory search and filters",
+	"category": "buddybuilder",
+	"icon": "filter",
+	"description": "Search, sort and grid/list toggle of the members or groups directory.",
+	"keywords": [
+		"search",
+		"sort",
+		"filter",
+		"buddypress",
+		"buddybuilder"
+	],
+	"templateTypes": [
+		"members-directory",
+		"groups-directory"
+	],
+	"attributes": {
+		"content_display": {
+			"type": "string",
+			"default": "1",
+			"control": "select",
+			"panel": "basic",
+			"label": "Show and order",
+			"options": {
+				"1": "List toggle > Search > Sort",
+				"2": "List toggle > Sort > Search",
+				"3": "List toggle > Search",
+				"4": "List toggle > Sort",
+				"5": "List toggle",
+				"6": "Search > Sort > List toggle",
+				"7": "Search > List toggle > Sort",
+				"8": "Search > List toggle",
+				"9": "Search > Sort",
+				"10": "Search",
+				"11": "Sort > List toggle > Search",
+				"12": "Sort > Search > List toggle",
+				"13": "Sort > Search",
+				"14": "Sort > List toggle",
+				"15": "Sort"
+			}
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": [
+			"wide",
+			"full"
+		],
+		"color": {
+			"background": true,
+			"text": true,
+			"link": true
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true
+		},
+		"__experimentalBorder": {
+			"radius": true,
+			"width": true,
+			"color": true
+		}
+	},
+	"legacy": {
+		"elementor": [
+			"bpb-members-directory-filters",
+			"bpb-groups-directory-filters"
+		]
+	}
+}

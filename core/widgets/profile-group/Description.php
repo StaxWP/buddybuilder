@@ -13,6 +13,13 @@ use Elementor\Group_Control_Typography;
 
 class Description extends \Buddy_Builder\Widgets\Base {
 
+	/**
+	 * Element rendered by this widget (src/Elements/group-description).
+	 *
+	 * @var string
+	 */
+	protected $bpb_element = 'group-description';
+
 	public function get_name() {
 		return 'bpb-profile-group-description';
 	}
@@ -91,18 +98,11 @@ class Description extends \Buddy_Builder\Widgets\Base {
 
 	protected function render() {
 		parent::render();
+
 		if ( bpb_is_elementor_editor() ) {
 			bpb_load_preview_template( 'profile-group/description' );
 		} else {
-			?>
-			<?php if ( ! bp_nouveau_groups_front_page_description() && bp_nouveau_group_has_meta( 'description' ) ) : ?>
-				<div class="desc-wrap">
-					<div class="group-description">
-						<?php bp_group_description(); ?>
-					</div>
-				</div>
-			<?php endif; ?>
-			<?php
+			$this->kit_render();
 		}
 	}
 

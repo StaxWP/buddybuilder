@@ -12,6 +12,13 @@ use Elementor\Group_Control_Typography;
 
 class LastActivity extends \Buddy_Builder\Widgets\Base {
 
+	/**
+	 * Element rendered by this widget (src/Elements/member-latest-update).
+	 *
+	 * @var string
+	 */
+	protected $bpb_element = 'member-latest-update';
+
 	public function get_name() {
 		return 'bpb-profile-member-last-activity';
 	}
@@ -128,21 +135,11 @@ class LastActivity extends \Buddy_Builder\Widgets\Base {
 
 	protected function render() {
 		parent::render();
+
 		if ( bpb_is_elementor_editor() ) {
 			bpb_load_preview_template( 'profile-member/activity-status' );
 		} else {
-			do_action( 'bp_before_member_header_meta' );
-			?>
-			<div id="item-meta">
-				<?php if ( bp_is_active( 'activity' ) ) : ?>
-					<div id="latest-update">
-						<?php bp_activity_latest_update( bp_displayed_user_id() ); ?>
-					</div>
-				<?php endif; ?>
-
-				<?php do_action( 'bp_profile_header_meta' ); ?>
-			</div>
-			<?php
+			$this->kit_render();
 		}
 	}
 

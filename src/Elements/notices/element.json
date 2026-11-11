@@ -1,0 +1,57 @@
+{
+	"version": 1,
+	"name": "notices",
+	"title": "BuddyPress notices",
+	"category": "buddybuilder",
+	"icon": "info",
+	"description": "Success and error messages after an action (saved settings, sent message...).",
+	"keywords": [
+		"messages",
+		"feedback",
+		"buddypress",
+		"buddybuilder"
+	],
+	"templateTypes": [],
+	"attributes": {
+		"type": {
+			"type": "string",
+			"default": "updated",
+			"control": "select",
+			"panel": "advanced",
+			"label": "Preview as",
+			"options": {
+				"updated": "Success",
+				"error": "Error"
+			}
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": [
+			"wide",
+			"full"
+		],
+		"color": {
+			"background": true,
+			"text": true,
+			"link": true
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true
+		},
+		"__experimentalBorder": {
+			"radius": true,
+			"width": true,
+			"color": true
+		}
+	},
+	"legacy": {
+		"elementor": [
+			"bpb-general-save-notification"
+		]
+	}
+}

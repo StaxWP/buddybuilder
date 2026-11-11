@@ -13,6 +13,13 @@ use Elementor\Group_Control_Box_Shadow;
 
 class Cover extends \Buddy_Builder\Widgets\Base {
 
+	/**
+	 * Element rendered by this widget (src/Elements/group-cover).
+	 *
+	 * @var string
+	 */
+	protected $bpb_element = 'group-cover';
+
 	public function get_name() {
 		return 'bpb-profile-group-cover';
 	}
@@ -563,128 +570,17 @@ class Cover extends \Buddy_Builder\Widgets\Base {
 	protected function render() {
 		parent::render();
 
-		$settings = $this->get_settings_for_display();
+		if ( ! bpb_is_elementor_editor() ) {
+			$this->kit_render();
 
-		$this->add_render_attribute( 'header-cover-bg-overlay', [ 'class' => 'cover-bg-overlay' ] );
-
-		if ( bpb_is_elementor_editor() ) {
-			$settings['cover_url'] = BPB_ASSETS_URL . 'img/profile-cover-preview.png';
-			bpb_load_preview_template( 'profile-group/cover', $settings );
-		} else {
-			if ( bpb_is_buddyboss() ) {
-				$group_link               = bp_get_group_permalink();
-				$admin_link               = trailingslashit( $group_link . 'admin' );
-				$group_cover_link         = trailingslashit( $admin_link . 'group-cover-image' );
-				$group_cover_image        = bp_attachments_get_attachment(
-					'url',
-					[
-						'object_dir' => 'groups',
-						'item_id'    => bp_get_group_id(),
-					]
-				);
-				$has_cover_image          = '';
-				$has_cover_image_position = '';
-				?>
-					<div id="cover-image-container">
-						<?php
-						if ( ! empty( $group_cover_image ) ) {
-							$group_cover_position = groups_get_groupmeta( bp_get_current_group_id(), 'bp_cover_position', true );
-							$has_cover_image      = ' has-cover-image';
-							if ( '' !== $group_cover_position ) {
-								$has_cover_image_position = 'has-position';
-							}
-						}
-						?>
-
-						<div id="header-cover-image" class="
-							<?php
-							echo $has_cover_image_position;
-							echo $has_cover_image;
-							?>
-							">
-									<?php
-									if ( bp_group_use_cover_image_header() ) {
-
-										if ( ! empty( $group_cover_image ) ) {
-											echo '<img class="header-cover-img" src="' . esc_url( $group_cover_image ) . '"' . ( '' !== $group_cover_position ? ' data-top="' . $group_cover_position . '"' : '' ) . ( '' !== $group_cover_position ? ' style="top: ' . $group_cover_position . 'px"' : '' ) . ' alt="" />';
-										}
-										?>
-										<?php if ( bp_is_item_admin() ) { ?>
-									<a href="<?php echo $group_cover_link; ?>" class="link-change-cover-image bp-tooltip" data-bp-tooltip-pos="right" data-bp-tooltip="<?php _e( 'Change Cover Photo', 'buddyboss' ); ?>">
-										<i class="bb-icon-edit-thin"></i>
-									</a>
-								<?php } ?>
-
-										<?php if ( ! empty( $group_cover_image ) && bp_is_item_admin() ) { ?>
-									<a href="#" class="position-change-cover-image bp-tooltip" data-bp-tooltip-pos="right" data-bp-tooltip="<?php _e( 'Reposition Cover Photo', 'buddyboss' ); ?>">
-										<i class="bb-icon-move"></i>
-									</a>
-									<div class="header-cover-reposition-wrap">
-										<a href="#" class="button small cover-image-cancel"><?php _e( 'Cancel', 'buddyboss' ); ?></a>
-										<a href="#" class="button small cover-image-save"><?php _e( 'Save Changes', 'buddyboss' ); ?></a>
-										<span class="drag-element-helper"><i class="bb-icon-menu"></i><?php _e( 'Drag to move cover photo', 'buddyboss' ); ?></span>
-										<img src="<?php echo esc_url( $group_cover_image ); ?>" alt="<?php _e( 'Cover photo', 'buddyboss' ); ?>" />
-									</div>
-								<?php } ?>
-									<?php } ?>
-						</div>
-					</div>
-				<?php
-			} else {
-				if ( isset( $settings['cover_advanced_settings'] ) && $settings['cover_advanced_settings'] ) {
-					$cover_url = bp_attachments_get_attachment(
-						'url',
-						[
-							'object_dir' => 'groups',
-							'item_id'    => bp_get_current_group_id(),
-						]
-					);
-
-					$settings['cover_url'] = $cover_url;
-				}
-				?>
-				<?php if ( isset( $settings['overlay_background'] ) && $settings['overlay_background'] && ! bpb_is_buddyboss() ) : ?>
-					<div <?php echo $this->get_render_attribute_string( 'header-cover-bg-overlay' ); ?>></div>
-				<?php endif; ?>
-				<div id="header-cover-image"></div>
-				<?php
-			}
+			return;
 		}
 
-		?>
-        <?php if ( isset( $settings['cover_url'] ) && ! bpb_is_buddyboss() ) : ?>
-			<style>
-                #header-cover-image {
-                    background-color: transparent !important;
-                }
-				#header-cover-image:before {
-                    content: "";
-                    position:  absolute;
-                    background-size: cover;
-                    top: 0;
-                    left: 0;
-                    bottom: 0;
-                    right: 0;
-				}
-			</style>
-		<?php endif; ?>
+		$settings              = $this->get_settings_for_display();
+		$settings['cover_url'] = BPB_ASSETS_URL . 'img/profile-cover-preview.png';
 
-		<?php if ( isset( $settings['cover_url'] ) && $settings['cover_url'] && ! bpb_is_buddyboss() ) : ?>
-			<style>
-				#header-cover-image {
-					position: relative;
-					overflow: hidden;
-					z-index: 0;
-					background-image: none !important;
-				}
-
-				#header-cover-image:before {
-					background: url(<?php echo esc_url( $settings['cover_url'] ); ?>);
-                    z-index: -1;
-				}
-			</style>
-		<?php endif; ?>
-		<?php
+		bpb_load_preview_template( 'profile-group/cover', $settings );
+		bpb_print_cover_styles( $settings['cover_url'], 'background' );
 	}
 
 }

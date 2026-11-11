@@ -12,6 +12,13 @@ use Elementor\Group_Control_Typography;
 
 class SaveNotification extends \Buddy_Builder\Widgets\Base {
 
+	/**
+	 * Element rendered by this widget (src/Elements/notices).
+	 *
+	 * @var string
+	 */
+	protected $bpb_element = 'notices';
+
 	public function get_name() {
 		return 'bpb-general-save-notification';
 	}
@@ -429,12 +436,12 @@ class SaveNotification extends \Buddy_Builder\Widgets\Base {
 
 	protected function render() {
 		parent::render();
-		$settings = $this->get_settings_for_display();
 
 		if ( bpb_is_elementor_editor() ) {
+			$settings = $this->get_settings_for_display();
 			bpb_load_preview_template( 'general/notifications', [ 'type' => $settings['type'] ] );
 		} else {
-			bp_nouveau_template_notices();
+			$this->kit_render();
 		}
 	}
 

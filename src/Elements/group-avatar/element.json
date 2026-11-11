@@ -1,0 +1,58 @@
+{
+	"version": 1,
+	"name": "group-avatar",
+	"title": "Group avatar",
+	"category": "buddybuilder",
+	"icon": "format-image",
+	"description": "Photo of the current group.",
+	"keywords": [
+		"photo",
+		"buddypress",
+		"buddybuilder"
+	],
+	"templateTypes": [
+		"group-profile"
+	],
+	"attributes": {
+		"avatar_size": {
+			"type": "string",
+			"default": "full",
+			"control": "select",
+			"panel": "basic",
+			"label": "Size",
+			"options": {
+				"thumb": "Thumb",
+				"full": "Full"
+			}
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": [
+			"wide",
+			"full"
+		],
+		"color": {
+			"background": true,
+			"text": true,
+			"link": true
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true
+		},
+		"__experimentalBorder": {
+			"radius": true,
+			"width": true,
+			"color": true
+		}
+	},
+	"legacy": {
+		"elementor": [
+			"bpb-profile-group-avatar"
+		]
+	}
+}

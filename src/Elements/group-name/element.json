@@ -1,0 +1,49 @@
+{
+	"version": 1,
+	"name": "group-name",
+	"title": "Group name",
+	"category": "buddybuilder",
+	"icon": "groups",
+	"description": "Name of the current group.",
+	"keywords": [
+		"title",
+		"heading",
+		"buddypress",
+		"buddybuilder"
+	],
+	"templateTypes": [
+		"group-profile"
+	],
+	"attributes": {},
+	"supports": {
+		"html": false,
+		"align": [
+			"wide",
+			"full"
+		],
+		"color": {
+			"background": true,
+			"text": true,
+			"link": true
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"textAlign": true
+		},
+		"__experimentalBorder": {
+			"radius": true,
+			"width": true,
+			"color": true
+		}
+	},
+	"legacy": {
+		"elementor": [
+			"bpb-profile-group-name"
+		]
+	}
+}

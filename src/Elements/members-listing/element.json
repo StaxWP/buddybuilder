@@ -1,0 +1,87 @@
+{
+	"version": 1,
+	"name": "members-listing",
+	"title": "Members directory list",
+	"category": "buddybuilder",
+	"icon": "groups",
+	"description": "The members list of the members directory (loaded by BuddyPress).",
+	"keywords": [
+		"members",
+		"grid",
+		"buddypress",
+		"buddybuilder"
+	],
+	"templateTypes": [
+		"members-directory"
+	],
+	"attributes": {
+		"columns": {
+			"type": "integer",
+			"default": 3,
+			"control": "select",
+			"panel": "basic",
+			"label": "Columns",
+			"options": {
+				"1": "1",
+				"2": "2",
+				"3": "3",
+				"4": "4"
+			}
+		},
+		"columns_tablet": {
+			"type": "integer",
+			"default": 2,
+			"control": "select",
+			"panel": "advanced",
+			"label": "Columns (tablet)",
+			"options": {
+				"1": "1",
+				"2": "2",
+				"3": "3",
+				"4": "4"
+			}
+		},
+		"columns_mobile": {
+			"type": "integer",
+			"default": 1,
+			"control": "select",
+			"panel": "advanced",
+			"label": "Columns (mobile)",
+			"options": {
+				"1": "1",
+				"2": "2",
+				"3": "3",
+				"4": "4"
+			}
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": [
+			"wide",
+			"full"
+		],
+		"color": {
+			"background": true,
+			"text": true,
+			"link": true
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true
+		},
+		"__experimentalBorder": {
+			"radius": true,
+			"width": true,
+			"color": true
+		}
+	},
+	"legacy": {
+		"elementor": [
+			"bpb-members-directory-list"
+		]
+	}
+}

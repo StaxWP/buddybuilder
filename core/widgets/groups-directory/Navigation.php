@@ -13,6 +13,13 @@ use Elementor\Group_Control_Typography;
 
 class Navigation extends \Buddy_Builder\Widgets\Base {
 
+	/**
+	 * Element rendered by this widget (src/Elements/directory-nav).
+	 *
+	 * @var string
+	 */
+	protected $bpb_element = 'directory-nav';
+
 	public function get_name() {
 		return 'bpb-groups-directory-navigation';
 	}
@@ -862,10 +869,11 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 
 	protected function render() {
 		parent::render();
+
 		if ( bpb_is_elementor_editor() ) {
 			bpb_load_preview_template( 'groups-directory/navigation' );
-		} elseif ( ! bp_nouveau_is_object_nav_in_sidebar() ) {
-			bp_get_template_part( 'common/nav/directory-nav' );
+		} else {
+			$this->kit_render();
 		}
 	}
 

@@ -12,6 +12,13 @@ use Elementor\Group_Control_Box_Shadow;
 
 class Avatar extends \Buddy_Builder\Widgets\Base {
 
+	/**
+	 * Element rendered by this widget (src/Elements/group-avatar).
+	 *
+	 * @var string
+	 */
+	protected $bpb_element = 'group-avatar';
+
 	public function get_name() {
 		return 'bpb-profile-group-avatar';
 	}
@@ -159,21 +166,11 @@ class Avatar extends \Buddy_Builder\Widgets\Base {
 
 	protected function render() {
 		parent::render();
+
 		if ( bpb_is_elementor_editor() ) {
 			bpb_load_preview_template( 'profile-group/avatar' );
 		} else {
-			$settings = $this->get_settings_for_display();
-			$args     = 'type=' . $settings['avatar_size'];
-			?>
-			<?php if ( ! bp_disable_group_avatar_uploads() ) : ?>
-				<div id="item-header-avatar">
-					<a href="<?php echo esc_url( bp_get_group_permalink() ); ?>"
-					   title="<?php echo esc_attr( bp_get_group_name() ); ?>">
-						<?php bp_group_avatar( $args ); ?>
-					</a>
-				</div>
-			<?php endif; ?>
-			<?php
+			$this->kit_render();
 		}
 	}
 
