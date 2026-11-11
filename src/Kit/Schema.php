@@ -6,7 +6,7 @@
  *
  * @package Buddy_Builder\Kit
  *
- * Synced from k-elements@677b5ac (src/Kit) by bin/sync-kit.sh, do not edit.
+ * Synced from k-elements@1cfbcd7 (src/Kit) by bin/sync-kit.sh, do not edit.
  */
 
 namespace Buddy_Builder\Kit;
@@ -78,6 +78,58 @@ final class Schema {
 		}
 
 		return $errors;
+	}
+
+	/**
+	 * Translatable strings of a schema (title, description, keywords, emptyHint, labels, help,
+	 * static option labels, string defaults marked "translate": true). Used to generate a PHP file
+	 * of __() calls, so the strings reach the POT file (see K Elements bin/element-strings.php).
+	 *
+	 * @param array $schema Schema as read from element.json.
+	 * @return string[]
+	 */
+	public static function strings( array $schema ) {
+		$out = array();
+
+		foreach ( array( 'title', 'description', 'emptyHint' ) as $key ) {
+			if ( ! empty( $schema[ $key ] ) ) {
+				$out[] = (string) $schema[ $key ];
+			}
+		}
+		foreach ( isset( $schema['keywords'] ) ? (array) $schema['keywords'] : array() as $keyword ) {
+			$out[] = (string) $keyword;
+		}
+		foreach ( isset( $schema['variations'] ) ? (array) $schema['variations'] : array() as $variation ) {
+			if ( ! empty( $variation['title'] ) ) {
+				$out[] = (string) $variation['title'];
+			}
+		}
+
+		foreach ( self::attributes( $schema ) as $def ) {
+			foreach ( array( 'label', 'help' ) as $key ) {
+				if ( ! empty( $def[ $key ] ) ) {
+					$out[] = (string) $def[ $key ];
+				}
+			}
+			if ( ! empty( $def['translate'] ) && is_string( isset( $def['default'] ) ? $def['default'] : null ) && '' !== $def['default'] ) {
+				$out[] = $def['default'];
+			}
+			foreach ( isset( $def['options'] ) && is_array( $def['options'] ) ? $def['options'] : array() as $value => $option ) {
+				$out[] = (string) ( is_array( $option ) ? $option['label'] : $option );
+			}
+		}
+
+		// Numbers ("1".."4" column labels) are not translatable text.
+		return array_values(
+			array_unique(
+				array_filter(
+					$out,
+					static function ( $text ) {
+						return '' !== trim( $text ) && ! is_numeric( $text );
+					}
+				)
+			)
+		);
 	}
 
 	/**

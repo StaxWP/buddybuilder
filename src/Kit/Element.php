@@ -6,7 +6,7 @@
  *
  * @package Buddy_Builder\Kit
  *
- * Synced from k-elements@677b5ac (src/Kit) by bin/sync-kit.sh, do not edit.
+ * Synced from k-elements@1cfbcd7 (src/Kit) by bin/sync-kit.sh, do not edit.
  */
 
 namespace Buddy_Builder\Kit;
@@ -96,7 +96,7 @@ final class Element {
 	}
 
 	/**
-	 * Schema with "optionsFrom" resolved to "options".
+	 * Schema with "optionsFrom" resolved to "options" and "translate" defaults translated.
 	 *
 	 * @return array
 	 */
@@ -108,6 +108,10 @@ final class Element {
 					$schema['attributes'][ $key ]['options'] = $this->kit->options( $def['optionsFrom'] );
 				} elseif ( isset( $def['options'] ) ) {
 					$schema['attributes'][ $key ]['options'] = Kit::option_list( (array) $def['options'] );
+				}
+				// Text defaults marked "translate" follow the site language (unchanged defaults are not saved).
+				if ( ! empty( $def['translate'] ) && isset( $def['default'] ) && is_string( $def['default'] ) ) {
+					$schema['attributes'][ $key ]['default'] = $this->kit->t( $def['default'] );
 				}
 			}
 			$this->resolved = $schema;
@@ -161,7 +165,8 @@ final class Element {
 		$ver = $this->kit->config( 'version' );
 
 		if ( $this->style_handle() ) {
-			wp_register_style( $this->style_handle(), $url . $this->schema['style'], array(), $ver );
+			$deps = isset( $this->schema['styleDeps'] ) ? (array) $this->schema['styleDeps'] : array();
+			wp_register_style( $this->style_handle(), $url . $this->schema['style'], $deps, $ver );
 			wp_style_add_data( $this->style_handle(), 'path', $this->dir . '/' . $this->schema['style'] );
 		}
 

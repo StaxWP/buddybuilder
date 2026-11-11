@@ -1,4 +1,4 @@
-/* Synced from k-elements@677b5ac (src/Kit) by bin/sync-kit.sh, do not edit. */
+/* Synced from k-elements@1cfbcd7 (src/Kit) by bin/sync-kit.sh, do not edit. */
 /**
  * Element kit: generic block editor UI for every element (shared with BuddyBuilder).
  *

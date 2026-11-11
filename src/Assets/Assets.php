@@ -74,8 +74,8 @@ final class Assets {
 	/**
 	 * Per template type BuddyPress styles (task 10): the page loads only the sections of the Nouveau fork its type
 	 * needs (templates/buddypress/assets/parts, built by bin/split-css.py, order kept). Same handle, so the BuddyPress
-	 * cover image inline CSS still attaches to it. Off until the compatibility pixel diffs pass with it on:
-	 * add_filter( 'buddy_builder/split_css', '__return_true' ).
+	 * cover image inline CSS still attaches to it. On by default (the compatibility suite passed with it on and off);
+	 * turn it off with add_filter( 'buddy_builder/split_css', '__return_false' ).
 	 */
 	public static function split_bp_styles() {
 		/**
@@ -83,7 +83,7 @@ final class Assets {
 		 *
 		 * @param bool $split Split.
 		 */
-		if ( bpb_is_buddyboss() || ! apply_filters( 'buddy_builder/split_css', false ) ) {
+		if ( bpb_is_buddyboss() || ! apply_filters( 'buddy_builder/split_css', true ) ) {
 			return;
 		}
 
