@@ -1,16 +1,18 @@
 #!/bin/bash
 # Update in place and roll back (inventory 14.3, 14.6) on a THROWAWAY site whose Free plugin folder is a git clone.
 #
-#   NODE_PATH=... tests/compat/bin/upgrade.sh <wp-cli wrapper> <site url> <plugins dir> <from ref> <to ref> <out dir>
+#   NODE_PATH=... tests/compat/bin/upgrade.sh <wp-cli wrapper> <site url> <plugins dir> <from ref> <to ref> <out dir> [<expected ref>]
 #   e.g. upgrade.sh ~/Sites/kleo7-bbcompat/tools/wp http://kleo7-bbcompat.test \
 #          ~/Sites/kleo7-bbcompat/public/wp-content/plugins 1ea71dd 2.0 /tmp/upgrade-192
 #
 # 1. <from>: assigns the starter-kit fixtures in bpb_settings (the real option, as a 1.x site has it), removes any
 #    2.x state, snapshots the assigned pages (run.js --assigned).
 # 2. <to>: loads WordPress once as an admin request would (migrations run), checks bpb_templates, snapshots, compares.
+#    With <expected ref> (e.g. 1.9.2 when updating from 1.8.0, whose markup 1.9.x already changed), <to> is
+#    compared with a snapshot of <expected ref> taken with the same options instead of with <from>.
 # 3. wp buddybuilder migrate --rollback=1.9.2, back to <from>: checks the 2.x options are gone, snapshots, compares.
 set -u
-WP="$1"; SITE="$2"; PLUGINS="$3"; FROM="$4"; TO="$5"; OUT="$6"
+WP="$1"; SITE="$2"; PLUGINS="$3"; FROM="$4"; TO="$5"; OUT="$6"; EXPECT="${7:-}"
 FREE="$PLUGINS/stax-buddy-builder"
 HERE=$(cd "$(dirname "$0")/.." && pwd)
 orig=$(git -C "$FREE" rev-parse HEAD)
@@ -34,6 +36,13 @@ co "$FROM"
 	foreach ( [ "bpb_templates", "bpb_migrations", "bpb_db_version", "bpb_migrations_checked", "bpb_migration_backup_2.0.0-a" ] as $o ) { delete_option( $o ); }
 ' >/dev/null 2>&1
 run from
+REF=from
+if [ -n "$EXPECT" ]; then
+	co "$EXPECT"
+	run expected
+	REF=expected
+	co "$FROM"
+fi
 
 co "$TO"
 # What the first admin page view after the update does (admin_init -> Runner::maybe_run_on_update).
@@ -42,8 +51,8 @@ reg=$("$WP" eval 'echo wp_json_encode( get_option( "bpb_templates" ) );' 2>/dev/
 echo "bpb_templates after update: $reg"
 check "registry migrated on first admin request" "$(echo "$reg" | grep -q '"member-profile":{"builder":"elementor"' && echo ok || echo missing)"
 run to
-node "$HERE/compare.js" "$OUT/from" "$OUT/to" --report "$OUT/from-to.md" | sed -n 3p
-node "$HERE/compare.js" "$OUT/from" "$OUT/to" --report "$OUT/from-to.md" >/dev/null || fail=1
+node "$HERE/compare.js" "$OUT/$REF" "$OUT/to" --report "$OUT/$REF-to.md" | sed -n 3p
+node "$HERE/compare.js" "$OUT/$REF" "$OUT/to" --report "$OUT/$REF-to.md" >/dev/null || fail=1
 
 "$WP" buddybuilder migrate --rollback=1.9.2 2>/dev/null | tail -2
 co "$FROM"
