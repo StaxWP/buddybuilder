@@ -1214,7 +1214,7 @@ body.friends.my-friends .bpb-settings-container > .subnav-filters {
 .buddypress-wrap .subnav-filters .dir-search {
   float: none; }
 
-.elementor-widget-bpb-profile-group-status p.group-status {
+.elementor-widget-bpb-profile-group-status p.group-status/*bpb-alias*/,.bpb-el-group-status p.group-status/*/bpb-alias*/ {
   margin: 0; }
 
 .bbp-topic-form .medium-editor-element:not(.emojionearea) {

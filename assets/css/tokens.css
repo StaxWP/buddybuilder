@@ -1,0 +1,52 @@
+/*
+ * BuddyBuilder design tokens for block layouts. Each token falls back to the theme.json presets (KLEO 7 and any block
+ * theme), then to neutral values. Override any --bpb-* property in your theme.
+ */
+:root {
+	--bpb-color-text: var(--wp--preset--color--contrast, #1d2327);
+	--bpb-color-muted: var(--wp--preset--color--contrast-2, #646970);
+	--bpb-color-surface: var(--wp--preset--color--base, #fff);
+	--bpb-color-surface-2: var(--wp--preset--color--base-2, #f6f7f8);
+	--bpb-color-accent: var(--wp--preset--color--accent, #2271b1);
+	--bpb-color-accent-contrast: var(--wp--preset--color--accent-contrast, #fff);
+	--bpb-color-border: var(--wp--preset--color--border, #dcdcde);
+	--bpb-radius: var(--wp--custom--kleo--radius--md, 8px);
+	--bpb-gap: var(--wp--preset--spacing--30, 1rem);
+	--bpb-cover-height: 260px;
+	--bpb-avatar-size: 150px;
+}
+
+:is(.bpb-template, .editor-styles-wrapper) .bpb-el-member-cover #header-cover-image,
+:is(.bpb-template, .editor-styles-wrapper) .bpb-el-group-cover #header-cover-image {
+	min-height: var(--bpb-cover-height);
+	border-radius: var(--bpb-radius);
+	background-color: var(--bpb-color-surface-2);
+}
+
+:is(.bpb-template, .editor-styles-wrapper) .bpb-el-member-avatar img,
+:is(.bpb-template, .editor-styles-wrapper) .bpb-el-group-avatar img {
+	width: var(--bpb-avatar-size);
+	height: auto;
+	border-radius: 50%;
+	border: 4px solid var(--bpb-color-surface);
+}
+
+:is(.bpb-template, .editor-styles-wrapper) .bpb-el-member-username .user-nicename,
+:is(.bpb-template, .editor-styles-wrapper) .bpb-el-group-name .bpb-group-name {
+	margin: 0;
+	color: var(--bpb-color-text);
+}
+
+:is(.bpb-template, .editor-styles-wrapper) .bpb-el-member-meta .activity,
+:is(.bpb-template, .editor-styles-wrapper) .bpb-el-group-last-activity .activity {
+	color: var(--bpb-color-muted);
+	font-size: 0.875em;
+}
+
+:is(.bpb-template, .editor-styles-wrapper) .bpb-el-member-buttons .member-header-actions,
+:is(.bpb-template, .editor-styles-wrapper) .bpb-el-group-buttons .group-button {
+	display: flex;
+	flex-wrap: wrap;
+	gap: calc(var(--bpb-gap) / 2);
+	margin: 0;
+}
