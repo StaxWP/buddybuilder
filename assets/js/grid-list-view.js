@@ -1,90 +1,84 @@
-var BPB_GridListView = BPB_GridListView || {};
+/**
+ * Grid/list toggle of the members and groups directories (J1): no jQuery.
+ * Same markup and classes as 1.x: `.bpb-listing-type` (data-component on its parent) with `.bpb-list-change`
+ * buttons (data-list-type grid|list); list mode adds `grid-one-force` to #members-list / #groups-list.
+ * The choice is kept per component in sessionStorage (`bp-<component>` -> `bpb-list-mode`), as before.
+ */
+( function () {
+	'use strict';
 
-(function ($) {
+	var FORCE = 'grid-one-force';
 
-    // USE STRICT
-    "use strict";
+	function getStorage( type, property ) {
+		var store = {};
+		try {
+			store = JSON.parse( window.sessionStorage.getItem( type ) || '{}' ) || {};
+		} catch ( e ) {}
 
-    BPB_GridListView.fn = {
-        init: function () {
+		return undefined !== property ? store[ property ] || false : store;
+	}
 
-            var $listToggle = $('.bpb-listing-type');
-            var forceClass = 'grid-one-force';
-            if( $listToggle.length > 0 ) {
+	function setStorage( type, property, value ) {
+		var store = getStorage( type );
+		if ( undefined === value ) {
+			delete store[ property ];
+		} else {
+			store[ property ] = value;
+		}
+		try {
+			window.sessionStorage.setItem( type, JSON.stringify( store ) );
+		} catch ( e ) {}
+	}
 
-                BPB_GridListView.fn.setStorage( 'bp-' + $listToggle.first().parent().data('component'), 'bpb-list-hidden' );
+	function component( el ) {
+		return 'bp-' + ( ( el && el.parentNode && el.parentNode.dataset && el.parentNode.dataset.component ) || 'members' );
+	}
 
-                var savedState = BPB_GridListView.fn.getStorage('bp-members', 'bpb-list-mode' );
-                if (savedState !== false) {
-                    $listToggle.find('.bpb-list-change').removeClass('bpb-active');
-                    $listToggle.find('.bpb-'+ savedState +'-mode').addClass('bpb-active');
-                }
-            }
+	function init() {
+		var toggle = document.querySelector( '.bpb-listing-type' );
 
-            $('body').on('click', '.bpb-list-change', function (e) {
-                e.preventDefault();
+		if ( toggle ) {
+			setStorage( component( toggle ), 'bpb-list-hidden' );
 
-                var membersList = $('#members-list');
-                var groupsList = $('#groups-list');
-                var mode = $(this).data('list-type');
+			var saved = getStorage( component( toggle ), 'bpb-list-mode' );
+			if ( saved ) {
+				toggle.querySelectorAll( '.bpb-list-change' ).forEach( function ( b ) {
+					b.classList.remove( 'bpb-active' );
+				} );
+				var active = toggle.querySelector( '.bpb-' + saved + '-mode' );
+				if ( active ) {
+					active.classList.add( 'bpb-active' );
+				}
+			}
+		}
 
-                if (mode === 'list' ) {
-                    if (membersList.length) {
-                        membersList.addClass(forceClass);
-                    }
-                    if (groupsList.length) {
-                        groupsList.addClass(forceClass);
-                    }
-                } else {
-                    if (membersList.length) {
-                        membersList.removeClass(forceClass);
-                    }
+		document.addEventListener( 'click', function ( e ) {
+			var button = e.target.closest( '.bpb-list-change' );
+			if ( ! button ) {
+				return;
+			}
+			e.preventDefault();
 
-                    if (groupsList.length) {
-                        groupsList.removeClass(forceClass);
-                    }
-                }
+			var list = 'list' === button.dataset.listType;
+			[ 'members-list', 'groups-list' ].forEach( function ( id ) {
+				var el = document.getElementById( id );
+				if ( el ) {
+					el.classList.toggle( FORCE, list );
+				}
+			} );
 
-                $('.bpb-list-change').removeClass('bpb-active');
-                $(this).addClass('bpb-active');
+			document.querySelectorAll( '.bpb-list-change' ).forEach( function ( b ) {
+				b.classList.remove( 'bpb-active' );
+			} );
+			button.classList.add( 'bpb-active' );
 
-                BPB_GridListView.fn.setStorage( 'bp-' + $(this).parent().data('component'), 'bpb-list-mode', mode );
+			setStorage( component( button ), 'bpb-list-mode', button.dataset.listType );
+		} );
+	}
 
-                return false;
-            });
-        },
-        getStorage: function( type, property ) {
-            var store = sessionStorage.getItem( type );
-
-            if ( store ) {
-                store = JSON.parse( store );
-            } else {
-                store = {};
-            }
-
-            if ( undefined !== property ) {
-                return store[property] || false;
-            }
-
-            return store;
-        },
-
-        setStorage: function( type, property, value ) {
-            var store = this.getStorage( type );
-
-            if ( undefined === value && undefined !== store[ property ] ) {
-                delete store[ property ];
-            } else {
-                // Set property.
-                store[ property ] = value;
-            }
-
-            sessionStorage.setItem( type, JSON.stringify( store ) );
-
-            return sessionStorage.getItem( type ) !== null;
-        }
-    };
-
-    $(document).ready(BPB_GridListView.fn.init());
-
-})(jQuery);
+	if ( 'loading' === document.readyState ) {
+		document.addEventListener( 'DOMContentLoaded', init );
+	} else {
+		init();
+	}
+}() );
