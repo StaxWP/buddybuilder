@@ -57,7 +57,7 @@ if ( ! function_exists( 'bpb_render_buddyboss_group_cover' ) ) {
 	 * Group cover on BuddyBoss Platform (1.x markup, BuddyBoss classes and text domain).
 	 */
 	function bpb_render_buddyboss_group_cover() {
-		$group_link               = bp_get_group_permalink();
+		$group_link               = function_exists( 'bp_get_group_url' ) ? bp_get_group_url( groups_get_current_group() ) : bp_get_group_permalink();
 		$admin_link               = trailingslashit( $group_link . 'admin' );
 		$group_cover_link         = trailingslashit( $admin_link . 'group-cover-image' );
 		$group_cover_image        = bp_attachments_get_attachment(
