@@ -53,8 +53,10 @@ for pair in "$@"; do
 	for u in /wp-admin/ /wp-admin/plugins.php "/wp-admin/admin.php?page=buddy-builder-settings"; do
 		body=$(curl -s -w '\n%{http_code}' -H "Cookie: $cookie" "$SITE$u"); code=$(echo "$body" | tail -1)
 		echo "$body" | grep -q 'critical error' && code="$code!"
-		admin="$admin $code"; [ "$code" = "200" ] || bad=1
-		n=$(echo "$body" | grep -oE 'bpb-pairing-notice|requires BuddyBuilder base plugin to be update|BuddyBuilder Pro requires[^<]{0,60}|Update BuddyBuilder Pro to 2|BuddyBuilder 2\.0 or newer[^<]{0,40}' | sort -u | tr '\n' '|')
+		admin="$admin $code"
+		# Without Free the BuddyBuilder screen does not exist: 403 is the expected answer there.
+		if [ "$code" != "200" ] && ! { [ "$f" = "-" ] && [ "$code" = "403" ]; }; then bad=1; fi
+		n=$(echo "$body" | grep -oE 'bpb-pairing-notice|requires BuddyBuilder base plugin to be update|plugin requires <strong> BuddyBuilder <\/strong> plugin to be [a-z]+|Update BuddyBuilder Pro to 2|needs BuddyBuilder [0-9.]+ or newer' | sort -u | tr '\n' '|')
 		notices="$notices$n"
 	done
 	bpblog=$(tail -c +"$((before+1))" "$LOG" 2>/dev/null | grep -c 'stax-buddy-builder' || true)
