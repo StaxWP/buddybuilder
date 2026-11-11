@@ -5,14 +5,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Filters the page wrapper used for BuddyBuilder previews.
+ * Filters the page wrapper used for BuddyBuilder previews (F6: the 1.x name had a trailing space; callbacks on
+ * it still run through the deprecated-hook bridge in src/Compat).
  *
  * @param string|false $custom_template Path of a template file, or false.
  */
 $custom_template = apply_filters( 'buddy_builder/page_template', false );
-
-// 1.x name with a trailing space (F6), kept as an alias.
-$custom_template = apply_filters( 'buddy_builder/page_template ', $custom_template ); // phpcs:ignore WordPress.NamingConventions.ValidHookName
 if ( ! empty( $custom_template ) ) {
 	if ( file_exists( $custom_template ) ) {
 		include $custom_template;
