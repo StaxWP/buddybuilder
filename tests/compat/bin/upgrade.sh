@@ -18,7 +18,8 @@ HERE=$(cd "$(dirname "$0")/.." && pwd)
 orig=$(git -C "$FREE" rev-parse HEAD)
 fail=0
 co() { git -C "$FREE" -c advice.detachedHead=false checkout -q --detach "$1"; }
-run() { node "$HERE/run.js" --site "$SITE" --wp "$WP" --assigned --no-axe --label "$1" --out "$OUT/$1" | tail -1; }
+# Extra run.js flags for every snapshot, e.g. BPB_COMPAT_RUN_ARGS=--split.
+run() { node "$HERE/run.js" --site "$SITE" --wp "$WP" --assigned --no-axe ${BPB_COMPAT_RUN_ARGS:-} --label "$1" --out "$OUT/$1" | tail -1; }
 check() { echo "CHECK $1: $2"; [ "$2" = ok ] || fail=1; }
 
 mkdir -p "$OUT"
