@@ -56,9 +56,30 @@ final class Library {
 	 * @return array
 	 */
 	public static function presets() {
-		$cover      = [ 'member-cover', [], [ 'minHeight' => '260px', 'radius' => '12px' ] ];
-		$big_cover  = [ 'member-cover', [ 'overlay_background' => true ], [ 'minHeight' => '380px', 'radius' => '16px' ] ];
-		$group_cov  = [ 'group-cover', [], [ 'minHeight' => '240px', 'radius' => '12px' ] ];
+		$cover      = [
+			'member-cover',
+			[],
+			[
+				'minHeight' => '260px',
+				'radius'    => '12px',
+			],
+		];
+		$big_cover  = [
+			'member-cover',
+			[ 'overlay_background' => true ],
+			[
+				'minHeight' => '380px',
+				'radius'    => '16px',
+			],
+		];
+		$group_cov  = [
+			'group-cover',
+			[],
+			[
+				'minHeight' => '240px',
+				'radius'    => '12px',
+			],
+		];
 		$notices    = [ 'notices' ];
 		$member_nav = [ 'member-nav' ];
 
@@ -88,8 +109,22 @@ final class Library {
 					self::row( [ $big_cover ] ),
 					self::row(
 						[
-							[ 'member-avatar', [], [ 'textAlign' => 'center', 'margin' => [ 'top' => '-80px' ] ] ],
-							[ 'member-username', [ 'username_type' => 'full_name', 'username_tag' => 'h1' ], [ 'textAlign' => 'center' ] ],
+							[
+								'member-avatar',
+								[],
+								[
+									'textAlign' => 'center',
+									'margin'    => [ 'top' => '-80px' ],
+								],
+							],
+							[
+								'member-username',
+								[
+									'username_type' => 'full_name',
+									'username_tag'  => 'h1',
+								],
+								[ 'textAlign' => 'center' ],
+							],
 							[ 'member-latest-update', [], [ 'textAlign' => 'center' ] ],
 							[ 'member-buttons' ],
 						]
@@ -102,7 +137,18 @@ final class Library {
 				'title'       => __( 'Professional', 'stax-buddy-builder' ),
 				'description' => __( 'A compact header with a sidebar for name, status and actions, content on the right.', 'stax-buddy-builder' ),
 				'layout'      => [
-					self::row( [ [ 'member-cover', [], [ 'minHeight' => '180px', 'radius' => '8px' ] ] ] ),
+					self::row(
+						[
+							[
+								'member-cover',
+								[],
+								[
+									'minHeight' => '180px',
+									'radius'    => '8px',
+								],
+							],
+						]
+					),
 					self::cols(
 						[
 							[ 30, [ [ 'member-avatar' ], [ 'member-username', [ 'username_type' => 'full_name' ] ], [ 'member-username' ], [ 'member-meta' ], [ 'member-buttons' ], [ 'member-latest-update' ] ] ],
@@ -119,7 +165,19 @@ final class Library {
 					self::cols(
 						[
 							[ 15, [ [ 'member-avatar', [ 'avatar_size' => 'thumb' ] ] ] ],
-							[ 55, [ [ 'member-username', [ 'username_type' => 'full_name', 'username_tag' => 'h3' ] ], [ 'member-meta' ] ] ],
+							[
+								55,
+								[
+									[
+										'member-username',
+										[
+											'username_type' => 'full_name',
+											'username_tag' => 'h3',
+										],
+									],
+									[ 'member-meta' ],
+								],
+							],
 							[ 30, [ [ 'member-buttons' ] ] ],
 						],
 						'center'
@@ -167,25 +225,85 @@ final class Library {
 				'type'        => 'members-directory',
 				'title'       => __( 'Grid cards', 'stax-buddy-builder' ),
 				'description' => __( 'Tabs, search and a three-column grid of member cards.', 'stax-buddy-builder' ),
-				'layout'      => [ self::row( [ [ 'directory-nav' ], [ 'directory-filters' ], [ 'members-listing', [ 'columns' => 3, 'columns_tablet' => 2, 'columns_mobile' => 1 ] ] ] ) ],
+				'layout'      => [
+					self::row(
+						[
+							[ 'directory-nav' ],
+							[ 'directory-filters' ],
+							[
+								'members-listing',
+								[
+									'columns'        => 3,
+									'columns_tablet' => 2,
+									'columns_mobile' => 1,
+								],
+							],
+						]
+					),
+				],
 			],
 			'members-list'        => [
 				'type'        => 'members-directory',
 				'title'       => __( 'Compact list', 'stax-buddy-builder' ),
 				'description' => __( 'Search first and a one-column list of members.', 'stax-buddy-builder' ),
-				'layout'      => [ self::row( [ [ 'directory-filters', [ 'content_display' => '9' ] ], [ 'directory-nav' ], [ 'members-listing', [ 'columns' => 1, 'columns_tablet' => 1, 'columns_mobile' => 1 ] ] ] ) ],
+				'layout'      => [
+					self::row(
+						[
+							[ 'directory-filters', [ 'content_display' => '9' ] ],
+							[ 'directory-nav' ],
+							[
+								'members-listing',
+								[
+									'columns'        => 1,
+									'columns_tablet' => 1,
+									'columns_mobile' => 1,
+								],
+							],
+						]
+					),
+				],
 			],
 			'groups-grid'         => [
 				'type'        => 'groups-directory',
 				'title'       => __( 'Grid cards', 'stax-buddy-builder' ),
 				'description' => __( 'Tabs, search and a three-column grid of group cards.', 'stax-buddy-builder' ),
-				'layout'      => [ self::row( [ [ 'directory-nav' ], [ 'directory-filters' ], [ 'groups-listing', [ 'columns' => 3, 'columns_tablet' => 2, 'columns_mobile' => 1 ] ] ] ) ],
+				'layout'      => [
+					self::row(
+						[
+							[ 'directory-nav' ],
+							[ 'directory-filters' ],
+							[
+								'groups-listing',
+								[
+									'columns'        => 3,
+									'columns_tablet' => 2,
+									'columns_mobile' => 1,
+								],
+							],
+						]
+					),
+				],
 			],
 			'groups-list'         => [
 				'type'        => 'groups-directory',
 				'title'       => __( 'Compact list', 'stax-buddy-builder' ),
 				'description' => __( 'Search first and a one-column list of groups.', 'stax-buddy-builder' ),
-				'layout'      => [ self::row( [ [ 'directory-filters', [ 'content_display' => '9' ] ], [ 'directory-nav' ], [ 'groups-listing', [ 'columns' => 1, 'columns_tablet' => 1, 'columns_mobile' => 1 ] ] ] ) ],
+				'layout'      => [
+					self::row(
+						[
+							[ 'directory-filters', [ 'content_display' => '9' ] ],
+							[ 'directory-nav' ],
+							[
+								'groups-listing',
+								[
+									'columns'        => 1,
+									'columns_tablet' => 1,
+									'columns_mobile' => 1,
+								],
+							],
+						]
+					),
+				],
 			],
 
 			// Activity.
@@ -203,7 +321,27 @@ final class Library {
 					self::cols(
 						[
 							[ 68, [ [ 'activity-form' ], [ 'activity-nav' ], [ 'activity-filters' ], [ 'activity-stream' ] ] ],
-							[ 32, [ [ 'members-loop', [ 'columns' => 1, 'columns_tablet' => 1, 'columns_mobile' => 1 ] ], [ 'groups-loop', [ 'columns' => 1, 'columns_tablet' => 1, 'columns_mobile' => 1 ] ] ] ],
+							[
+								32,
+								[
+									[
+										'members-loop',
+										[
+											'columns' => 1,
+											'columns_tablet' => 1,
+											'columns_mobile' => 1,
+										],
+									],
+									[
+										'groups-loop',
+										[
+											'columns' => 1,
+											'columns_tablet' => 1,
+											'columns_mobile' => 1,
+										],
+									],
+								],
+							],
 						]
 					),
 				],
@@ -233,16 +371,54 @@ final class Library {
 				'title'       => __( 'KLEO profile', 'stax-buddy-builder' ),
 				'description' => __( 'The KLEO 7 member profile.', 'stax-buddy-builder' ),
 				'layout'      => [
-					self::row( [ [ 'member-cover', [ 'overlay_background' => true ], [ 'minHeight' => '320px', 'radius' => '20px' ] ] ] ),
+					self::row(
+						[
+							[
+								'member-cover',
+								[ 'overlay_background' => true ],
+								[
+									'minHeight' => '320px',
+									'radius'    => '20px',
+								],
+							],
+						]
+					),
 					self::cols(
 						[
 							[ 25, [ [ 'member-avatar', [], [ 'margin' => [ 'top' => '-90px' ] ] ] ] ],
-							[ 50, [ [ 'member-username', [ 'username_type' => 'full_name', 'username_tag' => 'h1' ] ], [ 'member-username', [], [ 'text' => 'contrast-2' ] ], [ 'member-meta' ] ] ],
+							[
+								50,
+								[
+									[
+										'member-username',
+										[
+											'username_type' => 'full_name',
+											'username_tag' => 'h1',
+										],
+									],
+									[ 'member-username', [], [ 'text' => 'contrast-2' ] ],
+									[ 'member-meta' ],
+								],
+							],
 							[ 25, [ [ 'member-buttons' ] ] ],
 						],
 						'center'
 					),
-					self::row( [ [ 'member-nav', [], [ 'background' => 'base-2', 'radius' => '12px', 'padding' => '8px' ] ], [ 'notices' ], [ 'member-content' ] ] ),
+					self::row(
+						[
+							[
+								'member-nav',
+								[],
+								[
+									'background' => 'base-2',
+									'radius'     => '12px',
+									'padding'    => '8px',
+								],
+							],
+							[ 'notices' ],
+							[ 'member-content' ],
+						]
+					),
 				],
 			],
 			'kleo-group-profile'     => [
@@ -251,7 +427,18 @@ final class Library {
 				'title'       => __( 'KLEO group', 'stax-buddy-builder' ),
 				'description' => __( 'The KLEO 7 group page.', 'stax-buddy-builder' ),
 				'layout'      => [
-					self::row( [ [ 'group-cover', [], [ 'minHeight' => '280px', 'radius' => '20px' ] ] ] ),
+					self::row(
+						[
+							[
+								'group-cover',
+								[],
+								[
+									'minHeight' => '280px',
+									'radius'    => '20px',
+								],
+							],
+						]
+					),
 					self::cols(
 						[
 							[ 20, [ [ 'group-avatar', [], [ 'margin' => [ 'top' => '-70px' ] ] ] ] ],
@@ -273,14 +460,44 @@ final class Library {
 				'theme'       => 'kleo',
 				'title'       => __( 'KLEO members', 'stax-buddy-builder' ),
 				'description' => __( 'The KLEO 7 members directory.', 'stax-buddy-builder' ),
-				'layout'      => [ self::row( [ [ 'directory-nav' ], [ 'directory-filters', [], $card ], [ 'members-listing', [ 'columns' => 4, 'columns_tablet' => 2, 'columns_mobile' => 1 ] ] ] ) ],
+				'layout'      => [
+					self::row(
+						[
+							[ 'directory-nav' ],
+							[ 'directory-filters', [], $card ],
+							[
+								'members-listing',
+								[
+									'columns'        => 4,
+									'columns_tablet' => 2,
+									'columns_mobile' => 1,
+								],
+							],
+						]
+					),
+				],
 			],
 			'kleo-groups-directory'  => [
 				'type'        => 'groups-directory',
 				'theme'       => 'kleo',
 				'title'       => __( 'KLEO groups', 'stax-buddy-builder' ),
 				'description' => __( 'The KLEO 7 groups directory.', 'stax-buddy-builder' ),
-				'layout'      => [ self::row( [ [ 'directory-nav' ], [ 'directory-filters', [], $card ], [ 'groups-listing', [ 'columns' => 3, 'columns_tablet' => 2, 'columns_mobile' => 1 ] ] ] ) ],
+				'layout'      => [
+					self::row(
+						[
+							[ 'directory-nav' ],
+							[ 'directory-filters', [], $card ],
+							[
+								'groups-listing',
+								[
+									'columns'        => 3,
+									'columns_tablet' => 2,
+									'columns_mobile' => 1,
+								],
+							],
+						]
+					),
+				],
 			],
 			'kleo-activity'          => [
 				'type'        => 'sitewide-activity',
@@ -291,7 +508,20 @@ final class Library {
 					self::cols(
 						[
 							[ 70, [ [ 'activity-form', [], $card ], [ 'activity-nav' ], [ 'activity-filters' ], [ 'activity-stream' ] ] ],
-							[ 30, [ [ 'members-loop', [ 'columns' => 1, 'columns_tablet' => 1, 'columns_mobile' => 1 ], $card ] ] ],
+							[
+								30,
+								[
+									[
+										'members-loop',
+										[
+											'columns' => 1,
+											'columns_tablet' => 1,
+											'columns_mobile' => 1,
+										],
+										$card,
+									],
+								],
+							],
 						]
 					),
 				],

@@ -18,12 +18,12 @@ final class Preview {
 	 * Height of one element box by element name (schematic units).
 	 */
 	const HEIGHTS = [
-		'member-cover'   => 34,
-		'group-cover'    => 30,
-		'member-avatar'  => 22,
-		'group-avatar'   => 22,
-		'member-content' => 44,
-		'group-content'  => 44,
+		'member-cover'    => 34,
+		'group-cover'     => 30,
+		'member-avatar'   => 22,
+		'group-avatar'    => 22,
+		'member-content'  => 44,
+		'group-content'   => 44,
 		'activity-stream' => 50,
 		'members-listing' => 50,
 		'groups-listing'  => 50,
