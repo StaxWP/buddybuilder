@@ -8,6 +8,7 @@
  * - Cookie `bpb_compat_tpl` = "type:id,type:id": assigns those templates for this request only (filters
  *   `bpb_settings` and the 2.0 registry option `bpb_templates`), so one site can render every fixture without
  *   writing options between requests.
+ * - Cookie `bpb_compat_split=1` turns on the per template type CSS (filter `buddy_builder/split_css`).
  * - Collects PHP notices, warnings and deprecations raised from BuddyBuilder files and prints them in an HTML
  *   comment at the end of the page (`<!-- bpb-compat-notices [...] -->`), so each request reports its own.
  * - Local avatars only (no Gravatar calls), no heartbeat: deterministic screenshots.
@@ -100,6 +101,11 @@ add_filter(
 	},
 	PHP_INT_MAX
 );
+
+// Cookie `bpb_compat_split=1`: per template type CSS (bb2-core's `buddy_builder/split_css`, default off in 2.0).
+if ( isset( $_COOKIE['bpb_compat_split'] ) && '1' === $_COOKIE['bpb_compat_split'] ) {
+	add_filter( 'buddy_builder/split_css', '__return_true' );
+}
 
 // Notices from BuddyBuilder files, printed per request.
 $GLOBALS['bpb_compat_notices'] = [];

@@ -10,7 +10,7 @@
  * Usage (from the plugin root):
  *   NODE_PATH=<dir with playwright and @axe-core/playwright> node tests/compat/run.js \
  *     --site http://kleo7-bbcompat.test --wp ~/Sites/kleo7-bbcompat/tools/wp --label 1.9.2 \
- *     [--out tests/compat/results/<label>] [--only <fixture substring>] [--no-screens] [--no-axe] [--assigned]
+ *     [--out tests/compat/results/<label>] [--only <fixture substring>] [--no-screens] [--no-axe] [--assigned] [--split]
  *
  * The site must have env/bpb-compat-env.php as a mu-plugin; load-fixtures.php refuses to run otherwise.
  */
@@ -34,6 +34,8 @@ const screens = ! flag( 'no-screens' );
 // --assigned: only the fixtures the site itself assigns (bpb_settings / bpb_templates), no per-request switch.
 // Used by bin/upgrade.sh to test the real options before and after an update and a rollback.
 const assigned = flag( 'assigned' );
+// --split: per template type CSS on (cookie read by env/bpb-compat-env.php).
+const split = flag( 'split' );
 const axe = ! flag( 'no-axe' );
 
 const WIDGETS = '[class*="elementor-widget-bpb-"], .bpb-el';
@@ -80,6 +82,9 @@ const FREEZE_CSS = '*,*::before,*::after{animation:none!important;transition:non
 	const contexts = {};
 	for ( const variant of [ 'anon', 'member' ] ) {
 		contexts[ variant ] = await browser.newContext( { viewport: { width: 1280, height: 900 }, ignoreHTTPSErrors: true, reducedMotion: 'reduce' } );
+		if ( split ) {
+			await contexts[ variant ].addCookies( [ { name: 'bpb_compat_split', value: '1', domain: host, path: '/' } ] );
+		}
 		if ( variant === 'member' ) {
 			await contexts[ variant ].addCookies( Object.entries( memberCookies ).map( ( [ name, value ] ) => ( { name, value, domain: host, path: '/' } ) ) );
 		}
