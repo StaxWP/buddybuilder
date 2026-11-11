@@ -6,8 +6,7 @@
  * @version 3.0.0
  */
 
-$member_profile = bpb_get_shortcode_str( 'member-profile' );
-$render         = bpb_is_template_populated( 'member-profile' );
+$render = bpb_is_template_populated( 'member-profile' );
 
 ?>
 
@@ -16,7 +15,7 @@ $render         = bpb_is_template_populated( 'member-profile' );
 <?php if ( $render ) : ?>
 	<div id="item-header" role="complementary" data-bp-item-id="<?php echo esc_attr( bp_displayed_user_id() ); ?>"
 		 data-bp-item-component="members">
-		<?php echo do_shortcode( $member_profile ); ?>
+		<?php echo bpb_render_template( 'member-profile' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 	</div>
 <?php else : ?>
 	<div id="item-header" role="complementary" data-bp-item-id="<?php echo esc_attr( bp_displayed_user_id() ); ?>"

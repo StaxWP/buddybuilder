@@ -118,6 +118,14 @@ function bpb_is_current_template_populated() {
  * @return bool
  */
 function bpb_is_template_id_populated( $id ) {
+	if ( class_exists( '\\Buddy_Builder\\Templates\\Dispatcher' ) ) {
+		$blocks = \Buddy_Builder\Templates\Dispatcher::populated( (int) $id );
+
+		if ( null !== $blocks ) {
+			return $blocks;
+		}
+	}
+
 	$content = get_post_meta( $id, '_elementor_data', true );
 	$content = json_decode( $content, true );
 
@@ -188,7 +196,7 @@ function bpb_get_settings() {
 	$defaults = apply_filters( 'buddy_builder/default_settings', $defaults );
 
 	if ( empty( $options ) ) {
-		return $defaults;
+		return apply_filters( 'buddy_builder/settings', $defaults );
 	}
 
 	foreach ( $defaults as $section => $default ) {
@@ -213,7 +221,12 @@ function bpb_get_settings() {
 		}
 	}
 
-	return $defaults;
+	/**
+	 * Filters the settings (2.0: the active template id per type, Elementor or block layout).
+	 *
+	 * @param array $defaults Settings.
+	 */
+	return apply_filters( 'buddy_builder/settings', $defaults );
 }
 
 /**

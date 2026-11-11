@@ -198,6 +198,11 @@ final class Plugin {
 		$this->define_constants();
 		$this->load_functions();
 
+		// 2.0 spike: block layouts load with BuddyPress, without Elementor.
+		if ( function_exists( 'bp_is_active' ) ) {
+			require_once BPB_BASE_PATH . 'src/bootstrap.php';
+		}
+
 		if ( ! defined( 'ELEMENTOR_VERSION' ) ) {
 			add_action( 'admin_notices', [ Notices::get_instance(), 'elementor_notice' ] );
 

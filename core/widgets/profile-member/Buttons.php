@@ -710,10 +710,11 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 
 	protected function render() {
 		parent::render();
+
 		if ( bpb_is_elementor_editor() ) {
 			bpb_load_preview_template( 'profile-member/buttons' );
 		} else {
-			bp_nouveau_member_header_buttons( [ 'container_classes' => [ 'member-header-actions' ] ] );
+			\Buddy_Builder\Elements\Renderer::render_elementor( 'member-buttons', [] );
 		}
 	}
 

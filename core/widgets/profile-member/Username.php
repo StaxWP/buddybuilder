@@ -153,21 +153,10 @@ class Username extends \Buddy_Builder\Widgets\Base {
 	protected function render() {
 		parent::render();
 
-		$settings = $this->get_settings_for_display();
-
 		if ( bpb_is_elementor_editor() ) {
-			bpb_load_preview_template( 'profile-member/username', $settings );
-		} else { ?>
-
-            <<?php echo esc_attr( $settings['username_tag'] ); ?> class="user-nicename">
-                <?php if ( $settings['username_type'] === 'full_name' ) : ?>
-                    <?php bp_displayed_user_fullname(); ?>
-                <?php elseif ( bp_is_active( 'activity' ) && bp_activity_do_mentions() ) : ?>
-                    @<?php bp_displayed_user_mentionname(); ?>
-                <?php endif; ?>
-            </<?php echo esc_attr( $settings['username_tag'] ); ?>>
-
-			<?php
+			bpb_load_preview_template( 'profile-member/username', $this->get_settings_for_display() );
+		} else {
+			\Buddy_Builder\Elements\Renderer::render_elementor( 'member-username', $this->get_settings_for_display() );
 		}
 	}
 

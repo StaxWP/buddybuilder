@@ -568,28 +568,14 @@ class Cover extends \Buddy_Builder\Widgets\Base {
 
 		$this->add_render_attribute( 'header-cover-bg-overlay', [ 'class' => 'cover-bg-overlay' ] );
 
-		if ( bpb_is_elementor_editor() ) {
-			$settings['cover_url'] = BPB_ASSETS_URL . 'img/profile-cover-preview.png';
-			bpb_load_preview_template( 'profile-member/cover', $settings );
-		} else {
-			if ( isset( $settings['cover_advanced_settings'] ) && $settings['cover_advanced_settings'] ) {
-				$cover_url = bp_attachments_get_attachment(
-					'url',
-					[
-						'item_id' => bp_displayed_user_id(),
-					]
-				);
+		if ( ! bpb_is_elementor_editor() ) {
+			\Buddy_Builder\Elements\Renderer::render_elementor( 'member-cover', $settings );
 
-				$settings['cover_url'] = $cover_url;
-			}
-
-			?>
-			<?php if ( isset( $settings['overlay_background'] ) && $settings['overlay_background'] && ! bpb_is_buddyboss() ) : ?>
-				<div <?php echo $this->get_render_attribute_string( 'header-cover-bg-overlay' ); ?>></div>
-			<?php endif; ?>
-			<div id="header-cover-image"></div>
-			<?php
+			return;
 		}
+
+		$settings['cover_url'] = BPB_ASSETS_URL . 'img/profile-cover-preview.png';
+		bpb_load_preview_template( 'profile-member/cover', $settings );
 		?>
 
         <?php if ( isset( $settings['cover_url'] ) && ! bpb_is_buddyboss() ) : ?>

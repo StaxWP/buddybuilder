@@ -170,18 +170,11 @@ class Avatar extends \Buddy_Builder\Widgets\Base {
 
 	protected function render() {
 		parent::render();
+
 		if ( bpb_is_elementor_editor() ) {
 			bpb_load_preview_template( 'profile-member/avatar' );
 		} else {
-			$settings = $this->get_settings_for_display();
-			$args     = 'type=' . $settings['avatar_size'];
-			?>
-			<div class="elementor-image-bpb-avatar">
-				<a href="<?php bp_displayed_user_link(); ?>">
-					<?php bp_displayed_user_avatar( $args ); ?>
-				</a>
-			</div>
-			<?php
+			\Buddy_Builder\Elements\Renderer::render_elementor( 'member-avatar', $this->get_settings_for_display() );
 		}
 	}
 
