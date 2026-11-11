@@ -203,7 +203,7 @@ class ElementorHooks extends Singleton {
 			$widgets_manager = $elementor->widgets_manager;
 		}
 
-		if ( $widgets_manager && ( method_exists( $widgets_manager, 'register' ) || method_exists( $widgets_manager, 'register_widget_type' ) ) ) {
+		if ( $widgets_manager && method_exists( $widgets_manager, 'register' ) ) {
 			include_once BPB_BASE_PATH . 'core/widgets/Base.php';
 
 			foreach ( buddy_builder()->get_elements() as $k => $element ) {
@@ -229,11 +229,7 @@ class ElementorHooks extends Singleton {
 					require_once $template_file;
 					$class_name = $element['class_base_namespace'] . $element['class'];
 
-					if ( method_exists( $widgets_manager, 'register' ) ) {
-						$widgets_manager->register( new $class_name() );
-					} else {
-						$widgets_manager->register_widget_type( new $class_name() );
-					}
+					$widgets_manager->register( new $class_name() );
 				}
 			}
 		}
