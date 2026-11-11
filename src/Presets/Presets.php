@@ -211,9 +211,18 @@ final class Presets {
 			return is_wp_error( $document ) ? $document : new \WP_Error( 'bpb_elementor_create', __( 'Could not create the Elementor template.', 'stax-buddy-builder' ) );
 		}
 
-		$document->save( [ 'elements' => Builder::to_elementor( $preset['layout'] ) ] );
+		$data    = Builder::to_elementor( $preset['layout'] );
+		$post_id = (int) $document->get_main_id();
 
-		return (int) $document->get_main_id();
+		// Document::save() refuses without an editing user (WP-CLI, abilities run by agents): write the data directly.
+		if ( ! $document->save( [ 'elements' => $data ] ) ) {
+			update_post_meta( $post_id, '_elementor_edit_mode', 'builder' );
+			update_post_meta( $post_id, '_elementor_data', wp_slash( wp_json_encode( $data ) ) );
+		}
+
+		Registry::flush();
+
+		return $post_id;
 	}
 
 	/**
