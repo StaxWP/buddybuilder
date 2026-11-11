@@ -47,6 +47,7 @@ final class Elements {
 
 		add_filter( 'allowed_block_types_all', [ __CLASS__, 'allowed_blocks' ], 10, 2 );
 		add_filter( 'buddy_builder_kit_render', [ __CLASS__, 'preview_wrapper' ], 10, 4 );
+		add_filter( 'render_block_buddybuilder/directory-filters', [ __CLASS__, 'filters_order_class' ], 10, 2 );
 		add_action( 'enqueue_block_editor_assets', [ __CLASS__, 'editor_assets' ] );
 	}
 
@@ -159,6 +160,32 @@ final class Elements {
 		}
 
 		return '<div id="buddypress" class="buddypress-wrap bp-dir-hori-nav">' . $html . '</div>';
+	}
+
+	/**
+	 * Directory filters block: "Show and order" as a wrapper class (the Elementor widget does it with its own
+	 * control selectors; the inner markup stays the same in both builders).
+	 *
+	 * @param string $html  Block markup.
+	 * @param array  $block Parsed block.
+	 * @return string
+	 */
+	public static function filters_order_class( $html, $block ) {
+		$order = isset( $block['attrs']['content_display'] ) ? (int) $block['attrs']['content_display'] : 1;
+
+		if ( '' === $html || $order < 1 || $order > 15 || ! class_exists( '\\WP_HTML_Tag_Processor' ) ) {
+			return $html;
+		}
+
+		$tags = new \WP_HTML_Tag_Processor( $html );
+
+		if ( $tags->next_tag() ) {
+			$tags->add_class( 'bpb-filters-order-' . $order );
+
+			return $tags->get_updated_html();
+		}
+
+		return $html;
 	}
 
 	/**

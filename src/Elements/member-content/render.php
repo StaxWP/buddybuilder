@@ -23,7 +23,7 @@ if ( ! bp_displayed_user_id() ) {
 		if ( apply_filters( 'buddy_builder/tpl/profile-member/content/render', true ) ) {
 			?>
 			<?php if ( bp_nouveau_has_nav( [ 'type' => 'secondary' ] ) ) : ?>
-				<nav class="<?php bp_nouveau_single_item_subnav_classes(); ?>" id="subnav" role="navigation" aria-label="<?php esc_attr_e( 'Sub Menu', 'buddyboss' ); ?>">
+				<nav class="<?php bp_nouveau_single_item_subnav_classes(); ?>" id="subnav" role="navigation" aria-label="<?php esc_attr_e( 'Sub Menu', 'buddyboss' ); // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- 1.x markup and string, kept identical. ?>">
 					<ul class="subnav">
 					<?php
 					while ( bp_nouveau_nav_items() ) :

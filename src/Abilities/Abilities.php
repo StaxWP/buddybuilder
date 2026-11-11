@@ -2,7 +2,7 @@
 /**
  * Abilities (U5, 2.0 part): read and preset abilities for the KLEO 7 setup wizard, agents and MCP.
  *
- * buddybuilder/list-template-types, list-elements, list-presets, get-layout (read only) and apply-preset,
+ * The abilities: buddybuilder/list-template-types, list-elements, list-presets, get-layout (read only) and apply-preset,
  * assign-template (write). Registered only when the Abilities API exists (WordPress 6.9+), so the WordPress 6.6
  * minimum is not affected. Layout editing abilities follow in 2.2.
  *
@@ -218,12 +218,12 @@ final class Abilities {
 		foreach ( Types::all() as $slug => $type ) {
 			$entry = Registry::get( $slug );
 			$out[] = [
-				'type'          => $slug,
-				'name'          => $type['name'],
-				'blocks'        => isset( $blocks[ $slug ] ),
-				'active'        => Types::is_active( $slug ),
-				'assigned'      => $entry['id'] ? $entry : null,
-				'populated'     => Registry::is_populated( $slug ),
+				'type'      => $slug,
+				'name'      => $type['name'],
+				'blocks'    => isset( $blocks[ $slug ] ),
+				'active'    => Types::is_active( $slug ),
+				'assigned'  => $entry['id'] ? $entry : null,
+				'populated' => Registry::is_populated( $slug ),
 			];
 		}
 

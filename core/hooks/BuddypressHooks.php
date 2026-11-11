@@ -321,10 +321,6 @@ class BuddypressHooks extends Singleton {
 	 * @return mixed
 	 */
 	public function customizer_controls( $controls ) {
-		if ( ! $this->has_any_template() ) {
-			return $controls;
-		}
-
 		unset(
 			$controls['bp_site_avatars'],
 			$controls['group_front_boxes'],
@@ -363,10 +359,10 @@ class BuddypressHooks extends Singleton {
 	 * @return array
 	 */
 	public function default_customizer_options( $options ) {
-		if ( ! $this->has_any_template() ) {
-			return $options;
-		}
-
+		/*
+		 * E14 (force these only where a layout is assigned) is not applied: sites updating from 1.x would see their
+		 * BuddyPress pages change (found by the compat suite, 1.8.0 -> 2.0). Same as 1.x: always forced.
+		 */
 		return array_merge(
 			$options,
 			[
@@ -571,21 +567,6 @@ class BuddypressHooks extends Singleton {
 		}
 
 		return $query;
-	}
-
-	/**
-	 * Whether any layout is assigned (Nouveau customizer controls are only removed then: E14).
-	 *
-	 * @return bool
-	 */
-	public function has_any_template() {
-		foreach ( \Buddy_Builder\Templates\Registry::all() as $entry ) {
-			if ( $entry['id'] ) {
-				return true;
-			}
-		}
-
-		return false;
 	}
 
 	/**

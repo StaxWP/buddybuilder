@@ -223,7 +223,10 @@ final class Builder {
 	private static function elementor_style( array $style ) {
 		$out = [];
 
-		foreach ( [ 'padding' => '_padding', 'margin' => '_margin' ] as $key => $control ) {
+		foreach ( [
+			'padding' => '_padding',
+			'margin'  => '_margin',
+		] as $key => $control ) {
 			if ( isset( $style[ $key ] ) ) {
 				$sides           = self::sides( $style[ $key ] );
 				$out[ $control ] = [
@@ -243,7 +246,7 @@ final class Builder {
 		}
 
 		if ( isset( $style['radius'] ) ) {
-			$radius               = (string) (int) $style['radius'];
+			$radius                = (string) (int) $style['radius'];
 			$out['_border_radius'] = [
 				'unit'     => 'px',
 				'top'      => $radius,

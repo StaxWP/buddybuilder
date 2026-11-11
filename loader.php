@@ -9,8 +9,8 @@
  * Requires at least: 6.6
  * Requires PHP: 7.4
  *
- * Elementor tested up to: 4.2.4
- * Elementor Pro tested up to: 4.2.4
+ * Elementor tested up to: 4.4.0
+ * Elementor Pro tested up to: 4.4.0
  *
  * Text Domain: stax-buddy-builder
  */

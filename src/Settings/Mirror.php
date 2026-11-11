@@ -136,7 +136,10 @@ final class Mirror {
 	public static function customizer_to_block_layouts() {
 		$appearance = bpb_get_appearance();
 
-		foreach ( [ 'member-profile' => 'user_front_page', 'group-profile' => 'group_front_page' ] as $type => $key ) {
+		foreach ( [
+			'member-profile' => 'user_front_page',
+			'group-profile'  => 'group_front_page',
+		] as $type => $key ) {
 			$entry = Registry::get( $type );
 
 			if ( Registry::BLOCKS !== $entry['builder'] || ! $entry['id'] || ! isset( $appearance[ $key ] ) ) {

@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<ruleset name="BuddyBuilder">
+	<description>BuddyBuilder 2.0 code standards: WordPress coding standards for the new code in src/, PHP 7.4 compatibility for all PHP.</description>
+
+	<arg name="extensions" value="php"/>
+	<arg name="colors"/>
+	<arg value="sp"/>
+
+	<file>.</file>
+	<exclude-pattern>/vendor/*</exclude-pattern>
+	<exclude-pattern>/node_modules/*</exclude-pattern>
+	<exclude-pattern>/tests/*</exclude-pattern>
+	<!-- Synced from K Elements, linted there. -->
+	<exclude-pattern>/src/Kit/*</exclude-pattern>
+
+	<config name="testVersion" value="7.4-"/>
+	<config name="minimum_wp_version" value="6.6"/>
+
+	<!-- PHP 7.4 compatibility everywhere (wordpress.org free plugin minimum). -->
+	<rule ref="PHPCompatibilityWP"/>
+
+	<!-- WordPress standards for the 2.0 code; the 1.x code in core/, admin/ and templates/ is checked for compatibility only. -->
+	<rule ref="WordPress">
+		<exclude-pattern>/core/*</exclude-pattern>
+		<exclude-pattern>/admin/*</exclude-pattern>
+		<exclude-pattern>/templates/*</exclude-pattern>
+		<exclude-pattern>/functions.php</exclude-pattern>
+		<exclude-pattern>/loader.php</exclude-pattern>
+		<!-- PSR-4 class files in src/. -->
+		<exclude name="WordPress.Files.FileName"/>
+		<!-- Hook names are "buddy_builder/..." since 1.x and must not change. -->
+		<exclude name="WordPress.NamingConventions.ValidHookName.UseUnderscores"/>
+		<!-- Parameter names kept from the 1.x API and core callbacks ($class, $object, $default, $new). -->
+		<exclude name="Universal.NamingConventions.NoReservedKeywordParameterNames"/>
+		<!-- Short array syntax is the plugin style. -->
+		<exclude name="Universal.Arrays.DisallowShortArraySyntax"/>
+	</rule>
+
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="stax-buddy-builder"/>
+			</property>
+		</properties>
+	</rule>
+</ruleset>
