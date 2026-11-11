@@ -71,5 +71,6 @@
 			"bpb-members-directory-filters",
 			"bpb-groups-directory-filters"
 		]
-	}
+	},
+	"style": "style.css"
 }

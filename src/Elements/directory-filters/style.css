@@ -1,0 +1,52 @@
+/*
+ * Directory search and filters (block layouts): the "Show and order" options. The Elementor widget applies the same
+ * rules through its own control selectors; blocks get a bpb-filters-order-<n> class on the block wrapper.
+ * Generated from the content_display_<n> controls of core/widgets/members-directory/Filters.php.
+ */
+.wp-block-buddybuilder-directory-filters .subnav-filters { display: flex; justify-content: space-between; align-items: center; margin: 0; }
+.wp-block-buddybuilder-directory-filters .subnav-filters:before, .wp-block-buddybuilder-directory-filters .subnav-filters:after { display: none; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-1 .bpb-listing-type { order: 1; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-1 .subnav-search { order: 2; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-1 .component-filters { order: 3; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-2 .bpb-listing-type { order: 1; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-2 .subnav-search { order: 3; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-2 .component-filters { order: 2; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-3 .bpb-listing-type { order: 1; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-3 .subnav-search { order: 2; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-3 .component-filters { display: none; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-4 .bpb-listing-type { order: 1; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-4 .subnav-search { display: none; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-4 .component-filters { order: 2; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-5 .bpb-listing-type { width: 100%; float: none; display: block; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-5 .subnav-search { display: none; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-5 .component-filters { display: none; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-6 .bpb-listing-type { order: 3; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-6 .subnav-search { order: 1; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-6 .component-filters { order: 2; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-7 .bpb-listing-type { order: 2; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-7 .subnav-search { order: 1; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-7 .component-filters { order: 3; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-8 .bpb-listing-type { order: 2; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-8 .subnav-search { order: 1; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-8 .component-filters { display: none; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-9 .bpb-listing-type { display: none; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-9 .subnav-search { order: 1; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-9 .component-filters { order: 2; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-10 .bpb-listing-type { display: none; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-10 .subnav-search { width: 100%; float: none; display: block; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-10 .component-filters { display: none; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-11 .bpb-listing-type { order: 2; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-11 .subnav-search { order: 3; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-11 .component-filters { order: 1; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-12 .bpb-listing-type { order: 3; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-12 .subnav-search { order: 2; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-12 .component-filters { order: 1; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-13 .bpb-listing-type { display: none; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-13 .subnav-search { order: 2; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-13 .component-filters { order: 1; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-14 .bpb-listing-type { order: 2; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-14 .subnav-search { display: none; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-14 .component-filters { order: 1; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-15 .bpb-listing-type { display: none; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-15 .subnav-search { display: none; }
+.wp-block-buddybuilder-directory-filters.bpb-filters-order-15 .component-filters { width: 100%; float: none; display: block; }
