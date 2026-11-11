@@ -60,8 +60,12 @@ function normalise( html ) {
 		.replace( /(datetime|data-bp-timestamp)="[^"]*"/g, '$1="X"' )
 		.replace( /(data-pw)="[^"]*"/g, '$1="X"' ) // Random suggested password on the register form.
 		.replace( /\b(?:January|February|March|April|May|June|July|August|September|October|November|December) \d{1,2}, \d{4}(?: at \d{1,2}:\d{2} ?[ap]m)?/g, 'DATE' )
+		// 2.x adds the neutral wrapper classes next to the 1.x ones (inventory 14.4: additive, old selectors kept).
+		.replace( /(class="[^"]*?)\s*\bbpb-el(?:-[\w-]+)?\b(?=[^"]*")/g, '$1' )
+		.replace( /(class="[^"]*?)\s*\bbpb-el(?:-[\w-]+)?\b(?=[^"]*")/g, '$1' )
 		.replace( /\s+/g, ' ' )
-		.replace( />\s+</g, '><' )
+		// Whitespace next to tags is not significant for the layout of these widgets (2.x trims render output).
+		.replace( /\s*(<[^>]+>)\s*/g, '$1' )
 		.trim();
 }
 
