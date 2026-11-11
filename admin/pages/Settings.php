@@ -6,7 +6,9 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly.
 }
 
-use Buddy_Builder\Library\Documents\BuddyPress;
+use Buddy_Builder\Features;
+use Buddy_Builder\Templates\PostType;
+use Buddy_Builder\Templates\Registry;
 use WP_Query;
 
 /**
@@ -52,25 +54,27 @@ class Settings extends Base {
              && wp_verify_nonce( $_POST['_wpnonce'], 'bpb_settings' ) ) {
             $settings = bpb_get_settings();
 
-            $simple_array_settings = [
-                'templates',
-            ];
+            foreach ( array_keys( $settings['templates'] ) as $type ) {
+                if ( ! isset( $_POST[ $type ] ) ) {
+                    continue;
+                }
 
-            foreach ( $simple_array_settings as $item ) {
-                foreach ( $settings[ $item ] as $field => $value ) {
-                    if ( isset( $_POST[ $field ] ) ) {
-                        $settings[ $item ][ $field ] = sanitize_text_field( $_POST[ $field ] );
-                    }
+                // Values: "123" (Elementor template, 1.x format), "blocks:123" (block layout) or "0" (BuddyPress default).
+                $value   = sanitize_text_field( wp_unslash( $_POST[ $type ] ) );
+                $builder = 0 === strpos( $value, 'blocks:' ) ? Registry::BLOCKS : Registry::ELEMENTOR;
+                $id      = absint( str_replace( 'blocks:', '', $value ) );
+
+                Registry::set( $type, $builder, $id );
+
+                if ( $id && Registry::ELEMENTOR === $builder && class_exists( '\\Buddy_Builder\\ElementorHooks' ) ) {
+                    ElementorHooks::get_instance()->save_buddypress_options( $id, null );
                 }
             }
 
-            foreach ( $settings['templates'] as $template ) {
-                if ( $template ) {
-                    ElementorHooks::get_instance()->save_buddypress_options( $template, null );
-                }
+            if ( Features::shows_blocks_toggle() ) {
+                update_option( Features::BLOCKS_OPTION, empty( $_POST['bpb_blocks_enabled'] ) ? '0' : '1' );
             }
 
-            update_option( 'bpb_settings', $settings );
             $did_save = '&did_save';
         }
 
@@ -131,33 +135,18 @@ class Settings extends Base {
 
         $data = [];
 
-        $args = [
-            'post_type'  => 'elementor_library',
-            'meta_query' => [
-                [
-                    'key'     => '_elementor_template_type',
-                    'value'   => 'bpb-buddypress',
-                    'compare' => '=',
-                ],
-            ],
-        ];
-
         foreach ( $templates as $slug => $item ) {
-            $query_args                 = $args;
-            $query_args['meta_query'][] = [
-                'key'     => BuddyPress::REMOTE_CATEGORY_META_KEY,
-                'value'   => $slug,
-                'compare' => '=',
-            ];
-
-            $query = new WP_Query( $query_args );
+            $entry = Registry::get( $slug );
             $posts = [];
 
-            foreach ( $query->posts as $post ) {
+            foreach ( $this->get_layouts( $slug ) as $post ) {
+                $builder = Registry::builder_of( $post->ID );
                 $posts[] = [
-                    'id'     => $post->ID,
-                    'title'  => $post->post_title,
-                    'status' => $post->ID === $item['template'],
+                    'id'      => $post->ID,
+                    'title'   => $post->post_title ? $post->post_title : __( '(no title)', 'stax-buddy-builder' ),
+                    'builder' => $builder,
+                    'value'   => Registry::BLOCKS === $builder ? 'blocks:' . $post->ID : (string) $post->ID,
+                    'status'  => $post->ID === $entry['id'] && $builder === $entry['builder'],
                 ];
             }
 
@@ -167,8 +156,6 @@ class Settings extends Base {
                 'order' => $item['order'],
                 'posts' => $posts,
             ];
-
-            wp_reset_query();
         }
 
         // Restructure templates.
@@ -209,9 +196,61 @@ class Settings extends Base {
         Helpers::load_template(
             'admin/pages/templates/' . $this->current_slug,
             [
-                'data' => $new_data,
+                'data'          => $new_data,
+                'has_elementor' => defined( 'ELEMENTOR_VERSION' ),
+                'has_blocks'    => Features::blocks_enabled(),
+                'blocks_toggle' => Features::shows_blocks_toggle(),
             ]
         );
+    }
+
+    /**
+     * Layouts that can be assigned to a type: Elementor templates (when Elementor is active) and block layouts.
+     *
+     * @param string $type Template type.
+     * @return \WP_Post[]
+     */
+    private function get_layouts( $type ) {
+        $posts = [];
+
+        if ( defined( 'ELEMENTOR_VERSION' ) ) {
+            $query = new WP_Query(
+                [
+                    'post_type'      => 'elementor_library',
+                    'posts_per_page' => 100,
+                    'no_found_rows'  => true,
+                    'meta_query'     => [
+                        [
+                            'key'   => '_elementor_template_type',
+                            'value' => 'bpb-buddypress',
+                        ],
+                        [
+                            'key'   => '_bpb_page',
+                            'value' => $type,
+                        ],
+                    ],
+                ]
+            );
+
+            $posts = $query->posts;
+        }
+
+        $blocks = new WP_Query(
+            [
+                'post_type'      => PostType::POST_TYPE,
+                'post_status'    => 'publish',
+                'posts_per_page' => 100,
+                'no_found_rows'  => true,
+                'meta_query'     => [
+                    [
+                        'key'   => PostType::META_TYPE,
+                        'value' => $type,
+                    ],
+                ],
+            ]
+        );
+
+        return array_merge( $posts, $blocks->posts );
     }
 
     /**
