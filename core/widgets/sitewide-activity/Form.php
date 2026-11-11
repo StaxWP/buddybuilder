@@ -8,6 +8,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Form extends \Buddy_Builder\Widgets\Base {
 
+	/**
+	 * Element rendered by this widget (src/Elements/activity-form).
+	 *
+	 * @var string
+	 */
+	protected $bpb_element = 'activity-form';
+
 	public function get_name() {
 		return 'bpb-sitewide-form';
 	}
@@ -30,12 +37,11 @@ class Form extends \Buddy_Builder\Widgets\Base {
 
 	protected function render() {
 		parent::render();
+
 		if ( bpb_is_elementor_editor() ) {
 			bpb_load_preview_template( 'sitewide-activity/form' );
 		} else {
-			if ( is_user_logged_in() ) {
-				bp_get_template_part( 'activity/post-form' );
-			}
+			$this->kit_render();
 		}
 	}
 

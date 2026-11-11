@@ -3,7 +3,7 @@
 </h2>
 
 <div class="ste-text-sm ste-text-gray-7700 ste-mt-2">
-	<?php esc_html_e( 'You can override the BuddyPress\' default templates with the ones you\'ve created using Elementor using the form below.', 'stax-buddy-builder' ); ?>
+	<?php esc_html_e( 'Pick the layout BuddyPress uses for each page: a block layout, an Elementor template, or the BuddyPress default.', 'stax-buddy-builder' ); ?>
 </div>
 
 <div class="ste-mt-5">
@@ -69,6 +69,16 @@
 			<?php endforeach; ?>
 			
 		</div>
+
+		<?php if ( $blocks_toggle ) : ?>
+			<div class="ste-mt-6 ste-p-4 ste-rounded ste-bg-gradient-to-r ste-from-ash-300 ste-to-ash-200 ste-shadow">
+				<label class="ste-flex ste-items-center ste-gap-2 ste-font-bold">
+					<input type="checkbox" name="bpb_blocks_enabled" value="1" <?php checked( $has_blocks ); ?>>
+					<?php esc_html_e( 'Blocks (beta): build BuddyPress pages with the block editor', 'stax-buddy-builder' ); ?>
+				</label>
+				<p class="ste-text-sm ste-mt-2 ste-mb-0"><?php esc_html_e( 'Adds Block layouts and BuddyBuilder blocks. Your Elementor templates keep working; you choose per page which one is used.', 'stax-buddy-builder' ); ?></p>
+			</div>
+		<?php endif; ?>
 
 		<input type="hidden" name="action" value="bpb_settings">
         <?php wp_nonce_field( 'bpb_settings' ); ?>

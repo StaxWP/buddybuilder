@@ -1,0 +1,78 @@
+{
+	"version": 1,
+	"name": "member-username",
+	"title": "Member name",
+	"category": "buddybuilder",
+	"icon": "id",
+	"description": "Display name or @username of the displayed member.",
+	"keywords": [
+		"username",
+		"title",
+		"heading",
+		"buddypress",
+		"buddybuilder"
+	],
+	"templateTypes": [
+		"member-profile"
+	],
+	"attributes": {
+		"username_type": {
+			"type": "string",
+			"default": "username",
+			"control": "select",
+			"panel": "basic",
+			"label": "Show",
+			"options": {
+				"username": "@username",
+				"full_name": "Name"
+			}
+		},
+		"username_tag": {
+			"type": "string",
+			"default": "h2",
+			"control": "select",
+			"panel": "advanced",
+			"label": "HTML tag",
+			"options": {
+				"h1": "H1",
+				"h2": "H2",
+				"h3": "H3",
+				"h4": "H4",
+				"h5": "H5",
+				"h6": "H6",
+				"div": "div"
+			}
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": [
+			"wide",
+			"full"
+		],
+		"color": {
+			"background": true,
+			"text": true,
+			"link": true
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"textAlign": true
+		},
+		"__experimentalBorder": {
+			"radius": true,
+			"width": true,
+			"color": true
+		}
+	},
+	"legacy": {
+		"elementor": [
+			"bpb-profile-member-username"
+		]
+	}
+}

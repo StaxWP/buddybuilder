@@ -13,6 +13,13 @@ use Elementor\Group_Control_Background;
 
 class Cover extends \Buddy_Builder\Widgets\Base {
 
+	/**
+	 * Element rendered by this widget (src/Elements/member-cover).
+	 *
+	 * @var string
+	 */
+	protected $bpb_element = 'member-cover';
+
 	public function get_name() {
 		return 'bpb-profile-member-cover';
 	}
@@ -564,55 +571,17 @@ class Cover extends \Buddy_Builder\Widgets\Base {
 	protected function render() {
 		parent::render();
 
-		$settings = $this->get_settings_for_display();
-
-		$this->add_render_attribute( 'header-cover-bg-overlay', [ 'class' => 'cover-bg-overlay' ] );
-
 		if ( ! bpb_is_elementor_editor() ) {
-			\Buddy_Builder\Elements\Renderer::render_elementor( 'member-cover', $settings );
+			$this->kit_render();
 
 			return;
 		}
 
+		$settings              = $this->get_settings_for_display();
 		$settings['cover_url'] = BPB_ASSETS_URL . 'img/profile-cover-preview.png';
+
 		bpb_load_preview_template( 'profile-member/cover', $settings );
-		?>
-
-        <?php if ( isset( $settings['cover_url'] ) && ! bpb_is_buddyboss() ) : ?>
-
-            <style>
-                #header-cover-image {
-                    background-color: transparent !important;
-                }
-                #header-cover-image:before {
-                    content: "";
-                    position:  absolute;
-                    background-size: cover;
-                    top: 0;
-                    left: 0;
-                    bottom: 0;
-                    right: 0;
-                }
-            </style>
-
-        <?php endif; ?>
-
-		<?php if ( isset( $settings['cover_url'] ) && $settings['cover_url'] && ! bpb_is_buddyboss() ) : ?>
-			<style>
-				#header-cover-image {
-					position: relative;
-					overflow: hidden;
-					z-index: 0;
-					background-image: none !important;
-				}
-
-				#header-cover-image:before {
-					background-image: url(<?php echo esc_url( $settings['cover_url'] ); ?>);
-                    z-index: -1;
-				}
-			</style>
-		<?php endif; ?>
-		<?php
+		bpb_print_cover_styles( $settings['cover_url'] );
 	}
 
 }

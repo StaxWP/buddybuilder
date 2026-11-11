@@ -42,7 +42,10 @@ final class Admin extends Singleton {
 
 		// Admin pages.
 		require_once self::$plugin_path . '/admin/pages/Base.php';
-		require_once self::$plugin_path . '/admin/pages/Templates.php';
+		// Starter template kits are Elementor imports.
+		if ( defined( 'ELEMENTOR_VERSION' ) ) {
+			require_once self::$plugin_path . '/admin/pages/Templates.php';
+		}
 		require_once self::$plugin_path . '/admin/pages/Settings.php';
 	}
 

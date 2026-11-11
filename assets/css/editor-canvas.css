@@ -1,0 +1,15 @@
+/* Block editor canvas of a BuddyBuilder layout: previews are not interactive, the "bpb-el-empty" hint is visible. */
+.editor-styles-wrapper .bpb-el a,
+.editor-styles-wrapper .bpb-el button,
+.editor-styles-wrapper .bpb-el input {
+	pointer-events: none;
+}
+
+.editor-styles-wrapper .bpb-el-empty {
+	margin: 0;
+	padding: 1em;
+	border: 1px dashed currentColor;
+	border-radius: 4px;
+	font-size: 13px;
+	opacity: 0.7;
+}

@@ -1,0 +1,55 @@
+{
+	"version": 1,
+	"name": "member-nav",
+	"title": "Member navigation",
+	"category": "buddybuilder",
+	"icon": "menu",
+	"description": "Main tabs of the member profile (Activity, Profile, Friends...).",
+	"keywords": [
+		"tabs",
+		"menu",
+		"buddypress",
+		"buddybuilder"
+	],
+	"templateTypes": [
+		"member-profile"
+	],
+	"attributes": {
+		"show_home_tab": {
+			"type": "boolean",
+			"default": true,
+			"control": "toggle",
+			"panel": "basic",
+			"label": "Show the Home tab (default front page)"
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": [
+			"wide",
+			"full"
+		],
+		"color": {
+			"background": true,
+			"text": true,
+			"link": true
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true
+		},
+		"__experimentalBorder": {
+			"radius": true,
+			"width": true,
+			"color": true
+		}
+	},
+	"legacy": {
+		"elementor": [
+			"bpb-profile-member-navigation"
+		]
+	}
+}

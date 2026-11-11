@@ -1,0 +1,65 @@
+{
+	"version": 1,
+	"name": "group-cover",
+	"title": "Group cover",
+	"category": "buddybuilder",
+	"icon": "format-image",
+	"description": "Cover image of the current group.",
+	"keywords": [
+		"header",
+		"banner",
+		"buddypress",
+		"buddybuilder"
+	],
+	"templateTypes": [
+		"group-profile"
+	],
+	"attributes": {
+		"cover_advanced_settings": {
+			"type": "boolean",
+			"default": false,
+			"control": "toggle",
+			"panel": "basic",
+			"label": "Use the uploaded cover image as a background layer"
+		},
+		"overlay_background": {
+			"type": "boolean",
+			"default": false,
+			"control": "toggle",
+			"panel": "advanced",
+			"label": "Dark overlay"
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": [
+			"wide",
+			"full"
+		],
+		"color": {
+			"background": true,
+			"text": true,
+			"link": true
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true
+		},
+		"__experimentalBorder": {
+			"radius": true,
+			"width": true,
+			"color": true
+		},
+		"dimensions": {
+			"minHeight": true
+		}
+	},
+	"legacy": {
+		"elementor": [
+			"bpb-profile-group-cover"
+		]
+	}
+}

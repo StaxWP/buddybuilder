@@ -1,20 +1,28 @@
 <?php
 /**
- * Member cover. Variables: $attrs, $ctx.
+ * Member cover: Cover image of the displayed member.
+ *
+ * Shared by the block and the Elementor widget. Variables: $attrs (schema types), $ctx (Context), $element.
  *
  * @package Buddy_Builder
  */
 
 defined( 'ABSPATH' ) || die();
 
-$bpb_cover_url = '';
-
-if ( 'yes' === $attrs['cover_advanced_settings'] && function_exists( 'bp_attachments_get_attachment' ) ) {
-	$bpb_cover_url = (string) bp_attachments_get_attachment( 'url', [ 'item_id' => $ctx['user_id'] ] );
+if ( ! bp_displayed_user_id() ) {
+	return;
 }
 
-if ( 'yes' === $attrs['overlay_background'] && ! bpb_is_buddyboss() ) {
+$bpb_cover_url = null;
+
+if ( $attrs['cover_advanced_settings'] ) {
+	$bpb_cover_url = bp_attachments_get_attachment( 'url', [ 'item_id' => bp_displayed_user_id() ] );
+}
+
+if ( $attrs['overlay_background'] && ! bpb_is_buddyboss() ) {
 	echo '<div class="cover-bg-overlay"></div>';
 }
 ?>
-<div id="header-cover-image"<?php echo $bpb_cover_url ? ' style="background-image:url(' . esc_url( $bpb_cover_url ) . ');background-size:cover;background-position:center"' : ''; ?>></div>
+<div id="header-cover-image"></div>
+<?php
+bpb_print_cover_styles( $bpb_cover_url );

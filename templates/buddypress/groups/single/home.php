@@ -6,7 +6,6 @@
  * @version 3.0.0
  */
 
-$group_profile = bpb_get_shortcode_str( 'group-profile' );
 $render        = bpb_is_template_populated( 'group-profile' );
 
 if ( bp_has_groups() ) :
@@ -20,7 +19,7 @@ if ( bp_has_groups() ) :
 			<div id="item-header" role="complementary" data-bp-item-id="<?php bp_group_id(); ?>"
 				 data-bp-item-component="groups" class="groups-header">
 
-				<?php echo do_shortcode( $group_profile ); ?>
+				<?php echo bpb_render_template( 'group-profile' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 			</div>
 		<?php else : ?>
 			<div id="item-header" role="complementary" data-bp-item-id="<?php bp_group_id(); ?>"

@@ -63,7 +63,7 @@ if ( ! $rt_ajax_request ) {
 					?>
 					<div id="item-header" role="complementary" data-bp-item-id="<?php echo esc_attr( bp_displayed_user_id() ); ?>" data-bp-item-component="members">
 
-						<?php echo do_shortcode( $member_profile ); ?>
+						<?php echo bpb_render_template( 'member-profile' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 
 					</div><!-- #item-header -->
 				<?php else : ?>
@@ -121,7 +121,7 @@ if ( ! $rt_ajax_request ) {
 
 
 						<?php if ( $render ) : ?>
-							<?php echo do_shortcode( $group_profile ); ?>
+							<?php echo bpb_render_template( 'group-profile' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 						<?php else : ?>
 							<div id="item-header" role="complementary" data-bp-item-id="<?php bp_group_id(); ?>" data-bp-item-component="groups" class="groups-header single-headers">
 

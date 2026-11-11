@@ -1,0 +1,47 @@
+{
+	"version": 1,
+	"name": "activity-filters",
+	"title": "Activity search and filters",
+	"category": "buddybuilder",
+	"icon": "filter",
+	"description": "Search and filter of the activity directory.",
+	"keywords": [
+		"search",
+		"filter",
+		"buddypress",
+		"buddybuilder"
+	],
+	"templateTypes": [
+		"sitewide-activity"
+	],
+	"attributes": {},
+	"supports": {
+		"html": false,
+		"align": [
+			"wide",
+			"full"
+		],
+		"color": {
+			"background": true,
+			"text": true,
+			"link": true
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true
+		},
+		"__experimentalBorder": {
+			"radius": true,
+			"width": true,
+			"color": true
+		}
+	},
+	"legacy": {
+		"elementor": [
+			"bpb-sitewide-filters"
+		]
+	}
+}

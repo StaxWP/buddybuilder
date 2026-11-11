@@ -1,0 +1,59 @@
+{
+	"version": 1,
+	"name": "member-avatar",
+	"title": "Member avatar",
+	"category": "buddybuilder",
+	"icon": "admin-users",
+	"description": "Profile photo of the displayed member.",
+	"keywords": [
+		"profile",
+		"photo",
+		"buddypress",
+		"buddybuilder"
+	],
+	"templateTypes": [
+		"member-profile"
+	],
+	"attributes": {
+		"avatar_size": {
+			"type": "string",
+			"default": "full",
+			"control": "select",
+			"panel": "basic",
+			"label": "Size",
+			"options": {
+				"thumb": "Thumb",
+				"full": "Full"
+			}
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": [
+			"wide",
+			"full"
+		],
+		"color": {
+			"background": true,
+			"text": true,
+			"link": true
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true
+		},
+		"__experimentalBorder": {
+			"radius": true,
+			"width": true,
+			"color": true
+		}
+	},
+	"legacy": {
+		"elementor": [
+			"bpb-profile-member-avatar"
+		]
+	}
+}

@@ -29,7 +29,7 @@ bp_nouveau_before_loop(); ?>
 					data-bp-item-component="members">
 				<div class="list-wrap">
 					<?php if ( $render ) : ?>
-						<?php echo do_shortcode( $members_item ); ?>
+						<?php echo bpb_render_loop_item( 'members-directory-item', $members_item ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 					<?php else : ?>
 
 						<div class="item-avatar">

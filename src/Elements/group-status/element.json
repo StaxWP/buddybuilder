@@ -1,0 +1,46 @@
+{
+	"version": 1,
+	"name": "group-status",
+	"title": "Group status",
+	"category": "buddybuilder",
+	"icon": "lock",
+	"description": "Public, private or hidden status of the group.",
+	"keywords": [
+		"privacy",
+		"buddypress",
+		"buddybuilder"
+	],
+	"templateTypes": [
+		"group-profile"
+	],
+	"attributes": {},
+	"supports": {
+		"html": false,
+		"align": [
+			"wide",
+			"full"
+		],
+		"color": {
+			"background": true,
+			"text": true,
+			"link": true
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true
+		},
+		"__experimentalBorder": {
+			"radius": true,
+			"width": true,
+			"color": true
+		}
+	},
+	"legacy": {
+		"elementor": [
+			"bpb-profile-group-status"
+		]
+	}
+}

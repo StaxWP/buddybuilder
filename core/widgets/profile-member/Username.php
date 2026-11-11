@@ -12,6 +12,13 @@ use Elementor\Group_Control_Typography;
 
 class Username extends \Buddy_Builder\Widgets\Base {
 
+	/**
+	 * Element rendered by this widget (src/Elements/member-username).
+	 *
+	 * @var string
+	 */
+	protected $bpb_element = 'member-username';
+
 	public function get_name() {
 		return 'bpb-profile-member-username';
 	}
@@ -156,7 +163,7 @@ class Username extends \Buddy_Builder\Widgets\Base {
 		if ( bpb_is_elementor_editor() ) {
 			bpb_load_preview_template( 'profile-member/username', $this->get_settings_for_display() );
 		} else {
-			\Buddy_Builder\Elements\Renderer::render_elementor( 'member-username', $this->get_settings_for_display() );
+			$this->kit_render();
 		}
 	}
 

@@ -1,7 +1,37 @@
 <?php
 
 use Buddy_Builder\Template\Module;
-use Elementor\Core\Base\Document;
+use Buddy_Builder\Templates\Dispatcher;
+use Buddy_Builder\Templates\PostType;
+use Buddy_Builder\Templates\Registry;
+
+/**
+ * Render the layout assigned to a template type, with its builder (block layout or Elementor template).
+ *
+ * @param string $type    Template type (member-profile, members-directory, group-profile, groups-directory,
+ *                        sitewide-activity, register-page, or a Pro type).
+ * @param array  $context Optional context passed to the elements.
+ *
+ * @return string
+ * @since 2.0.0
+ */
+function bpb_render_template( $type, $context = [] ) {
+	return Dispatcher::render( (string) $type, (array) $context );
+}
+
+/**
+ * Render one loop item layout (members, groups, activity loops).
+ *
+ * @param string $type      Item template type.
+ * @param string $shortcode Filtered 1.x shortcode string (non-empty keeps the 1.x Elementor path).
+ * @param array  $context   Item context.
+ *
+ * @return string
+ * @since 2.0.0
+ */
+function bpb_render_loop_item( $type, $shortcode, $context = [] ) {
+	return Dispatcher::render_item( (string) $type, $shortcode, (array) $context );
+}
 
 /**
  * Get shortcode string
@@ -20,6 +50,11 @@ function bpb_get_shortcode_str( $template, $preview = false ) {
 	}
 
 	if ( ! get_post( $template_id ) ) {
+		return '';
+	}
+
+	// Block layouts have no shortcode: callers render them with bpb_render_template().
+	if ( PostType::POST_TYPE === get_post_type( $template_id ) ) {
 		return '';
 	}
 
@@ -118,18 +153,7 @@ function bpb_is_current_template_populated() {
  * @return bool
  */
 function bpb_is_template_id_populated( $id ) {
-	if ( class_exists( '\\Buddy_Builder\\Templates\\Dispatcher' ) ) {
-		$blocks = \Buddy_Builder\Templates\Dispatcher::populated( (int) $id );
-
-		if ( null !== $blocks ) {
-			return $blocks;
-		}
-	}
-
-	$content = get_post_meta( $id, '_elementor_data', true );
-	$content = json_decode( $content, true );
-
-	return ! empty( $content );
+	return Registry::is_post_populated( (int) $id );
 }
 
 /**
@@ -237,13 +261,15 @@ function bpb_get_settings() {
 function bpb_bulk_save_settings( $data ) {
 	$existing = bpb_get_settings();
 
-	foreach ( $existing['templates'] as $slug => $template_id ) {
-		if ( isset( $data[ $slug ] ) ) {
-			$existing['templates'][ $slug ] = $data[ $slug ];
+	foreach ( (array) $data as $slug => $template_id ) {
+		if ( ! isset( $existing['templates'][ $slug ] ) ) {
+			continue;
 		}
-	}
 
-	update_option( 'bpb_settings', $existing );
+		$template_id = (int) $template_id;
+
+		Registry::set( $slug, Registry::builder_of( $template_id ), $template_id );
+	}
 }
 
 /**
@@ -257,13 +283,11 @@ function bpb_bulk_save_settings( $data ) {
 function bpb_set_template_id( $template_slug, $id ) {
 	$settings = bpb_get_settings();
 
-	if ( ! isset( $settings['templates'][ $template_slug ] ) || get_post_type( $id ) !== 'elementor_library' ) {
+	if ( ! isset( $settings['templates'][ $template_slug ] ) || ! in_array( get_post_type( $id ), [ 'elementor_library', PostType::POST_TYPE ], true ) ) {
 		return false;
 	}
 
-	$settings['templates'][ $template_slug ] = $id;
-
-	return update_option( 'bpb_settings', $settings );
+	return Registry::set( $template_slug, Registry::builder_of( $id ), (int) $id );
 }
 
 /**
@@ -416,7 +440,7 @@ function bpb_is_doc_type( $id = 0 ) {
 		return false;
 	}
 
-	return 'bpb-buddypress' === get_post_meta( $id, Document::TYPE_META_KEY, true );
+	return 'bpb-buddypress' === get_post_meta( $id, '_elementor_template_type', true );
 }
 
 /**
@@ -530,22 +554,3 @@ function bpb_get_page_slug() {
 
 	return $url;
 }
-
-/**
- * Initialize the plugin tracker
- *
- * @return void
- */
-function appsero_init_tracker_stax_buddy_builder() {
-	if ( ! class_exists( 'Appsero\Client' ) ) {
-		return;
-	}
-
-	$client = new Appsero\Client( '3c249edb-b9b3-4811-b254-f77c9ac85f66', 'BuddyBuilder', BPB_FILE );
-
-	// Active insights
-	$client->insights()->init();
-
-}
-
-add_action( 'init', 'appsero_init_tracker_stax_buddy_builder' );

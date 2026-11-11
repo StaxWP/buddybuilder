@@ -27,7 +27,6 @@ class ElementorHooks extends Singleton {
 		parent::__construct();
 
 		add_action( 'elementor/init', [ $this, 'early_init' ], 0 );
-		add_action( 'init', [ $this, 'init' ] );
 
 		add_action(
 			'elementor/element/column/layout/before_section_end',
@@ -39,17 +38,6 @@ class ElementorHooks extends Singleton {
 			2
 		);
 
-		if ( is_admin() ) {
-			add_action(
-				'elementor/admin/after_create_settings/' . \Elementor\Settings::PAGE_ID,
-				[
-					$this,
-					'register_admin_fields',
-				],
-				20
-			);
-		}
-
 		add_action( 'elementor/elements/categories_registered', [ $this, 'categories_registered' ] );
 		add_action( 'elementor/widgets/register', [ $this, 'widgets_registered' ] );
 		add_action( 'elementor/editor/after_enqueue_styles', [ $this, 'editor_css' ] );
@@ -58,25 +46,42 @@ class ElementorHooks extends Singleton {
 		add_filter( 'template_include', [ $this, 'change_preview_and_edit_tpl' ] );
 		add_filter( 'elementor/document/urls/exit_to_dashboard', [ $this, 'redirect_to_bpb_dashboard' ], 10, 2 );
 
-		add_action(
-			'wp',
-			function () {
-				if ( is_singular() ) {
-					$meta     = get_post_meta( get_the_ID(), '_elementor_controls_usage', true );
-					$elements = [];
+		add_action( 'wp', [ $this, 'maybe_flag_general_widgets' ] );
+	}
 
-					foreach ( buddy_builder()->get_elements() as $widget ) {
-						if ( ! isset( $widget['template'] ) ) {
-							$elements[ $widget['name'] ] = true;
-						}
-					}
+	/**
+	 * Singular posts built with Elementor that use a general BuddyBuilder widget (members, groups, activity
+	 * listings) need the BuddyPress template stack: flag them. F11: only for Elementor-built posts, element names
+	 * computed once.
+	 */
+	public function maybe_flag_general_widgets() {
+		if ( ! is_singular() ) {
+			return;
+		}
 
-					if ( is_array( $meta ) && count( array_intersect_key( $elements, $meta ) ) > 0 ) {
-						add_filter( 'buddy_builder/has_template/pre', '__return_true' );
-					}
-				}
+		$post_id = get_the_ID();
+
+		if ( ! $post_id || 'builder' !== get_post_meta( $post_id, '_elementor_edit_mode', true ) ) {
+			return;
+		}
+
+		$meta = get_post_meta( $post_id, '_elementor_controls_usage', true );
+
+		if ( ! is_array( $meta ) || empty( $meta ) ) {
+			return;
+		}
+
+		$elements = [];
+
+		foreach ( buddy_builder()->get_elements() as $widget ) {
+			if ( ! isset( $widget['template'] ) ) {
+				$elements[ $widget['name'] ] = true;
 			}
-		);
+		}
+
+		if ( count( array_intersect_key( $elements, $meta ) ) > 0 ) {
+			add_filter( 'buddy_builder/has_template/pre', '__return_true' );
+		}
 	}
 
 	/**
@@ -124,21 +129,6 @@ class ElementorHooks extends Singleton {
 	}
 
 	/**
-	 * Init
-	 */
-	public function init() {
-		add_action(
-			'elementor/element/common/_section_position/before_section_end',
-			[
-				$this,
-				'custom_position_cover',
-			],
-			12,
-			2
-		);
-	}
-
-	/**
 	 * Add order control to column settings.
 	 *
 	 * @param object $element Element instance.
@@ -169,23 +159,6 @@ class ElementorHooks extends Singleton {
 				$args
 			);
 		}
-	}
-
-	/**
-	 * Add Buddy_Builder tab in Elementor Settings page.
-	 *
-	 * @param object $settings Settings.
-	 *
-	 * @since 1.0.0
-	 * @access public
-	 */
-	public function register_admin_fields( $settings ) {
-		$settings->add_tab(
-			'buddy-builder',
-			[
-				'label' => esc_html__( 'BuddyBuilder', 'stax-buddy-builder' ),
-			]
-		);
 	}
 
 	/**
@@ -293,45 +266,7 @@ class ElementorHooks extends Singleton {
 							return $element;
 						}
 
-						if ( 'bpb-members-directory-list' === $element['widgetType'] ) {
-							$listing_columns = bpb_get_listing_columns();
-
-							$listing_columns['members_directory'] = [
-								'desktop' => isset( $element['settings']['columns'] ) ? $element['settings']['columns'] : '3',
-								'tablet'  => isset( $element['settings']['columns_tablet'] ) ? $element['settings']['columns_tablet'] : '2',
-								'mobile'  => isset( $element['settings']['columns_mobile'] ) ? $element['settings']['columns_mobile'] : '1',
-							];
-
-							bpb_update_listing_columns( $listing_columns );
-						}
-
-						if ( 'bpb-groups-directory-list' === $element['widgetType'] ) {
-							$listing_columns = bpb_get_listing_columns();
-
-							$listing_columns['groups_directory'] = [
-								'desktop' => isset( $element['settings']['columns'] ) ? $element['settings']['columns'] : '3',
-								'tablet'  => isset( $element['settings']['columns_tablet'] ) ? $element['settings']['columns_tablet'] : '2',
-								'mobile'  => isset( $element['settings']['columns_mobile'] ) ? $element['settings']['columns_mobile'] : '1',
-							];
-
-							bpb_update_listing_columns( $listing_columns );
-						}
-
-						if ( 'bpb-profile-member-navigation' === $element['widgetType'] && isset( $element['settings']['show_home_tab'] ) ) {
-							$bp_appearance = bpb_get_appearance();
-
-							$bp_appearance['user_front_page'] = 'yes' === $element['settings']['show_home_tab'] ? 1 : 0;
-
-							bpb_update_appearance( $bp_appearance );
-						}
-
-						if ( 'bpb-profile-group-navigation' === $element['widgetType'] && isset( $element['settings']['show_home_tab'] ) ) {
-							$bp_appearance = bpb_get_appearance();
-
-							$bp_appearance['group_front_page'] = 'yes' === $element['settings']['show_home_tab'] ? 1 : 0;
-
-							bpb_update_appearance( $bp_appearance );
-						}
+						\Buddy_Builder\Settings\Mirror::apply( $element['widgetType'], isset( $element['settings'] ) ? (array) $element['settings'] : [] );
 
 						return $element;
 					}
@@ -373,38 +308,5 @@ class ElementorHooks extends Singleton {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Conditionally remove the Position control in Advanced Tab
-	 *
-	 * @param \Elementor\Widget_Base $element
-	 */
-	public function custom_position_cover( $element ) {
-
-		return;
-		/* TODO: wait for Elementor update to remove the notice */
-
-		$condition = [
-			'conditions' => [
-				'terms' => [
-					[
-						'name'     => 'position',
-						'operator' => '==',
-						'value'    => null,
-					],
-
-				],
-			],
-		];
-
-		$existing_control = \Elementor\Plugin::$instance->controls_manager->get_control_from_stack( $element->get_unique_name(), '_position' );
-		if ( ! is_wp_error( $existing_control ) ) {
-
-			$element->update_control(
-				'_position',
-				$condition
-			);
-		}
 	}
 }

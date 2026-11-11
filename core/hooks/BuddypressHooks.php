@@ -10,7 +10,6 @@ namespace Buddy_Builder;
 
 defined( 'ABSPATH' ) || die();
 
-use Buddy_Builder\Library\Documents\BuddyPress;
 use Buddy_Builder\Template\Module;
 
 /**
@@ -73,24 +72,12 @@ class BuddypressHooks extends Singleton {
 	}
 
 	/**
-	 * Plugins loaded
+	 * Plugins loaded: force the Nouveau template pack where a layout is assigned.
 	 */
 	public function plugins_loaded() {
 		if ( ! $this->current_component_has_template() ) {
 			return;
 		}
-
-		// theme compat
-		add_action(
-			'after_setup_theme',
-			function () {
-				remove_action( 'widgets_init', 'crum_mycred_user_balance_wp_widget' );
-				remove_action( 'wp_enqueue_scripts', 'sportix_print_bp_styles', 99 );
-			}
-		);
-
-		// Stop Youzer functionality for the component.
-		remove_action( 'plugins_loaded', 'youzer', YOUZER_LATE_LOAD );
 
 		add_action( 'after_setup_theme', [ $this, 'add_nouveau_compat' ], 50 );
 	}
@@ -116,10 +103,6 @@ class BuddypressHooks extends Singleton {
 	 * @return string
 	 */
 	public function get_template_path() {
-		if ( bpb_is_buddyboss() ) {
-			return BPB_BASE_PATH . 'templates/platform/';
-		}
-
 		return BPB_BASE_PATH . 'templates/buddypress/';
 	}
 
@@ -129,10 +112,6 @@ class BuddypressHooks extends Singleton {
 	 * @return string
 	 */
 	public function get_template_url() {
-		if ( bpb_is_buddyboss() ) {
-			return BPB_BASE_URL . 'templates/platform/';
-		}
-
 		return BPB_BASE_URL . 'templates/buddypress/';
 	}
 
@@ -289,7 +268,7 @@ class BuddypressHooks extends Singleton {
 			return $content;
 		}
 
-		$template_type = get_post_meta( $post->ID, BuddyPress::REMOTE_CATEGORY_META_KEY, true );
+		$template_type = get_post_meta( $post->ID, '_bpb_page', true );
 
 		if ( ! $template_type ) {
 			return $content;
@@ -316,7 +295,7 @@ class BuddypressHooks extends Singleton {
 			return $classes;
 		}
 
-		$template_type = get_post_meta( $post->ID, BuddyPress::REMOTE_CATEGORY_META_KEY, true );
+		$template_type = get_post_meta( $post->ID, '_bpb_page', true );
 
 		if ( ! $template_type ) {
 			return $classes;
@@ -342,6 +321,10 @@ class BuddypressHooks extends Singleton {
 	 * @return mixed
 	 */
 	public function customizer_controls( $controls ) {
+		if ( ! $this->has_any_template() ) {
+			return $controls;
+		}
+
 		unset(
 			$controls['bp_site_avatars'],
 			$controls['group_front_boxes'],
@@ -380,6 +363,10 @@ class BuddypressHooks extends Singleton {
 	 * @return array
 	 */
 	public function default_customizer_options( $options ) {
+		if ( ! $this->has_any_template() ) {
+			return $options;
+		}
+
 		return array_merge(
 			$options,
 			[
@@ -464,23 +451,10 @@ class BuddypressHooks extends Singleton {
 					return false;
 				}
 
-				$bp_pages_ids = get_option( 'bp-pages' );
-				$bp_pages_ids = array_map( [ $this, 'get_wpml_page_id' ], $bp_pages_ids );
-
-				$bp_slugs = [
-					'members'  => '',
-					'groups'   => '',
-					'activity' => '',
-				];
-
-				// Set page slugs.
-				foreach ( $bp_pages_ids as $k => $bp_page_id ) {
-					$bp_page        = get_post( $bp_pages_ids[ $k ] );
-					$bp_slugs[ $k ] = $bp_page->post_name;
-				}
+				$bp_slugs = $this->get_directory_slugs();
 
 				// Members directory.
-				if ( $slug === $bp_slugs['members'] ) {
+				if ( '' !== $bp_slugs['members'] && $slug === $bp_slugs['members'] ) {
 					if ( $settings['members-directory'] ) {
 						return bpb_is_template_id_populated( $settings['members-directory'] );
 					}
@@ -488,7 +462,7 @@ class BuddypressHooks extends Singleton {
 					return false;
 				}
 
-				if ( strpos( $slug, $bp_slugs['members'] ) !== false ) {
+				if ( $this->slug_is_below( $slug, $bp_slugs['members'] ) ) {
 					if ( $settings['member-profile'] ) {
 						return bpb_is_template_id_populated( $settings['member-profile'] );
 					}
@@ -509,7 +483,7 @@ class BuddypressHooks extends Singleton {
 					return false;
 				}
 
-				if ( strpos( $slug, $bp_slugs['groups'] ) !== false ) {
+				if ( $this->slug_is_below( $slug, $bp_slugs['groups'] ) ) {
 					if ( $settings['group-profile'] ) {
 						return bpb_is_template_id_populated( $settings['group-profile'] );
 					}
@@ -518,7 +492,7 @@ class BuddypressHooks extends Singleton {
 				}
 
 				// Site-wide activity.
-				if ( $slug === $bp_slugs['activity'] ) {
+				if ( '' !== $bp_slugs['activity'] && $slug === $bp_slugs['activity'] ) {
 					if ( $settings['sitewide-activity'] ) {
 						return bpb_is_template_id_populated( $settings['sitewide-activity'] );
 					}
@@ -597,6 +571,72 @@ class BuddypressHooks extends Singleton {
 		}
 
 		return $query;
+	}
+
+	/**
+	 * Whether any layout is assigned (Nouveau customizer controls are only removed then: E14).
+	 *
+	 * @return bool
+	 */
+	public function has_any_template() {
+		foreach ( \Buddy_Builder\Templates\Registry::all() as $entry ) {
+			if ( $entry['id'] ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Page paths of the BuddyPress directory pages (members, groups, activity), WPML aware.
+	 *
+	 * F12/F17: no fatal when `bp-pages` is not set yet, missing pages skipped, nested page paths supported.
+	 *
+	 * @return array
+	 */
+	public function get_directory_slugs() {
+		static $cache = null;
+
+		if ( null !== $cache ) {
+			return $cache;
+		}
+
+		$cache = [
+			'members'  => '',
+			'groups'   => '',
+			'activity' => '',
+		];
+
+		foreach ( (array) get_option( 'bp-pages', [] ) as $component => $page_id ) {
+			if ( ! array_key_exists( $component, $cache ) || ! $page_id ) {
+				continue;
+			}
+
+			$page = get_post( $this->get_wpml_page_id( (int) $page_id ) );
+
+			if ( $page ) {
+				$cache[ $component ] = get_page_uri( $page );
+			}
+		}
+
+		return $cache;
+	}
+
+	/**
+	 * Whether a request path is a sub-path of a directory page path ("members/ana" below "members"), matched on
+	 * whole path segments (a page "our-members" no longer matches "members": F12).
+	 *
+	 * @param string $slug Request path.
+	 * @param string $base Directory page path.
+	 * @return bool
+	 */
+	public function slug_is_below( $slug, $base ) {
+		if ( '' === $base || '' === $slug ) {
+			return false;
+		}
+
+		return (bool) preg_match( '#(^|/)' . preg_quote( $base, '#' ) . '/#', $slug . '/' ) && $slug !== $base;
 	}
 
 	/**

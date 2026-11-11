@@ -13,6 +13,13 @@ use Elementor\Group_Control_Typography;
 
 class Navigation extends \Buddy_Builder\Widgets\Base {
 
+	/**
+	 * Element rendered by this widget (src/Elements/group-nav).
+	 *
+	 * @var string
+	 */
+	protected $bpb_element = 'group-nav';
+
 	public function get_name() {
 		return 'bpb-profile-group-navigation';
 	}
@@ -626,12 +633,12 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 
 	protected function render() {
 		parent::render();
-		$settings = $this->get_settings_for_display();
 
 		if ( bpb_is_elementor_editor() ) {
+			$settings = $this->get_settings_for_display();
 			bpb_load_preview_template( 'profile-group/navigation', [ 'show_home' => $settings['show_home_tab'] ] );
 		} else {
-			bp_get_template_part( 'groups/single/parts/item-nav' );
+			$this->kit_render();
 		}
 	}
 

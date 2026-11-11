@@ -6,7 +6,6 @@
  * @version 4.0.0
  */
 
-$register_page = bpb_get_shortcode_str( 'register-page' );
 $render        = bpb_is_template_populated( 'register-page' );
 
 ?>
@@ -23,7 +22,7 @@ $render        = bpb_is_template_populated( 'register-page' );
 				<form action="" name="signup_form" id="signup-form" class="standard-form signup-form clearfix" method="post" enctype="multipart/form-data">
 
 					<?php if ( $render ) : ?>
-						<?php echo do_shortcode( $register_page ); ?>
+						<?php echo bpb_render_template( 'register-page' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 					<?php else : ?>
 
 							<div class="layout-wrap">

@@ -12,6 +12,13 @@ use Elementor\Group_Control_Typography;
 
 class Name extends \Buddy_Builder\Widgets\Base {
 
+	/**
+	 * Element rendered by this widget (src/Elements/group-name).
+	 *
+	 * @var string
+	 */
+	protected $bpb_element = 'group-name';
+
 	public function get_name() {
 		return 'bpb-profile-group-name';
 	}
@@ -111,14 +118,11 @@ class Name extends \Buddy_Builder\Widgets\Base {
 
 	protected function render() {
 		parent::render();
+
 		if ( bpb_is_elementor_editor() ) {
 			bpb_load_preview_template( 'profile-group/name' );
 		} else {
-			?>
-			<div class="bpb-group-name">
-				<?php bp_current_group_name(); ?>
-			</div>
-			<?php
+			$this->kit_render();
 		}
 	}
 

@@ -6,7 +6,6 @@
  * @version 3.0.0
  */
 
-$directory = bpb_get_shortcode_str( 'groups-directory' );
 $render    = bpb_is_template_populated( 'groups-directory' );
 
 ?>
@@ -14,7 +13,7 @@ $render    = bpb_is_template_populated( 'groups-directory' );
 <?php bp_nouveau_before_groups_directory_content(); ?>
 
 <?php if ( $render ) : ?>
-	<?php echo do_shortcode( $directory ); ?>
+	<?php echo bpb_render_template( 'groups-directory' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 	<?php bp_nouveau_after_groups_directory_content(); ?>
 <?php else : ?>
 

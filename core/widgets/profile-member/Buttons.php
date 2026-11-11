@@ -13,6 +13,13 @@ use Elementor\Group_Control_Typography;
 
 class Buttons extends \Buddy_Builder\Widgets\Base {
 
+	/**
+	 * Element rendered by this widget (src/Elements/member-buttons).
+	 *
+	 * @var string
+	 */
+	protected $bpb_element = 'member-buttons';
+
 	public function get_name() {
 		return 'bpb-profile-member-buttons';
 	}
@@ -714,7 +721,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 		if ( bpb_is_elementor_editor() ) {
 			bpb_load_preview_template( 'profile-member/buttons' );
 		} else {
-			\Buddy_Builder\Elements\Renderer::render_elementor( 'member-buttons', [] );
+			$this->kit_render();
 		}
 	}
 

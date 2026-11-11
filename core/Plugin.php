@@ -66,7 +66,7 @@ final class Plugin {
 	 *
 	 * @var string
 	 */
-	public static $minimum_elementor_version = '2.0.0';
+	public static $minimum_elementor_version = '3.20.0';
 
 	/**
 	 * The plugin directory.
@@ -148,10 +148,6 @@ final class Plugin {
 	 * @access private
 	 */
 	private function __construct() {
-		if ( ! defined( 'YOUZER_LATE_LOAD' ) ) {
-			define( 'YOUZER_LATE_LOAD', 2 );
-		}
-
 		add_action( 'plugins_loaded', [ $this, 'load_plugin' ], 0 );
 		add_action( 'wp_enqueue_scripts', [ $this, 'remove_buddypress_style' ], 11 );
 		add_action( 'bp_enqueue_scripts', [ $this, 'bp_scripts' ] );
@@ -184,10 +180,11 @@ final class Plugin {
 	}
 
 	/**
-	 * Checks Elementor version compatibility.
+	 * Boots the plugin on plugins_loaded:0.
 	 *
-	 * First checks if Elementor is installed and active,
-	 * then checks Elementor version compatibility.
+	 * 2.0: BuddyBuilder needs BuddyPress (or BuddyBoss Platform) only. Block layouts, the template registry and the
+	 * render dispatcher always load; the Elementor integration loads when Elementor is active. The lifecycle hooks
+	 * fire in the 1.x order: pre_init, mid_init (only with Elementor, BuddyBuilder Pro 1.x boots on it), init.
 	 *
 	 * @since 1.0.0
 	 * @access public
@@ -198,34 +195,33 @@ final class Plugin {
 		$this->define_constants();
 		$this->load_functions();
 
-		// 2.0 spike: block layouts load with BuddyPress, without Elementor.
-		if ( function_exists( 'bp_is_active' ) ) {
-			require_once BPB_BASE_PATH . 'src/bootstrap.php';
-		}
-
-		if ( ! defined( 'ELEMENTOR_VERSION' ) ) {
-			add_action( 'admin_notices', [ Notices::get_instance(), 'elementor_notice' ] );
-
-			return;
-		}
-
-		// Check for the minimum required Elementor version.
-		if ( ! version_compare( ELEMENTOR_VERSION, self::$minimum_elementor_version, '>=' ) ) {
-			add_action( 'admin_notices', [ Notices::get_instance(), 'minimum_elementor_version_notice' ] );
-		}
-
 		if ( ! function_exists( 'bp_is_active' ) ) {
 			add_action( 'admin_notices', [ Notices::get_instance(), 'buddypress_notice' ] );
 
 			return;
 		}
 
-		do_action( 'buddy_builder/mid_init' );
-
 		spl_autoload_register( [ $this, 'autoload' ] );
+
+		require_once BPB_BASE_PATH . 'src/bootstrap.php';
+
+		$has_elementor = Integrations\Elementor\Integration::is_available();
+
+		// Below the supported Elementor version: notice, but keep loading as 1.x did (saved layouts keep rendering).
+		if ( $has_elementor && ! Integrations\Elementor\Integration::is_supported() ) {
+			add_action( 'admin_notices', [ Notices::get_instance(), 'minimum_elementor_version_notice' ] );
+		}
+
+		if ( $has_elementor ) {
+			do_action( 'buddy_builder/mid_init' );
+		}
 
 		$this->load_admin_panel();
 		$this->add_hooks();
+
+		if ( $has_elementor ) {
+			Integrations\Elementor\Integration::boot();
+		}
 
 		do_action( 'buddy_builder/init' );
 
@@ -310,13 +306,9 @@ final class Plugin {
 	 * @access private
 	 */
 	private function add_hooks() {
-		include_once BPB_BASE_PATH . 'core/hooks/ElementorHooks.php';
 		include_once BPB_BASE_PATH . 'core/hooks/BuddypressHooks.php';
-		include_once BPB_BASE_PATH . 'core/hooks/CustomizerHooks.php';
 
-		ElementorHooks::get_instance();
 		BuddypressHooks::get_instance();
-		CustomizerHooks::get_instance();
 
 		add_action( 'plugins_loaded', [ $this, 'load_compat' ], 12 );
 	}
@@ -699,6 +691,7 @@ final class Plugin {
 		wp_register_script(
 			'bpb-grid-list-view',
 			BPB_ASSETS_URL . 'js/grid-list-view.js',
+			[ 'jquery' ],
 			BPB_VERSION,
 			true
 		);

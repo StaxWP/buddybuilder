@@ -8,6 +8,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Navigation extends \Buddy_Builder\Widgets\Base {
 
+	/**
+	 * Element rendered by this widget (src/Elements/activity-nav).
+	 *
+	 * @var string
+	 */
+	protected $bpb_element = 'activity-nav';
+
 	public function get_name() {
 		return 'bpb-sitewide-navigation';
 	}
@@ -30,10 +37,11 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 
 	protected function render() {
 		parent::render();
+
 		if ( bpb_is_elementor_editor() ) {
 			bpb_load_preview_template( 'sitewide-activity/navigation' );
 		} else {
-			bp_get_template_part( 'common/nav/directory-nav' );
+			$this->kit_render();
 		}
 	}
 
