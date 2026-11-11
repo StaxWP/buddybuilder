@@ -263,6 +263,15 @@ final class Plugin {
 			return;
 		}
 
+		// Widget classes extend Elementor classes: load them only with Elementor, and Base from its one path (F18).
+		if ( 0 === strpos( $class, __NAMESPACE__ . '\\Widgets\\' ) ) {
+			if ( __NAMESPACE__ . '\\Widgets\\Base' === $class && class_exists( '\\Elementor\\Widget_Base' ) ) {
+				require_once BPB_BASE_PATH . 'core/widgets/Base.php';
+			}
+
+			return;
+		}
+
 		/**
 		 * Prepare filename.
 		 *
