@@ -6,7 +6,7 @@
  *
  * @package Buddy_Builder\Kit
  *
- * Synced from k-elements@33c7c19 (src/Kit) by bin/sync-kit.sh, do not edit.
+ * Synced from k-elements@1cfbcd7 (src/Kit) by bin/sync-kit.sh, do not edit.
  */
 
 namespace Buddy_Builder\Kit;
@@ -119,7 +119,17 @@ final class Schema {
 			}
 		}
 
-		return array_values( array_unique( array_filter( $out, 'strlen' ) ) );
+		// Numbers ("1".."4" column labels) are not translatable text.
+		return array_values(
+			array_unique(
+				array_filter(
+					$out,
+					static function ( $text ) {
+						return '' !== trim( $text ) && ! is_numeric( $text );
+					}
+				)
+			)
+		);
 	}
 
 	/**

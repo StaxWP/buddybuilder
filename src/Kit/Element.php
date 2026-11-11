@@ -6,7 +6,7 @@
  *
  * @package Buddy_Builder\Kit
  *
- * Synced from k-elements@33c7c19 (src/Kit) by bin/sync-kit.sh, do not edit.
+ * Synced from k-elements@1cfbcd7 (src/Kit) by bin/sync-kit.sh, do not edit.
  */
 
 namespace Buddy_Builder\Kit;
