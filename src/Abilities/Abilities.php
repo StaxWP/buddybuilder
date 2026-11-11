@@ -61,9 +61,16 @@ final class Abilities {
 	private static function object( array $properties = [], array $required = [] ) {
 		$schema = [
 			'type'                 => 'object',
-			'properties'           => (object) $properties,
 			'additionalProperties' => false,
 		];
+
+		if ( $properties ) {
+			$schema['properties'] = $properties;
+		}
+
+		if ( ! $required ) {
+			$schema['default'] = [];
+		}
 
 		if ( $required ) {
 			$schema['required'] = $required;
