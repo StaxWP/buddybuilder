@@ -1,8 +1,12 @@
 {
 	"free-1.9.2": {
-		"functions: appsero_init_tracker_stax_buddy_builder": "Appsero tracker removed (inventory decision 3, 2026-11-11)"
+		"functions: appsero_init_tracker_stax_buddy_builder": "Appsero tracker removed (inventory decision 3, 2026-11-11)",
+		"classes: Buddy_Builder\\Widgets\\ProfileGroup\\ExtraMeta": "F1: never registered as a widget (dead file), deleted",
+		"classes: Buddy_Builder\\Widgets\\ProfileGroup\\TypeList": "F1: never registered as a widget (dead file), deleted"
 	},
 	"pro-1.7.0": {
-		"classes: Buddy_Builder_Pro\\ApiManager": "P1: dead license client, never instantiated (WC_AM_Client replaced it)"
+		"classes: Buddy_Builder_Pro\\ApiManager": "P1: dead license client, never instantiated (WC_AM_Client replaced it)",
+		"hooks: wc_am_inactive_notice_override": "P1: only fired inside the dead ApiManager class",
+		"hooks: wc_am_uninstall_disable": "P1: only fired inside the dead ApiManager class"
 	}
 }

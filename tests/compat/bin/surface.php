@@ -213,11 +213,26 @@ function bpb_surface_missing( $old, $new ) {
 		if ( in_array( $kind, [ 'functions', 'classes' ], true ) ) {
 			$have = array_map( 'strtolower', $have );
 		}
+		// A hook built from parts in the new code (`buddy_builder/{*}-loop/before/{*}`) covers the literal old names.
+		$patterns = [];
+		if ( 'hooks' === $kind ) {
+			foreach ( $have as $name ) {
+				if ( false !== strpos( $name, '{*}' ) ) {
+					$patterns[] = '#^' . str_replace( '\\{\\*\\}', '.+', preg_quote( $name, '#' ) ) . '$#';
+				}
+			}
+		}
 		foreach ( $list as $item ) {
 			$probe = in_array( $kind, [ 'functions', 'classes' ], true ) ? strtolower( $item ) : $item;
-			if ( ! in_array( $probe, $have, true ) ) {
-				$missing[] = $kind . ': ' . $item;
+			if ( in_array( $probe, $have, true ) ) {
+				continue;
 			}
+			foreach ( $patterns as $re ) {
+				if ( preg_match( $re, $item ) ) {
+					continue 2;
+				}
+			}
+			$missing[] = $kind . ': ' . $item;
 		}
 	}
 	return $missing;
