@@ -5,7 +5,6 @@
  * @version 3.0.0
  */
 
-$directory = bpb_get_shortcode_str( 'members-directory' );
 $render    = bpb_is_template_populated( 'members-directory' );
 
 ?>
@@ -13,7 +12,7 @@ $render    = bpb_is_template_populated( 'members-directory' );
 <?php bp_nouveau_before_members_directory_content(); ?>
 
 <?php if ( $render ) : ?>
-	<?php echo do_shortcode( $directory ); ?>
+	<?php echo bpb_render_template( 'members-directory' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 	<?php bp_nouveau_after_members_directory_content(); ?>
 <?php else : ?>
 	<?php if ( ! bp_nouveau_is_object_nav_in_sidebar() ) : ?>

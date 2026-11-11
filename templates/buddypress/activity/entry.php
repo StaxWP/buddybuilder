@@ -23,7 +23,7 @@ bp_nouveau_activity_hook( 'before', 'entry' ); ?>
     >
 
 		<?php if ( $render ) : ?>
-			<?php echo do_shortcode( $activity_item ); ?>
+			<?php echo bpb_render_loop_item( 'sitewide-activity-item', $activity_item ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 		<?php else : ?>
 
 			<?php if ( bpb_is_buddyboss() ) : ?>

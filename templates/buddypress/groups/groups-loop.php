@@ -31,7 +31,7 @@ bp_nouveau_before_loop(); ?>
 				<div class="list-wrap">
 
 					<?php if ( $render ) : ?>
-						<?php echo do_shortcode( $group_item ); ?>
+						<?php echo bpb_render_loop_item( 'groups-directory-item', $group_item ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 					<?php else : ?>
 
 						<?php if ( ! bp_disable_group_avatar_uploads() ) : ?>

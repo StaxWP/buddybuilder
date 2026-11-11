@@ -6,7 +6,6 @@
  * @version 6.0.0
  */
 
-$activity = bpb_get_shortcode_str( 'sitewide-activity' );
 $render   = bpb_is_template_populated( 'sitewide-activity' );
 
 ?>
@@ -14,7 +13,7 @@ $render   = bpb_is_template_populated( 'sitewide-activity' );
 <?php bp_nouveau_before_activity_directory_content(); ?>
 
 <?php if ( $render ) : ?>
-	<?php echo do_shortcode( $activity ); ?>
+	<?php echo bpb_render_template( 'sitewide-activity' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 <?php else : ?>
 
 	<?php if ( is_user_logged_in() ) : ?>
