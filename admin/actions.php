@@ -81,7 +81,7 @@ do_action( BPB_HOOK_PREFIX . $current_slug . '_page_container_before' );
 				</div>
 			<?php endif; ?>
 			
-			<?php if ( $current_slug !== 'templates' ) : ?>
+			<?php if ( $current_slug !== 'templates' && class_exists( '\\Buddy_Builder\\Templates' ) ) : ?>
 				<div class="ste-bg-white ste-mb-4 ste-p-6 lg:ste-p-10 ste-rounded ste-shadow-lg">
 					<div class="sqp_box">
 						<h2 class="ste-mt-0 ste-text-lg ste-flex ste-items-center">
