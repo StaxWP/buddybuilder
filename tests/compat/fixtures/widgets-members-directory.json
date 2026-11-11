@@ -1,0 +1,119 @@
+{
+    "name": "widgets-members-directory",
+    "title": "Every widget: members-directory",
+    "type": "members-directory",
+    "builder": "elementor",
+    "source": "synthetic: every element registered for this type in 1.9.2 / Pro 1.7.0, default settings",
+    "widgets": [
+        "bpb-members-directory-list",
+        "bpb-members-directory-filters",
+        "bpb-members-directory-navigation",
+        "bpb-general-save-notification"
+    ],
+    "elementor_data": [
+        {
+            "id": "a68aa88",
+            "elType": "section",
+            "settings": {},
+            "isInner": false,
+            "elements": [
+                {
+                    "id": "b57fceb",
+                    "elType": "column",
+                    "settings": {
+                        "_column_size": 100
+                    },
+                    "isInner": false,
+                    "elements": [
+                        {
+                            "id": "7640d7d",
+                            "elType": "widget",
+                            "widgetType": "bpb-members-directory-list",
+                            "settings": {},
+                            "elements": [],
+                            "isInner": false
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "64e83e0",
+            "elType": "section",
+            "settings": {},
+            "isInner": false,
+            "elements": [
+                {
+                    "id": "00a8fc2",
+                    "elType": "column",
+                    "settings": {
+                        "_column_size": 100
+                    },
+                    "isInner": false,
+                    "elements": [
+                        {
+                            "id": "47cf359",
+                            "elType": "widget",
+                            "widgetType": "bpb-members-directory-filters",
+                            "settings": {},
+                            "elements": [],
+                            "isInner": false
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "1d59d51",
+            "elType": "section",
+            "settings": {},
+            "isInner": false,
+            "elements": [
+                {
+                    "id": "70d422c",
+                    "elType": "column",
+                    "settings": {
+                        "_column_size": 100
+                    },
+                    "isInner": false,
+                    "elements": [
+                        {
+                            "id": "4e5be9e",
+                            "elType": "widget",
+                            "widgetType": "bpb-members-directory-navigation",
+                            "settings": {},
+                            "elements": [],
+                            "isInner": false
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "fcbcd8c",
+            "elType": "section",
+            "settings": {},
+            "isInner": false,
+            "elements": [
+                {
+                    "id": "75c7e79",
+                    "elType": "column",
+                    "settings": {
+                        "_column_size": 100
+                    },
+                    "isInner": false,
+                    "elements": [
+                        {
+                            "id": "5384e9c",
+                            "elType": "widget",
+                            "widgetType": "bpb-general-save-notification",
+                            "settings": {},
+                            "elements": [],
+                            "isInner": false
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,146 @@
+{
+    "name": "widgets-sitewide-activity",
+    "title": "Every widget: sitewide-activity",
+    "type": "sitewide-activity",
+    "builder": "elementor",
+    "source": "synthetic: every element registered for this type in 1.9.2 / Pro 1.7.0, default settings",
+    "widgets": [
+        "bpb-sitewide-form",
+        "bpb-sitewide-filters",
+        "bpb-sitewide-content",
+        "bpb-sitewide-navigation",
+        "bpb-general-save-notification"
+    ],
+    "elementor_data": [
+        {
+            "id": "843c1d7",
+            "elType": "section",
+            "settings": {},
+            "isInner": false,
+            "elements": [
+                {
+                    "id": "e070f99",
+                    "elType": "column",
+                    "settings": {
+                        "_column_size": 100
+                    },
+                    "isInner": false,
+                    "elements": [
+                        {
+                            "id": "9909578",
+                            "elType": "widget",
+                            "widgetType": "bpb-sitewide-form",
+                            "settings": {},
+                            "elements": [],
+                            "isInner": false
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "fc78718",
+            "elType": "section",
+            "settings": {},
+            "isInner": false,
+            "elements": [
+                {
+                    "id": "81c55f1",
+                    "elType": "column",
+                    "settings": {
+                        "_column_size": 100
+                    },
+                    "isInner": false,
+                    "elements": [
+                        {
+                            "id": "a4abd70",
+                            "elType": "widget",
+                            "widgetType": "bpb-sitewide-filters",
+                            "settings": {},
+                            "elements": [],
+                            "isInner": false
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "75443b6",
+            "elType": "section",
+            "settings": {},
+            "isInner": false,
+            "elements": [
+                {
+                    "id": "67440db",
+                    "elType": "column",
+                    "settings": {
+                        "_column_size": 100
+                    },
+                    "isInner": false,
+                    "elements": [
+                        {
+                            "id": "5640f26",
+                            "elType": "widget",
+                            "widgetType": "bpb-sitewide-content",
+                            "settings": {},
+                            "elements": [],
+                            "isInner": false
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "f3d7566",
+            "elType": "section",
+            "settings": {},
+            "isInner": false,
+            "elements": [
+                {
+                    "id": "56ae97e",
+                    "elType": "column",
+                    "settings": {
+                        "_column_size": 100
+                    },
+                    "isInner": false,
+                    "elements": [
+                        {
+                            "id": "d3c043b",
+                            "elType": "widget",
+                            "widgetType": "bpb-sitewide-navigation",
+                            "settings": {},
+                            "elements": [],
+                            "isInner": false
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "e5e420f",
+            "elType": "section",
+            "settings": {},
+            "isInner": false,
+            "elements": [
+                {
+                    "id": "efdb8e1",
+                    "elType": "column",
+                    "settings": {
+                        "_column_size": 100
+                    },
+                    "isInner": false,
+                    "elements": [
+                        {
+                            "id": "4d1cc15",
+                            "elType": "widget",
+                            "widgetType": "bpb-general-save-notification",
+                            "settings": {},
+                            "elements": [],
+                            "isInner": false
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

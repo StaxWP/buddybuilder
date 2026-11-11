@@ -1,0 +1,200 @@
+{
+    "name": "widgets-members-directory-item",
+    "title": "Every widget: members-directory-item",
+    "type": "members-directory-item",
+    "builder": "elementor",
+    "source": "synthetic: every element registered for this type in 1.9.2 / Pro 1.7.0, default settings",
+    "widgets": [
+        "bpb-members-directory-item-avatar",
+        "bpb-members-directory-item-actions",
+        "bpb-members-directory-item-last-activity",
+        "bpb-members-directory-item-name",
+        "bpb-members-directory-item-cover-image",
+        "bpb-members-directory-item-last-online",
+        "bpb-common-member-xprofile-field"
+    ],
+    "elementor_data": [
+        {
+            "id": "5cb15b2",
+            "elType": "section",
+            "settings": {},
+            "isInner": false,
+            "elements": [
+                {
+                    "id": "6fd6b19",
+                    "elType": "column",
+                    "settings": {
+                        "_column_size": 100
+                    },
+                    "isInner": false,
+                    "elements": [
+                        {
+                            "id": "654e739",
+                            "elType": "widget",
+                            "widgetType": "bpb-members-directory-item-avatar",
+                            "settings": {},
+                            "elements": [],
+                            "isInner": false
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "ba15369",
+            "elType": "section",
+            "settings": {},
+            "isInner": false,
+            "elements": [
+                {
+                    "id": "5e0149a",
+                    "elType": "column",
+                    "settings": {
+                        "_column_size": 100
+                    },
+                    "isInner": false,
+                    "elements": [
+                        {
+                            "id": "66e036c",
+                            "elType": "widget",
+                            "widgetType": "bpb-members-directory-item-actions",
+                            "settings": {},
+                            "elements": [],
+                            "isInner": false
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "7449546",
+            "elType": "section",
+            "settings": {},
+            "isInner": false,
+            "elements": [
+                {
+                    "id": "a2880ad",
+                    "elType": "column",
+                    "settings": {
+                        "_column_size": 100
+                    },
+                    "isInner": false,
+                    "elements": [
+                        {
+                            "id": "3c816a6",
+                            "elType": "widget",
+                            "widgetType": "bpb-members-directory-item-last-activity",
+                            "settings": {},
+                            "elements": [],
+                            "isInner": false
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "348385b",
+            "elType": "section",
+            "settings": {},
+            "isInner": false,
+            "elements": [
+                {
+                    "id": "719304b",
+                    "elType": "column",
+                    "settings": {
+                        "_column_size": 100
+                    },
+                    "isInner": false,
+                    "elements": [
+                        {
+                            "id": "0a4249d",
+                            "elType": "widget",
+                            "widgetType": "bpb-members-directory-item-name",
+                            "settings": {},
+                            "elements": [],
+                            "isInner": false
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "2198dd3",
+            "elType": "section",
+            "settings": {},
+            "isInner": false,
+            "elements": [
+                {
+                    "id": "d19c3ba",
+                    "elType": "column",
+                    "settings": {
+                        "_column_size": 100
+                    },
+                    "isInner": false,
+                    "elements": [
+                        {
+                            "id": "1c30907",
+                            "elType": "widget",
+                            "widgetType": "bpb-members-directory-item-cover-image",
+                            "settings": {},
+                            "elements": [],
+                            "isInner": false
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "cc0c7b4",
+            "elType": "section",
+            "settings": {},
+            "isInner": false,
+            "elements": [
+                {
+                    "id": "4f5cd91",
+                    "elType": "column",
+                    "settings": {
+                        "_column_size": 100
+                    },
+                    "isInner": false,
+                    "elements": [
+                        {
+                            "id": "927938c",
+                            "elType": "widget",
+                            "widgetType": "bpb-members-directory-item-last-online",
+                            "settings": {},
+                            "elements": [],
+                            "isInner": false
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "6156eac",
+            "elType": "section",
+            "settings": {},
+            "isInner": false,
+            "elements": [
+                {
+                    "id": "bbe9bfa",
+                    "elType": "column",
+                    "settings": {
+                        "_column_size": 100
+                    },
+                    "isInner": false,
+                    "elements": [
+                        {
+                            "id": "623d5dc",
+                            "elType": "widget",
+                            "widgetType": "bpb-common-member-xprofile-field",
+                            "settings": {},
+                            "elements": [],
+                            "isInner": false
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

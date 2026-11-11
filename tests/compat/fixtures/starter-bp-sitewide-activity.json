@@ -1,0 +1,103 @@
+{
+ "name": "starter-bp-sitewide-activity",
+ "title": "Site Wide Activity Starter",
+ "type": "sitewide-activity",
+ "builder": "elementor",
+ "source": "demo.staxwp.com/elementor-buddybuilder stax-feed template 347 (BuddyBuilder starter kit, free)",
+ "elementor_data": [
+  {
+   "id": "6f15a0a7",
+   "elType": "section",
+   "settings": [],
+   "elements": [
+    {
+     "id": "3ffbda40",
+     "elType": "column",
+     "settings": {
+      "_column_size": 100,
+      "_inline_size": null
+     },
+     "elements": [
+      {
+       "id": "2f14ae15",
+       "elType": "widget",
+       "settings": {
+        "avatar_border_radius": {
+         "unit": "px",
+         "top": "4",
+         "right": "4",
+         "bottom": "4",
+         "left": "4",
+         "isLinked": true
+        }
+       },
+       "elements": [],
+       "widgetType": "bpb-sitewide-form"
+      }
+     ],
+     "isInner": false
+    }
+   ],
+   "isInner": false
+  },
+  {
+   "id": "3d4eeede",
+   "elType": "section",
+   "settings": [],
+   "elements": [
+    {
+     "id": "18576cca",
+     "elType": "column",
+     "settings": {
+      "_column_size": 100,
+      "_inline_size": null
+     },
+     "elements": [
+      {
+       "id": "7612b1ba",
+       "elType": "widget",
+       "settings": [],
+       "elements": [],
+       "widgetType": "bpb-sitewide-filters"
+      }
+     ],
+     "isInner": false
+    }
+   ],
+   "isInner": false
+  },
+  {
+   "id": "10b45d9a",
+   "elType": "section",
+   "settings": [],
+   "elements": [
+    {
+     "id": "20139f2f",
+     "elType": "column",
+     "settings": {
+      "_column_size": 100,
+      "_inline_size": null
+     },
+     "elements": [
+      {
+       "id": "26c9f756",
+       "elType": "widget",
+       "settings": [],
+       "elements": [],
+       "widgetType": "bpb-general-save-notification"
+      },
+      {
+       "id": "5ccf8f05",
+       "elType": "widget",
+       "settings": [],
+       "elements": [],
+       "widgetType": "bpb-sitewide-content"
+      }
+     ],
+     "isInner": false
+    }
+   ],
+   "isInner": false
+  }
+ ]
+}

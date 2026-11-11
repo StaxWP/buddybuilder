@@ -1,0 +1,16 @@
+{
+	"free-1.9.2": [
+		"Buddy_Builder\\Plugin",
+		"Buddy_Builder\\Widgets\\Base",
+		"Buddy_Builder\\Base",
+		"Buddy_Builder\\Helpers",
+		"Buddy_Builder\\Singleton",
+		"Buddy_Builder\\ElementorHooks",
+		"Buddy_Builder\\BuddypressHooks",
+		"Buddy_Builder\\Library\\Documents\\BuddyPress",
+		"Buddy_Builder\\Template\\Module"
+	],
+	"pro-1.7.0": [
+		"Buddy_Builder_Pro\\Plugin"
+	]
+}

@@ -1,0 +1,146 @@
+{
+    "name": "widgets-sitewide-activity-item",
+    "title": "Every widget: sitewide-activity-item",
+    "type": "sitewide-activity-item",
+    "builder": "elementor",
+    "source": "synthetic: every element registered for this type in 1.9.2 / Pro 1.7.0, default settings",
+    "widgets": [
+        "bpb-sitewide-item-avatar",
+        "bpb-sitewide-item-meta",
+        "bpb-sitewide-item-content",
+        "bpb-sitewide-item-buttons",
+        "bpb-sitewide-item-comments"
+    ],
+    "elementor_data": [
+        {
+            "id": "7c748c9",
+            "elType": "section",
+            "settings": {},
+            "isInner": false,
+            "elements": [
+                {
+                    "id": "2c5c79f",
+                    "elType": "column",
+                    "settings": {
+                        "_column_size": 100
+                    },
+                    "isInner": false,
+                    "elements": [
+                        {
+                            "id": "be44dae",
+                            "elType": "widget",
+                            "widgetType": "bpb-sitewide-item-avatar",
+                            "settings": {},
+                            "elements": [],
+                            "isInner": false
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "fad33e1",
+            "elType": "section",
+            "settings": {},
+            "isInner": false,
+            "elements": [
+                {
+                    "id": "262ec41",
+                    "elType": "column",
+                    "settings": {
+                        "_column_size": 100
+                    },
+                    "isInner": false,
+                    "elements": [
+                        {
+                            "id": "3c46e6a",
+                            "elType": "widget",
+                            "widgetType": "bpb-sitewide-item-meta",
+                            "settings": {},
+                            "elements": [],
+                            "isInner": false
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "5a7a9de",
+            "elType": "section",
+            "settings": {},
+            "isInner": false,
+            "elements": [
+                {
+                    "id": "0f6207c",
+                    "elType": "column",
+                    "settings": {
+                        "_column_size": 100
+                    },
+                    "isInner": false,
+                    "elements": [
+                        {
+                            "id": "e4f5dae",
+                            "elType": "widget",
+                            "widgetType": "bpb-sitewide-item-content",
+                            "settings": {},
+                            "elements": [],
+                            "isInner": false
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "a9b0d55",
+            "elType": "section",
+            "settings": {},
+            "isInner": false,
+            "elements": [
+                {
+                    "id": "05163fc",
+                    "elType": "column",
+                    "settings": {
+                        "_column_size": 100
+                    },
+                    "isInner": false,
+                    "elements": [
+                        {
+                            "id": "37625d0",
+                            "elType": "widget",
+                            "widgetType": "bpb-sitewide-item-buttons",
+                            "settings": {},
+                            "elements": [],
+                            "isInner": false
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "adf5014",
+            "elType": "section",
+            "settings": {},
+            "isInner": false,
+            "elements": [
+                {
+                    "id": "b805c29",
+                    "elType": "column",
+                    "settings": {
+                        "_column_size": 100
+                    },
+                    "isInner": false,
+                    "elements": [
+                        {
+                            "id": "f409578",
+                            "elType": "widget",
+                            "widgetType": "bpb-sitewide-item-comments",
+                            "settings": {},
+                            "elements": [],
+                            "isInner": false
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
