@@ -28,6 +28,7 @@ final class Assets {
 	 */
 	public static function hooks() {
 		add_action( 'wp_enqueue_scripts', [ __CLASS__, 'front' ], 13 );
+		add_action( 'bp_enqueue_scripts', [ __CLASS__, 'split_bp_styles' ], 20 );
 		add_action( 'enqueue_block_assets', [ __CLASS__, 'editor_canvas' ] );
 	}
 
@@ -68,6 +69,33 @@ final class Assets {
 		if ( wp_style_is( 'stax-buddy-builder-front', 'registered' ) ) {
 			wp_enqueue_style( 'stax-buddy-builder-front' );
 		}
+	}
+
+	/**
+	 * Per template type BuddyPress styles (task 10): the page loads only the sections of the Nouveau fork its type
+	 * needs (templates/buddypress/assets/parts, built by bin/split-css.py, order kept). Same handle, so the BuddyPress
+	 * cover image inline CSS still attaches to it. Off until the compatibility pixel diffs pass with it on:
+	 * add_filter( 'buddy_builder/split_css', '__return_true' ).
+	 */
+	public static function split_bp_styles() {
+		/**
+		 * Filters whether BuddyPress pages load the per template type part of the Nouveau fork.
+		 *
+		 * @param bool $split Split.
+		 */
+		if ( bpb_is_buddyboss() || ! apply_filters( 'buddy_builder/split_css', false ) ) {
+			return;
+		}
+
+		$type = Current::type();
+		$file = 'templates/buddypress/assets/parts/' . $type . self::min() . '.css';
+
+		if ( '' === $type || ! Current::entry() || ! file_exists( BPB_BASE_PATH . $file ) ) {
+			return;
+		}
+
+		wp_deregister_style( 'stax-buddy-builder-bp' );
+		wp_register_style( 'stax-buddy-builder-bp', BPB_BASE_URL . $file, [], BPB_VERSION );
 	}
 
 	/**
