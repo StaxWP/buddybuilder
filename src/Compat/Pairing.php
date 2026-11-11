@@ -46,7 +46,8 @@ class Pairing {
 			];
 		}
 
-		if ( version_compare( $pro, self::PRO_API_MIN, '>=' ) ) {
+		// Major version, so pre-releases (2.0.0-dev, 2.0.0-rc1) count as 2.x.
+		if ( (int) $pro >= (int) self::PRO_API_MIN ) {
 			return [
 				'state'   => 'ok',
 				'pro'     => $pro,
