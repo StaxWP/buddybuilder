@@ -37,7 +37,8 @@ CHUNKS = [
 ]
 
 ALL = [c for c, _ in CHUNKS]
-BASE = ["base_head", "base_tail"]
+# Loops are in every part: the general list elements (members, groups, activity lists) can sit on any page.
+BASE = ["base_head", "base_tail", "activity", "groups_loop", "members_loop"]
 TYPES = {
     "members-directory": BASE + ["members_loop", "directories"],
     "groups-directory": BASE + ["groups_loop", "directories"],
