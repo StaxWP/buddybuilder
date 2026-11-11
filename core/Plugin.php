@@ -700,7 +700,7 @@ final class Plugin {
 		wp_register_script(
 			'bpb-grid-list-view',
 			BPB_ASSETS_URL . 'js/grid-list-view.js',
-			[ 'jquery' ],
+			[],
 			BPB_VERSION,
 			true
 		);
