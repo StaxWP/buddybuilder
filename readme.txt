@@ -1,7 +1,7 @@
 === BuddyPress Builder for Elementor - BuddyBuilder ===
 Contributors: staxwp, seventhqueen, codezz, rtynio, geowrge
 Tags: elementor, buddypress, buddyboss, community builder, buddypress builder
-Requires at least: 5.0
+Requires at least: 6.6
 Requires PHP: 7.4
 Tested up to: 7.1.4
 Stable tag: 1.9.2
@@ -120,6 +120,19 @@ Visit the [WordPress.org support forum](https://wordpress.org/support/plugin/sta
 3. **Multiple Templates** — create unlimited templates and set the active one
 
 == Changelog ==
+
+= 2.0.0 (in development) =
+* New: build BuddyPress pages with the block editor (Block layouts), next to Elementor. On KLEO 7 and on sites without Elementor it is on by default; elsewhere turn on "Blocks (beta)" in BuddyBuilder > Settings.
+* New: BuddyBuilder no longer requires Elementor. Existing Elementor templates keep working unchanged.
+* New: Layouts screen with one-click presets (Classic, Creator, Professional and Social member profiles, group, directory and activity layouts) for both builders.
+* New: editor previews with real BuddyPress data for a chosen member or group, and an optional hidden sample member.
+* New: abilities for AI agents and MCP (WordPress 6.9+): list template types, elements and presets, read the assigned layout, apply a preset, assign a layout.
+* Improvement: one renderer per element for both builders; neutral .bpb-el-* CSS classes next to the Elementor ones.
+* Improvement: icon font as WOFF2; fewer requests and smaller package.
+* Fix: fatal error on a fresh site before BuddyPress has its pages (bp-pages not set).
+* Fix: a page whose slug contains "members" or "groups" was treated as a BuddyPress page.
+* Removed: usage tracker (Appsero), Youzer and old third-party theme workarounds.
+* Requires WordPress 6.6, PHP 7.4 and, for the Elementor integration, Elementor 3.20 or newer.
 
 = 1.9.2 =
 * Compatibility: WordPress 7.1
