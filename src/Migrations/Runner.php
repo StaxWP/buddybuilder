@@ -26,6 +26,9 @@ class Runner {
 	const MISSING = '__bpb_missing__';
 	const LOCK    = 'bpb_migration_lock';
 
+	/** Prefix of `bpb_migrations_checked` after a rollback (followed by files_stamp()). */
+	const ROLLED_BACK = 'rolled-back:';
+
 	/**
 	 * Registered steps, sorted by id.
 	 *
@@ -182,40 +185,76 @@ class Runner {
 	public static function rollback( $to_version, $dry_run = false ) {
 		$report = [];
 		$steps  = array_reverse( self::steps() );
+		$failed = false;
 
-		foreach ( $steps as $step ) {
-			if ( version_compare( $step->version(), $to_version, '<=' ) ) {
-				continue;
-			}
-
-			$backup = get_option( 'bpb_migration_backup_' . $step->id(), false );
-			if ( false === $backup ) {
-				$report[] = self::row( $step, 'no-backup', 'never applied on this site' );
-				continue;
-			}
-
-			if ( $dry_run ) {
-				$report[] = self::row( $step, 'would-roll-back', implode( ', ', array_keys( (array) $backup ) ) );
-				continue;
-			}
-
-			$result = $step->down( (array) $backup );
-			if ( is_wp_error( $result ) ) {
-				self::log( $step, 'failed', 'rollback: ' . $result->get_error_message() );
-				$report[] = self::row( $step, 'failed', $result->get_error_message() );
-				break;
-			}
-
-			delete_option( 'bpb_migration_backup_' . $step->id() );
-			self::log( $step, 'rolled_back', 'to ' . $to_version );
-			$report[] = self::row( $step, 'rolled_back', '' );
+		if ( ! $dry_run && ! self::lock() ) {
+			return [
+				[
+					'id'      => '*',
+					'result'  => 'locked',
+					'message' => 'Another request is running the migrations.',
+				],
+			];
 		}
 
-		if ( ! $dry_run ) {
-			update_option( 'bpb_db_version', $to_version );
+		try {
+			foreach ( $steps as $step ) {
+				if ( version_compare( $step->version(), $to_version, '<=' ) ) {
+					continue;
+				}
+
+				$backup = get_option( 'bpb_migration_backup_' . $step->id(), false );
+				if ( false === $backup ) {
+					$report[] = self::row( $step, 'no-backup', 'never applied on this site' );
+					continue;
+				}
+
+				if ( $dry_run ) {
+					$report[] = self::row( $step, 'would-roll-back', implode( ', ', array_keys( (array) $backup ) ) );
+					continue;
+				}
+
+				$result = $step->down( (array) $backup );
+				if ( is_wp_error( $result ) ) {
+					self::log( $step, 'failed', 'rollback: ' . $result->get_error_message() );
+					$report[] = self::row( $step, 'failed', $result->get_error_message() );
+					$failed   = true;
+					break;
+				}
+
+				delete_option( 'bpb_migration_backup_' . $step->id() );
+				self::log( $step, 'rolled_back', 'to ' . $to_version );
+				$report[] = self::row( $step, 'rolled_back', '' );
+			}
+
+			// The data is at $to_version only when every step rolled back.
+			if ( ! $dry_run && ! $failed ) {
+				update_option( 'bpb_db_version', $to_version );
+
+				/*
+				 * Not checked for the installed files: the same 2.x files stay quiet (the admin rolled back on purpose),
+				 * and installing 2.x again (new files) runs the steps again.
+				 */
+				update_option( 'bpb_migrations_checked', self::ROLLED_BACK . self::files_stamp() );
+			}
+		} finally {
+			if ( ! $dry_run ) {
+				self::unlock();
+			}
 		}
 
 		return $report;
+	}
+
+	/**
+	 * Version and modification time of the installed main plugin file (changes when the files are replaced).
+	 *
+	 * @return string
+	 */
+	private static function files_stamp() {
+		$file = defined( 'BPB_BASE_PATH' ) ? BPB_BASE_PATH . 'loader.php' : '';
+
+		return ( defined( 'BPB_VERSION' ) ? BPB_VERSION : '0' ) . ':' . ( $file && file_exists( $file ) ? (int) filemtime( $file ) : 0 );
 	}
 
 	/**
@@ -227,7 +266,13 @@ class Runner {
 		}
 
 		$code_version = defined( 'BPB_VERSION' ) ? BPB_VERSION : '0';
-		if ( get_option( 'bpb_migrations_checked' ) === $code_version && ! self::has_failed() ) {
+		$checked = get_option( 'bpb_migrations_checked' );
+
+		if ( $checked === self::ROLLED_BACK . self::files_stamp() ) {
+			return;
+		}
+
+		if ( $checked === $code_version && ! self::has_failed() ) {
 			return;
 		}
 
@@ -307,18 +352,26 @@ class Runner {
 	 * @return bool
 	 */
 	private static function lock() {
-		if ( get_transient( self::LOCK ) ) {
+		// add_option() is atomic (unique option_name): only one request gets it.
+		if ( add_option( self::LOCK, time(), '', false ) ) {
+			return true;
+		}
+
+		// A lock older than 5 minutes was left by a request that died: take it over.
+		$since = (int) get_option( self::LOCK, 0 );
+		if ( $since && time() - $since < 5 * MINUTE_IN_SECONDS ) {
 			return false;
 		}
-		set_transient( self::LOCK, time(), 5 * MINUTE_IN_SECONDS );
 
-		return true;
+		delete_option( self::LOCK );
+
+		return add_option( self::LOCK, time(), '', false );
 	}
 
 	/**
 	 * Releases the run lock.
 	 */
 	private static function unlock() {
-		delete_transient( self::LOCK );
+		delete_option( self::LOCK );
 	}
 }
