@@ -74,7 +74,9 @@ Get [BuddyBuilder Pro](https://staxwp.com/go/buddybuilder-pro) and take your com
 - [Visibility Logic for Elementor](https://wordpress.org/plugins/visibility-logic-elementor/) — conditional visibility for Elementor: show or hide widgets based on user role, device, ACF fields, date & time, and more.
 
 = Privacy Policy =
-BuddyBuilder uses the Appsero SDK to collect telemetry data upon user confirmation. This helps us troubleshoot problems faster and make product improvements.
+BuddyBuilder collects no usage data and sends nothing to us on its own.
+
+When you open the starter templates in BuddyBuilder > Templates or the Elementor template library and import one, the plugin fetches the template list and the chosen template from demo.staxwp.com (StaxWP). These requests happen only on that admin action and send the standard WordPress request data (your site URL in the user agent); no personal data is included. See the [StaxWP privacy policy](https://staxwp.com/privacy-policy/).
 
 = Found a bug? =
 Report security bugs through the [Patchstack Vulnerability Disclosure Program](https://patchstack.com/database/vdp/stax-buddy-builder). The Patchstack team helps validate, triage, and handle any security vulnerabilities.

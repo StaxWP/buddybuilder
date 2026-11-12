@@ -8,6 +8,8 @@
  * Version: 2.0.0-dev
  * Requires at least: 6.6
  * Requires PHP: 7.4
+ * License: GPLv2 or later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  *
  * Elementor tested up to: 4.4.0
  * Elementor Pro tested up to: 4.4.0
