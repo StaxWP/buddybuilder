@@ -34,6 +34,28 @@ final class PostType {
 		add_action( 'save_post_' . self::POST_TYPE, [ Registry::class, 'flush' ] );
 		add_filter( 'manage_' . self::POST_TYPE . '_posts_columns', [ __CLASS__, 'columns' ] );
 		add_action( 'manage_' . self::POST_TYPE . '_posts_custom_column', [ __CLASS__, 'column' ], 10, 2 );
+		add_filter( 'rest_request_before_callbacks', [ __CLASS__, 'rest_permission' ], 10, 3 );
+	}
+
+	/**
+	 * REST: layouts (content, preview member and group) only for users who can edit them. Core would serve published
+	 * layouts to anyone, since the post type is in REST for the block editor.
+	 *
+	 * @param mixed            $response Response.
+	 * @param array            $handler  Handler.
+	 * @param \WP_REST_Request $request  Request.
+	 * @return mixed
+	 */
+	public static function rest_permission( $response, $handler, $request ) {
+		if ( is_wp_error( $response ) || ! $request instanceof \WP_REST_Request || ! preg_match( '#^/wp/v2/bpb-templates(/|$)#', $request->get_route() ) ) {
+			return $response;
+		}
+
+		if ( current_user_can( 'edit_pages' ) ) {
+			return $response;
+		}
+
+		return new \WP_Error( 'rest_forbidden', __( 'Sorry, you are not allowed to do that.', 'stax-buddy-builder' ), [ 'status' => rest_authorization_required_code() ] );
 	}
 
 	/**
