@@ -297,6 +297,7 @@ final class Elements {
 			BPB_VERSION,
 			true
 		);
+		wp_set_script_translations( 'bpb-layout-panel', 'stax-buddy-builder', BPB_BASE_PATH . 'languages' );
 
 		$types = [];
 
