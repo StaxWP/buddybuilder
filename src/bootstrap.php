@@ -16,6 +16,7 @@ PreviewContext::hooks();
 \Buddy_Builder\Templates\SampleMember::hooks();
 
 add_filter( 'buddy_builder/settings', [ Dispatcher::class, 'filter_settings' ] );
+add_shortcode( Dispatcher::SHORTCODE, [ Dispatcher::class, 'shortcode' ] );
 
 \Buddy_Builder\Elements\Elements::hooks();
 \Buddy_Builder\Settings\Mirror::hooks();

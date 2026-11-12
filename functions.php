@@ -53,9 +53,9 @@ function bpb_get_shortcode_str( $template, $preview = false ) {
 		return '';
 	}
 
-	// Block layouts have no shortcode: callers render them with bpb_render_template().
+	// Block layouts: [bpb-layout] for 1.x callers that do_shortcode() the result ('' for item types).
 	if ( PostType::POST_TYPE === get_post_type( $template_id ) ) {
-		return '';
+		return is_int( $template ) ? Dispatcher::legacy_shortcode( '', (int) $template_id ) : Dispatcher::legacy_shortcode( (string) $template );
 	}
 
 	$shortcode_name = 'elementor-template';

@@ -26,6 +26,9 @@ final class Dispatcher {
 	 */
 	private static $stack = [];
 
+	/** Shortcode returned by bpb_get_shortcode_str() for block layouts (1.x theme overrides print it). */
+	const SHORTCODE = 'bpb-layout';
+
 	/**
 	 * Render the layout assigned to a type.
 	 *
@@ -113,6 +116,56 @@ final class Dispatcher {
 		}
 
 		return self::render_blocks( $type, $entry['id'], $context );
+	}
+
+	/**
+	 * Shortcode string for a block layout, so 1.x callers of bpb_get_shortcode_str() (child-theme `buddybuilder/`
+	 * overrides, KLEO 6, Pro 1.x) that do_shortcode() it print the layout. Item types are left out: their loops
+	 * render block items with context through render_item().
+	 *
+	 * @param string   $type Template type ('' when only the id is known).
+	 * @param int|null $id   Layout id (null: the layout assigned to $type).
+	 * @return string '' when it is not a block layout.
+	 */
+	public static function legacy_shortcode( $type, $id = null ) {
+		if ( null !== $id ) {
+			$type = PostType::type_of( $id );
+		}
+
+		if ( '' === $type || '-item' === substr( $type, -5 ) ) {
+			return '';
+		}
+
+		return null === $id ? '[' . self::SHORTCODE . ' type="' . esc_attr( $type ) . '"]' : '[' . self::SHORTCODE . ' id="' . (int) $id . '"]';
+	}
+
+	/**
+	 * [bpb-layout type="member-profile"] (the assigned layout) or [bpb-layout id="123"] (a published block layout).
+	 *
+	 * @param array|string $atts Attributes.
+	 * @return string
+	 */
+	public static function shortcode( $atts ) {
+		$atts = shortcode_atts(
+			[
+				'type' => '',
+				'id'   => 0,
+			],
+			$atts,
+			self::SHORTCODE
+		);
+
+		$id = absint( $atts['id'] );
+
+		if ( $id ) {
+			if ( PostType::POST_TYPE !== get_post_type( $id ) || ! Registry::is_post_populated( $id ) ) {
+				return '';
+			}
+
+			return self::render_blocks( PostType::type_of( $id ), $id );
+		}
+
+		return '' !== $atts['type'] ? self::render( sanitize_key( $atts['type'] ) ) : '';
 	}
 
 	/**
