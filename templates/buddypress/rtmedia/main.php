@@ -16,7 +16,7 @@ $rt_ajax_request = false;
 
 // Todo sanitize and fix $_SERVER variable usage.
 // Check if it is an ajax request.
-$_rt_ajax_request = rtm_get_server_var( 'HTTP_X_REQUESTED_WITH', 'FILTER_SANITIZE_STRING' );
+$_rt_ajax_request = rtm_get_server_var( 'HTTP_X_REQUESTED_WITH', 'FILTER_SANITIZE_FULL_SPECIAL_CHARS' );
 if ( 'xmlhttprequest' === strtolower( $_rt_ajax_request ) ) {
 	$rt_ajax_request = true;
 }
@@ -52,8 +52,7 @@ if ( ! $rt_ajax_request ) {
 			if ( bp_displayed_user_id() ) {
 
 				/*BuddyBuilder */
-				$member_profile = bpb_get_shortcode_str( 'member-profile' );
-				$render         = bpb_is_template_populated( 'member-profile' );
+				$render = bpb_is_template_populated( 'member-profile' );
 
 				?>
 				<?php bp_nouveau_member_hook( 'before', 'home_content' ); ?>
@@ -109,8 +108,7 @@ if ( ! $rt_ajax_request ) {
 				<?php
 			} elseif ( bp_is_group() ) {
 
-				$group_profile = bpb_get_shortcode_str( 'group-profile' );
-				$render        = bpb_is_template_populated( 'group-profile' );
+				$render = bpb_is_template_populated( 'group-profile' );
 
 				if ( bp_has_groups() ) {
 					while ( bp_groups() ) :
