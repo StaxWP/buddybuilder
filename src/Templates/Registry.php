@@ -210,7 +210,8 @@ final class Registry {
 			} elseif ( PostType::POST_TYPE === $post->post_type ) {
 				self::$populated[ $id ] = 'publish' === $post->post_status && has_blocks( $post->post_content );
 			} else {
-				self::$populated[ $id ] = Elementor::is_populated( $id );
+				// 1.x rule: without Elementor, Elementor templates are inert and BuddyPress renders its own pages.
+				self::$populated[ $id ] = Elementor::is_available() && Elementor::is_populated( $id );
 			}
 		}
 
