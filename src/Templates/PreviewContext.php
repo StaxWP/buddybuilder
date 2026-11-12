@@ -212,15 +212,35 @@ final class PreviewContext {
 		$bp->displayed_user->id       = $user_id;
 		$bp->displayed_user->userdata = bp_core_get_core_userdata( $user_id );
 		$bp->displayed_user->fullname = isset( $bp->displayed_user->userdata->display_name ) ? $bp->displayed_user->userdata->display_name : '';
-		$bp->displayed_user->domain   = bp_members_get_user_url( $user_id );
+		$bp->displayed_user->domain   = self::user_url( $user_id );
 
 		$component = bp_is_active( 'activity' ) ? 'activity' : 'profile';
 
 		$bp->current_component = $component;
 		$bp->current_action    = 'activity' === $component ? 'just-me' : 'public';
-		$bp->current_item      = bp_members_get_user_slug( $user_id );
+		$bp->current_item      = self::user_slug( $user_id );
 
 		self::setup_nav();
+	}
+
+	/**
+	 * Profile URL (BuddyPress 12+ helper, with the BuddyBoss Platform / BuddyPress < 12 one as fallback).
+	 *
+	 * @param int $user_id Member.
+	 * @return string
+	 */
+	private static function user_url( $user_id ) {
+		return function_exists( 'bp_members_get_user_url' ) ? bp_members_get_user_url( $user_id ) : bp_core_get_user_domain( $user_id );
+	}
+
+	/**
+	 * Profile slug (BuddyPress 12+ helper, with the BuddyBoss Platform / BuddyPress < 12 one as fallback).
+	 *
+	 * @param int $user_id Member.
+	 * @return string
+	 */
+	private static function user_slug( $user_id ) {
+		return function_exists( 'bp_members_get_user_slug' ) ? bp_members_get_user_slug( $user_id ) : bp_core_get_username( $user_id );
 	}
 
 	/**
