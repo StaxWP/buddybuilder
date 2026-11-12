@@ -57,17 +57,21 @@ do_action( BPB_HOOK_PREFIX . $current_slug . '_page_container_before' );
 						PRO version
 					</h2>
 
+					<?php
+					// Pro 2.x has its own License screen; Pro 1.x uses the WC_AM dashboard.
+					$bpb_license_url = class_exists( '\\Buddy_Builder_Pro\\License' ) ? admin_url( 'admin.php?page=' . \Buddy_Builder_Pro\License::PAGE ) : admin_url( 'options-general.php?page=wc_am_client_25_dashboard' );
+					?>
 					<?php if ( buddy_builder()->has_pro_license() ) : ?>
 						Thank you for your purchase and your support!
 						<br><br>
-						<a href="<?php echo esc_url( admin_url( 'options-general.php?page=wc_am_client_25_dashboard' ) ); ?>"
+						<a href="<?php echo esc_url( $bpb_license_url ); ?>"
 							class="ste-no-underline">
 							Manage License Key »
 						</a>
 					<?php else : ?>
 						<strong>Licence is not activated yet!</strong>
 						<br>
-						<a href="<?php echo esc_url( admin_url( 'options-general.php?page=wc_am_client_25_dashboard' ) ); ?>"
+						<a href="<?php echo esc_url( $bpb_license_url ); ?>"
 							class="ste-no-underline">
 							Add your License Key »
 						</a>
