@@ -180,7 +180,7 @@ final class PreviewContext {
 
 		$group_id = isset( $_GET['bpb_preview_group'] ) ? absint( $_GET['bpb_preview_group'] ) : (int) get_post_meta( $post_id, PostType::META_GROUP, true ); // phpcs:ignore WordPress.Security.NonceVerification
 
-		if ( $group_id && groups_get_group( $group_id )->id ) {
+		if ( $group_id && self::can_preview_group( $group_id ) ) {
 			return $group_id;
 		}
 
@@ -199,6 +199,28 @@ final class PreviewContext {
 		);
 
 		return ! empty( $groups['groups'][0]->id ) ? (int) $groups['groups'][0]->id : 0;
+	}
+
+	/**
+	 * Whether the editor may preview a group: public groups, groups they belong to, BuddyBuilder's sample groups, or
+	 * any group for community moderators. Private and hidden groups are not shown to other editors.
+	 *
+	 * @param int $group_id Group.
+	 * @return bool
+	 */
+	private static function can_preview_group( $group_id ) {
+		$group = groups_get_group( $group_id );
+
+		if ( empty( $group->id ) ) {
+			return false;
+		}
+
+		$sample = SampleMember::data();
+
+		return 'public' === $group->status
+			|| bp_current_user_can( 'bp_moderate' )
+			|| groups_is_user_member( get_current_user_id(), $group->id )
+			|| ( ! empty( $sample['groups'] ) && in_array( (int) $group->id, array_map( 'intval', (array) $sample['groups'] ), true ) );
 	}
 
 	/**
