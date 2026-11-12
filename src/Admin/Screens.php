@@ -197,8 +197,10 @@ final class Screens {
 				echo '<input type="hidden" name="preset[]" value="' . esc_attr( $id ) . '">';
 
 				foreach ( $builders as $builder => $label ) {
+					/* translators: 1: preset name, 2: builder name */
+					$aria = sprintf( __( 'Use %1$s with %2$s', 'stax-buddy-builder' ), $preset['title'], $label );
 					/* translators: %s: builder name */
-					echo '<button class="button' . ( Registry::BLOCKS === $builder || 1 === count( $builders ) ? ' button-primary' : '' ) . '" name="builder" value="' . esc_attr( $builder ) . '">' . esc_html( count( $builders ) > 1 ? sprintf( __( 'Use with %s', 'stax-buddy-builder' ), $label ) : __( 'Use this', 'stax-buddy-builder' ) ) . '</button> ';
+					echo '<button class="button' . ( Registry::BLOCKS === $builder || 1 === count( $builders ) ? ' button-primary' : '' ) . '" name="builder" value="' . esc_attr( $builder ) . '" aria-label="' . esc_attr( $aria ) . '">' . esc_html( count( $builders ) > 1 ? sprintf( __( 'Use with %s', 'stax-buddy-builder' ), $label ) : __( 'Use this', 'stax-buddy-builder' ) ) . '</button> ';
 				}
 
 				echo '</form>';
