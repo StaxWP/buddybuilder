@@ -74,7 +74,7 @@ Get [BuddyBuilder Pro](https://staxwp.com/go/buddybuilder-pro) and take your com
 - [Visibility Logic for Elementor](https://wordpress.org/plugins/visibility-logic-elementor/) — conditional visibility for Elementor: show or hide widgets based on user role, device, ACF fields, date & time, and more.
 
 = Privacy Policy =
-BuddyBuilder collects no usage data and sends nothing to us on its own.
+BuddyBuilder collects no usage data and sends nothing to us on its own. The usage tracker (Appsero) bundled until version 1.9.2 was removed in 2.0, and what it stored is deleted on update and on uninstall.
 
 When you open the starter templates in BuddyBuilder > Templates or the Elementor template library and import one, the plugin fetches the template list and the chosen template from demo.staxwp.com (StaxWP). These requests happen only on that admin action and send the standard WordPress request data (your site URL in the user agent); no personal data is included. See the [StaxWP privacy policy](https://staxwp.com/privacy-policy/).
 
@@ -133,7 +133,7 @@ Visit the [WordPress.org support forum](https://wordpress.org/support/plugin/sta
 * Improvement: icon font as WOFF2; fewer requests and smaller package.
 * Fix: fatal error on a fresh site before BuddyPress has its pages (bp-pages not set).
 * Fix: a page whose slug contains "members" or "groups" was treated as a BuddyPress page.
-* Removed: usage tracker (Appsero), Youzer and old third-party theme workarounds.
+* Removed: usage tracker (Appsero), Youzer and old third-party theme workarounds. The tracker's stored options and scheduled event are deleted on update and on uninstall.
 * Requires WordPress 6.6, PHP 7.4 and, for the Elementor integration, Elementor 3.20 or newer.
 
 = 1.9.2 =

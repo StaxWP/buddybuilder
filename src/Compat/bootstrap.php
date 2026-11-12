@@ -10,6 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+require_once __DIR__ . '/Appsero.php';
 require_once __DIR__ . '/Legacy.php';
 require_once __DIR__ . '/Pairing.php';
 require_once __DIR__ . '/Status.php';
@@ -18,6 +19,8 @@ require_once dirname( __DIR__ ) . '/Migrations/Runner.php';
 require_once dirname( __DIR__ ) . '/Migrations/steps/Registry_2_0_0_A.php';
 
 \Buddy_Builder\Compat\Legacy::init();
+
+add_action( 'init', [ '\Buddy_Builder\Compat\Appsero', 'maybe_cleanup' ] );
 
 add_action(
 	'plugins_loaded',
