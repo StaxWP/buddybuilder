@@ -63,6 +63,12 @@ class Settings extends Base {
                 $value   = sanitize_text_field( wp_unslash( $_POST[ $type ] ) );
                 $builder = 0 === strpos( $value, 'blocks:' ) ? Registry::BLOCKS : Registry::ELEMENTOR;
                 $id      = absint( str_replace( 'blocks:', '', $value ) );
+                $current = Registry::get( $type );
+
+                // Unchanged types are not written (keeps assignments the form could not list, e.g. Elementor off).
+                if ( $current['builder'] === $builder && $current['id'] === $id ) {
+                    continue;
+                }
 
                 Registry::set( $type, $builder, $id );
 
@@ -233,6 +239,16 @@ class Settings extends Base {
             );
 
             $posts = $query->posts;
+        } else {
+            // Elementor inactive: still list the assigned Elementor template, so saving the form keeps it.
+            $entry = Registry::get( $type );
+            $post  = $entry['id'] && Registry::ELEMENTOR === $entry['builder'] ? get_post( $entry['id'] ) : null;
+
+            if ( $post ) {
+                /* translators: %s: Elementor template title. */
+                $post->post_title = sprintf( __( '%s (Elementor inactive)', 'stax-buddy-builder' ), $post->post_title ? $post->post_title : __( '(no title)', 'stax-buddy-builder' ) );
+                $posts[]          = $post;
+            }
         }
 
         $blocks = new WP_Query(
