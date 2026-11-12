@@ -22,6 +22,9 @@ final class Registry {
 
 	const OPTION = 'bpb_templates';
 
+	/** Elementor ids replaced by block layouts in `bpb_settings`: [ type => id ] (see remember_replaced()). */
+	const REPLACED_OPTION = 'bpb_replaced_elementor';
+
 	const ELEMENTOR = 'elementor';
 	const BLOCKS    = 'blocks';
 
@@ -159,9 +162,11 @@ final class Registry {
 			$legacy['templates'] = [];
 		}
 
+		$previous                     = isset( $legacy['templates'][ $type ] ) ? (int) $legacy['templates'][ $type ] : 0;
 		$legacy['templates'][ $type ] = self::ELEMENTOR === $new['builder'] ? $new['id'] : 0;
 
 		update_option( 'bpb_settings', $legacy );
+		self::remember_replaced( $type, $previous, $new );
 
 		self::flush();
 
@@ -175,6 +180,33 @@ final class Registry {
 		do_action( 'buddy_builder/registry/changed', $type, $old, $new );
 
 		return true;
+	}
+
+	/**
+	 * Elementor templates a block layout replaced in `bpb_settings` (where 1.x reads them), kept so a rollback to
+	 * 1.9.2 can put them back instead of leaving those types on the BuddyPress default.
+	 *
+	 * @param string $type     Template type.
+	 * @param int    $previous Elementor id `bpb_settings` held before this write.
+	 * @param array  $new      New [ builder, id ].
+	 */
+	private static function remember_replaced( $type, $previous, array $new ) {
+		$replaced = get_option( self::REPLACED_OPTION, [] );
+		$replaced = is_array( $replaced ) ? $replaced : [];
+
+		if ( self::BLOCKS === $new['builder'] && $new['id'] && $previous ) {
+			$replaced[ $type ] = $previous;
+		} elseif ( self::ELEMENTOR === $new['builder'] && $new['id'] ) {
+			unset( $replaced[ $type ] );
+		} else {
+			return;
+		}
+
+		if ( $replaced ) {
+			update_option( self::REPLACED_OPTION, $replaced, false );
+		} else {
+			delete_option( self::REPLACED_OPTION );
+		}
 	}
 
 	/**

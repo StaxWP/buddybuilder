@@ -94,6 +94,34 @@ class Registry_2_0_0_A extends Step {
 	}
 
 	/**
+	 * Restores the registry from the backup, then puts back in `bpb_settings` the Elementor templates that block
+	 * layouts replaced after the migration (1.9.2 only reads `bpb_settings`; a 0 there means BuddyPress default).
+	 *
+	 * @param array $backup Backup.
+	 * @return true
+	 */
+	public function down( array $backup ) {
+		parent::down( $backup );
+
+		$replaced = get_option( 'bpb_replaced_elementor', [] );
+		$settings = get_option( 'bpb_settings', [] );
+
+		if ( is_array( $replaced ) && $replaced && is_array( $settings ) ) {
+			foreach ( $replaced as $type => $id ) {
+				if ( empty( $settings['templates'][ $type ] ) && get_post( (int) $id ) ) {
+					$settings['templates'][ $type ] = (int) $id;
+				}
+			}
+
+			update_option( 'bpb_settings', $settings );
+		}
+
+		delete_option( 'bpb_replaced_elementor' );
+
+		return true;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public function up( $dry_run = false ) {
