@@ -49,6 +49,7 @@ final class Elements {
 		add_filter( 'buddy_builder_kit_render', [ __CLASS__, 'preview_wrapper' ], 10, 4 );
 		add_filter( 'render_block_buddybuilder/directory-filters', [ __CLASS__, 'filters_order_class' ], 10, 2 );
 		add_action( 'enqueue_block_editor_assets', [ __CLASS__, 'editor_assets' ] );
+		add_action( 'enqueue_block_editor_assets', [ __CLASS__, 'hide_from_inserter' ] );
 	}
 
 	/**
@@ -214,39 +215,69 @@ final class Elements {
 	}
 
 	/**
-	 * Inserter: BuddyBuilder page blocks only in block layouts; the general blocks (members, groups and activity
-	 * lists, notices) everywhere when block layouts are enabled.
+	 * Blocks hidden from the inserter outside block layouts: the page blocks (they need a BuddyPress page), and every
+	 * BuddyBuilder block while block layouts are disabled.
+	 *
+	 * @return string[] Block names.
+	 */
+	public static function inserter_hidden_blocks() {
+		$hidden = [];
+
+		foreach ( self::kit()->elements() as $element ) {
+			$schema = $element->schema();
+
+			if ( ! Features::blocks_enabled() || ! empty( $schema['templateTypes'] ) ) {
+				$hidden[] = $element->block_name();
+			}
+		}
+
+		return $hidden;
+	}
+
+	/**
+	 * Inserter: an explicit allow list (set by the site or another plugin) loses the hidden BuddyBuilder blocks outside
+	 * block layouts. `true` stays `true`: turning it into a list of the server-registered blocks would drop every block
+	 * registered only in JavaScript, site-wide (BB-4). With `true`, editor_assets() hides the blocks instead.
 	 *
 	 * @param bool|string[]            $allowed Allowed block types.
 	 * @param \WP_Block_Editor_Context $context Editor context.
 	 * @return bool|string[]
 	 */
 	public static function allowed_blocks( $allowed, $context ) {
-		$post_type = isset( $context->post ) && $context->post ? $context->post->post_type : '';
-
-		if ( PostType::POST_TYPE === $post_type ) {
+		if ( ! is_array( $allowed ) || self::is_layout_editor( $context ) ) {
 			return $allowed;
 		}
 
-		$remove = [];
+		return array_values( array_diff( $allowed, self::inserter_hidden_blocks() ) );
+	}
 
-		foreach ( self::kit()->elements() as $element ) {
-			$schema = $element->schema();
+	/**
+	 * Whether a block editor context edits a block layout.
+	 *
+	 * @param \WP_Block_Editor_Context|null $context Editor context.
+	 * @return bool
+	 */
+	private static function is_layout_editor( $context ) {
+		return isset( $context->post ) && $context->post && PostType::POST_TYPE === $context->post->post_type;
+	}
 
-			if ( ! Features::blocks_enabled() || ! empty( $schema['templateTypes'] ) ) {
-				$remove[] = $element->block_name();
-			}
+	/**
+	 * Outside block layouts: hide the page blocks from the inserter (supports.inserter = false) before the kit
+	 * editor script registers them. Saved posts that already contain them still load.
+	 */
+	public static function hide_from_inserter() {
+		$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+		$hidden = self::inserter_hidden_blocks();
+
+		if ( ( $screen && PostType::POST_TYPE === $screen->post_type ) || ! $hidden ) {
+			return;
 		}
 
-		if ( ! $remove ) {
-			return $allowed;
-		}
-
-		if ( true === $allowed ) {
-			$allowed = array_keys( \WP_Block_Type_Registry::get_instance()->get_all_registered() );
-		}
-
-		return is_array( $allowed ) ? array_values( array_diff( $allowed, $remove ) ) : $allowed;
+		wp_add_inline_script(
+			self::kit()->editor_handle(),
+			'( function ( hidden ) { wp.hooks.addFilter( "blocks.registerBlockType", "buddybuilder/inserter", function ( settings, name ) { if ( hidden.indexOf( name ) === -1 ) { return settings; } return Object.assign( {}, settings, { supports: Object.assign( {}, settings.supports, { inserter: false } ) } ); } ); } )( ' . wp_json_encode( $hidden ) . ' );',
+			'before'
+		);
 	}
 
 	/**
