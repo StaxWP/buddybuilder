@@ -33,13 +33,12 @@ class CustomizerHooks extends Singleton {
 	 */
 	public function update_elementor_templates( $wp_customize ) {
 		$bp_appearance = bpb_get_appearance();
-		$bpb_settings  = bpb_get_settings();
 
-		foreach ( $bpb_settings['templates'] as $type => $id ) {
-			if ( ! in_array( $type, [ 'member-profile', 'group-profile' ] ) ) {
-				continue;
-			}
-
+		/*
+		 * Elementor templates only: bpb_get_settings() also lists block layouts (Dispatcher::filter_settings), and
+		 * saving a bpb_template through Elementor would empty its content.
+		 */
+		foreach ( \Buddy_Builder\Templates\Registry::elementor_ids( [ 'member-profile', 'group-profile' ] ) as $id ) {
 			$document = \Elementor\Plugin::$instance->documents->get( $id );
 
 			if ( $document ) {

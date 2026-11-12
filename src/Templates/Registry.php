@@ -96,6 +96,31 @@ final class Registry {
 	}
 
 	/**
+	 * Ids of the Elementor templates assigned to types (block layouts and empty assignments left out).
+	 *
+	 * Use this, not bpb_get_settings()['templates'], wherever the id is handed to Elementor: the filtered settings
+	 * also carry block layout ids (Dispatcher::filter_settings) for the 1.x "has template" checks.
+	 *
+	 * @param string[]|null $types Types to return (null: all).
+	 * @return int[] type => post id
+	 */
+	public static function elementor_ids( $types = null ) {
+		$ids = [];
+
+		foreach ( self::all() as $type => $entry ) {
+			if ( null !== $types && ! in_array( $type, (array) $types, true ) ) {
+				continue;
+			}
+
+			if ( self::ELEMENTOR === $entry['builder'] && $entry['id'] && self::ELEMENTOR === self::builder_of( $entry['id'] ) && get_post( $entry['id'] ) ) {
+				$ids[ $type ] = $entry['id'];
+			}
+		}
+
+		return $ids;
+	}
+
+	/**
 	 * Assign a layout to a type.
 	 *
 	 * @param string $type    Template type.

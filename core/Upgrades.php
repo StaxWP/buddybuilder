@@ -153,13 +153,8 @@ class Upgrades extends Singleton {
 	 * @return bool|WP_Error
 	 */
 	private function _upgrade_124() {
-		$settings = bpb_get_settings();
-
-		foreach ( $settings['templates'] as $type => $post_id ) {
-			if ( ! $post_id || ! in_array( $type, [ 'member-profile', 'group-profile' ] ) ) {
-				continue;
-			}
-
+		// Elementor templates only (a block layout saved through Elementor would lose its content).
+		foreach ( \Buddy_Builder\Templates\Registry::elementor_ids( [ 'member-profile', 'group-profile' ] ) as $post_id ) {
 			$document = \Elementor\Plugin::$instance->documents->get( $post_id );
 
 			if ( $document ) {
