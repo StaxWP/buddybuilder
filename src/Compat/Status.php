@@ -46,20 +46,28 @@ class Status {
 	 * @return array[]
 	 */
 	public static function templates() {
-		$types    = function_exists( 'bpb_get_template_types' ) ? bpb_get_template_types() : [];
-		$settings = function_exists( 'bpb_get_settings' ) ? bpb_get_settings() : [];
-		$registry = (array) get_option( 'bpb_templates', [] ); // Shape agreed with the 2.0 Registry: [ type => { builder, id } ].
-		$rows     = [];
+		$types = function_exists( 'bpb_get_template_types' ) ? bpb_get_template_types() : [];
+		// What renders (Registry::all(): the bpb_settings id wins over a stale registry entry).
+		$all   = [];
+		$rows  = [];
 
-		foreach ( $types as $type => $info ) {
-			if ( isset( $registry[ $type ] ) ) {
-				$entry = (array) $registry[ $type ];
-			} else {
-				$entry = [
+		if ( class_exists( '\\Buddy_Builder\\Templates\\Registry' ) ) {
+			$all = \Buddy_Builder\Templates\Registry::all();
+		} elseif ( function_exists( 'bpb_get_settings' ) ) {
+			// 1.x files (the compat tests load this class by hand on 1.9.2): Elementor ids only.
+			foreach ( (array) bpb_get_settings()['templates'] as $type => $id ) {
+				$all[ $type ] = [
 					'builder' => 'elementor',
-					'id'      => isset( $settings['templates'][ $type ] ) ? (int) $settings['templates'][ $type ] : 0,
+					'id'      => (int) $id,
 				];
 			}
+		}
+
+		foreach ( $types as $type => $info ) {
+			$entry = isset( $all[ $type ] ) ? (array) $all[ $type ] : [
+				'builder' => 'elementor',
+				'id'      => 0,
+			];
 
 			$id     = isset( $entry['id'] ) ? (int) $entry['id'] : 0;
 			$rows[] = [
