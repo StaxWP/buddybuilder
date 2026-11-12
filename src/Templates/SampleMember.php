@@ -26,8 +26,11 @@ final class SampleMember {
 	 * Register hooks.
 	 */
 	public static function hooks() {
-		add_filter( 'bp_after_has_members_parse_args', [ __CLASS__, 'hide_members' ] );
+		add_action( 'bp_pre_user_query_construct', [ __CLASS__, 'hide_members' ] );
 		add_filter( 'bp_after_has_groups_parse_args', [ __CLASS__, 'hide_groups' ] );
+		add_filter( 'bp_activity_get_where_conditions', [ __CLASS__, 'hide_activity' ] );
+		add_filter( 'bp_core_get_active_member_count', [ __CLASS__, 'member_count' ] );
+		add_filter( 'bp_core_get_total_member_count', [ __CLASS__, 'member_count' ] );
 		add_action( 'admin_post_bpb_sample_member', [ __CLASS__, 'handle' ] );
 	}
 
@@ -148,7 +151,15 @@ final class SampleMember {
 			}
 		}
 
+		// Out of the sitewide stream (updates and the friendship items); hide_activity() covers older samples.
+		if ( bp_is_active( 'activity' ) && function_exists( 'bp_activity_hide_user_activity' ) ) {
+			foreach ( array_merge( [ $user_id ], $data['friends'] ) as $sample_id ) {
+				bp_activity_hide_user_activity( $sample_id );
+			}
+		}
+
 		update_option( self::OPTION, $data, false );
+		self::flush_counts();
 
 		return $user_id;
 	}
@@ -161,6 +172,10 @@ final class SampleMember {
 
 		if ( ! function_exists( 'wp_delete_user' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/user.php';
+		}
+
+		if ( is_multisite() && ! function_exists( 'wpmu_delete_user' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/ms.php';
 		}
 
 		foreach ( isset( $data['groups'] ) ? (array) $data['groups'] : [] as $group_id ) {
@@ -179,11 +194,25 @@ final class SampleMember {
 
 		foreach ( $users as $user_id ) {
 			if ( $user_id && get_user_meta( (int) $user_id, self::USER_META, true ) ) {
-				wp_delete_user( (int) $user_id );
+				// On multisite wp_delete_user() only removes the user from this site.
+				if ( is_multisite() ) {
+					wpmu_delete_user( (int) $user_id );
+				} else {
+					wp_delete_user( (int) $user_id );
+				}
 			}
 		}
 
 		delete_option( self::OPTION );
+		self::flush_counts();
+	}
+
+	/**
+	 * Recount members next time: member_count() subtracts the sample members from a count that includes them.
+	 */
+	private static function flush_counts() {
+		delete_transient( 'bp_active_member_count' );
+		wp_cache_delete( 'bp_total_member_count', 'bp' );
 	}
 
 	/**
@@ -205,22 +234,50 @@ final class SampleMember {
 	}
 
 	/**
-	 * Hide sample members from member loops (front end; previews and admins still find them by id).
+	 * Hide sample members from every BuddyPress member query outside previews: directories, the BuddyPress REST API,
+	 * BuddyBuilder Pro lists, @mention suggestions. A query that asks for them by id (include) still finds them.
 	 *
-	 * @param array $args Loop args.
+	 * @param \BP_User_Query $query Query being built.
+	 */
+	public static function hide_members( $query ) {
+		$ids = self::member_ids();
+
+		if ( empty( $ids ) || ! empty( $query->query_vars['include'] ) || PreviewContext::is_preview() ) {
+			return;
+		}
+
+		$exclude                       = isset( $query->query_vars['exclude'] ) ? wp_parse_id_list( $query->query_vars['exclude'] ) : [];
+		$query->query_vars['exclude'] = array_merge( $exclude, $ids );
+	}
+
+	/**
+	 * Hide the sample members' activity (updates, friendships, group joins) from every activity query outside previews.
+	 *
+	 * @param array $where Where conditions.
 	 * @return array
 	 */
-	public static function hide_members( $args ) {
+	public static function hide_activity( $where ) {
 		$ids = self::member_ids();
 
 		if ( empty( $ids ) || PreviewContext::is_preview() ) {
-			return $args;
+			return $where;
 		}
 
-		$exclude         = isset( $args['exclude'] ) ? wp_parse_id_list( $args['exclude'] ) : [];
-		$args['exclude'] = array_merge( $exclude, $ids );
+		$where['bpb_sample'] = 'a.user_id NOT IN (' . implode( ',', array_map( 'intval', $ids ) ) . ')';
 
-		return $args;
+		return $where;
+	}
+
+	/**
+	 * Member counts leave the sample members out.
+	 *
+	 * @param int $count Active member count.
+	 * @return int
+	 */
+	public static function member_count( $count ) {
+		$ids = self::member_ids();
+
+		return $ids ? max( 0, (int) $count - count( $ids ) ) : $count;
 	}
 
 	/**
