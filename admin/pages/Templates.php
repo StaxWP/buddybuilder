@@ -104,10 +104,10 @@ class Templates extends Base {
 	public function add_menu_item( $menu ) {
 		$menu[] = [
 			'slug'     => $this->current_slug,
-			'name'     => __( 'Templates', 'stax-buddy-builder' ),
+			'name'     => __( 'Starter kits', 'stax-buddy-builder' ),
 			'link'     => admin_url( 'admin.php?page=' . BPB_ADMIN_PREFIX . $this->current_slug ),
 			'query'    => BPB_ADMIN_PREFIX . $this->current_slug,
-			'priority' => 4,
+			'priority' => 3,
 		];
 
 		return $menu;

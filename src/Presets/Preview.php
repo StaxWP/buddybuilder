@@ -30,6 +30,39 @@ final class Preview {
 	];
 
 	/**
+	 * Generic drawing of a page type, for layouts made by hand or imported from a starter kit (no preset).
+	 *
+	 * @param string $type Template type.
+	 * @return string
+	 */
+	public static function generic( $type ) {
+		$one = static function ( array $names ) {
+			return [
+				'columns' => [
+					[
+						'elements' => array_map(
+							static function ( $name ) {
+								return [ $name ];
+							},
+							$names
+						),
+					],
+				],
+			];
+		};
+
+		$map = [
+			'member-profile'    => [ $one( [ 'member-cover', 'member-avatar', 'member-nav', 'member-content' ] ) ],
+			'group-profile'     => [ $one( [ 'group-cover', 'group-avatar', 'group-nav', 'group-content' ] ) ],
+			'members-directory' => [ $one( [ 'directory-nav', 'directory-filters', 'members-listing' ] ) ],
+			'groups-directory'  => [ $one( [ 'directory-nav', 'directory-filters', 'groups-listing' ] ) ],
+			'sitewide-activity' => [ $one( [ 'activity-form', 'activity-nav', 'activity-stream' ] ) ],
+		];
+
+		return self::svg( isset( $map[ $type ] ) ? $map[ $type ] : [ $one( [ 'member-content' ] ) ] );
+	}
+
+	/**
 	 * SVG markup.
 	 *
 	 * @param array $layout Preset layout.

@@ -1,5 +1,12 @@
-<?php if ( isset( $message ) ) : ?>
-	<div class="ste-p-4 ste-mb-6 ste-text-white ste-font-medium ste-bg-green-500 ste-rounded">
-		<?php echo $message; ?>
-	</div>
+<?php
+/**
+ * Success notice. Variables: $message.
+ *
+ * @package Buddy_Builder
+ */
+
+defined( 'ABSPATH' ) || die();
+
+if ( isset( $message ) ) : ?>
+	<div class="notice notice-success is-dismissible"><p><?php echo esc_html( $message ); ?></p></div>
 <?php endif; ?>

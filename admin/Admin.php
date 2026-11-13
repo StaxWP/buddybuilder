@@ -58,6 +58,18 @@ final class Admin extends Singleton {
 		add_filter( 'admin_body_class', [ $this, 'add_admin_body_class' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'admin_scripts' ] );
 		add_action( BPB_HOOK_PREFIX . 'panel_action', [ $this, 'main_panel' ] );
+		add_action( 'buddy_builder/admin/header_actions', [ $this, 'header_actions' ] );
+	}
+
+	/**
+	 * Title buttons of the Community pages screen.
+	 *
+	 * @param string $page Screen slug.
+	 */
+	public function header_actions( $page ) {
+		if ( Helpers::get_instance()->get_slug() === $page ) {
+			\Buddy_Builder\Admin\CommunityPages::header_actions();
+		}
 	}
 
 	/**
@@ -65,7 +77,7 @@ final class Admin extends Singleton {
 	 */
 	public function register_menu() {
 		add_menu_page(
-			__( 'BuddyBuilder - Dashboard', 'stax-buddy-builder' ),
+			__( 'BuddyBuilder - Community pages', 'stax-buddy-builder' ),
 			__( 'BuddyBuilder', 'stax-buddy-builder' ),
 			'manage_options',
 			Helpers::get_instance()->get_slug(),
@@ -74,10 +86,17 @@ final class Admin extends Singleton {
 			'58.9'
 		);
 
-		// Submenus.
+		// Submenus, in the order of their priority (Community pages, Starter kits, Pro modules, Settings).
 		$sub_menus = apply_filters( BPB_HOOK_PREFIX . 'admin_menu', [] );
 
 		if ( ! empty( $sub_menus ) ) {
+			usort(
+				$sub_menus,
+				static function ( $a, $b ) {
+					return ( isset( $a['priority'] ) ? $a['priority'] : 10 ) - ( isset( $b['priority'] ) ? $b['priority'] : 10 );
+				}
+			);
+
 			foreach ( $sub_menus as $submenu ) {
 				$submenu_slug = 'buddy-builder-' . $submenu['slug'];
 
@@ -86,7 +105,8 @@ final class Admin extends Singleton {
 				}
 				add_submenu_page(
 					Helpers::get_instance()->get_slug(),
-					sprintf( __( 'STAX Elementor - %s', 'stax-buddy-builder' ), $submenu['name'] ),
+					/* translators: %s: screen name */
+					sprintf( __( 'BuddyBuilder - %s', 'stax-buddy-builder' ), wp_strip_all_tags( $submenu['name'] ) ),
 					$submenu['name'],
 					'manage_options',
 					$submenu_slug,
@@ -103,7 +123,7 @@ final class Admin extends Singleton {
 		global $submenu;
 
 		if ( isset( $submenu[ Helpers::get_instance()->get_slug() ] ) ) {
-			$submenu[ Helpers::get_instance()->get_slug() ][0][0] = __( 'Dashboard', 'stax-buddy-builder' );
+			$submenu[ Helpers::get_instance()->get_slug() ][0][0] = __( 'Community pages', 'stax-buddy-builder' ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride
 		}
 	}
 
@@ -182,7 +202,8 @@ final class Admin extends Singleton {
 			$min = '';
 		}
 
-		if ( isset( $_GET['page'] ) && strpos( sanitize_text_field( $_GET['page'] ), BPB_ADMIN_PREFIX ) !== false ) {
+		// The 1.x Tailwind styles are only needed by BuddyBuilder Pro 1.x module screens (2.0 screens are native).
+		if ( isset( $_GET['page'] ) && BPB_ADMIN_PREFIX . 'modules' === $_GET['page'] && defined( 'BPB_PRO_VERSION' ) && version_compare( BPB_PRO_VERSION, '2.0.0-dev', '<' ) ) {
 			wp_register_style(
 				'stax-buddy-addons-tw',
 				BPB_ADMIN_ASSETS_URL . 'css/admin' . $min . '.css',

@@ -9,8 +9,8 @@
  * - customizer-block-layout     BB-1: a Customizer save keeps the block layouts of member-profile / group-profile.
  * - elementor-off               BB-2: Elementor inactive (--skip-plugins=elementor,elementor-pro): Elementor
  *                               assignments are inert (BuddyPress default), block layouts still render.
- * - settings-save-no-elementor  BB-3: Elementor inactive: saving BuddyBuilder > Settings as rendered keeps the
- *                               Elementor assignments.
+ * - settings-save-no-elementor  BB-3: Elementor inactive: saving the Community pages selects as rendered (and
+ *                               the 1.x settings form handler) keeps the Elementor assignments.
  * - inserter-js-only-block      BB-4: `allowed_block_types_all` stays `true` in the post editor (blocks registered
  *                               only in JavaScript stay in the inserter); page blocks are hidden there by the
  *                               editor filter, and allowed in a block layout.
@@ -171,24 +171,30 @@ switch ( $bpb_case ) {
 			break;
 		}
 
-		if ( ! class_exists( '\Buddy_Builder\Settings' ) ) {
-			require_once BPB_BASE_PATH . 'admin/pages/Base.php';
-			require_once BPB_BASE_PATH . 'admin/pages/Settings.php';
-		}
-
-		// The form exactly as the Settings screen renders it.
+		// The Community pages screen exactly as rendered: each row's "Use a layout you already have" select, posted
+		// with its selected value, must keep the assignment (the Elementor template is listed though Elementor is off).
 		ob_start();
-		\Buddy_Builder\Settings::get_instance()->panel_content();
+		\Buddy_Builder\Admin\CommunityPages::render();
 		$bpb_html = ob_get_clean();
 
 		$bpb_post = [];
-		if ( preg_match_all( '#<select name="([a-z-]+)"[^>]*>(.*?)</select>#s', $bpb_html, $bpb_m, PREG_SET_ORDER ) ) {
+		if ( preg_match_all( '#<select id="bpb-layout-([a-z-]+)" name="layout">(.*?)</select>#s', $bpb_html, $bpb_m, PREG_SET_ORDER ) ) {
 			foreach ( $bpb_m as $bpb_select ) {
 				$bpb_post[ $bpb_select[1] ] = preg_match( '#<option value="([^"]*)" selected#', $bpb_select[2], $bpb_sel ) ? $bpb_sel[1] : '0';
 			}
 		}
 
-		$bpb_ok( count( $bpb_post ) >= 5, 'settings form has ' . count( $bpb_post ) . ' selects' );
+		$bpb_ok( count( $bpb_post ) >= count( $bpb_elementor ), 'community pages lists ' . count( $bpb_post ) . ' layout selects' );
+
+		foreach ( $bpb_post as $bpb_type => $bpb_value ) {
+			\Buddy_Builder\Admin\CommunityPages::apply( $bpb_type, 'assign', [ 'layout' => (int) $bpb_value ] );
+		}
+
+		// The 1.x settings form handler (kept for scripts that post it), with the same values.
+		if ( ! class_exists( '\Buddy_Builder\Settings' ) ) {
+			require_once BPB_BASE_PATH . 'admin/pages/Base.php';
+			require_once BPB_BASE_PATH . 'admin/pages/Settings.php';
+		}
 
 		$_SERVER['REQUEST_METHOD'] = 'POST';
 		$_POST                     = array_merge(

@@ -78,7 +78,8 @@ final class PostType {
 				],
 				'public'              => false,
 				'show_ui'             => $ui,
-				'show_in_menu'        => $ui ? \Buddy_Builder\Helpers::get_instance()->get_slug() : false,
+				// Listed from BuddyBuilder > Community pages ("All block layouts"), not as a menu entry.
+				'show_in_menu'        => false,
 				'show_in_rest'        => true,
 				'rest_base'           => 'bpb-templates',
 				'capability_type'     => 'page',

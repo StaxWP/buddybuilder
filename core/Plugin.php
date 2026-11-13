@@ -177,6 +177,9 @@ final class Plugin {
 		$settings['user_front_page']  = 0;
 
 		update_option( 'bp_nouveau_appearance', $settings );
+
+		// New installs open the setup once (updated sites never do).
+		\Buddy_Builder\Admin\Setup::on_activation();
 	}
 
 	/**
