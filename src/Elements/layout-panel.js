@@ -1,5 +1,5 @@
 /**
- * BuddyBuilder layout panel (block editor, bpb_template only): template type, preview member and preview group.
+ * BuddyBuilder layout panel (block editor, bpb_template only): template type, preview member or group, seen by.
  * The element kit's editor sends the unsaved choices with every preview request (editor_query_args).
  * Plain ES5 + wp globals, no build step.
  */
@@ -18,6 +18,19 @@
 		return [ { value: '0', label: emptyLabel } ].concat( ( list || [] ).map( function ( item ) {
 			return { value: String( item.id ), label: item.name || ( item.title && item.title.rendered ) || ( '#' + item.id ) };
 		} ) );
+	}
+
+	// "Seen by" choices of a type; without the moderation capability only "you" and "a guest" (the server checks too).
+	function viewers( type ) {
+		var list = ( config.viewers || {} )[ type ];
+		if ( ! list ) {
+			return null;
+		}
+		return Object.keys( list ).filter( function ( value ) {
+			return config.canSimulate || '' === value || 'guest' === value;
+		} ).map( function ( value ) {
+			return { value: value, label: list[ value ] };
+		} );
 	}
 
 	wp.plugins.registerPlugin( 'bpb-layout-panel', {
@@ -67,17 +80,27 @@
 					__nextHasNoMarginBottom: true
 				} ),
 				'member-profile' === type ? el( SelectControl, {
-					label: __( 'Preview as member', 'stax-buddy-builder' ),
+					label: __( 'Preview with', 'stax-buddy-builder' ),
+					help: __( 'The member whose profile the preview shows.', 'stax-buddy-builder' ),
 					value: String( data.meta._bpb_preview_user || 0 ),
 					options: options( data.users, config.sampleMember ? __( 'Sample member', 'stax-buddy-builder' ) : __( 'Me (current user)', 'stax-buddy-builder' ) ),
 					onChange: function ( v ) { setMeta( '_bpb_preview_user', parseInt( v, 10 ) || 0 ); },
 					__nextHasNoMarginBottom: true
 				} ) : null,
 				'group-profile' === type ? el( SelectControl, {
-					label: __( 'Preview group', 'stax-buddy-builder' ),
+					label: __( 'Preview with', 'stax-buddy-builder' ),
+					help: __( 'The group the preview shows.', 'stax-buddy-builder' ),
 					value: String( data.meta._bpb_preview_group || 0 ),
 					options: options( groupsState[ 0 ], __( 'Newest group', 'stax-buddy-builder' ) ),
 					onChange: function ( v ) { setMeta( '_bpb_preview_group', parseInt( v, 10 ) || 0 ); },
+					__nextHasNoMarginBottom: true
+				} ) : null,
+				viewers( type ) ? el( SelectControl, {
+					label: __( 'Seen by', 'stax-buddy-builder' ),
+					help: __( 'Buttons, tabs and private fields show as this visitor would see them. Nothing is saved on the profile.', 'stax-buddy-builder' ),
+					value: data.meta._bpb_preview_viewer || '',
+					options: viewers( type ),
+					onChange: function ( v ) { setMeta( '_bpb_preview_viewer', v ); },
 					__nextHasNoMarginBottom: true
 				} ) : null
 			);

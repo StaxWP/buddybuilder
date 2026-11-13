@@ -45,23 +45,238 @@ final class PreviewContext {
 	 * Register hooks.
 	 */
 	public static function hooks() {
-		add_filter( 'rest_request_before_callbacks', [ __CLASS__, 'before_rest' ], 10, 3 );
+		// After the permission check (rest_request_before_callbacks runs before it): the "seen by a guest" preview
+		// renders logged out, which must not change who the permission check sees.
+		add_filter( 'rest_dispatch_request', [ __CLASS__, 'dispatch' ], 10, 4 );
+		add_filter( 'rest_request_after_callbacks', [ __CLASS__, 'after_rest' ], 10, 3 );
 	}
 
 	/**
-	 * Build the context before the block renderer runs (so BuddyPress state exists for every block of the request).
+	 * Viewers a preview can be seen by, per page type (value => label). '' is you.
 	 *
-	 * @param mixed            $response Response.
-	 * @param array            $handler  Handler.
-	 * @param \WP_REST_Request $request  Request.
+	 * @return array type => [ value => label ]
+	 */
+	public static function viewer_options() {
+		return [
+			'member-profile' => [
+				''       => __( 'you', 'stax-buddy-builder' ),
+				'self'   => __( 'the member (own profile)', 'stax-buddy-builder' ),
+				'friend' => __( 'a friend', 'stax-buddy-builder' ),
+				'member' => __( 'another member', 'stax-buddy-builder' ),
+				'guest'  => __( 'a guest (logged out)', 'stax-buddy-builder' ),
+			],
+			'group-profile'  => [
+				''            => __( 'you', 'stax-buddy-builder' ),
+				'groupmember' => __( 'a group member', 'stax-buddy-builder' ),
+				'member'      => __( 'a member not in the group', 'stax-buddy-builder' ),
+				'guest'       => __( 'a guest (logged out)', 'stax-buddy-builder' ),
+			],
+		];
+	}
+
+	/**
+	 * Sanitize a viewer value.
+	 *
+	 * @param string $viewer Viewer.
+	 * @return string
+	 */
+	public static function sanitize_viewer( $viewer ) {
+		$viewer = sanitize_key( (string) $viewer );
+
+		return in_array( $viewer, [ 'self', 'friend', 'member', 'groupmember', 'guest' ], true ) ? $viewer : '';
+	}
+
+	/**
+	 * Whether the editor may preview as other members (community moderators). Everyone who can edit a layout may
+	 * preview as a guest, and as anyone around BuddyBuilder's sample member or sample group.
+	 *
+	 * @return bool
+	 */
+	public static function can_simulate_members() {
+		return function_exists( 'bp_current_user_can' ) && bp_current_user_can( 'bp_moderate' );
+	}
+
+	/**
+	 * User switched out for a guest preview (restored after the request), null when none.
+	 *
+	 * @var int|null
+	 */
+	private static $switched_from = null;
+
+	/**
+	 * rest_dispatch_request: build the context of a block preview after the permission check.
+	 *
+	 * @param mixed            $result  Dispatch result (null).
+	 * @param \WP_REST_Request $request Request.
+	 * @param string           $route   Route.
+	 * @param array            $handler Handler.
 	 * @return mixed
 	 */
-	public static function before_rest( $response, $handler, $request ) {
+	public static function dispatch( $result, $request, $route = '', $handler = [] ) {
 		if ( $request instanceof \WP_REST_Request && 0 === strpos( $request->get_route(), '/wp/v2/block-renderer/' ) ) {
-			self::ctx();
+			$ctx = self::ctx();
+
+			if ( ! empty( $ctx['viewer'] ) && 'guest' === $ctx['viewer'] && get_current_user_id() ) {
+				self::$switched_from = get_current_user_id();
+				wp_set_current_user( 0 );
+			}
+		}
+
+		return $result;
+	}
+
+	/**
+	 * rest_request_after_callbacks: back to the real user after a guest preview.
+	 *
+	 * @param mixed $response Response.
+	 * @return mixed
+	 */
+	public static function after_rest( $response ) {
+		if ( null !== self::$switched_from ) {
+			wp_set_current_user( self::$switched_from );
+			self::$switched_from = null;
 		}
 
 		return $response;
+	}
+
+	/**
+	 * Who the preview is seen by: BuddyPress' logged-in member becomes the viewer (buttons, tabs, private fields and
+	 * friends-only content follow), the WordPress user stays the same except for guests (logged out). Viewers other
+	 * than guests need the bp_moderate capability, or the sample member / sample group.
+	 *
+	 * @param string $type     Template type.
+	 * @param int    $user_id  Previewed member.
+	 * @param int    $group_id Previewed group.
+	 * @param int    $post_id  Layout.
+	 * @return string Viewer applied ('' for you).
+	 */
+	private static function apply_viewer( $type, $user_id, $group_id, $post_id ) {
+		$viewer = isset( $_GET['bpb_preview_viewer'] ) ? self::sanitize_viewer( wp_unslash( $_GET['bpb_preview_viewer'] ) ) : self::sanitize_viewer( get_post_meta( $post_id, PostType::META_VIEWER, true ) ); // phpcs:ignore WordPress.Security.NonceVerification
+		$known  = self::viewer_options();
+
+		if ( '' === $viewer || ! isset( $known[ $type ][ $viewer ] ) ) {
+			return '';
+		}
+
+		$sample = SampleMember::data();
+		$is_sample = ( $user_id && $user_id === SampleMember::user_id() ) || ( $group_id && ! empty( $sample['groups'] ) && in_array( $group_id, array_map( 'intval', (array) $sample['groups'] ), true ) );
+
+		if ( 'guest' !== $viewer && ! self::can_simulate_members() && ! $is_sample ) {
+			return '';
+		}
+
+		$status = null;
+
+		switch ( $viewer ) {
+			case 'guest':
+				$viewer_id = 0;
+				break;
+
+			case 'self':
+				$viewer_id = $user_id;
+				break;
+
+			case 'friend':
+				$friends   = $user_id && bp_is_active( 'friends' ) ? array_map( 'intval', (array) friends_get_friend_user_ids( $user_id ) ) : [];
+				$viewer_id = $friends ? $friends[0] : self::other_user( [ $user_id ] );
+				$status    = 'is_friend';
+				break;
+
+			case 'groupmember':
+				$viewer_id = self::group_member( $group_id );
+				break;
+
+			default: // member: logged in, not a friend, not in the group.
+				$exclude = [ $user_id ];
+
+				if ( $user_id && bp_is_active( 'friends' ) ) {
+					$exclude = array_merge( $exclude, array_map( 'intval', (array) friends_get_friend_user_ids( $user_id ) ) );
+				}
+
+				if ( $group_id ) {
+					$exclude[] = self::group_member( $group_id );
+				}
+
+				$viewer_id = self::other_user( $exclude, $group_id );
+				$status    = 'not_friends';
+		}
+
+		add_filter(
+			'bp_loggedin_user_id',
+			static function () use ( $viewer_id ) {
+				return (int) $viewer_id;
+			},
+			99
+		);
+
+		if ( null !== $status ) {
+			add_filter(
+				'bp_is_friend',
+				static function () use ( $status ) {
+					return $status;
+				},
+				99
+			);
+		}
+
+		return $viewer;
+	}
+
+	/**
+	 * A member who is not in the excluded list (and not in the group), 0 when the site has none.
+	 *
+	 * @param int[] $exclude  Excluded ids.
+	 * @param int   $group_id Group the member must not belong to (0: any).
+	 * @return int
+	 */
+	private static function other_user( array $exclude, $group_id = 0 ) {
+		$ids = get_users(
+			[
+				'number'  => 50,
+				'fields'  => 'ID',
+				'exclude' => array_filter( array_map( 'intval', $exclude ) ),
+				'orderby' => 'ID',
+			]
+		);
+
+		foreach ( $ids as $id ) {
+			if ( ! $group_id || ! groups_is_user_member( (int) $id, $group_id ) ) {
+				return (int) $id;
+			}
+		}
+
+		return 0;
+	}
+
+	/**
+	 * A member of the group (not the previewing user when possible), else its creator.
+	 *
+	 * @param int $group_id Group.
+	 * @return int
+	 */
+	private static function group_member( $group_id ) {
+		if ( ! $group_id ) {
+			return 0;
+		}
+
+		$members = groups_get_group_members(
+			[
+				'group_id'   => $group_id,
+				'per_page'   => 5,
+				'exclude_admins_mods' => false,
+			]
+		);
+
+		foreach ( isset( $members['members'] ) ? $members['members'] : [] as $member ) {
+			if ( (int) $member->ID !== get_current_user_id() ) {
+				return (int) $member->ID;
+			}
+		}
+
+		$group = groups_get_group( $group_id );
+
+		return ! empty( $group->creator_id ) ? (int) $group->creator_id : 0;
 	}
 
 	/**
@@ -92,7 +307,16 @@ final class PreviewContext {
 			'type'     => $type,
 			'user_id'  => 0,
 			'group_id' => 0,
+			'viewer'   => '',
 		];
+
+		// Before BuddyPress is booted: its navigation depends on who looks (own profile tabs, group admin tabs).
+		self::$ctx['viewer'] = self::apply_viewer(
+			$type,
+			'member-profile' === $type ? $user_id : 0,
+			'group-profile' === $type ? $group_id : 0,
+			$post_id
+		);
 
 		switch ( $type ) {
 			case 'member-profile':

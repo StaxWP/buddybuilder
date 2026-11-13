@@ -22,6 +22,7 @@ final class PostType {
 	const META_TYPE     = '_bpb_type';
 	const META_USER     = '_bpb_preview_user';
 	const META_GROUP    = '_bpb_preview_group';
+	const META_VIEWER   = '_bpb_preview_viewer';
 	const META_PRESET   = '_bpb_preset';
 	const TEMPLATE_TYPE = 'member-profile';
 
@@ -120,6 +121,19 @@ final class PostType {
 				]
 			);
 		}
+
+		register_post_meta(
+			self::POST_TYPE,
+			self::META_VIEWER,
+			[
+				'type'              => 'string',
+				'single'            => true,
+				'show_in_rest'      => true,
+				'default'           => '',
+				'sanitize_callback' => [ PreviewContext::class, 'sanitize_viewer' ],
+				'auth_callback'     => $auth,
+			]
+		);
 
 		register_post_meta(
 			self::POST_TYPE,

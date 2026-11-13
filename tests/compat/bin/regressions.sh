@@ -28,5 +28,11 @@ else
 	echo "SKIP preview-buddyboss: BuddyBoss Platform not installed on this site"
 fi
 run eval-file "$TEST" sample-member-hidden
+for v in self friend member guest ''; do
+	run eval-file "$TEST" preview-seen-by "$v"
+done
+run eval-file "$TEST" community-pages-read-only
+run eval-file "$TEST" checker-known-issues
+run eval-file "$TEST" setup-new-install
 
 exit $FAIL

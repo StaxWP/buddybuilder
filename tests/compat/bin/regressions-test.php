@@ -19,6 +19,11 @@
  *                               Platform installed; also passes on BuddyPress).
  * - sample-member-hidden        BB-7: the sample member and its friends stay out of member queries, counts and
  *                               activity; remove() deletes them.
+ * - preview-seen-by <viewer>    Majors UX B-M3: member preview seen by self|friend|member|guest|'' (buttons follow,
+ *                               the real user is back after the request).
+ * - community-pages-read-only   B-M1: rendering Community pages writes nothing; rows show the assignments.
+ * - checker-known-issues        B-M4: page template finding; last finding kept and forgotten.
+ * - setup-new-install           B-M2: the setup redirect is asked for on new installs only.
  *
  * THROWAWAY site only (needs the compat env mu-plugin). Restores the options it touches and deletes the posts it
  * creates. Prints PASS / FAIL / SKIP lines; exits 1 on any FAIL.
@@ -310,8 +315,122 @@ switch ( $bpb_case ) {
 		$bpb_ok( 0 === $bpb_left && ! $bpb_sample::user_id(), 'remove() deletes every sample user' );
 		break;
 
+	case 'preview-seen-by':
+		// Majors UX B-M3: the block preview of a member profile, seen by the member, a friend, another member, a
+		// guest. Each viewer runs in its own process (the preview context is built once per request).
+		$bpb_viewer = isset( $args[1] ) ? $args[1] : '';
+		$bpb_member = get_user_by( 'login', 'ana' );
+		$bpb_friends = $bpb_member && bp_is_active( 'friends' ) ? friends_get_friend_user_ids( $bpb_member->ID ) : [];
+		if ( ! $bpb_member || ! $bpb_friends ) {
+			$bpb_skip( 'needs the member "ana" with a friend (compat site data)' );
+			break;
+		}
+
+		$bpb_id = $bpb_block_layout( 'member-profile' );
+		update_post_meta( $bpb_id, PostType::META_USER, $bpb_member->ID );
+
+		if ( ! defined( 'REST_REQUEST' ) ) {
+			define( 'REST_REQUEST', true );
+		}
+		$_GET['post_id']            = $bpb_id;
+		$_GET['bpb_preview_viewer'] = $bpb_viewer;
+		$bpb_me                     = get_current_user_id();
+
+		$bpb_request = new WP_REST_Request( 'GET', '/wp/v2/block-renderer/buddybuilder/member-buttons' );
+		$bpb_request->set_query_params(
+			[
+				'context' => 'edit',
+				'post_id' => $bpb_id,
+			]
+		);
+		$bpb_response = rest_do_request( $bpb_request );
+		$bpb_html     = isset( $bpb_response->get_data()['rendered'] ) ? $bpb_response->get_data()['rendered'] : '';
+		$bpb_ctx      = \Buddy_Builder\Templates\PreviewContext::ctx();
+
+		$bpb_ok( 200 === $bpb_response->get_status(), $bpb_viewer . ': status ' . $bpb_response->get_status() );
+		$bpb_ok( $bpb_viewer === $bpb_ctx['viewer'], $bpb_viewer . ': viewer applied (' . $bpb_ctx['viewer'] . ')' );
+		$bpb_ok( get_current_user_id() === $bpb_me, $bpb_viewer . ': the real user is back after the request' );
+
+		$bpb_expect = [
+			'guest'  => [ 'none' => [ 'friendship-button', 'send-message' ] ],
+			'self'   => [ 'none' => [ 'friendship-button' ] ],
+			'friend' => [ 'has' => [ 'is_friend' ] ],
+			'member' => [ 'has' => [ 'not_friends' ] ],
+			''       => [ 'has' => [ 'send-message' ] ],
+		];
+		foreach ( isset( $bpb_expect[ $bpb_viewer ]['has'] ) ? $bpb_expect[ $bpb_viewer ]['has'] : [] as $bpb_needle ) {
+			$bpb_ok( false !== strpos( $bpb_html, $bpb_needle ), $bpb_viewer . ': buttons show ' . $bpb_needle );
+		}
+		foreach ( isset( $bpb_expect[ $bpb_viewer ]['none'] ) ? $bpb_expect[ $bpb_viewer ]['none'] : [] as $bpb_needle ) {
+			$bpb_ok( false === strpos( $bpb_html, $bpb_needle ), $bpb_viewer . ': no ' . $bpb_needle );
+		}
+		break;
+
+	case 'community-pages-read-only':
+		// Majors UX B-M1: opening Community pages (and the Help and status data) never writes the assignments.
+		$bpb_before = [ get_option( 'bpb_settings', null ), get_option( 'bpb_templates', null ) ];
+		$bpb_rows   = [];
+		foreach ( \Buddy_Builder\Admin\CommunityPages::structure() as $bpb_type => $bpb_info ) {
+			$bpb_rows[ $bpb_type ] = \Buddy_Builder\Admin\CommunityPages::row( $bpb_type, $bpb_info['pro'] );
+		}
+		ob_start();
+		\Buddy_Builder\Admin\CommunityPages::render();
+		$bpb_html = ob_get_clean();
+		$bpb_after = [ get_option( 'bpb_settings', null ), get_option( 'bpb_templates', null ) ];
+		$bpb_ok( $bpb_before === $bpb_after, 'assignment options unchanged after rendering' );
+		foreach ( Registry::all() as $bpb_type => $bpb_entry ) {
+			if ( isset( $bpb_rows[ $bpb_type ] ) ) {
+				$bpb_ok( $bpb_rows[ $bpb_type ]['entry'] === $bpb_entry, $bpb_type . ': row shows the assigned ' . $bpb_entry['builder'] . ' #' . $bpb_entry['id'] );
+			}
+		}
+		$bpb_ok( false !== strpos( $bpb_html, 'bpb-page-member-profile' ), 'member profile row rendered' );
+		$bpb_ok( false === strpos( $bpb_html, "\u{2014}" ), 'no em dash in the screen' );
+		break;
+
+	case 'checker-known-issues':
+		// Majors UX B-M4: a non-default page template on the members page is reported; findings are kept and forgotten.
+		$bpb_pages = bp_core_get_directory_page_ids( 'all' );
+		$bpb_page  = isset( $bpb_pages['members'] ) ? (int) $bpb_pages['members'] : 0;
+		if ( ! $bpb_page ) {
+			$bpb_skip( 'no members page' );
+			break;
+		}
+		$bpb_tpl = get_post_meta( $bpb_page, '_wp_page_template', true );
+		update_post_meta( $bpb_page, '_wp_page_template', 'page-full-width.php' );
+		$bpb_issues = \Buddy_Builder\Admin\Checker::known_issues( 'member-profile' );
+		$bpb_ok( (bool) preg_grep( '/page-full-width\.php/', $bpb_issues ), 'page template reported' );
+		update_post_meta( $bpb_page, '_wp_page_template', $bpb_tpl ? $bpb_tpl : 'default' );
+		$bpb_ok( ! preg_grep( '/page template/', \Buddy_Builder\Admin\Checker::known_issues( 'member-profile' ) ), 'default template: nothing reported' );
+
+		\Buddy_Builder\Admin\Checker::record( 'member-profile', [ 'test cause' ] );
+		$bpb_ok( 'not-applied' === \Buddy_Builder\Admin\CommunityPages::row( 'member-profile' )['status']['code'] || ! Registry::get( 'member-profile' )['id'], 'Community pages shows the last finding' );
+		\Buddy_Builder\Admin\Checker::forget( 'member-profile' );
+		$bpb_ok( null === \Buddy_Builder\Admin\Checker::last_issue( 'member-profile' ), 'finding forgotten' );
+		break;
+
+	case 'setup-new-install':
+		// Majors UX B-M2: the setup opens only on new installs.
+		$bpb_ok( ! \Buddy_Builder\Admin\Setup::is_new_install(), 'this site (with BuddyBuilder data) is not a new install' );
+		$bpb_keep = [];
+		foreach ( [ 'bpb_settings', 'bpb_templates', 'buddybuilder_db_version', 'bpb_db_version', 'bpb_imported_templates', 'bpb_setup' ] as $bpb_name ) {
+			$bpb_keep[ $bpb_name ] = get_option( $bpb_name, null );
+			delete_option( $bpb_name );
+		}
+		$bpb_ok( \Buddy_Builder\Admin\Setup::is_new_install(), 'without any BuddyBuilder option it is a new install' );
+		\Buddy_Builder\Admin\Setup::on_activation();
+		$bpb_ok( '1' === (string) get_option( \Buddy_Builder\Admin\Setup::REDIRECT ), 'activation asks for the setup once' );
+		delete_option( \Buddy_Builder\Admin\Setup::REDIRECT );
+		foreach ( $bpb_keep as $bpb_name => $bpb_value ) {
+			if ( null !== $bpb_value ) {
+				update_option( $bpb_name, $bpb_value );
+			}
+		}
+		\Buddy_Builder\Admin\Setup::on_activation();
+		$bpb_ok( false === get_option( \Buddy_Builder\Admin\Setup::REDIRECT, false ), 'activation on an existing site does not' );
+		break;
+
 	default:
-		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden' );
+		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install' );
 }
 
 // Cleanup.

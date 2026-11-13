@@ -82,6 +82,7 @@ final class Elements {
 						'bpb_type'          => PostType::META_TYPE,
 						'bpb_preview_user'  => PostType::META_USER,
 						'bpb_preview_group' => PostType::META_GROUP,
+						'bpb_preview_viewer' => PostType::META_VIEWER,
 					],
 					'context'           => [ __CLASS__, 'context' ],
 					'empty_preview'     => [ __CLASS__, 'empty_preview' ],
@@ -314,6 +315,8 @@ final class Elements {
 				[
 					'types'        => $types,
 					'sampleMember' => \Buddy_Builder\Templates\SampleMember::user_id(),
+					'viewers'      => \Buddy_Builder\Templates\PreviewContext::viewer_options(),
+					'canSimulate'  => \Buddy_Builder\Templates\PreviewContext::can_simulate_members(),
 				]
 			) . ';',
 			'before'
