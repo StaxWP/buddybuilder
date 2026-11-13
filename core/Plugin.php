@@ -227,8 +227,6 @@ final class Plugin {
 		}
 
 		do_action( 'buddy_builder/init' );
-
-		add_action( 'admin_notices', [ Notices::get_instance(), 'rate_us_notice' ] );
 	}
 
 	/**

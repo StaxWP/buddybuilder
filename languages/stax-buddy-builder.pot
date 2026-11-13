@@ -1,80 +1,369 @@
-#, fuzzy
+# Copyright (C) 2026 StaxWP
+# This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: BuddyBuilder - BuddyPress Builder for Elementor\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-04 21:13+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Project-Id-Version: BuddyBuilder - BuddyPress Builder 2.0.0-dev\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/stax-buddy-builder\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: \n"
-"Language: \n"
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Loco https://localise.biz/\n"
-"X-Loco-Version: 2.4.3; wp-5.5.1"
+"POT-Creation-Date: 2026-11-13T17:06:08+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: stax-buddy-builder\n"
 
-#: functions.php:38 admin/pages/Settings.php:94
-msgid "Member Profile"
+#. Plugin Name of the plugin
+#: loader.php
+msgid "BuddyBuilder - BuddyPress Builder"
 msgstr ""
 
-#: functions.php:42 admin/pages/Settings.php:98
-msgid "Members Directory"
+#. Plugin URI of the plugin
+#: loader.php
+msgid "https://staxwp.com/go/buddybuilder/"
 msgstr ""
 
-#: functions.php:46 admin/pages/Settings.php:102
-msgid "Group Profile"
+#. Description of the plugin
+#: loader.php
+msgid "Build and customize your BuddyPress community pages with the block editor or Elementor."
 msgstr ""
 
-#: functions.php:50 admin/pages/Settings.php:106
-msgid "Groups Directory"
+#. Author of the plugin
+#: loader.php
+msgid "StaxWP"
 msgstr ""
 
-#: functions.php:54 admin/pages/Settings.php:110
-msgid "Site-Wide Activity"
+#. Author URI of the plugin
+#: loader.php
+msgid "https://staxwp.com"
 msgstr ""
 
-#. %s: html tags
-#: core/Notices.php:50
+#: admin/Admin.php:80
+msgid "BuddyBuilder - Community pages"
+msgstr ""
+
+#: admin/Admin.php:81
+#: admin/layout.php:14
+#: core/Notices.php:98
+#: core/template/source-buddy-builder.php:33
+#: src/Abilities/Abilities.php:48
+#: src/Presets/Presets.php:101
+#: src/Templates/PostType.php:187
+#: src/Elements/layout-panel.js:74
+msgid "BuddyBuilder"
+msgstr ""
+
+#. translators: %s: screen name
+#: admin/Admin.php:109
 #, php-format
-msgid ""
-"%1$sBuddyBuilder%2$s requires %1$sElementor%2$s plugin installed & activated."
+msgid "BuddyBuilder - %s"
 msgstr ""
 
-#: core/Notices.php:60
+#: admin/Admin.php:126
+#: admin/pages/Settings.php:101
+msgid "Community pages"
+msgstr ""
+
+#. translators: %s: version
+#. translators: 1: version
+#: admin/layout.php:35
+#: admin/pages/Status.php:122
+#: admin/pages/Status.php:146
+#, php-format
+msgid "BuddyBuilder %s"
+msgstr ""
+
+#: admin/pages/Status.php:37
+msgid "BuddyBuilder - Help and status"
+msgstr ""
+
+#: admin/pages/Status.php:38
+#: admin/pages/Status.php:121
+msgid "Help and status"
+msgstr ""
+
+#: admin/pages/Status.php:50
+#: src/Templates/PostType.php:59
+msgid "Sorry, you are not allowed to do that."
+msgstr ""
+
+#. translators: 1: what the step does, 2: date
+#: admin/pages/Status.php:80
+#, php-format
+msgid "%1$s Done on %2$s. Undo is available below."
+msgstr ""
+
+#. translators: 1: what the step does, 2: date
+#: admin/pages/Status.php:80
+#, php-format
+msgid "%s Done. Undo is available below."
+msgstr ""
+
+#. translators: 1: what the step does, 2: error
+#: admin/pages/Status.php:86
+#, php-format
+msgid "%1$s Did not finish: %2$s. Press Try again; your pages keep their layouts meanwhile."
+msgstr ""
+
+#. translators: %s: what the step does
+#: admin/pages/Status.php:93
+#, php-format
+msgid "%s Undone (the 1.9 format is back)."
+msgstr ""
+
+#. translators: %s: what the step does
+#: admin/pages/Status.php:100
+#, php-format
+msgid "%s Waiting: it runs on the next admin page you open, or now with Run now."
+msgstr ""
+
+#: admin/pages/Status.php:113
+msgid "BuddyBoss Platform"
+msgstr ""
+
+#: admin/pages/Status.php:113
+#: core/library/documents/buddypress.php:74
+#: src/Admin/CommunityPages.php:647
+msgid "BuddyPress"
+msgstr ""
+
+#: admin/pages/Status.php:126
+msgid "Done. The list below shows the result."
+msgstr ""
+
+#: admin/pages/Status.php:134
+msgid "Get help"
+msgstr ""
+
+#: admin/pages/Status.php:136
+msgid "BuddyBuilder documentation"
+msgstr ""
+
+#: admin/pages/Status.php:136
+#: admin/pages/Status.php:139
+#: src/Admin/CommunityPages.php:587
+#: src/Admin/CommunityPages.php:627
+#: src/Admin/CommunityPages.php:757
+#: src/Admin/Setup.php:865
+msgid "(opens in a new tab)"
+msgstr ""
+
+#: admin/pages/Status.php:137
+msgid "Community pages: which layout each page uses and why one may not show"
+msgstr ""
+
+#: admin/pages/Status.php:138
+#: src/Admin/CommunityPages.php:582
+#: src/Admin/Options.php:120
+msgid "Run setup again"
+msgstr ""
+
+#: admin/pages/Status.php:139
+msgid "Ask on the support forum"
+msgstr ""
+
+#: admin/pages/Status.php:139
+msgid "Pro support (my.staxwp.com)"
+msgstr ""
+
+#: admin/pages/Status.php:144
+msgid "Your setup"
+msgstr ""
+
+#. translators: %s: version
+#: admin/pages/Status.php:146
+#, php-format
+msgid " with BuddyBuilder Pro %s"
+msgstr ""
+
+#. translators: %s: version
+#: admin/pages/Status.php:148
+#, php-format
+msgid "Elementor %s"
+msgstr ""
+
+#. translators: %s: version
+#: admin/pages/Status.php:148
+msgid "Elementor is not active: block layouts only."
+msgstr ""
+
+#. translators: %s: version
+#: admin/pages/Status.php:149
+msgid "BuddyBuilder and BuddyBuilder Pro versions work together."
+msgstr ""
+
+#. translators: %s: version
+#: admin/pages/Status.php:149
+msgid "BuddyBuilder Pro is not installed."
+msgstr ""
+
+#. translators: %s: version
+#: admin/pages/Status.php:149
+msgid "BuddyBuilder and BuddyBuilder Pro need an update to work together (see the notice above)."
+msgstr ""
+
+#: admin/pages/Status.php:154
+msgid "Data update"
+msgstr ""
+
+#: admin/pages/Status.php:155
+msgid "BuddyBuilder 2.0 copies which layout each page uses into a new format. Your pages look the same before and after."
+msgstr ""
+
+#: admin/pages/Status.php:165
+msgid "Try again"
+msgstr ""
+
+#: admin/pages/Status.php:165
+msgid "Run now"
+msgstr ""
+
+#: admin/pages/Status.php:166
+msgid "Undo the data update? Use this only before installing BuddyBuilder 1.9 again. Your 2.0 layouts are kept but 1.9 cannot show block layouts."
+msgstr ""
+
+#: admin/pages/Status.php:166
+msgid "Undo (go back to the 1.9 format)"
+msgstr ""
+
+#: admin/pages/Status.php:171
+msgid "Theme files"
+msgstr ""
+
+#: admin/pages/Status.php:173
+msgid "Your theme replaces these BuddyBuilder files. If a page looks wrong after an update, compare them with the plugin copies or ask the theme author."
+msgstr ""
+
+#: admin/pages/Status.php:176
+msgid "Your theme does not replace any BuddyBuilder file."
+msgstr ""
+
+#: admin/pages/Status.php:181
+msgid "Technical details for support"
+msgstr ""
+
+#: admin/pages/Status.php:187
+msgid "Free/Pro pairing"
+msgstr ""
+
+#: admin/pages/Status.php:196
+msgid "Last run"
+msgstr ""
+
+#: admin/pages/Templates.php:50
+msgid "YAY! The template was imported successfully!"
+msgstr ""
+
+#: admin/pages/Templates.php:57
+msgid "Oops! An error occurred while importing the template!"
+msgstr ""
+
+#: admin/pages/Templates.php:107
+msgid "Starter kits"
+msgstr ""
+
+#: admin/pages/templates/templates.php:13
+msgid "Kits are ready-made Elementor templates for all your community pages. Importing a kit adds its templates; pick them for each page on Community pages."
+msgstr ""
+
+#: admin/pages/templates/templates.php:24
+#: src/Admin/CommunityPages.php:667
+#: src/Admin/CommunityPages.php:920
+msgid "Pro"
+msgstr ""
+
+#: admin/pages/templates/templates.php:27
+msgid "Imported"
+msgstr ""
+
+#: admin/pages/templates/templates.php:32
+msgid "Needs an active BuddyBuilder Pro license."
+msgstr ""
+
+#. translators: %s: kit name
+#: admin/pages/templates/templates.php:40
+#, php-format
+msgid "Import %s again"
+msgstr ""
+
+#. translators: %s: kit name
+#: admin/pages/templates/templates.php:40
+#, php-format
+msgid "Import %s"
+msgstr ""
+
+#: admin/pages/templates/templates.php:42
+msgid "Import again"
+msgstr ""
+
+#: admin/pages/templates/templates.php:42
+msgid "Import"
+msgstr ""
+
+#: admin/pages/templates/templates.php:48
+msgid "Demo"
+msgstr ""
+
+#. translators: %s: kit name
+#: admin/pages/templates/templates.php:49
+#, php-format
+msgid "of %s (opens in a new tab)"
+msgstr ""
+
+#: core/hooks/ElementorHooks.php:151
+msgid "Column Order"
+msgstr ""
+
+#: core/library/documents/buddypress.php:77
+msgid "BP"
+msgstr ""
+
+#: core/library/module.php:112
+msgid "BP Template Type"
+msgstr ""
+
+#: core/library/module.php:113
+msgid "Shortcode"
+msgstr ""
+
+#: core/library/module.php:234
+msgid "Select the type of Buddypress page"
+msgstr ""
+
+#. translators: %s: html tags
+#: core/Notices.php:51
+#, php-format
+msgid "%1$sBuddyBuilder%2$s requires %1$sElementor%2$s plugin installed & activated."
+msgstr ""
+
+#: core/Notices.php:61
 msgid "Activate Elementor"
 msgstr ""
 
-#: core/Notices.php:68
+#: core/Notices.php:69
 msgid "Install Elementor"
 msgstr ""
 
-#. 1: Plugin name 2: Elementor
+#. translators: 1: Plugin name 2: Elementor
 #: core/Notices.php:96
 #, php-format
 msgid "%1$s requires version %3$s or greater of %2$s plugin."
 msgstr ""
 
-#: core/Notices.php:98 admin/Admin.php:108
-#: core/template/source-buddy-builder.php:33 core/hooks/ElementorHooks.php:143
-msgid "BuddyBuilder"
-msgstr ""
-
 #: core/Notices.php:99
+#: src/Admin/CommunityPages.php:298
 msgid "Elementor"
 msgstr ""
 
-#: core/Notices.php:109
+#: core/Notices.php:110
 msgid "Update Elementor Now"
 msgstr ""
 
-#. %s: html tags
+#. translators: %s: html tags
 #: core/Notices.php:122
 #, php-format
-msgid ""
-"%1$sBuddyBuilder%2$s requires %1$sBuddyPress%2$s plugin installed & "
-"activated."
+msgid "%1$sBuddyBuilder%2$s requires %1$sBuddyPress%2$s plugin installed & activated."
 msgstr ""
 
 #: core/Notices.php:132
@@ -85,841 +374,825 @@ msgstr ""
 msgid "Install BuddyPress"
 msgstr ""
 
-#: core/Plugin.php:112 core/Plugin.php:123 admin/Admin.php:57
-#: admin/Admin.php:68
+#: core/Notices.php:155
+msgid "<strong>BuddyBuilder - BuddyPress Builder for Elementor</strong> needs to update your database to the latest version. Please make sure to create a backup first."
+msgstr ""
+
+#: core/Notices.php:158
+#, php-format
+msgid "<a href=\"%s\" class=\"button-primary\">Update now</a>"
+msgstr ""
+
+#: core/Notices.php:170
+msgid "Awesome! The database has been updated to the latest version!"
+msgstr ""
+
+#: core/Notices.php:181
+msgid "Something went wrong. Please check your server logs or contact StaxWP."
+msgstr ""
+
+#: core/Plugin.php:112
+#: core/Plugin.php:123
+#: core/Singleton.php:38
+#: core/Singleton.php:49
 msgid "Cheatin&#8217; huh?"
 msgstr ""
 
-#: admin/layout.php:58
-#, php-format
-msgid "Version %s"
+#: core/Plugin.php:730
+#: core/widgets/general/ActivityListing.php:46
+#: core/widgets/general/GroupsListing.php:46
+#: core/widgets/general/MembersListing.php:45
+#: core/widgets/profile-group/Content.php:42
+#: core/widgets/profile-member/Content.php:43
+msgid "Go PRO"
 msgstr ""
 
-#: admin/Admin.php:107
-msgid "BuddyBuilder - Dashboard"
+#: core/widgets/general/ActivityListing.php:30
+msgid "Activity List"
 msgstr ""
 
-#: admin/Admin.php:128
-msgid "STAX Elementor - %"
+#: core/widgets/general/ActivityListing.php:56
+#: core/widgets/general/GroupsListing.php:56
+#: core/widgets/general/MembersListing.php:55
+#: core/widgets/profile-group/Content.php:52
+#: core/widgets/profile-member/Content.php:53
+msgid "BuddyBuilder PRO"
 msgstr ""
 
-#: admin/Admin.php:145 admin/pages/Dashboard.php:37
-msgid "Dashboard"
+#: core/widgets/general/ActivityListing.php:58
+#: core/widgets/general/GroupsListing.php:58
+#: core/widgets/general/MembersListing.php:57
+msgid "Power up up your listing with custom queries and templates."
 msgstr ""
 
-#: core/library/module.php:110
-msgid "BP Template Type"
+#: core/widgets/general/ActivityListing.php:74
+#: core/widgets/sitewide-activity/content/BuddybossSettings.php:100
+msgid "Activity Item Container"
 msgstr ""
 
-#: core/library/module.php:111
-msgid "Shortcode"
+#: core/widgets/general/ActivityListing.php:83
+#: core/widgets/general/ActivityListing.php:250
+#: core/widgets/general/ActivityListing.php:283
+#: core/widgets/general/GroupsListing.php:373
+#: core/widgets/general/MembersListing.php:293
+#: core/widgets/groups-directory/Listing.php:346
+#: core/widgets/members-directory/Listing.php:267
+#: core/widgets/sitewide-activity/content/BuddybossSettings.php:45
+#: core/widgets/sitewide-activity/content/BuddybossSettings.php:109
+#: core/widgets/sitewide-activity/content/BuddybossSettings.php:276
+#: core/widgets/sitewide-activity/content/BuddybossSettings.php:309
+#: core/widgets/sitewide-activity/content/BuddypressSettings.php:74
+#: core/widgets/sitewide-activity/content/BuddypressSettings.php:241
+#: core/widgets/sitewide-activity/content/BuddypressSettings.php:274
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:43
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:142
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:180
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:342
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:640
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:679
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:784
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:823
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:41
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:161
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:203
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:516
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:555
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:660
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:699
+msgid "Background"
 msgstr ""
 
-#: core/library/module.php:195
-msgid "Select the type of Buddypress page"
-msgstr ""
-
-#: core/hooks/ElementorHooks.php:118
-msgid "Column Order"
-msgstr ""
-
-#: admin/pages/Widgets.php:47 admin/pages/templates/widgets.php:2
-msgid "Widgets"
-msgstr ""
-
-#: admin/pages/Settings.php:81
-msgid "YEY! Your settings have been saved successfully!"
-msgstr ""
-
-#: admin/pages/Settings.php:214 core/widgets/groups-directory/Listing.php:38
-#: core/widgets/profile-group/Navigation.php:37
-#: core/widgets/profile-member/Navigation.php:37
-#: core/widgets/members-directory/Listing.php:38
-msgid "Settings"
-msgstr ""
-
-#: admin/pages/Templates.php:44
-msgid "YEY! The template was imported successfully!"
-msgstr ""
-
-#: admin/pages/Templates.php:48
-msgid "Oops! An error occurred while importing the template!"
-msgstr ""
-
-#: admin/pages/Templates.php:84 admin/pages/templates/templates.php:1
-msgid "Templates"
-msgstr ""
-
-#: admin/pages/Plugins.php:55 admin/pages/templates/plugins.php:2
-msgid "Plugins"
-msgstr ""
-
-#: admin/pages/Help.php:37 admin/pages/templates/help.php:2
-msgid "Help"
-msgstr ""
-
-#: admin/pages/Modules.php:39 admin/pages/templates/modules.php:2
-msgid "Modules"
-msgstr ""
-
-#: core/library/documents/buddypress.php:77
-msgid "BuddyPress"
-msgstr ""
-
-#: core/library/documents/buddypress.php:80
-msgid "BP"
-msgstr ""
-
-#: core/widgets/groups-directory/Filters.php:25
-msgid "Groups Filters"
-msgstr ""
-
-#: core/widgets/groups-directory/Filters.php:40
-#: core/widgets/profile-group/Content.php:18
-#: core/widgets/profile-member/Content.php:18
-#: core/widgets/members-directory/Filters.php:41
-#: core/widgets/sitewide-activity/Content.php:22
-msgid "Content"
-msgstr ""
-
-#: core/widgets/groups-directory/Filters.php:48
-#: core/widgets/members-directory/Filters.php:49
-msgid "Show & Order"
-msgstr ""
-
-#: core/widgets/groups-directory/Filters.php:52
-#: core/widgets/groups-directory/Filters.php:80
-#: core/widgets/members-directory/Filters.php:53
-#: core/widgets/members-directory/Filters.php:81
-msgid "List Toggle > Search > Sort"
-msgstr ""
-
-#: core/widgets/groups-directory/Filters.php:53
-#: core/widgets/groups-directory/Filters.php:97
-#: core/widgets/members-directory/Filters.php:54
-#: core/widgets/members-directory/Filters.php:98
-msgid "List Toggle > Sort > Search"
-msgstr ""
-
-#: core/widgets/groups-directory/Filters.php:54
-#: core/widgets/groups-directory/Filters.php:114
-#: core/widgets/members-directory/Filters.php:55
-#: core/widgets/members-directory/Filters.php:115
-msgid "List Toggle > Search"
-msgstr ""
-
-#: core/widgets/groups-directory/Filters.php:55
-#: core/widgets/groups-directory/Filters.php:131
-#: core/widgets/members-directory/Filters.php:56
-#: core/widgets/members-directory/Filters.php:132
-msgid "List Toggle > Sort"
-msgstr ""
-
-#: core/widgets/groups-directory/Filters.php:56
-#: core/widgets/groups-directory/Filters.php:148
-#: core/widgets/groups-directory/Filters.php:389
-#: core/widgets/members-directory/Filters.php:57
-#: core/widgets/members-directory/Filters.php:149
-#: core/widgets/members-directory/Filters.php:390
-msgid "List Toggle"
-msgstr ""
-
-#: core/widgets/groups-directory/Filters.php:57
-#: core/widgets/groups-directory/Filters.php:165
-#: core/widgets/members-directory/Filters.php:58
-#: core/widgets/members-directory/Filters.php:166
-msgid "Search > Sort > List Toggle"
-msgstr ""
-
-#: core/widgets/groups-directory/Filters.php:58
-#: core/widgets/groups-directory/Filters.php:182
-#: core/widgets/members-directory/Filters.php:59
-#: core/widgets/members-directory/Filters.php:183
-msgid "Search > List Toggle > Sort"
-msgstr ""
-
-#: core/widgets/groups-directory/Filters.php:59
-#: core/widgets/groups-directory/Filters.php:199
-#: core/widgets/members-directory/Filters.php:60
-#: core/widgets/members-directory/Filters.php:200
-msgid "Search > List Toggle"
-msgstr ""
-
-#: core/widgets/groups-directory/Filters.php:60
-#: core/widgets/groups-directory/Filters.php:216
-#: core/widgets/members-directory/Filters.php:61
-#: core/widgets/members-directory/Filters.php:217
-msgid "Search > Sort"
-msgstr ""
-
-#: core/widgets/groups-directory/Filters.php:61
-#: core/widgets/groups-directory/Filters.php:233
-#: core/widgets/members-directory/Filters.php:62
-#: core/widgets/members-directory/Filters.php:234
-#: core/widgets/sitewide-activity/Filters.php:306
-msgid "Search"
-msgstr ""
-
-#: core/widgets/groups-directory/Filters.php:62
-#: core/widgets/groups-directory/Filters.php:250
-#: core/widgets/members-directory/Filters.php:63
-#: core/widgets/members-directory/Filters.php:251
-msgid "Sort > List Toggle > Search"
-msgstr ""
-
-#: core/widgets/groups-directory/Filters.php:63
-#: core/widgets/groups-directory/Filters.php:267
-#: core/widgets/members-directory/Filters.php:64
-#: core/widgets/members-directory/Filters.php:268
-msgid "Sort > Search > List Toggle"
-msgstr ""
-
-#: core/widgets/groups-directory/Filters.php:64
-#: core/widgets/groups-directory/Filters.php:284
-#: core/widgets/members-directory/Filters.php:65
-#: core/widgets/members-directory/Filters.php:285
-msgid "Sort > Search"
-msgstr ""
-
-#: core/widgets/groups-directory/Filters.php:65
-#: core/widgets/groups-directory/Filters.php:301
-#: core/widgets/members-directory/Filters.php:66
-#: core/widgets/members-directory/Filters.php:302
-msgid "Sort > List Toggle"
-msgstr ""
-
-#: core/widgets/groups-directory/Filters.php:66
-#: core/widgets/groups-directory/Filters.php:318
-#: core/widgets/members-directory/Filters.php:67
-#: core/widgets/members-directory/Filters.php:319
-msgid "Sort"
-msgstr ""
-
-#: core/widgets/groups-directory/Filters.php:335
-#: core/widgets/groups-directory/Filters.php:413
-#: core/widgets/groups-directory/Filters.php:580
-#: core/widgets/groups-directory/Filters.php:634
-#: core/widgets/groups-directory/Filters.php:778
-#: core/widgets/groups-directory/Filters.php:818
-#: core/widgets/groups-directory/Filters.php:941
-#: core/widgets/groups-directory/Filters.php:993
-#: core/widgets/groups-directory/Listing.php:495
-#: core/widgets/groups-directory/Listing.php:630
-#: core/widgets/groups-directory/Listing.php:817
-#: core/widgets/groups-directory/Listing.php:870
-#: core/widgets/groups-directory/Listing.php:937
-#: core/widgets/groups-directory/Listing.php:1082
-#: core/widgets/groups-directory/Listing.php:1269
-#: core/widgets/groups-directory/Listing.php:1322
-#: core/widgets/groups-directory/Listing.php:1389
-#: core/widgets/groups-directory/Navigation.php:93
-#: core/widgets/groups-directory/Navigation.php:176
-#: core/widgets/groups-directory/Navigation.php:216
-#: core/widgets/groups-directory/Navigation.php:267
-#: core/widgets/groups-directory/Navigation.php:365
-#: core/widgets/groups-directory/Navigation.php:405
-#: core/widgets/groups-directory/Navigation.php:540
-#: core/widgets/groups-directory/Navigation.php:572
-#: core/widgets/groups-directory/Navigation.php:616
-#: core/widgets/profile-group/Buttons.php:255
-#: core/widgets/profile-group/Buttons.php:295
-#: core/widgets/profile-group/Buttons.php:393
-#: core/widgets/profile-group/Buttons.php:444
-#: core/widgets/profile-group/Buttons.php:509
-#: core/widgets/profile-group/Buttons.php:560
-#: core/widgets/profile-group/Buttons.php:625
-#: core/widgets/profile-group/Buttons.php:676
-#: core/widgets/profile-group/Buttons.php:741
-#: core/widgets/profile-group/Buttons.php:792
-#: core/widgets/profile-group/Cover.php:84
-#: core/widgets/profile-group/Navigation.php:74
-#: core/widgets/profile-group/Navigation.php:259
-#: core/widgets/profile-group/Navigation.php:299
-#: core/widgets/profile-group/Navigation.php:350
-#: core/widgets/profile-group/Navigation.php:473
-#: core/widgets/profile-group/Navigation.php:505
-#: core/widgets/profile-group/Navigation.php:549
-#: core/widgets/profile-member/Buttons.php:255
-#: core/widgets/profile-member/Buttons.php:295
-#: core/widgets/profile-member/Buttons.php:393
-#: core/widgets/profile-member/Buttons.php:444
-#: core/widgets/profile-member/Buttons.php:509
-#: core/widgets/profile-member/Buttons.php:560
-#: core/widgets/profile-member/Buttons.php:625
-#: core/widgets/profile-member/Buttons.php:676
-#: core/widgets/profile-member/Cover.php:84
-#: core/widgets/profile-member/Navigation.php:74
-#: core/widgets/profile-member/Navigation.php:288
-#: core/widgets/profile-member/Navigation.php:329
-#: core/widgets/profile-member/Navigation.php:381
-#: core/widgets/profile-member/Navigation.php:504
-#: core/widgets/profile-member/Navigation.php:548
-#: core/widgets/profile-member/Navigation.php:592
-#: core/widgets/members-directory/Filters.php:336
-#: core/widgets/members-directory/Filters.php:414
-#: core/widgets/members-directory/Filters.php:581
-#: core/widgets/members-directory/Filters.php:636
-#: core/widgets/members-directory/Filters.php:780
-#: core/widgets/members-directory/Filters.php:820
-#: core/widgets/members-directory/Filters.php:943
-#: core/widgets/members-directory/Filters.php:995
-#: core/widgets/members-directory/Listing.php:390
-#: core/widgets/members-directory/Listing.php:577
-#: core/widgets/members-directory/Listing.php:630
-#: core/widgets/members-directory/Listing.php:697
-#: core/widgets/members-directory/Listing.php:842
-#: core/widgets/members-directory/Listing.php:1029
-#: core/widgets/members-directory/Listing.php:1082
-#: core/widgets/members-directory/Listing.php:1149
-#: core/widgets/members-directory/Navigation.php:84
-#: core/widgets/members-directory/Navigation.php:176
-#: core/widgets/members-directory/Navigation.php:216
-#: core/widgets/members-directory/Navigation.php:267
-#: core/widgets/members-directory/Navigation.php:402
-#: core/widgets/members-directory/Navigation.php:434
-#: core/widgets/members-directory/Navigation.php:478
-#: core/widgets/sitewide-activity/Filters.php:45
-#: core/widgets/sitewide-activity/Filters.php:160
-#: core/widgets/sitewide-activity/Filters.php:212
-#: core/widgets/sitewide-activity/Filters.php:345
-#: core/widgets/sitewide-activity/Filters.php:400
-#: core/widgets/sitewide-activity/Filters.php:512
-#: core/widgets/sitewide-activity/Filters.php:552
-#: core/widgets/sitewide-activity/Form.php:315
-#: core/widgets/sitewide-activity/Form.php:382
-msgid "Background Color"
-msgstr ""
-
-#: core/widgets/groups-directory/Filters.php:363
-#: core/widgets/groups-directory/Filters.php:500
-#: core/widgets/groups-directory/Filters.php:704
-#: core/widgets/groups-directory/Filters.php:874
-#: core/widgets/groups-directory/Filters.php:1061
-#: core/widgets/groups-directory/Listing.php:402
-#: core/widgets/groups-directory/Listing.php:443
-#: core/widgets/groups-directory/Listing.php:666
-#: core/widgets/groups-directory/Listing.php:1118
-#: core/widgets/groups-directory/Navigation.php:121
-#: core/widgets/groups-directory/Navigation.php:310
-#: core/widgets/groups-directory/Navigation.php:448
-#: core/widgets/groups-directory/Navigation.php:652
-#: core/widgets/profile-group/Leadership.php:161
-#: core/widgets/profile-group/Buttons.php:338
-#: core/widgets/profile-group/Avatar.php:147
-#: core/widgets/profile-group/Cover.php:204
-#: core/widgets/profile-group/Navigation.php:393
-#: core/widgets/profile-group/Navigation.php:585
-#: core/widgets/profile-member/Buttons.php:338
-#: core/widgets/profile-member/Avatar.php:147
-#: core/widgets/profile-member/Cover.php:204
-#: core/widgets/profile-member/Navigation.php:424
-#: core/widgets/profile-member/Navigation.php:628
-#: core/widgets/members-directory/Filters.php:364
-#: core/widgets/members-directory/Filters.php:501
-#: core/widgets/members-directory/Filters.php:706
-#: core/widgets/members-directory/Filters.php:876
-#: core/widgets/members-directory/Filters.php:1063
-#: core/widgets/members-directory/Listing.php:283
-#: core/widgets/members-directory/Listing.php:426
-#: core/widgets/members-directory/Listing.php:878
-#: core/widgets/members-directory/Navigation.php:112
-#: core/widgets/members-directory/Navigation.php:310
-#: core/widgets/members-directory/Navigation.php:514
-#: core/widgets/sitewide-activity/Filters.php:73
-#: core/widgets/sitewide-activity/Filters.php:279
-#: core/widgets/sitewide-activity/Filters.php:469
-#: core/widgets/sitewide-activity/Filters.php:608
-#: core/widgets/sitewide-activity/Content.php:72
-#: core/widgets/sitewide-activity/Content.php:306
-#: core/widgets/sitewide-activity/Form.php:72
-#: core/widgets/sitewide-activity/Form.php:126
-#: core/widgets/sitewide-activity/Form.php:263
-#: core/widgets/sitewide-activity/Form.php:466
-#: core/widgets/sitewide-activity/Form.php:612
-#: core/widgets/sitewide-activity/Form.php:756
+#: core/widgets/general/ActivityListing.php:108
+#: core/widgets/general/ActivityListing.php:340
+#: core/widgets/general/GroupsListing.php:438
+#: core/widgets/general/GroupsListing.php:479
+#: core/widgets/general/MembersListing.php:318
+#: core/widgets/general/SaveNotification.php:97
+#: core/widgets/general/SaveNotification.php:210
+#: core/widgets/general/SaveNotification.php:284
+#: core/widgets/general/SaveNotification.php:397
+#: core/widgets/groups-directory/Filters.php:366
+#: core/widgets/groups-directory/Filters.php:502
+#: core/widgets/groups-directory/Filters.php:706
+#: core/widgets/groups-directory/Filters.php:878
+#: core/widgets/groups-directory/Filters.php:1065
+#: core/widgets/groups-directory/Listing.php:411
+#: core/widgets/groups-directory/Listing.php:452
+#: core/widgets/groups-directory/Listing.php:675
+#: core/widgets/groups-directory/Listing.php:1127
+#: core/widgets/groups-directory/Navigation.php:80
+#: core/widgets/groups-directory/Navigation.php:464
+#: core/widgets/groups-directory/Navigation.php:641
+#: core/widgets/groups-directory/Navigation.php:845
+#: core/widgets/members-directory/Filters.php:367
+#: core/widgets/members-directory/Filters.php:503
+#: core/widgets/members-directory/Filters.php:707
+#: core/widgets/members-directory/Filters.php:879
+#: core/widgets/members-directory/Filters.php:1066
+#: core/widgets/members-directory/Listing.php:292
+#: core/widgets/members-directory/Listing.php:435
+#: core/widgets/members-directory/Listing.php:887
+#: core/widgets/members-directory/Navigation.php:80
+#: core/widgets/members-directory/Navigation.php:461
+#: core/widgets/members-directory/Navigation.php:665
+#: core/widgets/profile-group/Avatar.php:154
+#: core/widgets/profile-group/Buttons.php:345
+#: core/widgets/profile-group/Cover.php:437
+#: core/widgets/profile-group/Cover.php:464
+#: core/widgets/profile-group/leadership/BuddybossSettings.php:107
+#: core/widgets/profile-group/leadership/BuddybossSettings.php:196
+#: core/widgets/profile-group/leadership/BuddypressSettings.php:157
+#: core/widgets/profile-group/leadership/BuddypressSettings.php:234
+#: core/widgets/profile-group/Navigation.php:404
+#: core/widgets/profile-group/Navigation.php:608
+#: core/widgets/profile-member/Avatar.php:165
+#: core/widgets/profile-member/Buttons.php:345
+#: core/widgets/profile-member/Cover.php:437
+#: core/widgets/profile-member/Cover.php:465
+#: core/widgets/profile-member/Navigation.php:437
+#: core/widgets/profile-member/Navigation.php:653
+#: core/widgets/sitewide-activity/content/BuddybossSettings.php:62
+#: core/widgets/sitewide-activity/content/BuddybossSettings.php:134
+#: core/widgets/sitewide-activity/content/BuddybossSettings.php:366
+#: core/widgets/sitewide-activity/content/BuddypressSettings.php:51
+#: core/widgets/sitewide-activity/content/BuddypressSettings.php:99
+#: core/widgets/sitewide-activity/content/BuddypressSettings.php:331
+#: core/widgets/sitewide-activity/filters/BuddybossSettings.php:71
+#: core/widgets/sitewide-activity/filters/BuddybossSettings.php:259
+#: core/widgets/sitewide-activity/filters/BuddybossSettings.php:398
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:69
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:275
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:464
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:615
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:101
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:165
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:203
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:266
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:383
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:586
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:732
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:876
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:68
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:122
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:259
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:462
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:608
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:752
+#: core/widgets/sitewide-activity/navigation/BuddybossSettings.php:71
+#: core/widgets/sitewide-activity/navigation/BuddybossSettings.php:407
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:69
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:406
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:610
 msgid "Border Radius"
 msgstr ""
 
-#: core/widgets/groups-directory/Filters.php:375
-#: core/widgets/groups-directory/Filters.php:512
-#: core/widgets/groups-directory/Filters.php:716
-#: core/widgets/groups-directory/Filters.php:886
-#: core/widgets/groups-directory/Filters.php:1073
-#: core/widgets/groups-directory/Listing.php:417
-#: core/widgets/groups-directory/Listing.php:458
-#: core/widgets/groups-directory/Listing.php:681
-#: core/widgets/groups-directory/Listing.php:1133
-#: core/widgets/groups-directory/Navigation.php:133
-#: core/widgets/groups-directory/Navigation.php:460
-#: core/widgets/groups-directory/Navigation.php:664
-#: core/widgets/profile-group/Leadership.php:140
-#: core/widgets/profile-group/Buttons.php:350
-#: core/widgets/profile-group/Navigation.php:598
-#: core/widgets/profile-member/Buttons.php:350
-#: core/widgets/profile-member/Navigation.php:641
-#: core/widgets/members-directory/Filters.php:376
-#: core/widgets/members-directory/Filters.php:513
-#: core/widgets/members-directory/Filters.php:718
-#: core/widgets/members-directory/Filters.php:888
-#: core/widgets/members-directory/Filters.php:1075
-#: core/widgets/members-directory/Listing.php:307
-#: core/widgets/members-directory/Listing.php:441
-#: core/widgets/members-directory/Listing.php:893
-#: core/widgets/members-directory/Navigation.php:124
-#: core/widgets/members-directory/Navigation.php:526
-#: core/widgets/sitewide-activity/Filters.php:85
-#: core/widgets/sitewide-activity/Filters.php:291
-#: core/widgets/sitewide-activity/Filters.php:481
-#: core/widgets/sitewide-activity/Filters.php:620
-#: core/widgets/sitewide-activity/Content.php:84
-#: core/widgets/sitewide-activity/Content.php:327
-#: core/widgets/sitewide-activity/Form.php:84
-#: core/widgets/sitewide-activity/Form.php:275
-#: core/widgets/sitewide-activity/Form.php:479
-#: core/widgets/sitewide-activity/Form.php:624
-#: core/widgets/sitewide-activity/Form.php:768
+#: core/widgets/general/ActivityListing.php:120
+#: core/widgets/general/ActivityListing.php:361
+#: core/widgets/general/GroupsListing.php:453
+#: core/widgets/general/GroupsListing.php:494
+#: core/widgets/general/MembersListing.php:342
+#: core/widgets/general/SaveNotification.php:157
+#: core/widgets/general/SaveNotification.php:224
+#: core/widgets/general/SaveNotification.php:344
+#: core/widgets/general/SaveNotification.php:411
+#: core/widgets/groups-directory/Filters.php:378
+#: core/widgets/groups-directory/Filters.php:514
+#: core/widgets/groups-directory/Filters.php:718
+#: core/widgets/groups-directory/Filters.php:890
+#: core/widgets/groups-directory/Filters.php:1077
+#: core/widgets/groups-directory/Listing.php:426
+#: core/widgets/groups-directory/Listing.php:467
+#: core/widgets/groups-directory/Listing.php:690
+#: core/widgets/groups-directory/Listing.php:1142
+#: core/widgets/groups-directory/Navigation.php:92
+#: core/widgets/groups-directory/Navigation.php:653
+#: core/widgets/groups-directory/Navigation.php:857
+#: core/widgets/members-directory/Filters.php:379
+#: core/widgets/members-directory/Filters.php:515
+#: core/widgets/members-directory/Filters.php:719
+#: core/widgets/members-directory/Filters.php:891
+#: core/widgets/members-directory/Filters.php:1078
+#: core/widgets/members-directory/Listing.php:316
+#: core/widgets/members-directory/Listing.php:450
+#: core/widgets/members-directory/Listing.php:902
+#: core/widgets/members-directory/Navigation.php:92
+#: core/widgets/members-directory/Navigation.php:677
+#: core/widgets/profile-group/Buttons.php:357
+#: core/widgets/profile-group/leadership/BuddybossSettings.php:119
+#: core/widgets/profile-group/leadership/BuddypressSettings.php:136
+#: core/widgets/profile-group/Navigation.php:621
+#: core/widgets/profile-member/Buttons.php:357
+#: core/widgets/profile-member/Navigation.php:666
+#: core/widgets/sitewide-activity/content/BuddybossSettings.php:74
+#: core/widgets/sitewide-activity/content/BuddybossSettings.php:146
+#: core/widgets/sitewide-activity/content/BuddybossSettings.php:387
+#: core/widgets/sitewide-activity/content/BuddypressSettings.php:111
+#: core/widgets/sitewide-activity/content/BuddypressSettings.php:352
+#: core/widgets/sitewide-activity/filters/BuddybossSettings.php:83
+#: core/widgets/sitewide-activity/filters/BuddybossSettings.php:271
+#: core/widgets/sitewide-activity/filters/BuddybossSettings.php:410
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:81
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:287
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:476
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:627
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:114
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:153
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:191
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:395
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:599
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:744
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:888
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:80
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:271
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:475
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:620
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:764
+#: core/widgets/sitewide-activity/navigation/BuddybossSettings.php:83
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:81
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:622
 msgid "Padding"
 msgstr ""
 
-#: core/widgets/groups-directory/Filters.php:426
-#: core/widgets/groups-directory/Filters.php:573
-#: core/widgets/groups-directory/Filters.php:771
-#: core/widgets/groups-directory/Filters.php:934
-#: core/widgets/groups-directory/Listing.php:348
-#: core/widgets/groups-directory/Listing.php:792
-#: core/widgets/groups-directory/Listing.php:1244
-#: core/widgets/groups-directory/Navigation.php:157
-#: core/widgets/groups-directory/Navigation.php:346
-#: core/widgets/groups-directory/Navigation.php:521
-#: core/widgets/profile-group/Buttons.php:236
-#: core/widgets/profile-group/Buttons.php:374
-#: core/widgets/profile-group/Buttons.php:490
-#: core/widgets/profile-group/Buttons.php:606
-#: core/widgets/profile-group/Buttons.php:722
-#: core/widgets/profile-group/Avatar.php:102
-#: core/widgets/profile-group/Cover.php:159
-#: core/widgets/profile-group/Navigation.php:240
-#: core/widgets/profile-group/Navigation.php:454
-#: core/widgets/profile-member/Buttons.php:236
-#: core/widgets/profile-member/Buttons.php:374
-#: core/widgets/profile-member/Buttons.php:490
-#: core/widgets/profile-member/Buttons.php:606
-#: core/widgets/profile-member/Avatar.php:102
-#: core/widgets/profile-member/Cover.php:159
-#: core/widgets/profile-member/Navigation.php:269
-#: core/widgets/profile-member/Navigation.php:485
-#: core/widgets/members-directory/Filters.php:427
-#: core/widgets/members-directory/Filters.php:574
-#: core/widgets/members-directory/Filters.php:773
-#: core/widgets/members-directory/Filters.php:936
-#: core/widgets/members-directory/Listing.php:552
-#: core/widgets/members-directory/Listing.php:1004
-#: core/widgets/members-directory/Navigation.php:157
-#: core/widgets/members-directory/Navigation.php:383
-#: core/widgets/sitewide-activity/Filters.php:153
-#: core/widgets/sitewide-activity/Filters.php:338
-#: core/widgets/sitewide-activity/Filters.php:505
-#: core/widgets/sitewide-activity/Content.php:209
-#: core/widgets/sitewide-activity/Form.php:158
-#: core/widgets/sitewide-activity/Form.php:308
-#: core/widgets/sitewide-activity/Form.php:513
-#: core/widgets/sitewide-activity/Form.php:657
+#: core/widgets/general/ActivityListing.php:132
+#: core/widgets/sitewide-activity/content/BuddybossSettings.php:158
+#: core/widgets/sitewide-activity/content/BuddypressSettings.php:123
+msgid "Spacing items"
+msgstr ""
+
+#: core/widgets/general/ActivityListing.php:151
+#: core/widgets/sitewide-activity/content/BuddybossSettings.php:177
+#: core/widgets/sitewide-activity/content/BuddypressSettings.php:142
+msgid "Load More Button"
+msgstr ""
+
+#: core/widgets/general/ActivityListing.php:159
+#: core/widgets/general/ActivityListing.php:217
+#: core/widgets/sitewide-activity/content/BuddybossSettings.php:185
+#: core/widgets/sitewide-activity/content/BuddybossSettings.php:243
+#: core/widgets/sitewide-activity/content/BuddypressSettings.php:150
+#: core/widgets/sitewide-activity/content/BuddypressSettings.php:208
+msgid "Base Style"
+msgstr ""
+
+#: core/widgets/general/ActivityListing.php:172
+#: core/widgets/groups-directory/Navigation.php:218
+#: core/widgets/members-directory/Navigation.php:215
+#: core/widgets/profile-group/Buttons.php:52
+#: core/widgets/profile-group/Navigation.php:157
+#: core/widgets/profile-member/Buttons.php:52
+#: core/widgets/profile-member/Navigation.php:159
+#: core/widgets/sitewide-activity/content/BuddybossSettings.php:198
+#: core/widgets/sitewide-activity/content/BuddypressSettings.php:163
+#: core/widgets/sitewide-activity/navigation/BuddybossSettings.php:131
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:129
+msgid "Display"
+msgstr ""
+
+#: core/widgets/general/ActivityListing.php:176
+#: core/widgets/groups-directory/Navigation.php:222
+#: core/widgets/members-directory/Navigation.php:219
+#: core/widgets/profile-group/Buttons.php:56
+#: core/widgets/profile-group/leadership/BuddybossSettings.php:46
+#: core/widgets/profile-group/leadership/BuddypressSettings.php:70
+#: core/widgets/profile-group/Navigation.php:161
+#: core/widgets/profile-member/Buttons.php:56
+#: core/widgets/profile-member/Navigation.php:163
+#: core/widgets/sitewide-activity/content/BuddybossSettings.php:202
+#: core/widgets/sitewide-activity/content/BuddypressSettings.php:167
+#: core/widgets/sitewide-activity/navigation/BuddybossSettings.php:135
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:133
+msgid "Inline"
+msgstr ""
+
+#: core/widgets/general/ActivityListing.php:177
+#: core/widgets/groups-directory/Navigation.php:223
+#: core/widgets/members-directory/Navigation.php:220
+#: core/widgets/profile-group/Buttons.php:57
+#: core/widgets/profile-group/leadership/BuddybossSettings.php:47
+#: core/widgets/profile-group/leadership/BuddypressSettings.php:71
+#: core/widgets/profile-group/Navigation.php:162
+#: core/widgets/profile-member/Buttons.php:57
+#: core/widgets/profile-member/Navigation.php:164
+#: core/widgets/sitewide-activity/content/BuddybossSettings.php:203
+#: core/widgets/sitewide-activity/content/BuddypressSettings.php:168
+#: core/widgets/sitewide-activity/navigation/BuddybossSettings.php:136
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:134
+msgid "Block"
+msgstr ""
+
+#: core/widgets/general/ActivityListing.php:188
+#: core/widgets/groups-directory/Navigation.php:114
+#: core/widgets/members-directory/Navigation.php:114
+#: core/widgets/profile-group/Avatar.php:51
+#: core/widgets/profile-group/Buttons.php:65
+#: core/widgets/profile-group/Buttons.php:125
+#: core/widgets/profile-group/Description.php:52
+#: core/widgets/profile-group/LastActivity.php:52
+#: core/widgets/profile-group/Name.php:51
+#: core/widgets/profile-group/Navigation.php:131
+#: core/widgets/profile-group/Status.php:51
+#: core/widgets/profile-member/Avatar.php:51
+#: core/widgets/profile-member/Buttons.php:65
+#: core/widgets/profile-member/Buttons.php:125
+#: core/widgets/profile-member/LastActivity.php:51
+#: core/widgets/profile-member/Meta.php:51
+#: core/widgets/profile-member/Navigation.php:133
+#: core/widgets/profile-member/Username.php:92
+#: core/widgets/sitewide-activity/content/BuddybossSettings.php:214
+#: core/widgets/sitewide-activity/content/BuddypressSettings.php:179
+#: core/widgets/sitewide-activity/navigation/BuddybossSettings.php:105
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:103
+msgid "Alignment"
+msgstr ""
+
+#: core/widgets/general/ActivityListing.php:192
+#: core/widgets/groups-directory/Navigation.php:118
+#: core/widgets/groups-directory/Navigation.php:147
+#: core/widgets/members-directory/Navigation.php:118
+#: core/widgets/members-directory/Navigation.php:144
+#: core/widgets/profile-group/Avatar.php:55
+#: core/widgets/profile-group/Buttons.php:69
+#: core/widgets/profile-group/Buttons.php:129
+#: core/widgets/profile-group/Description.php:56
+#: core/widgets/profile-group/LastActivity.php:56
+#: core/widgets/profile-group/leadership/BuddybossSettings.php:62
+#: core/widgets/profile-group/leadership/BuddypressSettings.php:44
+#: core/widgets/profile-group/Name.php:55
+#: core/widgets/profile-group/Navigation.php:135
+#: core/widgets/profile-group/Status.php:55
+#: core/widgets/profile-member/Avatar.php:55
+#: core/widgets/profile-member/Buttons.php:69
+#: core/widgets/profile-member/Buttons.php:129
+#: core/widgets/profile-member/LastActivity.php:55
+#: core/widgets/profile-member/Meta.php:55
+#: core/widgets/profile-member/Navigation.php:137
+#: core/widgets/profile-member/Navigation.php:183
+#: core/widgets/profile-member/Username.php:96
+#: core/widgets/sitewide-activity/content/BuddybossSettings.php:218
+#: core/widgets/sitewide-activity/content/BuddypressSettings.php:183
+#: core/widgets/sitewide-activity/navigation/BuddybossSettings.php:109
+#: core/widgets/sitewide-activity/navigation/BuddybossSettings.php:154
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:107
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:153
+msgid "Left"
+msgstr ""
+
+#: core/widgets/general/ActivityListing.php:196
+#: core/widgets/groups-directory/Navigation.php:122
+#: core/widgets/groups-directory/Navigation.php:151
+#: core/widgets/members-directory/Navigation.php:122
+#: core/widgets/members-directory/Navigation.php:148
+#: core/widgets/profile-group/Avatar.php:59
+#: core/widgets/profile-group/Buttons.php:73
+#: core/widgets/profile-group/Buttons.php:133
+#: core/widgets/profile-group/Description.php:60
+#: core/widgets/profile-group/LastActivity.php:60
+#: core/widgets/profile-group/leadership/BuddybossSettings.php:66
+#: core/widgets/profile-group/leadership/BuddypressSettings.php:48
+#: core/widgets/profile-group/Name.php:59
+#: core/widgets/profile-group/Navigation.php:139
+#: core/widgets/profile-group/Status.php:59
+#: core/widgets/profile-member/Avatar.php:59
+#: core/widgets/profile-member/Buttons.php:73
+#: core/widgets/profile-member/Buttons.php:133
+#: core/widgets/profile-member/LastActivity.php:59
+#: core/widgets/profile-member/Meta.php:59
+#: core/widgets/profile-member/Navigation.php:141
+#: core/widgets/profile-member/Navigation.php:187
+#: core/widgets/profile-member/Username.php:100
+#: core/widgets/sitewide-activity/content/BuddybossSettings.php:222
+#: core/widgets/sitewide-activity/content/BuddypressSettings.php:187
+#: core/widgets/sitewide-activity/navigation/BuddybossSettings.php:113
+#: core/widgets/sitewide-activity/navigation/BuddybossSettings.php:158
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:111
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:157
+msgid "Center"
+msgstr ""
+
+#: core/widgets/general/ActivityListing.php:200
+#: core/widgets/groups-directory/Navigation.php:126
+#: core/widgets/groups-directory/Navigation.php:155
+#: core/widgets/members-directory/Navigation.php:126
+#: core/widgets/members-directory/Navigation.php:152
+#: core/widgets/profile-group/Avatar.php:63
+#: core/widgets/profile-group/Buttons.php:77
+#: core/widgets/profile-group/Buttons.php:137
+#: core/widgets/profile-group/Description.php:64
+#: core/widgets/profile-group/LastActivity.php:64
+#: core/widgets/profile-group/leadership/BuddybossSettings.php:70
+#: core/widgets/profile-group/leadership/BuddypressSettings.php:52
+#: core/widgets/profile-group/Name.php:63
+#: core/widgets/profile-group/Navigation.php:143
+#: core/widgets/profile-group/Status.php:63
+#: core/widgets/profile-member/Avatar.php:63
+#: core/widgets/profile-member/Buttons.php:77
+#: core/widgets/profile-member/Buttons.php:137
+#: core/widgets/profile-member/LastActivity.php:63
+#: core/widgets/profile-member/Meta.php:63
+#: core/widgets/profile-member/Navigation.php:145
+#: core/widgets/profile-member/Navigation.php:191
+#: core/widgets/profile-member/Username.php:104
+#: core/widgets/sitewide-activity/content/BuddybossSettings.php:226
+#: core/widgets/sitewide-activity/content/BuddypressSettings.php:191
+#: core/widgets/sitewide-activity/navigation/BuddybossSettings.php:117
+#: core/widgets/sitewide-activity/navigation/BuddybossSettings.php:162
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:115
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:161
+msgid "Right"
+msgstr ""
+
+#: core/widgets/general/ActivityListing.php:233
+#: core/widgets/sitewide-activity/content/BuddybossSettings.php:259
+#: core/widgets/sitewide-activity/content/BuddypressSettings.php:224
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:623
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:767
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:499
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:643
+msgid "Typography"
+msgstr ""
+
+#: core/widgets/general/ActivityListing.php:243
+#: core/widgets/general/GroupsListing.php:384
+#: core/widgets/groups-directory/Filters.php:428
+#: core/widgets/groups-directory/Filters.php:575
+#: core/widgets/groups-directory/Filters.php:773
+#: core/widgets/groups-directory/Filters.php:938
+#: core/widgets/groups-directory/Listing.php:357
+#: core/widgets/groups-directory/Listing.php:801
+#: core/widgets/groups-directory/Listing.php:1253
+#: core/widgets/groups-directory/Navigation.php:311
+#: core/widgets/groups-directory/Navigation.php:539
+#: core/widgets/groups-directory/Navigation.php:714
+#: core/widgets/members-directory/Filters.php:429
+#: core/widgets/members-directory/Filters.php:576
+#: core/widgets/members-directory/Filters.php:774
+#: core/widgets/members-directory/Filters.php:939
+#: core/widgets/members-directory/Listing.php:561
+#: core/widgets/members-directory/Listing.php:1013
+#: core/widgets/members-directory/Navigation.php:308
+#: core/widgets/members-directory/Navigation.php:534
+#: core/widgets/profile-group/Avatar.php:109
+#: core/widgets/profile-group/Buttons.php:243
+#: core/widgets/profile-group/Buttons.php:381
+#: core/widgets/profile-group/Buttons.php:497
+#: core/widgets/profile-group/Buttons.php:613
+#: core/widgets/profile-group/Buttons.php:729
+#: core/widgets/profile-group/Cover.php:389
+#: core/widgets/profile-group/Navigation.php:251
+#: core/widgets/profile-group/Navigation.php:477
+#: core/widgets/profile-member/Avatar.php:109
+#: core/widgets/profile-member/Buttons.php:243
+#: core/widgets/profile-member/Buttons.php:381
+#: core/widgets/profile-member/Buttons.php:497
+#: core/widgets/profile-member/Buttons.php:613
+#: core/widgets/profile-member/Cover.php:389
+#: core/widgets/profile-member/Navigation.php:282
+#: core/widgets/profile-member/Navigation.php:510
+#: core/widgets/sitewide-activity/content/BuddybossSettings.php:269
+#: core/widgets/sitewide-activity/content/BuddypressSettings.php:234
+#: core/widgets/sitewide-activity/filters/BuddybossSettings.php:129
+#: core/widgets/sitewide-activity/filters/BuddybossSettings.php:295
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:149
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:334
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:512
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:56
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:290
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:428
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:633
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:777
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:154
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:304
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:509
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:653
+#: core/widgets/sitewide-activity/navigation/BuddybossSettings.php:254
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:253
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:479
 msgid "Normal"
 msgstr ""
 
-#: core/widgets/groups-directory/Filters.php:433
-#: core/widgets/groups-directory/Filters.php:454
-#: core/widgets/groups-directory/Filters.php:475
-#: core/widgets/groups-directory/Listing.php:483
-#: core/widgets/groups-directory/Listing.php:802
-#: core/widgets/groups-directory/Listing.php:855
-#: core/widgets/groups-directory/Listing.php:922
-#: core/widgets/groups-directory/Listing.php:1254
-#: core/widgets/groups-directory/Listing.php:1307
-#: core/widgets/groups-directory/Listing.php:1374
-#: core/widgets/members-directory/Filters.php:434
-#: core/widgets/members-directory/Filters.php:455
-#: core/widgets/members-directory/Filters.php:476
-#: core/widgets/members-directory/Listing.php:562
-#: core/widgets/members-directory/Listing.php:615
-#: core/widgets/members-directory/Listing.php:682
-#: core/widgets/members-directory/Listing.php:1014
-#: core/widgets/members-directory/Listing.php:1067
-#: core/widgets/members-directory/Listing.php:1134
-#: core/widgets/sitewide-activity/Content.php:228
-#: core/widgets/sitewide-activity/Content.php:261
-#: core/widgets/sitewide-activity/Form.php:176
-#: core/widgets/sitewide-activity/Form.php:218
-#: core/widgets/sitewide-activity/Form.php:531
-#: core/widgets/sitewide-activity/Form.php:570
-#: core/widgets/sitewide-activity/Form.php:675
-#: core/widgets/sitewide-activity/Form.php:714
+#: core/widgets/general/ActivityListing.php:262
+#: core/widgets/general/ActivityListing.php:295
+#: core/widgets/general/GroupsListing.php:519
+#: core/widgets/general/SaveNotification.php:144
+#: core/widgets/general/SaveNotification.php:184
+#: core/widgets/general/SaveNotification.php:331
+#: core/widgets/general/SaveNotification.php:371
+#: core/widgets/groups-directory/Filters.php:435
+#: core/widgets/groups-directory/Filters.php:456
+#: core/widgets/groups-directory/Filters.php:477
+#: core/widgets/groups-directory/Listing.php:492
+#: core/widgets/groups-directory/Listing.php:811
+#: core/widgets/groups-directory/Listing.php:864
+#: core/widgets/groups-directory/Listing.php:931
+#: core/widgets/groups-directory/Listing.php:1263
+#: core/widgets/groups-directory/Listing.php:1316
+#: core/widgets/groups-directory/Listing.php:1383
+#: core/widgets/members-directory/Filters.php:436
+#: core/widgets/members-directory/Filters.php:457
+#: core/widgets/members-directory/Filters.php:478
+#: core/widgets/members-directory/Listing.php:571
+#: core/widgets/members-directory/Listing.php:624
+#: core/widgets/members-directory/Listing.php:691
+#: core/widgets/members-directory/Listing.php:1023
+#: core/widgets/members-directory/Listing.php:1076
+#: core/widgets/members-directory/Listing.php:1143
+#: core/widgets/sitewide-activity/content/BuddybossSettings.php:288
+#: core/widgets/sitewide-activity/content/BuddybossSettings.php:321
+#: core/widgets/sitewide-activity/content/BuddypressSettings.php:253
+#: core/widgets/sitewide-activity/content/BuddypressSettings.php:286
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:297
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:317
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:353
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:651
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:690
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:795
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:834
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:172
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:214
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:527
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:566
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:671
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:710
 msgid "Color"
 msgstr ""
 
-#: core/widgets/groups-directory/Filters.php:447
-#: core/widgets/groups-directory/Filters.php:627
-#: core/widgets/groups-directory/Filters.php:811
-#: core/widgets/groups-directory/Filters.php:986
-#: core/widgets/groups-directory/Listing.php:365
-#: core/widgets/groups-directory/Listing.php:845
-#: core/widgets/groups-directory/Listing.php:1297
-#: core/widgets/groups-directory/Navigation.php:197
-#: core/widgets/groups-directory/Navigation.php:386
-#: core/widgets/groups-directory/Navigation.php:553
-#: core/widgets/profile-group/Buttons.php:276
-#: core/widgets/profile-group/Buttons.php:425
-#: core/widgets/profile-group/Buttons.php:541
-#: core/widgets/profile-group/Buttons.php:657
-#: core/widgets/profile-group/Buttons.php:773
-#: core/widgets/profile-group/Avatar.php:119
-#: core/widgets/profile-group/Cover.php:176
-#: core/widgets/profile-group/Navigation.php:280
-#: core/widgets/profile-group/Navigation.php:486
-#: core/widgets/profile-member/Buttons.php:276
-#: core/widgets/profile-member/Buttons.php:425
-#: core/widgets/profile-member/Buttons.php:541
-#: core/widgets/profile-member/Buttons.php:657
-#: core/widgets/profile-member/Avatar.php:119
-#: core/widgets/profile-member/Cover.php:176
-#: core/widgets/profile-member/Navigation.php:309
-#: core/widgets/profile-member/Navigation.php:529
-#: core/widgets/members-directory/Filters.php:448
-#: core/widgets/members-directory/Filters.php:629
-#: core/widgets/members-directory/Filters.php:813
-#: core/widgets/members-directory/Filters.php:988
-#: core/widgets/members-directory/Listing.php:605
-#: core/widgets/members-directory/Listing.php:1057
-#: core/widgets/members-directory/Navigation.php:197
-#: core/widgets/members-directory/Navigation.php:415
-#: core/widgets/sitewide-activity/Filters.php:205
-#: core/widgets/sitewide-activity/Filters.php:393
-#: core/widgets/sitewide-activity/Filters.php:545
-#: core/widgets/sitewide-activity/Content.php:242
-#: core/widgets/sitewide-activity/Form.php:552
-#: core/widgets/sitewide-activity/Form.php:696
+#: core/widgets/general/ActivityListing.php:276
+#: core/widgets/general/GroupsListing.php:401
+#: core/widgets/groups-directory/Filters.php:449
+#: core/widgets/groups-directory/Filters.php:629
+#: core/widgets/groups-directory/Filters.php:814
+#: core/widgets/groups-directory/Filters.php:990
+#: core/widgets/groups-directory/Listing.php:374
+#: core/widgets/groups-directory/Listing.php:854
+#: core/widgets/groups-directory/Listing.php:1306
+#: core/widgets/groups-directory/Navigation.php:351
+#: core/widgets/groups-directory/Navigation.php:579
+#: core/widgets/groups-directory/Navigation.php:746
+#: core/widgets/members-directory/Filters.php:450
+#: core/widgets/members-directory/Filters.php:630
+#: core/widgets/members-directory/Filters.php:815
+#: core/widgets/members-directory/Filters.php:991
+#: core/widgets/members-directory/Listing.php:614
+#: core/widgets/members-directory/Listing.php:1066
+#: core/widgets/members-directory/Navigation.php:348
+#: core/widgets/members-directory/Navigation.php:566
+#: core/widgets/profile-group/Avatar.php:126
+#: core/widgets/profile-group/Buttons.php:283
+#: core/widgets/profile-group/Buttons.php:432
+#: core/widgets/profile-group/Buttons.php:548
+#: core/widgets/profile-group/Buttons.php:664
+#: core/widgets/profile-group/Buttons.php:780
+#: core/widgets/profile-group/Cover.php:406
+#: core/widgets/profile-group/Navigation.php:291
+#: core/widgets/profile-group/Navigation.php:509
+#: core/widgets/profile-member/Avatar.php:126
+#: core/widgets/profile-member/Buttons.php:283
+#: core/widgets/profile-member/Buttons.php:432
+#: core/widgets/profile-member/Buttons.php:548
+#: core/widgets/profile-member/Buttons.php:664
+#: core/widgets/profile-member/Cover.php:406
+#: core/widgets/profile-member/Navigation.php:322
+#: core/widgets/profile-member/Navigation.php:554
+#: core/widgets/sitewide-activity/content/BuddybossSettings.php:302
+#: core/widgets/sitewide-activity/content/BuddypressSettings.php:267
+#: core/widgets/sitewide-activity/filters/BuddybossSettings.php:183
+#: core/widgets/sitewide-activity/filters/BuddybossSettings.php:335
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:201
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:388
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:552
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:672
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:816
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:548
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:692
+#: core/widgets/sitewide-activity/navigation/BuddybossSettings.php:294
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:293
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:511
 msgid "Hover"
 msgstr ""
 
-#: core/widgets/groups-directory/Filters.php:468
-#: core/widgets/groups-directory/Navigation.php:248
-#: core/widgets/groups-directory/Navigation.php:597
-#: core/widgets/profile-group/Navigation.php:331
-#: core/widgets/profile-group/Navigation.php:530
-#: core/widgets/profile-member/Navigation.php:362
-#: core/widgets/profile-member/Navigation.php:573
-#: core/widgets/members-directory/Filters.php:469
-#: core/widgets/members-directory/Navigation.php:248
-#: core/widgets/members-directory/Navigation.php:459
-msgid "Active"
-msgstr ""
-
-#: core/widgets/groups-directory/Filters.php:526
-#: core/widgets/members-directory/Filters.php:527
-msgid "Search Box"
-msgstr ""
-
-#: core/widgets/groups-directory/Filters.php:549
-#: core/widgets/members-directory/Filters.php:550
-#: core/widgets/sitewide-activity/Filters.php:314
-msgid "Clear Icon"
-msgstr ""
-
-#: core/widgets/groups-directory/Filters.php:562
-#: core/widgets/groups-directory/Filters.php:923
-#: core/widgets/groups-directory/Listing.php:706
-#: core/widgets/groups-directory/Listing.php:1158
-#: core/widgets/groups-directory/Navigation.php:58
-#: core/widgets/groups-directory/Navigation.php:510
-#: core/widgets/members-directory/Filters.php:563
-#: core/widgets/members-directory/Filters.php:925
-#: core/widgets/members-directory/Listing.php:466
-#: core/widgets/members-directory/Listing.php:918
-#: core/widgets/members-directory/Navigation.php:146
-#: core/widgets/members-directory/Navigation.php:372
-#: core/widgets/sitewide-activity/Filters.php:142
-#: core/widgets/sitewide-activity/Filters.php:327
-#: core/widgets/sitewide-activity/Form.php:297
-msgid "Text Typography"
-msgstr ""
-
-#: core/widgets/groups-directory/Filters.php:591
-#: core/widgets/groups-directory/Filters.php:645
-#: core/widgets/groups-directory/Filters.php:952
-#: core/widgets/groups-directory/Filters.php:1004
-#: core/widgets/groups-directory/Listing.php:718
-#: core/widgets/groups-directory/Listing.php:1170
-#: core/widgets/groups-directory/Navigation.php:164
-#: core/widgets/groups-directory/Navigation.php:204
-#: core/widgets/groups-directory/Navigation.php:255
-#: core/widgets/groups-directory/Navigation.php:353
-#: core/widgets/groups-directory/Navigation.php:393
-#: core/widgets/groups-directory/Navigation.php:528
-#: core/widgets/groups-directory/Navigation.php:560
-#: core/widgets/groups-directory/Navigation.php:604
-#: core/widgets/profile-group/Leadership.php:191
-#: core/widgets/profile-group/LastActivity.php:71
-#: core/widgets/profile-group/Buttons.php:243
-#: core/widgets/profile-group/Buttons.php:283
-#: core/widgets/profile-group/Buttons.php:381
-#: core/widgets/profile-group/Buttons.php:432
-#: core/widgets/profile-group/Buttons.php:497
-#: core/widgets/profile-group/Buttons.php:548
-#: core/widgets/profile-group/Buttons.php:613
-#: core/widgets/profile-group/Buttons.php:664
-#: core/widgets/profile-group/Buttons.php:729
-#: core/widgets/profile-group/Buttons.php:780
-#: core/widgets/profile-group/Status.php:70
-#: core/widgets/profile-group/Description.php:71
-#: core/widgets/profile-group/Name.php:70
-#: core/widgets/profile-group/Navigation.php:247
-#: core/widgets/profile-group/Navigation.php:287
-#: core/widgets/profile-group/Navigation.php:338
-#: core/widgets/profile-group/Navigation.php:461
-#: core/widgets/profile-group/Navigation.php:493
-#: core/widgets/profile-group/Navigation.php:537
-#: core/widgets/profile-member/Username.php:70
-#: core/widgets/profile-member/Meta.php:70
-#: core/widgets/profile-member/LastActivity.php:70
-#: core/widgets/profile-member/LastActivity.php:100
-#: core/widgets/profile-member/Buttons.php:243
-#: core/widgets/profile-member/Buttons.php:283
-#: core/widgets/profile-member/Buttons.php:381
-#: core/widgets/profile-member/Buttons.php:432
-#: core/widgets/profile-member/Buttons.php:497
-#: core/widgets/profile-member/Buttons.php:548
-#: core/widgets/profile-member/Buttons.php:613
-#: core/widgets/profile-member/Buttons.php:664
-#: core/widgets/profile-member/Navigation.php:276
-#: core/widgets/profile-member/Navigation.php:316
-#: core/widgets/profile-member/Navigation.php:369
-#: core/widgets/profile-member/Navigation.php:492
-#: core/widgets/profile-member/Navigation.php:536
-#: core/widgets/profile-member/Navigation.php:580
-#: core/widgets/members-directory/Filters.php:592
-#: core/widgets/members-directory/Filters.php:647
-#: core/widgets/members-directory/Filters.php:954
-#: core/widgets/members-directory/Filters.php:1006
-#: core/widgets/members-directory/Listing.php:478
-#: core/widgets/members-directory/Listing.php:930
-#: core/widgets/members-directory/Navigation.php:164
-#: core/widgets/members-directory/Navigation.php:204
-#: core/widgets/members-directory/Navigation.php:255
-#: core/widgets/members-directory/Navigation.php:390
-#: core/widgets/members-directory/Navigation.php:422
-#: core/widgets/members-directory/Navigation.php:466
-#: core/widgets/sitewide-activity/Filters.php:171
-#: core/widgets/sitewide-activity/Filters.php:223
-#: core/widgets/sitewide-activity/Filters.php:356
-#: core/widgets/sitewide-activity/Filters.php:411
-#: core/widgets/sitewide-activity/Filters.php:563
-#: core/widgets/sitewide-activity/Form.php:327
-#: core/widgets/sitewide-activity/Form.php:394
-msgid "Text Color"
-msgstr ""
-
-#: core/widgets/groups-directory/Filters.php:603
-#: core/widgets/groups-directory/Filters.php:657
-#: core/widgets/members-directory/Filters.php:604
-#: core/widgets/members-directory/Filters.php:659
-#: core/widgets/sitewide-activity/Filters.php:368
-#: core/widgets/sitewide-activity/Filters.php:423
-#: core/widgets/sitewide-activity/Form.php:187
-#: core/widgets/sitewide-activity/Form.php:229
-msgid "Placeholder Color"
-msgstr ""
-
-#: core/widgets/groups-directory/Filters.php:671
-#: core/widgets/groups-directory/Filters.php:841
-#: core/widgets/groups-directory/Filters.php:1028
-#: core/widgets/groups-directory/Listing.php:884
-#: core/widgets/groups-directory/Listing.php:951
-#: core/widgets/groups-directory/Listing.php:1336
-#: core/widgets/groups-directory/Listing.php:1403
-#: core/widgets/groups-directory/Navigation.php:227
-#: core/widgets/groups-directory/Navigation.php:278
-#: core/widgets/groups-directory/Navigation.php:416
-#: core/widgets/groups-directory/Navigation.php:583
-#: core/widgets/groups-directory/Navigation.php:627
-#: core/widgets/profile-group/Buttons.php:306
-#: core/widgets/profile-group/Buttons.php:404
-#: core/widgets/profile-group/Buttons.php:455
-#: core/widgets/profile-group/Buttons.php:520
-#: core/widgets/profile-group/Buttons.php:571
-#: core/widgets/profile-group/Buttons.php:636
-#: core/widgets/profile-group/Buttons.php:687
-#: core/widgets/profile-group/Buttons.php:752
-#: core/widgets/profile-group/Buttons.php:803
-#: core/widgets/profile-group/Navigation.php:310
-#: core/widgets/profile-group/Navigation.php:361
-#: core/widgets/profile-group/Navigation.php:516
-#: core/widgets/profile-group/Navigation.php:560
-#: core/widgets/profile-member/Buttons.php:306
-#: core/widgets/profile-member/Buttons.php:404
-#: core/widgets/profile-member/Buttons.php:455
-#: core/widgets/profile-member/Buttons.php:520
-#: core/widgets/profile-member/Buttons.php:571
-#: core/widgets/profile-member/Buttons.php:636
-#: core/widgets/profile-member/Buttons.php:687
-#: core/widgets/profile-member/Navigation.php:341
-#: core/widgets/profile-member/Navigation.php:392
-#: core/widgets/profile-member/Navigation.php:515
-#: core/widgets/profile-member/Navigation.php:559
-#: core/widgets/profile-member/Navigation.php:603
-#: core/widgets/members-directory/Filters.php:673
-#: core/widgets/members-directory/Filters.php:843
-#: core/widgets/members-directory/Filters.php:1030
-#: core/widgets/members-directory/Listing.php:644
-#: core/widgets/members-directory/Listing.php:711
-#: core/widgets/members-directory/Listing.php:1096
-#: core/widgets/members-directory/Listing.php:1163
-#: core/widgets/members-directory/Navigation.php:227
-#: core/widgets/members-directory/Navigation.php:278
-#: core/widgets/members-directory/Navigation.php:445
-#: core/widgets/members-directory/Navigation.php:489
-#: core/widgets/sitewide-activity/Filters.php:247
-#: core/widgets/sitewide-activity/Filters.php:437
-#: core/widgets/sitewide-activity/Filters.php:575
-#: core/widgets/sitewide-activity/Content.php:273
-#: core/widgets/sitewide-activity/Form.php:240
-#: core/widgets/sitewide-activity/Form.php:432
-#: core/widgets/sitewide-activity/Form.php:581
-#: core/widgets/sitewide-activity/Form.php:725
+#: core/widgets/general/ActivityListing.php:307
+#: core/widgets/groups-directory/Filters.php:673
+#: core/widgets/groups-directory/Filters.php:845
+#: core/widgets/groups-directory/Filters.php:1032
+#: core/widgets/groups-directory/Listing.php:893
+#: core/widgets/groups-directory/Listing.php:960
+#: core/widgets/groups-directory/Listing.php:1345
+#: core/widgets/groups-directory/Listing.php:1412
+#: core/widgets/groups-directory/Navigation.php:381
+#: core/widgets/groups-directory/Navigation.php:432
+#: core/widgets/groups-directory/Navigation.php:609
+#: core/widgets/groups-directory/Navigation.php:776
+#: core/widgets/groups-directory/Navigation.php:820
+#: core/widgets/members-directory/Filters.php:674
+#: core/widgets/members-directory/Filters.php:846
+#: core/widgets/members-directory/Filters.php:1033
+#: core/widgets/members-directory/Listing.php:653
+#: core/widgets/members-directory/Listing.php:720
+#: core/widgets/members-directory/Listing.php:1105
+#: core/widgets/members-directory/Listing.php:1172
+#: core/widgets/members-directory/Navigation.php:378
+#: core/widgets/members-directory/Navigation.php:429
+#: core/widgets/members-directory/Navigation.php:596
+#: core/widgets/members-directory/Navigation.php:640
+#: core/widgets/profile-group/Buttons.php:313
+#: core/widgets/profile-group/Buttons.php:411
+#: core/widgets/profile-group/Buttons.php:462
+#: core/widgets/profile-group/Buttons.php:527
+#: core/widgets/profile-group/Buttons.php:578
+#: core/widgets/profile-group/Buttons.php:643
+#: core/widgets/profile-group/Buttons.php:694
+#: core/widgets/profile-group/Buttons.php:759
+#: core/widgets/profile-group/Buttons.php:810
+#: core/widgets/profile-group/Navigation.php:321
+#: core/widgets/profile-group/Navigation.php:372
+#: core/widgets/profile-group/Navigation.php:539
+#: core/widgets/profile-group/Navigation.php:583
+#: core/widgets/profile-member/Avatar.php:133
+#: core/widgets/profile-member/Buttons.php:313
+#: core/widgets/profile-member/Buttons.php:411
+#: core/widgets/profile-member/Buttons.php:462
+#: core/widgets/profile-member/Buttons.php:527
+#: core/widgets/profile-member/Buttons.php:578
+#: core/widgets/profile-member/Buttons.php:643
+#: core/widgets/profile-member/Buttons.php:694
+#: core/widgets/profile-member/Navigation.php:354
+#: core/widgets/profile-member/Navigation.php:405
+#: core/widgets/profile-member/Navigation.php:540
+#: core/widgets/profile-member/Navigation.php:584
+#: core/widgets/profile-member/Navigation.php:628
+#: core/widgets/sitewide-activity/content/BuddybossSettings.php:333
+#: core/widgets/sitewide-activity/content/BuddypressSettings.php:298
+#: core/widgets/sitewide-activity/filters/BuddybossSettings.php:227
+#: core/widgets/sitewide-activity/filters/BuddybossSettings.php:365
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:243
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:432
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:582
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:236
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:552
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:701
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:845
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:236
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:428
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:577
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:721
+#: core/widgets/sitewide-activity/navigation/BuddybossSettings.php:324
+#: core/widgets/sitewide-activity/navigation/BuddybossSettings.php:375
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:323
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:374
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:541
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:585
 msgid "Border Color"
 msgstr ""
 
-#: core/widgets/groups-directory/Filters.php:730
-#: core/widgets/members-directory/Filters.php:732
-#: core/widgets/sitewide-activity/Filters.php:495
-msgid "Search Button"
+#: core/widgets/general/GroupsListing.php:30
+msgid "Groups List"
 msgstr ""
 
-#: core/widgets/groups-directory/Filters.php:753
-#: core/widgets/members-directory/Filters.php:755
-msgid "Left Space"
+#: core/widgets/general/GroupsListing.php:74
+#: core/widgets/general/MembersListing.php:73
+#: core/widgets/groups-directory/Listing.php:47
+#: core/widgets/members-directory/Listing.php:47
+#: core/widgets/profile-group/Navigation.php:44
+#: core/widgets/profile-member/Navigation.php:45
+#: src/Admin/Options.php:42
+#: src/Elements/Elements.php:77
+msgid "Settings"
 msgstr ""
 
-#: core/widgets/groups-directory/Filters.php:789
-#: core/widgets/groups-directory/Filters.php:829
-#: core/widgets/groups-directory/Filters.php:964
-#: core/widgets/groups-directory/Filters.php:1016
-#: core/widgets/members-directory/Filters.php:791
-#: core/widgets/members-directory/Filters.php:831
-#: core/widgets/members-directory/Filters.php:966
-#: core/widgets/members-directory/Filters.php:1018
-#: core/widgets/sitewide-activity/Filters.php:183
-#: core/widgets/sitewide-activity/Filters.php:235
-#: core/widgets/sitewide-activity/Filters.php:523
-msgid "Icon Color"
-msgstr ""
-
-#: core/widgets/groups-directory/Filters.php:900
-#: core/widgets/members-directory/Filters.php:902
-#: core/widgets/sitewide-activity/Filters.php:134
-msgid "Sorting"
-msgstr ""
-
-#: core/widgets/groups-directory/Listing.php:22
-msgid "Groups Listing"
-msgstr ""
-
-#: core/widgets/groups-directory/Listing.php:46
-#: core/widgets/members-directory/Listing.php:46
+#: core/widgets/general/GroupsListing.php:82
+#: core/widgets/general/MembersListing.php:81
+#: core/widgets/groups-directory/Listing.php:55
+#: core/widgets/members-directory/Listing.php:55
+#: src/Elements/strings.php:25
 msgid "Columns"
 msgstr ""
 
-#: core/widgets/groups-directory/Listing.php:49
-#: core/widgets/members-directory/Listing.php:49
+#: core/widgets/general/GroupsListing.php:85
+#: core/widgets/general/MembersListing.php:84
+#: core/widgets/groups-directory/Listing.php:58
+#: core/widgets/members-directory/Listing.php:58
 msgid "One"
 msgstr ""
 
-#: core/widgets/groups-directory/Listing.php:50
-#: core/widgets/members-directory/Listing.php:50
+#: core/widgets/general/GroupsListing.php:86
+#: core/widgets/general/MembersListing.php:85
+#: core/widgets/groups-directory/Listing.php:59
+#: core/widgets/members-directory/Listing.php:59
 msgid "Two"
 msgstr ""
 
-#: core/widgets/groups-directory/Listing.php:51
-#: core/widgets/members-directory/Listing.php:51
+#: core/widgets/general/GroupsListing.php:87
+#: core/widgets/general/MembersListing.php:86
+#: core/widgets/groups-directory/Listing.php:60
+#: core/widgets/members-directory/Listing.php:60
 msgid "Three"
 msgstr ""
 
-#: core/widgets/groups-directory/Listing.php:52
-#: core/widgets/members-directory/Listing.php:52
+#: core/widgets/general/GroupsListing.php:88
+#: core/widgets/general/MembersListing.php:87
+#: core/widgets/groups-directory/Listing.php:61
+#: core/widgets/members-directory/Listing.php:61
 msgid "Four"
 msgstr ""
 
-#: core/widgets/groups-directory/Listing.php:64
-#: core/widgets/groups-directory/Navigation.php:494
-#: core/widgets/profile-group/Leadership.php:203
-#: core/widgets/profile-group/Leadership.php:252
-#: core/widgets/profile-group/Buttons.php:186
-#: core/widgets/profile-group/Navigation.php:170
-#: core/widgets/profile-group/Navigation.php:210
-#: core/widgets/profile-group/Navigation.php:428
-#: core/widgets/profile-member/Buttons.php:186
-#: core/widgets/profile-member/Navigation.php:199
-#: core/widgets/profile-member/Navigation.php:239
-#: core/widgets/profile-member/Navigation.php:459
-#: core/widgets/members-directory/Listing.php:64
-#: core/widgets/members-directory/Navigation.php:356
+#: core/widgets/general/GroupsListing.php:100
+#: core/widgets/general/MembersListing.php:99
+#: core/widgets/groups-directory/Listing.php:73
+#: core/widgets/groups-directory/Navigation.php:236
+#: core/widgets/groups-directory/Navigation.php:280
+#: core/widgets/groups-directory/Navigation.php:687
+#: core/widgets/members-directory/Listing.php:73
+#: core/widgets/members-directory/Navigation.php:233
+#: core/widgets/members-directory/Navigation.php:277
+#: core/widgets/members-directory/Navigation.php:507
+#: core/widgets/profile-group/Buttons.php:193
+#: core/widgets/profile-group/leadership/BuddybossSettings.php:161
+#: core/widgets/profile-group/leadership/BuddybossSettings.php:209
+#: core/widgets/profile-group/leadership/BuddypressSettings.php:199
+#: core/widgets/profile-group/leadership/BuddypressSettings.php:263
+#: core/widgets/profile-group/Navigation.php:177
+#: core/widgets/profile-group/Navigation.php:221
+#: core/widgets/profile-group/Navigation.php:451
+#: core/widgets/profile-member/Buttons.php:193
+#: core/widgets/profile-member/Navigation.php:208
+#: core/widgets/profile-member/Navigation.php:252
+#: core/widgets/profile-member/Navigation.php:484
+#: core/widgets/sitewide-activity/content/BuddypressSettings.php:380
+#: core/widgets/sitewide-activity/navigation/BuddybossSettings.php:179
+#: core/widgets/sitewide-activity/navigation/BuddybossSettings.php:223
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:178
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:222
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:452
 msgid "Spacing"
 msgstr ""
 
-#: core/widgets/groups-directory/Listing.php:88
-#: core/widgets/groups-directory/Listing.php:137
-#: core/widgets/groups-directory/Listing.php:186
-#: core/widgets/profile-group/Buttons.php:167
-#: core/widgets/profile-member/Buttons.php:167
-#: core/widgets/members-directory/Listing.php:88
-#: core/widgets/members-directory/Listing.php:137
-#: core/widgets/members-directory/Listing.php:186
+#: core/widgets/general/GroupsListing.php:124
+#: core/widgets/general/GroupsListing.php:173
+#: core/widgets/general/GroupsListing.php:222
+#: core/widgets/general/MembersListing.php:123
+#: core/widgets/general/MembersListing.php:172
+#: core/widgets/general/MembersListing.php:221
+#: core/widgets/groups-directory/Listing.php:97
+#: core/widgets/groups-directory/Listing.php:146
+#: core/widgets/groups-directory/Listing.php:195
+#: core/widgets/members-directory/Listing.php:97
+#: core/widgets/members-directory/Listing.php:146
+#: core/widgets/members-directory/Listing.php:195
+#: core/widgets/profile-group/Buttons.php:174
+#: core/widgets/profile-member/Buttons.php:174
 msgid "Vertical Spacing"
 msgstr ""
 
-#: core/widgets/groups-directory/Listing.php:112
-#: core/widgets/groups-directory/Listing.php:161
-#: core/widgets/groups-directory/Listing.php:210
-#: core/widgets/profile-group/Buttons.php:147
-#: core/widgets/profile-member/Buttons.php:147
-#: core/widgets/members-directory/Listing.php:112
-#: core/widgets/members-directory/Listing.php:161
-#: core/widgets/members-directory/Listing.php:210
+#: core/widgets/general/GroupsListing.php:148
+#: core/widgets/general/GroupsListing.php:197
+#: core/widgets/general/GroupsListing.php:246
+#: core/widgets/general/MembersListing.php:147
+#: core/widgets/general/MembersListing.php:196
+#: core/widgets/general/MembersListing.php:245
+#: core/widgets/groups-directory/Listing.php:121
+#: core/widgets/groups-directory/Listing.php:170
+#: core/widgets/groups-directory/Listing.php:219
+#: core/widgets/members-directory/Listing.php:121
+#: core/widgets/members-directory/Listing.php:170
+#: core/widgets/members-directory/Listing.php:219
+#: core/widgets/profile-group/Buttons.php:154
+#: core/widgets/profile-member/Buttons.php:154
 msgid "Horizontal Spacing"
 msgstr ""
 
-#: core/widgets/groups-directory/Listing.php:237
-#: core/widgets/groups-directory/Listing.php:475
+#: core/widgets/general/GroupsListing.php:273
+#: core/widgets/general/GroupsListing.php:511
+#: core/widgets/groups-directory/Listing.php:246
+#: core/widgets/groups-directory/Listing.php:484
 msgid "Groups Icon"
 msgstr ""
 
-#: core/widgets/groups-directory/Listing.php:245
+#: core/widgets/general/GroupsListing.php:281
+#: core/widgets/groups-directory/Listing.php:254
 msgid "Public group icon"
 msgstr ""
 
-#: core/widgets/groups-directory/Listing.php:247
-#: core/widgets/groups-directory/Listing.php:274
-#: core/widgets/groups-directory/Listing.php:301
-#: core/widgets/groups-directory/Listing.php:569
-#: core/widgets/groups-directory/Listing.php:571
-#: core/widgets/groups-directory/Listing.php:1021
-#: core/widgets/groups-directory/Listing.php:1023
-#: core/widgets/members-directory/Listing.php:329
-#: core/widgets/members-directory/Listing.php:331
-#: core/widgets/members-directory/Listing.php:781
-#: core/widgets/members-directory/Listing.php:783
+#: core/widgets/general/GroupsListing.php:283
+#: core/widgets/general/GroupsListing.php:310
+#: core/widgets/general/GroupsListing.php:337
+#: core/widgets/groups-directory/Listing.php:256
+#: core/widgets/groups-directory/Listing.php:283
+#: core/widgets/groups-directory/Listing.php:310
+#: core/widgets/groups-directory/Listing.php:578
+#: core/widgets/groups-directory/Listing.php:580
+#: core/widgets/groups-directory/Listing.php:1030
+#: core/widgets/groups-directory/Listing.php:1032
+#: core/widgets/members-directory/Listing.php:338
+#: core/widgets/members-directory/Listing.php:340
+#: core/widgets/members-directory/Listing.php:790
+#: core/widgets/members-directory/Listing.php:792
+#: src/Elements/strings.php:90
 msgid "Show"
 msgstr ""
 
-#: core/widgets/groups-directory/Listing.php:248
-#: core/widgets/groups-directory/Listing.php:275
-#: core/widgets/groups-directory/Listing.php:302
-#: core/widgets/groups-directory/Listing.php:572
-#: core/widgets/groups-directory/Listing.php:1024
-#: core/widgets/members-directory/Listing.php:332
-#: core/widgets/members-directory/Listing.php:784
-msgid "Hide"
-msgstr ""
-
+#: core/widgets/general/GroupsListing.php:284
+#: core/widgets/general/GroupsListing.php:311
+#: core/widgets/general/GroupsListing.php:338
 #: core/widgets/groups-directory/Listing.php:257
 #: core/widgets/groups-directory/Listing.php:284
 #: core/widgets/groups-directory/Listing.php:311
@@ -927,729 +1200,2620 @@ msgstr ""
 #: core/widgets/groups-directory/Listing.php:1033
 #: core/widgets/members-directory/Listing.php:341
 #: core/widgets/members-directory/Listing.php:793
+msgid "Hide"
+msgstr ""
+
+#: core/widgets/general/GroupsListing.php:293
+#: core/widgets/general/GroupsListing.php:320
+#: core/widgets/general/GroupsListing.php:347
+#: core/widgets/groups-directory/Listing.php:266
+#: core/widgets/groups-directory/Listing.php:293
+#: core/widgets/groups-directory/Listing.php:320
+#: core/widgets/groups-directory/Listing.php:590
+#: core/widgets/groups-directory/Listing.php:1042
+#: core/widgets/members-directory/Listing.php:350
+#: core/widgets/members-directory/Listing.php:802
 msgid "Show Yes"
 msgstr ""
 
-#: core/widgets/groups-directory/Listing.php:272
+#: core/widgets/general/GroupsListing.php:308
+#: core/widgets/groups-directory/Listing.php:281
 msgid "Private group icon"
 msgstr ""
 
-#: core/widgets/groups-directory/Listing.php:299
+#: core/widgets/general/GroupsListing.php:335
+#: core/widgets/groups-directory/Listing.php:308
 msgid "Hidden group icon"
 msgstr ""
 
-#: core/widgets/groups-directory/Listing.php:328
+#: core/widgets/general/GroupsListing.php:364
+#: core/widgets/groups-directory/Listing.php:337
 msgid "Listing Groups"
 msgstr ""
 
-#: core/widgets/groups-directory/Listing.php:337
-#: core/widgets/members-directory/Listing.php:258
-#: core/widgets/sitewide-activity/Content.php:47
-#: core/widgets/sitewide-activity/Content.php:216
-#: core/widgets/sitewide-activity/Content.php:249
-#: core/widgets/sitewide-activity/Form.php:45
-#: core/widgets/sitewide-activity/Form.php:165
-#: core/widgets/sitewide-activity/Form.php:207
-#: core/widgets/sitewide-activity/Form.php:520
-#: core/widgets/sitewide-activity/Form.php:559
-#: core/widgets/sitewide-activity/Form.php:664
-#: core/widgets/sitewide-activity/Form.php:703
-msgid "Background"
+#: core/widgets/general/GroupsListing.php:531
+#: core/widgets/general/SaveNotification.php:76
+#: core/widgets/general/SaveNotification.php:197
+#: core/widgets/general/SaveNotification.php:263
+#: core/widgets/general/SaveNotification.php:384
+#: core/widgets/groups-directory/Filters.php:338
+#: core/widgets/groups-directory/Filters.php:415
+#: core/widgets/groups-directory/Filters.php:582
+#: core/widgets/groups-directory/Filters.php:636
+#: core/widgets/groups-directory/Filters.php:780
+#: core/widgets/groups-directory/Filters.php:821
+#: core/widgets/groups-directory/Filters.php:945
+#: core/widgets/groups-directory/Filters.php:997
+#: core/widgets/groups-directory/Listing.php:504
+#: core/widgets/groups-directory/Listing.php:639
+#: core/widgets/groups-directory/Listing.php:826
+#: core/widgets/groups-directory/Listing.php:879
+#: core/widgets/groups-directory/Listing.php:946
+#: core/widgets/groups-directory/Listing.php:1091
+#: core/widgets/groups-directory/Listing.php:1278
+#: core/widgets/groups-directory/Listing.php:1331
+#: core/widgets/groups-directory/Listing.php:1398
+#: core/widgets/groups-directory/Navigation.php:52
+#: core/widgets/groups-directory/Navigation.php:330
+#: core/widgets/groups-directory/Navigation.php:370
+#: core/widgets/groups-directory/Navigation.php:421
+#: core/widgets/groups-directory/Navigation.php:558
+#: core/widgets/groups-directory/Navigation.php:598
+#: core/widgets/groups-directory/Navigation.php:733
+#: core/widgets/groups-directory/Navigation.php:765
+#: core/widgets/groups-directory/Navigation.php:809
+#: core/widgets/members-directory/Filters.php:339
+#: core/widgets/members-directory/Filters.php:416
+#: core/widgets/members-directory/Filters.php:583
+#: core/widgets/members-directory/Filters.php:637
+#: core/widgets/members-directory/Filters.php:781
+#: core/widgets/members-directory/Filters.php:822
+#: core/widgets/members-directory/Filters.php:946
+#: core/widgets/members-directory/Filters.php:998
+#: core/widgets/members-directory/Listing.php:399
+#: core/widgets/members-directory/Listing.php:586
+#: core/widgets/members-directory/Listing.php:639
+#: core/widgets/members-directory/Listing.php:706
+#: core/widgets/members-directory/Listing.php:851
+#: core/widgets/members-directory/Listing.php:1038
+#: core/widgets/members-directory/Listing.php:1091
+#: core/widgets/members-directory/Listing.php:1158
+#: core/widgets/members-directory/Navigation.php:52
+#: core/widgets/members-directory/Navigation.php:327
+#: core/widgets/members-directory/Navigation.php:367
+#: core/widgets/members-directory/Navigation.php:418
+#: core/widgets/members-directory/Navigation.php:553
+#: core/widgets/members-directory/Navigation.php:585
+#: core/widgets/members-directory/Navigation.php:629
+#: core/widgets/profile-group/Buttons.php:262
+#: core/widgets/profile-group/Buttons.php:302
+#: core/widgets/profile-group/Buttons.php:400
+#: core/widgets/profile-group/Buttons.php:451
+#: core/widgets/profile-group/Buttons.php:516
+#: core/widgets/profile-group/Buttons.php:567
+#: core/widgets/profile-group/Buttons.php:632
+#: core/widgets/profile-group/Buttons.php:683
+#: core/widgets/profile-group/Buttons.php:748
+#: core/widgets/profile-group/Buttons.php:799
+#: core/widgets/profile-group/Cover.php:52
+#: core/widgets/profile-group/leadership/BuddybossSettings.php:87
+#: core/widgets/profile-group/Navigation.php:81
+#: core/widgets/profile-group/Navigation.php:270
+#: core/widgets/profile-group/Navigation.php:310
+#: core/widgets/profile-group/Navigation.php:361
+#: core/widgets/profile-group/Navigation.php:496
+#: core/widgets/profile-group/Navigation.php:528
+#: core/widgets/profile-group/Navigation.php:572
+#: core/widgets/profile-member/Buttons.php:262
+#: core/widgets/profile-member/Buttons.php:302
+#: core/widgets/profile-member/Buttons.php:400
+#: core/widgets/profile-member/Buttons.php:451
+#: core/widgets/profile-member/Buttons.php:516
+#: core/widgets/profile-member/Buttons.php:567
+#: core/widgets/profile-member/Buttons.php:632
+#: core/widgets/profile-member/Buttons.php:683
+#: core/widgets/profile-member/Cover.php:52
+#: core/widgets/profile-member/Navigation.php:83
+#: core/widgets/profile-member/Navigation.php:301
+#: core/widgets/profile-member/Navigation.php:342
+#: core/widgets/profile-member/Navigation.php:394
+#: core/widgets/profile-member/Navigation.php:529
+#: core/widgets/profile-member/Navigation.php:573
+#: core/widgets/profile-member/Navigation.php:617
+#: core/widgets/sitewide-activity/filters/BuddybossSettings.php:43
+#: core/widgets/sitewide-activity/filters/BuddybossSettings.php:136
+#: core/widgets/sitewide-activity/filters/BuddybossSettings.php:190
+#: core/widgets/sitewide-activity/filters/BuddybossSettings.php:302
+#: core/widgets/sitewide-activity/filters/BuddybossSettings.php:342
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:41
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:156
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:208
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:341
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:395
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:519
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:559
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:435
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:502
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:311
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:378
+#: core/widgets/sitewide-activity/navigation/BuddybossSettings.php:43
+#: core/widgets/sitewide-activity/navigation/BuddybossSettings.php:273
+#: core/widgets/sitewide-activity/navigation/BuddybossSettings.php:313
+#: core/widgets/sitewide-activity/navigation/BuddybossSettings.php:364
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:41
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:272
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:312
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:363
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:498
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:530
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:574
+msgid "Background Color"
 msgstr ""
 
-#: core/widgets/groups-directory/Listing.php:516
+#: core/widgets/general/GroupsListing.php:552
+#: core/widgets/groups-directory/Listing.php:525
 msgid "Vertical position"
 msgstr ""
 
-#: core/widgets/groups-directory/Listing.php:538
+#: core/widgets/general/GroupsListing.php:574
+#: core/widgets/groups-directory/Listing.php:547
 msgid "Horizontal position"
 msgstr ""
 
-#: core/widgets/groups-directory/Listing.php:561
-#: core/widgets/members-directory/Listing.php:321
-msgid "Pagination Top"
+#: core/widgets/general/MembersListing.php:29
+msgid "Members List"
 msgstr ""
 
-#: core/widgets/groups-directory/Listing.php:596
-#: core/widgets/groups-directory/Listing.php:1048
-#: core/widgets/members-directory/Listing.php:356
-#: core/widgets/members-directory/Listing.php:808
-msgid "Show No"
-msgstr ""
-
-#: core/widgets/groups-directory/Listing.php:611
-#: core/widgets/groups-directory/Listing.php:1063
-#: core/widgets/members-directory/Listing.php:371
-#: core/widgets/members-directory/Listing.php:823
-msgid "Bottom Space"
-msgstr ""
-
-#: core/widgets/groups-directory/Listing.php:743
-#: core/widgets/members-directory/Listing.php:503
-msgid "Top Nav Basic Style"
-msgstr ""
-
-#: core/widgets/groups-directory/Listing.php:758
-#: core/widgets/groups-directory/Listing.php:1210
-#: core/widgets/members-directory/Listing.php:518
-#: core/widgets/members-directory/Listing.php:970
-msgid "Links Spacing"
-msgstr ""
-
-#: core/widgets/groups-directory/Listing.php:778
-#: core/widgets/groups-directory/Listing.php:1230
-#: core/widgets/members-directory/Listing.php:538
-#: core/widgets/members-directory/Listing.php:990
-msgid "Link Typography"
-msgstr ""
-
-#: core/widgets/groups-directory/Listing.php:831
-#: core/widgets/groups-directory/Listing.php:898
-#: core/widgets/groups-directory/Listing.php:1283
-#: core/widgets/groups-directory/Listing.php:1350
-#: core/widgets/members-directory/Listing.php:591
-#: core/widgets/members-directory/Listing.php:658
-#: core/widgets/members-directory/Listing.php:1043
-#: core/widgets/members-directory/Listing.php:1110
-msgid "Shadow"
-msgstr ""
-
-#: core/widgets/groups-directory/Listing.php:912
-#: core/widgets/groups-directory/Listing.php:1364
-#: core/widgets/members-directory/Listing.php:672
-#: core/widgets/members-directory/Listing.php:1124
-msgid "Current"
-msgstr ""
-
-#: core/widgets/groups-directory/Listing.php:969
-#: core/widgets/groups-directory/Listing.php:1421
-#: core/widgets/members-directory/Listing.php:729
-#: core/widgets/members-directory/Listing.php:1181
-msgid "Link Border"
-msgstr ""
-
-#: core/widgets/groups-directory/Listing.php:981
-#: core/widgets/groups-directory/Listing.php:1433
-#: core/widgets/members-directory/Listing.php:741
-#: core/widgets/members-directory/Listing.php:1193
-msgid "Link Border Radius"
-msgstr ""
-
-#: core/widgets/groups-directory/Listing.php:996
-#: core/widgets/groups-directory/Listing.php:1448
-#: core/widgets/members-directory/Listing.php:756
-#: core/widgets/members-directory/Listing.php:1208
-msgid "Link Padding"
-msgstr ""
-
-#: core/widgets/groups-directory/Listing.php:1013
-#: core/widgets/members-directory/Listing.php:773
-msgid "Pagination Bottom"
-msgstr ""
-
-#: core/widgets/groups-directory/Listing.php:1195
-#: core/widgets/members-directory/Listing.php:955
-msgid "Bot Nav Basic Style"
-msgstr ""
-
-#: core/widgets/groups-directory/Navigation.php:21
-msgid "Groups Navigation"
-msgstr ""
-
-#: core/widgets/groups-directory/Navigation.php:37
-#: core/widgets/profile-group/Navigation.php:21
-#: core/widgets/profile-member/Navigation.php:21
-#: core/widgets/members-directory/Navigation.php:37
-msgid "Navigation"
-msgstr ""
-
-#: core/widgets/groups-directory/Navigation.php:45
-#: core/widgets/members-directory/Navigation.php:45
-#: core/widgets/sitewide-activity/Content.php:124
-#: core/widgets/sitewide-activity/Content.php:183
-msgid "Base Style"
-msgstr ""
-
-#: core/widgets/groups-directory/Navigation.php:67
-#: core/widgets/profile-group/LastActivity.php:45
-#: core/widgets/profile-group/Buttons.php:58
-#: core/widgets/profile-group/Buttons.php:118
-#: core/widgets/profile-group/Avatar.php:44
-#: core/widgets/profile-group/Status.php:44
-#: core/widgets/profile-group/Description.php:45
-#: core/widgets/profile-group/Name.php:44
-#: core/widgets/profile-group/Navigation.php:124
-#: core/widgets/profile-member/Username.php:44
-#: core/widgets/profile-member/Meta.php:44
-#: core/widgets/profile-member/LastActivity.php:44
-#: core/widgets/profile-member/Buttons.php:58
-#: core/widgets/profile-member/Buttons.php:118
-#: core/widgets/profile-member/Avatar.php:44
-#: core/widgets/profile-member/Navigation.php:124
-#: core/widgets/members-directory/Navigation.php:58
-#: core/widgets/sitewide-activity/Content.php:154
-msgid "Alignment"
-msgstr ""
-
-#: core/widgets/groups-directory/Navigation.php:71
-#: core/widgets/profile-group/Leadership.php:48
-#: core/widgets/profile-group/LastActivity.php:49
-#: core/widgets/profile-group/Buttons.php:62
-#: core/widgets/profile-group/Buttons.php:122
-#: core/widgets/profile-group/Avatar.php:48
-#: core/widgets/profile-group/Status.php:48
-#: core/widgets/profile-group/Description.php:49
-#: core/widgets/profile-group/Name.php:48
-#: core/widgets/profile-group/Navigation.php:128
-#: core/widgets/profile-member/Username.php:48
-#: core/widgets/profile-member/Meta.php:48
-#: core/widgets/profile-member/LastActivity.php:48
-#: core/widgets/profile-member/Buttons.php:62
-#: core/widgets/profile-member/Buttons.php:122
-#: core/widgets/profile-member/Avatar.php:48
-#: core/widgets/profile-member/Navigation.php:128
-#: core/widgets/profile-member/Navigation.php:174
-#: core/widgets/members-directory/Navigation.php:62
-#: core/widgets/sitewide-activity/Content.php:158
-msgid "Left"
-msgstr ""
-
-#: core/widgets/groups-directory/Navigation.php:75
-#: core/widgets/profile-group/Leadership.php:52
-#: core/widgets/profile-group/LastActivity.php:53
-#: core/widgets/profile-group/Buttons.php:66
-#: core/widgets/profile-group/Buttons.php:126
-#: core/widgets/profile-group/Avatar.php:52
-#: core/widgets/profile-group/Status.php:52
-#: core/widgets/profile-group/Description.php:53
-#: core/widgets/profile-group/Name.php:52
-#: core/widgets/profile-group/Navigation.php:132
-#: core/widgets/profile-member/Username.php:52
-#: core/widgets/profile-member/Meta.php:52
-#: core/widgets/profile-member/LastActivity.php:52
-#: core/widgets/profile-member/Buttons.php:66
-#: core/widgets/profile-member/Buttons.php:126
-#: core/widgets/profile-member/Avatar.php:52
-#: core/widgets/profile-member/Navigation.php:132
-#: core/widgets/profile-member/Navigation.php:178
-#: core/widgets/members-directory/Navigation.php:66
-#: core/widgets/sitewide-activity/Content.php:162
-msgid "Center"
-msgstr ""
-
-#: core/widgets/groups-directory/Navigation.php:79
-#: core/widgets/profile-group/Leadership.php:56
-#: core/widgets/profile-group/LastActivity.php:57
-#: core/widgets/profile-group/Buttons.php:70
-#: core/widgets/profile-group/Buttons.php:130
-#: core/widgets/profile-group/Avatar.php:56
-#: core/widgets/profile-group/Status.php:56
-#: core/widgets/profile-group/Description.php:57
-#: core/widgets/profile-group/Name.php:56
-#: core/widgets/profile-group/Navigation.php:136
-#: core/widgets/profile-member/Username.php:56
-#: core/widgets/profile-member/Meta.php:56
-#: core/widgets/profile-member/LastActivity.php:56
-#: core/widgets/profile-member/Buttons.php:70
-#: core/widgets/profile-member/Buttons.php:130
-#: core/widgets/profile-member/Avatar.php:56
-#: core/widgets/profile-member/Navigation.php:136
-#: core/widgets/profile-member/Navigation.php:182
-#: core/widgets/members-directory/Navigation.php:70
-#: core/widgets/sitewide-activity/Content.php:166
-msgid "Right"
-msgstr ""
-
-#: core/widgets/groups-directory/Navigation.php:147
-#: core/widgets/profile-group/Navigation.php:116
-#: core/widgets/profile-member/Navigation.php:116
-#: core/widgets/members-directory/Navigation.php:138
-msgid "Navigation Item"
-msgstr ""
-
-#: core/widgets/groups-directory/Navigation.php:322
-#: core/widgets/profile-group/Navigation.php:406
-#: core/widgets/profile-member/Navigation.php:437
-#: core/widgets/members-directory/Navigation.php:322
-msgid "Items Padding"
-msgstr ""
-
-#: core/widgets/groups-directory/Navigation.php:336
-msgid "Create Group Item"
-msgstr ""
-
-#: core/widgets/groups-directory/Navigation.php:472
-#: core/widgets/profile-group/Status.php:98
-#: core/widgets/profile-group/Name.php:98
-#: core/widgets/profile-member/Username.php:98
-#: core/widgets/members-directory/Listing.php:295
-#: core/widgets/sitewide-activity/Form.php:96
-msgid "Margin"
-msgstr ""
-
-#: core/widgets/groups-directory/Navigation.php:486
-#: core/widgets/members-directory/Navigation.php:348
-msgid "Item Counter"
-msgstr ""
-
-#: core/widgets/profile-group/Leadership.php:20
-msgid "Leadership"
-msgstr ""
-
-#: core/widgets/profile-group/Leadership.php:36
-msgid "Leadership Content"
-msgstr ""
-
-#: core/widgets/profile-group/Leadership.php:44
-msgid "Align Titles"
-msgstr ""
-
-#: core/widgets/profile-group/Leadership.php:70
-msgid "Display mods"
-msgstr ""
-
-#: core/widgets/profile-group/Leadership.php:74
-#: core/widgets/profile-group/Buttons.php:49
-#: core/widgets/profile-group/Navigation.php:154
-#: core/widgets/profile-member/Buttons.php:49
-#: core/widgets/profile-member/Navigation.php:154
-#: core/widgets/sitewide-activity/Content.php:141
-msgid "Inline"
-msgstr ""
-
-#: core/widgets/profile-group/Leadership.php:75
-#: core/widgets/profile-group/Buttons.php:50
-#: core/widgets/profile-group/Navigation.php:155
-#: core/widgets/profile-member/Buttons.php:50
-#: core/widgets/profile-member/Navigation.php:155
-#: core/widgets/sitewide-activity/Content.php:142
-msgid "Block"
-msgstr ""
-
-#: core/widgets/profile-group/Leadership.php:86
-msgid "Inline Spacing"
-msgstr ""
-
-#: core/widgets/profile-group/Leadership.php:102
-msgid "Block Spacing"
-msgstr ""
-
-#: core/widgets/profile-group/Leadership.php:121
-msgid "Moderators lists"
-msgstr ""
-
-#: core/widgets/profile-group/Leadership.php:129
-msgid "Moderators BG Color"
-msgstr ""
-
-#: core/widgets/profile-group/Leadership.php:175
-msgid "Title"
-msgstr ""
-
-#: core/widgets/profile-group/Leadership.php:221
-msgid "Avatars"
-msgstr ""
-
-#: core/widgets/profile-group/Leadership.php:229
-msgid "Img Border"
-msgstr ""
-
-#: core/widgets/profile-group/Leadership.php:239
-msgid "Imgage Radius"
-msgstr ""
-
-#: core/widgets/profile-group/TypeList.php:16
-msgid "Type List"
-msgstr ""
-
-#: core/widgets/profile-group/ExtraMeta.php:16
-msgid "Extra Meta"
-msgstr ""
-
-#: core/widgets/profile-group/Content.php:34
-#: core/widgets/profile-group/Content.php:71
-#: core/widgets/profile-member/Content.php:35
-#: core/widgets/profile-member/Content.php:72
-msgid "Go PRO"
-msgstr ""
-
-#: core/widgets/profile-group/Content.php:43
-#: core/widgets/profile-member/Content.php:44
-msgid "BuddyBuilder PRO"
-msgstr ""
-
-#: core/widgets/profile-group/Content.php:45
-#: core/widgets/profile-member/Content.php:46
-msgid "Step up your game and customize your profile content with ease."
-msgstr ""
-
-#: core/widgets/profile-group/LastActivity.php:21
-#: core/widgets/profile-group/LastActivity.php:37
-#: core/widgets/profile-member/LastActivity.php:20
-msgid "Last Activity"
-msgstr ""
-
-#: core/widgets/profile-group/Buttons.php:21
-msgid "Buttons"
-msgstr ""
-
-#: core/widgets/profile-group/Buttons.php:37
-#: core/widgets/profile-member/Buttons.php:37
-msgid "General Buttons"
-msgstr ""
-
-#: core/widgets/profile-group/Buttons.php:45
-#: core/widgets/profile-group/Navigation.php:150
-#: core/widgets/profile-member/Buttons.php:45
-#: core/widgets/profile-member/Navigation.php:150
-#: core/widgets/sitewide-activity/Content.php:137
-msgid "Display"
-msgstr ""
-
-#: core/widgets/profile-group/Buttons.php:87
-#: core/widgets/profile-member/Buttons.php:87
-msgid "Display inline"
-msgstr ""
-
-#: core/widgets/profile-group/Buttons.php:103
-#: core/widgets/profile-member/Buttons.php:103
-msgid "Display block"
-msgstr ""
-
-#: core/widgets/profile-group/Buttons.php:206
-#: core/widgets/profile-group/Avatar.php:84
-#: core/widgets/profile-group/Navigation.php:190
-#: core/widgets/profile-member/Buttons.php:206
-#: core/widgets/profile-member/Avatar.php:84
-#: core/widgets/profile-member/Navigation.php:219
-msgid "Width"
-msgstr ""
-
-#: core/widgets/profile-group/Buttons.php:364
-msgid "Join Group button"
-msgstr ""
-
-#: core/widgets/profile-group/Buttons.php:480
-msgid "Leave Group button"
-msgstr ""
-
-#: core/widgets/profile-group/Buttons.php:596
-msgid "Request Membership button"
-msgstr ""
-
-#: core/widgets/profile-group/Buttons.php:712
-msgid "Request Sent button"
-msgstr ""
-
-#: core/widgets/profile-group/Avatar.php:20
-#: core/widgets/profile-group/Avatar.php:36
-#: core/widgets/profile-member/Avatar.php:20
-#: core/widgets/profile-member/Avatar.php:36
-#: core/widgets/sitewide-activity/Form.php:110
-msgid "Avatar"
-msgstr ""
-
-#: core/widgets/profile-group/Avatar.php:71
-#: core/widgets/profile-member/Avatar.php:71
-msgid "Size"
-msgstr ""
-
-#: core/widgets/profile-group/Avatar.php:74
-#: core/widgets/profile-member/Avatar.php:74
-msgid "Thumb"
-msgstr ""
-
-#: core/widgets/profile-group/Avatar.php:75
-#: core/widgets/profile-member/Avatar.php:75
-msgid "Full"
-msgstr ""
-
-#: core/widgets/profile-group/Status.php:20
-#: core/widgets/profile-group/Status.php:36
-msgid "Status"
-msgstr ""
-
-#: core/widgets/profile-group/Description.php:21
-#: core/widgets/profile-group/Description.php:37
-msgid "Description"
-msgstr ""
-
-#: core/widgets/profile-group/Cover.php:21
-#: core/widgets/profile-group/Cover.php:76
-#: core/widgets/profile-member/Cover.php:21
-#: core/widgets/profile-member/Cover.php:76
-msgid "Cover"
-msgstr ""
-
-#: core/widgets/profile-group/Cover.php:37
-#: core/widgets/profile-member/Cover.php:37
-msgid "Cover size"
-msgstr ""
-
-#: core/widgets/profile-group/Cover.php:45
-#: core/widgets/profile-member/Cover.php:45
-msgid "Height"
-msgstr ""
-
-#: core/widgets/profile-group/Cover.php:47
-#: core/widgets/profile-member/Cover.php:47
-msgid ""
-"Cover height might not work if advanced posioning is set to \"Absolute\""
-msgstr ""
-
-#: core/widgets/profile-group/Cover.php:95
-#: core/widgets/profile-member/Cover.php:95
-msgid "Image position"
-msgstr ""
-
-#: core/widgets/profile-group/Cover.php:120
-#: core/widgets/profile-member/Cover.php:120
-msgid "Image repeat"
-msgstr ""
-
-#: core/widgets/profile-group/Cover.php:139
-#: core/widgets/profile-member/Cover.php:139
-msgid "Image size"
-msgstr ""
-
-#: core/widgets/profile-group/Cover.php:218
-#: core/widgets/profile-group/Cover.php:226
-#: core/widgets/profile-member/Cover.php:218
-#: core/widgets/profile-member/Cover.php:226
-msgid "Overlay"
-msgstr ""
-
-#: core/widgets/profile-group/Cover.php:241
-#: core/widgets/profile-member/Cover.php:241
-msgid "Overlay type"
-msgstr ""
-
-#: core/widgets/profile-group/Name.php:20
-msgid "Name"
-msgstr ""
-
-#: core/widgets/profile-group/Name.php:36
-#: core/widgets/profile-member/Username.php:20
-#: core/widgets/profile-member/Username.php:36
-msgid "Username"
-msgstr ""
-
-#: core/widgets/profile-group/Navigation.php:52
-#: core/widgets/profile-member/Navigation.php:52
-msgid "Enable default front page"
-msgstr ""
-
-#: core/widgets/profile-group/Navigation.php:54
-#: core/widgets/profile-member/Navigation.php:54
-msgid "Yes"
-msgstr ""
-
-#: core/widgets/profile-group/Navigation.php:55
-#: core/widgets/profile-member/Navigation.php:55
-msgid "No"
-msgstr ""
-
-#: core/widgets/profile-group/Navigation.php:66
-#: core/widgets/profile-member/Navigation.php:66
-msgid "Navigation Content"
-msgstr ""
-
-#: core/widgets/profile-group/Navigation.php:102
-#: core/widgets/profile-member/Navigation.php:102
-msgid "Content Padding"
-msgstr ""
-
-#: core/widgets/profile-group/Navigation.php:420
-#: core/widgets/profile-member/Navigation.php:451
-msgid "Counter"
-msgstr ""
-
-#: core/widgets/profile-member/Meta.php:20
-#: core/widgets/profile-member/Meta.php:36
-msgid "Meta"
-msgstr ""
-
-#: core/widgets/profile-member/LastActivity.php:36
-msgid "Activity Status"
-msgstr ""
-
-#: core/widgets/profile-member/LastActivity.php:92
-msgid "Link"
-msgstr ""
-
-#: core/widgets/profile-member/Buttons.php:21
-msgid "Action Buttons"
-msgstr ""
-
-#: core/widgets/profile-member/Buttons.php:364
-msgid "Add Friendship button"
-msgstr ""
-
-#: core/widgets/profile-member/Buttons.php:480
-msgid "Cancel Friendship Request button"
-msgstr ""
-
-#: core/widgets/profile-member/Buttons.php:596
-msgid "Cancel Friendship button"
-msgstr ""
-
-#: core/widgets/profile-member/Navigation.php:170
-msgid "Content Align"
-msgstr ""
-
-#: core/widgets/members-directory/Filters.php:25
-msgid "Members Filters"
-msgstr ""
-
-#: core/widgets/members-directory/Listing.php:22
-msgid "Members Listing"
-msgstr ""
-
-#: core/widgets/members-directory/Listing.php:237
+#: core/widgets/general/MembersListing.php:272
+#: core/widgets/members-directory/Listing.php:246
 msgid "Listing"
 msgstr ""
 
-#: core/widgets/members-directory/Listing.php:245
+#: core/widgets/general/MembersListing.php:280
+#: core/widgets/members-directory/Listing.php:254
 msgid "View"
 msgstr ""
 
-#: core/widgets/members-directory/Navigation.php:21
-msgid "Members Navigation"
+#: core/widgets/general/MembersListing.php:330
+#: core/widgets/general/SaveNotification.php:110
+#: core/widgets/general/SaveNotification.php:237
+#: core/widgets/general/SaveNotification.php:297
+#: core/widgets/general/SaveNotification.php:424
+#: core/widgets/groups-directory/Navigation.php:665
+#: core/widgets/members-directory/Listing.php:304
+#: core/widgets/profile-group/Name.php:105
+#: core/widgets/profile-group/Status.php:105
+#: core/widgets/profile-member/Username.php:146
+#: core/widgets/sitewide-activity/content/BuddybossSettings.php:86
+#: core/widgets/sitewide-activity/content/BuddypressSettings.php:365
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:488
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:126
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:92
+msgid "Margin"
 msgstr ""
 
-#: core/widgets/members-directory/Navigation.php:334
+#: core/widgets/general/SaveNotification.php:27
+msgid "Status Notification"
+msgstr ""
+
+#: core/widgets/general/SaveNotification.php:42
+#: src/Admin/CommunityPages.php:757
+msgid "Preview"
+msgstr ""
+
+#: core/widgets/general/SaveNotification.php:50
+msgid "Type"
+msgstr ""
+
+#: core/widgets/general/SaveNotification.php:54
+#: src/Elements/strings.php:99
+msgid "Success"
+msgstr ""
+
+#: core/widgets/general/SaveNotification.php:55
+#: src/Elements/strings.php:35
+msgid "Error"
+msgstr ""
+
+#: core/widgets/general/SaveNotification.php:65
+msgid "Success Container"
+msgstr ""
+
+#: core/widgets/general/SaveNotification.php:125
+msgid "Success Text"
+msgstr ""
+
+#: core/widgets/general/SaveNotification.php:173
+msgid "Success Icon"
+msgstr ""
+
+#: core/widgets/general/SaveNotification.php:252
+msgid "Error Container"
+msgstr ""
+
+#: core/widgets/general/SaveNotification.php:312
+msgid "Error Text"
+msgstr ""
+
+#: core/widgets/general/SaveNotification.php:360
+msgid "Error Icon"
+msgstr ""
+
+#: core/widgets/groups-directory/Filters.php:28
+msgid "Groups Filters"
+msgstr ""
+
+#: core/widgets/groups-directory/Filters.php:43
+#: core/widgets/members-directory/Filters.php:44
+#: core/widgets/profile-group/Content.php:26
+#: core/widgets/profile-member/Content.php:26
+#: core/widgets/sitewide-activity/Content.php:23
+msgid "Content"
+msgstr ""
+
+#: core/widgets/groups-directory/Filters.php:51
+#: core/widgets/members-directory/Filters.php:52
+msgid "Show & Order"
+msgstr ""
+
+#: core/widgets/groups-directory/Filters.php:55
+#: core/widgets/groups-directory/Filters.php:83
+#: core/widgets/members-directory/Filters.php:56
+#: core/widgets/members-directory/Filters.php:84
+msgid "List Toggle > Search > Sort"
+msgstr ""
+
+#: core/widgets/groups-directory/Filters.php:56
+#: core/widgets/groups-directory/Filters.php:100
+#: core/widgets/members-directory/Filters.php:57
+#: core/widgets/members-directory/Filters.php:101
+msgid "List Toggle > Sort > Search"
+msgstr ""
+
+#: core/widgets/groups-directory/Filters.php:57
+#: core/widgets/groups-directory/Filters.php:117
+#: core/widgets/members-directory/Filters.php:58
+#: core/widgets/members-directory/Filters.php:118
+msgid "List Toggle > Search"
+msgstr ""
+
+#: core/widgets/groups-directory/Filters.php:58
+#: core/widgets/groups-directory/Filters.php:134
+#: core/widgets/members-directory/Filters.php:59
+#: core/widgets/members-directory/Filters.php:135
+msgid "List Toggle > Sort"
+msgstr ""
+
+#: core/widgets/groups-directory/Filters.php:59
+#: core/widgets/groups-directory/Filters.php:151
+#: core/widgets/groups-directory/Filters.php:392
+#: core/widgets/members-directory/Filters.php:60
+#: core/widgets/members-directory/Filters.php:152
+#: core/widgets/members-directory/Filters.php:393
+msgid "List Toggle"
+msgstr ""
+
+#: core/widgets/groups-directory/Filters.php:60
+#: core/widgets/groups-directory/Filters.php:168
+#: core/widgets/members-directory/Filters.php:61
+#: core/widgets/members-directory/Filters.php:169
+msgid "Search > Sort > List Toggle"
+msgstr ""
+
+#: core/widgets/groups-directory/Filters.php:61
+#: core/widgets/groups-directory/Filters.php:185
+#: core/widgets/members-directory/Filters.php:62
+#: core/widgets/members-directory/Filters.php:186
+msgid "Search > List Toggle > Sort"
+msgstr ""
+
+#: core/widgets/groups-directory/Filters.php:62
+#: core/widgets/groups-directory/Filters.php:202
+#: core/widgets/members-directory/Filters.php:63
+#: core/widgets/members-directory/Filters.php:203
+msgid "Search > List Toggle"
+msgstr ""
+
+#: core/widgets/groups-directory/Filters.php:63
+#: core/widgets/groups-directory/Filters.php:219
+#: core/widgets/members-directory/Filters.php:64
+#: core/widgets/members-directory/Filters.php:220
+#: src/Elements/strings.php:86
+msgid "Search > Sort"
+msgstr ""
+
+#: core/widgets/groups-directory/Filters.php:64
+#: core/widgets/groups-directory/Filters.php:236
+#: core/widgets/members-directory/Filters.php:65
+#: core/widgets/members-directory/Filters.php:237
+#: core/widgets/sitewide-activity/filters/BuddybossSettings.php:97
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:302
+#: src/Elements/strings.php:83
+msgid "Search"
+msgstr ""
+
+#: core/widgets/groups-directory/Filters.php:65
+#: core/widgets/groups-directory/Filters.php:253
+#: core/widgets/members-directory/Filters.php:66
+#: core/widgets/members-directory/Filters.php:254
+msgid "Sort > List Toggle > Search"
+msgstr ""
+
+#: core/widgets/groups-directory/Filters.php:66
+#: core/widgets/groups-directory/Filters.php:270
+#: core/widgets/members-directory/Filters.php:67
+#: core/widgets/members-directory/Filters.php:271
+msgid "Sort > Search > List Toggle"
+msgstr ""
+
+#: core/widgets/groups-directory/Filters.php:67
+#: core/widgets/groups-directory/Filters.php:287
+#: core/widgets/members-directory/Filters.php:68
+#: core/widgets/members-directory/Filters.php:288
+#: src/Elements/strings.php:97
+msgid "Sort > Search"
+msgstr ""
+
+#: core/widgets/groups-directory/Filters.php:68
+#: core/widgets/groups-directory/Filters.php:304
+#: core/widgets/members-directory/Filters.php:69
+#: core/widgets/members-directory/Filters.php:305
+msgid "Sort > List Toggle"
+msgstr ""
+
+#: core/widgets/groups-directory/Filters.php:69
+#: core/widgets/groups-directory/Filters.php:321
+#: core/widgets/members-directory/Filters.php:70
+#: core/widgets/members-directory/Filters.php:322
+#: src/Elements/strings.php:94
+msgid "Sort"
+msgstr ""
+
+#: core/widgets/groups-directory/Filters.php:470
+#: core/widgets/groups-directory/Navigation.php:402
+#: core/widgets/groups-directory/Navigation.php:790
+#: core/widgets/members-directory/Filters.php:471
+#: core/widgets/members-directory/Navigation.php:399
+#: core/widgets/members-directory/Navigation.php:610
+#: core/widgets/profile-group/Navigation.php:342
+#: core/widgets/profile-group/Navigation.php:553
+#: core/widgets/profile-member/Navigation.php:375
+#: core/widgets/profile-member/Navigation.php:598
+#: core/widgets/sitewide-activity/navigation/BuddybossSettings.php:345
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:344
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:555
+#: src/Templates/PostType.php:206
+msgid "Active"
+msgstr ""
+
+#: core/widgets/groups-directory/Filters.php:528
+#: core/widgets/members-directory/Filters.php:529
+msgid "Search Box"
+msgstr ""
+
+#: core/widgets/groups-directory/Filters.php:551
+#: core/widgets/members-directory/Filters.php:552
+#: core/widgets/sitewide-activity/filters/BuddybossSettings.php:105
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:310
+msgid "Clear Icon"
+msgstr ""
+
+#: core/widgets/groups-directory/Filters.php:564
+#: core/widgets/groups-directory/Filters.php:927
+#: core/widgets/groups-directory/Listing.php:715
+#: core/widgets/groups-directory/Listing.php:1167
+#: core/widgets/groups-directory/Navigation.php:300
+#: core/widgets/groups-directory/Navigation.php:703
+#: core/widgets/members-directory/Filters.php:565
+#: core/widgets/members-directory/Filters.php:928
+#: core/widgets/members-directory/Listing.php:475
+#: core/widgets/members-directory/Listing.php:927
+#: core/widgets/members-directory/Navigation.php:297
+#: core/widgets/members-directory/Navigation.php:523
+#: core/widgets/sitewide-activity/filters/BuddybossSettings.php:118
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:138
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:323
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:417
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:293
+#: core/widgets/sitewide-activity/navigation/BuddybossSettings.php:243
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:242
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:468
+msgid "Text Typography"
+msgstr ""
+
+#: core/widgets/groups-directory/Filters.php:593
+#: core/widgets/groups-directory/Filters.php:647
+#: core/widgets/groups-directory/Filters.php:956
+#: core/widgets/groups-directory/Filters.php:1008
+#: core/widgets/groups-directory/Listing.php:727
+#: core/widgets/groups-directory/Listing.php:1179
+#: core/widgets/groups-directory/Navigation.php:318
+#: core/widgets/groups-directory/Navigation.php:358
+#: core/widgets/groups-directory/Navigation.php:409
+#: core/widgets/groups-directory/Navigation.php:546
+#: core/widgets/groups-directory/Navigation.php:586
+#: core/widgets/groups-directory/Navigation.php:721
+#: core/widgets/groups-directory/Navigation.php:753
+#: core/widgets/groups-directory/Navigation.php:797
+#: core/widgets/members-directory/Filters.php:594
+#: core/widgets/members-directory/Filters.php:648
+#: core/widgets/members-directory/Filters.php:957
+#: core/widgets/members-directory/Filters.php:1009
+#: core/widgets/members-directory/Listing.php:487
+#: core/widgets/members-directory/Listing.php:939
+#: core/widgets/members-directory/Navigation.php:315
+#: core/widgets/members-directory/Navigation.php:355
+#: core/widgets/members-directory/Navigation.php:406
+#: core/widgets/members-directory/Navigation.php:541
+#: core/widgets/members-directory/Navigation.php:573
+#: core/widgets/members-directory/Navigation.php:617
+#: core/widgets/profile-group/Buttons.php:250
+#: core/widgets/profile-group/Buttons.php:290
+#: core/widgets/profile-group/Buttons.php:388
+#: core/widgets/profile-group/Buttons.php:439
+#: core/widgets/profile-group/Buttons.php:504
+#: core/widgets/profile-group/Buttons.php:555
+#: core/widgets/profile-group/Buttons.php:620
+#: core/widgets/profile-group/Buttons.php:671
+#: core/widgets/profile-group/Buttons.php:736
+#: core/widgets/profile-group/Buttons.php:787
+#: core/widgets/profile-group/Description.php:78
+#: core/widgets/profile-group/LastActivity.php:78
+#: core/widgets/profile-group/leadership/BuddybossSettings.php:149
+#: core/widgets/profile-group/leadership/BuddypressSettings.php:187
+#: core/widgets/profile-group/Name.php:77
+#: core/widgets/profile-group/Navigation.php:258
+#: core/widgets/profile-group/Navigation.php:298
+#: core/widgets/profile-group/Navigation.php:349
+#: core/widgets/profile-group/Navigation.php:484
+#: core/widgets/profile-group/Navigation.php:516
+#: core/widgets/profile-group/Navigation.php:560
+#: core/widgets/profile-group/Status.php:77
+#: core/widgets/profile-member/Buttons.php:250
+#: core/widgets/profile-member/Buttons.php:290
+#: core/widgets/profile-member/Buttons.php:388
+#: core/widgets/profile-member/Buttons.php:439
+#: core/widgets/profile-member/Buttons.php:504
+#: core/widgets/profile-member/Buttons.php:555
+#: core/widgets/profile-member/Buttons.php:620
+#: core/widgets/profile-member/Buttons.php:671
+#: core/widgets/profile-member/LastActivity.php:77
+#: core/widgets/profile-member/LastActivity.php:107
+#: core/widgets/profile-member/Meta.php:77
+#: core/widgets/profile-member/Navigation.php:289
+#: core/widgets/profile-member/Navigation.php:329
+#: core/widgets/profile-member/Navigation.php:382
+#: core/widgets/profile-member/Navigation.php:517
+#: core/widgets/profile-member/Navigation.php:561
+#: core/widgets/profile-member/Navigation.php:605
+#: core/widgets/profile-member/Username.php:118
+#: core/widgets/sitewide-activity/filters/BuddybossSettings.php:147
+#: core/widgets/sitewide-activity/filters/BuddybossSettings.php:201
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:167
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:219
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:352
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:406
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:447
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:514
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:323
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:390
+#: core/widgets/sitewide-activity/navigation/BuddybossSettings.php:261
+#: core/widgets/sitewide-activity/navigation/BuddybossSettings.php:301
+#: core/widgets/sitewide-activity/navigation/BuddybossSettings.php:352
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:260
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:300
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:351
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:486
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:518
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:562
+msgid "Text Color"
+msgstr ""
+
+#: core/widgets/groups-directory/Filters.php:605
+#: core/widgets/groups-directory/Filters.php:659
+#: core/widgets/members-directory/Filters.php:606
+#: core/widgets/members-directory/Filters.php:660
+#: core/widgets/sitewide-activity/filters/BuddybossSettings.php:159
+#: core/widgets/sitewide-activity/filters/BuddybossSettings.php:213
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:364
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:418
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:364
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:183
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:225
+msgid "Placeholder Color"
+msgstr ""
+
+#: core/widgets/groups-directory/Filters.php:732
+#: core/widgets/members-directory/Filters.php:733
+#: core/widgets/sitewide-activity/filters/BuddybossSettings.php:285
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:502
+msgid "Search Button"
+msgstr ""
+
+#: core/widgets/groups-directory/Filters.php:755
+#: core/widgets/members-directory/Filters.php:756
+msgid "Left Space"
+msgstr ""
+
+#: core/widgets/groups-directory/Filters.php:791
+#: core/widgets/groups-directory/Filters.php:832
+#: core/widgets/groups-directory/Filters.php:968
+#: core/widgets/groups-directory/Filters.php:1020
+#: core/widgets/members-directory/Filters.php:792
+#: core/widgets/members-directory/Filters.php:833
+#: core/widgets/members-directory/Filters.php:969
+#: core/widgets/members-directory/Filters.php:1021
+#: core/widgets/sitewide-activity/filters/BuddybossSettings.php:313
+#: core/widgets/sitewide-activity/filters/BuddybossSettings.php:353
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:179
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:231
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:530
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:570
+msgid "Icon Color"
+msgstr ""
+
+#: core/widgets/groups-directory/Filters.php:904
+#: core/widgets/members-directory/Filters.php:905
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:130
+msgid "Sorting"
+msgstr ""
+
+#: core/widgets/groups-directory/Listing.php:29
+msgid "Groups Listing"
+msgstr ""
+
+#: core/widgets/groups-directory/Listing.php:570
+#: core/widgets/members-directory/Listing.php:330
+msgid "Pagination Top"
+msgstr ""
+
+#: core/widgets/groups-directory/Listing.php:605
+#: core/widgets/groups-directory/Listing.php:1057
+#: core/widgets/members-directory/Listing.php:365
+#: core/widgets/members-directory/Listing.php:817
+msgid "Show No"
+msgstr ""
+
+#: core/widgets/groups-directory/Listing.php:620
+#: core/widgets/groups-directory/Listing.php:1072
+#: core/widgets/members-directory/Listing.php:380
+#: core/widgets/members-directory/Listing.php:832
+msgid "Bottom Space"
+msgstr ""
+
+#: core/widgets/groups-directory/Listing.php:752
+#: core/widgets/members-directory/Listing.php:512
+msgid "Top Nav Basic Style"
+msgstr ""
+
+#: core/widgets/groups-directory/Listing.php:767
+#: core/widgets/groups-directory/Listing.php:1219
+#: core/widgets/members-directory/Listing.php:527
+#: core/widgets/members-directory/Listing.php:979
+msgid "Links Spacing"
+msgstr ""
+
+#: core/widgets/groups-directory/Listing.php:787
+#: core/widgets/groups-directory/Listing.php:1239
+#: core/widgets/members-directory/Listing.php:547
+#: core/widgets/members-directory/Listing.php:999
+msgid "Link Typography"
+msgstr ""
+
+#: core/widgets/groups-directory/Listing.php:840
+#: core/widgets/groups-directory/Listing.php:907
+#: core/widgets/groups-directory/Listing.php:1292
+#: core/widgets/groups-directory/Listing.php:1359
+#: core/widgets/members-directory/Listing.php:600
+#: core/widgets/members-directory/Listing.php:667
+#: core/widgets/members-directory/Listing.php:1052
+#: core/widgets/members-directory/Listing.php:1119
+msgid "Shadow"
+msgstr ""
+
+#: core/widgets/groups-directory/Listing.php:921
+#: core/widgets/groups-directory/Listing.php:1373
+#: core/widgets/members-directory/Listing.php:681
+#: core/widgets/members-directory/Listing.php:1133
+msgid "Current"
+msgstr ""
+
+#: core/widgets/groups-directory/Listing.php:978
+#: core/widgets/groups-directory/Listing.php:1430
+#: core/widgets/members-directory/Listing.php:738
+#: core/widgets/members-directory/Listing.php:1190
+msgid "Link Border"
+msgstr ""
+
+#: core/widgets/groups-directory/Listing.php:990
+#: core/widgets/groups-directory/Listing.php:1442
+#: core/widgets/members-directory/Listing.php:750
+#: core/widgets/members-directory/Listing.php:1202
+msgid "Link Border Radius"
+msgstr ""
+
+#: core/widgets/groups-directory/Listing.php:1005
+#: core/widgets/groups-directory/Listing.php:1457
+#: core/widgets/members-directory/Listing.php:765
+#: core/widgets/members-directory/Listing.php:1217
+msgid "Link Padding"
+msgstr ""
+
+#: core/widgets/groups-directory/Listing.php:1022
+#: core/widgets/members-directory/Listing.php:782
+msgid "Pagination Bottom"
+msgstr ""
+
+#: core/widgets/groups-directory/Listing.php:1204
+#: core/widgets/members-directory/Listing.php:964
+msgid "Bot Nav Basic Style"
+msgstr ""
+
+#: core/widgets/groups-directory/Navigation.php:28
+msgid "Groups Navigation"
+msgstr ""
+
+#: core/widgets/groups-directory/Navigation.php:44
+#: core/widgets/members-directory/Navigation.php:44
+#: core/widgets/profile-group/Navigation.php:28
+#: core/widgets/profile-group/Navigation.php:73
+#: core/widgets/profile-member/Navigation.php:28
+#: core/widgets/profile-member/Navigation.php:75
+#: core/widgets/sitewide-activity/Navigation.php:23
+#: core/widgets/sitewide-activity/navigation/BuddybossSettings.php:35
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:33
+msgid "Navigation"
+msgstr ""
+
+#: core/widgets/groups-directory/Navigation.php:106
+#: core/widgets/members-directory/Navigation.php:106
+#: core/widgets/profile-group/Navigation.php:123
+#: core/widgets/profile-member/Navigation.php:125
+#: core/widgets/sitewide-activity/navigation/BuddybossSettings.php:97
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:95
+msgid "Navigation Item"
+msgstr ""
+
+#: core/widgets/groups-directory/Navigation.php:143
+#: core/widgets/members-directory/Navigation.php:140
+#: core/widgets/profile-member/Navigation.php:179
+#: core/widgets/sitewide-activity/navigation/BuddybossSettings.php:150
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:149
+msgid "Content Align"
+msgstr ""
+
+#: core/widgets/groups-directory/Navigation.php:173
+#: core/widgets/members-directory/Navigation.php:170
+msgid "Left space"
+msgstr ""
+
+#: core/widgets/groups-directory/Navigation.php:188
+#: core/widgets/members-directory/Navigation.php:185
+msgid "Left and right space"
+msgstr ""
+
+#: core/widgets/groups-directory/Navigation.php:203
+#: core/widgets/members-directory/Navigation.php:200
+msgid "Right space"
+msgstr ""
+
+#: core/widgets/groups-directory/Navigation.php:256
+#: core/widgets/members-directory/Navigation.php:253
+#: core/widgets/profile-group/Avatar.php:91
+#: core/widgets/profile-group/Buttons.php:213
+#: core/widgets/profile-group/Navigation.php:197
+#: core/widgets/profile-member/Avatar.php:91
+#: core/widgets/profile-member/Buttons.php:213
+#: core/widgets/profile-member/Navigation.php:228
+#: core/widgets/sitewide-activity/navigation/BuddybossSettings.php:199
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:198
+msgid "Width"
+msgstr ""
+
+#: core/widgets/groups-directory/Navigation.php:476
+#: core/widgets/members-directory/Navigation.php:473
+#: core/widgets/profile-group/Navigation.php:417
+#: core/widgets/profile-member/Navigation.php:450
+#: core/widgets/sitewide-activity/navigation/BuddybossSettings.php:419
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:418
+msgid "Items Padding"
+msgstr ""
+
+#: core/widgets/groups-directory/Navigation.php:488
+#: core/widgets/members-directory/Navigation.php:485
+#: core/widgets/profile-group/Navigation.php:429
+#: core/widgets/profile-member/Navigation.php:462
+#: core/widgets/sitewide-activity/navigation/BuddybossSettings.php:431
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:430
 msgid "Items Margin"
 msgstr ""
 
-#: core/widgets/sitewide-activity/Filters.php:21
-msgid "Filters"
+#: core/widgets/groups-directory/Navigation.php:502
+msgid "Create Group Item"
 msgstr ""
 
-#: core/widgets/sitewide-activity/Filters.php:37
+#: core/widgets/groups-directory/Navigation.php:510
+msgid "Link to menu"
+msgstr ""
+
+#: core/widgets/groups-directory/Navigation.php:522
+msgid "Link to no menu"
+msgstr ""
+
+#: core/widgets/groups-directory/Navigation.php:679
+#: core/widgets/members-directory/Navigation.php:499
+#: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:444
+msgid "Item Counter"
+msgstr ""
+
+#: core/widgets/members-directory/Filters.php:28
+msgid "Members Filters"
+msgstr ""
+
+#: core/widgets/members-directory/Listing.php:29
+msgid "Members Listing"
+msgstr ""
+
+#: core/widgets/members-directory/Navigation.php:28
+msgid "Members Navigation"
+msgstr ""
+
+#: core/widgets/profile-group/Avatar.php:27
+#: core/widgets/profile-group/Avatar.php:43
+#: core/widgets/profile-member/Avatar.php:27
+#: core/widgets/profile-member/Avatar.php:43
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:250
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:106
+msgid "Avatar"
+msgstr ""
+
+#: core/widgets/profile-group/Avatar.php:78
+#: core/widgets/profile-group/leadership/BuddypressSettings.php:247
+#: core/widgets/profile-member/Avatar.php:78
+#: src/Elements/strings.php:93
+msgid "Size"
+msgstr ""
+
+#: core/widgets/profile-group/Avatar.php:81
+#: core/widgets/profile-member/Avatar.php:81
+#: src/Elements/strings.php:108
+msgid "Thumb"
+msgstr ""
+
+#: core/widgets/profile-group/Avatar.php:82
+#: core/widgets/profile-member/Avatar.php:82
+#: src/Elements/strings.php:37
+msgid "Full"
+msgstr ""
+
+#: core/widgets/profile-group/Buttons.php:28
+msgid "Buttons"
+msgstr ""
+
+#: core/widgets/profile-group/Buttons.php:44
+#: core/widgets/profile-member/Buttons.php:44
+msgid "General Buttons"
+msgstr ""
+
+#: core/widgets/profile-group/Buttons.php:94
+#: core/widgets/profile-member/Buttons.php:94
+msgid "Display inline"
+msgstr ""
+
+#: core/widgets/profile-group/Buttons.php:110
+#: core/widgets/profile-member/Buttons.php:110
+msgid "Display block"
+msgstr ""
+
+#: core/widgets/profile-group/Buttons.php:371
+msgid "Join Group button"
+msgstr ""
+
+#: core/widgets/profile-group/Buttons.php:487
+msgid "Leave Group button"
+msgstr ""
+
+#: core/widgets/profile-group/Buttons.php:603
+msgid "Request Membership button"
+msgstr ""
+
+#: core/widgets/profile-group/Buttons.php:719
+msgid "Request Sent button"
+msgstr ""
+
+#: core/widgets/profile-group/Content.php:54
+#: core/widgets/profile-member/Content.php:55
+msgid "Step up your game and customize your profile content with ease."
+msgstr ""
+
+#: core/widgets/profile-group/Cover.php:28
+#: core/widgets/profile-group/Cover.php:44
+#: core/widgets/profile-member/Cover.php:28
+#: core/widgets/profile-member/Cover.php:44
+msgid "Cover"
+msgstr ""
+
+#: core/widgets/profile-group/Cover.php:64
+#: core/widgets/profile-member/Cover.php:64
+msgid "Image position"
+msgstr ""
+
+#: core/widgets/profile-group/Cover.php:90
+#: core/widgets/profile-member/Cover.php:90
+msgid "Image repeat"
+msgstr ""
+
+#: core/widgets/profile-group/Cover.php:110
+#: core/widgets/profile-member/Cover.php:110
+msgid "Image size"
+msgstr ""
+
+#: core/widgets/profile-group/Cover.php:351
+#: core/widgets/profile-member/Cover.php:351
+msgid "Height"
+msgstr ""
+
+#: core/widgets/profile-group/Cover.php:353
+#: core/widgets/profile-member/Cover.php:353
+msgid "This works only when your Cover position is not set to Absolute"
+msgstr ""
+
+#: core/widgets/profile-group/Cover.php:453
+#: core/widgets/profile-group/Cover.php:517
+#: core/widgets/profile-member/Cover.php:454
+#: core/widgets/profile-member/Cover.php:518
+msgid "Advanced Settings"
+msgstr ""
+
+#: core/widgets/profile-group/Cover.php:491
+#: core/widgets/profile-member/Cover.php:492
+msgid "Skew"
+msgstr ""
+
+#: core/widgets/profile-group/Cover.php:530
+#: core/widgets/profile-group/Cover.php:541
+#: core/widgets/profile-member/Cover.php:531
+#: core/widgets/profile-member/Cover.php:542
+msgid "Overlay"
+msgstr ""
+
+#: core/widgets/profile-group/Cover.php:556
+#: core/widgets/profile-member/Cover.php:557
+msgid "Overlay type"
+msgstr ""
+
+#: core/widgets/profile-group/Description.php:28
+#: core/widgets/profile-group/Description.php:44
+msgid "Description"
+msgstr ""
+
+#: core/widgets/profile-group/LastActivity.php:28
+#: core/widgets/profile-group/LastActivity.php:44
+#: core/widgets/profile-member/LastActivity.php:27
+msgid "Last Activity"
+msgstr ""
+
+#: core/widgets/profile-group/Leadership.php:27
+msgid "Leadership"
+msgstr ""
+
+#: core/widgets/profile-group/leadership/BuddybossSettings.php:34
+#: core/widgets/sitewide-activity/filters/BuddybossSettings.php:35
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:33
 msgid "Container"
 msgstr ""
 
-#: core/widgets/sitewide-activity/Filters.php:99
+#: core/widgets/profile-group/leadership/BuddybossSettings.php:42
+#: core/widgets/profile-group/leadership/BuddypressSettings.php:66
+msgid "Display mods"
+msgstr ""
+
+#: core/widgets/profile-group/leadership/BuddybossSettings.php:58
+#: core/widgets/profile-group/leadership/BuddypressSettings.php:40
+msgid "Align Titles"
+msgstr ""
+
+#: core/widgets/profile-group/leadership/BuddybossSettings.php:133
+#: core/widgets/profile-group/leadership/BuddypressSettings.php:171
+msgid "Title"
+msgstr ""
+
+#: core/widgets/profile-group/leadership/BuddybossSettings.php:179
+#: core/widgets/profile-group/leadership/BuddypressSettings.php:217
+msgid "Avatars"
+msgstr ""
+
+#: core/widgets/profile-group/leadership/BuddybossSettings.php:187
+#: core/widgets/profile-group/leadership/BuddypressSettings.php:225
+msgid "Border"
+msgstr ""
+
+#: core/widgets/profile-group/leadership/BuddypressSettings.php:32
+msgid "Leadership Content"
+msgstr ""
+
+#: core/widgets/profile-group/leadership/BuddypressSettings.php:82
+msgid "Inline Spacing"
+msgstr ""
+
+#: core/widgets/profile-group/leadership/BuddypressSettings.php:98
+msgid "Block Spacing"
+msgstr ""
+
+#: core/widgets/profile-group/leadership/BuddypressSettings.php:117
+msgid "Moderators lists"
+msgstr ""
+
+#: core/widgets/profile-group/leadership/BuddypressSettings.php:125
+msgid "Moderators BG Color"
+msgstr ""
+
+#: core/widgets/profile-group/Name.php:27
+#: core/widgets/profile-member/Username.php:43
+#: core/widgets/profile-member/Username.php:84
+#: src/Elements/strings.php:76
+msgid "Name"
+msgstr ""
+
+#: core/widgets/profile-group/Name.php:43
+msgid "Username"
+msgstr ""
+
+#: core/widgets/profile-group/Navigation.php:59
+#: core/widgets/profile-member/Navigation.php:60
+msgid "Enable default front page"
+msgstr ""
+
+#: core/widgets/profile-group/Navigation.php:61
+#: core/widgets/profile-member/Navigation.php:62
+#: src/Templates/PostType.php:232
+msgid "Yes"
+msgstr ""
+
+#: core/widgets/profile-group/Navigation.php:62
+#: core/widgets/profile-member/Navigation.php:63
+msgid "No"
+msgstr ""
+
+#: core/widgets/profile-group/Navigation.php:109
+#: core/widgets/profile-member/Navigation.php:111
+msgid "Content Padding"
+msgstr ""
+
+#: core/widgets/profile-group/Navigation.php:443
+#: core/widgets/profile-member/Navigation.php:476
+msgid "Counter"
+msgstr ""
+
+#: core/widgets/profile-group/Status.php:27
+#: core/widgets/profile-group/Status.php:43
+msgid "Status"
+msgstr ""
+
+#: core/widgets/profile-member/Buttons.php:28
+msgid "Action Buttons"
+msgstr ""
+
+#: core/widgets/profile-member/Buttons.php:371
+msgid "Add Friendship button"
+msgstr ""
+
+#: core/widgets/profile-member/Buttons.php:487
+msgid "Cancel Friendship Request button"
+msgstr ""
+
+#: core/widgets/profile-member/Buttons.php:603
+msgid "Cancel Friendship button"
+msgstr ""
+
+#: core/widgets/profile-member/LastActivity.php:43
+msgid "Activity Status"
+msgstr ""
+
+#: core/widgets/profile-member/LastActivity.php:99
+msgid "Link"
+msgstr ""
+
+#: core/widgets/profile-member/Meta.php:27
+#: core/widgets/profile-member/Meta.php:43
+msgid "Meta"
+msgstr ""
+
+#: core/widgets/profile-member/Username.php:27
+msgid "Name/Username"
+msgstr ""
+
+#: core/widgets/profile-member/Username.php:51
+msgid "What to generate"
+msgstr ""
+
+#: core/widgets/profile-member/Username.php:64
+msgid "HTML Tag"
+msgstr ""
+
+#: core/widgets/sitewide-activity/content/BuddybossSettings.php:36
+msgid "Activity Container"
+msgstr ""
+
+#: core/widgets/sitewide-activity/content/BuddypressSettings.php:35
+msgid "Activity Items"
+msgstr ""
+
+#: core/widgets/sitewide-activity/content/BuddypressSettings.php:65
+msgid "Activity Item"
+msgstr ""
+
+#: core/widgets/sitewide-activity/content/BuddypressSettings.php:375
+msgid "Loading icon"
+msgstr ""
+
+#: core/widgets/sitewide-activity/Filters.php:23
+msgid "Filters"
+msgstr ""
+
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:95
 msgid "RSS"
 msgstr ""
 
-#: core/widgets/sitewide-activity/Filters.php:107
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:103
 msgid "Rss Color"
 msgstr ""
 
-#: core/widgets/sitewide-activity/Filters.php:118
+#: core/widgets/sitewide-activity/filters/BuddypressSettings.php:114
 msgid "Rss Size"
 msgstr ""
 
-#: core/widgets/sitewide-activity/Content.php:38
-msgid "Activity Item Container"
-msgstr ""
-
-#: core/widgets/sitewide-activity/Content.php:96
-msgid "Spacing items"
-msgstr ""
-
-#: core/widgets/sitewide-activity/Content.php:115
-msgid "Load More Button"
-msgstr ""
-
-#: core/widgets/sitewide-activity/Content.php:199
-#: core/widgets/sitewide-activity/Form.php:503
-#: core/widgets/sitewide-activity/Form.php:647
-msgid "Typography"
-msgstr ""
-
-#: core/widgets/sitewide-activity/Form.php:21
+#: core/widgets/sitewide-activity/Form.php:23
 msgid "Form"
 msgstr ""
 
-#: core/widgets/sitewide-activity/Form.php:37
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:35
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:33
 msgid "Form Container"
 msgstr ""
 
-#: core/widgets/sitewide-activity/Form.php:140
-msgid "Textarea"
-msgstr ""
-
-#: core/widgets/sitewide-activity/Form.php:200
-#: core/widgets/sitewide-activity/Form.php:375
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:73
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:310
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:495
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:196
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:371
 msgid "Focus"
 msgstr ""
 
-#: core/widgets/sitewide-activity/Form.php:289
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:136
+msgid "Form Header"
+msgstr ""
+
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:175
+msgid "Form Footer"
+msgstr ""
+
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:213
+msgid "Form Dividers"
+msgstr ""
+
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:219
+msgid "Border Width"
+msgstr ""
+
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:280
+msgid "User Name"
+msgstr ""
+
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:334
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:136
+msgid "Textarea"
+msgstr ""
+
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:409
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:285
 msgid "Post In Option"
 msgstr ""
 
-#: core/widgets/sitewide-activity/Form.php:340
-#: core/widgets/sitewide-activity/Form.php:407
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:460
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:527
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:336
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:403
 msgid "Placeholder Input Color"
 msgstr ""
 
-#: core/widgets/sitewide-activity/Form.php:354
-#: core/widgets/sitewide-activity/Form.php:421
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:474
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:541
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:350
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:417
 msgid "Select Arrow Color"
 msgstr ""
 
-#: core/widgets/sitewide-activity/Form.php:494
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:614
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:490
 msgid "Post Button"
 msgstr ""
 
-#: core/widgets/sitewide-activity/Form.php:638
+#: core/widgets/sitewide-activity/form/BuddybossSettings.php:758
+#: core/widgets/sitewide-activity/form/BuddypressSettings.php:634
 msgid "Cancel Button"
 msgstr ""
 
-#: admin/pages/templates/widgets.php:28 admin/pages/templates/settings.php:58
-#: admin/pages/templates/plugins.php:23 admin/pages/templates/modules.php:23
+#: functions.php:183
+msgid "Member Profile"
+msgstr ""
+
+#: functions.php:187
+msgid "Members Directory"
+msgstr ""
+
+#: functions.php:191
+msgid "Group Profile"
+msgstr ""
+
+#: functions.php:195
+msgid "Groups Directory"
+msgstr ""
+
+#: functions.php:199
+msgid "Site-Wide Activity"
+msgstr ""
+
+#: src/Abilities/Abilities.php:49
+msgid "BuddyPress page layouts: template types, elements, presets and assignments."
+msgstr ""
+
+#: src/Abilities/Abilities.php:95
+msgid "List BuddyBuilder template types"
+msgstr ""
+
+#: src/Abilities/Abilities.php:104
+msgid "List BuddyBuilder elements"
+msgstr ""
+
+#: src/Abilities/Abilities.php:113
+msgid "List BuddyBuilder presets"
+msgstr ""
+
+#: src/Abilities/Abilities.php:122
+msgid "Get a BuddyBuilder layout"
+msgstr ""
+
+#: src/Abilities/Abilities.php:131
+msgid "Apply a BuddyBuilder preset"
+msgstr ""
+
+#: src/Abilities/Abilities.php:152
+msgid "Assign a BuddyBuilder layout"
+msgstr ""
+
+#: src/Admin/Checker.php:107
+msgid "Edit this community page"
+msgstr ""
+
+#: src/Admin/Checker.php:107
+msgid "Design this community page"
+msgstr ""
+
+#. translators: 1: page name, 2: layout title, 3: builder name
+#: src/Admin/Checker.php:119
+#, php-format
+msgid "%1$s: edit \"%2$s\" (%3$s)"
+msgstr ""
+
+#: src/Admin/Checker.php:129
+msgid "All community pages"
+msgstr ""
+
+#: src/Admin/Checker.php:169
+msgid "Layout not applied"
+msgstr ""
+
+#. translators: %s: Elementor template title
+#: src/Admin/Checker.php:219
+#, php-format
+msgid "The Elementor Pro theme template \"%s\" replaces this page: exclude BuddyPress pages from its display conditions."
+msgstr ""
+
+#: src/Admin/Checker.php:224
+msgid "Your theme has BuddyBuilder template files (in its buddybuilder folder) that replace the plugin ones."
+msgstr ""
+
+#: src/Admin/Checker.php:228
+msgid "The theme or another plugin printed this page without the BuddyPress templates."
+msgstr ""
+
+#: src/Admin/Checker.php:232
+msgid "A page cache is on: visitors may see an older copy until you clear it."
+msgstr ""
+
+#: src/Admin/Checker.php:254
+msgid "BuddyBoss ReadyLaunch is on: it styles BuddyBoss pages with its own templates. Turn it off for the pages you design with BuddyBuilder."
+msgstr ""
+
+#. translators: 1: page title, 2: page template file
+#: src/Admin/Checker.php:264
+#, php-format
+msgid "The page \"%1$s\" uses the page template \"%2$s\": set it to the default template if the layout does not show."
+msgstr ""
+
+#: src/Admin/Checker.php:320
+msgid "(untitled)"
+msgstr ""
+
+#: src/Admin/CommunityPages.php:91
+msgid "Member profile"
+msgstr ""
+
+#: src/Admin/CommunityPages.php:92
+msgid "Members directory"
+msgstr ""
+
+#: src/Admin/CommunityPages.php:93
+msgid "Member card"
+msgstr ""
+
+#: src/Admin/CommunityPages.php:94
+msgid "Group page"
+msgstr ""
+
+#: src/Admin/CommunityPages.php:95
+msgid "Groups directory"
+msgstr ""
+
+#: src/Admin/CommunityPages.php:96
+msgid "Group card"
+msgstr ""
+
+#: src/Admin/CommunityPages.php:97
+msgid "Create a group"
+msgstr ""
+
+#: src/Admin/CommunityPages.php:98
+#: src/Admin/Setup.php:367
+msgid "Activity"
+msgstr ""
+
+#: src/Admin/CommunityPages.php:99
+msgid "Activity item"
+msgstr ""
+
+#: src/Admin/CommunityPages.php:100
+msgid "Register"
+msgstr ""
+
+#: src/Admin/CommunityPages.php:212
+#: src/Admin/CommunityPages.php:838
+msgid "(no title)"
+msgstr ""
+
+#: src/Admin/CommunityPages.php:231
+msgid "BuddyPress component is off"
+msgstr ""
+
+#: src/Admin/CommunityPages.php:235
+#: src/Admin/CommunityPages.php:721
+#: src/Admin/CommunityPages.php:834
+#: src/Admin/CommunityPages.php:924
+#: src/Admin/Setup.php:826
+msgid "BuddyPress default"
+msgstr ""
+
+#: src/Admin/CommunityPages.php:239
+msgid "Layout deleted: BuddyPress default shows"
+msgstr ""
+
+#: src/Admin/CommunityPages.php:243
+msgid "Elementor is off: BuddyPress default shows"
+msgstr ""
+
+#: src/Admin/CommunityPages.php:247
+msgid "Layout is empty or not published: BuddyPress default shows"
+msgstr ""
+
+#: src/Admin/CommunityPages.php:253
+msgid "Not applied on the last visit"
+msgstr ""
+
+#. translators: %s: number of member profiles
+#: src/Admin/CommunityPages.php:259
+#, php-format
+msgid "Live on %s profile"
+msgid_plural "Live on %s profiles"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: number of groups
+#: src/Admin/CommunityPages.php:265
+#, php-format
+msgid "Live on %s group"
+msgid_plural "Live on %s groups"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/Admin/CommunityPages.php:268
+msgid "Live"
+msgstr ""
+
+#: src/Admin/CommunityPages.php:295
+msgid "Block editor"
+msgstr ""
+
+#: src/Admin/CommunityPages.php:442
+#: src/Admin/Options.php:71
+#: src/Admin/Screens.php:47
+#: src/Admin/Setup.php:487
+#: src/Presets/Presets.php:233
+#: src/Templates/SampleMember.php:223
+msgid "You do not have sufficient permissions to access this page."
+msgstr ""
+
+#: src/Admin/CommunityPages.php:561
+msgid "The page now uses the BuddyPress default. Your layout is kept: pick it again any time."
+msgstr ""
+
+#: src/Admin/CommunityPages.php:562
+msgid "Layout saved for this page."
+msgstr ""
+
+#: src/Admin/CommunityPages.php:563
+msgid "New look created and live. Edit it to make it yours."
+msgstr ""
+
+#: src/Admin/CommunityPages.php:564
+msgid "The new look is live."
+msgstr ""
+
+#: src/Admin/CommunityPages.php:565
+msgid "The new look was discarded; the page is unchanged."
+msgstr ""
+
+#: src/Admin/CommunityPages.php:566
+msgid "Setup done: your new community pages are live."
+msgstr ""
+
+#: src/Admin/CommunityPages.php:570
+msgid "That did not work. Nothing was changed."
+msgstr ""
+
+#: src/Admin/CommunityPages.php:587
+msgid "Preview my profile"
+msgstr ""
+
+#: src/Admin/CommunityPages.php:597
+msgid "What each BuddyPress page looks like. Changes apply when you press Use; the BuddyPress default is always one click away."
+msgstr ""
+
+#: src/Admin/CommunityPages.php:600
+msgid "Turn on the block editor layouts in BuddyBuilder > Settings, or activate Elementor, to design these pages."
+msgstr ""
+
+#: src/Admin/CommunityPages.php:624
+msgid "More layouts and modules (register page, member and group cards, notifications, birthdays, ads) in BuddyBuilder Pro."
+msgstr ""
+
+#: src/Admin/CommunityPages.php:626
+msgid "Learn more"
+msgstr ""
+
+#: src/Admin/CommunityPages.php:672
+msgid "Builder:"
+msgstr ""
+
+#: src/Admin/CommunityPages.php:672
+msgid "none"
+msgstr ""
+
+#: src/Admin/CommunityPages.php:674
+msgid "Status:"
+msgstr ""
+
+#: src/Admin/CommunityPages.php:677
+msgid "New look ready, not live yet"
+msgstr ""
+
+#. translators: %s: page name
+#: src/Admin/CommunityPages.php:689
+#, php-format
+msgid "Item layouts of %s"
+msgstr ""
+
+#: src/Admin/CommunityPages.php:717
+msgid "Turn the component on in the BuddyPress settings to design this page."
+msgstr ""
+
+#. translators: %s: time ago
+#: src/Admin/CommunityPages.php:734
+#, php-format
+msgid "edited %s ago"
+msgstr ""
+
+#: src/Admin/CommunityPages.php:750
+#: src/Admin/Setup.php:403
+msgid "Turn on"
+msgstr ""
+
+#: src/Admin/CommunityPages.php:756
+#: src/Admin/CommunityPages.php:842
+msgid "Use"
+msgstr ""
+
+#. translators: %s: page name
+#. translators: %s: item layout name
+#: src/Admin/CommunityPages.php:762
+#: src/Admin/CommunityPages.php:933
+#, php-format
+msgid "Edit the %s layout"
+msgstr ""
+
+#. translators: %s: page name
+#. translators: %s: item layout name
+#: src/Admin/CommunityPages.php:762
+#: src/Admin/CommunityPages.php:933
+msgid "Edit"
+msgstr ""
+
+#: src/Admin/CommunityPages.php:784
+msgid "Change look"
+msgstr ""
+
+#: src/Admin/CommunityPages.php:784
+#: src/Admin/Setup.php:612
+msgid "Pick a look"
+msgstr ""
+
+#: src/Admin/CommunityPages.php:785
+msgid "Creates a new layout from the look and makes it live. Your current layout is kept."
+msgstr ""
+
+#. translators: 1: look name, 2: builder name
+#: src/Admin/CommunityPages.php:797
+#, php-format
+msgid "Use %1$s with %2$s"
+msgstr ""
+
+#. translators: %s: builder name
+#: src/Admin/CommunityPages.php:799
+#, php-format
+msgid "Use with %s"
+msgstr ""
+
+#. translators: %s: builder name
+#: src/Admin/CommunityPages.php:799
+msgid "Use this look"
+msgstr ""
+
+#. translators: %s: page name
+#: src/Admin/CommunityPages.php:819
+#, php-format
+msgid "More actions for %s"
+msgstr ""
+
+#: src/Admin/CommunityPages.php:822
+msgid "Use the BuddyPress default"
+msgstr ""
+
+#: src/Admin/CommunityPages.php:826
+msgid "Discard the new look"
+msgstr ""
+
+#: src/Admin/CommunityPages.php:833
+msgid "Use a layout you already have"
+msgstr ""
+
+#: src/Admin/CommunityPages.php:848
+msgid "New empty block layout"
+msgstr ""
+
+#: src/Admin/CommunityPages.php:852
+msgid "New empty Elementor template"
+msgstr ""
+
+#: src/Admin/CommunityPages.php:856
+msgid "All block layouts"
+msgstr ""
+
+#: src/Admin/CommunityPages.php:901
+msgid "Why the layout may not show:"
+msgstr ""
+
+#: src/Admin/Options.php:87
+msgid "Settings saved."
+msgstr ""
+
+#: src/Admin/Options.php:94
+msgid "Builders"
+msgstr ""
+
+#: src/Admin/Options.php:95
+msgid "Design community pages with the block editor"
+msgstr ""
+
+#: src/Admin/Options.php:96
+msgid "Adds block layouts and the BuddyBuilder blocks. Your Elementor templates keep working; each page uses the layout you pick on Community pages."
+msgstr ""
+
+#: src/Admin/Options.php:97
 msgid "Save"
 msgstr ""
 
-#: admin/pages/templates/settings.php:1
-msgid "Templates Settings"
+#: src/Admin/Options.php:106
+msgid "Sample member for previews"
 msgstr ""
 
-#: admin/pages/templates/settings.php:3
-msgid ""
-"You can override the BuddyPress' default templates with the ones you've "
-"created using Elementor using the form below."
+#: src/Admin/Options.php:107
+msgid "A hidden member with updates, friends and groups, so previews look real before your community grows. It never shows in directories, counts or activity."
 msgstr ""
 
-#: admin/pages/templates/templates.php:20
-msgid "Imported"
+#: src/Admin/Options.php:110
+msgid "Sample member is there"
 msgstr ""
 
-#: admin/pages/templates/templates.php:25
-msgid "Import"
+#: src/Admin/Options.php:111
+msgid "Remove the sample member"
 msgstr ""
 
-#: admin/pages/templates/parts/settings-box.php:12
-msgid "-- BuddyPress Default --"
+#: src/Admin/Options.php:113
+msgid "Create the sample member"
 msgstr ""
 
-#: admin/pages/templates/parts/settings-box.php:50
-msgid "Create new"
+#: src/Admin/Options.php:118
+#: src/Admin/Setup.php:184
+msgid "Setup"
 msgstr ""
 
-#: admin/pages/templates/parts/settings-box.php:82
-msgid "Edit current"
+#: src/Admin/Options.php:119
+msgid "Check your community and pick new looks again. Nothing changes until you press Use these."
 msgstr ""
 
-#. Name of the plugin
-msgid "BuddyBuilder - BuddyPress Builder for Elementor"
+#: src/Admin/Setup.php:183
+#: src/Admin/Setup.php:223
+#: src/Admin/Setup.php:617
+msgid "BuddyBuilder setup"
 msgstr ""
 
-#. Description of the plugin
-msgid ""
-"Fully build and customize your BuddyPress community site using Elementor."
+#: src/Admin/Setup.php:278
+msgid "BuddyBuilder:"
 msgstr ""
 
-#. URI of the plugin
-msgid "https://staxwp.com/go/buddybuilder/"
+#: src/Admin/Setup.php:279
+msgid "give your community pages a look in three steps. Nothing changes until you press Use these."
 msgstr ""
 
-#. Author of the plugin
-msgid "StaxWP"
+#: src/Admin/Setup.php:281
+msgid "Start setup"
 msgstr ""
 
-#. Author URI of the plugin
-msgid "https://staxwp.com"
+#: src/Admin/Setup.php:359
+msgid "BuddyPress or BuddyBoss Platform is not active."
+msgstr ""
+
+#: src/Admin/Setup.php:365
+msgid "Members"
+msgstr ""
+
+#: src/Admin/Setup.php:366
+msgid "Profiles"
+msgstr ""
+
+#: src/Admin/Setup.php:368
+msgid "Groups"
+msgstr ""
+
+#: src/Admin/Setup.php:369
+msgid "Friends"
+msgstr ""
+
+#: src/Admin/Setup.php:370
+msgid "Messages"
+msgstr ""
+
+#: src/Admin/Setup.php:371
+msgid "Notifications"
+msgstr ""
+
+#. translators: %s: version
+#: src/Admin/Setup.php:387
+#, php-format
+msgid "BuddyBoss Platform %s"
+msgstr ""
+
+#. translators: %s: version
+#: src/Admin/Setup.php:389
+#, php-format
+msgid "BuddyPress %s"
+msgstr ""
+
+#. translators: 1: platform and version, 2: list of components
+#: src/Admin/Setup.php:394
+#, php-format
+msgid "%1$s with %2$s"
+msgstr ""
+
+#. translators: %s: component name
+#: src/Admin/Setup.php:401
+#, php-format
+msgid "The %s component is off."
+msgstr ""
+
+#: src/Admin/Setup.php:427
+#, php-format
+msgid "Pages: %s"
+msgstr ""
+
+#. translators: %s: list of pages
+#: src/Admin/Setup.php:435
+#, php-format
+msgid "No WordPress page yet for: %s."
+msgstr ""
+
+#: src/Admin/Setup.php:437
+msgid "Set up pages"
+msgstr ""
+
+#. translators: %s: theme name
+#: src/Admin/Setup.php:445
+#, php-format
+msgid "Theme: %s. The looks use its colors and fonts."
+msgstr ""
+
+#: src/Admin/Setup.php:451
+msgid "BuddyBoss ReadyLaunch is on: it styles these pages. BuddyBuilder layouts take over only for the pages you pick a look for."
+msgstr ""
+
+#. translators: %s: number of members
+#: src/Admin/Setup.php:459
+#, php-format
+msgid "%s member. Previews use your own profile."
+msgid_plural "%s members. Previews use your own profile."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/Admin/Setup.php:611
+msgid "Check your community"
+msgstr ""
+
+#: src/Admin/Setup.php:613
+msgid "Review on your profile"
+msgstr ""
+
+#: src/Admin/Setup.php:620
+msgid "Skip setup, I will do it myself"
+msgstr ""
+
+#. translators: 1: step number, 2: step name
+#: src/Admin/Setup.php:627
+#, php-format
+msgid "%1$d. %2$s"
+msgstr ""
+
+#: src/Admin/Setup.php:632
+msgid "(done)"
+msgstr ""
+
+#: src/Admin/Setup.php:661
+msgid "Your community"
+msgstr ""
+
+#: src/Admin/Setup.php:664
+msgid "Build the pages with"
+msgstr ""
+
+#: src/Admin/Setup.php:670
+msgid "Both make the same looks. You can switch a page to the other builder later."
+msgstr ""
+
+#: src/Admin/Setup.php:673
+msgid "Previews"
+msgstr ""
+
+#: src/Admin/Setup.php:674
+msgid "Create a sample member with updates, friends and groups, so previews look real. It never shows in directories and you can remove it in Settings."
+msgstr ""
+
+#: src/Admin/Setup.php:677
+msgid "Continue"
+msgstr ""
+
+#: src/Admin/Setup.php:690
+msgid "Warning:"
+msgstr ""
+
+#: src/Admin/Setup.php:709
+msgid "Pick a look for at least one page, or skip the setup."
+msgstr ""
+
+#: src/Admin/Setup.php:713
+msgid "No BuddyPress page can get a look yet: turn on the Members component."
+msgstr ""
+
+#: src/Admin/Setup.php:727
+msgid "Also"
+msgstr ""
+
+#: src/Admin/Setup.php:747
+msgid "your profile"
+msgstr ""
+
+#: src/Admin/Setup.php:750
+msgid "the sample member"
+msgstr ""
+
+#: src/Admin/Setup.php:764
+msgid "Live preview"
+msgstr ""
+
+#: src/Admin/Setup.php:767
+msgid "Previewed with"
+msgstr ""
+
+#: src/Admin/Setup.php:775
+msgid "Previewed with your profile"
+msgstr ""
+
+#: src/Admin/Setup.php:778
+msgid "Preview of the selected look on a real profile"
+msgstr ""
+
+#: src/Admin/Setup.php:782
+#: src/Admin/Setup.php:870
+msgid "Back"
+msgstr ""
+
+#. translators: %s: builder name
+#: src/Admin/Setup.php:784
+#, php-format
+msgid "Creates the layouts with the %s, ready to edit. Your pages stay as they are until you press Use these."
+msgstr ""
+
+#: src/Admin/Setup.php:785
+msgid "Use these and preview"
+msgstr ""
+
+#. translators: %s: layout title
+#: src/Admin/Setup.php:805
+#, php-format
+msgid "Now: %s. Picking a look replaces it only when you press Use these."
+msgstr ""
+
+#: src/Admin/Setup.php:826
+msgid "Keep current"
+msgstr ""
+
+#: src/Admin/Setup.php:854
+msgid "This is your community with the new looks. Only you see them; visitors see the current pages until you press Use these."
+msgstr ""
+
+#: src/Admin/Setup.php:857
+msgid "Pages to review"
+msgstr ""
+
+#: src/Admin/Setup.php:865
+msgid "Open in a new tab"
+msgstr ""
+
+#: src/Admin/Setup.php:866
+msgid "Your community pages with the new looks"
+msgstr ""
+
+#: src/Admin/Setup.php:873
+msgid "Not now, keep them as drafts"
+msgstr ""
+
+#: src/Admin/Setup.php:876
+msgid "Use these"
+msgstr ""
+
+#. translators: %s: BuddyBuilder Pro version.
+#: src/Compat/Pairing.php:65
+#, php-format
+msgid "BuddyBuilder Pro %s runs in compatibility mode: its Elementor widgets and modules keep working. Update BuddyBuilder Pro to 2.x for blocks and the new features."
+msgstr ""
+
+#. translators: %s: BuddyBuilder Pro version.
+#: src/Compat/Pairing.php:67
+#, php-format
+msgid "BuddyBuilder Pro %s is too old for this BuddyBuilder version and may not work correctly. Please update BuddyBuilder Pro to 2.x."
+msgstr ""
+
+#: src/Compat/Pairing.php:109
+msgid "Go to Plugins"
+msgstr ""
+
+#: src/Elements/Elements.php:78
+msgid "More settings"
+msgstr ""
+
+#: src/Elements/Elements.php:79
+#: src/Elements/Elements.php:212
+msgid "Nothing to show for this preview."
+msgstr ""
+
+#: src/Elements/Elements.php:206
+msgid "This block is made for another page type. Change the template type of this layout, or remove the block."
+msgstr ""
+
+#: src/Elements/Elements.php:208
+msgid "Pick a preview member in the BuddyBuilder panel (or create the sample member)."
+msgstr ""
+
+#: src/Elements/Elements.php:210
+msgid "Pick a preview group in the BuddyBuilder panel (or create the sample member and groups)."
+msgstr ""
+
+#: src/Elements/notices/render.php:19
+msgid "Example error message."
+msgstr ""
+
+#: src/Elements/notices/render.php:19
+msgid "Example success message: your changes were saved."
+msgstr ""
+
+#: src/Elements/strings.php:14
+msgid "@username"
+msgstr ""
+
+#: src/Elements/strings.php:15
+msgid "A list of groups anywhere on the site."
+msgstr ""
+
+#: src/Elements/strings.php:16
+msgid "A list of members anywhere on the site."
+msgstr ""
+
+#: src/Elements/strings.php:17
+msgid "Activity list"
+msgstr ""
+
+#: src/Elements/strings.php:18
+msgid "Activity post form"
+msgstr ""
+
+#: src/Elements/strings.php:19
+msgid "Activity search and filters"
+msgstr ""
+
+#: src/Elements/strings.php:20
+msgid "Activity stream"
+msgstr ""
+
+#: src/Elements/strings.php:21
+msgid "Activity tabs"
+msgstr ""
+
+#: src/Elements/strings.php:22
+msgid "All / Friends / Groups / Mentions tabs of the activity directory."
+msgstr ""
+
+#: src/Elements/strings.php:23
+msgid "All / My friends / My groups tabs of the members or groups directory."
+msgstr ""
+
+#: src/Elements/strings.php:24
+msgid "BuddyPress notices"
+msgstr ""
+
+#: src/Elements/strings.php:26
+msgid "Columns (mobile)"
+msgstr ""
+
+#: src/Elements/strings.php:27
+msgid "Columns (tablet)"
+msgstr ""
+
+#: src/Elements/strings.php:28
+msgid "Cover image of the current group."
+msgstr ""
+
+#: src/Elements/strings.php:29
+msgid "Cover image of the displayed member."
+msgstr ""
+
+#: src/Elements/strings.php:30
+msgid "Dark overlay"
+msgstr ""
+
+#: src/Elements/strings.php:31
+msgid "Description of the current group."
+msgstr ""
+
+#: src/Elements/strings.php:32
+msgid "Directory search and filters"
+msgstr ""
+
+#: src/Elements/strings.php:33
+msgid "Directory tabs"
+msgstr ""
+
+#: src/Elements/strings.php:34
+msgid "Display name or @username of the displayed member."
+msgstr ""
+
+#: src/Elements/strings.php:36
+msgid "Friendship, message and follow buttons for the displayed member."
+msgstr ""
+
+#: src/Elements/strings.php:38
+msgid "Group administrators and moderators."
+msgstr ""
+
+#: src/Elements/strings.php:39
+msgid "Group avatar"
+msgstr ""
+
+#: src/Elements/strings.php:40
+msgid "Group buttons"
+msgstr ""
+
+#: src/Elements/strings.php:41
+msgid "Group content"
+msgstr ""
+
+#: src/Elements/strings.php:42
+msgid "Group cover"
+msgstr ""
+
+#: src/Elements/strings.php:43
+msgid "Group description"
+msgstr ""
+
+#: src/Elements/strings.php:44
+msgid "Group last active"
+msgstr ""
+
+#: src/Elements/strings.php:45
+msgid "Group leadership"
+msgstr ""
+
+#: src/Elements/strings.php:46
+msgid "Group name"
+msgstr ""
+
+#: src/Elements/strings.php:47
+msgid "Group navigation"
+msgstr ""
+
+#: src/Elements/strings.php:48
+msgid "Group status"
+msgstr ""
+
+#: src/Elements/strings.php:49
+msgid "Groups directory list"
+msgstr ""
+
+#: src/Elements/strings.php:50
+msgid "Groups list"
+msgstr ""
+
+#: src/Elements/strings.php:51
+msgid "H1"
+msgstr ""
+
+#: src/Elements/strings.php:52
+msgid "H2"
+msgstr ""
+
+#: src/Elements/strings.php:53
+msgid "H3"
+msgstr ""
+
+#: src/Elements/strings.php:54
+msgid "H4"
+msgstr ""
+
+#: src/Elements/strings.php:55
+msgid "H5"
+msgstr ""
+
+#: src/Elements/strings.php:56
+msgid "H6"
+msgstr ""
+
+#: src/Elements/strings.php:57
+msgid "HTML tag"
+msgstr ""
+
+#: src/Elements/strings.php:58
+msgid "Join, leave and request membership buttons."
+msgstr ""
+
+#: src/Elements/strings.php:59
+msgid "List toggle"
+msgstr ""
+
+#: src/Elements/strings.php:60
+msgid "List toggle > Search"
+msgstr ""
+
+#: src/Elements/strings.php:61
+msgid "List toggle > Search > Sort"
+msgstr ""
+
+#: src/Elements/strings.php:62
+msgid "List toggle > Sort"
+msgstr ""
+
+#: src/Elements/strings.php:63
+msgid "List toggle > Sort > Search"
+msgstr ""
+
+#: src/Elements/strings.php:64
+msgid "Main tabs of the group (Home, Members, Manage...)."
+msgstr ""
+
+#: src/Elements/strings.php:65
+msgid "Main tabs of the member profile (Activity, Profile, Friends...)."
+msgstr ""
+
+#: src/Elements/strings.php:66
+msgid "Member avatar"
+msgstr ""
+
+#: src/Elements/strings.php:67
+msgid "Member buttons"
+msgstr ""
+
+#: src/Elements/strings.php:68
+msgid "Member content"
+msgstr ""
+
+#: src/Elements/strings.php:69
+msgid "Member cover"
+msgstr ""
+
+#: src/Elements/strings.php:70
+msgid "Member last active"
+msgstr ""
+
+#: src/Elements/strings.php:71
+msgid "Member latest update"
+msgstr ""
+
+#: src/Elements/strings.php:72
+msgid "Member name"
+msgstr ""
+
+#: src/Elements/strings.php:73
+msgid "Member navigation"
+msgstr ""
+
+#: src/Elements/strings.php:74
+msgid "Members directory list"
+msgstr ""
+
+#: src/Elements/strings.php:75
+msgid "Members list"
+msgstr ""
+
+#: src/Elements/strings.php:77
+msgid "Name of the current group."
+msgstr ""
+
+#: src/Elements/strings.php:78
+msgid "Photo of the current group."
+msgstr ""
+
+#: src/Elements/strings.php:79
+msgid "Preview as"
+msgstr ""
+
+#: src/Elements/strings.php:80
+msgid "Profile photo of the displayed member."
+msgstr ""
+
+#: src/Elements/strings.php:81
+msgid "Public, private or hidden status of the group."
+msgstr ""
+
+#: src/Elements/strings.php:82
+msgid "Recent activity anywhere on the site."
+msgstr ""
+
+#: src/Elements/strings.php:84
+msgid "Search > List toggle"
+msgstr ""
+
+#: src/Elements/strings.php:85
+msgid "Search > List toggle > Sort"
+msgstr ""
+
+#: src/Elements/strings.php:87
+msgid "Search > Sort > List toggle"
+msgstr ""
+
+#: src/Elements/strings.php:88
+msgid "Search and filter of the activity directory."
+msgstr ""
+
+#: src/Elements/strings.php:89
+msgid "Search, sort and grid/list toggle of the members or groups directory."
+msgstr ""
+
+#: src/Elements/strings.php:91
+msgid "Show and order"
+msgstr ""
+
+#: src/Elements/strings.php:92
+msgid "Show the Home tab (default front page)"
+msgstr ""
+
+#: src/Elements/strings.php:95
+msgid "Sort > List toggle"
+msgstr ""
+
+#: src/Elements/strings.php:96
+msgid "Sort > List toggle > Search"
+msgstr ""
+
+#: src/Elements/strings.php:98
+msgid "Sort > Search > List toggle"
+msgstr ""
+
+#: src/Elements/strings.php:100
+msgid "Success and error messages after an action (saved settings, sent message...)."
+msgstr ""
+
+#: src/Elements/strings.php:101
+msgid "The \"What's new\" form of the activity directory (logged-in members only)."
+msgstr ""
+
+#: src/Elements/strings.php:102
+msgid "The displayed member's latest activity update and profile header meta."
+msgstr ""
+
+#: src/Elements/strings.php:103
+msgid "The group's current screen: activity, members, manage."
+msgstr ""
+
+#: src/Elements/strings.php:104
+msgid "The groups list of the groups directory (loaded by BuddyPress)."
+msgstr ""
+
+#: src/Elements/strings.php:105
+msgid "The member's current screen: activity, profile, friends, groups, messages."
+msgstr ""
+
+#: src/Elements/strings.php:106
+msgid "The members list of the members directory (loaded by BuddyPress)."
+msgstr ""
+
+#: src/Elements/strings.php:107
+msgid "The site-wide activity stream (loaded by BuddyPress)."
+msgstr ""
+
+#: src/Elements/strings.php:109
+msgid "Use the uploaded cover image as a background layer"
+msgstr ""
+
+#: src/Elements/strings.php:110
+msgid "When the current group was last active."
+msgstr ""
+
+#: src/Elements/strings.php:111
+msgid "When the displayed member was last active."
+msgstr ""
+
+#: src/Elements/strings.php:112
+msgid "about"
+msgstr ""
+
+#: src/Elements/strings.php:113
+msgid "actions"
+msgstr ""
+
+#: src/Elements/strings.php:114
+msgid "activity"
+msgstr ""
+
+#: src/Elements/strings.php:115
+msgid "admins"
+msgstr ""
+
+#: src/Elements/strings.php:116
+msgid "banner"
+msgstr ""
+
+#: src/Elements/strings.php:117
+msgid "buddybuilder"
+msgstr ""
+
+#: src/Elements/strings.php:118
+msgid "buddypress"
+msgstr ""
+
+#: src/Elements/strings.php:119
+msgid "div"
+msgstr ""
+
+#: src/Elements/strings.php:120
+msgid "feed"
+msgstr ""
+
+#: src/Elements/strings.php:121
+msgid "feedback"
+msgstr ""
+
+#: src/Elements/strings.php:122
+msgid "filter"
+msgstr ""
+
+#: src/Elements/strings.php:123
+msgid "friend"
+msgstr ""
+
+#: src/Elements/strings.php:124
+msgid "grid"
+msgstr ""
+
+#: src/Elements/strings.php:125
+msgid "groups"
+msgstr ""
+
+#: src/Elements/strings.php:126
+msgid "header"
+msgstr ""
+
+#: src/Elements/strings.php:127
+msgid "heading"
+msgstr ""
+
+#: src/Elements/strings.php:128
+msgid "join"
+msgstr ""
+
+#: src/Elements/strings.php:129
+msgid "last active"
+msgstr ""
+
+#: src/Elements/strings.php:130
+msgid "list"
+msgstr ""
+
+#: src/Elements/strings.php:131
+msgid "members"
+msgstr ""
+
+#: src/Elements/strings.php:132
+msgid "menu"
+msgstr ""
+
+#: src/Elements/strings.php:133
+msgid "message"
+msgstr ""
+
+#: src/Elements/strings.php:134
+msgid "messages"
+msgstr ""
+
+#: src/Elements/strings.php:135
+msgid "meta"
+msgstr ""
+
+#: src/Elements/strings.php:136
+msgid "moderators"
+msgstr ""
+
+#: src/Elements/strings.php:137
+msgid "photo"
+msgstr ""
+
+#: src/Elements/strings.php:138
+msgid "post"
+msgstr ""
+
+#: src/Elements/strings.php:139
+msgid "privacy"
+msgstr ""
+
+#: src/Elements/strings.php:140
+msgid "profile"
+msgstr ""
+
+#: src/Elements/strings.php:141
+msgid "search"
+msgstr ""
+
+#: src/Elements/strings.php:142
+msgid "sort"
+msgstr ""
+
+#: src/Elements/strings.php:143
+msgid "status"
+msgstr ""
+
+#: src/Elements/strings.php:144
+msgid "stream"
+msgstr ""
+
+#: src/Elements/strings.php:145
+msgid "tabs"
+msgstr ""
+
+#: src/Elements/strings.php:146
+msgid "title"
+msgstr ""
+
+#: src/Elements/strings.php:147
+msgid "update"
+msgstr ""
+
+#: src/Elements/strings.php:148
+msgid "username"
+msgstr ""
+
+#: src/Migrations/steps/Registry_2_0_0_A.php:37
+msgid "Which layout each page uses: copied to the new format."
+msgstr ""
+
+#: src/Presets/Library.php:90
+msgid "Classic"
+msgstr ""
+
+#: src/Presets/Library.php:91
+msgid "Cover, avatar and name side by side, tabs below: the familiar BuddyPress profile."
+msgstr ""
+
+#: src/Presets/Library.php:106
+msgid "Creator"
+msgstr ""
+
+#: src/Presets/Library.php:107
+msgid "A big cover with a centered avatar and name, made for people who publish."
+msgstr ""
+
+#: src/Presets/Library.php:137
+msgid "Professional"
+msgstr ""
+
+#: src/Presets/Library.php:138
+msgid "A compact header with a sidebar for name, status and actions, content on the right."
+msgstr ""
+
+#: src/Presets/Library.php:162
+msgid "Social"
+msgstr ""
+
+#: src/Presets/Library.php:163
+msgid "Activity first: a slim header and the stream next to a friends and groups rail."
+msgstr ""
+
+#: src/Presets/Library.php:192
+msgid "Community"
+msgstr ""
+
+#: src/Presets/Library.php:193
+msgid "Cover, group name, status and join button, then the group tabs."
+msgstr ""
+
+#: src/Presets/Library.php:209
+msgid "Course or cohort"
+msgstr ""
+
+#: src/Presets/Library.php:210
+msgid "Description first with the leaders on the side, made for classes and cohorts."
+msgstr ""
+
+#: src/Presets/Library.php:226
+#: src/Presets/Library.php:268
+msgid "Grid cards"
+msgstr ""
+
+#: src/Presets/Library.php:227
+msgid "Tabs, search and a three-column grid of member cards."
+msgstr ""
+
+#: src/Presets/Library.php:247
+#: src/Presets/Library.php:289
+msgid "Compact list"
+msgstr ""
+
+#: src/Presets/Library.php:248
+msgid "Search first and a one-column list of members."
+msgstr ""
+
+#: src/Presets/Library.php:269
+msgid "Tabs, search and a three-column grid of group cards."
+msgstr ""
+
+#: src/Presets/Library.php:290
+msgid "Search first and a one-column list of groups."
+msgstr ""
+
+#: src/Presets/Library.php:312
+msgid "Feed"
+msgstr ""
+
+#: src/Presets/Library.php:313
+msgid "Post form, tabs, filters and the stream in one column."
+msgstr ""
+
+#: src/Presets/Library.php:318
+msgid "Feed with sidebar"
+msgstr ""
+
+#: src/Presets/Library.php:319
+msgid "The stream with a side column of newest members and groups."
+msgstr ""
+
+#: src/Presets/Library.php:371
+msgid "KLEO profile"
+msgstr ""
+
+#: src/Presets/Library.php:372
+msgid "The KLEO 7 member profile."
+msgstr ""
+
+#: src/Presets/Library.php:427
+msgid "KLEO group"
+msgstr ""
+
+#: src/Presets/Library.php:428
+msgid "The KLEO 7 group page."
+msgstr ""
+
+#: src/Presets/Library.php:461
+msgid "KLEO members"
+msgstr ""
+
+#: src/Presets/Library.php:462
+msgid "The KLEO 7 members directory."
+msgstr ""
+
+#: src/Presets/Library.php:483
+msgid "KLEO groups"
+msgstr ""
+
+#: src/Presets/Library.php:484
+msgid "The KLEO 7 groups directory."
+msgstr ""
+
+#: src/Presets/Library.php:505
+msgid "KLEO activity"
+msgstr ""
+
+#: src/Presets/Library.php:506
+msgid "The KLEO 7 activity page."
+msgstr ""
+
+#: src/Presets/Presets.php:134
+msgid "Unknown preset."
+msgstr ""
+
+#: src/Presets/Presets.php:195
+msgid "Elementor is not active."
+msgstr ""
+
+#: src/Presets/Presets.php:211
+msgid "Could not create the Elementor template."
+msgstr ""
+
+#. translators: 1: template type, 2: preset name
+#: src/Presets/Presets.php:279
+#, php-format
+msgid "%1$s: %2$s"
+msgstr ""
+
+#: src/Templates/LayoutPreview.php:326
+msgid "Preview: only you see this layout. Visitors still see the live page."
+msgstr ""
+
+#: src/Templates/PostType.php:73
+#: src/Templates/PostType.php:78
+msgid "Block layouts"
+msgstr ""
+
+#: src/Templates/PostType.php:74
+msgid "Block layout"
+msgstr ""
+
+#: src/Templates/PostType.php:75
+#: src/Templates/PostType.php:76
+msgid "Add block layout"
+msgstr ""
+
+#: src/Templates/PostType.php:77
+msgid "Edit block layout"
+msgstr ""
+
+#: src/Templates/PostType.php:205
+#: src/Elements/layout-panel.js:76
+msgid "Template type"
+msgstr ""
+
+#: src/Templates/PreviewContext.php:62
+#: src/Templates/PreviewContext.php:69
+msgid "you"
+msgstr ""
+
+#: src/Templates/PreviewContext.php:63
+msgid "the member (own profile)"
+msgstr ""
+
+#: src/Templates/PreviewContext.php:64
+msgid "a friend"
+msgstr ""
+
+#: src/Templates/PreviewContext.php:65
+msgid "another member"
+msgstr ""
+
+#: src/Templates/PreviewContext.php:66
+#: src/Templates/PreviewContext.php:72
+msgid "a guest (logged out)"
+msgstr ""
+
+#: src/Templates/PreviewContext.php:70
+msgid "a group member"
+msgstr ""
+
+#: src/Templates/PreviewContext.php:71
+msgid "a member not in the group"
+msgstr ""
+
+#: src/Templates/SampleMember.php:89
+msgid "Alex Sample"
+msgstr ""
+
+#: src/Templates/SampleMember.php:98
+msgid "Just joined the community. Happy to be here!"
+msgstr ""
+
+#: src/Templates/SampleMember.php:99
+msgid "Working on a new project this week, more soon."
+msgstr ""
+
+#: src/Templates/SampleMember.php:100
+msgid "Thanks everyone for the warm welcome."
+msgstr ""
+
+#: src/Templates/SampleMember.php:101
+msgid "Looking for recommendations: what should I read next?"
+msgstr ""
+
+#: src/Templates/SampleMember.php:102
+msgid "Great meetup yesterday, see you at the next one."
+msgstr ""
+
+#: src/Templates/SampleMember.php:132
+msgid "Sample Group: Photography"
+msgstr ""
+
+#: src/Templates/SampleMember.php:132
+msgid "Sample Group: Book Club"
+msgstr ""
+
+#: src/Templates/SampleMember.php:137
+msgid "A sample group created by BuddyBuilder for previews. Remove it from BuddyBuilder > Layouts."
+msgstr ""
+
+#: src/Templates/SampleMember.php:328
+msgid "The sample member login is already used by a real account."
+msgstr ""
+
+#: src/Elements/layout-panel.js:83
+#: src/Elements/layout-panel.js:91
+msgid "Preview with"
+msgstr ""
+
+#: src/Elements/layout-panel.js:84
+msgid "The member whose profile the preview shows."
+msgstr ""
+
+#: src/Elements/layout-panel.js:86
+msgid "Sample member"
+msgstr ""
+
+#: src/Elements/layout-panel.js:86
+msgid "Me (current user)"
+msgstr ""
+
+#: src/Elements/layout-panel.js:92
+msgid "The group the preview shows."
+msgstr ""
+
+#: src/Elements/layout-panel.js:94
+msgid "Newest group"
+msgstr ""
+
+#: src/Elements/layout-panel.js:99
+msgid "Seen by"
+msgstr ""
+
+#: src/Elements/layout-panel.js:100
+msgid "Buttons, tabs and private fields show as this visitor would see them. Nothing is saved on the profile."
 msgstr ""
