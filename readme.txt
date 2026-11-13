@@ -4,7 +4,7 @@ Tags: elementor, buddypress, buddyboss, community builder, buddypress builder
 Requires at least: 5.0
 Requires PHP: 7.4
 Tested up to: 7.1.4
-Stable tag: 1.9.2
+Stable tag: 1.9.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,6 +120,12 @@ Visit the [WordPress.org support forum](https://wordpress.org/support/plugin/sta
 3. **Multiple Templates** — create unlimited templates and set the active one
 
 == Changelog ==
+
+= 1.9.3 =
+* Fix: Fatal error on BuddyPress pages when the BuddyPress page settings (bp-pages option) are missing; deleted directory pages are skipped and nested directory pages (for example community/members) are detected.
+* Fix: PHP warning in the Members Directory and Groups Directory Filters widgets when the content display setting is missing.
+* Fix: PHP 8.1+ and BuddyPress 12+ deprecation notices (group links, rtMedia request check).
+* Fix: Possible "cannot redeclare class" error when loading the Elementor widgets on case-insensitive file systems.
 
 = 1.9.2 =
 * Compatibility: WordPress 7.1
@@ -311,8 +317,8 @@ Enable/disable the feature by editing the members/groups navigation widget
 
 == Upgrade Notice ==
 
-= 1.9.2 =
-Elementor 4.2.4 compatibility update. Upgrade if you use Elementor 4.x or want the latest WordPress compatibility metadata.
+= 1.9.3 =
+Bug fix release: fixes a fatal error on BuddyPress pages when the BuddyPress page settings are missing, plus PHP 8 and BuddyPress 12 notices. Recommended for all users.
 
 = Be a contributor =
 If you want to contribute, go to our [GitHub Repository](https://github.com/staxwp/buddybuilder).
