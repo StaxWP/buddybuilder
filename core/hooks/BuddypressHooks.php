@@ -464,23 +464,10 @@ class BuddypressHooks extends Singleton {
 					return false;
 				}
 
-				$bp_pages_ids = get_option( 'bp-pages' );
-				$bp_pages_ids = array_map( [ $this, 'get_wpml_page_id' ], $bp_pages_ids );
-
-				$bp_slugs = [
-					'members'  => '',
-					'groups'   => '',
-					'activity' => '',
-				];
-
-				// Set page slugs.
-				foreach ( $bp_pages_ids as $k => $bp_page_id ) {
-					$bp_page        = get_post( $bp_pages_ids[ $k ] );
-					$bp_slugs[ $k ] = $bp_page->post_name;
-				}
+				$bp_slugs = $this->get_directory_slugs();
 
 				// Members directory.
-				if ( $slug === $bp_slugs['members'] ) {
+				if ( '' !== $bp_slugs['members'] && $slug === $bp_slugs['members'] ) {
 					if ( $settings['members-directory'] ) {
 						return bpb_is_template_id_populated( $settings['members-directory'] );
 					}
@@ -488,7 +475,7 @@ class BuddypressHooks extends Singleton {
 					return false;
 				}
 
-				if ( strpos( $slug, $bp_slugs['members'] ) !== false ) {
+				if ( $this->slug_is_below( $slug, $bp_slugs['members'] ) ) {
 					if ( $settings['member-profile'] ) {
 						return bpb_is_template_id_populated( $settings['member-profile'] );
 					}
@@ -509,7 +496,7 @@ class BuddypressHooks extends Singleton {
 					return false;
 				}
 
-				if ( strpos( $slug, $bp_slugs['groups'] ) !== false ) {
+				if ( $this->slug_is_below( $slug, $bp_slugs['groups'] ) ) {
 					if ( $settings['group-profile'] ) {
 						return bpb_is_template_id_populated( $settings['group-profile'] );
 					}
@@ -518,7 +505,7 @@ class BuddypressHooks extends Singleton {
 				}
 
 				// Site-wide activity.
-				if ( $slug === $bp_slugs['activity'] ) {
+				if ( '' !== $bp_slugs['activity'] && $slug === $bp_slugs['activity'] ) {
 					if ( $settings['sitewide-activity'] ) {
 						return bpb_is_template_id_populated( $settings['sitewide-activity'] );
 					}
@@ -597,6 +584,57 @@ class BuddypressHooks extends Singleton {
 		}
 
 		return $query;
+	}
+
+	/**
+	 * Page paths of the BuddyPress directory pages (members, groups, activity), WPML aware.
+	 *
+	 * No fatal when `bp-pages` is not set yet, missing pages skipped, nested page paths supported.
+	 *
+	 * @return array
+	 */
+	public function get_directory_slugs() {
+		static $cache = null;
+
+		if ( null !== $cache ) {
+			return $cache;
+		}
+
+		$cache = [
+			'members'  => '',
+			'groups'   => '',
+			'activity' => '',
+		];
+
+		foreach ( (array) get_option( 'bp-pages', [] ) as $component => $page_id ) {
+			if ( ! array_key_exists( $component, $cache ) || ! $page_id ) {
+				continue;
+			}
+
+			$page = get_post( $this->get_wpml_page_id( (int) $page_id ) );
+
+			if ( $page ) {
+				$cache[ $component ] = get_page_uri( $page );
+			}
+		}
+
+		return $cache;
+	}
+
+	/**
+	 * Whether a request path is a sub-path of a directory page path ("members/ana" below "members"), matched on
+	 * whole path segments (a page "our-members" does not match "members").
+	 *
+	 * @param string $slug Request path.
+	 * @param string $base Directory page path.
+	 * @return bool
+	 */
+	public function slug_is_below( $slug, $base ) {
+		if ( '' === $base || '' === $slug ) {
+			return false;
+		}
+
+		return (bool) preg_match( '#(^|/)' . preg_quote( $base, '#' ) . '/#', $slug . '/' ) && $slug !== $base;
 	}
 
 	/**
