@@ -419,15 +419,26 @@ switch ( $bpb_case ) {
 		}
 		$bpb_ok( \Buddy_Builder\Admin\Setup::is_new_install(), 'without any BuddyBuilder option it is a new install' );
 		\Buddy_Builder\Admin\Setup::on_activation();
-		$bpb_ok( '1' === (string) get_option( \Buddy_Builder\Admin\Setup::REDIRECT ), 'activation asks for the setup once' );
-		delete_option( \Buddy_Builder\Admin\Setup::REDIRECT );
+		$bpb_ok( '1' === (string) get_transient( \Buddy_Builder\Admin\Setup::REDIRECT ), 'activation asks for the setup once (pending for a day)' );
+
+		// Where the pending setup may open: Plugins, Dashboard, BuddyBuilder screens; never another plugin's wizard.
+		global $pagenow;
+		$bpb_where = [];
+		foreach ( [ [ 'plugins.php', '' ], [ 'index.php', '' ], [ 'admin.php', 'buddy-builder-settings' ], [ 'admin.php', 'other-plugin-setup' ], [ 'admin.php', 'buddy-builder-setup' ], [ 'edit.php', '' ] ] as $bpb_req ) {
+			$pagenow = $bpb_req[0]; // phpcs:ignore WordPress.WP.GlobalVariablesOverride
+			$_GET    = $bpb_req[1] ? [ 'page' => $bpb_req[1] ] : [];
+			$bpb_where[] = ( $bpb_req[1] ? $bpb_req[1] : $bpb_req[0] ) . '=' . ( \Buddy_Builder\Admin\Setup::can_redirect_here() ? 'yes' : 'no' );
+		}
+		$_GET = [];
+		$bpb_ok( 'plugins.php=yes index.php=yes buddy-builder-settings=yes other-plugin-setup=no buddy-builder-setup=no edit.php=no' === implode( ' ', $bpb_where ), 'opens only on calm screens: ' . implode( ' ', $bpb_where ) );
+		delete_transient( \Buddy_Builder\Admin\Setup::REDIRECT );
 		foreach ( $bpb_keep as $bpb_name => $bpb_value ) {
 			if ( null !== $bpb_value ) {
 				update_option( $bpb_name, $bpb_value );
 			}
 		}
 		\Buddy_Builder\Admin\Setup::on_activation();
-		$bpb_ok( false === get_option( \Buddy_Builder\Admin\Setup::REDIRECT, false ), 'activation on an existing site does not' );
+		$bpb_ok( false === get_transient( \Buddy_Builder\Admin\Setup::REDIRECT ), 'activation on an existing site does not' );
 		break;
 
 	case 'checker-readylaunch':

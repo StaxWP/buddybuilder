@@ -30,7 +30,7 @@ const member = opt( 'member', 'ana' );
 const shots = opt( 'shots', '' );
 const host = new URL( site ).hostname;
 
-const OPTIONS = [ 'bpb_settings', 'bpb_templates', 'bpb_db_version', 'buddybuilder_db_version', 'bpb_imported_templates', 'bpb_setup', 'bpb_setup_pending', 'bpb_setup_redirect', 'bpb_blocks_enabled', 'bpb_render_issues', 'bpb_migrations', 'bpb_migrations_checked', '_bpb_enabled_widgets' ];
+const OPTIONS = [ 'bpb_settings', 'bpb_templates', 'bpb_db_version', 'buddybuilder_db_version', 'bpb_imported_templates', 'bpb_setup', 'bpb_setup_pending', 'bpb_blocks_enabled', 'bpb_render_issues', 'bpb_migrations', 'bpb_migrations_checked', '_bpb_enabled_widgets' ];
 
 let fails = 0;
 const ok = ( cond, msg ) => {
@@ -93,9 +93,14 @@ async function shot( page, name, locator ) {
 
 	try {
 		// 1. Setup wizard on a new install (B-M2).
-		php( `foreach ( ${ JSON.stringify( OPTIONS ).replace( /"/g, "'" ) } as $o ) { delete_option( $o ); } update_option( 'bpb_blocks_enabled', '0' ); \\Buddy_Builder\\Admin\\Setup::on_activation(); ` + echo( "get_option( 'bpb_setup_redirect' )" ) );
+		php( `foreach ( ${ JSON.stringify( OPTIONS ).replace( /"/g, "'" ) } as $o ) { delete_option( $o ); } update_option( 'bpb_blocks_enabled', '0' ); \\Buddy_Builder\\Admin\\Setup::on_activation(); ` + echo( "get_transient( 'bpb_setup_redirect' )" ) );
+		await page.goto( site + '/wp-admin/edit.php' );
+		ok( ! page.url().includes( 'page=buddy-builder-setup' ), 'pending setup does not interrupt other screens' );
 		await page.goto( site + '/wp-admin/' );
 		ok( page.url().includes( 'page=buddy-builder-setup' ), 'new install: the first admin page opens the setup' );
+		await page.goto( site + '/wp-admin/' );
+		ok( ! page.url().includes( 'page=buddy-builder-setup' ), 'only once' );
+		await page.goto( site + '/wp-admin/admin.php?page=buddy-builder-setup' );
 		ok( ( await page.locator( '.bpb-steps [aria-current="step"]' ).textContent() ).includes( '1.' ), 'setup step 1 is current' );
 		ok( await page.locator( '.bpb-checks__item' ).count() >= 3, 'step 1 lists the community checks' );
 		await axeCheck( page, 'setup step 1' );

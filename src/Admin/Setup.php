@@ -64,7 +64,9 @@ final class Setup {
 	 */
 	public static function on_activation() {
 		if ( self::is_new_install() ) {
-			update_option( self::REDIRECT, 1, false );
+			// A transient, checked on the next admin pages: another plugin's own activation redirect may take the
+			// first one. It expires after a day, so an ignored setup never surprises the site later.
+			set_transient( self::REDIRECT, 1, DAY_IN_SECONDS );
 		}
 	}
 
@@ -233,18 +235,20 @@ final class Setup {
 	}
 
 	/**
-	 * After the first activation of a new install: open the setup once.
+	 * After the first activation of a new install: open the setup once, on the first admin page where it does not
+	 * interrupt anything (the Plugins screen, the Dashboard or a BuddyBuilder screen). Another plugin's setup or
+	 * onboarding screen, AJAX, bulk activation and the network admin are left alone; the request stays pending.
 	 */
 	public static function maybe_redirect() {
-		if ( ! get_option( self::REDIRECT ) ) {
+		if ( ! get_transient( self::REDIRECT ) ) {
 			return;
 		}
 
-		if ( wp_doing_ajax() || is_network_admin() || ! current_user_can( 'manage_options' ) || isset( $_GET['activate-multi'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+		if ( headers_sent() || ! self::can_redirect_here() ) {
 			return;
 		}
 
-		delete_option( self::REDIRECT );
+		delete_transient( self::REDIRECT );
 
 		if ( ! self::is_first_run() || ! function_exists( 'bp_is_active' ) ) {
 			return;
@@ -252,6 +256,29 @@ final class Setup {
 
 		wp_safe_redirect( self::url() );
 		exit;
+	}
+
+	/**
+	 * Whether this admin request is a calm place to open the setup.
+	 *
+	 * @return bool
+	 */
+	public static function can_redirect_here() {
+		global $pagenow;
+
+		// phpcs:disable WordPress.Security.NonceVerification
+		if ( wp_doing_ajax() || wp_doing_cron() || is_network_admin() || ! current_user_can( 'manage_options' ) || isset( $_GET['activate-multi'] ) ) {
+			return false;
+		}
+
+		$page = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : '';
+		// phpcs:enable
+
+		if ( '' !== $page ) {
+			return 0 === strpos( $page, BPB_ADMIN_PREFIX ) && ! self::is_screen();
+		}
+
+		return in_array( $pagenow, [ 'index.php', 'plugins.php' ], true );
 	}
 
 	/**
