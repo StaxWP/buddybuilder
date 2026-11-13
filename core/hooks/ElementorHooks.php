@@ -231,7 +231,11 @@ class ElementorHooks extends Singleton {
 		}
 
 		if ( $widgets_manager && ( method_exists( $widgets_manager, 'register' ) || method_exists( $widgets_manager, 'register_widget_type' ) ) ) {
-			include_once BPB_BASE_PATH . 'core/widgets/Base.php';
+			// The class may already be loaded by the autoloader through another path spelling (case-insensitive
+			// file systems); a second include would redeclare it.
+			if ( ! class_exists( '\\Buddy_Builder\\Widgets\\Base', false ) ) {
+				include_once BPB_BASE_PATH . 'core/widgets/Base.php';
+			}
 
 			foreach ( buddy_builder()->get_elements() as $k => $element ) {
 				if ( $template_file = $this->get_element_path( $element['template_base_path'] . $k ) ) {
