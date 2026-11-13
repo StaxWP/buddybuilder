@@ -637,7 +637,7 @@ final class CommunityPages {
 	 */
 	private static function thumb( array $row ) {
 		if ( $row['preset'] ) {
-			return Preview::svg( $row['preset']['layout'] );
+			return Preview::thumb( $row['preset'] );
 		}
 
 		if ( $row['post'] ) {
@@ -788,7 +788,7 @@ final class CommunityPages {
 			echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" class="bpb-look">';
 			self::form_fields( $row['type'], 'look' );
 			echo '<input type="hidden" name="preset" value="' . esc_attr( $id ) . '">';
-			echo '<div class="bpb-look__thumb" aria-hidden="true">' . Preview::svg( $preset['layout'] ) . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput
+			echo '<div class="bpb-look__thumb" aria-hidden="true">' . Preview::thumb( $preset ) . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput
 			echo '<strong>' . esc_html( $preset['title'] ) . '</strong>';
 			echo '<span class="bpb-look__desc">' . esc_html( isset( $preset['description'] ) ? $preset['description'] : '' ) . '</span>';
 

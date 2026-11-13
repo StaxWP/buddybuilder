@@ -270,6 +270,7 @@ final class LayoutPreview {
 		add_filter( 'wp_robots', 'wp_robots_no_robots' );
 
 		nocache_headers();
+		PreviewContext::server_render_streams();
 
 		if ( ! defined( 'DONOTCACHEPAGE' ) ) {
 			define( 'DONOTCACHEPAGE', true ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals

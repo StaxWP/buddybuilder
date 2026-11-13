@@ -753,9 +753,16 @@ final class Setup {
 		$first = (string) key( $types[ $main ] );
 		$urls  = [];
 
+		$current = Registry::get( $main );
+
 		foreach ( array_keys( $who ) as $user ) {
 			foreach ( array_keys( $types[ $main ] ) as $preset_id ) {
 				$urls[ $user ][ $preset_id ] = LayoutPreview::page_url( $main, [ $main => 'preset:' . $preset_id ], true, $user );
+			}
+
+			// "Keep current": the layout the page uses now.
+			if ( $current['id'] && Registry::is_post_populated( $current['id'] ) ) {
+				$urls[ $user ][''] = LayoutPreview::page_url( $main, [ $main => 'post:' . $current['id'] ], true, $user );
 			}
 		}
 
@@ -811,7 +818,7 @@ final class Setup {
 			echo '<label class="bpb-pick' . ( $cards ? ' bpb-pick--card' : '' ) . '"><input type="radio" name="look[' . esc_attr( $type ) . ']" value="' . esc_attr( $id ) . '"' . checked( $default, $id, false ) . '>';
 
 			if ( $cards ) {
-				echo '<span class="bpb-pick__thumb" aria-hidden="true">' . Preview::svg( $preset['layout'] ) . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput
+				echo '<span class="bpb-pick__thumb" aria-hidden="true">' . Preview::thumb( $preset ) . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput
 			}
 
 			echo '<span class="bpb-pick__name">' . esc_html( $preset['title'] ) . '</span>';

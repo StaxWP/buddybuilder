@@ -553,9 +553,10 @@ final class PreviewContext {
 	}
 
 	/**
-	 * In previews, replace Nouveau's "Loading..." placeholders by the first page of the real loop.
+	 * In previews, replace Nouveau's "Loading..." placeholders by the first page of the real loop (editor previews,
+	 * and the front-end layout previews of the setup, where the AJAX request would not carry the preview).
 	 */
-	private static function server_render_streams() {
+	public static function server_render_streams() {
 		add_filter(
 			'bp_nouveau_feedback_messages',
 			static function ( $messages ) {

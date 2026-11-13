@@ -30,6 +30,24 @@ final class Preview {
 	];
 
 	/**
+	 * Thumbnail of a preset: the real look rendered on the sample member (assets/img/looks/<id>.webp, made by
+	 * bin/capture-looks.js), or the drawing for presets without one (theme and add-on presets).
+	 *
+	 * @param array $preset Preset (id, layout).
+	 * @return string HTML.
+	 */
+	public static function thumb( array $preset ) {
+		$id   = isset( $preset['id'] ) ? sanitize_key( $preset['id'] ) : '';
+		$file = 'assets/img/looks/' . $id . '.webp';
+
+		if ( '' !== $id && file_exists( BPB_BASE_PATH . $file ) ) {
+			return '<img class="bpb-look-img" src="' . esc_url( BPB_BASE_URL . $file . '?ver=' . BPB_VERSION ) . '" alt="" width="480" height="480" loading="lazy" decoding="async">';
+		}
+
+		return self::svg( $preset['layout'] );
+	}
+
+	/**
 	 * Generic drawing of a page type, for layouts made by hand or imported from a starter kit (no preset).
 	 *
 	 * @param string $type Template type.

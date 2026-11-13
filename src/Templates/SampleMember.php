@@ -134,7 +134,7 @@ final class SampleMember {
 					[
 						'creator_id'  => $user_id,
 						'name'        => $name,
-						'description' => __( 'A sample group created by BuddyBuilder for previews. Remove it from BuddyBuilder > Layouts.', 'stax-buddy-builder' ),
+						'description' => __( 'A sample group created by BuddyBuilder for previews. Remove it from BuddyBuilder > Settings.', 'stax-buddy-builder' ),
 						'status'      => 'hidden',
 						'enable_forum' => 0,
 					]
@@ -242,7 +242,7 @@ final class SampleMember {
 	public static function hide_members( $query ) {
 		$ids = self::member_ids();
 
-		if ( empty( $ids ) || ! empty( $query->query_vars['include'] ) || PreviewContext::is_preview() ) {
+		if ( empty( $ids ) || ! empty( $query->query_vars['include'] ) || self::in_preview() ) {
 			return;
 		}
 
@@ -259,7 +259,7 @@ final class SampleMember {
 	public static function hide_activity( $where ) {
 		$ids = self::member_ids();
 
-		if ( empty( $ids ) || PreviewContext::is_preview() ) {
+		if ( empty( $ids ) || self::in_preview() ) {
 			return $where;
 		}
 
@@ -289,7 +289,7 @@ final class SampleMember {
 	public static function hide_groups( $args ) {
 		$data = self::data();
 
-		if ( empty( $data['groups'] ) || PreviewContext::is_preview() ) {
+		if ( empty( $data['groups'] ) || self::in_preview() ) {
 			return $args;
 		}
 
@@ -353,5 +353,14 @@ final class SampleMember {
 		}
 
 		return (int) $user_id;
+	}
+
+	/**
+	 * Previews show the sample member's data: block editor previews and front-end layout previews (setup).
+	 *
+	 * @return bool
+	 */
+	private static function in_preview() {
+		return PreviewContext::is_preview() || LayoutPreview::is_active();
 	}
 }

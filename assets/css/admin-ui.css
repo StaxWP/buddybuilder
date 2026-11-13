@@ -145,3 +145,7 @@
 	.bpb-steps { grid-template-columns: 1fr; }
 	.bpb-looks__panel { width: calc(100vw - 48px); }
 }
+
+/* Real look thumbnails (square WebP, top of the layout). */
+.bpb-look-img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; object-position: top; border-radius: 3px; background: #f6f7f7; }
+.bpb-cp__thumb .bpb-look-img { aspect-ratio: auto; height: 100%; }
