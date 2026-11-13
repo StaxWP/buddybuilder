@@ -76,6 +76,7 @@ class Runner {
 				'id'          => $step->id(),
 				'version'     => $step->version(),
 				'description' => $step->description(),
+				'label'       => $step->label(),
 				'state'       => 'done' === $state && ! $step->check() ? 'pending' : $state,
 				'message'     => isset( $entry['message'] ) ? $entry['message'] : '',
 				'time'        => isset( $entry['time'] ) ? $entry['time'] : 0,

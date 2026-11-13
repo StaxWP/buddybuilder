@@ -33,6 +33,13 @@ class Registry_2_0_0_A extends Step {
 	/**
 	 * {@inheritDoc}
 	 */
+	public function label() {
+		return __( 'Which layout each page uses: copied to the new format.', 'stax-buddy-builder' );
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public function description() {
 		return 'Template assignments: bpb_settings[templates] to the builder-aware registry bpb_templates';
 	}

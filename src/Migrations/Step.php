@@ -89,4 +89,13 @@ abstract class Step {
 	public function version() {
 		return preg_replace( '/-[a-z]+$/', '', $this->id() );
 	}
+
+	/**
+	 * What the step does, in plain words for the Help and status screen (defaults to the technical description).
+	 *
+	 * @return string
+	 */
+	public function label() {
+		return $this->description();
+	}
 }
