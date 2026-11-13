@@ -4,7 +4,7 @@ Tags: elementor, buddypress, buddyboss, community builder, buddypress builder
 Requires at least: 6.6
 Requires PHP: 7.4
 Tested up to: 7.1.4
-Stable tag: 1.9.2
+Stable tag: 1.9.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -135,6 +135,12 @@ Visit the [WordPress.org support forum](https://wordpress.org/support/plugin/sta
 * Fix: a page whose slug contains "members" or "groups" was treated as a BuddyPress page.
 * Removed: usage tracker (Appsero), Youzer and old third-party theme workarounds. The tracker's stored options and scheduled event are deleted on update and on uninstall.
 * Requires WordPress 6.6, PHP 7.4 and, for the Elementor integration, Elementor 3.20 or newer.
+
+= 1.9.3 =
+* Fix: Fatal error on BuddyPress pages when the BuddyPress page settings (bp-pages option) are missing; deleted directory pages are skipped and nested directory pages (for example community/members) are detected.
+* Fix: PHP warning in the Members Directory and Groups Directory Filters widgets when the content display setting is missing.
+* Fix: PHP 8.1+ and BuddyPress 12+ deprecation notices (group links, rtMedia request check).
+* Fix: Possible "cannot redeclare class" error when loading the Elementor widgets on case-insensitive file systems.
 
 = 1.9.2 =
 * Compatibility: WordPress 7.1
