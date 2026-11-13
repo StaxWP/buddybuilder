@@ -133,15 +133,20 @@ async function shot( page, name, locator ) {
 		await axeCheck( page, 'community pages' );
 		await shot( page, 'community-pages' );
 		await row.locator( '.bpb-more > summary' ).first().click();
-		const more = await page.locator( '#bpb-page-member-profile' ).boundingBox();
-		await shot( page, 'community-pages-more', { clip: { x: 160, y: Math.max( 0, more.y - 20 ), width: 1280, height: 420 } } );
+		const moreTop = await row.evaluate( ( el ) => {
+			window.scrollTo( 0, el.getBoundingClientRect().top + window.scrollY - 60 );
+			return el.getBoundingClientRect().top;
+		} );
+		await shot( page, 'community-pages-more', { clip: { x: 160, y: Math.max( 0, moreTop - 20 ), width: 1280, height: Math.min( 420, 900 - Math.max( 0, moreTop - 20 ) ) } } );
 		await Promise.all( [ page.waitForNavigation(), row.locator( 'button:has-text("Use the BuddyPress default")' ).click() ] );
 		ok( ( await page.locator( '#bpb-page-member-profile .bpb-cp__status' ).textContent() ).includes( 'BuddyPress default' ), 'Use the BuddyPress default works' );
 		const looks = page.locator( '#bpb-page-member-profile .bpb-looks' );
 		await looks.locator( 'summary' ).click();
-		await looks.scrollIntoViewIfNeeded();
-		const box = await page.locator( '#bpb-page-member-profile' ).boundingBox();
-		await shot( page, 'community-pages-pick-a-look', { clip: { x: 160, y: Math.max( 0, box.y - 20 ), width: 1280, height: 560 } } );
+		const top = await page.locator( '#bpb-page-member-profile' ).evaluate( ( el ) => {
+			window.scrollTo( 0, el.getBoundingClientRect().top + window.scrollY - 60 );
+			return el.getBoundingClientRect().top;
+		} );
+		await shot( page, 'community-pages-pick-a-look', { clip: { x: 160, y: Math.max( 0, top - 20 ), width: 1280, height: Math.min( 560, 900 - Math.max( 0, top - 20 ) ) } } );
 		await Promise.all( [ page.waitForNavigation(), looks.locator( 'form.bpb-look' ).first().locator( 'button' ).first().click() ] );
 		ok( ( await page.locator( '#bpb-page-member-profile .bpb-cp__status' ).textContent() ).includes( 'Live' ), 'Pick a look makes a new layout live' );
 		const select = page.locator( '#bpb-layout-member-profile' );
@@ -170,7 +175,7 @@ async function shot( page, name, locator ) {
 		const bar = await page.locator( '#wp-admin-bar-bpb-community' ).textContent();
 		ok( bar.includes( 'Layout not applied' ), 'admin bar says Layout not applied' );
 		ok( /theme has BuddyBuilder template files/.test( bar ), 'the theme override is named as the cause' );
-		await page.hover( '#wp-admin-bar-bpb-community' );
+		await page.evaluate( () => document.getElementById( 'wp-admin-bar-bpb-community' ).classList.add( 'hover' ) );
 		await shot( page, 'checker-admin-bar', { clip: { x: 0, y: 0, width: 1440, height: 260 } } );
 		await page.goto( site + '/wp-admin/admin.php?page=buddy-builder-settings' );
 		ok( ( await page.locator( '#bpb-page-member-profile .bpb-cp__status' ).textContent() ).includes( 'Not applied on the last visit' ), 'Community pages shows the finding' );
