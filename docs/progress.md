@@ -32,13 +32,23 @@ Tests (2026-11-13, throwaway copy of bb2fix: http://bbux.test, KLEO 6.2.4, Eleme
 - `tests/compat/bin/regressions.sh`: 80/80 PASS (the 42 existing checks plus `preview-seen-by` x5, `community-pages-read-only`, `checker-known-issues`, `setup-new-install`). BB-3 now saves the Community pages selects and the 1.x form handler.
 - `tests/compat/bin/surface.php check`: free 1.9.2 and Pro 1.7.0 surfaces ok (the 1.x admin filters `buddy_builder/admin/templates_list` and `.../after_restructure` still drive the page list).
 - `tests/e2e/ux.js` (Playwright + axe): 37/37 on BuddyPress with Pro licensed, also on BuddyBoss Platform 1.8.6 (Pro modules skipped there: unlicensed). axe: no serious or critical violations on setup steps 1 to 3, Community pages, Settings, Help and status, Starter kits, Pro modules.
-- BuddyBoss: `community-pages-read-only` and the setup checks also run with `--require=tests/compat/env/buddyboss.php`. ReadyLaunch detection uses `bb_is_readylaunch_enabled()` (BuddyBoss 2.9+); not run against a ReadyLaunch build locally (the local BuddyBoss Platform is 1.8.6).
+- BuddyBoss: `community-pages-read-only` and the setup checks also run with `--require=tests/compat/env/buddyboss.php`. ReadyLaunch: see the second pass below (tested on BuddyBoss Platform 3.7.2).
 - POT files regenerated.
 
 Not done in this run / open:
 
-- Real screenshot thumbnails of presets: thumbnails stay schematic drawings; the real look is shown live in the setup (step 2 preview on your profile, step 3 on all pages).
 - Element list ordered per page type with 2 to 4 basic settings (5.4, U3) and the Elementor editor on the preview context with "seen by" (B-L1, 2.1 task 27).
 - "More" menu: duplicate, history, export, delete (B-L4, 2.1).
-- The setup redirect can lose to another plugin's own activation redirect (seen with BuddyBoss Platform activated in the same session); the notice and "Run setup again" remain.
-- Docs on staxwp.com for the new screens (B-M7): readme changelog updated; site docs and wp.org screenshots to do with the docs agents. Screenshots: second-brain `Projects/staxwp/docs/assets/bb-2.0-ux/`.
+- Docs on staxwp.com: drafts on staxwp-site branch `docs/bb-2.0` (see below); sidebar entries and wp.org screenshots at release.
+
+## 2026-11-13 (second pass): packaging, real look thumbnails, ReadyLaunch, setup redirect
+
+- **Release zip**: `.distignore` + `bin/build-zip.sh [ref] [out dir]` (git archive of the ref, minus the `.distignore` paths; top folder and version from `loader.php`). Excluded: tests, docs, bin, node_modules, vendor, package/composer files, phpcs/phpunit/Playwright configs and results, `*.map`, `.DS_Store`, git files (Pro also tailwind config and `assets/scss`). Verified: `stax-buddy-builder-2.0.0-dev.zip` 2.9 MB, 428 files, 0 excluded paths, the 12 look thumbnails inside; Pro zip 1.8 MB, 525 files, 0 excluded paths. Building is not publishing.
+- **Real look thumbnails**: `assets/img/looks/<preset>.webp` (12 looks, 480 px square WebP, about 85 KB in all, shipped with the plugin), each look rendered on the sample member / sample group on Twenty Twenty-Five by `bin/capture-looks.js` (+ `bin/capture-looks.php`, throwaway site only). `Preview::thumb()` uses them on Community pages (row and Change look) and in the setup; theme and add-on presets (KLEO 7 defaults) keep the drawing. Layout previews now show the sample member's data and render the activity / members / groups streams server-side (the AJAX request would not carry the preview). Setup step 2 "Keep current" previews the current layout.
+- **ReadyLaunch**: tested on BuddyBoss Platform 3.7.2 (public GitHub release, installed on bbux.test as `buddyboss-platform-372`): `bb_is_readylaunch_enabled()` (option `bb_rl_enabled`) detected; with ReadyLaunch on, the admin bar says Layout not applied with ReadyLaunch first and setup step 1 warns; with it off, the layouts render and the e2e suite passes. Elementor Pro theme templates are not listed as a cause while ReadyLaunch is on. Regression `checker-readylaunch` runs mocked (filter) everywhere and with the real function when `BPB_BUDDYBOSS_PLUGIN=buddyboss-platform-372/bp-loader.php` is set for `env/buddyboss.php`.
+- **Setup redirect**: activation sets a one-day transient; the setup opens on the next calm admin screen (Plugins, Dashboard, a BuddyBuilder screen), never on another plugin's setup or onboarding screen, AJAX, cron, bulk activation or the network admin. Covered by `setup-new-install` and the e2e suite.
+- **Docs**: staxwp-site branch `docs/bb-2.0` (not merged): draft pages under `/docs/buddybuilder-2/` (What's new, Community pages, Setup, Seen by, Layout not applied, Help and status, Pro modules), screenshots on the Space under `wp-content/uploads/docs/buddybuilder-2/`.
+
+Tests (second pass): PHP lint 7.4 and 8.5 0 errors (both plugins); migrations 21/21; regressions 89/89 (with the real ReadyLaunch run); surface free and Pro ok; e2e + axe 39/39 on BuddyPress (Pro licensed fixture) and 37/37 + 1 skip (Pro unlicensed) on BuddyBoss Platform 3.7.2.
+
+Finding (not BuddyBuilder): on Twenty Twenty-Five, BuddyPress' `buddypress-priority-menu.js` throws "appendChild ... not of type Node" on profiles with a BuddyBuilder layout (it calls `hiddenList.firstChild.nextSibling` without a check). Not seen on KLEO; to look at with a block-theme pass.
