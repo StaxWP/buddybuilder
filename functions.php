@@ -80,6 +80,20 @@ function bpb_is_template_populated( $template = null ) {
 	}
 
 	if ( ! is_int( $template ) ) {
+		/**
+		 * Short-circuits the "has a layout" check of a template type (layout previews, Pro layout variations).
+		 *
+		 * @since 2.0.0
+		 *
+		 * @param bool|null $pre  Null to run the normal check.
+		 * @param string    $type Template type.
+		 */
+		$pre = apply_filters( 'buddy_builder/is_template_populated/pre', null, (string) $template );
+
+		if ( null !== $pre ) {
+			return (bool) $pre;
+		}
+
 		$settings    = bpb_get_settings();
 		$template_id = isset( $settings['templates'][ $template ] ) ? $settings['templates'][ $template ] : 0;
 	} else {

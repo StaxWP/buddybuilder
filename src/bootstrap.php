@@ -13,6 +13,7 @@ use Buddy_Builder\Templates\PreviewContext;
 
 PostType::hooks();
 PreviewContext::hooks();
+\Buddy_Builder\Templates\LayoutPreview::hooks();
 \Buddy_Builder\Templates\SampleMember::hooks();
 
 add_filter( 'buddy_builder/settings', [ Dispatcher::class, 'filter_settings' ] );

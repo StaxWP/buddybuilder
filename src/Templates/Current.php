@@ -63,8 +63,8 @@ final class Current {
 			return null;
 		}
 
-		$entry = Registry::get( $type );
+		$entry = Dispatcher::resolve( $type );
 
-		return $entry['id'] && Registry::is_post_populated( $entry['id'] ) ? $entry : null;
+		return isset( $entry['content'] ) || ( $entry['id'] && Registry::is_post_populated( $entry['id'] ) ) ? $entry : null;
 	}
 }

@@ -26,6 +26,13 @@ final class Dispatcher {
 	 */
 	private static $stack = [];
 
+	/**
+	 * Types rendered on this request.
+	 *
+	 * @var bool[]
+	 */
+	private static $rendered = [];
+
 	/** Shortcode returned by bpb_get_shortcode_str() for block layouts (1.x theme overrides print it). */
 	const SHORTCODE = 'bpb-layout';
 
@@ -37,11 +44,13 @@ final class Dispatcher {
 	 * @return string
 	 */
 	public static function render( $type, array $context = [] ) {
-		$entry = Registry::get( $type );
+		$entry = self::resolve( $type, $context );
 
-		if ( ! $entry['id'] || ! Registry::is_post_populated( $entry['id'] ) ) {
+		if ( ! isset( $entry['content'] ) && ( ! $entry['id'] || ! Registry::is_post_populated( $entry['id'] ) ) ) {
 			return '';
 		}
+
+		self::$rendered[ $type ] = true;
 
 		/**
 		 * Fires before a layout renders (assets per template type hook here).
@@ -51,11 +60,58 @@ final class Dispatcher {
 		 */
 		do_action( 'buddy_builder/render_template', $type, $entry );
 
+		if ( isset( $entry['content'] ) ) {
+			return self::render_content( $type, (string) $entry['content'], $context );
+		}
+
 		if ( Registry::BLOCKS === $entry['builder'] ) {
 			return self::render_blocks( $type, $entry['id'], $context );
 		}
 
 		return Elementor::is_available() ? Elementor::render( $entry['id'] ) : '';
+	}
+
+	/**
+	 * Layout that renders a type on this request: the assigned one, unless a filter picks another (a preview of a
+	 * look not live yet, or, in BuddyBuilder Pro 2.1, a layout variation for a member type, group type or role).
+	 *
+	 * @param string $type    Template type.
+	 * @param array  $context Render context.
+	 * @return array [ builder, id ] plus "content" (block markup) for a layout that is not a post.
+	 */
+	public static function resolve( $type, array $context = [] ) {
+		$entry = Registry::get( $type );
+
+		/**
+		 * Filters the layout that renders a template type.
+		 *
+		 * Return [ 'builder' => 'blocks'|'elementor', 'id' => int ] for another layout post, or add 'content' with
+		 * block markup to render it without a post. Fallback: the assigned layout.
+		 *
+		 * @since 2.0.0
+		 *
+		 * @param array  $entry   Assigned [ builder, id ].
+		 * @param string $type    Template type.
+		 * @param array  $context Render context (user_id, group_id, preview).
+		 */
+		$resolved = apply_filters( 'buddy_builder/template/resolve', $entry, $type, $context );
+
+		if ( ! is_array( $resolved ) || ! isset( $resolved['builder'], $resolved['id'] ) ) {
+			return $entry;
+		}
+
+		$resolved['id'] = (int) $resolved['id'];
+
+		return $resolved;
+	}
+
+	/**
+	 * Types rendered by BuddyBuilder on this request (the "layout not applied" checker reads it).
+	 *
+	 * @return string[]
+	 */
+	public static function rendered() {
+		return array_keys( self::$rendered );
 	}
 
 	/**
@@ -73,9 +129,21 @@ final class Dispatcher {
 			return '';
 		}
 
+		return self::render_content( $type, $post->post_content, $context );
+	}
+
+	/**
+	 * Render block markup as the layout of a type.
+	 *
+	 * @param string $type    Template type.
+	 * @param string $content Block markup.
+	 * @param array  $context Context.
+	 * @return string
+	 */
+	public static function render_content( $type, $content, array $context = [] ) {
 		self::$stack[] = array_merge( [ 'type' => $type ], $context );
 
-		$html = do_blocks( $post->post_content );
+		$html = do_blocks( $content );
 
 		array_pop( self::$stack );
 
@@ -109,7 +177,11 @@ final class Dispatcher {
 			return do_shortcode( $shortcode );
 		}
 
-		$entry = Registry::get( $type );
+		$entry = self::resolve( $type, $context );
+
+		if ( isset( $entry['content'] ) ) {
+			return self::render_content( $type, (string) $entry['content'], $context );
+		}
 
 		if ( Registry::BLOCKS !== $entry['builder'] || ! Registry::is_post_populated( $entry['id'] ) ) {
 			return '';
