@@ -124,10 +124,15 @@ Visit the [WordPress.org support forum](https://wordpress.org/support/plugin/sta
 == Changelog ==
 
 = 2.0.0 (in development) =
-* New: build BuddyPress pages with the block editor (Block layouts), next to Elementor. On KLEO 7 and on sites without Elementor it is on by default; elsewhere turn on "Blocks (beta)" in BuddyBuilder > Settings.
+* New: build BuddyPress pages with the block editor (Block layouts), next to Elementor. On KLEO 7 and on sites without Elementor it is on by default; elsewhere turn it on in BuddyBuilder > Settings or pick the block editor in the setup.
 * New: BuddyBuilder no longer requires Elementor. Existing Elementor templates keep working unchanged.
-* New: Layouts screen with one-click presets (Classic, Creator, Professional and Social member profiles, group, directory and activity layouts) for both builders.
-* New: editor previews with real BuddyPress data for a chosen member or group, and an optional hidden sample member.
+* New: BuddyBuilder > Community pages: one list of your BuddyPress pages with the layout each one uses, its builder and a live status ("Live on 214 profiles", "BuddyPress default"), and Edit, Change look and "Use the BuddyPress default" on every row. It replaces the old template selects; your assignments are kept as they are.
+* New: one-click looks (Classic, Creator, Professional and Social member profiles, group, directory and activity layouts) for both builders.
+* New: setup for new sites in three steps: check your community, pick a look with a live preview on your own profile, review it on your real pages, then Use these. Nothing changes before that; run it again any time from Community pages.
+* New: editor previews with real BuddyPress data for a chosen member or group, seen by the member, a friend, another member or a guest, and an optional hidden sample member.
+* New: "Edit this community page" in the admin bar on BuddyPress pages, and "Layout not applied" with the likely cause (page template, theme files, Elementor Pro theme template, BuddyBoss ReadyLaunch, page cache) when a layout does not show.
+* Improvement: WordPress-native admin screens: Community pages, Starter kits, Settings, Help and status (in plain language, with undo for the data update).
+* Removed: the review request notice.
 * New: abilities for AI agents and MCP (WordPress 6.9+): list template types, elements and presets, read the assigned layout, apply a preset, assign a layout.
 * Improvement: one renderer per element for both builders; neutral .bpb-el-* CSS classes next to the Elementor ones.
 * Improvement: icon font as WOFF2; fewer requests and smaller package.
