@@ -24,6 +24,7 @@
  * - community-pages-read-only   B-M1: rendering Community pages writes nothing; rows show the assignments.
  * - checker-known-issues        B-M4: page template finding; last finding kept and forgotten.
  * - setup-new-install           B-M2: the setup redirect is asked for on new installs only.
+ * - checker-readylaunch         B-M4: BuddyBoss ReadyLaunch detection (real function on BuddyBoss 2.9+, else mocked).
  *
  * THROWAWAY site only (needs the compat env mu-plugin). Restores the options it touches and deletes the posts it
  * creates. Prints PASS / FAIL / SKIP lines; exits 1 on any FAIL.
@@ -429,8 +430,31 @@ switch ( $bpb_case ) {
 		$bpb_ok( false === get_option( \Buddy_Builder\Admin\Setup::REDIRECT, false ), 'activation on an existing site does not' );
 		break;
 
+	case 'checker-readylaunch':
+		// BuddyBoss ReadyLaunch (BuddyBoss Platform 2.9+): detected through bb_is_readylaunch_enabled() (the real
+		// function when that BuddyBoss runs, see env/buddyboss.php and BPB_BUDDYBOSS_PLUGIN), else through the filter.
+		$bpb_real = function_exists( 'bb_is_readylaunch_enabled' );
+		if ( $bpb_real ) {
+			$bpb_rl = get_option( 'bb_rl_enabled', null );
+			update_option( 'bb_rl_enabled', 1 );
+		} else {
+			add_filter( 'buddy_builder/readylaunch_active', '__return_true' );
+		}
+		$bpb_ok( \Buddy_Builder\Admin\Checker::readylaunch_active(), ( $bpb_real ? 'real bb_is_readylaunch_enabled()' : 'mocked through the filter' ) . ': ReadyLaunch detected' );
+		$bpb_ok( (bool) preg_grep( '/ReadyLaunch/', \Buddy_Builder\Admin\Checker::known_issues( 'member-profile' ) ), 'reported as a cause on the profile' );
+		$bpb_ok( (bool) preg_grep( '/ReadyLaunch/', wp_list_pluck( \Buddy_Builder\Admin\Setup::checks(), 'text' ) ), 'shown in the setup checks' );
+		if ( $bpb_real ) {
+			update_option( 'bb_rl_enabled', 0 );
+			$bpb_ok( ! \Buddy_Builder\Admin\Checker::readylaunch_active(), 'ReadyLaunch off: not reported' );
+			null === $bpb_rl ? delete_option( 'bb_rl_enabled' ) : update_option( 'bb_rl_enabled', $bpb_rl );
+		} else {
+			remove_filter( 'buddy_builder/readylaunch_active', '__return_true' );
+			$bpb_ok( ! \Buddy_Builder\Admin\Checker::readylaunch_active(), 'filter removed: not reported' );
+		}
+		break;
+
 	default:
-		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install' );
+		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install, checker-readylaunch' );
 }
 
 // Cleanup.

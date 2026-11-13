@@ -13,7 +13,8 @@ WP_CLI::add_wp_hook(
 	'option_active_plugins',
 	static function ( $plugins ) {
 		$plugins   = array_values( array_diff( (array) $plugins, [ 'buddypress/bp-loader.php', 'bbpress/bbpress.php' ] ) );
-		$plugins[] = 'buddyboss-platform/bp-loader.php';
+		// BPB_BUDDYBOSS_PLUGIN picks another copy, e.g. buddyboss-platform-372/bp-loader.php (ReadyLaunch builds).
+		$plugins[] = getenv( 'BPB_BUDDYBOSS_PLUGIN' ) ? getenv( 'BPB_BUDDYBOSS_PLUGIN' ) : 'buddyboss-platform/bp-loader.php';
 
 		return $plugins;
 	}

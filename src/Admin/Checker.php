@@ -187,6 +187,7 @@ final class Checker {
 				title.textContent = data.title;
 			}
 			if ( list ) {
+				var first = list.firstChild;
 				data.causes.forEach( function ( cause ) {
 					var li = document.createElement( 'li' );
 					var a = document.createElement( 'a' );
@@ -194,7 +195,7 @@ final class Checker {
 					a.href = data.url;
 					a.textContent = cause;
 					li.appendChild( a );
-					list.insertBefore( li, list.firstChild );
+					list.insertBefore( li, first );
 				} );
 			}
 		}( <?php echo wp_json_encode( $data ); ?> ) );
@@ -211,7 +212,8 @@ final class Checker {
 	public static function causes( $type ) {
 		$causes = self::known_issues( $type );
 
-		foreach ( [ 'single', 'archive' ] as $location ) {
+		// ReadyLaunch replaces the whole page: an Elementor Pro theme template would not show either.
+		foreach ( self::readylaunch_active() ? [] : [ 'single', 'archive' ] as $location ) {
 			$title = self::elementor_pro_location( $location );
 
 			if ( $title ) {
