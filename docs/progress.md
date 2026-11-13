@@ -32,6 +32,7 @@ Tests (2026-11-13, throwaway copy of bb2fix: http://bbux.test, KLEO 6.2.4, Eleme
 - `tests/compat/bin/regressions.sh`: 80/80 PASS (the 42 existing checks plus `preview-seen-by` x5, `community-pages-read-only`, `checker-known-issues`, `setup-new-install`). BB-3 now saves the Community pages selects and the 1.x form handler.
 - `tests/compat/bin/surface.php check`: free 1.9.2 and Pro 1.7.0 surfaces ok (the 1.x admin filters `buddy_builder/admin/templates_list` and `.../after_restructure` still drive the page list).
 - `tests/e2e/ux.js` (Playwright + axe): 37/37 on BuddyPress with Pro licensed, also on BuddyBoss Platform 1.8.6 (Pro modules skipped there: unlicensed). axe: no serious or critical violations on setup steps 1 to 3, Community pages, Settings, Help and status, Starter kits, Pro modules.
+- `tests/e2e/profile-nav.js` (Playwright): member profile navigation with an Elementor and a block layout on the site's theme and on Twenty Twenty-Five (BuddyPress priority nav): no BuddyPress or BuddyBuilder JavaScript errors (the "Failed to execute 'appendChild' on 'Node'" regression), one priority sub nav, narrow-screen "more" menu opens. 28/28 + 4 SKIP on KLEO (no priority nav there). Fails without the fix in `src/Elements/member-content/render.php`.
 - BuddyBoss: `community-pages-read-only` and the setup checks also run with `--require=tests/compat/env/buddyboss.php`. ReadyLaunch: see the second pass below (tested on BuddyBoss Platform 3.7.2).
 - POT files regenerated.
 
