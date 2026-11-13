@@ -1087,7 +1087,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 		if ( bpb_is_elementor_editor() ) {
 			bpb_load_preview_template( 'groups-directory/filters' );
 		} else {
-			$has_list_toggle = ! in_array( $settings['content_display'], [ 9, 10, 13, 15 ], false );
+			$has_list_toggle = ! in_array( $settings['content_display'] ?? '', [ 9, 10, 13, 15 ], false );
 
 			if ( $has_list_toggle ) {
 				add_filter( 'buddy_builder/widget/filters/list_toggle/enabled', '__return_true' );
