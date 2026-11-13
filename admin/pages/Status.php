@@ -117,7 +117,7 @@ class StatusPage {
 			$failed = $failed || 'failed' === $step['state'];
 		}
 		?>
-		<div class="wrap bpb-admin bpb-status">
+		<div class="wrap bpb-admin bpb-help">
 			<h1 class="wp-heading-inline"><?php esc_html_e( 'Help and status', 'stax-buddy-builder' ); ?></h1>
 			<span class="bpb-admin__version"><?php echo esc_html( sprintf( /* translators: %s: version */ __( 'BuddyBuilder %s', 'stax-buddy-builder' ), $versions['buddybuilder'] ) ); ?></span>
 			<hr class="wp-header-end">
