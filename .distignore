@@ -1,0 +1,26 @@
+# Not in the release zip (bin/build-zip.sh and `wp dist-archive` read this file).
+/.git
+/.github
+/.gitignore
+/.gitattributes
+/.distignore
+/.editorconfig
+/.idea
+/.vscode
+/bin
+/docs
+/tests
+/node_modules
+/vendor
+/package.json
+/package-lock.json
+/composer.json
+/composer.lock
+/phpcs.xml.dist
+/phpunit.xml.dist
+/playwright.config.js
+/playwright.config.ts
+/test-results
+/playwright-report
+*.map
+.DS_Store
