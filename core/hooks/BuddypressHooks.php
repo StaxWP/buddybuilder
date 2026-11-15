@@ -479,6 +479,12 @@ class BuddypressHooks extends Singleton {
 					return false;
 				}
 
+				// Group creation with its own layout: the Nouveau template pack is needed (its layout fataled without it).
+				// Without one, the 1.x rule below (the group profile layout) still decides.
+				if ( 0 === strpos( $slug . '/', $bp_slugs['groups'] . '/create/' ) && ! empty( $settings['groups-create'] ) && bpb_is_template_id_populated( $settings['groups-create'] ) ) {
+					return true;
+				}
+
 				if ( $this->slug_is_below( $slug, $bp_slugs['groups'] ) ) {
 					if ( $settings['group-profile'] ) {
 						return bpb_is_template_id_populated( $settings['group-profile'] );
