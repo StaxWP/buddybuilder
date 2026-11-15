@@ -35,7 +35,7 @@ if ( 'groups' === $attrs['object'] ) {
 				[
 					'item_id' => $bpb_group->id,
 					'object'  => 'group',
-					'type'    => 'thumb',
+					'type'    => 'grid' === $attrs['layout'] ? 'full' : 'thumb',
 					'width'   => 40,
 					'height'  => 40,
 					'alt'     => '',
@@ -44,12 +44,22 @@ if ( 'groups' === $attrs['object'] ) {
 		];
 	}
 } else {
+	$bpb_friends = 'friends' === $attrs['object'];
+	if ( $bpb_friends && ( ! bp_is_active( 'friends' ) || ! bp_displayed_user_id() ) ) {
+		return;
+	}
 	$bpb_list = bp_core_get_users(
-		[
-			'type'     => $bpb_order,
-			'per_page' => (int) $attrs['count'],
-			'exclude'  => array_filter( [ bp_displayed_user_id(), get_current_user_id() ] ),
-		]
+		$bpb_friends
+			? [
+				'type'     => $bpb_order,
+				'per_page' => (int) $attrs['count'],
+				'user_id'  => bp_displayed_user_id(),
+			]
+			: [
+				'type'     => $bpb_order,
+				'per_page' => (int) $attrs['count'],
+				'exclude'  => array_filter( [ bp_displayed_user_id(), get_current_user_id() ] ),
+			]
 	);
 	foreach ( isset( $bpb_list['users'] ) ? $bpb_list['users'] : [] as $bpb_user ) {
 		$bpb_headline = bpb_xprofile_value( $bpb_user->ID, 'Headline' );
@@ -60,7 +70,7 @@ if ( 'groups' === $attrs['object'] ) {
 			'avatar' => bp_core_fetch_avatar(
 				[
 					'item_id' => $bpb_user->ID,
-					'type'    => 'thumb',
+					'type'    => 'grid' === $attrs['layout'] ? 'full' : 'thumb',
 					'width'   => 40,
 					'height'  => 40,
 					'alt'     => '',
@@ -74,9 +84,14 @@ if ( ! $bpb_items ) {
 	return;
 }
 
-$bpb_default = 'groups' === $attrs['object'] ? __( 'Active groups', 'stax-buddy-builder' ) : __( 'People to know', 'stax-buddy-builder' );
+$bpb_defaults = [
+	'groups'  => __( 'Active groups', 'stax-buddy-builder' ),
+	'friends' => __( 'Friends', 'stax-buddy-builder' ),
+	'members' => __( 'People to know', 'stax-buddy-builder' ),
+];
+$bpb_default  = isset( $bpb_defaults[ $attrs['object'] ] ) ? $bpb_defaults[ $attrs['object'] ] : $bpb_defaults['members'];
 ?>
-<section class="bpb-rail">
+<section class="bpb-rail<?php echo 'grid' === $attrs['layout'] ? ' bpb-rail--grid' : ''; ?>">
 	<h2 class="bpb-rail__title"><?php echo esc_html( '' !== $attrs['title'] ? $attrs['title'] : $bpb_default ); ?></h2>
 	<ul class="bpb-rail__list">
 		<?php foreach ( $bpb_items as $bpb_item ) : ?>

@@ -97,6 +97,10 @@
 	border-top: 1px solid var(--bpb-color-border);
 }
 
+.bpb-look--career .bpb-about__row:not(:has(dt)) {
+	grid-template-columns: 1fr;
+}
+
 .bpb-look--career .bpb-about__row:first-child {
 	border-top: 0;
 }

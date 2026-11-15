@@ -57,7 +57,7 @@ $bpb_favorites = (int) bp_activity_get_meta( bp_get_activity_id(), 'favorite_cou
 			</p>
 		<?php endif; ?>
 
-		<div class="bpb-post__bar">
+		<div class="bpb-post__bar"<?php echo $bpb_favorites ? ' style="counter-reset: bpb-favorites ' . (int) $bpb_favorites . '"' : ''; ?>>
 			<?php bp_nouveau_activity_entry_buttons(); ?>
 		</div>
 	</div>

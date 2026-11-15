@@ -108,15 +108,36 @@
 	box-shadow: var(--bpb-card-shadow);
 }
 
+/* Counts sit inline next to their icons in the action row, so no separate counts line. */
 #buddypress.buddypress-wrap .bpb-look--network .bpb-post__stats {
-	justify-content: space-between;
-	padding-bottom: 8px;
-	border-bottom: 1px solid var(--bpb-color-border);
+	display: none;
 }
 
 #buddypress.buddypress-wrap .bpb-look--network .bpb-post__bar {
-	margin-top: 0;
-	border-top: 0;
+	margin-top: 8px;
+	padding-top: 4px;
+	border-top: 1px solid var(--bpb-color-border);
+}
+
+/* BuddyPress' tooltip owns ::after; reset it to carry the count. */
+#buddypress.buddypress-wrap .bpb-look--network .bpb-post__bar[style] :is(.fav, .unfav)::after {
+	all: unset;
+	content: counter(bpb-favorites);
+	margin-left: 6px;
+	font-weight: 600;
+}
+
+/* Name, headline and meta close together under the cover. */
+body.buddypress .buddypress-wrap .bpb-look--network :is(.bpb-mh__name, .bpb-gh__name) {
+	margin-block: 0;
+}
+
+.bpb-look--network .bpb-mh__headline {
+	margin-top: 4px;
+}
+
+.bpb-look--network .bpb-mh__meta {
+	margin-top: 6px;
 }
 
 #buddypress.buddypress-wrap .bpb-look--network .bpb-post__bar .generic-button:not(:has(.delete-activity)) {
@@ -127,15 +148,17 @@
 	width: 100%;
 }
 
-#buddypress.buddypress-wrap .bpb-look--network .bpb-post__bar .fav .bp-screen-reader-text {
-	position: static;
-	width: auto;
-	height: auto;
-	clip: auto;
-	clip-path: none;
+#buddypress.buddypress-wrap .bpb-look--network #whats-new-form {
+	border: 0;
+	box-shadow: var(--bpb-card-shadow);
 }
 
-#buddypress.buddypress-wrap .bpb-look--network #whats-new-form {
+/* Profile side column: the Intro card, then the friends as a photo grid. */
+.bpb-look--network .bpb-look__aside > * + * {
+	margin-block-start: 16px;
+}
+
+.bpb-look--network .bpb-look__aside :is(.bpb-about, .bpb-rail) {
 	border: 0;
 	box-shadow: var(--bpb-card-shadow);
 }

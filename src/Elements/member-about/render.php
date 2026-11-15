@@ -67,7 +67,9 @@ if ( ! $bpb_rows && ! $bpb_groups ) {
 	<?php endif; ?>
 
 	<?php if ( $bpb_groups ) : ?>
-		<h3 class="bpb-about__subtitle"><?php esc_html_e( 'Groups', 'stax-buddy-builder' ); ?></h3>
+		<?php if ( $bpb_rows || '' === $attrs['title'] ) : ?>
+			<h3 class="bpb-about__subtitle"><?php esc_html_e( 'Groups', 'stax-buddy-builder' ); ?></h3>
+		<?php endif; ?>
 		<ul class="bpb-about__groups">
 			<?php foreach ( $bpb_groups as $bpb_group ) : ?>
 				<li>

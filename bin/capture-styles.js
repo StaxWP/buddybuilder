@@ -6,7 +6,7 @@
  * deleted at the end, pages are assigned per request by the compat cookie).
  *
  *   NODE_PATH=<playwright> node bin/capture-styles.js --site http://bbux.test --wp ~/Sites/bbux/tools/wp \
- *     --out <dir> [--styles classic,creator] [--pages member-profile,...] [--viewer demo-lucas] [--widths 1366,390]
+ *     --out <dir> [--styles classic,creator] [--pages member-profile,...] [--viewer demo-lucas] [--widths 1366,390] [--html]
  */
 const fs = require( 'fs' );
 const path = require( 'path' );
@@ -23,6 +23,7 @@ const wp = opt( 'wp', path.join( process.env.HOME, 'Sites/bbux/tools/wp' ) );
 const out = opt( 'out', '/tmp/bb-styles' );
 const viewer = opt( 'viewer', 'demo-lucas' );
 const widths = opt( 'widths', '1366,390' ).split( ',' ).map( Number );
+const html = argv.includes( '--html' );
 const root = path.join( __dirname, '..', 'patterns' );
 const styles = opt( 'styles', fs.readdirSync( root ).filter( ( d ) => fs.statSync( path.join( root, d ) ).isDirectory() ).join( ',' ) ).split( ',' );
 const pages = opt( 'pages', 'member-profile,members-directory,group-profile,groups-directory,sitewide-activity' ).split( ',' );
@@ -84,6 +85,10 @@ const host = new URL( site ).hostname;
 				const file = path.join( out, c.style, `${ c.page }-${ width }.png` );
 				const target = ( await page.$( '.bpb-look' ) ) || ( await page.$( 'main' ) );
 				await target.screenshot( { path: file } );
+				// --html: the rendered markup of the look too, to inspect what a rule has to target.
+				if ( html ) {
+					fs.writeFileSync( file.replace( /\.png$/, '.html' ), await target.evaluate( ( el ) => el.outerHTML ) );
+				}
 				// Phones: also the first screen as the visitor sees it (fixed tab bars and drawer buttons included).
 				if ( width < 600 ) {
 					await page.evaluate( () => {

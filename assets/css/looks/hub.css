@@ -58,7 +58,7 @@
 }
 
 .bpb-look--hub .bpb-look__stream > * + * {
-	margin-block-start: 12px;
+	margin-block-start: 8px;
 }
 
 .bpb-look--hub .bpb-shortcuts--channels a::before {
@@ -128,7 +128,7 @@
 }
 
 .bpb-look--hub .bpb-post {
-	padding: 8px 12px 4px;
+	padding: 5px 12px 3px;
 }
 
 #buddypress.buddypress-wrap .bpb-look--hub .bpb-post .bpb-post__avatar img {
@@ -150,31 +150,205 @@
 	font-size: 15px;
 }
 
+/* Chat row: the photo sits beside both the name line and the text, so the text follows the name directly. */
+#buddypress.buddypress-wrap .bpb-look--hub .bpb-post__head {
+	display: block;
+	min-height: 0;
+	margin: 0 0 0 52px;
+}
+
+#buddypress.buddypress-wrap .bpb-look--hub .bpb-post__head .bpb-post__avatar {
+	position: absolute;
+	top: 6px;
+	left: 12px;
+}
+
+#buddypress.buddypress-wrap .bpb-look--hub .bpb-post__meta p {
+	margin: 0;
+}
+
+#buddypress.buddypress-wrap .bpb-look--hub .bpb-post .bpb-post__text p {
+	margin: 0;
+}
+
 #buddypress.buddypress-wrap .bpb-look--hub .bpb-post__stats {
-	margin-top: 4px;
+	margin: 2px 0 0;
 	font-size: 12px;
 }
 
+/* Message actions as a small toolbar over the row's top right corner, shown on hover: no reserved height. */
 #buddypress.buddypress-wrap .bpb-look--hub .bpb-post__bar {
-	border: 0;
+	position: absolute;
+	top: -10px;
+	right: 12px;
+	z-index: 2;
+	margin: 0;
+	padding: 2px;
+	border: 1px solid var(--bpb-color-border);
+	border-radius: 6px;
+	background: #1c1c21;
 	opacity: 0;
+	pointer-events: none;
 	transition: opacity 0.12s ease;
+}
+
+#buddypress.buddypress-wrap .bpb-look--hub .bpb-post__bar .generic-button:has(.delete-activity) {
+	position: static;
+}
+
+#buddypress.buddypress-wrap .bpb-look--hub .bpb-post__bar .generic-button :is(a, button) {
+	min-height: 28px;
+	padding: 0 8px;
 }
 
 #buddypress.buddypress-wrap .bpb-look--hub li.activity-item:is(:hover, :focus-within) .bpb-post__bar {
 	opacity: 1;
+	pointer-events: auto;
+}
+
+/* Replies: compact indented rows under their message (avatar, name, text on one line), no tinted block. */
+#buddypress.buddypress-wrap .bpb-look--hub .bpb-post__comments {
+	margin: 2px 0 4px 64px;
+	padding: 0;
+	border: 0;
+	background: none;
+}
+
+#buddypress.buddypress-wrap .bpb-look--hub .bpb-post__comments li.comment-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 0 6px;
+	margin: 0;
+	padding: 2px 0;
+	border: 0;
+	font-size: 13px;
+	line-height: 1.4;
+}
+
+#buddypress.buddypress-wrap .bpb-look--hub .bpb-post__comments .acomment-avatar {
+	align-self: center;
+	margin: 0;
+}
+
+#buddypress.buddypress-wrap .bpb-look--hub .bpb-post__comments .acomment-avatar img {
+	width: 18px;
+	height: 18px;
+}
+
+#buddypress.buddypress-wrap .bpb-look--hub .bpb-post__comments :is(.acomment-meta, .acomment-content) {
+	margin: 0;
+	padding: 0;
+	font-size: 13px;
+}
+
+#buddypress.buddypress-wrap .bpb-look--hub .bpb-post__comments .acomment-meta a:first-child {
+	color: var(--bpb-color-text);
+	font-weight: 600;
+}
+
+#buddypress.buddypress-wrap .bpb-look--hub .bpb-post__comments .acomment-meta .activity-time-since {
+	display: none;
+}
+
+#buddypress.buddypress-wrap .bpb-look--hub .bpb-post__comments .acomment-content p {
+	margin: 0;
+}
+
+#buddypress.buddypress-wrap .bpb-look--hub .bpb-post__comments li.comment-item .activity-meta.action {
+	margin: 0 0 0 4px;
+	opacity: 0;
+}
+
+#buddypress.buddypress-wrap .bpb-look--hub .bpb-post__comments li.comment-item:is(:hover, :focus-within) .activity-meta.action {
+	opacity: 1;
+}
+
+#buddypress.buddypress-wrap .bpb-look--hub .bpb-post__comments li.comment-item .activity-meta.action a {
+	min-height: 0;
+	padding: 0 4px;
+	font-size: 12px;
+}
+
+/* Load more as a dark ghost button. */
+#buddypress.buddypress-wrap .bpb-look--hub .activity-list li.load-more {
+	margin: 12px 0 0;
+	padding: 0;
+	border: 0;
+	background: none;
+}
+
+#buddypress.buddypress-wrap .bpb-look--hub .activity-list li.load-more a {
+	display: block;
+	padding: 8px 12px;
+	border: 1px solid var(--bpb-color-border);
+	border-radius: var(--bpb-button-radius);
+	background: transparent;
+	color: var(--bpb-color-muted);
+	font-size: 13px;
+	font-weight: 600;
+	text-align: center;
+}
+
+#buddypress.buddypress-wrap .bpb-look--hub .activity-list li.load-more a:hover {
+	border-color: var(--bpb-color-accent);
+	color: var(--bpb-color-text);
+}
+
+/* The composer: a dark input pinned at the bottom of the stream, like a chat box. */
+.bpb-look--hub .bpb-look__stream .bpb-el-activity-form {
+	position: sticky;
+	bottom: 0;
+	z-index: 3;
+	padding: 8px 0 12px;
+	background: var(--bpb-color-surface);
+}
+
+#buddypress.buddypress-wrap .bpb-look--hub #bp-nouveau-activity-form {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: none;
+	box-shadow: none;
 }
 
 #buddypress.buddypress-wrap .bpb-look--hub #whats-new-form {
+	margin: 0;
+	padding: 6px 10px;
 	border: 0;
+	border-radius: 8px;
 	background: #2c2c33;
 	box-shadow: none;
+}
+
+#buddypress.buddypress-wrap .bpb-look--hub #whats-new-avatar img {
+	width: 32px;
+	height: 32px;
+}
+
+#buddypress.buddypress-wrap .bpb-look--hub #whats-new-content {
+	margin-left: 44px;
+}
+
+/* BuddyPress' script sets an inline 50px height; collapsed, the chat input stays one line. */
+#buddypress.buddypress-wrap .bpb-look--hub #whats-new-form:not(.focus-in) textarea {
+	height: 32px !important;
+}
+
+#buddypress.buddypress-wrap .bpb-look--hub #whats-new-form textarea {
+	min-height: 32px;
+	padding: 6px 0;
+	background: transparent;
 }
 
 #buddypress.buddypress-wrap .bpb-look--hub :is(input[type="search"], input[type="text"], select, textarea) {
 	border-color: #34343c;
 	background: #26262c;
 	color: var(--bpb-color-text);
+}
+
+.bpb-look--hub .bpb-mlist__list--offline .bpb-mlist__item a {
+	opacity: 0.72;
 }
 
 #buddypress.buddypress-wrap .bpb-look--hub .dir-list ul.bp-list:is(.members-list, .groups-list) > li .list-wrap {

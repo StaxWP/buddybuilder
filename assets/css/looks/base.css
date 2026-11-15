@@ -1952,3 +1952,53 @@
 		width: auto;
 	}
 }
+
+/* People and groups list as a photo grid (friends under the Intro card): three square photos per row, names below. */
+.bpb-rail--grid .bpb-rail__list {
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 12px 8px;
+}
+
+.bpb-rail--grid .bpb-rail__item a {
+	flex-direction: column;
+	align-items: stretch;
+	gap: 6px;
+}
+
+.bpb-rail--grid .bpb-rail__item img {
+	width: 100%;
+	height: auto;
+	aspect-ratio: 1;
+	border-radius: var(--bpb-radius);
+	object-fit: cover;
+}
+
+.bpb-rail--grid .bpb-rail__text span {
+	display: none;
+}
+
+.bpb-rail--grid .bpb-rail__text strong {
+	overflow: hidden;
+	font-size: 13px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+/* Network and Career: the favorite action keeps its label, like Comment. */
+#buddypress.buddypress-wrap :is(.bpb-look--network, .bpb-look--career) .bpb-post__bar :is(.fav, .unfav) .bp-screen-reader-text {
+	position: static;
+	width: auto;
+	height: auto;
+	clip: auto;
+	clip-path: none;
+}
+
+@media (max-width: 480px) {
+	#buddypress.buddypress-wrap :is(.bpb-look--network, .bpb-look--career) .bpb-post__bar :is(.fav, .unfav) .bp-screen-reader-text {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+	}
+}
