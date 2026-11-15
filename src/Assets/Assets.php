@@ -96,6 +96,43 @@ final class Assets {
 
 		wp_deregister_style( 'stax-buddy-builder-bp' );
 		wp_register_style( 'stax-buddy-builder-bp', BPB_BASE_URL . $file, [], BPB_VERSION );
+
+		// Sections only some screens show live in screen files, loaded after the page part on those screens (W1).
+		foreach ( self::screen_parts() as $screen ) {
+			$handle = 'stax-buddy-builder-bp-' . $screen;
+			wp_register_style( $handle, BPB_BASE_URL . 'templates/buddypress/assets/parts/screen-' . $screen . self::min() . '.css', [ 'stax-buddy-builder-bp' ], BPB_VERSION );
+			wp_enqueue_style( $handle );
+		}
+	}
+
+	/**
+	 * Screen files the current BuddyPress screen needs (bin/split-css.py SCREENS).
+	 *
+	 * @return string[]
+	 */
+	public static function screen_parts() {
+		$parts = [];
+
+		if ( function_exists( 'bp_is_messages_component' ) && bp_is_messages_component() ) {
+			$parts[] = 'messages';
+		}
+
+		if ( function_exists( 'bp_is_settings_component' ) && bp_is_settings_component() ) {
+			$parts[] = 'settings';
+		}
+
+		if ( ( function_exists( 'bp_is_group_admin_page' ) && bp_is_group_admin_page() ) || ( function_exists( 'bp_is_group_invites' ) && bp_is_group_invites() ) || ( function_exists( 'bp_is_user_groups' ) && bp_is_user_groups() && bp_is_current_action( 'invites' ) ) ) {
+			$parts[] = 'group-manage';
+		}
+
+		/**
+		 * Filters the screen CSS files loaded next to the page part.
+		 *
+		 * @since 2.0.0
+		 *
+		 * @param string[] $parts messages|settings|group-manage.
+		 */
+		return (array) apply_filters( 'buddy_builder/screen_css', $parts );
 	}
 
 	/**

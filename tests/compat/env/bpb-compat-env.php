@@ -102,9 +102,9 @@ add_filter(
 	PHP_INT_MAX
 );
 
-// Cookie `bpb_compat_split=1`: per template type CSS (bb2-core's `buddy_builder/split_css`, default off in 2.0).
-if ( isset( $_COOKIE['bpb_compat_split'] ) && '1' === $_COOKIE['bpb_compat_split'] ) {
-	add_filter( 'buddy_builder/split_css', '__return_true' );
+// Cookie `bpb_compat_split=1|0`: per template type CSS on or off (default on since 2.0).
+if ( isset( $_COOKIE['bpb_compat_split'] ) ) {
+	add_filter( 'buddy_builder/split_css', '1' === $_COOKIE['bpb_compat_split'] ? '__return_true' : '__return_false' );
 }
 
 // Notices from BuddyBuilder files, printed per request.
