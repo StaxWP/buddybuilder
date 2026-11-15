@@ -105,6 +105,8 @@ class StatusPage {
 	 * Screen.
 	 */
 	public static function render() {
+		\Buddy_Builder\Admin\Menu::render_tabs();
+
 		$data   = Status::collect();
 		$report = get_transient( 'bpb_migration_report_' . get_current_user_id() );
 		delete_transient( 'bpb_migration_report_' . get_current_user_id() );

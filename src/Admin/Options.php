@@ -83,6 +83,8 @@ final class Options {
 	 * The screen.
 	 */
 	public static function render() {
+		Menu::render_tabs();
+
 		if ( isset( $_GET['bpb_saved'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Settings saved.', 'stax-buddy-builder' ) . '</p></div>';
 		}
