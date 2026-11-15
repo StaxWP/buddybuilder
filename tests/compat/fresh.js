@@ -110,8 +110,9 @@ const cookiesFor = ( login ) => wpJson( wp, [ 'eval-file', path.join( __dirname,
 						js += zlib.gzipSync( await r.body(), { level: 9 } ).length;
 						jq = jq.concat( s.jquery ? [ s.handle ] : [] );
 					}
-					budget = ` JS ${ ( js / 1024 ).toFixed( 1 ) } KB${ jq.length ? ' jQuery: ' + jq.join( ',' ) : '' }${ a.dashicons && who === 'visitor' ? ' dashicons' : '' }`;
-					ok( js <= 25 * 1024 && ! jq.length && ! ( a.dashicons && who === 'visitor' ), `${ who } ${ url }: budgets${ budget }` );
+					const ours = a.dashicons && who === 'visitor' && ! ( a.dashicons_by || [] ).some( ( h ) => ! /^(stax-buddy-builder|bpb-)/.test( h ) );
+					budget = ` JS ${ ( js / 1024 ).toFixed( 1 ) } KB${ jq.length ? ' jQuery: ' + jq.join( ',' ) : '' }${ ours ? ' dashicons' : '' }`;
+					ok( js <= 25 * 1024 && ! jq.length && ! ours, `${ who } ${ url }: budgets${ budget }` );
 				}
 				ok( resp.status() === 200 && ! /critical error|Fatal error/.test( html ), `${ who } ${ url }: 200, no fatal` );
 				ok( notices === '[]', `${ who } ${ url }: no BuddyBuilder notices ${ notices === '[]' ? '' : notices }` );

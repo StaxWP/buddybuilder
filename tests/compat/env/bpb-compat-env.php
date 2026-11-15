@@ -161,6 +161,7 @@ function bpb_compat_env_assets() {
 		'js'        => [],
 		'css'       => [],
 		'dashicons' => false,
+		'dashicons_by' => [],
 	];
 
 	foreach ( [ 'js' => wp_scripts(), 'css' => wp_styles() ] as $kind => $deps ) {
@@ -183,6 +184,10 @@ function bpb_compat_env_assets() {
 		foreach ( (array) $deps->done as $handle ) {
 			if ( 'css' === $kind && 'dashicons' === $handle ) {
 				$out['dashicons'] = true;
+			}
+			// Who pulls dashicons in: BuddyPress (priority nav on block themes), the admin bar, or us.
+			if ( 'css' === $kind && 'dashicons' !== $handle && isset( $deps->registered[ $handle ] ) && in_array( 'dashicons', (array) $deps->registered[ $handle ]->deps, true ) ) {
+				$out['dashicons_by'][] = $handle;
 			}
 			if ( ! isset( $deps->registered[ $handle ] ) || ! is_string( $deps->registered[ $handle ]->src ) ) {
 				continue;

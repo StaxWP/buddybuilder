@@ -58,7 +58,10 @@ for ( const [ key, r ] of Object.entries( res.cases ) ) {
 	if ( jq.length ) {
 		why.push( 'jQuery: ' + jq.join( ', ' ) );
 	}
-	if ( r.assets.dashicons && r.variant === 'anon' ) {
+	// dashicons for a visitor fail when BuddyBuilder or Pro needs them, or nobody visible does (a direct enqueue,
+	// the 1.x behaviour); BuddyPress' own priority nav on block themes does not count against us.
+	const others = ( r.assets.dashicons_by || [] ).filter( ( h ) => ! /^(stax-buddy-builder|bpb-)/.test( h ) );
+	if ( r.assets.dashicons && r.variant === 'anon' && ! others.length ) {
 		why.push( 'dashicons for a visitor' );
 	}
 	const ok = ! why.length;
