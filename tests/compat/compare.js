@@ -3,9 +3,11 @@
  * BuddyBuilder compatibility suite: compares a candidate run with a baseline run (both from run.js).
  *
  *   NODE_PATH=... node tests/compat/compare.js <baseline dir> <candidate dir> [--max-pixels 0.01] [--report <file.md>]
+ *     [--row <theme>] [--accepted <file.json>]
  *
  * Gate per case (inventory 14.6): same HTTP status, no fatal, identical normalised HTML per widget, at most
  * 1% different pixels in the BuddyPress area, no new BuddyBuilder PHP notices, no new axe violation ids.
+ * With --row, intended differences listed in accepted.json for that theme are reported as accepted, not failed.
  * Exit code 0 when every case passes, 1 otherwise.
  */
 const fs = require( 'fs' );
@@ -20,6 +22,8 @@ const opt = ( name, def ) => {
 };
 const maxPixels = parseFloat( opt( 'max-pixels', '0.01' ) );
 const reportFile = opt( 'report', path.join( candDir || '.', 'compare.md' ) );
+const row = opt( 'row', '' );
+const accepted = row ? JSON.parse( fs.readFileSync( opt( 'accepted', path.join( __dirname, 'accepted.json' ) ), 'utf8' ) ).entries.filter( ( e ) => e.theme === row ) : [];
 
 /** Ratio of differing pixels between two PNG files, computed in the browser (no image libraries needed). */
 async function pixelRatio( page, a, b ) {
@@ -107,14 +111,22 @@ function firstDiff( a, b ) {
 		}
 		const keys = new Set( [ ...Object.keys( b.widgets ), ...Object.keys( c.widgets ) ] );
 		let htmlDiffs = 0;
+		const accepts = new Set();
+		let unaccepted = 0;
 		for ( const k of keys ) {
 			if ( b.widgets[ k ] !== c.widgets[ k ] ) {
 				htmlDiffs++;
 				const d = firstDiff( b.widgets[ k ] || '(missing)', c.widgets[ k ] || '(missing)' );
 				details.push( `### ${ key }\nwidget \`${ k }\` at ${ d.at }\n\n- base: \`${ d.base }\`\n- cand: \`${ d.cand }\`\n` );
+				const strip = ( html, e ) => ( html || '' ).replace( new RegExp( e.strip_pattern, 'g' ), '' );
+				const hit = accepted.find( ( e ) => k.includes( e.widget ) && strip( b.widgets[ k ], e ) === strip( c.widgets[ k ], e ) );
+				hit ? accepts.add( hit ) : unaccepted++;
 			}
 		}
-		if ( htmlDiffs ) {
+		// Every difference is a decided, intended one: report it as accepted with its own pixel limit.
+		const acceptedCase = htmlDiffs > 0 && ! unaccepted;
+		const pixelLimit = acceptedCase ? Math.max( maxPixels, ...[ ...accepts ].map( ( e ) => e.max_pixels || 0 ) ) : maxPixels;
+		if ( htmlDiffs && ! acceptedCase ) {
 			fails.push( `html ${ htmlDiffs }/${ keys.size } widgets` );
 		}
 
@@ -122,7 +134,7 @@ function firstDiff( a, b ) {
 		if ( b.screenshot && c.screenshot ) {
 			const r = await pixelRatio( page, path.join( baseDir, 'png', b.screenshot ), path.join( candDir, 'png', c.screenshot ) );
 			px = r.ratio;
-			if ( px > maxPixels ) {
+			if ( px > pixelLimit ) {
 				fails.push( `pixels ${ ( px * 100 ).toFixed( 2 ) }%` );
 			}
 		}
@@ -140,20 +152,22 @@ function firstDiff( a, b ) {
 		if ( newAxe.length ) {
 			fails.push( `axe new: ${ newAxe.join( ',' ) }` );
 		}
-		rows.push( { key, fails, px, widgets: keys.size } );
+		rows.push( { key, fails, px, widgets: keys.size, accepted: acceptedCase ? [ ...accepts ].map( ( e ) => e.id ) : null } );
 	}
 	await browser.close();
 
 	const failed = rows.filter( ( r ) => r.fails.length );
+	const acceptedRows = rows.filter( ( r ) => ! r.fails.length && r.accepted );
 	const lines = [
 		`# Compat: ${ cand.label } vs ${ base.label }`,
 		'',
-		`Baseline ${ base.date }, candidate ${ cand.date }. Cases: ${ rows.length }, passed: ${ rows.length - failed.length }, failed: ${ failed.length }. Pixel limit ${ maxPixels * 100 }%.`,
+		`Baseline ${ base.date }, candidate ${ cand.date }. Cases: ${ rows.length }, passed: ${ rows.length - failed.length }, failed: ${ failed.length }, accepted differences: ${ acceptedRows.length }. Pixel limit ${ maxPixels * 100 }%.`,
 		'',
 		'| Case | Widgets | Pixels | Result |',
 		'|---|---|---|---|',
-		...rows.map( ( r ) => `| ${ r.key } | ${ r.widgets ?? '' } | ${ r.px === null || r.px === undefined ? '' : ( r.px * 100 ).toFixed( 2 ) + '%' } | ${ r.fails.length ? r.fails.join( '; ' ) : ( r.fixed ? 'pass (fixed: the baseline fataled)' : 'pass' ) } |` ),
+		...rows.map( ( r ) => `| ${ r.key } | ${ r.widgets ?? '' } | ${ r.px === null || r.px === undefined ? '' : ( r.px * 100 ).toFixed( 2 ) + '%' } | ${ r.fails.length ? r.fails.join( '; ' ) : ( r.fixed ? 'pass (fixed: the baseline fataled)' : ( r.accepted ? `pass (accepted: ${ r.accepted.join( ', ' ) })` : 'pass' ) ) } |` ),
 		'',
+		acceptedRows.length ? '## Accepted differences\n\n' + accepted.map( ( e ) => `- \`${ e.id }\` (since ${ e.since }, decided ${ e.decided }): ${ e.why }` ).join( '\n' ) + '\n' : '',
 		details.length ? '## Details\n\n' + details.join( '\n' ) : '',
 	];
 	fs.writeFileSync( reportFile, lines.join( '\n' ) );

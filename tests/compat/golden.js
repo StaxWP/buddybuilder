@@ -111,6 +111,9 @@ const mask = ( html ) => normalise( html )
 				fs.writeFileSync( file, html.replace( /></g, '>\n<' ) + '\n' );
 			} else if ( fs.readFileSync( file, 'utf8' ).replace( /\n/g, '' ) !== html.replace( /></g, '><' ) ) {
 				result = 'FAIL html differs from the golden';
+				// The rendered markup next to the report, to diff against the golden before an --update.
+				fs.mkdirSync( path.join( out, 'html' ), { recursive: true } );
+				fs.writeFileSync( path.join( out, 'html', key + '.html' ), html.replace( /></g, '>\n<' ) + '\n' );
 			}
 			const png = path.join( out, 'png', key + '.png' );
 			await ( ( await page.$( '#buddypress' ) ) || ( await page.$( 'main' ) ) || ( await page.$( 'body' ) ) ).screenshot( { path: png } );

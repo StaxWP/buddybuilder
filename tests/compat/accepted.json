@@ -1,0 +1,15 @@
+{
+	"about": "Intended differences from the 1.9.2 baseline, decided by the product owner. compare.js --row <theme> accepts a case only when every differing widget matches an entry for that theme and is identical to the baseline once the entry's strip_pattern (a regular expression) is removed from both; such a case uses the entry's max_pixels. Anything else still fails.",
+	"entries": [
+		{
+			"id": "tt25-priority-subnav",
+			"theme": "twentytwentyfive",
+			"widget": "elementor-widget-bpb-profile-member-content",
+			"strip_pattern": "<nav[^>]*(?:bp-subnavs|subnav)[^>]*>[\\s\\S]*?</nav>",
+			"max_pixels": 0.08,
+			"since": "701882e",
+			"decided": "2026-11-16 (Gabriel)",
+			"why": "On block themes 2.0 adds BuddyPress' priority-nav classes and id to the member profile sub nav. 1.9.2 left them out, so BuddyPress' priority-nav script threw a JavaScript error on every member profile and the sub nav did not collapse into a More menu. The fix changes the sub nav markup and moves it by a few pixels (3 to 7% of the BuddyPress area on Twenty Twenty-Five, 32 cases per candidate)."
+		}
+	]
+}

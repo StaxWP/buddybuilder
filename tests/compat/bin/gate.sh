@@ -10,7 +10,8 @@
 #
 # THROWAWAY site only: the plugin folders must be git clones used as test subjects (refs are checked out detached).
 # Per row and candidate: compare.js against the row's baseline (identical widget HTML, <= 1% pixels, no new notices
-# or axe ids) and budgets.js on the candidate (JS/CSS gzip, no jQuery handles, no dashicons for visitors).
+# or axe ids; intended differences decided for that theme in accepted.json pass as accepted) and budgets.js on the
+# candidate (JS/CSS gzip, no jQuery handles, no dashicons for visitors).
 # Prints one summary table; exit 0 only when every compare and budget passes.
 set -u
 WP="$1"; SITE="$2"; PLUGINS="$3"; OUT="$4"; shift 4
@@ -68,8 +69,8 @@ for row in "${RLIST[@]}"; do
 		lab="$theme-$(echo "$cand" | tr '@/' '+-')"
 		use "$cand" || { printf '| %s | %s | bad ref | |\n' "$theme" "$cand" >> "$SUMMARY"; fail=1; continue; }
 		snap "$lab"
-		cmp=$(node "$HERE/compare.js" "$OUT/$theme-base" "$OUT/$lab" --report "$OUT/$lab-compare.md"); [ $? -eq 0 ] || fail=1
-		cmp=$(echo "$cmp" | grep -m1 -oE 'Cases: [0-9]+, passed: [0-9]+' | sed -E 's/Cases: ([0-9]+), passed: ([0-9]+)/\2\/\1/' || echo "no result")
+		cmp=$(node "$HERE/compare.js" "$OUT/$theme-base" "$OUT/$lab" --row "$theme" --report "$OUT/$lab-compare.md"); [ $? -eq 0 ] || fail=1
+		cmp=$(echo "$cmp" | grep -m1 -oE 'Cases: [0-9]+, passed: [0-9]+, failed: [0-9]+, accepted differences: [0-9]+' | sed -E 's/Cases: ([0-9]+), passed: ([0-9]+), failed: [0-9]+, accepted differences: ([0-9]+)/\2\/\1 (\3 accepted)/; s/ \(0 accepted\)//' || echo "no result")
 		bud=$(node "$HERE/budgets.js" "$OUT/$lab" --report "$OUT/$lab-budgets.md"); [ $? -eq 0 ] || fail=1
 		printf '| %s | %s | %s | %s |\n' "$theme" "$cand" "$cmp" "$(echo "$bud" | sed 's/ -> .*//; s/^budgets [^:]*: //')" >> "$SUMMARY"
 		echo "   $cand: $cmp; $bud"
