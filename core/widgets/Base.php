@@ -69,6 +69,11 @@ class Base extends \Elementor\Widget_Base {
 	public function show_in_panel() {
 		global $post;
 
+		// Deprecated (2.0): saved layouts keep the widget, new layouts use its replacement.
+		if ( '' !== $this->bpb_element && class_exists( '\\Buddy_Builder\\Elements\\Elements' ) && '' !== \Buddy_Builder\Elements\Elements::deprecated_note( $this->bpb_element ) ) {
+			return false;
+		}
+
 		$template_type = get_post_meta( $post->ID, BuddyPress::REMOTE_CATEGORY_META_KEY, true );
 		$show          = false;
 
@@ -136,6 +141,10 @@ class Base extends \Elementor\Widget_Base {
 	 */
 	protected function render() {
 		wp_print_styles( [ 'stax-buddy-builder-front' ] );
+
+		if ( '' !== $this->bpb_element && bpb_is_elementor_editor() && class_exists( '\\Buddy_Builder\\Elements\\Elements' ) ) {
+			echo \Buddy_Builder\Elements\Elements::deprecated_note( $this->bpb_element ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in deprecated_note().
+		}
 	}
 
 }

@@ -35,6 +35,7 @@ final class Elements {
 	 */
 	public static function hooks() {
 		require_once __DIR__ . '/helpers.php';
+		require_once __DIR__ . '/look-helpers.php';
 
 		// Built on init (translated labels); the kit hooks its own init callback at priority 10.
 		add_action(
@@ -50,6 +51,31 @@ final class Elements {
 		add_filter( 'render_block_buddybuilder/directory-filters', [ __CLASS__, 'filters_order_class' ], 10, 2 );
 		add_action( 'enqueue_block_editor_assets', [ __CLASS__, 'editor_assets' ] );
 		add_action( 'enqueue_block_editor_assets', [ __CLASS__, 'hide_from_inserter' ] );
+		add_action( 'elementor/widgets/register', [ __CLASS__, 'elementor_widgets' ] );
+	}
+
+	/**
+	 * Elementor widgets for the 2.0 elements that have no 1.x widget (member header, group header, ...): the kit's
+	 * generic adapter (controls from element.json, markup from render.php), named "bpb-el-<element>".
+	 *
+	 * @param \Elementor\Widgets_Manager $manager Widgets manager.
+	 */
+	public static function elementor_widgets( $manager ) {
+		if ( ! class_exists( '\\Elementor\\Widget_Base' ) || ! class_exists( '\\Buddy_Builder\\Kit\\ElementorWidget' ) ) {
+			return;
+		}
+
+		\Buddy_Builder\Kit\ElementorWidget::$kit = self::kit();
+
+		foreach ( self::kit()->elements() as $element ) {
+			$schema = $element->schema();
+
+			if ( ! empty( $schema['legacy']['elementor'] ) || ( isset( $schema['elementor'] ) && false === $schema['elementor'] ) ) {
+				continue;
+			}
+
+			$manager->register( new \Buddy_Builder\Kit\ElementorWidget( [], [ 'kit_element' => $element->name() ] ) );
+		}
 	}
 
 	/**
@@ -71,7 +97,9 @@ final class Elements {
 					'version'           => BPB_VERSION,
 					'js_global'         => 'buddyBuilderKit',
 					'block_category'    => 'buddybuilder',
-					'elementor'         => false, // The 1.x widget classes are the Elementor adapters.
+					'elementor'         => false, // The 1.x widget classes are the Elementor adapters; new elements: elementor_widgets().
+					'elementor_prefix'  => 'bpb-el-',
+					'elementor_category' => [ 'buddy-builder-elements', 'BuddyBuilder' ],
 					'elementor_wrap'    => 'widget',
 					'labels'            => [
 						'basic'    => __( 'Settings', 'stax-buddy-builder' ),
@@ -147,6 +175,47 @@ final class Elements {
 	}
 
 	/**
+	 * Deprecated elements (element.json "deprecated": { use, since }): block name => the element to use instead.
+	 * They keep rendering exactly as before; they only leave the inserter and the Elementor panel, and editors show
+	 * a short note where they are already used. List: docs/deprecated-elements.md.
+	 *
+	 * @return array block name => replacement element name
+	 */
+	public static function deprecated() {
+		$out = [];
+
+		foreach ( self::kit()->elements() as $element ) {
+			$schema = $element->schema();
+
+			if ( ! empty( $schema['deprecated']['use'] ) ) {
+				$out[ $element->block_name() ] = (string) $schema['deprecated']['use'];
+			}
+		}
+
+		return $out;
+	}
+
+	/**
+	 * Note shown in editors on a deprecated element ('' when it is not deprecated).
+	 *
+	 * @param string $name Element name.
+	 * @return string HTML.
+	 */
+	public static function deprecated_note( $name ) {
+		$element = self::get( $name );
+		$schema  = $element ? $element->schema() : [];
+
+		if ( empty( $schema['deprecated']['use'] ) ) {
+			return '';
+		}
+
+		$use = self::get( $schema['deprecated']['use'] );
+
+		/* translators: %s: name of the element to use instead */
+		return '<p class="bpb-el-deprecated">' . esc_html( sprintf( __( 'Deprecated, use %s.', 'stax-buddy-builder' ), $use ? $use->title() : $schema['deprecated']['use'] ) ) . '</p>';
+	}
+
+	/**
 	 * Editor previews: BuddyPress styles are scoped to #buddypress / .buddypress-wrap, which the BuddyPress page
 	 * provides on the front end. Previews get the same wrapper (preview markup only; the front end is unchanged).
 	 *
@@ -161,7 +230,7 @@ final class Elements {
 			return $html;
 		}
 
-		return '<div id="buddypress" class="buddypress-wrap bp-dir-hori-nav">' . $html . '</div>';
+		return self::deprecated_note( $element->name() ) . '<div id="buddypress" class="buddypress-wrap bp-dir-hori-nav">' . $html . '</div>';
 	}
 
 	/**
@@ -268,9 +337,11 @@ final class Elements {
 	 */
 	public static function hide_from_inserter() {
 		$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
-		$hidden = self::inserter_hidden_blocks();
+		$layout = $screen && PostType::POST_TYPE === $screen->post_type;
+		// Deprecated elements leave the inserter everywhere; outside block layouts all page blocks do.
+		$hidden = array_values( array_unique( array_merge( $layout ? [] : self::inserter_hidden_blocks(), array_keys( self::deprecated() ) ) ) );
 
-		if ( ( $screen && PostType::POST_TYPE === $screen->post_type ) || ! $hidden ) {
+		if ( ! $hidden ) {
 			return;
 		}
 

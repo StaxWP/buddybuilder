@@ -55,5 +55,9 @@
 		"elementor": [
 			"bpb-profile-member-avatar"
 		]
+	},
+	"deprecated": {
+		"use": "member-header",
+		"since": "2.0.0"
 	}
 }

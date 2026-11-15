@@ -74,5 +74,9 @@
 		"elementor": [
 			"bpb-profile-member-username"
 		]
+	},
+	"deprecated": {
+		"use": "member-header",
+		"since": "2.0.0"
 	}
 }

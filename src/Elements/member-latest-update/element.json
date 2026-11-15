@@ -43,5 +43,9 @@
 		"elementor": [
 			"bpb-profile-member-last-activity"
 		]
+	},
+	"deprecated": {
+		"use": "member-header",
+		"since": "2.0.0"
 	}
 }

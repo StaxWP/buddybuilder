@@ -61,5 +61,9 @@
 		"elementor": [
 			"bpb-profile-member-cover"
 		]
+	},
+	"deprecated": {
+		"use": "member-header",
+		"since": "2.0.0"
 	}
 }

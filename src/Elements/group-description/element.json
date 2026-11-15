@@ -42,5 +42,9 @@
 		"elementor": [
 			"bpb-profile-group-description"
 		]
+	},
+	"deprecated": {
+		"use": "group-header",
+		"since": "2.0.0"
 	}
 }
