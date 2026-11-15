@@ -1681,7 +1681,9 @@
 	font-weight: 600;
 }
 
-#buddypress.buddypress-wrap .bpb-look :is(.bpb-el-member-content, .bpb-el-group-content) .subnav-filters {
+#buddypress.buddypress-wrap .bpb-look :is(.bpb-el-member-content, .bpb-el-group-content) .subnav-filters,
+#buddypress.buddypress-wrap .bpb-look .bpb-settings-container > .subnav-filters,
+#buddypress.buddypress-wrap .bpb-look .bpb-settings-container > .subnav-filters :is(.component-filters, .subnav-search) {
 	display: none;
 }
 

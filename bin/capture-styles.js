@@ -84,6 +84,16 @@ const host = new URL( site ).hostname;
 				const file = path.join( out, c.style, `${ c.page }-${ width }.png` );
 				const target = ( await page.$( '.bpb-look' ) ) || ( await page.$( 'main' ) );
 				await target.screenshot( { path: file } );
+				// Phones: also the first screen as the visitor sees it (fixed tab bars and drawer buttons included).
+				if ( width < 600 ) {
+					await page.evaluate( () => {
+						const look = document.querySelector( '.bpb-look' );
+						if ( look ) {
+							window.scrollTo( 0, look.getBoundingClientRect().top + window.scrollY - 8 );
+						}
+					} );
+					await page.screenshot( { path: path.join( out, c.style, `${ c.page }-${ width }-screen.png` ) } );
+				}
 				// The three cards of the style on their own: member card, group card, activity item.
 				const cards = { 'members-directory': [ 'member-card', '#members-list > li' ], 'groups-directory': [ 'group-card', '#groups-list > li' ], 'sitewide-activity': [ 'activity-item', '.activity-list > li.activity-item' ] };
 				if ( cards[ c.page ] ) {
