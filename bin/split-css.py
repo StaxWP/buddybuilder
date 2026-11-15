@@ -58,7 +58,8 @@ TYPES = {
     "members-directory": BASE + ["members_loop", "directories"],
     "groups-directory": BASE + ["groups_loop", "directories"],
     "sitewide-activity": BASE + ["activity", "directories"],
-    "register-page": BASE + ["directories"],
+    # The register form shows profile fields with their visibility settings (5.2.2.2 Extended Profiles).
+    "register-page": BASE + ["directories", "user_body"],
     # Tables: profile fields, notifications, forums (single items only, never on directories).
     "group-profile": BASE + ["activity", "groups_loop", "members_loop", "single", "group_header", "body_global", "tables"] + GROUP_BODY,
     "member-profile": [c for c in ALL if c not in ("group_create", "group_header", "group_manage", "group_invites") + tuple(GROUP_BODY) and c not in SCREEN_ONLY],
