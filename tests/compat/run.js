@@ -15,6 +15,7 @@
  * The site must have env/bpb-compat-env.php as a mu-plugin; load-fixtures.php refuses to run otherwise.
  */
 const fs = require( 'fs' );
+const zlib = require( 'zlib' );
 const path = require( 'path' );
 const { TYPE_URLS, VARIANTS, wpJson, normalise, caseKey, caseFile, loadPlaywright } = require( './lib' );
 
@@ -37,6 +38,20 @@ const assigned = flag( 'assigned' );
 // --split: per template type CSS on (cookie read by env/bpb-compat-env.php).
 const split = flag( 'split' );
 const axe = ! flag( 'no-axe' );
+
+/** Gzip size per asset URL, fetched once per run (budget check, tests/compat/budgets.js). */
+const gzCache = {};
+async function gzSize( request, url ) {
+	if ( ! ( url in gzCache ) ) {
+		try {
+			const res = await request.get( url );
+			gzCache[ url ] = res.ok() ? zlib.gzipSync( await res.body(), { level: 9 } ).length : -1;
+		} catch ( e ) {
+			gzCache[ url ] = -1;
+		}
+	}
+	return gzCache[ url ];
+}
 
 const WIDGETS = '[class*="elementor-widget-bpb-"], .bpb-el';
 const FREEZE_CSS = '*,*::before,*::after{animation:none!important;transition:none!important;caret-color:transparent!important}';
@@ -118,6 +133,16 @@ const FREEZE_CSS = '*,*::before,*::after{animation:none!important;transition:non
 				const html = resp ? await resp.text() : await page.content();
 				const m = html.match( /<!-- bpb-compat-notices (\[.*?\]) -->/ );
 				r.notices = m ? JSON.parse( m[ 1 ] ) : [ 'NO-ENV-MARKER' ];
+				const am = html.match( /<!-- bpb-compat-assets (\{.*?\}) -->/ );
+				if ( am ) {
+					const a = JSON.parse( am[ 1 ] );
+					for ( const kind of [ 'js', 'css' ] ) {
+						for ( const item of a[ kind ] ) {
+							item.gz = await gzSize( ctx.request, item.src );
+						}
+					}
+					r.assets = a;
+				}
 				r.fatal = /There has been a critical error|Fatal error/.test( html );
 
 				// Top-level widgets only (item template widgets inside a listing belong to the listing's markup).

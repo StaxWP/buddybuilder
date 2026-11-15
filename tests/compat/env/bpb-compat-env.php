@@ -143,6 +143,77 @@ add_action(
 	PHP_INT_MAX
 );
 
+/**
+ * Front-end assets printed on this page by BuddyBuilder, BuddyBuilder Pro and K Elements, for the budget check
+ * (tests/compat/budgets.js): handle, source, and whether the handle needs jQuery (directly or through its deps).
+ * Printed as `<!-- bpb-compat-assets {...} -->` next to the notices.
+ *
+ * @return array
+ */
+function bpb_compat_env_assets() {
+	$owners = [
+		'buddybuilder' => '/plugins/stax-buddy-builder/',
+		'pro'          => '/plugins/stax-buddy-builder-pro/',
+		'k-elements'   => '/plugins/k-elements/',
+	];
+	$out    = [
+		'js'        => [],
+		'css'       => [],
+		'dashicons' => false,
+	];
+
+	foreach ( [ 'js' => wp_scripts(), 'css' => wp_styles() ] as $kind => $deps ) {
+		$needs_jquery = static function ( $handle, $seen = [] ) use ( &$needs_jquery, $deps ) {
+			if ( in_array( $handle, [ 'jquery', 'jquery-core', 'jquery-migrate' ], true ) ) {
+				return true;
+			}
+			if ( isset( $seen[ $handle ] ) || ! isset( $deps->registered[ $handle ] ) ) {
+				return false;
+			}
+			$seen[ $handle ] = true;
+			foreach ( (array) $deps->registered[ $handle ]->deps as $dep ) {
+				if ( $needs_jquery( $dep, $seen ) ) {
+					return true;
+				}
+			}
+			return false;
+		};
+
+		foreach ( (array) $deps->done as $handle ) {
+			if ( 'css' === $kind && 'dashicons' === $handle ) {
+				$out['dashicons'] = true;
+			}
+			if ( ! isset( $deps->registered[ $handle ] ) || ! is_string( $deps->registered[ $handle ]->src ) ) {
+				continue;
+			}
+			$src = $deps->registered[ $handle ]->src;
+			foreach ( $owners as $owner => $needle ) {
+				if ( false !== strpos( $src, $needle ) ) {
+					$out[ $kind ][] = [
+						'handle' => $handle,
+						'owner'  => $owner,
+						'src'    => 0 === strpos( $src, '/' ) && 0 !== strpos( $src, '//' ) ? site_url( $src ) : $src,
+						'jquery' => 'js' === $kind ? $needs_jquery( $handle ) : false,
+					];
+				}
+			}
+		}
+	}
+
+	return $out;
+}
+
+add_action(
+	'shutdown',
+	static function () {
+		if ( is_admin() || wp_doing_ajax() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) || ( defined( 'WP_CLI' ) && WP_CLI ) || ! did_action( 'wp_footer' ) ) {
+			return;
+		}
+		echo "\n<!-- bpb-compat-assets " . wp_json_encode( bpb_compat_env_assets() ) . " -->\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	},
+	PHP_INT_MAX - 1
+);
+
 // Deterministic output: local avatars, no heartbeat, no emoji script.
 add_filter( 'bp_core_fetch_avatar_no_grav', '__return_true' );
 add_filter( 'get_avatar_url', static function ( $url ) {
