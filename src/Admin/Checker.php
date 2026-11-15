@@ -14,6 +14,7 @@ namespace Buddy_Builder\Admin;
 
 use Buddy_Builder\Compat\Status;
 use Buddy_Builder\Templates\Current;
+use Buddy_Builder\Templates\ViewAs;
 use Buddy_Builder\Templates\Dispatcher;
 use Buddy_Builder\Templates\LayoutPreview;
 use Buddy_Builder\Templates\Registry;
@@ -97,39 +98,50 @@ final class Checker {
 			return;
 		}
 
-		$entry = Current::entry();
-		$label = CommunityPages::label( $type );
-		$edit  = $entry && $entry['id'] ? CommunityPages::edit_url( $entry['id'] ) : CommunityPages::url( $type );
+		$entry   = Current::entry();
+		$label   = CommunityPages::label( $type );
+		$edit    = $entry && $entry['id'] ? CommunityPages::edit_url( $entry['id'] ) : CommunityPages::url( $type );
+		$preset  = $entry && $entry['id'] ? CommunityPages::preset_of( $entry['id'] ) : null;
+		$post    = $entry && $entry['id'] ? get_post( $entry['id'] ) : null;
+		$look    = $preset ? $preset['title'] : ( $post ? $post->post_title : __( 'BuddyPress default', 'stax-buddy-builder' ) );
+		$current = home_url( add_query_arg( [] ) );
 
+		// The live page is the second hub (review 3.4): which look shows here, edit it, change it, see it as others do.
 		$bar->add_node(
 			[
 				'id'    => 'bpb-community',
-				'title' => '<span class="ab-icon dashicons dashicons-groups" aria-hidden="true" style="top:2px"></span><span class="bpb-ab-title">' . esc_html( $entry ? __( 'Edit this community page', 'stax-buddy-builder' ) : __( 'Design this community page', 'stax-buddy-builder' ) ) . '</span>',
+				/* translators: 1: page name, 2: look or layout name */
+				'title' => '<span class="ab-icon dashicons dashicons-groups" aria-hidden="true" style="top:2px"></span><span class="bpb-ab-title">' . esc_html( sprintf( __( '%1$s: %2$s', 'stax-buddy-builder' ), $label, $look ) ) . '</span>',
 				'href'  => $edit,
 			]
 		);
 
+		$nodes = [];
+
 		if ( $entry && $entry['id'] ) {
-			$post = get_post( $entry['id'] );
+			/* translators: %s: builder name */
+			$nodes['layout'] = [ sprintf( __( 'Edit in %s', 'stax-buddy-builder' ), CommunityPages::builder_label( $entry['builder'] ) ), $edit ];
+		}
+
+		$nodes['look']   = [ $entry && $entry['id'] ? __( 'Change look', 'stax-buddy-builder' ) : __( 'Pick a look', 'stax-buddy-builder' ), CommunityPages::url( $type ) ];
+		$nodes['guest']  = [ __( 'View as a guest', 'stax-buddy-builder' ), ViewAs::url( $current, 'guest' ) ];
+		$nodes['sample'] = [ __( 'View as the sample member', 'stax-buddy-builder' ), ViewAs::url( $current, 'sample' ) ];
+		$nodes['pages']  = [ __( 'All community pages', 'stax-buddy-builder' ), CommunityPages::url() ];
+
+		foreach ( $nodes as $id => $node ) {
+			if ( '' === $node[1] ) {
+				continue;
+			}
+
 			$bar->add_node(
 				[
 					'parent' => 'bpb-community',
-					'id'     => 'bpb-community-layout',
-					/* translators: 1: page name, 2: layout title, 3: builder name */
-					'title'  => esc_html( sprintf( __( '%1$s: edit "%2$s" (%3$s)', 'stax-buddy-builder' ), $label, $post ? $post->post_title : '#' . $entry['id'], CommunityPages::builder_label( $entry['builder'] ) ) ),
-					'href'   => $edit,
+					'id'     => 'bpb-community-' . $id,
+					'title'  => esc_html( $node[0] ),
+					'href'   => $node[1],
 				]
 			);
 		}
-
-		$bar->add_node(
-			[
-				'parent' => 'bpb-community',
-				'id'     => 'bpb-community-pages',
-				'title'  => esc_html__( 'All community pages', 'stax-buddy-builder' ),
-				'href'   => CommunityPages::url( $type ),
-			]
-		);
 	}
 
 	/**
