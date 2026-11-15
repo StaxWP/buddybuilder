@@ -24,6 +24,8 @@ bp_nouveau_activity_hook( 'before', 'entry' ); ?>
 
 		<?php if ( $render ) : ?>
 			<?php echo bpb_render_loop_item( 'sitewide-activity-item', $activity_item ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+		<?php elseif ( class_exists( '\\Buddy_Builder\\Templates\\Cards' ) && 'post' === \Buddy_Builder\Templates\Cards::current( 'activity' ) ) : ?>
+			<?php bp_get_template_part( 'activity/entry-post' ); ?>
 		<?php else : ?>
 
 			<?php if ( bpb_is_buddyboss() ) : ?>

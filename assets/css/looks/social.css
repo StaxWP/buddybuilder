@@ -1,33 +1,60 @@
-/* Social: feed first, slim header, a "people to know" rail, flat lists with dividers. */
-.bpb-look--social,
-.bpb-look--social :is(.bpb-mh, .bpb-gh, .bpb-about, .bpb-rail, .bpb-dh) {
-	--bpb-radius: 14px;
+/*
+ * Social: warm coral, rounded friendly type (system rounded font where available), soft tinted panels instead of
+ * borders, very round corners, round photos with an online ring, soft pill buttons, no cover, flat feed with
+ * dividers, people rails.
+ */
+.bpb-look--social {
+	--bpb-style-accent: #ea580c;
+	--bpb-style-accent-2: #f43f5e;
+	--bpb-radius: 16px;
+	--bpb-radius-lg: 22px;
+	--bpb-button-radius: 999px;
+	--bpb-avatar-radius: 50%;
 	--bpb-weight-heading: 750;
-	--bpb-shadow: none;
+	--bpb-tracking-heading: -0.015em;
+	--bpb-card-border: 0;
+	--bpb-card-shadow: none;
+	--bpb-card-bg: color-mix(in srgb, var(--bpb-color-accent) 5%, var(--bpb-color-surface));
+	--bpb-panel-bg: color-mix(in srgb, var(--bpb-color-accent) 8%, var(--bpb-color-surface));
+	--bpb-button-2-bg: color-mix(in srgb, var(--bpb-color-accent) 10%, var(--bpb-color-surface));
+	--bpb-button-2-color: color-mix(in srgb, var(--bpb-color-accent) 80%, var(--bpb-color-text));
+	--bpb-button-2-border: 0;
+	--bpb-font-body: var(--bpb-font-social, ui-rounded, "SF Pro Rounded", "Nunito", system-ui, sans-serif);
+	--bpb-font-heading: var(--bpb-font-social, ui-rounded, "SF Pro Rounded", "Nunito", system-ui, sans-serif);
 }
 
 .bpb-look--social :is(.bpb-mh, .bpb-gh) {
-	border: 0;
-	border-radius: 0;
-	border-bottom: 1px solid var(--bpb-color-border);
-	background: none;
+	background: var(--bpb-card-bg);
 }
 
-.bpb-look--social :is(.bpb-mh__body, .bpb-gh__body) {
-	padding-inline: 0;
+.bpb-look--social :is(.bpb-mh__avatar) img {
+	box-shadow: 0 0 0 3px var(--bpb-color-surface), 0 0 0 5px color-mix(in srgb, var(--bpb-color-accent) 45%, transparent);
+}
+
+.bpb-look--social .bpb-mh__online {
+	background: #22c55e;
 }
 
 .bpb-look--social .bpb-mh__stats {
-	gap: 18px;
+	gap: 16px;
 }
 
-/* Flat feed: dividers instead of boxes. */
+.bpb-look--social .bpb-rail {
+	background: var(--bpb-panel-bg);
+}
+
+.bpb-look--social .bpb-rail__item img {
+	box-shadow: 0 0 0 2px var(--bpb-color-surface), 0 0 0 3px #22c55e;
+}
+
+/* Flat feed with dividers. */
 #buddypress.buddypress-wrap .bpb-look--social .activity-list.bp-list {
 	gap: 0;
+	border-radius: var(--bpb-radius-lg);
+	background: var(--bpb-color-surface);
 }
 
 #buddypress.buddypress-wrap .bpb-look--social .activity-list > li.activity-item {
-	padding: 18px 4px;
 	border: 0;
 	border-bottom: 1px solid var(--bpb-color-border);
 	border-radius: 0;
@@ -35,23 +62,18 @@
 }
 
 #buddypress.buddypress-wrap .bpb-look--social #whats-new-form {
+	border: 0;
+	background: var(--bpb-panel-bg);
 	box-shadow: none;
 }
 
-/* Members and groups as one-line rows with the action at the end. */
+/* Members and groups as rows. */
 #buddypress.buddypress-wrap .bpb-look--social .dir-list ul.bp-list:is(.members-list, .groups-list) {
-	gap: 0;
+	gap: 8px;
 }
 
 #buddypress.buddypress-wrap .bpb-look--social .dir-list ul.bp-list:is(.members-list, .groups-list) > li .list-wrap {
 	border: 0;
-	border-bottom: 1px solid var(--bpb-color-border);
-	border-radius: 0;
-	background: none;
+	background: var(--bpb-card-bg);
 	box-shadow: none;
-}
-
-.bpb-look--social .bpb-rail {
-	border: 0;
-	background: var(--bpb-color-surface-2);
 }

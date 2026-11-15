@@ -22,5 +22,9 @@ Rule (Gabriel, 2026-11-15): when a new element is better than stretching an old 
 | `group-description` / `bpb-profile-group-description` | `group-header` | as above | `show_description` |
 | `group-last-activity` / `bpb-profile-group-last-activity` | `group-header` | as above | "Active ..." in the header meta |
 | `group-buttons` / `bpb-profile-group-buttons` | `group-header` | as above | `show_buttons` |
+| `member-nav` / `bpb-profile-member-navigation` | `profile-tabs` | Our own tabs: no priority-menu script (it collapsed tabs into "more" in narrow columns), scrolls on small screens, Underline / Pills / Segmented | `show_home_tab` stays a BuddyPress setting (mirrored as before); counts: `show_counts` |
+| `group-nav` / `bpb-profile-group-navigation` | `profile-tabs` | as above | as above |
+| `activity-nav` / `bpb-sitewide-navigation` | `feed-filters` | Scopes as a segmented control and the type filter as a compact menu, in one element, with the same BuddyPress hooks | none (no content settings) |
+| `activity-filters` / `bpb-sitewide-filters` | `feed-filters` | as above | the Show menu: `show_type` |
 
-New 2.0 elements without a 1.x widget (Elementor gets the kit's generic adapter, widget name `bpb-el-<element>`): `member-header`, `member-about`, `group-header`, `directory-header`, `people-rail`.
+New 2.0 elements without a 1.x widget (Elementor gets the kit's generic adapter, widget name `bpb-el-<element>`): `member-header`, `member-about`, `group-header`, `directory-header`, `people-rail`, `profile-tabs`, `feed-filters`. The activity item of the 2.0 looks is a card style of the activity list (`post`), not an element: it changes only the item markup, through `templates/buddypress/activity/entry-post.php`.

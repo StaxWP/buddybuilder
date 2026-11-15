@@ -42,5 +42,9 @@
 		"elementor": [
 			"bpb-sitewide-navigation"
 		]
+	},
+	"deprecated": {
+		"use": "feed-filters",
+		"since": "2.0.0"
 	}
 }

@@ -1,46 +1,74 @@
-/* Creator: big cover, centered identity, stats up front, bold type and pill buttons. Made for people who publish. */
-.bpb-look--creator,
-.bpb-look--creator :is(.bpb-mh, .bpb-gh, .bpb-about, .bpb-rail, .bpb-dh) {
+/*
+ * Creator: vivid magenta to violet, display weight type with tight tracking, big rounded corners, the identity sits
+ * on a full-bleed cover with a dark gradient, gradient pill buttons, gradient ring photos, stats as big numbers,
+ * borderless tinted cards.
+ */
+.bpb-look--creator {
+	--bpb-style-accent: #db2777;
+	--bpb-style-accent-2: #7c3aed;
 	--bpb-radius: 18px;
+	--bpb-radius-lg: 26px;
+	--bpb-button-radius: 999px;
+	--bpb-avatar-radius: 50%;
 	--bpb-weight-heading: 800;
-	--bpb-tracking-heading: -0.035em;
+	--bpb-tracking-heading: -0.04em;
+	--bpb-name-size: clamp(2rem, 1.3rem + 2.6vw, 3.25rem);
+	--bpb-card-border: 0;
+	--bpb-card-shadow: none;
+	--bpb-card-bg: color-mix(in srgb, var(--bpb-color-accent) 5%, var(--bpb-color-surface));
+	--bpb-panel-bg: color-mix(in srgb, var(--bpb-color-accent) 8%, var(--bpb-color-surface));
+	--bpb-button-bg: linear-gradient(120deg, var(--bpb-color-accent), var(--bpb-accent-2));
+	--bpb-button-2-bg: color-mix(in srgb, var(--bpb-color-accent) 10%, var(--bpb-color-surface));
+	--bpb-button-2-color: var(--bpb-color-accent);
+	--bpb-button-2-border: 0;
+	--bpb-badge-bg: linear-gradient(120deg, var(--bpb-color-accent), var(--bpb-accent-2));
+	--bpb-badge-color: #fff;
+	--bpb-cover-radius: var(--bpb-radius-lg);
+	--bpb-cover-overlay: linear-gradient(180deg, rgb(0 0 0 / 0) 35%, rgb(17 7 32 / 0.55));
 }
 
 .bpb-look--creator :is(.bpb-mh, .bpb-gh) {
-	border: 0;
 	background: none;
-	box-shadow: none;
 	overflow: visible;
 }
 
 .bpb-look--creator :is(.bpb-mh__cover, .bpb-gh__cover) {
-	aspect-ratio: 3 / 1;
-	border-radius: var(--bpb-radius-lg);
+	aspect-ratio: 5 / 2;
 }
 
-.bpb-look--creator :is(.bpb-mh__name, .bpb-gh__name) {
-	font-size: clamp(1.875rem, 1.3rem + 2vw, 2.75rem);
+.bpb-look--creator :is(.bpb-mh__avatar, .bpb-gh__avatar) img {
+	border: 0;
+	padding: 4px;
+	background: linear-gradient(135deg, var(--bpb-color-accent), var(--bpb-accent-2)) border-box;
+	box-shadow: 0 0 0 5px var(--bpb-color-surface);
 }
 
 .bpb-look--creator .bpb-mh__headline {
-	max-width: 52ch;
+	max-width: 46ch;
 	color: var(--bpb-color-muted);
-	font-size: 17px;
+	font-size: 18px;
 }
 
-.bpb-look--creator :is(.bpb-mh__actions, .bpb-gh__side) .bpb-actions > li:first-child :is(button, a) {
-	background: linear-gradient(135deg, var(--bpb-color-accent), color-mix(in srgb, var(--bpb-color-accent) 60%, #ff3d77));
-	border-color: transparent;
-	padding: 0 24px;
-	min-height: 44px;
+.bpb-look--creator .bpb-mh__stats {
+	gap: 10px;
 }
 
-.bpb-look--creator .buddypress-wrap .bp-navs,
-#buddypress.buddypress-wrap .bpb-look--creator .bp-navs.single-screen-navs > ul {
-	justify-content: center;
+.bpb-look--creator.bpb-look .bpb-mh--center .bpb-mh__stat {
+	padding: 10px 22px;
+	border: 0;
+	border-radius: var(--bpb-radius);
+	background: var(--bpb-panel-bg);
 }
 
-#buddypress.buddypress-wrap .bpb-look--creator .bp-navs ul li a {
+.bpb-look--creator .bpb-mh--center .bpb-mh__stat strong {
+	font-size: 26px;
+	font-weight: 800;
+	letter-spacing: -0.03em;
+}
+
+.bpb-look--creator :is(.bpb-mh, .bpb-gh) .bpb-actions > li :is(button, a) {
+	min-height: 46px;
+	padding: 0 26px;
 	font-size: 15px;
 }
 
@@ -50,15 +78,15 @@
 	text-align: center;
 }
 
-.bpb-look--creator .bpb-dh__intro {
-	margin-inline: auto;
+.bpb-look--creator .bpb-dh__title {
+	background: linear-gradient(120deg, var(--bpb-color-accent), var(--bpb-accent-2));
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	font-size: clamp(2.25rem, 1.5rem + 3vw, 3.5rem);
 }
 
-#buddypress.buddypress-wrap .bpb-look--creator .activity-list > li.activity-item {
+#buddypress.buddypress-wrap .bpb-look--creator .dir-list ul.bp-list > li .list-wrap {
 	border: 0;
-	background: var(--bpb-color-surface-2);
-}
-
-#buddypress.buddypress-wrap .bpb-look--creator .activity-list .activity-inner {
-	font-size: 16px;
+	background: var(--bpb-card-bg);
 }

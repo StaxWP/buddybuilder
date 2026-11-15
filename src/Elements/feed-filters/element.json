@@ -1,0 +1,57 @@
+{
+	"version": 1,
+	"name": "feed-filters",
+	"title": "Feed filters",
+	"category": "buddybuilder",
+	"icon": "filter",
+	"description": "Who and what the activity feed shows: All, Friends, Groups, Mentions as a segmented control, and a compact Show menu.",
+	"keywords": [
+		"activity",
+		"filter",
+		"tabs",
+		"feed"
+	],
+	"templateTypes": [
+		"sitewide-activity"
+	],
+	"attributes": {
+		"show_type": {
+			"type": "boolean",
+			"default": true,
+			"control": "toggle",
+			"panel": "basic",
+			"label": "Show menu (updates, photos, groups...)"
+		},
+		"show_counts": {
+			"type": "boolean",
+			"default": false,
+			"control": "toggle",
+			"panel": "advanced",
+			"label": "Counts"
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": [
+			"wide",
+			"full"
+		],
+		"color": {
+			"background": true,
+			"text": true,
+			"link": true
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true
+		},
+		"__experimentalBorder": {
+			"radius": true,
+			"width": true,
+			"color": true
+		}
+	}
+}

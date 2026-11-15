@@ -1091,3 +1091,420 @@
 #buddypress.buddypress-wrap .bpb-look ul.bp-list:is(.members-list, .groups-list) .item-meta {
 	color: var(--bpb-color-muted);
 }
+
+/* ------------------------------------------------------------------------------------------------------------------
+ * Design tokens of a style (round 2). Each style file sets these on .bpb-look--<style>; a theme can override the
+ * accent with --bpb-accent and the fonts with --bpb-font-heading / --bpb-font-body.
+ * ---------------------------------------------------------------------------------------------------------------- */
+.bpb-look {
+	--bpb-color-accent: var(--bpb-accent, var(--bpb-style-accent, #2563eb));
+	--bpb-accent-2: var(--bpb-style-accent-2, var(--bpb-color-accent));
+	--bpb-accent-soft: color-mix(in srgb, var(--bpb-color-accent) 12%, var(--bpb-color-surface));
+	--bpb-card-bg: var(--bpb-color-surface);
+	--bpb-card-border: 1px solid var(--bpb-color-border);
+	--bpb-card-shadow: var(--bpb-shadow);
+	--bpb-panel-bg: var(--bpb-color-surface-2);
+	--bpb-button-bg: var(--bpb-color-accent);
+	--bpb-button-color: var(--bpb-color-accent-contrast);
+	--bpb-button-2-bg: var(--bpb-color-surface);
+	--bpb-button-2-color: var(--bpb-color-text);
+	--bpb-button-2-border: 1px solid var(--bpb-color-border);
+	--bpb-badge-bg: var(--bpb-accent-soft);
+	--bpb-badge-color: var(--bpb-color-accent);
+	--bpb-badge-radius: var(--bpb-pill);
+	--bpb-cover-overlay: none;
+	--bpb-cover-radius: 0;
+	--bpb-avatar-ring: var(--bpb-color-surface);
+	--bpb-text-size: 15px;
+	--bpb-name-size: clamp(1.5rem, 1.15rem + 1.2vw, 2.125rem);
+	font-family: var(--bpb-font-body, inherit);
+	font-size: var(--bpb-text-size);
+}
+
+.bpb-look :is(.bpb-mh__name, .bpb-gh__name, .bpb-dh__title, .bpb-about__title, .bpb-rail__title) {
+	font-family: var(--bpb-font-heading, var(--wp--preset--font-family--heading, inherit));
+}
+
+.bpb-look :is(.bpb-mh__name, .bpb-gh__name) {
+	font-size: var(--bpb-name-size);
+}
+
+.bpb-look :is(.bpb-mh, .bpb-gh, .bpb-about, .bpb-rail) {
+	border: var(--bpb-card-border);
+	background: var(--bpb-card-bg);
+	box-shadow: var(--bpb-card-shadow);
+}
+
+.bpb-look :is(.bpb-mh__cover, .bpb-gh__cover) {
+	position: relative;
+	border-radius: var(--bpb-cover-radius);
+}
+
+.bpb-look :is(.bpb-mh__cover, .bpb-gh__cover)::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: inherit;
+	background: var(--bpb-cover-overlay);
+	pointer-events: none;
+}
+
+.bpb-look :is(.bpb-mh__cover--empty, .bpb-gh__cover--empty) {
+	background-image: linear-gradient(120deg, var(--bpb-color-accent), var(--bpb-accent-2));
+}
+
+.bpb-look .bpb-badge {
+	border-radius: var(--bpb-badge-radius);
+	background: var(--bpb-badge-bg);
+	color: var(--bpb-badge-color);
+}
+
+.bpb-look :is(.bpb-mh, .bpb-gh) .bpb-actions > li :is(button, a),
+#buddypress.buddypress-wrap .bpb-look .generic-button :is(button, a) {
+	border: var(--bpb-button-2-border);
+	border-radius: var(--bpb-button-radius);
+	background: var(--bpb-button-2-bg);
+	color: var(--bpb-button-2-color);
+}
+
+.bpb-look :is(.bpb-mh, .bpb-gh) .bpb-actions > li:first-child :is(button, a),
+#buddypress.buddypress-wrap .bpb-look .generic-button:first-child :is(button.add, button.join-group, a.join-group, button.friendship-button.not_friends, button.group-button.join-group) {
+	border-color: transparent;
+	background: var(--bpb-button-bg);
+	color: var(--bpb-button-color);
+}
+
+/* Profile tabs. */
+.bpb-tabs {
+	position: relative;
+	margin: 0;
+}
+
+.bpb-tabs__list {
+	display: flex;
+	gap: 4px;
+	margin: 0;
+	padding: 0;
+	overflow-x: auto;
+	list-style: none;
+	scroll-snap-type: x proximity;
+	scrollbar-width: none;
+	-webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 32px), transparent);
+	mask-image: linear-gradient(90deg, #000 calc(100% - 32px), transparent);
+}
+
+.bpb-tabs__list::-webkit-scrollbar {
+	display: none;
+}
+
+.bpb-tabs__item {
+	flex: none;
+	margin: 0;
+	scroll-snap-align: start;
+}
+
+.bpb-tabs .bpb-tabs__link {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 12px 14px;
+	color: var(--bpb-color-muted);
+	font-size: 14px;
+	font-weight: 600;
+	text-decoration: none;
+	white-space: nowrap;
+	transition: color 0.15s ease, background 0.15s ease;
+}
+
+.bpb-tabs .bpb-tabs__link:hover,
+.bpb-tabs .is-current .bpb-tabs__link {
+	color: var(--bpb-color-text);
+}
+
+.bpb-tabs__count {
+	min-width: 18px;
+	padding: 1px 7px;
+	border-radius: var(--bpb-pill);
+	background: var(--bpb-panel-bg, var(--bpb-color-surface-2));
+	color: var(--bpb-color-muted);
+	font-size: 12px;
+	line-height: 18px;
+	text-align: center;
+}
+
+.bpb-tabs--underline .bpb-tabs__list {
+	border-bottom: 1px solid var(--bpb-color-border);
+}
+
+.bpb-tabs--underline .bpb-tabs__link {
+	margin-bottom: -1px;
+	border-bottom: 2px solid transparent;
+}
+
+.bpb-tabs--underline .is-current .bpb-tabs__link {
+	border-bottom-color: var(--bpb-color-accent);
+}
+
+.bpb-tabs--pills .bpb-tabs__link {
+	border-radius: var(--bpb-pill);
+}
+
+.bpb-tabs--pills .is-current .bpb-tabs__link {
+	background: var(--bpb-color-text);
+	color: var(--bpb-color-surface);
+}
+
+.bpb-tabs--pills .is-current .bpb-tabs__count {
+	background: color-mix(in srgb, var(--bpb-color-surface) 25%, transparent);
+	color: inherit;
+}
+
+.bpb-tabs--segmented .bpb-tabs__list {
+	padding: 4px;
+	border-radius: calc(var(--bpb-radius) + 4px);
+	background: var(--bpb-panel-bg, var(--bpb-color-surface-2));
+	-webkit-mask-image: none;
+	mask-image: none;
+}
+
+.bpb-tabs--segmented .bpb-tabs__link {
+	border-radius: var(--bpb-radius);
+	padding: 8px 14px;
+}
+
+.bpb-tabs--segmented .is-current .bpb-tabs__link {
+	background: var(--bpb-color-surface);
+	box-shadow: 0 1px 3px rgb(0 0 0 / 0.08);
+}
+
+.bpb-tabs--center .bpb-tabs__list {
+	justify-content: safe center;
+}
+
+.bpb-tabs--stretch .bpb-tabs__item {
+	flex: 1 0 auto;
+}
+
+.bpb-tabs--stretch .bpb-tabs__link {
+	justify-content: center;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+/* Feed filters: segmented scopes and a compact Show menu. */
+.bpb-feed-filters {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px 16px;
+}
+
+#buddypress.buddypress-wrap .bpb-look .bpb-segmented,
+.bpb-segmented {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: none;
+}
+
+#buddypress.buddypress-wrap .bpb-look .bpb-segmented .bpb-segmented__list,
+.bpb-segmented__list {
+	display: inline-flex;
+	gap: 2px;
+	margin: 0;
+	padding: 4px;
+	overflow-x: auto;
+	border: 0;
+	border-radius: calc(var(--bpb-radius) + 4px);
+	background: var(--bpb-panel-bg, var(--bpb-color-surface-2));
+	list-style: none;
+	scrollbar-width: none;
+}
+
+#buddypress.buddypress-wrap .bpb-look .bpb-segmented .bpb-segmented__item {
+	float: none;
+	margin: 0;
+	border: 0;
+	background: none;
+}
+
+#buddypress.buddypress-wrap .bpb-look .bpb-segmented .bpb-segmented__item a {
+	display: inline-flex;
+	gap: 6px;
+	padding: 7px 14px;
+	border: 0;
+	border-radius: var(--bpb-radius);
+	background: none;
+	color: var(--bpb-color-muted);
+	font-size: 14px;
+	font-weight: 600;
+	white-space: nowrap;
+}
+
+#buddypress.buddypress-wrap .bpb-look .bpb-segmented .bpb-segmented__item:is(.selected, .current) a {
+	background: var(--bpb-color-surface);
+	color: var(--bpb-color-text);
+	box-shadow: 0 1px 3px rgb(0 0 0 / 0.08);
+}
+
+.bpb-feed-filters__type {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	color: var(--bpb-color-muted);
+	font-size: 13px;
+	font-weight: 600;
+}
+
+#buddypress.buddypress-wrap .bpb-look .bpb-feed-filters__type select {
+	min-height: 36px;
+	padding: 0 32px 0 12px;
+	border-radius: var(--bpb-button-radius);
+	appearance: none;
+	background: var(--bpb-color-surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2.5'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 12px center;
+	font-size: 13px;
+	font-weight: 600;
+}
+
+/* Post (activity item of the looks). */
+#buddypress.buddypress-wrap .bpb-look .bpb-card-post .activity-list > li.activity-item {
+	padding: 0;
+	overflow: hidden;
+}
+
+.bpb-post {
+	padding: 18px 20px 6px;
+}
+
+.bpb-post__head {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+#buddypress.buddypress-wrap .bpb-look .bpb-post .bpb-post__avatar {
+	float: none;
+	flex: none;
+	margin: 0;
+	width: auto;
+}
+
+#buddypress.buddypress-wrap .bpb-look .bpb-post .bpb-post__avatar img {
+	width: 44px;
+	height: 44px;
+}
+
+#buddypress.buddypress-wrap .bpb-look .bpb-post .bpb-post__meta {
+	min-width: 0;
+	font-size: 14px;
+	line-height: 1.4;
+}
+
+#buddypress.buddypress-wrap .bpb-look .bpb-post .bpb-post__meta p {
+	margin: 0;
+}
+
+#buddypress.buddypress-wrap .bpb-look .bpb-post .bpb-post__meta .time-since {
+	display: block;
+	font-size: 13px;
+}
+
+#buddypress.buddypress-wrap .bpb-look .bpb-post .bpb-post__meta img {
+	display: none;
+}
+
+#buddypress.buddypress-wrap .bpb-look .bpb-post .bpb-post__content {
+	margin: 10px 0 0;
+}
+
+#buddypress.buddypress-wrap .bpb-look .bpb-post .bpb-post__text {
+	margin: 0;
+	font-size: calc(var(--bpb-text-size) + 1px);
+	line-height: 1.6;
+}
+
+.bpb-post__stats {
+	display: flex;
+	gap: 14px;
+	margin: 12px 0 0;
+	color: var(--bpb-color-muted);
+	font-size: 13px;
+}
+
+.bpb-post__bar {
+	margin: 10px 0 0;
+	padding: 4px 0;
+	border-top: 1px solid var(--bpb-color-border);
+}
+
+#buddypress.buddypress-wrap .bpb-look .bpb-post__bar .activity-meta.action {
+	display: flex;
+	gap: 2px;
+	margin: 0;
+}
+
+#buddypress.buddypress-wrap .bpb-look .bpb-post__bar .generic-button {
+	flex: 1 1 0;
+	margin: 0;
+}
+
+#buddypress.buddypress-wrap .bpb-look .bpb-post__bar .generic-button :is(a, button) {
+	display: flex;
+	justify-content: center;
+	gap: 6px;
+	width: 100%;
+	min-height: 38px;
+	padding: 0 10px;
+	border: 0;
+	border-radius: var(--bpb-radius);
+	background: none;
+	color: var(--bpb-color-muted);
+	font-size: 14px;
+	font-weight: 600;
+}
+
+#buddypress.buddypress-wrap .bpb-look .bpb-post__bar .generic-button :is(a, button):hover {
+	background: var(--bpb-panel-bg, var(--bpb-color-surface-2));
+	color: var(--bpb-color-accent);
+}
+
+/* Labels instead of bare icons: BuddyPress keeps its text for screen readers; the post bar shows it. */
+#buddypress.buddypress-wrap .bpb-look .bpb-post__bar .bp-screen-reader-text {
+	position: static;
+	width: auto;
+	height: auto;
+	margin: 0;
+	overflow: visible;
+	clip: auto;
+	clip-path: none;
+	white-space: nowrap;
+}
+
+#buddypress.buddypress-wrap .bpb-look .bpb-post__bar .comment-count,
+#buddypress.buddypress-wrap .bpb-look .bpb-post__bar .bp-tooltip::after,
+#buddypress.buddypress-wrap .bpb-look .bpb-post__bar .bp-tooltip::before {
+	display: none;
+}
+
+#buddypress.buddypress-wrap .bpb-look .bpb-post__comments {
+	margin: 0 -20px;
+	padding: 12px 20px;
+	border-top: 1px solid var(--bpb-color-border);
+	background: var(--bpb-panel-bg, var(--bpb-color-surface-2));
+}
+
+#buddypress.buddypress-wrap .bpb-look .bpb-post__comments > ul {
+	padding: 0;
+	background: none;
+}
+
+@media (max-width: 480px) {
+	#buddypress.buddypress-wrap .bpb-look .bpb-post__bar .bp-screen-reader-text {
+		font-size: 13px;
+	}
+
+	.bpb-post {
+		padding: 14px 14px 4px;
+	}
+}

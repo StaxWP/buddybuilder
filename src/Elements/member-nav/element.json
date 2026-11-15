@@ -51,5 +51,9 @@
 		"elementor": [
 			"bpb-profile-member-navigation"
 		]
+	},
+	"deprecated": {
+		"use": "profile-tabs",
+		"since": "2.0.0"
 	}
 }

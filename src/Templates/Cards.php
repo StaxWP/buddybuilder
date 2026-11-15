@@ -4,7 +4,7 @@
  * a list, chosen on the list block or widget (attribute and control `card`), without a card layout.
  *
  * - Members and groups: classic (the BuddyPress card, unchanged markup), compact (one row), cover (cover image on
- *   top). Activity: classic, compact, boxed.
+ *   top). Activity: classic, compact, boxed, post (2.0 item: header, text, labelled action bar).
  * - Classic prints exactly the 1.x markup, so saved layouts render as before.
  * - Directory lists load their items over AJAX, so the style of the assigned layout is mirrored into the option
  *   `bpb_cards` (Settings\Mirror, both builders), next to the 1.x columns option. Lists that render in the same
@@ -30,7 +30,7 @@ final class Cards {
 	const STYLES = [
 		'members'  => [ 'classic', 'compact', 'cover' ],
 		'groups'   => [ 'classic', 'compact', 'cover' ],
-		'activity' => [ 'classic', 'compact', 'boxed' ],
+		'activity' => [ 'classic', 'compact', 'boxed', 'post' ],
 	];
 
 	/** Option key per object (the directory or the activity page). */

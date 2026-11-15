@@ -25,7 +25,8 @@
 			"options": {
 				"classic": "Classic",
 				"compact": "Compact",
-				"boxed": "Boxed"
+				"boxed": "Boxed",
+				"post": "Post"
 			}
 		}
 	},

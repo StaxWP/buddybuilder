@@ -1,0 +1,76 @@
+{
+	"version": 1,
+	"name": "profile-tabs",
+	"title": "Profile tabs",
+	"category": "buddybuilder",
+	"icon": "menu",
+	"description": "The tabs of a member profile or a group page, with counts; scrolls on small screens instead of folding into a menu.",
+	"keywords": [
+		"tabs",
+		"navigation",
+		"menu",
+		"profile",
+		"group"
+	],
+	"templateTypes": [
+		"member-profile",
+		"group-profile"
+	],
+	"attributes": {
+		"variant": {
+			"type": "string",
+			"default": "underline",
+			"control": "select",
+			"panel": "basic",
+			"label": "Style",
+			"options": {
+				"underline": "Underline",
+				"pills": "Pills",
+				"segmented": "Segmented"
+			}
+		},
+		"show_counts": {
+			"type": "boolean",
+			"default": true,
+			"control": "toggle",
+			"panel": "basic",
+			"label": "Counts"
+		},
+		"align": {
+			"type": "string",
+			"default": "start",
+			"control": "select",
+			"panel": "advanced",
+			"label": "Alignment",
+			"options": {
+				"start": "Start",
+				"center": "Center",
+				"stretch": "Full width"
+			}
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": [
+			"wide",
+			"full"
+		],
+		"color": {
+			"background": true,
+			"text": true,
+			"link": true
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true
+		},
+		"__experimentalBorder": {
+			"radius": true,
+			"width": true,
+			"color": true
+		}
+	}
+}

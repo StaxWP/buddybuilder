@@ -1,18 +1,29 @@
-/* Classic: the familiar community page, finished. Neutral, calm, cards with a soft lift. */
-.bpb-look--classic,
-.bpb-look--classic :is(.bpb-mh, .bpb-gh, .bpb-about, .bpb-rail, .bpb-dh) {
+/*
+ * Classic: calm blue, neutral surfaces, white cards with a hairline border and a soft lift, 10px corners, round
+ * photos, solid rounded buttons, full photo cover. Theme fonts at regular weights.
+ */
+.bpb-look--classic {
+	--bpb-style-accent: #2563eb;
+	--bpb-style-accent-2: #60a5fa;
 	--bpb-radius: 10px;
+	--bpb-radius-lg: 14px;
+	--bpb-button-radius: 8px;
+	--bpb-avatar-radius: 50%;
 	--bpb-weight-heading: 700;
+	--bpb-tracking-heading: -0.02em;
+	--bpb-shadow: 0 1px 2px rgb(15 23 42 / 0.04), 0 6px 20px rgb(15 23 42 / 0.06);
+	--bpb-badge-radius: 6px;
 }
 
-.bpb-look--classic .bpb-dh {
-	padding-bottom: 4px;
-}
-
-#buddypress.buddypress-wrap .bpb-look--classic .dir-list ul.bp-list:is(.members-list, .groups-list) > li .list-wrap:hover {
-	transform: translateY(-2px);
+.bpb-look--classic :is(.bpb-mh__cover, .bpb-gh__cover) {
+	aspect-ratio: 4 / 1;
 }
 
 #buddypress.buddypress-wrap .bpb-look--classic .dir-list ul.bp-list > li .list-wrap {
 	transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+#buddypress.buddypress-wrap .bpb-look--classic .dir-list ul.bp-list:is(.members-list, .groups-list) > li .list-wrap:hover {
+	transform: translateY(-2px);
+	box-shadow: var(--bpb-shadow-hover);
 }
