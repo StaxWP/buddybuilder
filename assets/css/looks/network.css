@@ -1,0 +1,196 @@
+/*
+ * Network (social network pattern): a grey canvas with white cards, three columns (shortcuts, feed, people), a wide
+ * cover with a large overlapping round photo, post cards with a counts line and an even action row, and a bottom
+ * tab bar on phones. Saturated blue accent, plain system type, soft 8px corners.
+ */
+.bpb-look--network {
+	--bpb-style-accent: #2b59c3;
+	--bpb-style-accent-2: #5b8def;
+	--bpb-radius: 8px;
+	--bpb-radius-lg: 10px;
+	--bpb-button-radius: 6px;
+	--bpb-avatar-radius: 50%;
+	--bpb-weight-heading: 700;
+	--bpb-tracking-heading: -0.01em;
+	--bpb-font-body: var(--bpb-font-network, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif);
+	--bpb-font-heading: var(--bpb-font-body);
+	--bpb-card-border: 0;
+	--bpb-card-shadow: 0 1px 2px rgb(0 0 0 / 0.12);
+	--bpb-canvas: color-mix(in srgb, var(--bpb-color-text) 6%, var(--bpb-color-surface));
+	--bpb-panel-bg: color-mix(in srgb, var(--bpb-color-text) 7%, var(--bpb-color-surface));
+	--bpb-button-2-bg: var(--bpb-panel-bg);
+	--bpb-button-2-border: 0;
+	--bpb-badge-radius: 4px;
+	padding: 16px;
+	border-radius: var(--bpb-radius-lg);
+	background: var(--bpb-canvas);
+}
+
+.bpb-look--network :is(.bpb-mh, .bpb-gh) {
+	border-radius: 0 0 var(--bpb-radius-lg) var(--bpb-radius-lg);
+}
+
+.bpb-look--network :is(.bpb-mh__cover, .bpb-gh__cover) {
+	aspect-ratio: 3 / 1;
+	border-radius: var(--bpb-radius-lg) var(--bpb-radius-lg) 0 0;
+}
+
+.bpb-look--network :is(.bpb-mh__avatar, .bpb-gh__avatar) {
+	margin-top: -84px;
+}
+
+.bpb-look--network :is(.bpb-mh__avatar, .bpb-gh__avatar) img {
+	width: 168px;
+	height: 168px;
+	border-width: 5px;
+	box-shadow: none;
+}
+
+.bpb-look--network .bpb-mh__name {
+	font-size: clamp(1.75rem, 1.4rem + 1vw, 2.125rem);
+}
+
+.bpb-look--network .bpb-mh__stats a {
+	color: var(--bpb-color-muted);
+	font-weight: 600;
+}
+
+.bpb-look--network .bpb-tabs {
+	padding: 0 16px;
+	border-radius: var(--bpb-radius-lg);
+	background: var(--bpb-color-surface);
+	box-shadow: var(--bpb-card-shadow);
+}
+
+.bpb-look--network .bpb-tabs--underline .bpb-tabs__list {
+	border-bottom: 0;
+}
+
+.bpb-look--network .bpb-tabs--underline .bpb-tabs__link {
+	padding: 16px 14px;
+	border-bottom-width: 3px;
+}
+
+.bpb-look--network .bpb-tabs .is-current .bpb-tabs__link {
+	color: var(--bpb-color-accent);
+}
+
+.bpb-look--network .bpb-shortcuts a {
+	font-size: 15px;
+}
+
+.bpb-look--network .bpb-shortcuts__icon {
+	padding: 6px;
+	border-radius: 50%;
+	background: var(--bpb-color-surface);
+	color: var(--bpb-color-accent);
+	box-shadow: var(--bpb-card-shadow);
+}
+
+.bpb-look--network .bpb-look__rail .bpb-rail {
+	padding: 12px 8px;
+	border-radius: 0;
+	background: none;
+	box-shadow: none;
+}
+
+.bpb-look--network .bpb-look__rail .bpb-rail + .bpb-rail {
+	border-top: 1px solid var(--bpb-color-border);
+}
+
+/* Post cards: counts line, then an even row of actions. */
+#buddypress.buddypress-wrap .bpb-look--network .activity-list.bp-list {
+	gap: 12px;
+}
+
+#buddypress.buddypress-wrap .bpb-look--network .activity-list > li.activity-item {
+	border: 0;
+	box-shadow: var(--bpb-card-shadow);
+}
+
+#buddypress.buddypress-wrap .bpb-look--network .bpb-post__stats {
+	justify-content: space-between;
+	padding-bottom: 8px;
+	border-bottom: 1px solid var(--bpb-color-border);
+}
+
+#buddypress.buddypress-wrap .bpb-look--network .bpb-post__bar {
+	margin-top: 0;
+	border-top: 0;
+}
+
+#buddypress.buddypress-wrap .bpb-look--network .bpb-post__bar .generic-button:not(:has(.delete-activity)) {
+	flex: 1 1 0;
+}
+
+#buddypress.buddypress-wrap .bpb-look--network .bpb-post__bar .generic-button:not(:has(.delete-activity)) :is(a, button) {
+	width: 100%;
+}
+
+#buddypress.buddypress-wrap .bpb-look--network .bpb-post__bar .fav .bp-screen-reader-text {
+	position: static;
+	width: auto;
+	height: auto;
+	clip: auto;
+	clip-path: none;
+}
+
+#buddypress.buddypress-wrap .bpb-look--network #whats-new-form {
+	border: 0;
+	box-shadow: var(--bpb-card-shadow);
+}
+
+/* Phones: a bottom tab bar instead of the left column; the right column goes. */
+@media (max-width: 781px) {
+	.bpb-look--network {
+		padding: 8px 8px 84px;
+		border-radius: 0;
+	}
+
+	.bpb-look--network .bpb-look__rail {
+		display: none;
+	}
+
+	.bpb-look--network .bpb-look__nav {
+		position: static;
+	}
+
+	.bpb-look--network .bpb-shortcuts--bar {
+		position: fixed;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		z-index: 50;
+		padding: 6px 8px calc(6px + env(safe-area-inset-bottom));
+		border-top: 1px solid var(--bpb-color-border);
+		background: var(--bpb-color-surface);
+	}
+
+	.bpb-look--network .bpb-shortcuts--bar .bpb-shortcuts__list {
+		display: flex;
+		justify-content: space-around;
+	}
+
+	.bpb-look--network .bpb-shortcuts--bar .bpb-shortcuts__item--me {
+		display: none;
+	}
+
+	.bpb-look--network .bpb-shortcuts--bar a {
+		flex-direction: column;
+		gap: 2px;
+		padding: 4px 8px;
+		font-size: 11px;
+		background: none;
+	}
+
+	.bpb-look--network .bpb-shortcuts--bar .bpb-shortcuts__icon {
+		padding: 0;
+		background: none;
+		box-shadow: none;
+	}
+
+	.bpb-look--network :is(.bpb-mh__avatar, .bpb-gh__avatar) img {
+		width: 120px;
+		height: 120px;
+	}
+}

@@ -1,0 +1,68 @@
+{
+	"version": 1,
+	"name": "shortcuts-nav",
+	"title": "Community shortcuts",
+	"category": "buddybuilder",
+	"icon": "menu-alt",
+	"description": "Links to your profile, the activity, members, groups, messages and notifications. A side menu on large screens, a bottom tab bar on phones.",
+	"keywords": [
+		"menu",
+		"navigation",
+		"shortcuts",
+		"tab bar",
+		"buddypress",
+		"buddybuilder"
+	],
+	"templateTypes": [],
+	"attributes": {
+		"layout": {
+			"type": "string",
+			"default": "list",
+			"control": "select",
+			"panel": "basic",
+			"label": "Layout",
+			"options": {
+				"list": "Side list",
+				"channels": "Channels"
+			}
+		},
+		"show_user": {
+			"type": "boolean",
+			"default": true,
+			"control": "toggle",
+			"panel": "basic",
+			"label": "Your profile on top"
+		},
+		"mobile_bar": {
+			"type": "boolean",
+			"default": true,
+			"control": "toggle",
+			"panel": "basic",
+			"label": "Bottom tab bar on phones"
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": [
+			"wide",
+			"full"
+		],
+		"color": {
+			"background": true,
+			"text": true,
+			"link": true
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true
+		},
+		"__experimentalBorder": {
+			"radius": true,
+			"width": true,
+			"color": true
+		}
+	}
+}

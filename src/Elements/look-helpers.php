@@ -65,6 +65,17 @@ if ( ! function_exists( 'bpb_group_url' ) ) {
 	}
 }
 
+if ( ! function_exists( 'bpb_groups_directory_url' ) ) {
+	/**
+	 * Groups directory URL on BuddyPress 12+ and older APIs (BuddyBoss Platform).
+	 *
+	 * @return string
+	 */
+	function bpb_groups_directory_url() {
+		return function_exists( 'bp_get_groups_directory_url' ) ? bp_get_groups_directory_url() : bp_get_groups_directory_permalink();
+	}
+}
+
 if ( ! function_exists( 'bpb_look_assets' ) ) {
 	/**
 	 * Enqueue the look styles: the shared components and, when given, one style (classic, creator, ...).

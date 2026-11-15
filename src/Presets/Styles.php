@@ -54,6 +54,24 @@ final class Styles {
 				'audience'    => __( 'Friend networks, campus and hobby communities', 'stax-buddy-builder' ),
 				'elementor'   => [ 'member-profile' => 'member-social', 'members-directory' => 'members-list', 'group-profile' => 'group-community', 'groups-directory' => 'groups-list', 'sitewide-activity' => 'activity-sidebar' ],
 			],
+			'network'      => [
+				'name'        => __( 'Network', 'stax-buddy-builder' ),
+				'description' => __( 'A social network layout: shortcuts on the left, the feed in the middle, people and groups on the right, a tab bar on phones.', 'stax-buddy-builder' ),
+				'audience'    => __( 'Large friend networks, alumni and member communities', 'stax-buddy-builder' ),
+				'elementor'   => [ 'member-profile' => 'member-classic', 'members-directory' => 'members-grid', 'group-profile' => 'group-community', 'groups-directory' => 'groups-grid', 'sitewide-activity' => 'activity-sidebar' ],
+			],
+			'career'       => [
+				'name'        => __( 'Career', 'stax-buddy-builder' ),
+				'description' => __( 'A professional network layout: a sticky profile card and the profile as stacked section cards. Calm, light and dense.', 'stax-buddy-builder' ),
+				'audience'    => __( 'Professional networks, associations, alumni and job communities', 'stax-buddy-builder' ),
+				'elementor'   => [ 'member-profile' => 'member-professional', 'members-directory' => 'members-list', 'group-profile' => 'group-course', 'groups-directory' => 'groups-list', 'sitewide-activity' => 'activity-sidebar' ],
+			],
+			'hub'          => [
+				'name'        => __( 'Hub', 'stax-buddy-builder' ),
+				'description' => __( 'A chat community layout, dark by default: a rail of groups, a column of sections, the stream as message rows and who is online.', 'stax-buddy-builder' ),
+				'audience'    => __( 'Gaming, creator and fan communities that live in real time', 'stax-buddy-builder' ),
+				'elementor'   => [ 'member-profile' => 'member-social', 'members-directory' => 'members-list', 'group-profile' => 'group-community', 'groups-directory' => 'groups-list', 'sitewide-activity' => 'activity-sidebar' ],
+			],
 		];
 
 		/**

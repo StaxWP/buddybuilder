@@ -81,7 +81,7 @@ final class Assets {
 	}
 
 	/** Look styles shipped in assets/css/looks/<style>.css. */
-	const LOOK_STYLES = [ 'classic', 'creator', 'professional', 'social', 'learning', 'club', 'membership', 'kleo' ];
+	const LOOK_STYLES = [ 'classic', 'creator', 'professional', 'social', 'network', 'career', 'hub', 'learning', 'club', 'membership', 'kleo' ];
 
 	/** Elements that need the look components. */
 	const LOOK_ELEMENTS = [ 'member-header', 'member-about', 'group-header', 'directory-header', 'people-rail' ];

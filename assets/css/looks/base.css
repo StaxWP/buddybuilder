@@ -1684,3 +1684,269 @@
 #buddypress.buddypress-wrap .bpb-look :is(.bpb-el-member-content, .bpb-el-group-content) .subnav-filters {
 	display: none;
 }
+
+/* ------------------------------------------------------------------------------------------------------------------
+ * Platform concepts (Network, Career, Hub): shortcuts, group rail, member list, drawers, sections, vertical tabs.
+ * ---------------------------------------------------------------------------------------------------------------- */
+.bpb-shortcuts__list,
+.bpb-grail__list,
+.bpb-mlist__list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.bpb-shortcuts__list {
+	display: grid;
+	gap: 2px;
+}
+
+.bpb-shortcuts a {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 9px 12px;
+	border-radius: var(--bpb-radius);
+	color: var(--bpb-color-text);
+	font-size: 15px;
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.bpb-shortcuts a:hover,
+.bpb-shortcuts .is-current a {
+	background: var(--bpb-panel-bg, var(--bpb-color-surface-2));
+}
+
+.bpb-shortcuts .is-current a {
+	color: var(--bpb-color-accent);
+}
+
+.bpb-shortcuts img {
+	border-radius: 50%;
+}
+
+.bpb-shortcuts--channels a {
+	gap: 8px;
+	padding: 6px 10px;
+	color: var(--bpb-color-muted);
+	font-size: 14px;
+	font-weight: 500;
+}
+
+.bpb-shortcuts--channels .bpb-shortcuts__icon {
+	width: 18px;
+	height: 18px;
+}
+
+.bpb-shortcuts--channels .is-current a {
+	color: var(--bpb-color-text);
+}
+
+.bpb-grail {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 8px;
+	padding: 12px 0;
+}
+
+.bpb-grail__list {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.bpb-grail__home {
+	display: grid;
+	place-items: center;
+	width: 46px;
+	height: 46px;
+	border-radius: 50%;
+	background: var(--bpb-panel-bg, var(--bpb-color-surface-2));
+	color: var(--bpb-color-text);
+}
+
+.bpb-grail__item a {
+	position: relative;
+	display: block;
+}
+
+.bpb-grail__item img,
+.bpb-grail__home {
+	transition: border-radius 0.15s ease;
+}
+
+.bpb-grail__item img {
+	display: block;
+	width: 46px;
+	height: 46px;
+	border-radius: 50%;
+	object-fit: cover;
+}
+
+.bpb-grail__item a:hover img,
+.bpb-grail__item.is-current img,
+.bpb-grail__home:hover,
+.bpb-grail__home.is-current {
+	border-radius: 14px;
+}
+
+.bpb-grail__item.is-current a::before,
+.bpb-grail__home.is-current::before {
+	content: "";
+	position: absolute;
+	left: -14px;
+	top: 8px;
+	bottom: 8px;
+	width: 4px;
+	border-radius: 0 4px 4px 0;
+	background: var(--bpb-color-text);
+}
+
+.bpb-grail__home {
+	position: relative;
+}
+
+.bpb-mlist__title {
+	margin: 16px 8px 6px;
+	padding: 0;
+	border: 0;
+	color: var(--bpb-color-muted);
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.bpb-mlist__item a {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 5px 8px;
+	border-radius: 6px;
+	color: var(--bpb-color-text);
+	font-size: 14px;
+	font-weight: 500;
+	text-decoration: none;
+}
+
+.bpb-mlist__item a:hover {
+	background: var(--bpb-panel-bg, var(--bpb-color-surface-2));
+}
+
+.bpb-mlist__list--offline .bpb-mlist__item a {
+	opacity: 0.55;
+}
+
+.bpb-mlist__avatar {
+	position: relative;
+	flex: none;
+}
+
+.bpb-mlist__avatar img {
+	display: block;
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+}
+
+.bpb-mlist__dot {
+	position: absolute;
+	right: -2px;
+	bottom: -2px;
+	width: 12px;
+	height: 12px;
+	border: 3px solid var(--bpb-color-surface);
+	border-radius: 50%;
+	background: #22c55e;
+}
+
+.bpb-mlist__list--offline .bpb-mlist__dot {
+	background: #71717a;
+}
+
+/* Drawers: always open on large screens; a button opens them on phones. */
+.bpb-drawer__toggle,
+.bpb-drawer__button {
+	display: none;
+}
+
+@media (max-width: 781px) {
+	.bpb-mlist--drawer .bpb-drawer__button {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		min-height: 40px;
+		padding: 0 14px;
+		border-radius: var(--bpb-button-radius);
+		background: var(--bpb-panel-bg, var(--bpb-color-surface-2));
+		color: var(--bpb-color-text);
+		font-size: 14px;
+		font-weight: 600;
+		cursor: pointer;
+	}
+
+	.bpb-mlist--drawer .bpb-mlist__body {
+		display: none;
+	}
+
+	.bpb-mlist--drawer .bpb-drawer__toggle:checked ~ .bpb-mlist__body {
+		display: block;
+	}
+
+	.bpb-mlist--drawer .bpb-drawer__toggle:focus-visible + .bpb-drawer__button {
+		outline: 2px solid var(--bpb-color-accent);
+	}
+}
+
+/* Section cards (stacked profile sections). */
+.bpb-look .bpb-section {
+	padding: 4px 20px 16px;
+	border: var(--bpb-card-border);
+	border-radius: var(--bpb-radius-lg);
+	background: var(--bpb-card-bg);
+	box-shadow: var(--bpb-card-shadow);
+}
+
+.bpb-look__sections > * + * {
+	margin-block-start: 12px !important;
+}
+
+/* Vertical tabs (channels). */
+.bpb-tabs--vertical .bpb-tabs__list {
+	flex-direction: column;
+	gap: 2px;
+	overflow: visible;
+	-webkit-mask-image: none;
+	mask-image: none;
+}
+
+.bpb-tabs--vertical .bpb-tabs__link {
+	width: 100%;
+	box-sizing: border-box;
+	padding: 7px 10px;
+	border-radius: 6px;
+	font-weight: 500;
+}
+
+.bpb-tabs--vertical .bpb-tabs__link::before {
+	content: "#";
+	opacity: 0.6;
+}
+
+.bpb-tabs--vertical .is-current .bpb-tabs__link {
+	background: var(--bpb-panel-bg, var(--bpb-color-surface-2));
+	color: var(--bpb-color-text);
+}
+
+@media (max-width: 781px) {
+	.bpb-tabs--vertical .bpb-tabs__list {
+		flex-direction: row;
+		overflow-x: auto;
+	}
+
+	.bpb-tabs--vertical .bpb-tabs__link {
+		width: auto;
+	}
+}

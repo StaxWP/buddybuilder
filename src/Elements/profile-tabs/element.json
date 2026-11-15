@@ -26,7 +26,8 @@
 			"options": {
 				"underline": "Underline",
 				"pills": "Pills",
-				"segmented": "Segmented"
+				"segmented": "Segmented",
+				"vertical": "Vertical (channels)"
 			}
 		},
 		"show_counts": {
