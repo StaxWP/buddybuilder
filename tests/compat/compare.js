@@ -86,6 +86,12 @@ function firstDiff( a, b ) {
 			rows.push( { key, fails: [ 'missing in candidate' ] } );
 			continue;
 		}
+		// A page that fataled on the baseline and renders cleanly now is a fix, listed but not failing.
+		const baseFatal = ( b.notices || [] ).some( ( n ) => String( n ).startsWith( 'FATAL' ) );
+		if ( baseFatal && ! ( c.notices || [] ).length && ! c.fatal && ! c.error && c.status === 200 ) {
+			rows.push( { key, fails: [], fixed: true, widgets: Object.keys( c.widgets ).length } );
+			continue;
+		}
 		if ( b.status !== c.status ) {
 			fails.push( `status ${ b.status } -> ${ c.status }` );
 		}
@@ -121,7 +127,10 @@ function firstDiff( a, b ) {
 			}
 		}
 
-		const newNotices = ( c.notices || [] ).filter( ( n ) => ! ( b.notices || [] ).includes( n ) );
+		// Same notice = same first line, without paths and line numbers (stack traces differ between versions).
+		const noticeKey = ( n ) => String( n ).split( '\n' )[ 0 ].replace( /\/[^\s:]*\//g, '' ).replace( /:\d+/g, '' );
+		const baseKeys = ( b.notices || [] ).map( noticeKey );
+		const newNotices = ( c.notices || [] ).filter( ( n ) => ! baseKeys.includes( noticeKey( n ) ) );
 		if ( newNotices.length ) {
 			fails.push( `${ newNotices.length } new notices` );
 			details.push( `### ${ key }\nnew notices:\n${ newNotices.map( ( n ) => '- ' + n ).join( '\n' ) }\n` );
@@ -143,7 +152,7 @@ function firstDiff( a, b ) {
 		'',
 		'| Case | Widgets | Pixels | Result |',
 		'|---|---|---|---|',
-		...rows.map( ( r ) => `| ${ r.key } | ${ r.widgets ?? '' } | ${ r.px === null || r.px === undefined ? '' : ( r.px * 100 ).toFixed( 2 ) + '%' } | ${ r.fails.length ? r.fails.join( '; ' ) : 'pass' } |` ),
+		...rows.map( ( r ) => `| ${ r.key } | ${ r.widgets ?? '' } | ${ r.px === null || r.px === undefined ? '' : ( r.px * 100 ).toFixed( 2 ) + '%' } | ${ r.fails.length ? r.fails.join( '; ' ) : ( r.fixed ? 'pass (fixed: the baseline fataled)' : 'pass' ) } |` ),
 		'',
 		details.length ? '## Details\n\n' + details.join( '\n' ) : '',
 	];

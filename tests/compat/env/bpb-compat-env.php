@@ -220,6 +220,9 @@ add_filter( 'bp_core_fetch_avatar_no_grav', '__return_true' );
 add_filter( 'get_avatar_url', static function ( $url ) {
 	return false !== strpos( $url, 'gravatar.com' ) ? includes_url( 'images/blank.gif' ) : $url;
 } );
+// No activity heartbeat: BuddyPress would make its scripts depend on the deregistered heartbeat script on the activity
+// directory and group activity, and then print none of them (the stream never loaded there before 2026-11-15).
+add_filter( 'bp_activity_do_heartbeat', '__return_false' );
 add_action( 'init', static function () {
 	wp_deregister_script( 'heartbeat' );
 	remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
