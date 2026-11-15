@@ -24,7 +24,7 @@
 	--bpb-badge-bg: linear-gradient(120deg, var(--bpb-color-accent), var(--bpb-accent-2));
 	--bpb-badge-color: #fff;
 	--bpb-cover-radius: var(--bpb-radius-lg);
-	--bpb-cover-overlay: linear-gradient(180deg, rgb(0 0 0 / 0) 35%, rgb(17 7 32 / 0.55));
+	--bpb-cover-overlay: linear-gradient(135deg, color-mix(in srgb, var(--bpb-color-accent) 78%, transparent), color-mix(in srgb, var(--bpb-accent-2) 72%, transparent));
 }
 
 .bpb-look--creator :is(.bpb-mh, .bpb-gh) {
@@ -89,4 +89,9 @@
 #buddypress.buddypress-wrap .bpb-look--creator .dir-list ul.bp-list > li .list-wrap {
 	border: 0;
 	background: var(--bpb-card-bg);
+}
+
+/* The cover wears the style: the photo under an accent gradient, also with demo media. */
+.bpb-look--creator :is(.bpb-mh__cover, .bpb-gh__cover)::after {
+	mix-blend-mode: multiply;
 }
