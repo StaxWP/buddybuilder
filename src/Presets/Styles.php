@@ -38,8 +38,8 @@ final class Styles {
 			],
 			'creator'      => [
 				'name'        => __( 'Creator', 'stax-buddy-builder' ),
-				'description' => __( 'A big cover, a centered name and stats up front. Made for people who publish.', 'stax-buddy-builder' ),
-				'audience'    => __( 'Creators, artists, fan communities', 'stax-buddy-builder' ),
+				'description' => __( 'A creator platform layout: a centered profile with a gradient ring, stats as a row of numbers, highlight bubbles, posts as a photo grid and a tab bar on phones.', 'stax-buddy-builder' ),
+				'audience'    => __( 'Creators, artists, photographers and fan communities', 'stax-buddy-builder' ),
 				'elementor'   => [ 'member-profile' => 'member-creator', 'members-directory' => 'members-grid', 'group-profile' => 'group-community', 'groups-directory' => 'groups-grid', 'sitewide-activity' => 'activity-feed' ],
 			],
 			'professional' => [

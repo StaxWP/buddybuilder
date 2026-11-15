@@ -81,6 +81,10 @@ const host = new URL( site ).hostname;
 				await page.waitForSelector( '[data-bp-list] .bp-list, [data-bp-list] .bp-feedback:not(.loading)', { timeout: 15000 } ).catch( () => {} );
 				await page.waitForTimeout( 600 );
 				await page.addStyleTag( { content: '#wpadminbar{display:none!important}html{margin-top:0!important}*{transition:none!important;animation:none!important}' } );
+				// Full-page shots: lazy images below the fold load too.
+				await page.evaluate( () => document.querySelectorAll( 'img[loading="lazy"]' ).forEach( ( img ) => ( img.loading = 'eager' ) ) );
+				await page.waitForLoadState( 'networkidle' );
+				await page.evaluate( () => Promise.all( [ ...document.images ].filter( ( img ) => ! img.complete ).map( ( img ) => new Promise( ( r ) => ( img.onload = img.onerror = r ) ) ) ) );
 				fs.mkdirSync( path.join( out, c.style ), { recursive: true } );
 				const file = path.join( out, c.style, `${ c.page }-${ width }.png` );
 				const target = ( await page.$( '.bpb-look' ) ) || ( await page.$( 'main' ) );

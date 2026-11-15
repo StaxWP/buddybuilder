@@ -4,7 +4,7 @@
 	"title": "People and groups list",
 	"category": "buddybuilder",
 	"icon": "groups",
-	"description": "A short list for side columns: newest, active or popular members, the displayed member's friends, or active groups. As a list or a photo grid.",
+	"description": "A short list for side columns or a highlights row: newest, active or popular members, the displayed member's friends or groups, or active groups. As a list, a photo grid or round bubbles.",
 	"keywords": [
 		"members",
 		"groups",
@@ -23,6 +23,13 @@
 			"panel": "basic",
 			"label": "Title"
 		},
+		"show_title": {
+			"type": "boolean",
+			"default": true,
+			"control": "toggle",
+			"panel": "basic",
+			"label": "Show the title"
+		},
 		"object": {
 			"type": "string",
 			"default": "members",
@@ -32,7 +39,8 @@
 			"options": {
 				"members": "Members",
 				"friends": "Friends of the displayed member",
-				"groups": "Groups"
+				"groups": "Groups",
+				"member-groups": "Groups of the displayed member"
 			}
 		},
 		"order": {
@@ -64,7 +72,8 @@
 			"label": "Layout",
 			"options": {
 				"list": "List",
-				"grid": "Photo grid"
+				"grid": "Photo grid",
+				"bubbles": "Round bubbles in a row"
 			}
 		}
 	},

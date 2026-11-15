@@ -14,8 +14,9 @@ bpb_look_assets();
 $bpb_items = [];
 $bpb_order = in_array( $attrs['order'], [ 'active', 'newest', 'popular' ], true ) ? $attrs['order'] : 'active';
 
-if ( 'groups' === $attrs['object'] ) {
-	if ( ! bp_is_active( 'groups' ) ) {
+if ( in_array( $attrs['object'], [ 'groups', 'member-groups' ], true ) ) {
+	$bpb_mine = 'member-groups' === $attrs['object'];
+	if ( ! bp_is_active( 'groups' ) || ( $bpb_mine && ! bp_displayed_user_id() ) ) {
 		return;
 	}
 	$bpb_list = groups_get_groups(
@@ -23,6 +24,7 @@ if ( 'groups' === $attrs['object'] ) {
 			'type'        => $bpb_order,
 			'per_page'    => (int) $attrs['count'],
 			'show_hidden' => false,
+			'user_id'     => $bpb_mine ? bp_displayed_user_id() : false,
 		]
 	);
 	foreach ( isset( $bpb_list['groups'] ) ? $bpb_list['groups'] : [] as $bpb_group ) {
@@ -35,7 +37,7 @@ if ( 'groups' === $attrs['object'] ) {
 				[
 					'item_id' => $bpb_group->id,
 					'object'  => 'group',
-					'type'    => 'grid' === $attrs['layout'] ? 'full' : 'thumb',
+					'type'    => 'list' === $attrs['layout'] ? 'thumb' : 'full',
 					'width'   => 40,
 					'height'  => 40,
 					'alt'     => '',
@@ -70,7 +72,7 @@ if ( 'groups' === $attrs['object'] ) {
 			'avatar' => bp_core_fetch_avatar(
 				[
 					'item_id' => $bpb_user->ID,
-					'type'    => 'grid' === $attrs['layout'] ? 'full' : 'thumb',
+					'type'    => 'list' === $attrs['layout'] ? 'thumb' : 'full',
 					'width'   => 40,
 					'height'  => 40,
 					'alt'     => '',
@@ -85,14 +87,18 @@ if ( ! $bpb_items ) {
 }
 
 $bpb_defaults = [
-	'groups'  => __( 'Active groups', 'stax-buddy-builder' ),
-	'friends' => __( 'Friends', 'stax-buddy-builder' ),
-	'members' => __( 'People to know', 'stax-buddy-builder' ),
+	'groups'        => __( 'Active groups', 'stax-buddy-builder' ),
+	'member-groups' => __( 'Groups', 'stax-buddy-builder' ),
+	'friends'       => __( 'Friends', 'stax-buddy-builder' ),
+	'members'       => __( 'People to know', 'stax-buddy-builder' ),
 ];
-$bpb_default  = isset( $bpb_defaults[ $attrs['object'] ] ) ? $bpb_defaults[ $attrs['object'] ] : $bpb_defaults['members'];
+$bpb_title    = '' !== $attrs['title'] ? $attrs['title'] : ( isset( $bpb_defaults[ $attrs['object'] ] ) ? $bpb_defaults[ $attrs['object'] ] : $bpb_defaults['members'] );
+$bpb_layout   = in_array( $attrs['layout'], [ 'grid', 'bubbles' ], true ) ? $attrs['layout'] : 'list';
 ?>
-<section class="bpb-rail<?php echo 'grid' === $attrs['layout'] ? ' bpb-rail--grid' : ''; ?>">
-	<h2 class="bpb-rail__title"><?php echo esc_html( '' !== $attrs['title'] ? $attrs['title'] : $bpb_default ); ?></h2>
+<section class="bpb-rail<?php echo 'list' !== $bpb_layout ? ' bpb-rail--' . esc_attr( $bpb_layout ) : ''; ?>"<?php echo $attrs['show_title'] ? '' : ' aria-label="' . esc_attr( $bpb_title ) . '"'; ?>>
+	<?php if ( $attrs['show_title'] ) : ?>
+		<h2 class="bpb-rail__title"><?php echo esc_html( $bpb_title ); ?></h2>
+	<?php endif; ?>
 	<ul class="bpb-rail__list">
 		<?php foreach ( $bpb_items as $bpb_item ) : ?>
 			<li class="bpb-rail__item">

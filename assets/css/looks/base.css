@@ -2002,3 +2002,166 @@
 		clip-path: inset(50%);
 	}
 }
+
+/* Phones: shortcuts with the tab bar option become a bottom tab bar; the right column goes (Network, Creator). */
+@media (max-width: 781px) {
+	.bpb-look:has(.bpb-shortcuts--bar) .bpb-look__rail {
+		display: none;
+	}
+
+	.bpb-look:has(.bpb-shortcuts--bar) .bpb-look__nav {
+		position: static;
+	}
+
+	.bpb-look .bpb-shortcuts--bar {
+		position: fixed;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		z-index: 50;
+		padding: 6px 8px calc(6px + env(safe-area-inset-bottom));
+		border-top: 1px solid var(--bpb-color-border);
+		background: var(--bpb-color-surface);
+	}
+
+	.bpb-look .bpb-shortcuts--bar .bpb-shortcuts__list {
+		display: flex;
+		justify-content: space-around;
+	}
+
+	.bpb-look .bpb-shortcuts--bar .bpb-shortcuts__item--me {
+		display: none;
+	}
+
+	.bpb-look .bpb-shortcuts--bar a {
+		flex-direction: column;
+		gap: 2px;
+		padding: 4px 8px;
+		font-size: 11px;
+		background: none;
+	}
+
+	.bpb-look .bpb-shortcuts--bar .bpb-shortcuts__icon {
+		padding: 0;
+		background: none;
+		box-shadow: none;
+	}
+
+	.bpb-look:has(.bpb-shortcuts--bar) {
+		padding-bottom: 84px;
+	}
+}
+
+/* People and groups as a row of round bubbles (highlights, who is active): scrolls sideways when it overflows. */
+.bpb-rail--bubbles {
+	padding: 4px 0;
+	border: 0;
+	background: none;
+	box-shadow: none;
+}
+
+.bpb-rail--bubbles .bpb-rail__list {
+	display: flex;
+	gap: 16px;
+	padding: 2px 2px 6px;
+	overflow-x: auto;
+	scrollbar-width: none;
+}
+
+.bpb-rail--bubbles .bpb-rail__item a {
+	flex-direction: column;
+	gap: 6px;
+	width: 76px;
+	text-align: center;
+}
+
+.bpb-rail--bubbles .bpb-rail__item img {
+	box-sizing: border-box;
+	width: 68px;
+	height: 68px;
+	padding: 3px;
+	border: 2px solid transparent;
+	border-radius: 50%;
+	background: linear-gradient(var(--bpb-color-surface), var(--bpb-color-surface)) padding-box, var(--bpb-bubble-ring, var(--bpb-color-border)) border-box;
+	object-fit: cover;
+}
+
+.bpb-rail--bubbles .bpb-rail__text {
+	width: 100%;
+}
+
+.bpb-rail--bubbles .bpb-rail__text strong {
+	overflow: hidden;
+	font-size: 12px;
+	font-weight: 500;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.bpb-rail--bubbles .bpb-rail__text span {
+	display: none;
+}
+
+/* Hub and Creator replies: compact indented rows under their post (avatar, name, text on one line), no tinted block. */
+#buddypress.buddypress-wrap :is(.bpb-look--hub, .bpb-look--creator) .bpb-post__comments {
+	margin: 2px 0 4px 64px;
+	padding: 0;
+	border: 0;
+	background: none;
+}
+
+#buddypress.buddypress-wrap :is(.bpb-look--hub, .bpb-look--creator) .bpb-post__comments li.comment-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 0 6px;
+	margin: 0;
+	padding: 2px 0;
+	border: 0;
+	font-size: 13px;
+	line-height: 1.4;
+}
+
+#buddypress.buddypress-wrap :is(.bpb-look--hub, .bpb-look--creator) .bpb-post__comments .acomment-avatar {
+	align-self: center;
+	margin: 0;
+}
+
+#buddypress.buddypress-wrap :is(.bpb-look--hub, .bpb-look--creator) .bpb-post__comments .acomment-avatar img {
+	width: 18px;
+	height: 18px;
+}
+
+#buddypress.buddypress-wrap :is(.bpb-look--hub, .bpb-look--creator) .bpb-post__comments :is(.acomment-meta, .acomment-content) {
+	margin: 0;
+	padding: 0;
+	font-size: 13px;
+}
+
+#buddypress.buddypress-wrap :is(.bpb-look--hub, .bpb-look--creator) .bpb-post__comments .acomment-meta a:first-child {
+	color: var(--bpb-color-text);
+	font-weight: 600;
+}
+
+#buddypress.buddypress-wrap :is(.bpb-look--hub, .bpb-look--creator) .bpb-post__comments .acomment-meta .activity-time-since {
+	display: none;
+}
+
+#buddypress.buddypress-wrap :is(.bpb-look--hub, .bpb-look--creator) .bpb-post__comments .acomment-content p {
+	margin: 0;
+}
+
+#buddypress.buddypress-wrap :is(.bpb-look--hub, .bpb-look--creator) .bpb-post__comments li.comment-item .activity-meta.action {
+	margin: 0 0 0 4px;
+	opacity: 0;
+}
+
+#buddypress.buddypress-wrap :is(.bpb-look--hub, .bpb-look--creator) .bpb-post__comments li.comment-item:is(:hover, :focus-within) .activity-meta.action {
+	opacity: 1;
+}
+
+#buddypress.buddypress-wrap :is(.bpb-look--hub, .bpb-look--creator) .bpb-post__comments li.comment-item .activity-meta.action a {
+	min-height: 0;
+	padding: 0 4px;
+	font-size: 12px;
+}

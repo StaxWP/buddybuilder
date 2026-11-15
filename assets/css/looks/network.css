@@ -163,53 +163,11 @@ body.buddypress .buddypress-wrap .bpb-look--network :is(.bpb-mh__name, .bpb-gh__
 	box-shadow: var(--bpb-card-shadow);
 }
 
-/* Phones: a bottom tab bar instead of the left column; the right column goes. */
+/* Phones: the bottom tab bar (base.css) replaces the left column. */
 @media (max-width: 781px) {
 	.bpb-look--network {
 		padding: 8px 8px 84px;
 		border-radius: 0;
-	}
-
-	.bpb-look--network .bpb-look__rail {
-		display: none;
-	}
-
-	.bpb-look--network .bpb-look__nav {
-		position: static;
-	}
-
-	.bpb-look--network .bpb-shortcuts--bar {
-		position: fixed;
-		right: 0;
-		bottom: 0;
-		left: 0;
-		z-index: 50;
-		padding: 6px 8px calc(6px + env(safe-area-inset-bottom));
-		border-top: 1px solid var(--bpb-color-border);
-		background: var(--bpb-color-surface);
-	}
-
-	.bpb-look--network .bpb-shortcuts--bar .bpb-shortcuts__list {
-		display: flex;
-		justify-content: space-around;
-	}
-
-	.bpb-look--network .bpb-shortcuts--bar .bpb-shortcuts__item--me {
-		display: none;
-	}
-
-	.bpb-look--network .bpb-shortcuts--bar a {
-		flex-direction: column;
-		gap: 2px;
-		padding: 4px 8px;
-		font-size: 11px;
-		background: none;
-	}
-
-	.bpb-look--network .bpb-shortcuts--bar .bpb-shortcuts__icon {
-		padding: 0;
-		background: none;
-		box-shadow: none;
 	}
 
 	.bpb-look--network :is(.bpb-mh__avatar, .bpb-gh__avatar) img {

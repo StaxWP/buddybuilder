@@ -2,7 +2,8 @@
 /**
  * Seeds a realistic sample community on a THROWAWAY site, for look design, screenshots and docs:
  * 14 members (avatar, cover, headline, location, about, website), friendships, 6 groups (avatar, cover,
- * description, members), and about 40 activity updates and comments.
+ * description, members), and about 40 activity updates and comments, a few of them photo posts (an image from the
+ * media dir, copied to uploads/bpb-sample/).
  *
  *   wp eval-file bin/sample-community.php <media dir from bin/sample-media.js> [--remove]
  *
@@ -64,6 +65,17 @@ $bpb_posts = [
 	'samuel' => [ 'New episode: Maya on designing calm software. Link in my profile.' ],
 ];
 
+// Photo posts: [ member, caption, media image number ]. The image goes in the content as a plain <img>.
+$bpb_photos = [
+	[ 'maya', 'Moodboard for the calm dashboard. Soft edges, one accent.', 3 ],
+	[ 'maya', 'Colour study from this morning.', 9 ],
+	[ 'maya', 'Workshop wall after the critique. So many sticky notes.', 12 ],
+	[ 'maya', 'Weekend palette.', 6 ],
+	[ 'sofia', 'Night sky test for book three.', 14 ],
+	[ 'tom', 'Fog over the harbour, 6:12am.', 5 ],
+	[ 'isabel', 'Easing curves, but make it pretty.', 10 ],
+];
+
 /**
  * Login of a sample member.
  *
@@ -87,6 +99,9 @@ if ( $bpb_remove ) {
 		if ( $bpb_u ) {
 			wp_delete_user( $bpb_u->ID );
 		}
+	}
+	foreach ( glob( wp_upload_dir()['basedir'] . '/bpb-sample/*' ) as $bpb_file ) {
+		unlink( $bpb_file );
 	}
 	WP_CLI::success( 'Sample community removed.' );
 	return;
@@ -259,6 +274,39 @@ if ( bp_is_active( 'activity' ) ) {
 			}
 		}
 	}
+	$bpb_up = wp_upload_dir();
+	wp_mkdir_p( $bpb_up['basedir'] . '/bpb-sample' );
+	foreach ( $bpb_photos as $bpb_photo ) {
+		list( $bpb_slug, $bpb_caption, $bpb_num ) = $bpb_photo;
+		$bpb_found = bp_activity_get(
+			[
+				'filter'       => [ 'user_id' => $bpb_ids[ $bpb_slug ] ],
+				'search_terms' => $bpb_caption,
+				'per_page'     => 1,
+			]
+		);
+		if ( ! empty( $bpb_found['activities'] ) ) {
+			continue;
+		}
+		$bpb_name   = sprintf( 'photo-%02d.jpg', $bpb_num );
+		$bpb_editor = wp_get_image_editor( sprintf( '%s/cover-%02d.jpg', $bpb_media, $bpb_num ) );
+		if ( is_wp_error( $bpb_editor ) ) {
+			continue;
+		}
+		$bpb_editor->resize( 900, 900, true );
+		$bpb_editor->save( $bpb_up['basedir'] . '/bpb-sample/' . $bpb_name, 'image/jpeg' );
+		++$bpb_n;
+		$bpb_aid = bp_activity_post_update(
+			[
+				'user_id' => $bpb_ids[ $bpb_slug ],
+				'content' => $bpb_caption . "\n\n" . '<img src="' . esc_url( $bpb_up['baseurl'] . '/bpb-sample/' . $bpb_name ) . '" alt="" width="900" height="900" />',
+			]
+		);
+		if ( $bpb_aid ) {
+			bp_activity_update_meta( $bpb_aid, 'favorite_count', 3 + $bpb_n % 9 );
+		}
+	}
+
 	global $wpdb;
 	$bpb_table = buddypress()->activity->table_name;
 	$bpb_in    = implode( ',', array_map( 'intval', $bpb_ids ) );
