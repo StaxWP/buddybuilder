@@ -47,9 +47,10 @@ function bpb_compat_user( $login, $name ) {
 $bpb_ana   = bpb_compat_user( 'ana', 'Ana Popescu' );
 $bpb_mihai = bpb_compat_user( 'mihai', 'Mihai Ionescu' );
 
-// Fixed last activity: relative dates stay the same during a run.
-foreach ( [ $bpb_ana, $bpb_mihai ] as $bpb_uid ) {
-	bp_update_user_last_activity( $bpb_uid, '2025-01-01 10:00:00' );
+// Fixed last activity for every member (the administrator and other test users too): relative dates such as
+// "Active 3 hours, 13 minutes ago" stay the same between the baseline and the candidate runs.
+foreach ( get_users( [ 'fields' => 'ID' ] ) as $bpb_uid ) {
+	bp_update_user_last_activity( (int) $bpb_uid, '2025-01-01 10:00:00' );
 }
 
 if ( bp_is_active( 'friends' ) && ! friends_check_friendship( $bpb_ana, $bpb_mihai ) ) {
