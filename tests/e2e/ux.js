@@ -113,8 +113,10 @@ async function shot( page, name, locator ) {
 		const frame = page.locator( '.bpb-setup__preview iframe' );
 		const before = await frame.getAttribute( 'src' );
 		ok( before && before.includes( 'bpb_lp' ), 'step 2 previews the look on a real profile' );
-		await page.check( 'input[name="look[member-profile]"][value=member-creator]' );
-		ok( ( await frame.getAttribute( 'src' ) ).includes( 'member-creator' ), 'picking a look updates the live preview' );
+		ok( await page.locator( 'input[name=bpb_style]' ).count() >= 4, 'step 2 starts with one decision: a style for the community' );
+		await page.check( 'input[name=bpb_style][value=creator]' );
+		ok( ( await frame.getAttribute( 'src' ) ).includes( 'creator-member-profile' ), 'picking a style updates the live preview' );
+		ok( await page.locator( 'input[name="look[groups-directory]"][value=creator-groups-directory]' ).isChecked(), 'the style picks the look of every page' );
 		await page.waitForTimeout( 1500 );
 		await axeCheck( page, 'setup step 2' );
 		await shot( page, 'setup-2-pick-a-look' );
@@ -129,7 +131,7 @@ async function shot( page, name, locator ) {
 		await Promise.all( [ page.waitForNavigation(), page.click( '.bpb-setup__nav button:text-is("Use these")' ) ] );
 		ok( page.url().includes( 'bpb_done=setup' ), 'Use these lands on Community pages' );
 		const live = php( echo( "[ \\Buddy_Builder\\Templates\\Registry::get( 'member-profile' ), get_post_meta( \\Buddy_Builder\\Templates\\Registry::get( 'member-profile' )['id'], '_bpb_preset', true ) ]" ) );
-		ok( 'blocks' === live[ 0 ].builder && 'member-creator' === live[ 1 ], 'member profile now uses the Creator look with the block editor' );
+		ok( 'blocks' === live[ 0 ].builder && 'creator-member-profile' === live[ 1 ], 'member profile now uses the Creator style with the block editor' );
 
 		// 2. Community pages (B-M1).
 		await page.goto( site + '/wp-admin/admin.php?page=buddy-builder-settings' );
@@ -146,14 +148,19 @@ async function shot( page, name, locator ) {
 		await Promise.all( [ page.waitForNavigation(), row.locator( 'button:has-text("Use the BuddyPress default")' ).click() ] );
 		ok( ( await page.locator( '#bpb-page-member-profile .bpb-cp__status' ).textContent() ).includes( 'BuddyPress default' ), 'Use the BuddyPress default works' );
 		const looks = page.locator( '#bpb-page-member-profile .bpb-looks' );
-		await looks.locator( 'summary' ).click();
+		await looks.locator( 'summary' ).first().click();
 		const top = await page.locator( '#bpb-page-member-profile' ).evaluate( ( el ) => {
 			window.scrollTo( 0, el.getBoundingClientRect().top + window.scrollY - 60 );
 			return el.getBoundingClientRect().top;
 		} );
 		await shot( page, 'community-pages-pick-a-look', { clip: { x: 160, y: Math.max( 0, top - 20 ), width: 1280, height: Math.min( 560, 900 - Math.max( 0, top - 20 ) ) } } );
-		await Promise.all( [ page.waitForNavigation(), looks.locator( 'form.bpb-look' ).first().locator( 'button' ).first().click() ] );
-		ok( ( await page.locator( '#bpb-page-member-profile .bpb-cp__status' ).textContent() ).includes( 'Live' ), 'Pick a look makes a new layout live' );
+		// Review W6: every look has a Preview link and a confirm step before it goes live, then Undo.
+		const card = looks.locator( 'form.bpb-look' ).first();
+		ok( ( await card.locator( 'a:has-text("Preview")' ).getAttribute( 'href' ) || '' ).includes( 'bpb_lp' ), 'each look has a Preview of the real page' );
+		await card.locator( 'summary' ).click();
+		await Promise.all( [ page.waitForNavigation(), card.locator( 'button' ).first().click() ] );
+		ok( ( await page.locator( '#bpb-page-member-profile .bpb-cp__status' ).textContent() ).includes( 'Live' ), 'Use this look (after the confirm step) makes a new layout live' );
+		ok( await page.locator( '.bpb-done button:has-text("Undo")' ).count() === 1, 'the result notice offers Undo' );
 		const select = page.locator( '#bpb-layout-member-profile' );
 		const options = await select.locator( 'option' ).count();
 		ok( options >= 3, `existing layouts listed in More (${ options - 1 })` );
@@ -187,12 +194,16 @@ async function shot( page, name, locator ) {
 		await shot( page, 'community-pages-not-applied', '#bpb-page-member-profile' );
 		fs.unlinkSync( override );
 		await page.goto( profile );
-		ok( ( await page.locator( '#wp-admin-bar-bpb-community' ).textContent() ).includes( 'Edit this community page' ), 'without the override: Edit this community page' );
+		ok( ( await page.locator( '#wp-admin-bar-bpb-community .bpb-ab-title' ).textContent() ).includes( 'Member profile:' ), 'without the override: the admin bar names the page and its look' );
 		ok( null === php( echo( "\\Buddy_Builder\\Admin\\Checker::last_issue( 'member-profile' )" ) ), 'the finding is forgotten once the layout shows' );
 
 		// 5. Settings and Help and status (B-M6).
 		await page.goto( site + '/wp-admin/admin.php?page=buddy-builder-options' );
 		ok( await page.locator( 'text=Sample member for previews' ).count() > 0, 'Settings screen loads' );
+		// Menu fold (decision 5): Community pages, Features (Pro), Settings; Help and status and License are tabs.
+		const menu = ( await page.locator( '#toplevel_page_buddy-builder-settings .wp-submenu a' ).allInnerTexts() ).map( ( t ) => t.trim() );
+		ok( ! menu.includes( 'Starter kits' ) && ! menu.includes( 'Help and status' ) && ! menu.includes( 'License' ) && menu.includes( 'Settings' ), 'menu folds to Community pages, Features and Settings (' + menu.join( ', ' ) + ')' );
+		ok( await page.locator( '.bpb-settings-tabs a:has-text("Help and status")' ).count() === 1, 'Settings has a Help and status tab' );
 		await axeCheck( page, 'settings' );
 		await shot( page, 'settings' );
 		await page.goto( site + '/wp-admin/admin.php?page=buddy-builder-status' );
@@ -203,6 +214,18 @@ async function shot( page, name, locator ) {
 		if ( await page.locator( '.bpb-kits' ).count() ) {
 			await axeCheck( page, 'starter kits' );
 			await shot( page, 'starter-kits' );
+		}
+
+		// Live page hub: View as a guest renders the page logged out for this request, with the way back.
+		await page.goto( site + '/members/' + member + '/' );
+		const viewAsGuest = await page.locator( "#wp-admin-bar-bpb-community-guest a" ).getAttribute( 'href' ).catch( () => '' );
+		if ( viewAsGuest ) {
+			await page.goto( viewAsGuest );
+			ok( await page.locator( '.bpb-view-as' ).count() === 1 && await page.locator( '#wpadminbar' ).count() === 0, 'View as a guest: banner, no admin bar' );
+			await page.goto( site + '/members/' + member + '/' );
+			ok( await page.locator( '#wpadminbar' ).count() === 1, 'the next request is the administrator again' );
+		} else {
+			skip( 'View as: no community admin bar entry on this page' );
 		}
 
 		// 6. Pro modules (B-M5), when BuddyBuilder Pro is active and licensed.
