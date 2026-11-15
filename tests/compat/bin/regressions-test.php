@@ -25,6 +25,7 @@
  * - checker-known-issues        B-M4: page template finding; last finding kept and forgotten.
  * - setup-new-install           B-M2: the setup redirect is asked for on new installs only.
  * - checker-readylaunch         B-M4: BuddyBoss ReadyLaunch detection (real function on BuddyBoss 2.9+, else mocked).
+ * - cards-follow-layout         Card styles apply only with the layout they were saved from.
  * - change-look-undo            Review W6: each look has a Preview of the real page and a confirm step; using a look
  *                               can be undone once (the previous layout is live again, the new one is kept).
  *
@@ -490,8 +491,24 @@ switch ( $bpb_case ) {
 		$bpb_ok( ! \Buddy_Builder\Admin\CommunityPages::apply( $bpb_type, 'undo' ), 'a second Undo does nothing' );
 		break;
 
+	case 'cards-follow-layout':
+		// A card style belongs to the layout it was saved from: another layout on the page (Elementor, the
+		// BuddyPress default) renders the classic markup again (found by the gate on 2026-11-15).
+		update_option( 'bpb_blocks_enabled', '1' );
+		$bpb_saved_cards = get_option( \Buddy_Builder\Templates\Cards::OPTION, null );
+		$bpb_layout      = wp_insert_post( [ 'post_type' => PostType::POST_TYPE, 'post_status' => 'publish', 'post_title' => 'Cards', 'post_content' => '<!-- wp:buddybuilder/groups-listing {"card":"cover"} /-->', 'meta_input' => [ PostType::META_TYPE => 'groups-directory' ] ] );
+		$bpb_created[]   = (int) $bpb_layout;
+		Registry::set( 'groups-directory', Registry::BLOCKS, $bpb_layout );
+		Registry::flush();
+		$bpb_ok( 'cover' === \Buddy_Builder\Templates\Cards::saved( 'groups' ), 'assigning a block layout mirrors its card style' );
+		Registry::set( 'groups-directory', Registry::BLOCKS, 0 );
+		Registry::flush();
+		$bpb_ok( 'classic' === \Buddy_Builder\Templates\Cards::saved( 'groups' ), 'another layout on the page gets the classic markup' );
+		null === $bpb_saved_cards ? delete_option( \Buddy_Builder\Templates\Cards::OPTION ) : update_option( \Buddy_Builder\Templates\Cards::OPTION, $bpb_saved_cards );
+		break;
+
 	default:
-		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install, checker-readylaunch, change-look-undo' );
+		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install, checker-readylaunch, change-look-undo, cards-follow-layout' );
 }
 
 // Cleanup.

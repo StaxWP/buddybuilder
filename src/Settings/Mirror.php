@@ -38,6 +38,35 @@ final class Mirror {
 	/**
 	 * Register hooks.
 	 */
+	/**
+	 * Layout being mirrored (0 when unknown), for options that belong to one layout (card styles).
+	 *
+	 * @var int
+	 */
+	private static $layout = 0;
+
+	/**
+	 * Layout being mirrored.
+	 *
+	 * @return int
+	 */
+	public static function layout() {
+		return self::$layout;
+	}
+
+	/**
+	 * Mirror with the layout known (Elementor saves call this too).
+	 *
+	 * @param int      $layout Layout id.
+	 * @param callable $mirror Mirroring callback.
+	 */
+	public static function for_layout( $layout, callable $mirror ) {
+		$previous     = self::$layout;
+		self::$layout = (int) $layout;
+		call_user_func( $mirror );
+		self::$layout = $previous;
+	}
+
 	public static function hooks() {
 		add_action( 'save_post_' . PostType::POST_TYPE, [ __CLASS__, 'on_block_layout_save' ], 20, 2 );
 		add_action( 'buddy_builder/registry/changed', [ __CLASS__, 'on_assignment' ], 10, 3 );
@@ -104,7 +133,12 @@ final class Mirror {
 		$entry = Registry::get( PostType::type_of( $post_id ) );
 
 		if ( Registry::BLOCKS === $entry['builder'] && (int) $post_id === $entry['id'] ) {
-			self::from_blocks( $post->post_content );
+			self::for_layout(
+				$post_id,
+				static function () use ( $post ) {
+					self::from_blocks( $post->post_content );
+				}
+			);
 		}
 	}
 
@@ -120,7 +154,12 @@ final class Mirror {
 			$post = get_post( $new['id'] );
 
 			if ( $post ) {
-				self::from_blocks( $post->post_content );
+				self::for_layout(
+					$post->ID,
+					static function () use ( $post ) {
+						self::from_blocks( $post->post_content );
+					}
+				);
 			}
 		}
 	}

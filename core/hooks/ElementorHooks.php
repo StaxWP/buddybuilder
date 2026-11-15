@@ -259,16 +259,21 @@ class ElementorHooks extends Singleton {
 			$document = \Elementor\Plugin::$instance->documents->get( $post_id );
 
 			if ( $document ) {
-				\Elementor\Plugin::$instance->db->iterate_data(
-					$document->get_elements_data(),
-					static function ( $element ) {
-						if ( empty( $element['widgetType'] ) || $element['elType'] !== 'widget' ) {
-							return $element;
-						}
+				\Buddy_Builder\Settings\Mirror::for_layout(
+					$post_id,
+					static function () use ( $document ) {
+						\Elementor\Plugin::$instance->db->iterate_data(
+							$document->get_elements_data(),
+							static function ( $element ) {
+								if ( empty( $element['widgetType'] ) || $element['elType'] !== 'widget' ) {
+									return $element;
+								}
 
-						\Buddy_Builder\Settings\Mirror::apply( $element['widgetType'], isset( $element['settings'] ) ? (array) $element['settings'] : [] );
+								\Buddy_Builder\Settings\Mirror::apply( $element['widgetType'], isset( $element['settings'] ) ? (array) $element['settings'] : [] );
 
-						return $element;
+								return $element;
+							}
+						);
 					}
 				);
 			}

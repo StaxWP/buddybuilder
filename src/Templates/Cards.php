@@ -104,38 +104,57 @@ final class Cards {
 		return isset( self::STYLES[ $object ] ) && in_array( $style, self::STYLES[ $object ], true ) ? $style : 'classic';
 	}
 
+	/** Page type whose assigned layout a saved style belongs to. */
+	const PAGE_TYPES = [
+		'members'  => 'members-directory',
+		'groups'   => 'groups-directory',
+		'activity' => 'sitewide-activity',
+	];
+
 	/**
-	 * Saved style of a directory (or the activity page).
+	 * Saved style of a directory (or the activity page), only while the layout it came from is the one assigned:
+	 * switching the page to another layout (an Elementor one, the BuddyPress default) must not keep its cards.
 	 *
 	 * @param string $object members|groups|activity.
 	 * @return string
 	 */
 	public static function saved( $object ) {
 		$saved = get_option( self::OPTION, [] );
+		$entry = is_array( $saved ) && isset( self::TARGETS[ $object ], $saved[ self::TARGETS[ $object ] ] ) ? $saved[ self::TARGETS[ $object ] ] : null;
 
-		return self::sanitize( $object, is_array( $saved ) && isset( self::TARGETS[ $object ], $saved[ self::TARGETS[ $object ] ] ) ? $saved[ self::TARGETS[ $object ] ] : '' );
+		if ( ! is_array( $entry ) || empty( $entry['layout'] ) || ! isset( $entry['style'] ) ) {
+			return 'classic';
+		}
+
+		$assigned = Dispatcher::resolve( self::PAGE_TYPES[ $object ] );
+
+		return (int) $assigned['id'] === (int) $entry['layout'] ? self::sanitize( $object, $entry['style'] ) : 'classic';
 	}
 
 	/**
-	 * Save the style of a directory (Settings\Mirror, from the assigned layout).
+	 * Save the style of a directory, with the layout it comes from (Settings\Mirror, from the assigned layout).
 	 *
-	 * @param string $object members|groups|activity.
-	 * @param mixed  $style  Style.
+	 * @param string   $object members|groups|activity.
+	 * @param mixed    $style  Style.
+	 * @param int|null $layout Layout id (null: the layout the mirror is reading).
 	 */
-	public static function save( $object, $style ) {
+	public static function save( $object, $style, $layout = null ) {
 		if ( ! isset( self::TARGETS[ $object ] ) ) {
 			return;
 		}
 
 		$saved = get_option( self::OPTION, [] );
 		$saved = is_array( $saved ) ? $saved : [];
-		$style = self::sanitize( $object, $style );
+		$entry = [
+			'style'  => self::sanitize( $object, $style ),
+			'layout' => (int) ( null === $layout ? \Buddy_Builder\Settings\Mirror::layout() : $layout ),
+		];
 
-		if ( isset( $saved[ self::TARGETS[ $object ] ] ) && $saved[ self::TARGETS[ $object ] ] === $style ) {
+		if ( isset( $saved[ self::TARGETS[ $object ] ] ) && $saved[ self::TARGETS[ $object ] ] === $entry ) {
 			return;
 		}
 
-		$saved[ self::TARGETS[ $object ] ] = $style;
+		$saved[ self::TARGETS[ $object ] ] = $entry;
 		update_option( self::OPTION, $saved, true );
 	}
 

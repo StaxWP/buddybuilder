@@ -64,11 +64,11 @@ const host = new URL( site ).hostname;
 				const content = cases.find( ( x ) => x.style === c.style && x.page === c.page ).content;
 				const card = ( content.match( /wp:buddybuilder\/(members|groups)-listing \{[^}]*"card":"(\w+)"/ ) || [] );
 				if ( card[ 1 ] ) {
-					wpJson( wp, [ 'eval', `\\Buddy_Builder\\Templates\\Cards::save( '${ card[ 1 ] }', '${ card[ 2 ] }' ); echo "\\nBPB_CARD 1\\n";` ], 'BPB_CARD' );
+					wpJson( wp, [ 'eval', `\\Buddy_Builder\\Templates\\Cards::save( '${ card[ 1 ] }', '${ card[ 2 ] }', ${ c.id } ); echo "\\nBPB_CARD 1\\n";` ], 'BPB_CARD' );
 				}
 				// Activity items follow the style's activity list (profile and group streams too, as on a real site).
 				const post = ( fs.readFileSync( path.join( root, c.style, 'sitewide-activity.html' ), 'utf8' ).match( /wp:buddybuilder\/activity-stream \{[^}]*"card":"(\w+)"/ ) || [] )[ 1 ] || 'classic';
-				wpJson( wp, [ 'eval', `\\Buddy_Builder\\Templates\\Cards::save( 'activity', '${ post }' ); echo "\\nBPB_CARD 1\\n";` ], 'BPB_CARD' );
+				wpJson( wp, [ 'eval', `\\Buddy_Builder\\Templates\\Cards::save( 'activity', '${ post }', ${ ( made.find( ( x ) => x.style === c.style && x.page === 'sitewide-activity' ) || c ).id } ); echo "\\nBPB_CARD 1\\n";` ], 'BPB_CARD' );
 				await ctx.addCookies( [ { name: 'bpb_compat_tpl', value: `${ c.page }:${ c.id }`, domain: host, path: '/' } ] );
 				const page = await ctx.newPage();
 				const errors = [];

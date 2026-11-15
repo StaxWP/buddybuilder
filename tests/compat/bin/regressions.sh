@@ -36,6 +36,7 @@ run eval-file "$TEST" checker-known-issues
 run eval-file "$TEST" setup-new-install
 run eval-file "$TEST" checker-readylaunch
 run eval-file "$TEST" change-look-undo
+run eval-file "$TEST" cards-follow-layout
 if [ -n "${BPB_BUDDYBOSS_PLUGIN:-}" ]; then
 	run --require="$HERE/env/buddyboss.php" eval-file "$TEST" checker-readylaunch
 fi
