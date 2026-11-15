@@ -1,0 +1,83 @@
+{
+	"version": 1,
+	"name": "people-rail",
+	"title": "People and groups list",
+	"category": "buddybuilder",
+	"icon": "groups",
+	"description": "A short list for side columns: newest, active or popular members, or active groups.",
+	"keywords": [
+		"members",
+		"groups",
+		"sidebar",
+		"rail",
+		"who to follow",
+		"buddypress",
+		"buddybuilder"
+	],
+	"templateTypes": [],
+	"attributes": {
+		"title": {
+			"type": "string",
+			"default": "",
+			"control": "text",
+			"panel": "basic",
+			"label": "Title"
+		},
+		"object": {
+			"type": "string",
+			"default": "members",
+			"control": "select",
+			"panel": "basic",
+			"label": "Show",
+			"options": {
+				"members": "Members",
+				"groups": "Groups"
+			}
+		},
+		"order": {
+			"type": "string",
+			"default": "active",
+			"control": "select",
+			"panel": "basic",
+			"label": "Order",
+			"options": {
+				"active": "Recently active",
+				"newest": "Newest",
+				"popular": "Most friends or members"
+			}
+		},
+		"count": {
+			"type": "integer",
+			"default": 5,
+			"control": "number",
+			"panel": "basic",
+			"label": "How many",
+			"min": 1,
+			"max": 12
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": [
+			"wide",
+			"full"
+		],
+		"color": {
+			"background": true,
+			"text": true,
+			"link": true
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true
+		},
+		"__experimentalBorder": {
+			"radius": true,
+			"width": true,
+			"color": true
+		}
+	}
+}

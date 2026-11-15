@@ -1,0 +1,73 @@
+{
+	"version": 1,
+	"name": "member-about",
+	"title": "Member about",
+	"category": "buddybuilder",
+	"icon": "info",
+	"description": "A card with the member's profile fields (about, location, website...) and groups.",
+	"keywords": [
+		"profile",
+		"fields",
+		"about",
+		"buddypress",
+		"buddybuilder"
+	],
+	"templateTypes": [
+		"member-profile"
+	],
+	"attributes": {
+		"title": {
+			"type": "string",
+			"default": "About",
+			"control": "text",
+			"panel": "basic",
+			"label": "Title"
+		},
+		"fields": {
+			"type": "string",
+			"default": "About, Location, Website",
+			"control": "text",
+			"panel": "basic",
+			"label": "Profile fields",
+			"help": "Field names, separated by commas, in this order."
+		},
+		"show_labels": {
+			"type": "boolean",
+			"default": true,
+			"control": "toggle",
+			"panel": "basic",
+			"label": "Field labels"
+		},
+		"show_groups": {
+			"type": "boolean",
+			"default": true,
+			"control": "toggle",
+			"panel": "basic",
+			"label": "Groups"
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": [
+			"wide",
+			"full"
+		],
+		"color": {
+			"background": true,
+			"text": true,
+			"link": true
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true
+		},
+		"__experimentalBorder": {
+			"radius": true,
+			"width": true,
+			"color": true
+		}
+	}
+}

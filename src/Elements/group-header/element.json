@@ -1,0 +1,84 @@
+{
+	"version": 1,
+	"name": "group-header",
+	"title": "Group header",
+	"category": "buddybuilder",
+	"icon": "groups",
+	"description": "Cover, photo, name, privacy, members and the join button of the group, in one designed header.",
+	"keywords": [
+		"group",
+		"cover",
+		"header",
+		"buddypress",
+		"buddybuilder"
+	],
+	"templateTypes": [
+		"group-profile"
+	],
+	"attributes": {
+		"layout": {
+			"type": "string",
+			"default": "side",
+			"control": "select",
+			"panel": "basic",
+			"label": "Layout",
+			"options": {
+				"side": "Photo on the side",
+				"center": "Centered",
+				"compact": "Compact, no cover"
+			}
+		},
+		"show_cover": {
+			"type": "boolean",
+			"default": true,
+			"control": "toggle",
+			"panel": "basic",
+			"label": "Cover image"
+		},
+		"show_description": {
+			"type": "boolean",
+			"default": true,
+			"control": "toggle",
+			"panel": "basic",
+			"label": "Description"
+		},
+		"show_members": {
+			"type": "boolean",
+			"default": true,
+			"control": "toggle",
+			"panel": "basic",
+			"label": "Members"
+		},
+		"show_buttons": {
+			"type": "boolean",
+			"default": true,
+			"control": "toggle",
+			"panel": "basic",
+			"label": "Buttons"
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": [
+			"wide",
+			"full"
+		],
+		"color": {
+			"background": true,
+			"text": true,
+			"link": true
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true
+		},
+		"__experimentalBorder": {
+			"radius": true,
+			"width": true,
+			"color": true
+		}
+	}
+}

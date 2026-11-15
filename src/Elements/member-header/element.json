@@ -1,0 +1,122 @@
+{
+	"version": 1,
+	"name": "member-header",
+	"title": "Member header",
+	"category": "buddybuilder",
+	"icon": "id-alt",
+	"description": "Cover, photo, name, headline, details, stats and buttons of the member, in one designed header.",
+	"keywords": [
+		"profile",
+		"cover",
+		"stats",
+		"header",
+		"buddypress",
+		"buddybuilder"
+	],
+	"templateTypes": [
+		"member-profile"
+	],
+	"attributes": {
+		"layout": {
+			"type": "string",
+			"default": "side",
+			"control": "select",
+			"panel": "basic",
+			"label": "Layout",
+			"options": {
+				"side": "Photo on the side",
+				"center": "Centered",
+				"compact": "Compact, no cover",
+				"card": "Card (for a side column)"
+			}
+		},
+		"show_cover": {
+			"type": "boolean",
+			"default": true,
+			"control": "toggle",
+			"panel": "basic",
+			"label": "Cover image"
+		},
+		"show_handle": {
+			"type": "boolean",
+			"default": true,
+			"control": "toggle",
+			"panel": "basic",
+			"label": "@username"
+		},
+		"show_headline": {
+			"type": "boolean",
+			"default": true,
+			"control": "toggle",
+			"panel": "basic",
+			"label": "Headline"
+		},
+		"show_meta": {
+			"type": "boolean",
+			"default": true,
+			"control": "toggle",
+			"panel": "basic",
+			"label": "Location and dates"
+		},
+		"show_badges": {
+			"type": "boolean",
+			"default": true,
+			"control": "toggle",
+			"panel": "basic",
+			"label": "Badges"
+		},
+		"show_stats": {
+			"type": "boolean",
+			"default": true,
+			"control": "toggle",
+			"panel": "basic",
+			"label": "Stats"
+		},
+		"show_buttons": {
+			"type": "boolean",
+			"default": true,
+			"control": "toggle",
+			"panel": "basic",
+			"label": "Buttons"
+		},
+		"headline_field": {
+			"type": "string",
+			"default": "Headline",
+			"control": "text",
+			"panel": "advanced",
+			"label": "Headline profile field",
+			"help": "Name of the profile field shown under the name."
+		},
+		"location_field": {
+			"type": "string",
+			"default": "Location",
+			"control": "text",
+			"panel": "advanced",
+			"label": "Location profile field"
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": [
+			"wide",
+			"full"
+		],
+		"color": {
+			"background": true,
+			"text": true,
+			"link": true
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true
+		},
+		"__experimentalBorder": {
+			"radius": true,
+			"width": true,
+			"color": true
+		}
+	}
+}

@@ -1,0 +1,67 @@
+{
+	"version": 1,
+	"name": "directory-header",
+	"title": "Directory header",
+	"category": "buddybuilder",
+	"icon": "welcome-widgets-menus",
+	"description": "Title, intro and count of a members or groups directory.",
+	"keywords": [
+		"directory",
+		"title",
+		"intro",
+		"buddypress",
+		"buddybuilder"
+	],
+	"templateTypes": [
+		"members-directory",
+		"groups-directory",
+		"sitewide-activity"
+	],
+	"attributes": {
+		"title": {
+			"type": "string",
+			"default": "",
+			"control": "text",
+			"panel": "basic",
+			"label": "Title"
+		},
+		"intro": {
+			"type": "string",
+			"default": "",
+			"control": "textarea",
+			"panel": "basic",
+			"label": "Intro"
+		},
+		"show_count": {
+			"type": "boolean",
+			"default": true,
+			"control": "toggle",
+			"panel": "basic",
+			"label": "Count"
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": [
+			"wide",
+			"full"
+		],
+		"color": {
+			"background": true,
+			"text": true,
+			"link": true
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true
+		},
+		"__experimentalBorder": {
+			"radius": true,
+			"width": true,
+			"color": true
+		}
+	}
+}
