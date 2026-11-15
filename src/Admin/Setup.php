@@ -812,10 +812,12 @@ final class Setup {
 			echo '</div><div class="bpb-setup__frame"><iframe title="' . esc_attr__( 'Preview of the selected look on a real profile', 'stax-buddy-builder' ) . '" src="' . esc_url( $urls[0][ $first ] ) . '" loading="lazy"></iframe></div></aside>';
 		}
 
-		$builder = self::builders()[ self::builder() ];
 		echo '<div class="bpb-setup__nav"><a class="button" href="' . esc_url( self::url( 1 ) ) . '">' . esc_html__( 'Back', 'stax-buddy-builder' ) . '</a>';
-		/* translators: %s: builder name */
-		echo '<p>' . esc_html( sprintf( __( 'Creates the layouts with the %s, ready to edit. Your pages stay as they are until you press Use these.', 'stax-buddy-builder' ), $builder ) ) . '</p>';
+		// One full sentence per builder: a builder name inside a sentence does not translate (review W4).
+		$note = Registry::ELEMENTOR === self::builder()
+			? __( 'Creates the layouts in Elementor, ready to edit. Your pages stay as they are until you press Use these.', 'stax-buddy-builder' )
+			: __( 'Creates the layouts in the block editor, ready to edit. Your pages stay as they are until you press Use these.', 'stax-buddy-builder' );
+		echo '<p>' . esc_html( $note ) . '</p>';
 		echo '<button type="submit" class="button button-primary button-hero">' . esc_html__( 'Use these and preview', 'stax-buddy-builder' ) . '</button></div>';
 		echo '</form>';
 	}
