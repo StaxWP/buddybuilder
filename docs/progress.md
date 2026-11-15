@@ -1,6 +1,43 @@
 # BuddyBuilder 2.0: progress
 
-Branch `2.0` (development, not released). Released lines stay on `master` (1.9.x).
+Branch `main` (the 2.0 line since 2026-11-15; 1.x fixes go to `1.x`). Not released.
+
+## 2026-11-15: gate holes, review defects, cards, styles, Elementor preview, menu fold
+
+Brief: review `Projects/staxwp/docs/2026-11-15-buddybuilder-2-review.md` (vault), decisions of 2026-11-15 (1, 3 to 8; decision 2 then approved as option B: hand-designed styles).
+
+**Release gate (review 5.5)**
+
+| Gate | Done | Where |
+|---|---|---|
+| G1 Pro starter kits | 31 templates from the demo.staxwp.com feed (22 BuddyPress Pro, 9 BuddyBoss) as fixtures; feed export by the coordinator, no key needed | `tests/compat/fixtures/kit-*.json`, `bin/import-kit-feed.js` |
+| G2 theme rows | Driver over KLEO 6.2.4, 6.2.7, KLEO 7 (K Elements 7), SweetDate 4.1.7, BuddyApp 2.1.7, Twenty Twenty-Five, Hello Elementor, Astra; base 1.9.2 + Pro 1.7.0, candidates 2.0 + Pro 2.0 and 2.0 + Pro 1.7.0. BuddyBoss theme: not available locally | `tests/compat/bin/gate.sh` |
+| G3 WP 6.6 / PHP 7.4 | Fresh site http://bbmin.test (Herd PHP 7.4, WP 6.6.2, Twenty Twenty-One): full gate row and the fresh install check | `tests/compat/fresh.js` |
+| G4 block layout goldens | Every look and card style as a block layout, visitor and member, HTML goldens + screenshots | `tests/compat/golden.js` |
+| G5 blocks-only classic theme | Fresh install without Elementor on Twenty Twenty-One: setup opens, style applied, five pages render for visitor and member | `tests/compat/fresh.js` |
+| G6 Elementor 3.20 | Elementor 3.20.0 on the WP 6.6 / PHP 7.4 row | gate row `twentytwentyone` on bbmin |
+| G7 budgets | JS and CSS gzip of BuddyBuilder + Pro per page, no jQuery handles (Pro J6 to J8 listed), no dashicons from us for visitors | `tests/compat/budgets.js`, asset report in the env mu-plugin |
+| G8 real updater | 1.9.3 wp.org zip, update through Plugin_Upgrader to a 2.0 test package served by the site, Redis object cache on: PASS, 12/12 identical | `tests/compat/bin/update-real.sh` |
+| G9 multisite | http://bbms.test (subdirectory network): network activation, fresh install on the main site ALL PASS, sub-site front end and BuddyBuilder screens render (Herd does not route sub-site wp-admin/*.php paths; checked through WP-CLI) | manual + `fresh.js` |
+
+Test env fixes found on the way: the activity directory and group activity never loaded in the env (heartbeat deregistered while BuddyPress made its scripts depend on it); block layouts assigned by cookie were shadowed by the legacy option; notices compare by first line; a baseline fatal the candidate fixes counts as a pass.
+
+**Review defects**: W2 dashicons replaced by a 36-glyph subset (2.4 KB WOFF2, filter `buddy_builder/full_dashicons`); W4 setup copy; W6 Change look has Preview, a confirm step and Undo (option `bpb_undo`); W1 CSS: screen files for messages, settings, group management (member profile 16.7 to 15.3 KB gzip; the real diet stays 2.1). Bug found by the gate: group creation with its own layout fataled (also in 1.9.2), fixed.
+
+**Cards (decision 3, scope change)**: card styles in the 6 list elements (members and groups: Classic, Compact, Cover; activity: Classic, Compact, Boxed, Post), Elementor control `card`, mirrored to `bpb_cards` with the layout it belongs to. Pro: the 19 member card, group card and activity item widgets are blocks with one renderer each (40/40 item cases identical); card (item) types get block layouts with a real loop in the editor preview.
+
+**Styles (decision 2, option B)**: Classic, Creator, Professional, Social as hand-written patterns (`patterns/<style>/<page>.html`) and token sets (`assets/css/looks/`); new elements member-header, member-about, group-header, directory-header, people-rail, profile-tabs, feed-filters; the Post activity item. 17 old parts deprecated (still render; list in `docs/deprecated-elements.md`). Setup step 2 starts with "Pick a style". Screenshots for review in the vault (`Projects/staxwp/docs/assets/buddybuilder-2.0/looks/`). Learning, Local club, Membership and KLEO styles: not started (waiting for Gabriel's review of the first four).
+
+**Elementor (decision 4)**: the editor previews BuddyBuilder templates with a real member or group and "Seen by" (document settings "BuddyBuilder preview"); static previews stay as fallback (`buddy_builder/elementor/real_preview`).
+
+**Admin (decision 5)**: menu Community pages, Features (Pro), Settings; Help and status and License are Settings tabs; starter kits in the look picker. Live page admin bar: page and look name, Edit in <builder>, Change look, View as a guest, View as the sample member (one request, administrators, nonce).
+
+**Pro variations (decision 8)**: see the Pro repo.
+
+Tests (2026-11-15): PHP lint 7.4 and 8.5 on every changed file (123 checks, 0 errors); regressions 95/95 on bbux; e2e 47/47 (KLEO 6); fresh install ALL PASS on WP 6.6 / PHP 7.4 and on multisite; G8 PASS; gate rows: see the vault inventory 15 entry for the final numbers.
+
+Open for 2.0: the four remaining styles, Elementor versions of the styles (generated from the closest 2.0-dev look today), real photos for screenshots (needs Gabriel's OK to download), composer as our own element (BuddyPress' form, restyled), "Replace with the new element" action for deprecated parts, BuddyBoss theme row, docs.
+
 
 ## 2026-11-13: majors UX (Community pages, setup, previews, checker, help)
 
