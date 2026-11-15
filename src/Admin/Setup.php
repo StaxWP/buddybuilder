@@ -535,7 +535,16 @@ final class Setup {
 				break;
 
 			case 'looks':
-				$redirect = self::create_looks( isset( $_POST['look'] ) ? (array) wp_unslash( $_POST['look'] ) : [] ) ? self::url( 3 ) : add_query_arg( 'bpb_error', 1, self::url( 2 ) );
+				$looks = isset( $_POST['look'] ) ? (array) wp_unslash( $_POST['look'] ) : [];
+				$style = isset( $_POST['bpb_style'] ) ? sanitize_key( wp_unslash( $_POST['bpb_style'] ) ) : '';
+				$all   = self::styles( self::types() );
+
+				// A style sets every page (also without JavaScript); "Choose per page" keeps the per page choices.
+				if ( '' !== $style && isset( $all[ $style ] ) ) {
+					$looks = $all[ $style ]['looks'];
+				}
+
+				$redirect = self::create_looks( $looks ) ? self::url( 3 ) : add_query_arg( 'bpb_error', 1, self::url( 2 ) );
 				break;
 
 			case 'use':
@@ -749,7 +758,27 @@ final class Setup {
 		self::fields( 'looks' );
 
 		echo '<div class="bpb-setup__main">';
-		self::render_type_looks( $main, $types[ $main ], true );
+		$styles = self::styles( $types );
+
+		// One decision first: a style for the whole community (review 3.2); per page choices stay one click away.
+		if ( $styles ) {
+			echo '<fieldset class="bpb-looks-set bpb-looks-set--cards bpb-styles"><legend>' . esc_html__( 'Pick a style for your community', 'stax-buddy-builder' ) . '</legend><div class="bpb-looks-set__options">';
+
+			$first = true;
+			foreach ( $styles as $slug => $style ) {
+				$thumb = Presets::get( $slug . '-' . $main );
+				echo '<label class="bpb-pick bpb-pick--card"><input type="radio" name="bpb_style" value="' . esc_attr( $slug ) . '" data-bpb-looks="' . esc_attr( wp_json_encode( $style['looks'] ) ) . '"' . checked( $first, true, false ) . '>';
+				echo '<span class="bpb-pick__thumb" aria-hidden="true">' . ( $thumb ? Preview::thumb( $thumb ) : '' ) . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput
+				echo '<span class="bpb-pick__name">' . esc_html( $style['name'] ) . '</span><span class="bpb-pick__desc">' . esc_html( $style['description'] ) . '</span></label>';
+				$first = false;
+			}
+
+			echo '<label class="bpb-pick bpb-pick--card bpb-pick--keep"><input type="radio" name="bpb_style" value=""><span class="bpb-pick__name">' . esc_html__( 'Choose per page', 'stax-buddy-builder' ) . '</span></label>';
+			echo '</div></fieldset>';
+			echo '<details class="bpb-setup__custom"><summary>' . esc_html__( 'Customize per page', 'stax-buddy-builder' ) . '</summary>';
+		}
+
+		self::render_type_looks( $main, $types[ $main ], ! $styles );
 
 		echo '<div class="bpb-setup__also"><h3>' . esc_html__( 'Also', 'stax-buddy-builder' ) . '</h3>';
 
@@ -760,6 +789,10 @@ final class Setup {
 		}
 
 		echo '</div>';
+
+		if ( $styles ) {
+			echo '</details>';
+		}
 
 		/**
 		 * Fires after the looks of the setup (the "describe your community" AI helper of BuddyBuilder 2.2 hooks here).
@@ -820,6 +853,36 @@ final class Setup {
 		echo '<p>' . esc_html( $note ) . '</p>';
 		echo '<button type="submit" class="button button-primary button-hero">' . esc_html__( 'Use these and preview', 'stax-buddy-builder' ) . '</button></div>';
 		echo '</form>';
+	}
+
+	/**
+	 * Styles that have a look for at least one of the setup's pages: slug => [ name, description, looks ].
+	 *
+	 * @param array $types type => presets (self::types()).
+	 * @return array
+	 */
+	public static function styles( array $types ) {
+		$out = [];
+
+		foreach ( \Buddy_Builder\Presets\Styles::all() as $slug => $style ) {
+			$looks = [];
+
+			foreach ( array_keys( $types ) as $type ) {
+				if ( isset( $types[ $type ][ $slug . '-' . $type ] ) ) {
+					$looks[ $type ] = $slug . '-' . $type;
+				}
+			}
+
+			if ( $looks ) {
+				$out[ $slug ] = [
+					'name'        => $style['name'],
+					'description' => $style['description'],
+					'looks'       => $looks,
+				];
+			}
+		}
+
+		return $out;
 	}
 
 	/**

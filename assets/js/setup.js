@@ -34,6 +34,22 @@
 		update();
 	}
 
+	// A style checks the look of every page (the per page choices stay editable under "Customize per page").
+	document.querySelectorAll( 'input[name="bpb_style"]' ).forEach( function ( input ) {
+		input.addEventListener( 'change', function () {
+			var looks = JSON.parse( input.getAttribute( 'data-bpb-looks' ) || '{}' );
+
+			Object.keys( looks ).forEach( function ( page ) {
+				var radio = document.querySelector( 'input[name="look[' + page + ']"][value="' + looks[ page ] + '"]' );
+
+				if ( radio ) {
+					radio.checked = true;
+					radio.dispatchEvent( new Event( 'change' ) );
+				}
+			} );
+		} );
+	} );
+
 	var tabs = document.querySelectorAll( '.bpb-review-tabs ul a' );
 	var open = document.querySelector( '.bpb-review-tabs__open' );
 
