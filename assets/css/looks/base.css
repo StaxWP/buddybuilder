@@ -1031,8 +1031,20 @@
 	font: inherit;
 }
 
+#buddypress.buddypress-wrap .bpb-look #whats-new-avatar {
+	float: left;
+	margin: 0 12px 0 0;
+}
+
 #buddypress.buddypress-wrap .bpb-look #whats-new-avatar img {
+	width: 44px;
+	height: 44px;
+	max-width: none;
 	border-radius: var(--bpb-avatar-radius);
+}
+
+#buddypress.buddypress-wrap .bpb-look #whats-new-content {
+	margin-left: 56px;
 }
 
 /* Feedback and empty states. */
