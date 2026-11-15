@@ -149,3 +149,10 @@
 /* Real look thumbnails (square WebP, top of the layout). */
 .bpb-look-img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; object-position: top; border-radius: 3px; background: #f6f7f7; }
 .bpb-cp__thumb .bpb-look-img { aspect-ratio: auto; height: 100%; }
+.bpb-look .button { text-align: center; }
+.bpb-look__confirm > summary { list-style: none; display: block; text-align: center; }
+.bpb-look__confirm > summary::-webkit-details-marker { display: none; }
+.bpb-look__confirm[open] > summary { display: none; }
+.bpb-look__confirm p { margin: 4px 0; font-weight: 600; }
+.bpb-look__confirm .button { width: 100%; margin-top: 4px; }
+.bpb-done .bpb-inline-form { display: inline; }

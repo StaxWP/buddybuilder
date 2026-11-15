@@ -34,6 +34,12 @@ final class CommunityPages {
 	/** Page slug (the 1.x dashboard slug, so old links and bookmarks land here). */
 	const SLUG = 'settings';
 
+	/** Option with the assignment a change replaced, for Undo: [ type, builder, id, user, time ]. */
+	const UNDO = 'bpb_undo';
+
+	/** How long Undo stays offered, in seconds. */
+	const UNDO_TTL = DAY_IN_SECONDS;
+
 	/**
 	 * Register hooks.
 	 */
@@ -454,7 +460,15 @@ final class CommunityPages {
 			]
 		);
 
-		wp_safe_redirect( add_query_arg( 'bpb_done', $ok ? $do : 'error', admin_url( 'admin.php?page=' . BPB_ADMIN_PREFIX . self::SLUG ) ) . '#bpb-page-' . $type );
+		wp_safe_redirect(
+			add_query_arg(
+				[
+					'bpb_done' => $ok ? $do : 'error',
+					'bpb_type' => $type,
+				],
+				admin_url( 'admin.php?page=' . BPB_ADMIN_PREFIX . self::SLUG )
+			) . '#bpb-page-' . $type
+		);
 		exit;
 	}
 
@@ -462,7 +476,7 @@ final class CommunityPages {
 	 * Run one action of the screen (testable without the redirect).
 	 *
 	 * @param string $type Template type.
-	 * @param string $do   default|assign|look|use-pending|discard-pending.
+	 * @param string $do   default|assign|look|use-pending|discard-pending|undo.
 	 * @param array  $args layout (id), preset, builder.
 	 * @return bool
 	 */
@@ -480,7 +494,66 @@ final class CommunityPages {
 			$args
 		);
 
+		// Every change that makes something else live can be undone once (review W6).
+		if ( in_array( $do, [ 'default', 'assign', 'look', 'use-pending' ], true ) ) {
+			$before = Registry::get( $type );
+		}
+
+		$done = self::run( $type, $do, $args );
+
+		if ( $done && isset( $before ) && Registry::get( $type ) !== $before ) {
+			update_option(
+				self::UNDO,
+				[
+					'type'    => $type,
+					'builder' => $before['builder'],
+					'id'      => (int) $before['id'],
+					'user'    => get_current_user_id(),
+					'time'    => time(),
+				],
+				false
+			);
+		}
+
+		return $done;
+	}
+
+	/**
+	 * The change offered by Undo, or null.
+	 *
+	 * @return array|null [ type, builder, id, user, time ].
+	 */
+	public static function undo_entry() {
+		$undo = get_option( self::UNDO );
+
+		if ( ! is_array( $undo ) || empty( $undo['type'] ) || ! isset( Types::all()[ $undo['type'] ] ) || time() - (int) $undo['time'] > self::UNDO_TTL ) {
+			return null;
+		}
+
+		return $undo;
+	}
+
+	/**
+	 * One action of the screen, without the Undo record.
+	 *
+	 * @param string $type Template type.
+	 * @param string $do   Action.
+	 * @param array  $args Arguments.
+	 * @return bool
+	 */
+	private static function run( $type, $do, array $args ) {
 		switch ( $do ) {
+			case 'undo':
+				$undo = self::undo_entry();
+
+				if ( ! $undo || $type !== $undo['type'] || ( $undo['id'] && ! get_post( $undo['id'] ) ) || ! self::assign( $type, $undo['builder'], $undo['id'] ) ) {
+					return false;
+				}
+
+				delete_option( self::UNDO );
+
+				return true;
+
 			case 'default':
 				return self::assign( $type, Registry::get( $type )['builder'], 0 );
 
@@ -540,11 +613,12 @@ final class CommunityPages {
 	 * @param string $do    Action.
 	 * @param string $label Button text.
 	 * @param string $class Button classes.
+	 * @param string $aria  Accessible name when the label alone is ambiguous.
 	 */
-	private static function button_form( $type, $do, $label, $class = 'button' ) {
+	private static function button_form( $type, $do, $label, $class = 'button', $aria = '' ) {
 		echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" class="bpb-inline-form">';
 		self::form_fields( $type, $do );
-		echo '<button type="submit" class="' . esc_attr( $class ) . '">' . esc_html( $label ) . '</button></form>';
+		echo '<button type="submit" class="' . esc_attr( $class ) . '"' . ( $aria ? ' aria-label="' . esc_attr( $aria ) . '"' : '' ) . '>' . esc_html( $label ) . '</button></form>';
 	}
 
 	/**
@@ -564,6 +638,7 @@ final class CommunityPages {
 			'use-pending'     => __( 'The new look is live.', 'stax-buddy-builder' ),
 			'discard-pending' => __( 'The new look was discarded; the page is unchanged.', 'stax-buddy-builder' ),
 			'setup'           => __( 'Setup done: your new community pages are live.', 'stax-buddy-builder' ),
+			'undo'            => __( 'Undone: the page uses what it used before.', 'stax-buddy-builder' ),
 		];
 
 		if ( 'error' === $done || ! isset( $messages[ $done ] ) ) {
@@ -572,7 +647,19 @@ final class CommunityPages {
 			return;
 		}
 
-		echo '<div class="notice notice-success is-dismissible"><p>' . esc_html( $messages[ $done ] ) . '</p></div>';
+		$undo = self::undo_entry();
+		$type = $undo && isset( $_GET['bpb_type'] ) && $undo['type'] === sanitize_key( wp_unslash( $_GET['bpb_type'] ) ) ? $undo['type'] : ''; // phpcs:ignore WordPress.Security.NonceVerification
+
+		echo '<div class="notice notice-success is-dismissible bpb-done"><p>' . esc_html( $messages[ $done ] ) . '</p>';
+
+		if ( $type && 'undo' !== $done ) {
+			echo '<p>';
+			/* translators: %s: page name */
+			self::button_form( $type, 'undo', __( 'Undo', 'stax-buddy-builder' ), 'button', sprintf( __( 'Undo the change on %s', 'stax-buddy-builder' ), self::label( $type ) ) );
+			echo ' <span class="description">' . esc_html__( 'Puts back what the page used before. The new layout is kept.', 'stax-buddy-builder' ) . '</span></p>';
+		}
+
+		echo '</div>';
 	}
 
 	/**
@@ -782,9 +869,11 @@ final class CommunityPages {
 		$primary = ! $row['post'] && ! $row['pending'];
 
 		echo '<details class="bpb-disclosure bpb-looks"><summary class="button' . ( $primary ? ' button-primary' : '' ) . '">' . esc_html( $row['post'] ? __( 'Change look', 'stax-buddy-builder' ) : __( 'Pick a look', 'stax-buddy-builder' ) ) . '</summary>';
-		echo '<div class="bpb-disclosure__panel bpb-looks__panel"><p>' . esc_html__( 'Creates a new layout from the look and makes it live. Your current layout is kept.', 'stax-buddy-builder' ) . '</p><div class="bpb-looks__grid">';
+		echo '<div class="bpb-disclosure__panel bpb-looks__panel"><p>' . esc_html__( 'Preview a look on the real page first. Using it creates a new layout and makes it live; your current layout is kept and Undo puts it back.', 'stax-buddy-builder' ) . '</p><div class="bpb-looks__grid">';
 
 		foreach ( $presets as $id => $preset ) {
+			$preview = LayoutPreview::page_url( $row['type'], [ $row['type'] => 'preset:' . $id ] );
+
 			echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" class="bpb-look">';
 			self::form_fields( $row['type'], 'look' );
 			echo '<input type="hidden" name="preset" value="' . esc_attr( $id ) . '">';
@@ -792,15 +881,26 @@ final class CommunityPages {
 			echo '<strong>' . esc_html( $preset['title'] ) . '</strong>';
 			echo '<span class="bpb-look__desc">' . esc_html( isset( $preset['description'] ) ? $preset['description'] : '' ) . '</span>';
 
+			if ( $preview ) {
+				/* translators: %s: look name */
+				echo '<a class="button" href="' . esc_url( $preview ) . '" target="_blank" rel="noopener" aria-label="' . esc_attr( sprintf( __( 'Preview %s on the real page (opens in a new tab)', 'stax-buddy-builder' ), $preset['title'] ) ) . '">' . esc_html__( 'Preview', 'stax-buddy-builder' ) . '</a>';
+			}
+
+			// Confirm step without JavaScript: the buttons that change the live page sit behind a second click.
+			/* translators: %s: look name */
+			echo '<details class="bpb-look__confirm"><summary class="button button-primary" aria-label="' . esc_attr( sprintf( __( 'Use %s', 'stax-buddy-builder' ), $preset['title'] ) ) . '">' . esc_html__( 'Use this look', 'stax-buddy-builder' ) . '</summary>';
+			/* translators: %s: page name */
+			echo '<p>' . esc_html( sprintf( __( 'Make it live on %s now?', 'stax-buddy-builder' ), $row['label'] ) ) . '</p>';
+
 			foreach ( $builders as $builder => $label ) {
 				/* translators: 1: look name, 2: builder name */
 				$aria = sprintf( __( 'Use %1$s with %2$s', 'stax-buddy-builder' ), $preset['title'], $label );
 				/* translators: %s: builder name */
-				$text = count( $builders ) > 1 ? sprintf( __( 'Use with %s', 'stax-buddy-builder' ), $label ) : __( 'Use this look', 'stax-buddy-builder' );
-				echo '<button type="submit" class="button" name="builder" value="' . esc_attr( $builder ) . '" aria-label="' . esc_attr( $aria ) . '">' . esc_html( $text ) . '</button>';
+				$text = count( $builders ) > 1 ? sprintf( __( 'Yes, build it with %s', 'stax-buddy-builder' ), $label ) : __( 'Yes, make it live', 'stax-buddy-builder' );
+				echo '<button type="submit" class="button button-primary" name="builder" value="' . esc_attr( $builder ) . '" aria-label="' . esc_attr( $aria ) . '">' . esc_html( $text ) . '</button>';
 			}
 
-			echo '</form>';
+			echo '</details></form>';
 		}
 
 		echo '</div></div></details>';

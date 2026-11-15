@@ -25,6 +25,8 @@
  * - checker-known-issues        B-M4: page template finding; last finding kept and forgotten.
  * - setup-new-install           B-M2: the setup redirect is asked for on new installs only.
  * - checker-readylaunch         B-M4: BuddyBoss ReadyLaunch detection (real function on BuddyBoss 2.9+, else mocked).
+ * - change-look-undo            Review W6: each look has a Preview of the real page and a confirm step; using a look
+ *                               can be undone once (the previous layout is live again, the new one is kept).
  *
  * THROWAWAY site only (needs the compat env mu-plugin). Restores the options it touches and deletes the posts it
  * creates. Prints PASS / FAIL / SKIP lines; exits 1 on any FAIL.
@@ -55,7 +57,7 @@ $bpb_skip  = static function ( $msg ) use ( $bpb_case ) {
 };
 
 // State to restore.
-$bpb_options = [ 'bpb_settings', 'bpb_templates', 'bpb_blocks_enabled' ];
+$bpb_options = [ 'bpb_settings', 'bpb_templates', 'bpb_blocks_enabled', 'bpb_undo' ];
 $bpb_saved   = [];
 foreach ( $bpb_options as $bpb_name ) {
 	$bpb_saved[ $bpb_name ] = get_option( $bpb_name, null );
@@ -464,8 +466,32 @@ switch ( $bpb_case ) {
 		}
 		break;
 
+	case 'change-look-undo':
+		// Review W6: Preview + confirm on every look, Undo after Use.
+		update_option( 'bpb_blocks_enabled', '1' );
+		$bpb_type   = 'member-profile';
+		$bpb_before = Registry::get( $bpb_type );
+		ob_start();
+		\Buddy_Builder\Admin\CommunityPages::render();
+		$bpb_html = ob_get_clean();
+		$bpb_looks = count( \Buddy_Builder\Presets\Presets::all( $bpb_type ) );
+		$bpb_ok( substr_count( $bpb_html, 'bpb_lp' ) >= $bpb_looks, 'every look links to a live preview (' . $bpb_looks . ' looks)' );
+		$bpb_ok( false !== strpos( $bpb_html, 'class="bpb-look__confirm"' ), 'Use this look asks for a confirmation first' );
+		$bpb_preset = array_keys( \Buddy_Builder\Presets\Presets::all( $bpb_type ) )[0];
+		$bpb_ok( \Buddy_Builder\Admin\CommunityPages::apply( $bpb_type, 'look', [ 'preset' => $bpb_preset, 'builder' => Registry::BLOCKS ] ), 'look applied' );
+		$bpb_new = Registry::get( $bpb_type );
+		$bpb_created[] = (int) $bpb_new['id'];
+		$bpb_undo = \Buddy_Builder\Admin\CommunityPages::undo_entry();
+		$bpb_ok( $bpb_undo && $bpb_undo['id'] === (int) $bpb_before['id'] && $bpb_undo['builder'] === $bpb_before['builder'], 'Undo remembers what was live before' );
+		$bpb_ok( \Buddy_Builder\Admin\CommunityPages::apply( $bpb_type, 'undo' ), 'Undo runs' );
+		$bpb_ok( Registry::get( $bpb_type ) == $bpb_before, 'the previous layout is live again' ); // phpcs:ignore Universal.Operators.StrictComparisons
+		$bpb_ok( 'publish' === get_post_status( $bpb_new['id'] ), 'the new layout is kept' );
+		$bpb_ok( null === \Buddy_Builder\Admin\CommunityPages::undo_entry(), 'Undo is offered once' );
+		$bpb_ok( ! \Buddy_Builder\Admin\CommunityPages::apply( $bpb_type, 'undo' ), 'a second Undo does nothing' );
+		break;
+
 	default:
-		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install, checker-readylaunch' );
+		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install, checker-readylaunch, change-look-undo' );
 }
 
 // Cleanup.
