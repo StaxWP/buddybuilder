@@ -90,6 +90,26 @@ class Base extends \Elementor\Widget_Base {
 	}
 
 	/**
+	 * Whether this widget keeps its (empty) Elementor wrapper when the element prints nothing. 1.x widgets that
+	 * printed whitespace around a missing value (latest update, meta, comments) kept the wrapper, which takes space
+	 * in saved layouts; their adapters set this so the markup stays the same.
+	 *
+	 * @var bool
+	 */
+	protected $bpb_keep_wrapper = false;
+
+	/**
+	 * Render the shared element, keeping the empty wrapper when $bpb_keep_wrapper says so.
+	 */
+	protected function bpb_kit_render() {
+		ob_start();
+		$this->kit_render();
+		$html = ob_get_clean();
+
+		echo ( '' === $html && $this->bpb_keep_wrapper ) ? "\n" : $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in render.php.
+	}
+
+	/**
 	 * A content section with one control generated from the element schema (2.0 attributes such as the list card
 	 * style). New keys only: saved 1.x layouts get the schema default, which keeps their markup.
 	 *

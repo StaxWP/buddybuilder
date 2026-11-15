@@ -333,6 +333,12 @@ final class PreviewContext {
 				}
 				break;
 
+			case 'members-directory-item':
+			case 'groups-directory-item':
+			case 'sitewide-activity-item':
+				self::$ctx = array_merge( self::$ctx, self::boot_item( $type, $user_id, $group_id ) );
+				break;
+
 			default:
 				self::boot_directory( Types::component( $type ) );
 				break;
@@ -540,6 +546,65 @@ final class PreviewContext {
 		$bp->current_action     = '';
 		$bp->is_directory       = true;
 		$bp->displayed_user->id = 0;
+	}
+
+	/**
+	 * Card (item) layouts: the loop of the directory with one item, the preview member, group or the preview member's
+	 * latest activity, so the card blocks render with the loop template tags they use on the live page.
+	 *
+	 * @param string $type     members-directory-item|groups-directory-item|sitewide-activity-item.
+	 * @param int    $user_id  Preview member.
+	 * @param int    $group_id Preview group.
+	 * @return array Context additions (user_id, group_id, activity_id).
+	 */
+	private static function boot_item( $type, $user_id, $group_id ) {
+		$out = [];
+
+		if ( 'members-directory-item' === $type ) {
+			self::boot_directory( 'members' );
+
+			if ( $user_id && bp_has_members(
+				[
+					'include'  => $user_id,
+					'per_page' => 1,
+					'type'     => 'alphabetical',
+				]
+			) ) {
+				bp_the_member();
+				$out['user_id'] = $user_id;
+			}
+		} elseif ( 'groups-directory-item' === $type && bp_is_active( 'groups' ) ) {
+			self::boot_directory( 'groups' );
+
+			if ( $group_id && bp_has_groups(
+				[
+					'include'     => $group_id,
+					'per_page'    => 1,
+					'show_hidden' => true,
+				]
+			) ) {
+				bp_the_group();
+				$out['group_id'] = $group_id;
+			}
+		} elseif ( 'sitewide-activity-item' === $type && bp_is_active( 'activity' ) ) {
+			self::boot_directory( 'activity' );
+
+			$args = [
+				'per_page'         => 1,
+				'display_comments' => 'threaded',
+			];
+
+			// The preview member's latest update, else the latest activity of the site.
+			if ( ! ( $user_id && bp_has_activities( array_merge( $args, [ 'user_id' => $user_id ] ) ) ) && ! bp_has_activities( $args ) ) {
+				return $out;
+			}
+
+			bp_the_activity();
+			$out['user_id']     = (int) bp_get_activity_user_id();
+			$out['activity_id'] = (int) bp_get_activity_id();
+		}
+
+		return $out;
 	}
 
 	/**
