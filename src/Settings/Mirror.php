@@ -53,6 +53,13 @@ final class Mirror {
 	 *                         left unchanged.
 	 */
 	public static function apply( $name, array $settings ) {
+		// Card style of the directory and activity lists (Templates\Cards).
+		$object = \Buddy_Builder\Templates\Cards::object_of( $name );
+
+		if ( $object ) {
+			\Buddy_Builder\Templates\Cards::save( $object, isset( $settings['card'] ) ? $settings['card'] : 'classic' );
+		}
+
 		if ( ! isset( self::MAP[ $name ] ) ) {
 			return;
 		}

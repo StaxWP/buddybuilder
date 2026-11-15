@@ -1228,6 +1228,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 
 		$this->end_controls_section();
 
+		$this->bpb_schema_section( 'card', __( 'Card style', 'stax-buddy-builder' ) );
 	}
 
 	protected function render() {

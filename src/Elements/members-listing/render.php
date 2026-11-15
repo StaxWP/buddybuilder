@@ -9,7 +9,12 @@
 
 defined( 'ABSPATH' ) || die();
 
+$bpb_cards = \Buddy_Builder\Templates\Cards::wrapper_class( 'members', $attrs['card'] );
+\Buddy_Builder\Templates\Cards::push( 'members', $attrs['card'] );
+
 ?>
-<div id="members-dir-list" class="members dir-list" data-bp-list="members">
+<div id="members-dir-list" class="members dir-list<?php echo $bpb_cards ? ' ' . esc_attr( $bpb_cards ) : ''; ?>" data-bp-list="members">
 	<div id="bp-ajax-loader"><?php bp_nouveau_user_feedback( 'directory-members-loading' ); ?></div>
 </div>
+<?php
+\Buddy_Builder\Templates\Cards::pop();

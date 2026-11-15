@@ -22,7 +22,7 @@ function bpb_uninstall_site() {
 	// The sample member, its friends, groups and activity (needs BuddyPress loaded for groups and activity).
 	\Buddy_Builder\Templates\SampleMember::remove();
 
-	foreach ( [ 'bpb_templates', 'bpb_migrations', 'bpb_migrations_checked', 'bpb_db_version', 'bpb_blocks_enabled', 'bpb_sample_member', 'bpb_replaced_elementor', 'bpb_undo', \Buddy_Builder\Compat\Appsero::VERSION_OPTION ] as $option ) {
+	foreach ( [ 'bpb_templates', 'bpb_migrations', 'bpb_migrations_checked', 'bpb_db_version', 'bpb_blocks_enabled', 'bpb_sample_member', 'bpb_replaced_elementor', 'bpb_undo', 'bpb_cards', \Buddy_Builder\Compat\Appsero::VERSION_OPTION ] as $option ) {
 		delete_option( $option );
 	}
 

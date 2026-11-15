@@ -160,6 +160,11 @@ if ( ! function_exists( 'bpb_render_general_loop' ) ) {
 		add_filter( 'buddy_builder/has_template/pre', '__return_true' );
 		add_filter( 'bp_current_component', $current_component );
 
+		// Card style of this list (classic keeps the 1.x markup).
+		$card  = isset( $attrs['card'] ) ? $attrs['card'] : 'classic';
+		$cards = \Buddy_Builder\Templates\Cards::wrapper_class( $object, $card );
+		\Buddy_Builder\Templates\Cards::push( $object, $card );
+
 		if ( $loop_classes ) {
 			add_filter( 'bp_nouveau_get_loop_classes', $loop_classes );
 		}
@@ -183,7 +188,7 @@ if ( ! function_exists( 'bpb_render_general_loop' ) ) {
 				<div class="screen-content">
 					<?php bp_nouveau_activity_hook( 'before_directory', 'list' ); ?>
 
-					<div id="activity-stream" class="activity" data-bp-list="">
+					<div id="activity-stream" class="activity<?php echo $cards ? ' ' . esc_attr( $cards ) : ''; ?>" data-bp-list="">
 						<?php bp_get_template_part( 'activity/activity-loop' ); ?>
 					</div>
 
@@ -202,7 +207,7 @@ if ( ! function_exists( 'bpb_render_general_loop' ) ) {
 				<?php $before(); ?>
 
 				<div class="screen-content">
-					<div id="<?php echo esc_attr( $object ); ?>-dir-list" class="<?php echo esc_attr( $object ); ?> dir-list" data-bp-list="">
+					<div id="<?php echo esc_attr( $object ); ?>-dir-list" class="<?php echo esc_attr( $object ); ?> dir-list<?php echo $cards ? ' ' . esc_attr( $cards ) : ''; ?>" data-bp-list="">
 						<?php bp_get_template_part( $object . '/' . $object . '-loop' ); ?>
 					</div>
 
@@ -218,6 +223,7 @@ if ( ! function_exists( 'bpb_render_general_loop' ) ) {
 		}
 
 		remove_filter( 'bp_current_component', $current_component );
+		\Buddy_Builder\Templates\Cards::pop();
 
 		apply_filters( 'buddy_builder/' . $object . '-loop/after/' . $hook, $payload ); // phpcs:ignore WordPress.NamingConventions.ValidHookName
 

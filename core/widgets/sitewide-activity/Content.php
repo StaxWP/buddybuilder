@@ -33,6 +33,8 @@ class Content extends \Buddy_Builder\Widgets\Base {
 
 	protected function register_controls() {
 		do_action( 'buddy_builder/widget/sitewide-activity/content/settings', $this );
+
+		$this->bpb_schema_section( 'card', __( 'Card style', 'stax-buddy-builder' ) );
 	}
 
 	protected function render() {

@@ -31,6 +31,7 @@ bp_nouveau_before_loop(); ?>
 					<?php if ( $render ) : ?>
 						<?php echo bpb_render_loop_item( 'members-directory-item', $members_item ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 					<?php else : ?>
+						<?php \Buddy_Builder\Templates\Cards::print_cover( 'members' ); ?>
 
 						<div class="item-avatar">
 							<a href="<?php bp_member_permalink(); ?>"><?php bp_member_avatar( bp_nouveau_avatar_args() ); ?></a>

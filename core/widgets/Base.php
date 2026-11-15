@@ -90,6 +90,28 @@ class Base extends \Elementor\Widget_Base {
 	}
 
 	/**
+	 * A content section with one control generated from the element schema (2.0 attributes such as the list card
+	 * style). New keys only: saved 1.x layouts get the schema default, which keeps their markup.
+	 *
+	 * @param string $key   Attribute key in element.json.
+	 * @param string $label Section label.
+	 */
+	protected function bpb_schema_section( $key, $label ) {
+		$element = $this->kit_element();
+		$schema  = $element ? $element->schema() : [];
+
+		if ( ! isset( $schema['attributes'][ $key ] ) ) {
+			return;
+		}
+
+		$defaults = \Buddy_Builder\Kit\Schema::defaults( $schema );
+
+		$this->start_controls_section( 'bpb_' . $key . '_section', [ 'label' => $label ] );
+		$this->add_control( $key, self::kit_control( $element, $schema['attributes'][ $key ], $defaults[ $key ] ) );
+		$this->end_controls_section();
+	}
+
+	/**
 	 * Render
 	 */
 	protected function render() {

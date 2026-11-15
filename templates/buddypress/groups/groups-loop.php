@@ -33,6 +33,7 @@ bp_nouveau_before_loop(); ?>
 					<?php if ( $render ) : ?>
 						<?php echo bpb_render_loop_item( 'groups-directory-item', $group_item ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 					<?php else : ?>
+						<?php \Buddy_Builder\Templates\Cards::print_cover( 'groups' ); ?>
 
 						<?php if ( ! bp_disable_group_avatar_uploads() ) : ?>
 							<div class="item-avatar">

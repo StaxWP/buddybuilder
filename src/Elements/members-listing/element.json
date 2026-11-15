@@ -15,6 +15,19 @@
 		"members-directory"
 	],
 	"attributes": {
+		"card": {
+			"type": "string",
+			"default": "classic",
+			"control": "select",
+			"panel": "basic",
+			"label": "Card style",
+			"help": "How each item looks. A card layout (BuddyBuilder Pro) replaces it.",
+			"options": {
+				"classic": "Classic",
+				"compact": "Compact",
+				"cover": "Cover"
+			}
+		},
 		"columns": {
 			"type": "integer",
 			"default": 3,
