@@ -69,7 +69,10 @@ const host = new URL( site ).hostname;
 				// Activity items follow the style's activity list (profile and group streams too, as on a real site).
 				const post = ( fs.readFileSync( path.join( root, c.style, 'sitewide-activity.html' ), 'utf8' ).match( /wp:buddybuilder\/activity-stream \{[^}]*"card":"(\w+)"/ ) || [] )[ 1 ] || 'classic';
 				wpJson( wp, [ 'eval', `\\Buddy_Builder\\Templates\\Cards::save( 'activity', '${ post }', ${ ( made.find( ( x ) => x.style === c.style && x.page === 'sitewide-activity' ) || c ).id } ); echo "\\nBPB_CARD 1\\n";` ], 'BPB_CARD' );
-				await ctx.addCookies( [ { name: 'bpb_compat_tpl', value: `${ c.page }:${ c.id }`, domain: host, path: '/' } ] );
+				// The style's activity page is assigned too: profile and group streams follow its activity item style.
+				const act = made.find( ( x ) => x.style === c.style && x.page === 'sitewide-activity' );
+				const tpl = act && act.id !== c.id ? `${ c.page }:${ c.id },sitewide-activity:${ act.id }` : `${ c.page }:${ c.id }`;
+				await ctx.addCookies( [ { name: 'bpb_compat_tpl', value: tpl, domain: host, path: '/' } ] );
 				const page = await ctx.newPage();
 				const errors = [];
 				page.on( 'pageerror', ( e ) => errors.push( e.message ) );
