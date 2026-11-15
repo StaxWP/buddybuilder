@@ -4,7 +4,7 @@
  */
 
 /* Members and groups: the list is a CSS grid (columns from the 1.x classes), each item a card. */
-:is(#buddypress, .buddypress-wrap, body) .bpb-cards ul.bp-list:is(.members-list, .groups-list) {
+:is(#buddypress, .buddypress-wrap, body) :is(.bpb-cards, .bpb-look .dir-list) ul.bp-list:is(.members-list, .groups-list) {
 	--bpb-cols: 3;
 	display: grid;
 	grid-template-columns: repeat(var(--bpb-cols), minmax(0, 1fr));
@@ -15,28 +15,28 @@
 }
 
 /* The 1.x clearfix pseudo elements would take grid cells. */
-:is(#buddypress, .buddypress-wrap, body) .bpb-cards ul.bp-list:is(.members-list, .groups-list)::before,
-:is(#buddypress, .buddypress-wrap, body) .bpb-cards ul.bp-list:is(.members-list, .groups-list)::after {
+:is(#buddypress, .buddypress-wrap, body) :is(.bpb-cards, .bpb-look .dir-list) ul.bp-list:is(.members-list, .groups-list)::before,
+:is(#buddypress, .buddypress-wrap, body) :is(.bpb-cards, .bpb-look .dir-list) ul.bp-list:is(.members-list, .groups-list)::after {
 	content: none;
 	display: none;
 }
 
-.bpb-cards ul.bp-list.grid-one { --bpb-cols: 1; }
-.bpb-cards ul.bp-list.grid-two { --bpb-cols: 2; }
-.bpb-cards ul.bp-list.grid-four { --bpb-cols: 4; }
+:is(.bpb-cards, .bpb-look .dir-list) ul.bp-list.grid-one { --bpb-cols: 1; }
+:is(.bpb-cards, .bpb-look .dir-list) ul.bp-list.grid-two { --bpb-cols: 2; }
+:is(.bpb-cards, .bpb-look .dir-list) ul.bp-list.grid-four { --bpb-cols: 4; }
 
 @media (max-width: 1024px) {
-	.bpb-cards ul.bp-list.md-grid-one { --bpb-cols: 1; }
-	.bpb-cards ul.bp-list.md-grid-two { --bpb-cols: 2; }
-	.bpb-cards ul.bp-list.md-grid-three { --bpb-cols: 3; }
+	:is(.bpb-cards, .bpb-look .dir-list) ul.bp-list.md-grid-one { --bpb-cols: 1; }
+	:is(.bpb-cards, .bpb-look .dir-list) ul.bp-list.md-grid-two { --bpb-cols: 2; }
+	:is(.bpb-cards, .bpb-look .dir-list) ul.bp-list.md-grid-three { --bpb-cols: 3; }
 }
 
 @media (max-width: 767px) {
-	.bpb-cards ul.bp-list.sm-grid-one { --bpb-cols: 1; }
-	.bpb-cards ul.bp-list.sm-grid-two { --bpb-cols: 2; }
+	:is(.bpb-cards, .bpb-look .dir-list) ul.bp-list.sm-grid-one { --bpb-cols: 1; }
+	:is(.bpb-cards, .bpb-look .dir-list) ul.bp-list.sm-grid-two { --bpb-cols: 2; }
 }
 
-:is(#buddypress, .buddypress-wrap, body) .bpb-cards ul.bp-list:is(.members-list, .groups-list) > li {
+:is(#buddypress, .buddypress-wrap, body) :is(.bpb-cards, .bpb-look .dir-list) ul.bp-list:is(.members-list, .groups-list) > li {
 	width: auto;
 	max-width: none;
 	float: none;
@@ -47,7 +47,7 @@
 	min-height: 0;
 }
 
-:is(#buddypress, .buddypress-wrap, body) .bpb-cards ul.bp-list:is(.members-list, .groups-list) > li :is(.item, .item-block) {
+:is(#buddypress, .buddypress-wrap, body) :is(.bpb-cards, .bpb-look .dir-list) ul.bp-list:is(.members-list, .groups-list) > li :is(.item, .item-block) {
 	width: auto;
 	min-height: 0;
 	margin: 0;
@@ -55,13 +55,13 @@
 	float: none;
 }
 
-:is(#buddypress, .buddypress-wrap, body) .bpb-cards ul.bp-list:is(.members-list, .groups-list) > li .list-wrap {
+:is(#buddypress, .buddypress-wrap, body) :is(.bpb-cards, .bpb-look .dir-list) ul.bp-list:is(.members-list, .groups-list) > li .list-wrap {
 	padding: 0;
 	margin: 0;
 	min-height: 0;
 }
 
-:is(#buddypress, .buddypress-wrap, body) .bpb-cards ul.bp-list:is(.members-list, .groups-list) > li .list-wrap:hover {
+:is(#buddypress, .buddypress-wrap, body) :is(.bpb-cards, .bpb-look .dir-list) ul.bp-list:is(.members-list, .groups-list) > li .list-wrap:hover {
 	box-shadow: 0 4px 16px rgb(0 0 0 / 0.06);
 }
 
@@ -72,7 +72,7 @@
 }
 
 /* Members and groups: shared card frame. */
-:is(#buddypress, .buddypress-wrap, body) .bpb-cards :is(.members-list, .groups-list, #members-list, #groups-list) > li .list-wrap {
+:is(#buddypress, .buddypress-wrap, body) :is(.bpb-cards, .bpb-look .dir-list) :is(.members-list, .groups-list, #members-list, #groups-list) > li .list-wrap {
 	display: flex;
 	gap: var(--bpb-gap);
 	background: var(--bpb-color-surface);
@@ -89,15 +89,15 @@
 	display: block;
 }
 
-:is(#buddypress, .buddypress-wrap, body) .bpb-cards ul.bp-list:is(.members-list, .groups-list) > li .list-title,
-:is(#buddypress, .buddypress-wrap, body) .bpb-cards ul.bp-list:is(.members-list, .groups-list) > li .list-title a {
+:is(#buddypress, .buddypress-wrap, body) :is(.bpb-cards, .bpb-look .dir-list) ul.bp-list:is(.members-list, .groups-list) > li .list-title,
+:is(#buddypress, .buddypress-wrap, body) :is(.bpb-cards, .bpb-look .dir-list) ul.bp-list:is(.members-list, .groups-list) > li .list-title a {
 	margin: 0;
 	font-size: 1rem;
 	line-height: 1.3;
 	color: var(--bpb-color-text);
 }
 
-:is(#buddypress, .buddypress-wrap, body) .bpb-cards ul.bp-list:is(.members-list, .groups-list) > li :is(.item-meta, .item-meta span, .last-activity) {
+:is(#buddypress, .buddypress-wrap, body) :is(.bpb-cards, .bpb-look .dir-list) ul.bp-list:is(.members-list, .groups-list) > li :is(.item-meta, .item-meta span, .last-activity) {
 	margin: 2px 0 0;
 	color: var(--bpb-color-muted);
 	font-size: 0.8125rem;
@@ -236,4 +236,58 @@
 	.bpb-card-compact .activity-list .activity-content {
 		margin-left: 44px;
 	}
+}
+
+/* Classic card inside a look: avatar, name, meta and buttons, centered, on a card with a hover lift. */
+:is(#buddypress, .buddypress-wrap, body) .bpb-look .dir-list:not(.bpb-cards) ul.bp-list:is(.members-list, .groups-list) > li .list-wrap {
+	flex-direction: column;
+	align-items: center;
+	padding: 24px 18px 20px;
+	text-align: center;
+	gap: 12px;
+}
+
+:is(#buddypress, .buddypress-wrap, body) .bpb-look .dir-list:not(.bpb-cards) ul.bp-list:is(.members-list, .groups-list) .item-avatar img {
+	width: 88px;
+	height: 88px;
+	border-radius: var(--bpb-avatar-radius, 50%);
+}
+
+:is(#buddypress, .buddypress-wrap, body) .bpb-look .dir-list:not(.bpb-cards) ul.bp-list:is(.members-list, .groups-list) :is(.members-meta, .groups-meta, .action) {
+	justify-content: center;
+	margin-top: 8px;
+}
+
+:is(#buddypress, .buddypress-wrap, body) .bpb-look .dir-list:not(.bpb-cards) ul.bp-list:is(.members-list, .groups-list) .user-update {
+	display: none;
+}
+
+/* Inside a look the grid follows the space it has (columns from the card width, not from the 1.x classes). */
+:is(#buddypress, .buddypress-wrap, body) .bpb-look .dir-list ul.bp-list:is(.members-list, .groups-list) {
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--bpb-card-min, 200px)), 1fr));
+}
+
+:is(#buddypress, .buddypress-wrap, body) .bpb-look .dir-list.bpb-card-cover ul.bp-list:is(.members-list, .groups-list) {
+	--bpb-card-min: 240px;
+}
+
+:is(#buddypress, .buddypress-wrap, body) .bpb-look .dir-list.bpb-card-compact ul.bp-list:is(.members-list, .groups-list) {
+	grid-template-columns: minmax(0, 1fr);
+}
+
+:is(#buddypress, .buddypress-wrap, body) .bpb-look ul.bp-list.groups-list .group-desc {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: none;
+	font-size: 14px;
+	font-style: normal;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+:is(#buddypress, .buddypress-wrap, body) .bpb-look ul.bp-list.groups-list .group-desc p {
+	margin: 0;
 }

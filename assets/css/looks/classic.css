@@ -1,0 +1,18 @@
+/* Classic: the familiar community page, finished. Neutral, calm, cards with a soft lift. */
+.bpb-look--classic,
+.bpb-look--classic :is(.bpb-mh, .bpb-gh, .bpb-about, .bpb-rail, .bpb-dh) {
+	--bpb-radius: 10px;
+	--bpb-weight-heading: 700;
+}
+
+.bpb-look--classic .bpb-dh {
+	padding-bottom: 4px;
+}
+
+#buddypress.buddypress-wrap .bpb-look--classic .dir-list ul.bp-list:is(.members-list, .groups-list) > li .list-wrap:hover {
+	transform: translateY(-2px);
+}
+
+#buddypress.buddypress-wrap .bpb-look--classic .dir-list ul.bp-list > li .list-wrap {
+	transition: box-shadow 0.15s ease, transform 0.15s ease;
+}

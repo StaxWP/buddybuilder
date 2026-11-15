@@ -66,9 +66,62 @@ final class Assets {
 
 		wp_enqueue_style( self::tokens() );
 
+		// Looks: the component styles and the style of the layout, in the head (found in the layout markup).
+		$post = $entry['id'] ? get_post( $entry['id'] ) : null;
+
+		if ( $post ) {
+			foreach ( self::looks_in( $post->post_content ) as $style ) {
+				self::looks( $style );
+			}
+		}
+
 		if ( wp_style_is( 'stax-buddy-builder-front', 'registered' ) ) {
 			wp_enqueue_style( 'stax-buddy-builder-front' );
 		}
+	}
+
+	/** Look styles shipped in assets/css/looks/<style>.css. */
+	const LOOK_STYLES = [ 'classic', 'creator', 'professional', 'social', 'learning', 'club', 'membership', 'kleo' ];
+
+	/** Elements that need the look components. */
+	const LOOK_ELEMENTS = [ 'member-header', 'member-about', 'group-header', 'directory-header', 'people-rail' ];
+
+	/**
+	 * Enqueue the look components (handle bpb-looks) and one style (bpb-look-<style>).
+	 *
+	 * @param string $style Style slug, '' for the components only.
+	 */
+	public static function looks( $style = '' ) {
+		if ( ! wp_style_is( 'bpb-looks', 'registered' ) ) {
+			\Buddy_Builder\Templates\Cards::register();
+			wp_register_style( 'bpb-looks', BPB_ASSETS_URL . 'css/looks/base.css', [ self::tokens(), 'bpb-cards' ], BPB_VERSION );
+		}
+
+		wp_enqueue_style( 'bpb-looks' );
+
+		if ( in_array( $style, self::LOOK_STYLES, true ) && file_exists( BPB_BASE_PATH . 'assets/css/looks/' . $style . '.css' ) ) {
+			wp_enqueue_style( 'bpb-look-' . $style, BPB_ASSETS_URL . 'css/looks/' . $style . '.css', [ 'bpb-looks' ], BPB_VERSION );
+		}
+	}
+
+	/**
+	 * Look styles used by block markup: '' when only look elements are used, plus each "bpb-look--<style>" class.
+	 *
+	 * @param string $content Block markup.
+	 * @return string[]
+	 */
+	public static function looks_in( $content ) {
+		$found = [];
+
+		if ( preg_match_all( '/bpb-look--([a-z]+)/', (string) $content, $m ) ) {
+			$found = array_values( array_unique( $m[1] ) );
+		}
+
+		if ( ! $found && preg_match( '#wp:buddybuilder/(' . implode( '|', self::LOOK_ELEMENTS ) . ')\b#', (string) $content ) ) {
+			$found[] = '';
+		}
+
+		return $found;
 	}
 
 	/**

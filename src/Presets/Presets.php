@@ -42,10 +42,11 @@ final class Presets {
 	/**
 	 * All presets available on this site.
 	 *
-	 * @param string $type Optional template type filter.
+	 * @param string $type   Optional template type filter.
+	 * @param bool   $legacy Include the 2.0-dev looks replaced by the styles (default: no; get() always finds them).
 	 * @return array id => preset
 	 */
-	public static function all( $type = '' ) {
+	public static function all( $type = '', $legacy = false ) {
 		if ( null === self::$presets ) {
 			/**
 			 * Filters the preset layouts.
@@ -66,14 +67,10 @@ final class Presets {
 			self::$presets = $presets;
 		}
 
-		if ( '' === $type ) {
-			return self::$presets;
-		}
-
 		return array_filter(
 			self::$presets,
-			static function ( $preset ) use ( $type ) {
-				return isset( $preset['type'] ) && $type === $preset['type'];
+			static function ( $preset ) use ( $type, $legacy ) {
+				return ( '' === $type || ( isset( $preset['type'] ) && $type === $preset['type'] ) ) && ( $legacy || empty( $preset['legacy'] ) );
 			}
 		);
 	}
@@ -113,7 +110,7 @@ final class Presets {
 					'categories'  => [ 'buddybuilder' ],
 					'postTypes'   => [ PostType::POST_TYPE ],
 					'blockTypes'  => [],
-					'content'     => Builder::to_blocks( $preset['layout'] ),
+					'content'     => self::blocks( $preset ),
 					'keywords'    => [ $preset['type'] ],
 				]
 			);
@@ -159,6 +156,16 @@ final class Presets {
 	}
 
 	/**
+	 * Block markup of a preset: the hand-written pattern of a style, else generated from the layout description.
+	 *
+	 * @param array $preset Preset.
+	 * @return string
+	 */
+	public static function blocks( array $preset ) {
+		return isset( $preset['content'] ) && '' !== $preset['content'] ? $preset['content'] : Builder::to_blocks( $preset['layout'] );
+	}
+
+	/**
 	 * Create a block layout from a preset.
 	 *
 	 * @param array $preset Preset.
@@ -170,7 +177,7 @@ final class Presets {
 				'post_type'    => PostType::POST_TYPE,
 				'post_status'  => 'publish',
 				'post_title'   => self::layout_title( $preset ),
-				'post_content' => Builder::to_blocks( $preset['layout'] ),
+				'post_content' => self::blocks( $preset ),
 				'meta_input'   => [
 					PostType::META_TYPE   => $preset['type'],
 					PostType::META_PRESET => $preset['id'],

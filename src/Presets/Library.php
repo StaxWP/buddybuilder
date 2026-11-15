@@ -348,7 +348,12 @@ final class Library {
 			],
 		];
 
-		return array_merge( $presets, self::kleo() );
+		// 2.0-dev looks: kept for layouts made from them and as the Elementor descriptions of the styles, out of pickers.
+		foreach ( $presets as $id => $preset ) {
+			$presets[ $id ]['legacy'] = true;
+		}
+
+		return array_merge( Styles::presets( $presets ), $presets, self::kleo() );
 	}
 
 	/**

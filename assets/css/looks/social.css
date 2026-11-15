@@ -1,0 +1,57 @@
+/* Social: feed first, slim header, a "people to know" rail, flat lists with dividers. */
+.bpb-look--social,
+.bpb-look--social :is(.bpb-mh, .bpb-gh, .bpb-about, .bpb-rail, .bpb-dh) {
+	--bpb-radius: 14px;
+	--bpb-weight-heading: 750;
+	--bpb-shadow: none;
+}
+
+.bpb-look--social :is(.bpb-mh, .bpb-gh) {
+	border: 0;
+	border-radius: 0;
+	border-bottom: 1px solid var(--bpb-color-border);
+	background: none;
+}
+
+.bpb-look--social :is(.bpb-mh__body, .bpb-gh__body) {
+	padding-inline: 0;
+}
+
+.bpb-look--social .bpb-mh__stats {
+	gap: 18px;
+}
+
+/* Flat feed: dividers instead of boxes. */
+#buddypress.buddypress-wrap .bpb-look--social .activity-list.bp-list {
+	gap: 0;
+}
+
+#buddypress.buddypress-wrap .bpb-look--social .activity-list > li.activity-item {
+	padding: 18px 4px;
+	border: 0;
+	border-bottom: 1px solid var(--bpb-color-border);
+	border-radius: 0;
+	background: none;
+}
+
+#buddypress.buddypress-wrap .bpb-look--social #whats-new-form {
+	box-shadow: none;
+}
+
+/* Members and groups as one-line rows with the action at the end. */
+#buddypress.buddypress-wrap .bpb-look--social .dir-list ul.bp-list:is(.members-list, .groups-list) {
+	gap: 0;
+}
+
+#buddypress.buddypress-wrap .bpb-look--social .dir-list ul.bp-list:is(.members-list, .groups-list) > li .list-wrap {
+	border: 0;
+	border-bottom: 1px solid var(--bpb-color-border);
+	border-radius: 0;
+	background: none;
+	box-shadow: none;
+}
+
+.bpb-look--social .bpb-rail {
+	border: 0;
+	background: var(--bpb-color-surface-2);
+}

@@ -240,7 +240,7 @@ final class LayoutPreview {
 			return [
 				'builder' => Registry::BLOCKS,
 				'id'      => 0,
-				'content' => Builder::to_blocks( $preset['layout'] ),
+				'content' => \Buddy_Builder\Presets\Presets::blocks( $preset ),
 			];
 		}
 

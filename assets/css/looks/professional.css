@@ -1,0 +1,81 @@
+/* Professional: compact header, facts in a side card, list directories, quiet colors and squared shapes. */
+.bpb-look--professional,
+.bpb-look--professional :is(.bpb-mh, .bpb-gh, .bpb-about, .bpb-rail, .bpb-dh) {
+	--bpb-radius: 8px;
+	--bpb-button-radius: 6px;
+	--bpb-avatar-radius: 14px;
+	--bpb-weight-heading: 650;
+	--bpb-tracking-heading: -0.015em;
+	--bpb-shadow: 0 1px 2px rgb(15 23 42 / 0.05);
+}
+
+.bpb-look--professional {
+	font-size: 14.5px;
+}
+
+.bpb-look--professional :is(.bpb-mh__cover, .bpb-gh__cover) {
+	aspect-ratio: 6 / 1;
+	min-height: 110px;
+}
+
+.bpb-look--professional :is(.bpb-mh__avatar, .bpb-gh__avatar) img {
+	width: 116px;
+	height: 116px;
+}
+
+.bpb-look--professional :is(.bpb-mh__name, .bpb-gh__name) {
+	font-size: clamp(1.375rem, 1.15rem + 0.8vw, 1.75rem);
+}
+
+.bpb-look--professional .bpb-mh__headline {
+	font-size: 15.5px;
+}
+
+.bpb-look--professional .bpb-badge {
+	border-radius: 4px;
+	background: var(--bpb-color-surface-2);
+	color: var(--bpb-color-text);
+}
+
+.bpb-look--professional .bpb-about__row {
+	padding-bottom: 12px;
+	border-bottom: 1px solid var(--bpb-color-border);
+}
+
+.bpb-look--professional .bpb-about__row:last-child {
+	padding-bottom: 0;
+	border-bottom: 0;
+}
+
+/* Directories as rows: avatar, name, headline, action. */
+#buddypress.buddypress-wrap .bpb-look--professional .dir-list ul.bp-list:is(.members-list, .groups-list) {
+	gap: 0;
+	border: 1px solid var(--bpb-color-border);
+	border-radius: var(--bpb-radius-lg);
+	background: var(--bpb-color-surface);
+	overflow: hidden;
+}
+
+#buddypress.buddypress-wrap .bpb-look--professional .dir-list ul.bp-list:is(.members-list, .groups-list) > li .list-wrap {
+	border: 0;
+	border-bottom: 1px solid var(--bpb-color-border);
+	border-radius: 0;
+	box-shadow: none;
+}
+
+#buddypress.buddypress-wrap .bpb-look--professional .dir-list ul.bp-list:is(.members-list, .groups-list) > li:last-child .list-wrap {
+	border-bottom: 0;
+}
+
+#buddypress.buddypress-wrap .bpb-look--professional .dir-list ul.bp-list:is(.members-list, .groups-list) > li .list-wrap:hover {
+	background: var(--bpb-color-surface-2);
+	box-shadow: none;
+}
+
+#buddypress.buddypress-wrap .bpb-look--professional .dir-list ul.bp-list :is(.item-avatar img) {
+	border-radius: var(--bpb-avatar-radius);
+}
+
+#buddypress.buddypress-wrap .bpb-look--professional .activity-list > li.activity-item {
+	border-radius: var(--bpb-radius);
+}
