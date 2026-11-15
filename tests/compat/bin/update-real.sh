@@ -27,10 +27,15 @@ fi
 restore() {
 	rm -rf "${PLUGINS:?}/$SLUG"
 	[ -n "$aside" ] && mv "$aside" "$PLUGINS/$SLUG"
-	rm -f "$(dirname "$PLUGINS")/../bpb-update-test.zip"
+	rm -f "$(dirname "$PLUGINS")/../bpb-update-test.zip" "$(dirname "$PLUGINS")/mu-plugins/zz-bpb-update-offer.php"
 	"$WP" plugin activate "$SLUG" >/dev/null 2>&1
+	[ "${pro_was_active:-0}" = 1 ] && "$WP" plugin activate stax-buddy-builder-pro >/dev/null 2>&1
 }
 trap restore EXIT
+
+# Free alone: Pro 2.x does not load next to Free 1.x, so it would only differ because it starts loading.
+pro_was_active=$("$WP" plugin is-active stax-buddy-builder-pro >/dev/null 2>&1 && echo 1 || echo 0)
+"$WP" plugin deactivate stax-buddy-builder-pro >/dev/null 2>&1
 
 "$WP" plugin install "$FROM_ZIP" --force --activate >/dev/null 2>&1
 from=$("$WP" plugin get "$SLUG" --field=version 2>/dev/null)
@@ -61,20 +66,28 @@ public=$(dirname "$(dirname "$PLUGINS")")
 cp "$WORK/bpb-update-test.zip" "$public/bpb-update-test.zip"
 to_version=$(grep -m1 "Version:" "$pkg/$SLUG/loader.php" | sed 's/.*Version: *//')
 
-"$WP" eval "
-	\$t = get_site_transient( 'update_plugins' );
-	if ( ! is_object( \$t ) ) { \$t = new stdClass(); }
-	\$t->last_checked = time();
+# The offer comes through the update transient filter, so a refresh from wordpress.org cannot drop it.
+cat > "$WORK/offer.php" <<PHP
+<?php
+add_filter( 'site_transient_update_plugins', function ( \$t ) {
+	\$t = is_object( \$t ) ? \$t : new stdClass();
+	\$t->response = isset( \$t->response ) ? (array) \$t->response : [];
 	\$t->response['$SLUG/loader.php'] = (object) [ 'slug' => '$SLUG', 'plugin' => '$SLUG/loader.php', 'new_version' => '$to_version', 'package' => '$SITE/bpb-update-test.zip', 'url' => '' ];
-	set_site_transient( 'update_plugins', \$t );
-	add_filter( 'http_request_host_is_external', '__return_true' );
-" >/dev/null 2>&1
+	return \$t;
+}, 99 );
+add_filter( 'http_request_host_is_external', '__return_true' );
+PHP
+# As a mu-plugin for the update run only (WordPress must be loaded for add_filter()).
+mu="$(dirname "$PLUGINS")/mu-plugins/zz-bpb-update-offer.php"
+cp "$WORK/offer.php" "$mu"
 upd=$("$WP" plugin update "$SLUG" 2>&1 | tail -2 | tr '\n' ' ')
+rm -f "$mu"
 echo "updater: $upd"
 now=$("$WP" plugin get "$SLUG" --field=version 2>/dev/null)
 check "updated by the real updater to $to_version" "$([ "$now" = "$to_version" ] && echo ok || echo "got $now")"
 check "no .git in the updated folder (zip install)" "$([ ! -d "$PLUGINS/$SLUG/.git" ] && echo ok || echo git)"
-"$WP" eval 'wp_set_current_user( 1 ); do_action( "admin_init" );' >/dev/null 2>&1
+# What the first admin page view after the update does (admin_init -> Runner::maybe_run_on_update).
+"$WP" eval 'wp_set_current_user( 1 ); \Buddy_Builder\Migrations\Runner::maybe_run_on_update();' >/dev/null 2>&1
 reg=$("$WP" eval 'echo wp_json_encode( get_option( "bpb_templates" ) );' 2>/dev/null | tail -1)
 check "migration on the first admin request (object cache: $("$WP" eval 'echo wp_using_ext_object_cache() ? "on" : "off";' 2>/dev/null | tail -1))" "$(echo "$reg" | grep -q '"member-profile":{"builder":"elementor"' && echo ok || echo "$reg")"
 node "$HERE/run.js" --site "$SITE" --wp "$WP" --assigned --no-axe --label after --out "$WORK/after" | tail -1
