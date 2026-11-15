@@ -45,6 +45,8 @@ const CARDS = [
 // Dynamic parts of a block layout that change between runs without a code change.
 const mask = ( html ) => normalise( html )
 	.replace( /\b(?:user|group)-\d+-avatar\b/g, 'ID-avatar' )
+	// Uploaded avatar file names carry a hash that changes when the photo is uploaded again (same photo).
+	.replace( /(avatars\/\d+\/)[0-9a-f]{32}(-bp(?:full|thumb))/g, '$1H$2' )
 	.replace( /\bdata-bp-item-id="\d+"/g, 'data-bp-item-id="N"' )
 	.replace( /\b(activity|acomment|comment)-(\d+)\b/g, '$1-N' )
 	.replace( /([?&](?:amp;)?(?:_wpnonce|nonce|rand|ver)=)[^"&\s]+/g, '$1X' );

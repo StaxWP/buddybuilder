@@ -1,0 +1,459 @@
+<div class="bpb-template bpb-template-members-directory">
+<div class="wp-block-group has-global-padding is-layout-constrained wp-block-group-is-layout-constrained">
+<div class=" wp-block-buddybuilder-directory-filters bpb-filters-order-9">
+<div class="subnav-filters filters no-ajax" id="subnav-filters">
+<script>var storeType = 'bp-members'; var storeData = sessionStorage.getItem( storeType ); if ( storeData ) { storeData = JSON.parse( storeData ); if ( undefined !== storeData[ 'bpb-list-mode' ] && undefined === storeData[ 'bpb-list-hidden' ] ) { storeData[ 'bpb-list-hidden' ] = 1; sessionStorage.setItem( storeType, JSON.stringify( storeData ) ) } }</script>
+<div class="subnav-search clearfix">
+<div class="dir-search members-search bp-search" data-bp-search="members">
+<form action="" method="get" class="bp-dir-search-form" id="dir-members-search-form" role="search">
+<label for="dir-members-search" class="bp-screen-reader-text">Search Members…</label>
+<input id="dir-members-search" name="members_search" type="search" placeholder="Search Members...">
+<button type="submit" id="dir-members-search-submit" class="nouveau-search-submit" name="dir_members_search_submit">
+<span class="dashicons dashicons-search" aria-hidden="true">
+</span>
+<span id="button-text" class="bp-screen-reader-text">Search</span>
+</button>
+</form>
+</div>
+</div>
+<div id="dir-filters" class="component-filters clearfix">
+<div id="members-order-select" class="last filter">
+<label class="bp-screen-reader-text" for="members-order-by">
+<span>Order By:</span>
+</label>
+<div class="select-wrap">
+<select id="members-order-by" data-bp-filter="members">
+<option value="active">Last Active</option>
+<option value="newest">Newest Registered</option>
+<option value="alphabetical">Alphabetical</option>
+</select>
+<span class="select-arrow" aria-hidden="true">
+</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class=" wp-block-buddybuilder-directory-nav">
+<nav class="members-type-navs main-navs bp-navs dir-navs " role="navigation" aria-label="Directory menu">
+<ul class="component-navigation members-nav">
+<li id="members-all" class="selected" data-bp-scope="all" data-bp-object="members">
+<a href="http://bbux.test/members/">Active Members&nbsp;<span class="count">18</span>
+</a>
+</li>
+<li id="members-personal" class="" data-bp-scope="personal" data-bp-object="members">
+<a href="http://bbux.test/members/mihai/friends/my-friends/">My Friends<span class="count">1</span>
+</a>
+</li>
+</ul>
+</nav>
+</div>
+<div class=" wp-block-buddybuilder-members-listing">
+<div id="members-dir-list" class="members dir-list" data-bp-list="members" style="">
+<div class="bp-pagination top" data-bp-pagination="upage">
+<div class="pag-count top">
+<p class="pag-data">Viewing 1 - 18 of 18 active members</p>
+</div>
+</div>
+<ul id="members-list" class="item-list members-list bp-list grid grid-four md-grid-two sm-grid-one">
+<li class="item-entry odd is-online is-current-user" data-bp-item-id="N" data-bp-item-component="members">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/members/mihai/">
+<img loading="lazy" src="http://bbux.test/wp-content/plugins/buddypress/bp-core/images/mystery-man.jpg" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Profile picture of Mihai Ionescu">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title member-name">
+<a href="http://bbux.test/members/mihai/">Mihai Ionescu</a>
+</h2>
+<p class="item-meta last-activity">Active TIME ago</p>
+</div>
+</div>
+</div>
+</li>
+<li class="item-entry even" data-bp-item-id="N" data-bp-item-component="members">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/members/gabriel/">
+<img loading="lazy" src="http://bbux.test/wp-content/plugins/buddypress/bp-core/images/mystery-man.jpg" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Profile picture of gabriel">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title member-name">
+<a href="http://bbux.test/members/gabriel/">gabriel</a>
+</h2>
+<p class="item-meta last-activity">Active TIME ago</p>
+<ul class=" members-meta action-buttons action">
+<li id="friendship-button-1" class=" friendship-button not_friends generic-button">
+<button id="friend-1" class="friendship-button not_friends add" rel="add" title="Add Friend" data-bp-nonce="http://bbux.test/members/mihai/friends/add-friend/1/?_wpnonce=X" data-bp-btn-action="not_friends">Add Friend</button>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+<li class="item-entry odd" data-bp-item-id="N" data-bp-item-component="members">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/members/ana/">
+<img loading="lazy" src="http://bbux.test/wp-content/plugins/buddypress/bp-core/images/mystery-man.jpg" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Profile picture of Ana Popescu">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title member-name">
+<a href="http://bbux.test/members/ana/">Ana Popescu</a>
+</h2>
+<p class="item-meta last-activity">Active TIME ago</p>
+<ul class=" members-meta action-buttons action">
+<li id="friendship-button-2" class=" friendship-button is_friend generic-button">
+<button id="friend-2" class="friendship-button is_friend remove" rel="remove" title="Cancel Friendship" data-bp-nonce="http://bbux.test/members/mihai/friends/remove-friend/2/?_wpnonce=X" data-bp-btn-action="is_friend">Cancel Friendship</button>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+<li class="item-entry even" data-bp-item-id="N" data-bp-item-component="members">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/members/kleo-mcp-test/">
+<img loading="lazy" src="http://bbux.test/wp-content/plugins/buddypress/bp-core/images/mystery-man.jpg" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Profile picture of kleo-mcp-test">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title member-name">
+<a href="http://bbux.test/members/kleo-mcp-test/">kleo-mcp-test</a>
+</h2>
+<p class="item-meta last-activity">Active TIME ago</p>
+<ul class=" members-meta action-buttons action">
+<li id="friendship-button-4" class=" friendship-button not_friends generic-button">
+<button id="friend-4" class="friendship-button not_friends add" rel="add" title="Add Friend" data-bp-nonce="http://bbux.test/members/mihai/friends/add-friend/4/?_wpnonce=X" data-bp-btn-action="not_friends">Add Friend</button>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+<li class="item-entry odd member-type-coach" data-bp-item-id="N" data-bp-item-component="members">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/members/maya/">
+<img loading="lazy" src="http://bbux.test/wp-content/uploads/avatars/96/H-bpfull.jpg" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Profile picture of Maya Okafor">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title member-name">
+<a href="http://bbux.test/members/maya/">Maya Okafor</a>
+</h2>
+<p class="item-meta last-activity">Active TIME ago</p>
+<ul class=" members-meta action-buttons action">
+<li id="friendship-button-96" class=" friendship-button not_friends generic-button">
+<button id="friend-96" class="friendship-button not_friends add" rel="add" title="Add Friend" data-bp-nonce="http://bbux.test/members/mihai/friends/add-friend/96/?_wpnonce=X" data-bp-btn-action="not_friends">Add Friend</button>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+<li class="item-entry even" data-bp-item-id="N" data-bp-item-component="members">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/members/lucas/">
+<img loading="lazy" src="http://bbux.test/wp-content/uploads/avatars/97/H-bpfull.jpg" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Profile picture of Lucas Moreau">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title member-name">
+<a href="http://bbux.test/members/lucas/">Lucas Moreau</a>
+</h2>
+<p class="item-meta last-activity">Active TIME ago</p>
+<ul class=" members-meta action-buttons action">
+<li id="friendship-button-97" class=" friendship-button not_friends generic-button">
+<button id="friend-97" class="friendship-button not_friends add" rel="add" title="Add Friend" data-bp-nonce="http://bbux.test/members/mihai/friends/add-friend/97/?_wpnonce=X" data-bp-btn-action="not_friends">Add Friend</button>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+<li class="item-entry odd" data-bp-item-id="N" data-bp-item-component="members">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/members/sofia/">
+<img loading="lazy" src="http://bbux.test/wp-content/uploads/avatars/98/H-bpfull.jpg" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Profile picture of Sofia Lindqvist">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title member-name">
+<a href="http://bbux.test/members/sofia/">Sofia Lindqvist</a>
+</h2>
+<p class="item-meta last-activity">Active TIME ago</p>
+<ul class=" members-meta action-buttons action">
+<li id="friendship-button-98" class=" friendship-button not_friends generic-button">
+<button id="friend-98" class="friendship-button not_friends add" rel="add" title="Add Friend" data-bp-nonce="http://bbux.test/members/mihai/friends/add-friend/98/?_wpnonce=X" data-bp-btn-action="not_friends">Add Friend</button>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+<li class="item-entry even" data-bp-item-id="N" data-bp-item-component="members">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/members/arjun/">
+<img loading="lazy" src="http://bbux.test/wp-content/uploads/avatars/99/H-bpfull.jpg" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Profile picture of Arjun Mehta">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title member-name">
+<a href="http://bbux.test/members/arjun/">Arjun Mehta</a>
+</h2>
+<p class="item-meta last-activity">Active TIME ago</p>
+<ul class=" members-meta action-buttons action">
+<li id="friendship-button-99" class=" friendship-button not_friends generic-button">
+<button id="friend-99" class="friendship-button not_friends add" rel="add" title="Add Friend" data-bp-nonce="http://bbux.test/members/mihai/friends/add-friend/99/?_wpnonce=X" data-bp-btn-action="not_friends">Add Friend</button>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+<li class="item-entry odd" data-bp-item-id="N" data-bp-item-component="members">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/members/hana/">
+<img loading="lazy" src="http://bbux.test/wp-content/uploads/avatars/100/H-bpfull.jpg" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Profile picture of Hana Sato">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title member-name">
+<a href="http://bbux.test/members/hana/">Hana Sato</a>
+</h2>
+<p class="item-meta last-activity">Active TIME ago</p>
+<ul class=" members-meta action-buttons action">
+<li id="friendship-button-100" class=" friendship-button not_friends generic-button">
+<button id="friend-100" class="friendship-button not_friends add" rel="add" title="Add Friend" data-bp-nonce="http://bbux.test/members/mihai/friends/add-friend/100/?_wpnonce=X" data-bp-btn-action="not_friends">Add Friend</button>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+<li class="item-entry even" data-bp-item-id="N" data-bp-item-component="members">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/members/diego/">
+<img loading="lazy" src="http://bbux.test/wp-content/uploads/avatars/101/H-bpfull.jpg" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Profile picture of Diego Alvarez">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title member-name">
+<a href="http://bbux.test/members/diego/">Diego Alvarez</a>
+</h2>
+<p class="item-meta last-activity">Active TIME ago</p>
+<ul class=" members-meta action-buttons action">
+<li id="friendship-button-101" class=" friendship-button not_friends generic-button">
+<button id="friend-101" class="friendship-button not_friends add" rel="add" title="Add Friend" data-bp-nonce="http://bbux.test/members/mihai/friends/add-friend/101/?_wpnonce=X" data-bp-btn-action="not_friends">Add Friend</button>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+<li class="item-entry odd" data-bp-item-id="N" data-bp-item-component="members">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/members/amira/">
+<img loading="lazy" src="http://bbux.test/wp-content/uploads/avatars/102/H-bpfull.jpg" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Profile picture of Amira Haddad">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title member-name">
+<a href="http://bbux.test/members/amira/">Amira Haddad</a>
+</h2>
+<p class="item-meta last-activity">Active TIME ago</p>
+<ul class=" members-meta action-buttons action">
+<li id="friendship-button-102" class=" friendship-button not_friends generic-button">
+<button id="friend-102" class="friendship-button not_friends add" rel="add" title="Add Friend" data-bp-nonce="http://bbux.test/members/mihai/friends/add-friend/102/?_wpnonce=X" data-bp-btn-action="not_friends">Add Friend</button>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+<li class="item-entry even" data-bp-item-id="N" data-bp-item-component="members">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/members/tom/">
+<img loading="lazy" src="http://bbux.test/wp-content/uploads/avatars/103/H-bpfull.jpg" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Profile picture of Tom Becker">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title member-name">
+<a href="http://bbux.test/members/tom/">Tom Becker</a>
+</h2>
+<p class="item-meta last-activity">Active TIME ago</p>
+<ul class=" members-meta action-buttons action">
+<li id="friendship-button-103" class=" friendship-button not_friends generic-button">
+<button id="friend-103" class="friendship-button not_friends add" rel="add" title="Add Friend" data-bp-nonce="http://bbux.test/members/mihai/friends/add-friend/103/?_wpnonce=X" data-bp-btn-action="not_friends">Add Friend</button>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+<li class="item-entry odd" data-bp-item-id="N" data-bp-item-component="members">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/members/lena/">
+<img loading="lazy" src="http://bbux.test/wp-content/uploads/avatars/104/H-bpfull.jpg" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Profile picture of Lena Novak">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title member-name">
+<a href="http://bbux.test/members/lena/">Lena Novak</a>
+</h2>
+<p class="item-meta last-activity">Active TIME ago</p>
+<ul class=" members-meta action-buttons action">
+<li id="friendship-button-104" class=" friendship-button not_friends generic-button">
+<button id="friend-104" class="friendship-button not_friends add" rel="add" title="Add Friend" data-bp-nonce="http://bbux.test/members/mihai/friends/add-friend/104/?_wpnonce=X" data-bp-btn-action="not_friends">Add Friend</button>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+<li class="item-entry even" data-bp-item-id="N" data-bp-item-component="members">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/members/kwame/">
+<img loading="lazy" src="http://bbux.test/wp-content/uploads/avatars/105/H-bpfull.jpg" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Profile picture of Kwame Mensah">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title member-name">
+<a href="http://bbux.test/members/kwame/">Kwame Mensah</a>
+</h2>
+<p class="item-meta last-activity">Active TIME ago</p>
+<ul class=" members-meta action-buttons action">
+<li id="friendship-button-105" class=" friendship-button not_friends generic-button">
+<button id="friend-105" class="friendship-button not_friends add" rel="add" title="Add Friend" data-bp-nonce="http://bbux.test/members/mihai/friends/add-friend/105/?_wpnonce=X" data-bp-btn-action="not_friends">Add Friend</button>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+<li class="item-entry odd" data-bp-item-id="N" data-bp-item-component="members">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/members/isabel/">
+<img loading="lazy" src="http://bbux.test/wp-content/uploads/avatars/106/H-bpfull.jpg" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Profile picture of Isabel Costa">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title member-name">
+<a href="http://bbux.test/members/isabel/">Isabel Costa</a>
+</h2>
+<p class="item-meta last-activity">Active TIME ago</p>
+<ul class=" members-meta action-buttons action">
+<li id="friendship-button-106" class=" friendship-button not_friends generic-button">
+<button id="friend-106" class="friendship-button not_friends add" rel="add" title="Add Friend" data-bp-nonce="http://bbux.test/members/mihai/friends/add-friend/106/?_wpnonce=X" data-bp-btn-action="not_friends">Add Friend</button>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+<li class="item-entry even" data-bp-item-id="N" data-bp-item-component="members">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/members/noah/">
+<img loading="lazy" src="http://bbux.test/wp-content/uploads/avatars/107/H-bpfull.jpg" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Profile picture of Noah Fischer">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title member-name">
+<a href="http://bbux.test/members/noah/">Noah Fischer</a>
+</h2>
+<p class="item-meta last-activity">Active TIME ago</p>
+<ul class=" members-meta action-buttons action">
+<li id="friendship-button-107" class=" friendship-button not_friends generic-button">
+<button id="friend-107" class="friendship-button not_friends add" rel="add" title="Add Friend" data-bp-nonce="http://bbux.test/members/mihai/friends/add-friend/107/?_wpnonce=X" data-bp-btn-action="not_friends">Add Friend</button>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+<li class="item-entry odd" data-bp-item-id="N" data-bp-item-component="members">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/members/priya/">
+<img loading="lazy" src="http://bbux.test/wp-content/uploads/avatars/108/H-bpfull.jpg" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Profile picture of Priya Raman">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title member-name">
+<a href="http://bbux.test/members/priya/">Priya Raman</a>
+</h2>
+<p class="item-meta last-activity">Active TIME ago</p>
+<ul class=" members-meta action-buttons action">
+<li id="friendship-button-108" class=" friendship-button not_friends generic-button">
+<button id="friend-108" class="friendship-button not_friends add" rel="add" title="Add Friend" data-bp-nonce="http://bbux.test/members/mihai/friends/add-friend/108/?_wpnonce=X" data-bp-btn-action="not_friends">Add Friend</button>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+<li class="item-entry even" data-bp-item-id="N" data-bp-item-component="members">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/members/samuel/">
+<img loading="lazy" src="http://bbux.test/wp-content/uploads/avatars/109/H-bpfull.jpg" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Profile picture of Samuel Park">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title member-name">
+<a href="http://bbux.test/members/samuel/">Samuel Park</a>
+</h2>
+<p class="item-meta last-activity">Active TIME ago</p>
+<ul class=" members-meta action-buttons action">
+<li id="friendship-button-109" class=" friendship-button not_friends generic-button">
+<button id="friend-109" class="friendship-button not_friends add" rel="add" title="Add Friend" data-bp-nonce="http://bbux.test/members/mihai/friends/add-friend/109/?_wpnonce=X" data-bp-btn-action="not_friends">Add Friend</button>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+<div class="bp-pagination bottom" data-bp-pagination="upage">
+<div class="pag-count bottom">
+<p class="pag-data">Viewing 1 - 18 of 18 active members</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
