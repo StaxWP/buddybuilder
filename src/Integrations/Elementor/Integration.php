@@ -47,6 +47,7 @@ final class Integration {
 
 		ElementorHooks::get_instance();
 		\Buddy_Builder\CustomizerHooks::get_instance();
+		EditorPreview::hooks();
 	}
 
 	/**

@@ -212,7 +212,8 @@ final class Elements {
 		$use = self::get( $schema['deprecated']['use'] );
 
 		/* translators: %s: name of the element to use instead */
-		return '<p class="bpb-el-deprecated">' . esc_html( sprintf( __( 'Deprecated, use %s.', 'stax-buddy-builder' ), $use ? $use->title() : $schema['deprecated']['use'] ) ) . '</p>';
+		// Inline style: the Elementor canvas does not load BuddyBuilder's editor styles.
+		return '<p class="bpb-el-deprecated" style="margin:0 0 4px;padding:2px 6px;border-left:3px solid #dba617;background:#fcf9e8;color:#50575e;font:11px/1.4 -apple-system,BlinkMacSystemFont,sans-serif;letter-spacing:0;text-transform:none;text-align:left">' . esc_html( sprintf( __( 'Deprecated, use %s.', 'stax-buddy-builder' ), $use ? $use->title() : $schema['deprecated']['use'] ) ) . '</p>';
 	}
 
 	/**
@@ -273,6 +274,8 @@ final class Elements {
 
 		if ( $types && $type && ! in_array( $type, $types, true ) ) {
 			$text = __( 'This block is made for another page type. Change the template type of this layout, or remove the block.', 'stax-buddy-builder' );
+		} elseif ( $ctx->get( 'user_id' ) || $ctx->get( 'group_id' ) ) {
+			$text = __( 'Nothing to show for this preview and viewer.', 'stax-buddy-builder' );
 		} elseif ( in_array( 'member-profile', $types, true ) ) {
 			$text = __( 'Pick a preview member in the BuddyBuilder panel (or create the sample member).', 'stax-buddy-builder' );
 		} elseif ( in_array( 'group-profile', $types, true ) ) {

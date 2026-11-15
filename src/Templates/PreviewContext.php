@@ -292,22 +292,33 @@ final class PreviewContext {
 
 		self::$ctx = [];
 
-		$post_id = self::preview_post_id();
+		$post_id   = self::preview_post_id();
+		$elementor = 0;
+
+		if ( ! $post_id ) {
+			$elementor = self::elementor_preview_post_id();
+			$post_id   = $elementor;
+		}
 
 		if ( ! $post_id ) {
 			return self::$ctx;
 		}
 
-		$type     = isset( $_GET['bpb_type'] ) ? PostType::sanitize_type( wp_unslash( $_GET['bpb_type'] ) ) : PostType::type_of( $post_id ); // phpcs:ignore WordPress.Security.NonceVerification
+		if ( $elementor ) {
+			$type = PostType::sanitize_type( (string) get_post_meta( $post_id, '_bpb_page', true ) );
+		} else {
+			$type = isset( $_GET['bpb_type'] ) ? PostType::sanitize_type( wp_unslash( $_GET['bpb_type'] ) ) : PostType::type_of( $post_id ); // phpcs:ignore WordPress.Security.NonceVerification
+		}
 		$user_id  = self::preview_user( $post_id );
 		$group_id = self::preview_group( $post_id );
 
 		self::$ctx = [
-			'preview'  => true,
-			'type'     => $type,
-			'user_id'  => 0,
-			'group_id' => 0,
-			'viewer'   => '',
+			'preview'   => true,
+			'type'      => $type,
+			'user_id'   => 0,
+			'group_id'  => 0,
+			'viewer'    => '',
+			'elementor' => (bool) $elementor,
 		];
 
 		// Before BuddyPress is booted: its navigation depends on who looks (own profile tabs, group admin tabs).
@@ -377,6 +388,45 @@ final class PreviewContext {
 		}
 
 		return $post_id;
+	}
+
+	/**
+	 * BuddyBuilder template being edited in Elementor (decision 4: the Elementor editor previews with a real member,
+	 * like the block editor): the preview frame (?elementor-preview=<id>) and the editor's widget render requests
+	 * (admin-ajax elementor_ajax with editor_post_id), for someone who can edit the template. 0 otherwise.
+	 *
+	 * @return int
+	 */
+	private static function elementor_preview_post_id() {
+		if ( ! defined( 'ELEMENTOR_VERSION' ) ) {
+			return 0;
+		}
+
+		$post_id = 0;
+
+		if ( isset( $_GET['elementor-preview'] ) && ! is_admin() ) { // phpcs:ignore WordPress.Security.NonceVerification
+			$post_id = absint( $_GET['elementor-preview'] ); // phpcs:ignore WordPress.Security.NonceVerification
+		} elseif ( is_admin() && ! wp_doing_ajax() && isset( $_GET['action'], $_GET['post'] ) && 'elementor' === $_GET['action'] ) { // phpcs:ignore WordPress.Security.NonceVerification
+			// The editor page renders the widgets once for its first view.
+			$post_id = absint( $_GET['post'] ); // phpcs:ignore WordPress.Security.NonceVerification
+		} elseif ( wp_doing_ajax() && isset( $_POST['action'], $_POST['editor_post_id'] ) && 'elementor_ajax' === $_POST['action'] ) { // phpcs:ignore WordPress.Security.NonceVerification
+			$post_id = absint( $_POST['editor_post_id'] ); // phpcs:ignore WordPress.Security.NonceVerification
+		}
+
+		if ( ! $post_id || 'elementor_library' !== get_post_type( $post_id ) || '' === (string) get_post_meta( $post_id, '_bpb_page', true ) || ! current_user_can( 'edit_post', $post_id ) ) {
+			return 0;
+		}
+
+		/**
+		 * Filters whether the Elementor editor previews BuddyBuilder templates with real data (2.0). Return false for
+		 * the 1.x static previews (one release of fallback, review 4.2).
+		 *
+		 * @since 2.0.0
+		 *
+		 * @param bool $real    Real preview.
+		 * @param int  $post_id Template id.
+		 */
+		return apply_filters( 'buddy_builder/elementor/real_preview', true, $post_id ) ? $post_id : 0;
 	}
 
 	/**

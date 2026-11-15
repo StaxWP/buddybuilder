@@ -38,7 +38,7 @@ class Filters extends \Buddy_Builder\Widgets\Base {
 	protected function render() {
 		parent::render();
 
-		if ( bpb_is_elementor_editor() ) {
+		if ( bpb_is_elementor_editor() && ! bpb_real_preview() ) {
 			bpb_load_preview_template( 'sitewide-activity/filters' );
 		} else {
 			$this->kit_render();

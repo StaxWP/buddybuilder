@@ -305,6 +305,34 @@ function bpb_set_template_id( $template_slug, $id ) {
 }
 
 /**
+ * Whether the Elementor editor shows this BuddyBuilder template with real data (a preview member, group or the
+ * directory), so widgets render their live markup instead of the 1.x static preview (2.0, decision 4).
+ *
+ * @return bool
+ */
+function bpb_real_preview() {
+	if ( ! class_exists( '\\Buddy_Builder\\Templates\\PreviewContext' ) ) {
+		return false;
+	}
+
+	$ctx = \Buddy_Builder\Templates\PreviewContext::ctx();
+
+	if ( empty( $ctx['preview'] ) || empty( $ctx['elementor'] ) ) {
+		return false;
+	}
+
+	if ( 'member-profile' === $ctx['type'] || 'members-directory-item' === $ctx['type'] ) {
+		return ! empty( $ctx['user_id'] );
+	}
+
+	if ( 'group-profile' === $ctx['type'] || 'groups-directory-item' === $ctx['type'] ) {
+		return ! empty( $ctx['group_id'] );
+	}
+
+	return 'sitewide-activity-item' !== $ctx['type'] || ! empty( $ctx['activity_id'] );
+}
+
+/**
  * Check if it's elementor editor or preview mode
  *
  * @return bool

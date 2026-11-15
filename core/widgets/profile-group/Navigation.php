@@ -634,7 +634,7 @@ class Navigation extends \Buddy_Builder\Widgets\Base {
 	protected function render() {
 		parent::render();
 
-		if ( bpb_is_elementor_editor() ) {
+		if ( bpb_is_elementor_editor() && ! bpb_real_preview() ) {
 			$settings = $this->get_settings_for_display();
 			bpb_load_preview_template( 'profile-group/navigation', [ 'show_home' => $settings['show_home_tab'] ] );
 		} else {
