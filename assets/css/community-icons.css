@@ -1,0 +1,26 @@
+/* Community icons: the dashicons glyphs community pages use, built by bin/build-community-icons.py from WordPress' dashicons font (GPLv2+). Replaces the full dashicons stylesheet for visitors. */
+@font-face{font-family:dashicons;src:url(../fonts/community-icons.woff2) format("woff2");font-weight:400;font-style:normal;font-display:block}
+.dashicons,.dashicons-before:before{font-family:dashicons;display:inline-block;line-height:1;font-weight:400;font-style:normal;speak:never;text-decoration:inherit;text-transform:none;text-rendering:auto;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;width:20px;height:20px;font-size:20px;vertical-align:top;text-align:center;transition:color .1s ease-in}
+.dashicons-arrow-down:before{content:"\f140"}
+.dashicons-arrow-left:before{content:"\f141"}
+.dashicons-arrow-left-alt2:before{content:"\f341"}
+.dashicons-arrow-right:before{content:"\f139"}
+.dashicons-arrow-right-alt2:before{content:"\f345"}
+.dashicons-arrow-up:before{content:"\f142"}
+.dashicons-bell:before{content:"\f16d"}
+.dashicons-dismiss:before{content:"\f153"}
+.dashicons-ellipsis:before{content:"\f11c"}
+.dashicons-email:before{content:"\f465"}
+.dashicons-email-alt:before{content:"\f466"}
+.dashicons-flag:before{content:"\f227"}
+.dashicons-grid-view:before{content:"\f509"}
+.dashicons-hidden:before{content:"\f530"}
+.dashicons-list-view:before{content:"\f163"}
+.dashicons-megaphone:before{content:"\f488"}
+.dashicons-no:before{content:"\f158"}
+.dashicons-no-alt:before{content:"\f335"}
+.dashicons-search:before{content:"\f179"}
+.dashicons-trash:before{content:"\f182"}
+.dashicons-update:before{content:"\f463"}
+.dashicons-visibility:before{content:"\f177"}
+.dashicons-yes:before{content:"\f147"}

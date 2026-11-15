@@ -152,6 +152,7 @@ final class Plugin {
 		add_action( 'wp_enqueue_scripts', [ $this, 'remove_buddypress_style' ], 11 );
 		add_action( 'bp_enqueue_scripts', [ $this, 'bp_scripts' ] );
 		add_action( 'wp_enqueue_scripts', [ $this, 'front_css' ], 12 );
+		add_action( 'wp_enqueue_scripts', [ $this, 'register_community_icons' ], 1 );
 		add_filter( 'bp_nouveau_enqueue_styles', [ $this, 'remove_nouveau_style' ] );
 
 		include_once BPB_BASE_PATH . 'core/Singleton.php';
@@ -661,7 +662,19 @@ final class Plugin {
 		}
 
 		if ( ! bp_is_blog_page() ) {
-			wp_enqueue_style( 'dashicons' );
+			/**
+			 * Filters whether community pages load the full dashicons stylesheet (1.x behaviour) instead of the
+			 * community icon subset (2.0: about 4 KB instead of about 50 KB for visitors).
+			 *
+			 * @since 2.0.0
+			 *
+			 * @param bool $full Load the full dashicons stylesheet.
+			 */
+			if ( apply_filters( 'buddy_builder/full_dashicons', false ) ) {
+				wp_enqueue_style( 'dashicons' );
+			} else {
+				add_action( 'wp_print_styles', [ $this, 'community_icons' ], 0 );
+			}
 		}
 
 		if ( isset( $_GET['elementor-preview'] ) ||
@@ -677,6 +690,52 @@ final class Plugin {
 		if ( ! bpb_is_buddyboss() && bpb_is_current_template_populated() ) {
 			wp_enqueue_style( 'stax-buddy-builder-bp' );
 		}
+	}
+
+	/**
+	 * Register the community icon subset (the dashicons glyphs community pages show, bin/build-community-icons.py),
+	 * early, so BuddyBuilder Pro styles can depend on it.
+	 */
+	public function register_community_icons() {
+		wp_register_style( 'bpb-community-icons', BPB_ASSETS_URL . 'css/community-icons.css', [], BPB_VERSION );
+	}
+
+	/**
+	 * Right before the head styles print: the icon subset, unless the full dashicons stylesheet prints anyway
+	 * (admin bar for logged-in users, or another style that needs it).
+	 */
+	public function community_icons() {
+		$styles = wp_styles();
+
+		if ( ! $this->style_needs( $styles, $styles->queue, 'dashicons' ) ) {
+			wp_enqueue_style( 'bpb-community-icons' );
+		}
+	}
+
+	/**
+	 * Whether one of the handles is $target or depends on it.
+	 *
+	 * @param \WP_Styles $styles  Styles.
+	 * @param array      $handles Handles.
+	 * @param string     $target  Handle looked for.
+	 * @param array      $seen    Visited handles.
+	 * @return bool
+	 */
+	private function style_needs( $styles, array $handles, $target, array &$seen = [] ) {
+		foreach ( $handles as $handle ) {
+			if ( $handle === $target ) {
+				return true;
+			}
+			if ( isset( $seen[ $handle ] ) || ! isset( $styles->registered[ $handle ] ) ) {
+				continue;
+			}
+			$seen[ $handle ] = true;
+			if ( $this->style_needs( $styles, (array) $styles->registered[ $handle ]->deps, $target, $seen ) ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
