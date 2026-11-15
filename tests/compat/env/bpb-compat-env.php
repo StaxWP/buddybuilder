@@ -69,8 +69,9 @@ add_filter(
 			$value['templates'][ $type ] = 0;
 		}
 
+		// Block layouts live in bpb_templates only (Registry::set() leaves the legacy id empty for them).
 		foreach ( $map as $type => $id ) {
-			$value['templates'][ $type ] = $id;
+			$value['templates'][ $type ] = ( $id && 'bpb_template' === get_post_type( $id ) ) ? 0 : $id;
 		}
 
 		return $value;
