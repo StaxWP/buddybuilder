@@ -1,0 +1,588 @@
+<div class="bpb-template bpb-template-sitewide-activity">
+<div class="wp-block-group has-global-padding is-layout-constrained wp-block-group-is-layout-constrained">
+<div class="wp-block-columns is-layout-flex wp-container-core-columns-is-layout-794e3cfa wp-block-columns-is-layout-flex">
+<div class="wp-block-column is-layout-flow wp-block-column-is-layout-flow" style="flex-basis:68%">
+<div class=" wp-block-buddybuilder-activity-nav">
+<nav class="activity-type-navs main-navs bp-navs dir-navs " role="navigation" aria-label="Directory menu">
+<ul class="component-navigation activity-nav">
+<li id="activity-all" class="dynamic" data-bp-scope="all" data-bp-object="activity">
+<a href="http://bbux.test/activity/">All Members<span class="count">0</span>
+</a>
+</li>
+</ul>
+</nav>
+</div>
+<div class=" wp-block-buddybuilder-activity-filters">
+<div class="subnav-filters filters no-ajax" id="subnav-filters">
+<script>var storeType = 'bp-activity'; var storeData = sessionStorage.getItem( storeType ); if ( storeData ) { storeData = JSON.parse( storeData ); if ( undefined !== storeData[ 'bpb-list-mode' ] && undefined === storeData[ 'bpb-list-hidden' ] ) { storeData[ 'bpb-list-hidden' ] = 1; sessionStorage.setItem( storeType, JSON.stringify( storeData ) ) } }</script>
+<div class="subnav-search clearfix">
+<div class="feed">
+<a href="http://bbux.test/activity/feed/" class="bp-tooltip" data-bp-tooltip="RSS Feed">
+<span class="bp-screen-reader-text">RSS</span>
+</a>
+</div>
+<div class="dir-search activity-search bp-search" data-bp-search="activity">
+<form action="" method="get" class="bp-dir-search-form" id="dir-activity-search-form" role="search">
+<label for="dir-activity-search" class="bp-screen-reader-text">Search Activity…</label>
+<input id="dir-activity-search" name="activity_search" type="search" placeholder="Search Activity...">
+<button type="submit" id="dir-activity-search-submit" class="nouveau-search-submit" name="dir_activity_search_submit">
+<span class="dashicons dashicons-search" aria-hidden="true">
+</span>
+<span id="button-text" class="bp-screen-reader-text">Search</span>
+</button>
+</form>
+</div>
+</div>
+<div id="dir-filters" class="component-filters clearfix">
+<div id="activity-filter-select" class="last filter">
+<label class="bp-screen-reader-text" for="activity-filter-by">
+<span>Show:</span>
+</label>
+<div class="select-wrap">
+<select id="activity-filter-by" data-bp-filter="activity">
+<option value="0">— Everything —</option>
+<option value="new_member">New Members</option>
+<option value="updated_profile">Profile Updates</option>
+<option value="activity_update">Updates</option>
+<option value="friendship_accepted,friendship_created">Friendships</option>
+<option value="created_group">New Groups</option>
+<option value="joined_group">Group Memberships</option>
+<option value="group_details_updated">Group Updates</option>
+<option value="new_booking">Bookings</option>
+<option value="new_event">Events</option>
+<option value="bbp_topic_create">Topics</option>
+<option value="bbp_reply_create">Replies</option>
+</select>
+<span class="select-arrow" aria-hidden="true">
+</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class=" wp-block-buddybuilder-activity-stream">
+<div id="activity-stream" class="activity" data-bp-list="activity">
+<div id="bp-ajax-loader">
+<aside class="bp-feedback bp-messages loading">
+<span class="bp-icon" aria-hidden="true">
+</span>
+<p>Loading the community updates. Please wait.</p>
+</aside>
+</div>
+</div>
+</div>
+</div>
+<div class="wp-block-column is-layout-flow wp-block-column-is-layout-flow" style="flex-basis:32%">
+<div class=" wp-block-buddybuilder-members-loop">
+<div id="buddypress" class="buddypress-wrap bp-dir-hori-nav members">
+<div class="screen-content">
+<div id="members-dir-list" class="members dir-list" data-bp-list="">
+<div class="bp-pagination top" data-bp-pagination="upage">
+</div>
+<ul id="members-list" class="item-list members-list bp-list grid grid-one md-grid-one sm-grid-one">
+<li class="item-entry odd is-online" data-bp-item-id="N" data-bp-item-component="members">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/members/mihai/">
+<img decoding="async" loading="lazy" src="http://bbux.test/wp-content/plugins/buddypress/bp-core/images/mystery-man.jpg" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Profile picture of Mihai Ionescu">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title member-name">
+<a href="http://bbux.test/members/mihai/">Mihai Ionescu</a>
+</h2>
+<p class="item-meta last-activity">Active TIME ago</p>
+</div>
+</div>
+</div>
+</li>
+<li class="item-entry even" data-bp-item-id="N" data-bp-item-component="members">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/members/gabriel/">
+<img decoding="async" loading="lazy" src="http://bbux.test/wp-content/plugins/buddypress/bp-core/images/mystery-man.jpg" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Profile picture of gabriel">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title member-name">
+<a href="http://bbux.test/members/gabriel/">gabriel</a>
+</h2>
+<p class="item-meta last-activity">Active TIME ago</p>
+</div>
+</div>
+</div>
+</li>
+<li class="item-entry odd" data-bp-item-id="N" data-bp-item-component="members">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/members/ana/">
+<img decoding="async" loading="lazy" src="http://bbux.test/wp-content/plugins/buddypress/bp-core/images/mystery-man.jpg" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Profile picture of Ana Popescu">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title member-name">
+<a href="http://bbux.test/members/ana/">Ana Popescu</a>
+</h2>
+<p class="item-meta last-activity">Active TIME ago</p>
+</div>
+</div>
+</div>
+</li>
+<li class="item-entry even" data-bp-item-id="N" data-bp-item-component="members">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/members/kleo-mcp-test/">
+<img decoding="async" loading="lazy" src="http://bbux.test/wp-content/plugins/buddypress/bp-core/images/mystery-man.jpg" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Profile picture of kleo-mcp-test">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title member-name">
+<a href="http://bbux.test/members/kleo-mcp-test/">kleo-mcp-test</a>
+</h2>
+<p class="item-meta last-activity">Active TIME ago</p>
+</div>
+</div>
+</div>
+</li>
+<li class="item-entry odd member-type-coach" data-bp-item-id="N" data-bp-item-component="members">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/members/maya/">
+<img decoding="async" loading="lazy" src="http://bbux.test/wp-content/uploads/avatars/96/0894cea10b89ed893c21af51ac3a2c7d-bpfull.jpg" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Profile picture of Maya Okafor">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title member-name">
+<a href="http://bbux.test/members/maya/">Maya Okafor</a>
+</h2>
+<p class="item-meta last-activity">Active TIME ago</p>
+</div>
+</div>
+</div>
+</li>
+<li class="item-entry even" data-bp-item-id="N" data-bp-item-component="members">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/members/lucas/">
+<img decoding="async" loading="lazy" src="http://bbux.test/wp-content/uploads/avatars/97/43b7b1c1eff693900d32b70318ba6abd-bpfull.jpg" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Profile picture of Lucas Moreau">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title member-name">
+<a href="http://bbux.test/members/lucas/">Lucas Moreau</a>
+</h2>
+<p class="item-meta last-activity">Active TIME ago</p>
+</div>
+</div>
+</div>
+</li>
+<li class="item-entry odd" data-bp-item-id="N" data-bp-item-component="members">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/members/sofia/">
+<img decoding="async" loading="lazy" src="http://bbux.test/wp-content/uploads/avatars/98/1dc6f2253ec826022bb8e97eb9184b63-bpfull.jpg" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Profile picture of Sofia Lindqvist">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title member-name">
+<a href="http://bbux.test/members/sofia/">Sofia Lindqvist</a>
+</h2>
+<p class="item-meta last-activity">Active TIME ago</p>
+</div>
+</div>
+</div>
+</li>
+<li class="item-entry even" data-bp-item-id="N" data-bp-item-component="members">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/members/arjun/">
+<img decoding="async" loading="lazy" src="http://bbux.test/wp-content/uploads/avatars/99/0147d55ba8979ffd1fad23b841209f7a-bpfull.jpg" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Profile picture of Arjun Mehta">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title member-name">
+<a href="http://bbux.test/members/arjun/">Arjun Mehta</a>
+</h2>
+<p class="item-meta last-activity">Active TIME ago</p>
+</div>
+</div>
+</div>
+</li>
+<li class="item-entry odd" data-bp-item-id="N" data-bp-item-component="members">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/members/hana/">
+<img decoding="async" loading="lazy" src="http://bbux.test/wp-content/uploads/avatars/100/3d139a7f4ac1163b580b6e90a0b339d1-bpfull.jpg" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Profile picture of Hana Sato">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title member-name">
+<a href="http://bbux.test/members/hana/">Hana Sato</a>
+</h2>
+<p class="item-meta last-activity">Active TIME ago</p>
+</div>
+</div>
+</div>
+</li>
+<li class="item-entry even" data-bp-item-id="N" data-bp-item-component="members">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/members/diego/">
+<img decoding="async" loading="lazy" src="http://bbux.test/wp-content/uploads/avatars/101/d57f18cc3af228a0defecc6c596fe693-bpfull.jpg" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Profile picture of Diego Alvarez">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title member-name">
+<a href="http://bbux.test/members/diego/">Diego Alvarez</a>
+</h2>
+<p class="item-meta last-activity">Active TIME ago</p>
+</div>
+</div>
+</div>
+</li>
+<li class="item-entry odd" data-bp-item-id="N" data-bp-item-component="members">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/members/amira/">
+<img decoding="async" loading="lazy" src="http://bbux.test/wp-content/uploads/avatars/102/372246678f9aa9bfe97275a6b141a63f-bpfull.jpg" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Profile picture of Amira Haddad">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title member-name">
+<a href="http://bbux.test/members/amira/">Amira Haddad</a>
+</h2>
+<p class="item-meta last-activity">Active TIME ago</p>
+</div>
+</div>
+</div>
+</li>
+<li class="item-entry even" data-bp-item-id="N" data-bp-item-component="members">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/members/tom/">
+<img decoding="async" loading="lazy" src="http://bbux.test/wp-content/uploads/avatars/103/7a78cde53407d7e65c458797c6c77c85-bpfull.jpg" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Profile picture of Tom Becker">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title member-name">
+<a href="http://bbux.test/members/tom/">Tom Becker</a>
+</h2>
+<p class="item-meta last-activity">Active TIME ago</p>
+</div>
+</div>
+</div>
+</li>
+<li class="item-entry odd" data-bp-item-id="N" data-bp-item-component="members">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/members/lena/">
+<img decoding="async" loading="lazy" src="http://bbux.test/wp-content/uploads/avatars/104/8d2e2b1e0c6ef6f378f371cbc1d1d887-bpfull.jpg" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Profile picture of Lena Novak">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title member-name">
+<a href="http://bbux.test/members/lena/">Lena Novak</a>
+</h2>
+<p class="item-meta last-activity">Active TIME ago</p>
+</div>
+</div>
+</div>
+</li>
+<li class="item-entry even" data-bp-item-id="N" data-bp-item-component="members">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/members/kwame/">
+<img decoding="async" loading="lazy" src="http://bbux.test/wp-content/uploads/avatars/105/43df9a67cce06ba46bafe691aefd0e8f-bpfull.jpg" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Profile picture of Kwame Mensah">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title member-name">
+<a href="http://bbux.test/members/kwame/">Kwame Mensah</a>
+</h2>
+<p class="item-meta last-activity">Active TIME ago</p>
+</div>
+</div>
+</div>
+</li>
+<li class="item-entry odd" data-bp-item-id="N" data-bp-item-component="members">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/members/isabel/">
+<img decoding="async" loading="lazy" src="http://bbux.test/wp-content/uploads/avatars/106/34dfe8f5be3db14199df9e8f0d7e2d02-bpfull.jpg" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Profile picture of Isabel Costa">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title member-name">
+<a href="http://bbux.test/members/isabel/">Isabel Costa</a>
+</h2>
+<p class="item-meta last-activity">Active TIME ago</p>
+</div>
+</div>
+</div>
+</li>
+<li class="item-entry even" data-bp-item-id="N" data-bp-item-component="members">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/members/noah/">
+<img decoding="async" loading="lazy" src="http://bbux.test/wp-content/uploads/avatars/107/ad76a4604a39bdddc7f7ac0682787ebe-bpfull.jpg" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Profile picture of Noah Fischer">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title member-name">
+<a href="http://bbux.test/members/noah/">Noah Fischer</a>
+</h2>
+<p class="item-meta last-activity">Active TIME ago</p>
+</div>
+</div>
+</div>
+</li>
+<li class="item-entry odd" data-bp-item-id="N" data-bp-item-component="members">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/members/priya/">
+<img decoding="async" loading="lazy" src="http://bbux.test/wp-content/uploads/avatars/108/9db1f14faefbd10d1f1a57c37d5f2878-bpfull.jpg" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Profile picture of Priya Raman">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title member-name">
+<a href="http://bbux.test/members/priya/">Priya Raman</a>
+</h2>
+<p class="item-meta last-activity">Active TIME ago</p>
+</div>
+</div>
+</div>
+</li>
+<li class="item-entry even" data-bp-item-id="N" data-bp-item-component="members">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/members/samuel/">
+<img decoding="async" loading="lazy" src="http://bbux.test/wp-content/uploads/avatars/109/03a77e695a045d3b288760e5efc6b270-bpfull.jpg" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Profile picture of Samuel Park">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title member-name">
+<a href="http://bbux.test/members/samuel/">Samuel Park</a>
+</h2>
+<p class="item-meta last-activity">Active TIME ago</p>
+</div>
+</div>
+</div>
+</li>
+</ul>
+<div class="bp-pagination bottom" data-bp-pagination="upage">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class=" wp-block-buddybuilder-groups-loop">
+<div id="buddypress" class="buddypress-wrap bp-dir-hori-nav groups">
+<div class="screen-content">
+<div id="groups-dir-list" class="groups dir-list" data-bp-list="">
+<div class="bp-pagination top" data-bp-pagination="grpage">
+</div>
+<ul id="groups-list" class="item-list groups-list bp-list grid grid-one md-grid-one sm-grid-one">
+<li class="item-entry odd bp-group-status-public public group-has-avatar" data-bp-item-id="N" data-bp-item-component="groups">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/groups/compat-group/">
+<img decoding="async" loading="lazy" src="http://bbux.test/wp-content/plugins/buddypress/bp-core/images/mystery-group.png" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Group logo of Compat Group">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title groups-title">
+<a href="http://bbux.test/groups/compat-group/" class="bp-group-home-link compat-group-home-link">Compat Group</a>
+</h2>
+<p class="item-meta group-details">Public Group / 2 members</p>
+<p class="last-activity item-meta">active TIME ago</p>
+</div>
+<div class="group-desc">
+<p>
+</p>
+<p>Fixture group for the BuddyBuilder compatibility suite.</p>
+<p>
+</p>
+</div>
+</div>
+</div>
+</li>
+<li class="item-entry even bp-group-status-public public group-has-avatar" data-bp-item-id="N" data-bp-item-component="groups">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/groups/demo-design-critique/">
+<img decoding="async" loading="lazy" src="http://bbux.test/wp-content/uploads/group-avatars/46/93c17ff25c70120782ac80ce83287293-bpfull.jpg" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Group logo of Design Critique Circle">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title groups-title">
+<a href="http://bbux.test/groups/demo-design-critique/" class="bp-group-home-link demo-design-critique-home-link">Design Critique Circle</a>
+</h2>
+<p class="item-meta group-details">Public Group / 7 members</p>
+<p class="last-activity item-meta">active TIME ago</p>
+</div>
+<div class="group-desc">
+<p>
+</p>
+<p>Share work in progress and get kind, specific feedback every Friday.</p>
+<p>
+</p>
+</div>
+</div>
+</div>
+</li>
+<li class="item-entry odd bp-group-status-public public group-has-avatar" data-bp-item-id="N" data-bp-item-component="groups">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/groups/demo-indie-builders/">
+<img decoding="async" loading="lazy" src="http://bbux.test/wp-content/uploads/group-avatars/47/2b6e18de8fbfe2a5313d45e43d37c06b-bpfull.jpg" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Group logo of Indie Builders">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title groups-title">
+<a href="http://bbux.test/groups/demo-indie-builders/" class="bp-group-home-link demo-indie-builders-home-link">Indie Builders</a>
+</h2>
+<p class="item-meta group-details">Public Group / 6 members</p>
+<p class="last-activity item-meta">active TIME ago</p>
+</div>
+<div class="group-desc">
+<p>
+</p>
+<p>For people shipping their own products: launches, numbers, lessons.</p>
+<p>
+</p>
+</div>
+</div>
+</div>
+</li>
+<li class="item-entry even bp-group-status-public public group-has-avatar" data-bp-item-id="N" data-bp-item-component="groups">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/groups/demo-photo-walks/">
+<img decoding="async" loading="lazy" src="http://bbux.test/wp-content/uploads/group-avatars/48/072107d94e2df46d96c2b720f5de1c91-bpfull.jpg" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Group logo of Photo Walks">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title groups-title">
+<a href="http://bbux.test/groups/demo-photo-walks/" class="bp-group-home-link demo-photo-walks-home-link">Photo Walks</a>
+</h2>
+<p class="item-meta group-details">Public Group / 5 members</p>
+<p class="last-activity item-meta">active TIME ago</p>
+</div>
+<div class="group-desc">
+<p>
+</p>
+<p>Monthly city walks with a camera. Everyone welcome, phones too.</p>
+<p>
+</p>
+</div>
+</div>
+</div>
+</li>
+<li class="item-entry odd bp-group-status-public public group-has-avatar" data-bp-item-id="N" data-bp-item-component="groups">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/groups/demo-frontend-guild/">
+<img decoding="async" loading="lazy" src="http://bbux.test/wp-content/uploads/group-avatars/49/45fde5060fac9682d8891f3bc6131003-bpfull.jpg" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Group logo of Frontend Guild">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title groups-title">
+<a href="http://bbux.test/groups/demo-frontend-guild/" class="bp-group-home-link demo-frontend-guild-home-link">Frontend Guild</a>
+</h2>
+<p class="item-meta group-details">Public Group / 5 members</p>
+<p class="last-activity item-meta">active TIME ago</p>
+</div>
+<div class="group-desc">
+<p>
+</p>
+<p>CSS, accessibility and the craft of the web platform.</p>
+<p>
+</p>
+</div>
+</div>
+</div>
+</li>
+<li class="item-entry even bp-group-status-private private group-has-avatar" data-bp-item-id="N" data-bp-item-component="groups">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/groups/demo-research-ops/">
+<img decoding="async" loading="lazy" src="http://bbux.test/wp-content/uploads/group-avatars/50/d4b0703b41b56bc8a8d39ea71f79b49a-bpfull.jpg" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Group logo of Research Ops">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title groups-title">
+<a href="http://bbux.test/groups/demo-research-ops/" class="bp-group-home-link demo-research-ops-home-link">Research Ops</a>
+</h2>
+<p class="item-meta group-details">Private Group / 4 members</p>
+<p class="last-activity item-meta">active TIME ago</p>
+</div>
+<div class="group-desc">
+<p>
+</p>
+<p>Methods, templates and recruiting tips for user research.</p>
+<p>
+</p>
+</div>
+</div>
+</div>
+</li>
+<li class="item-entry odd bp-group-status-public public group-has-avatar" data-bp-item-id="N" data-bp-item-component="groups">
+<div class="list-wrap">
+<div class="item-avatar">
+<a href="http://bbux.test/groups/demo-cohort-spring/">
+<img decoding="async" loading="lazy" src="http://bbux.test/wp-content/uploads/group-avatars/51/eaca10f9d0ec85c64b37a38cb5cefa42-bpfull.jpg" class="avatar ID-avatar avatar-150 photo" width="150" height="150" alt="Group logo of Spring Cohort 2026">
+</a>
+</div>
+<div class="item">
+<div class="item-block">
+<h2 class="list-title groups-title">
+<a href="http://bbux.test/groups/demo-cohort-spring/" class="bp-group-home-link demo-cohort-spring-home-link">Spring Cohort 2026</a>
+</h2>
+<p class="item-meta group-details">Public Group / 6 members</p>
+<p class="last-activity item-meta">active TIME ago</p>
+</div>
+<div class="group-desc">
+<p>
+</p>
+<p>Eight weeks, one portfolio project, weekly check-ins.</p>
+<p>
+</p>
+</div>
+</div>
+</div>
+</li>
+</ul>
+<div class="bp-pagination bottom" data-bp-pagination="grpage">
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>

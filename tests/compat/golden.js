@@ -52,6 +52,8 @@ const mask = ( html ) => normalise( html )
 ( async () => {
 	const { chromium } = loadPlaywright();
 	const plan = wpJson( wp, [ 'eval-file', path.join( __dirname, 'bin/load-fixtures.php' ), path.join( __dirname, 'fixtures-none' ) ], 'BPB_COMPAT_PLAN' );
+	// Directories and rails sort by last activity: fixed times make the order the same on every run.
+	wpJson( wp, [ 'eval', 'foreach ( get_users( [ "fields" => "ID" ] ) as $id ) { bp_update_user_last_activity( $id, gmdate( "Y-m-d H:i:s", strtotime( "2025-01-01 10:00:00" ) - (int) $id * 60 ) ); } if ( bp_is_active( "groups" ) ) { foreach ( groups_get_groups( [ "per_page" => -1, "show_hidden" => true ] )["groups"] as $g ) { groups_update_groupmeta( $g->id, "last_activity", gmdate( "Y-m-d H:i:s", strtotime( "2025-01-01 10:00:00" ) - (int) $g->id * 60 ) ); } } wp_cache_flush(); echo "\\nBPB_GOLDEN_TIME 1\\n";' ], 'BPB_GOLDEN_TIME' );
 	const member = wpJson( wp, [ 'eval-file', path.join( __dirname, 'bin/cookie.php' ), 'mihai' ], 'BPB_COMPAT_COOKIES' );
 
 	// Create one block layout per look and per card style.
