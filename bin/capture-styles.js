@@ -77,6 +77,14 @@ const host = new URL( site ).hostname;
 				const file = path.join( out, c.style, `${ c.page }-${ width }.png` );
 				const target = ( await page.$( '.bpb-look' ) ) || ( await page.$( 'main' ) );
 				await target.screenshot( { path: file } );
+				// The three cards of the style on their own: member card, group card, activity item.
+				const cards = { 'members-directory': [ 'member-card', '#members-list > li' ], 'groups-directory': [ 'group-card', '#groups-list > li' ], 'sitewide-activity': [ 'activity-item', '.activity-list > li.activity-item' ] };
+				if ( cards[ c.page ] ) {
+					const item = await page.$( cards[ c.page ][ 1 ] );
+					if ( item ) {
+						await item.screenshot( { path: path.join( out, c.style, `${ cards[ c.page ][ 0 ] }-${ width }.png` ) } );
+					}
+				}
 				console.log( `${ file }${ errors.length ? ' JS: ' + errors.join( ' | ' ) : '' }` );
 				await page.close();
 			}

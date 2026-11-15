@@ -228,9 +228,18 @@
 }
 
 @media (max-width: 600px) {
-	.bpb-card-compact :is(.members-list, .groups-list, #members-list, #groups-list) .item {
+	:is(#buddypress, .buddypress-wrap, body) .bpb-card-compact :is(.members-list, .groups-list, #members-list, #groups-list) .item {
 		flex-direction: column;
 		align-items: flex-start;
+		text-align: left;
+	}
+
+	:is(#buddypress, .buddypress-wrap, body) .bpb-card-compact :is(.members-list, .groups-list, #members-list, #groups-list) :is(.item-block, .list-title, .item-meta, .last-activity) {
+		text-align: left;
+	}
+
+	:is(#buddypress, .buddypress-wrap, body) .bpb-card-compact :is(.members-list, .groups-list, #members-list, #groups-list) :is(.members-meta, .groups-meta, .action) {
+		justify-content: flex-start;
 	}
 
 	.bpb-card-compact .activity-list .activity-content {
