@@ -5,7 +5,7 @@
 #       [--base <free ref>@<pro ref>] [--cand <free ref>@<pro ref>]... [--rows <theme>[:<k-elements dir>],...] [--only <fixture substring>] [--no-axe]
 #
 # Defaults: base 1ea71dd@124127b (free 1.9.2 + Pro 1.7.0), candidates main@main and main@124127b (free 2.0 next to
-# Pro 1.7.0), rows: KLEO 6.2.4, KLEO 6.2.7, KLEO 7 (with K Elements 7), SweetDate 4.1.7, BuddyApp 2.1.7,
+# Pro 1.7.0). Free only (no Pro): --base 1ea71dd@none --cand main@none. Rows: KLEO 6.2.4, KLEO 6.2.7, KLEO 7 (with K Elements 7), SweetDate 4.1.7, BuddyApp 2.1.7,
 # Twenty Twenty-Five, Hello Elementor, Astra. A theme row whose theme folder is missing is reported as SKIP.
 #
 # THROWAWAY site only: the plugin folders must be git clones used as test subjects (refs are checked out detached).
@@ -40,10 +40,14 @@ orig_theme=$("$WP" theme list --status=active --field=name 2>/dev/null)
 ref() { # <clone> <ref>: branch names resolve to the fetched origin branch.
 	if git -C "$1" rev-parse -q --verify "origin/$2" >/dev/null; then echo "origin/$2"; else echo "$2"; fi
 }
-use() { # <free>@<pro>
+use() { # <free>@<pro>; pro "none" runs BuddyBuilder alone (free only rows)
 	local f="${1%@*}" p="${1#*@}"
 	"$WP" plugin deactivate stax-buddy-builder-pro >/dev/null 2>&1
 	git -C "$FREE" -c advice.detachedHead=false checkout -q --detach "$(ref "$FREE" "$f")" || return 1
+	if [ "$p" = "none" ]; then
+		"$WP" plugin activate stax-buddy-builder >/dev/null 2>&1
+		return 0
+	fi
 	git -C "$PRO" -c advice.detachedHead=false checkout -q --detach "$(ref "$PRO" "$p")" || return 1
 	"$WP" plugin activate stax-buddy-builder stax-buddy-builder-pro >/dev/null 2>&1
 }
@@ -81,6 +85,7 @@ done
 "$WP" plugin activate k-elements >/dev/null 2>&1
 "$WP" theme activate "$orig_theme" >/dev/null 2>&1
 use "main@main" >/dev/null 2>&1
+"$WP" plugin activate stax-buddy-builder-pro >/dev/null 2>&1
 echo; cat "$SUMMARY"
 echo "result: $([ $fail = 0 ] && echo PASS || echo FAIL)"
 [ $fail = 0 ]
