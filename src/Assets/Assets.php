@@ -97,6 +97,11 @@ final class Assets {
 			wp_register_style( 'bpb-looks', BPB_ASSETS_URL . 'css/looks/base.css', [ self::tokens(), 'bpb-cards' ], BPB_VERSION );
 		}
 
+		if ( ! wp_style_is( 'bpb-looks', 'enqueued' ) ) {
+			// Words the look styles print with CSS (empty states), translated.
+			wp_add_inline_style( 'bpb-looks', '.bpb-look{--bpb-t-no-posts:"' . addcslashes( wp_strip_all_tags( __( 'No posts yet', 'stax-buddy-builder' ) ), '"\\' ) . '"}' );
+		}
+
 		wp_enqueue_style( 'bpb-looks' );
 
 		if ( in_array( $style, self::LOOK_STYLES, true ) && file_exists( BPB_BASE_PATH . 'assets/css/looks/' . $style . '.css' ) ) {

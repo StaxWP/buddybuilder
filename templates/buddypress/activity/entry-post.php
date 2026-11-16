@@ -30,7 +30,11 @@ $bpb_favorites = (int) bp_activity_get_meta( bp_get_activity_id(), 'favorite_cou
 
 		<?php if ( bp_nouveau_activity_has_content() ) : ?>
 			<div class="activity-inner bpb-post__text">
-				<?php bp_nouveau_activity_content(); ?>
+				<?php
+				add_filter( 'bp_get_activity_content_body', 'bpb_link_images', 20 );
+				bp_nouveau_activity_content();
+				remove_filter( 'bp_get_activity_content_body', 'bpb_link_images', 20 );
+				?>
 			</div>
 		<?php endif; ?>
 

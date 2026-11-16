@@ -269,3 +269,35 @@ if ( ! function_exists( 'bpb_member_is_online' ) ) {
 		return $last && ( time() - strtotime( $last . ' UTC' ) ) < 5 * MINUTE_IN_SECONDS;
 	}
 }
+
+if ( ! function_exists( 'bpb_link_images' ) ) {
+	/**
+	 * Wraps images that are not already inside a link in a link to the image file (Post activity items: the
+	 * full size opens on click, also where a style shows the image small).
+	 *
+	 * @param string $html Activity content.
+	 * @return string
+	 */
+	function bpb_link_images( $html ) {
+		if ( false === stripos( $html, '<img' ) ) {
+			return $html;
+		}
+
+		$parts = preg_split( '#(<a\b[^>]*>.*?</a>)#is', $html, -1, PREG_SPLIT_DELIM_CAPTURE );
+
+		foreach ( $parts as $i => $part ) {
+			if ( 0 === stripos( $part, '<a' ) ) {
+				continue;
+			}
+			$parts[ $i ] = preg_replace_callback(
+				'#<img\b[^>]*\bsrc=(["\'])([^"\']+)\1[^>]*>#i',
+				static function ( $m ) {
+					return '<a class="bpb-media-link" href="' . esc_url( $m[2] ) . '" target="_blank" rel="noopener">' . $m[0] . '</a>';
+				},
+				$part
+			);
+		}
+
+		return implode( '', $parts );
+	}
+}

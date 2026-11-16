@@ -295,11 +295,12 @@ if ( bp_is_active( 'activity' ) ) {
 		}
 		$bpb_editor->resize( 900, 900, true );
 		$bpb_editor->save( $bpb_up['basedir'] . '/bpb-sample/' . $bpb_name, 'image/jpeg' );
+		$bpb_size = $bpb_editor->get_size();
 		++$bpb_n;
 		$bpb_aid = bp_activity_post_update(
 			[
 				'user_id' => $bpb_ids[ $bpb_slug ],
-				'content' => $bpb_caption . "\n\n" . '<img src="' . esc_url( $bpb_up['baseurl'] . '/bpb-sample/' . $bpb_name ) . '" alt="" width="900" height="900" />',
+				'content' => $bpb_caption . "\n\n" . '<img src="' . esc_url( $bpb_up['baseurl'] . '/bpb-sample/' . $bpb_name ) . '" alt="" width="' . (int) $bpb_size['width'] . '" height="' . (int) $bpb_size['height'] . '" />',
 			]
 		);
 		if ( $bpb_aid ) {

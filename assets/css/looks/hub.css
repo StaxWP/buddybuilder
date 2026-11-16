@@ -171,6 +171,23 @@
 	margin: 0;
 }
 
+/* Media like a chat app: at most 480 x 360, natural ratio, rounded; the link opens the full size. */
+#buddypress.buddypress-wrap .bpb-look--hub .bpb-post__text img {
+	display: block;
+	width: auto;
+	max-width: min(480px, 100%);
+	height: auto;
+	max-height: 360px;
+	margin: 6px 0 2px;
+	border-radius: 8px;
+	object-fit: contain;
+}
+
+#buddypress.buddypress-wrap .bpb-look--hub .bpb-post__text a:has(> img) {
+	display: inline-block;
+	cursor: zoom-in;
+}
+
 #buddypress.buddypress-wrap .bpb-look--hub .bpb-post__stats {
 	margin: 2px 0 0;
 	font-size: 12px;

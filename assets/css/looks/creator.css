@@ -203,20 +203,38 @@ body.buddypress .buddypress-wrap .bpb-look--creator :is(.bpb-mh__name, .bpb-gh__
 	display: none;
 }
 
-/* Profile posts as a 3-column grid: photo posts as square tiles, text posts as compact cards. */
-#buddypress.buddypress-wrap .bpb-look--creator.bpb-page--member-profile .activity-list.bp-list {
+/*
+ * Profile posts as a 3-column grid on the Personal stream (Mentions, Favorites and the rest stay a list): only the
+ * member's own posts, photo posts as square tiles, text posts as compact cards; system items (joined a group, new
+ * friends) are left out; no posts gives a short empty state.
+ */
+#buddypress.buddypress-wrap .bpb-look--creator.bpb-page--member-profile:has(#just-me-personal-li.selected) .activity-list.bp-list {
 	display: grid;
 	grid-template-columns: repeat(3, minmax(0, 1fr));
 	gap: 4px;
 }
 
-/* No clearfix pseudo elements as grid cells. */
-#buddypress.buddypress-wrap .bpb-look--creator.bpb-page--member-profile .activity-list.bp-list::before,
-#buddypress.buddypress-wrap .bpb-look--creator.bpb-page--member-profile .activity-list.bp-list::after {
+/* No clearfix pseudo elements as grid cells; ::before is the empty state when there are no posts. */
+#buddypress.buddypress-wrap .bpb-look--creator.bpb-page--member-profile:has(#just-me-personal-li.selected) .activity-list.bp-list::before,
+#buddypress.buddypress-wrap .bpb-look--creator.bpb-page--member-profile:has(#just-me-personal-li.selected) .activity-list.bp-list::after {
 	display: none;
 }
 
-#buddypress.buddypress-wrap .bpb-look--creator.bpb-page--member-profile .activity-list > li.activity-item {
+#buddypress.buddypress-wrap .bpb-look--creator.bpb-page--member-profile:has(#just-me-personal-li.selected) .activity-list.bp-list > li.activity-item:not(.activity_update) {
+	display: none;
+}
+
+#buddypress.buddypress-wrap .bpb-look--creator.bpb-page--member-profile:has(#just-me-personal-li.selected) .activity-list.bp-list:not(:has(> li.activity_update))::before {
+	content: var(--bpb-t-no-posts, "");
+	display: block;
+	grid-column: 1 / -1;
+	padding: 48px 16px;
+	color: var(--bpb-color-muted);
+	font-size: 15px;
+	text-align: center;
+}
+
+#buddypress.buddypress-wrap .bpb-look--creator.bpb-page--member-profile:has(#just-me-personal-li.selected) .activity-list > li.activity-item {
 	position: relative;
 	aspect-ratio: 1;
 	margin: 0;
@@ -228,11 +246,11 @@ body.buddypress .buddypress-wrap .bpb-look--creator :is(.bpb-mh__name, .bpb-gh__
 	box-shadow: none;
 }
 
-#buddypress.buddypress-wrap .bpb-look--creator.bpb-page--member-profile .activity-list > li.load-more {
+#buddypress.buddypress-wrap .bpb-look--creator.bpb-page--member-profile:has(#just-me-personal-li.selected) .activity-list > li.load-more {
 	grid-column: 1 / -1;
 }
 
-#buddypress.buddypress-wrap .bpb-look--creator.bpb-page--member-profile li.activity-item .bpb-post {
+#buddypress.buddypress-wrap .bpb-look--creator.bpb-page--member-profile:has(#just-me-personal-li.selected) li.activity-item .bpb-post {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -242,20 +260,20 @@ body.buddypress .buddypress-wrap .bpb-look--creator :is(.bpb-mh__name, .bpb-gh__
 	text-align: center;
 }
 
-#buddypress.buddypress-wrap .bpb-look--creator.bpb-page--member-profile li.activity-item :is(.bpb-post__avatar, .bpb-post__bar, .bpb-post__comments, .time-since) {
+#buddypress.buddypress-wrap .bpb-look--creator.bpb-page--member-profile:has(#just-me-personal-li.selected) li.activity-item :is(.bpb-post__avatar, .bpb-post__bar, .bpb-post__comments, .time-since) {
 	display: none;
 }
 
-#buddypress.buddypress-wrap .bpb-look--creator.bpb-page--member-profile li.activity-item:has(.bpb-post__text > *) .bpb-post__head {
+#buddypress.buddypress-wrap .bpb-look--creator.bpb-page--member-profile:has(#just-me-personal-li.selected) li.activity-item:has(.bpb-post__text > *) .bpb-post__head {
 	display: none;
 }
 
-#buddypress.buddypress-wrap .bpb-look--creator.bpb-page--member-profile li.activity-item .bpb-post__content {
+#buddypress.buddypress-wrap .bpb-look--creator.bpb-page--member-profile:has(#just-me-personal-li.selected) li.activity-item .bpb-post__content {
 	position: static;
 	margin: 0;
 }
 
-#buddypress.buddypress-wrap .bpb-look--creator.bpb-page--member-profile li.activity-item .bpb-post__text {
+#buddypress.buddypress-wrap .bpb-look--creator.bpb-page--member-profile:has(#just-me-personal-li.selected) li.activity-item .bpb-post__text {
 	display: -webkit-box;
 	overflow: hidden;
 	font-size: 15px;
@@ -265,17 +283,17 @@ body.buddypress .buddypress-wrap .bpb-look--creator :is(.bpb-mh__name, .bpb-gh__
 	-webkit-box-orient: vertical;
 }
 
-#buddypress.buddypress-wrap .bpb-look--creator.bpb-page--member-profile li.activity-item .bpb-post__meta {
+#buddypress.buddypress-wrap .bpb-look--creator.bpb-page--member-profile:has(#just-me-personal-li.selected) li.activity-item .bpb-post__meta {
 	color: var(--bpb-color-muted);
 	font-size: 13px;
 }
 
 /* A photo post fills its tile. */
-#buddypress.buddypress-wrap .bpb-look--creator.bpb-page--member-profile li.activity-item:has(.bpb-post__text img) .bpb-post__text p:not(:has(img)) {
+#buddypress.buddypress-wrap .bpb-look--creator.bpb-page--member-profile:has(#just-me-personal-li.selected) li.activity-item:has(.bpb-post__text img) .bpb-post__text p:not(:has(img)) {
 	display: none;
 }
 
-#buddypress.buddypress-wrap .bpb-look--creator.bpb-page--member-profile li.activity-item .bpb-post__text img {
+#buddypress.buddypress-wrap .bpb-look--creator.bpb-page--member-profile:has(#just-me-personal-li.selected) li.activity-item .bpb-post__text img {
 	position: absolute;
 	inset: 0;
 	width: 100%;
@@ -285,14 +303,14 @@ body.buddypress .buddypress-wrap .bpb-look--creator :is(.bpb-mh__name, .bpb-gh__
 }
 
 /* The whole tile opens the post; on hover, its counts over a shade. */
-#buddypress.buddypress-wrap .bpb-look--creator.bpb-page--member-profile li.activity-item .activity-time-since::before {
+#buddypress.buddypress-wrap .bpb-look--creator.bpb-page--member-profile:has(#just-me-personal-li.selected) li.activity-item .activity-time-since::before {
 	content: "";
 	position: absolute;
 	inset: 0;
 	z-index: 2;
 }
 
-#buddypress.buddypress-wrap .bpb-look--creator.bpb-page--member-profile li.activity-item .bpb-post__stats {
+#buddypress.buddypress-wrap .bpb-look--creator.bpb-page--member-profile:has(#just-me-personal-li.selected) li.activity-item .bpb-post__stats {
 	position: absolute;
 	inset: 0;
 	z-index: 1;
@@ -308,7 +326,7 @@ body.buddypress .buddypress-wrap .bpb-look--creator :is(.bpb-mh__name, .bpb-gh__
 	transition: opacity 0.12s ease;
 }
 
-#buddypress.buddypress-wrap .bpb-look--creator.bpb-page--member-profile li.activity-item:is(:hover, :focus-within) .bpb-post__stats {
+#buddypress.buddypress-wrap .bpb-look--creator.bpb-page--member-profile:has(#just-me-personal-li.selected) li.activity-item:is(:hover, :focus-within) .bpb-post__stats {
 	opacity: 1;
 }
 
@@ -431,15 +449,15 @@ body.buddypress .buddypress-wrap .bpb-look--creator :is(.bpb-mh__name, .bpb-gh__
 		gap: 24px;
 	}
 
-	#buddypress.buddypress-wrap .bpb-look--creator.bpb-page--member-profile .activity-list.bp-list {
+	#buddypress.buddypress-wrap .bpb-look--creator.bpb-page--member-profile:has(#just-me-personal-li.selected) .activity-list.bp-list {
 		gap: 2px;
 	}
 
-	#buddypress.buddypress-wrap .bpb-look--creator.bpb-page--member-profile li.activity-item .bpb-post {
+	#buddypress.buddypress-wrap .bpb-look--creator.bpb-page--member-profile:has(#just-me-personal-li.selected) li.activity-item .bpb-post {
 		padding: 8px;
 	}
 
-	#buddypress.buddypress-wrap .bpb-look--creator.bpb-page--member-profile li.activity-item .bpb-post__text {
+	#buddypress.buddypress-wrap .bpb-look--creator.bpb-page--member-profile:has(#just-me-personal-li.selected) li.activity-item .bpb-post__text {
 		font-size: 12px;
 		-webkit-line-clamp: 4;
 	}
