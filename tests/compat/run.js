@@ -129,6 +129,8 @@ const FREEZE_CSS = '*,*::before,*::after{animation:none!important;transition:non
 			try {
 				const resp = await page.goto( site + c.url, { waitUntil: 'networkidle', timeout: 45000 } );
 				r.status = resp ? resp.status() : 0;
+				// BuddyPress lists load by AJAX and fade in: wait until no list shows its loader or is mid-fade.
+				await page.waitForFunction( () => ! document.querySelector( '[data-bp-list] #bp-ajax-loader' ) && ! Array.prototype.some.call( document.querySelectorAll( '[data-bp-list]' ), ( el ) => el.style.opacity && '1' !== el.style.opacity ), null, { timeout: 15000 } ).catch( () => {} );
 				await page.addStyleTag( { content: FREEZE_CSS } );
 				const html = resp ? await resp.text() : await page.content();
 				const m = html.match( /<!-- bpb-compat-notices (\[.*?\]) -->/ );
