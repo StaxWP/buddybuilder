@@ -60,6 +60,21 @@ final class Assets {
 	public static function front() {
 		$entry = Current::entry();
 
+		// An Elementor template made from a 2.0 style: the style's stylesheet in the head.
+		if ( $entry && Registry::BLOCKS !== $entry['builder'] && ! empty( $entry['id'] ) ) {
+			$look = (string) get_post_meta( (int) $entry['id'], '_bpb_look', true );
+
+			if ( '' !== $look && preg_match( '/\bbpb-look--([a-z0-9_-]+)/', $look, $m ) ) {
+				self::looks( $m[1] );
+
+				// After Elementor's frontend CSS, so its image reset (no radius, border or shadow) does not win.
+				$styles = wp_styles();
+				if ( isset( $styles->registered['bpb-looks'], $styles->registered['elementor-frontend'] ) && ! in_array( 'elementor-frontend', $styles->registered['bpb-looks']->deps, true ) ) {
+					$styles->registered['bpb-looks']->deps[] = 'elementor-frontend';
+				}
+			}
+		}
+
 		if ( ! $entry || Registry::BLOCKS !== $entry['builder'] ) {
 			return;
 		}

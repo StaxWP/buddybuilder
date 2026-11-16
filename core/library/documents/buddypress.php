@@ -47,6 +47,27 @@ class BuddyPress extends Library_Document {
 	}
 
 	/**
+	 * Wrapper attributes: a template made from a 2.0 style keeps the style's look classes (meta _bpb_look) on the
+	 * document wrapper, and loads the style's stylesheet (also in the editor).
+	 *
+	 * @return array
+	 */
+	public function get_container_attributes() {
+		$attributes = parent::get_container_attributes();
+		$look       = (string) get_post_meta( $this->get_main_id(), '_bpb_look', true );
+
+		if ( '' !== $look ) {
+			$attributes['class'] = trim( ( isset( $attributes['class'] ) ? $attributes['class'] : '' ) . ' ' . $look );
+
+			if ( preg_match( '/\bbpb-look--([a-z0-9_-]+)/', $look, $m ) ) {
+				\Buddy_Builder\Assets\Assets::looks( $m[1] );
+			}
+		}
+
+		return $attributes;
+	}
+
+	/**
 	 * Get document name.
 	 *
 	 * Retrieve the document name.

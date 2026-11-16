@@ -193,6 +193,188 @@ final class Builder {
 	}
 
 	/**
+	 * Elementor version of a style page (2.0): the block pattern turned into sections, columns and widgets. The root
+	 * group's classes (bpb-look bpb-look--<style> bpb-page--<page>) go to the document wrapper (meta _bpb_look, see
+	 * the bpb-buddypress document); columns keep their classes (bpb-look__nav, __main, ...) and their width; a group
+	 * inside a column (a card such as Career's .bpb-section) becomes an inner section with its class.
+	 *
+	 * @param string $content Block markup.
+	 * @return array [ 'elements' => sections, 'look' => wrapper classes ]
+	 */
+	public static function blocks_to_elementor( $content ) {
+		$blocks = array_values(
+			array_filter(
+				parse_blocks( (string) $content ),
+				static function ( $block ) {
+					return ! empty( $block['blockName'] );
+				}
+			)
+		);
+		$look   = '';
+
+		// The page wrapper.
+		if ( 1 === count( $blocks ) && 'core/group' === $blocks[0]['blockName'] && false !== strpos( (string) ( isset( $blocks[0]['attrs']['className'] ) ? $blocks[0]['attrs']['className'] : '' ), 'bpb-look' ) ) {
+			$look   = trim( $blocks[0]['attrs']['className'] . ( isset( $blocks[0]['attrs']['align'] ) && 'wide' === $blocks[0]['attrs']['align'] ? ' alignwide' : '' ) );
+			$blocks = $blocks[0]['innerBlocks'];
+		}
+
+		$sections = [];
+		$loose    = [];
+		$flush    = static function () use ( &$loose, &$sections ) {
+			if ( $loose ) {
+				$sections[] = self::el_section( [ self::el_column( 100, '', $loose ) ] );
+				$loose      = [];
+			}
+		};
+
+		foreach ( $blocks as $block ) {
+			if ( 'core/columns' === $block['blockName'] ) {
+				$flush();
+				$columns = [];
+				$fixed   = 0;
+				$free    = 0;
+
+				// Widths: percentages as they are, pixel widths against a 1240 px content area, the rest shares.
+				foreach ( $block['innerBlocks'] as $column ) {
+					$width = self::column_width( isset( $column['attrs']['width'] ) ? $column['attrs']['width'] : '' );
+					if ( null === $width ) {
+						++$free;
+					} else {
+						$fixed += $width;
+					}
+				}
+
+				foreach ( $block['innerBlocks'] as $column ) {
+					$width     = self::column_width( isset( $column['attrs']['width'] ) ? $column['attrs']['width'] : '' );
+					$width     = null === $width ? max( 10, ( 100 - $fixed ) / max( 1, $free ) ) : $width;
+					$columns[] = self::el_column( $width, isset( $column['attrs']['className'] ) ? $column['attrs']['className'] : '', self::el_children( $column['innerBlocks'] ) );
+				}
+
+				$sections[] = self::el_section( $columns, isset( $block['attrs']['className'] ) ? $block['attrs']['className'] : '' );
+			} elseif ( 'core/group' === $block['blockName'] ) {
+				$flush();
+				$sections[] = self::el_section( [ self::el_column( 100, '', self::el_children( $block['innerBlocks'] ) ) ], isset( $block['attrs']['className'] ) ? $block['attrs']['className'] : '' );
+			} else {
+				$loose = array_merge( $loose, self::el_children( [ $block ] ) );
+			}
+		}
+
+		$flush();
+
+		return [
+			'elements' => $sections,
+			'look'     => $look,
+		];
+	}
+
+	/**
+	 * Column width in percent from a block column width ("33%", "260px"), null when it has none.
+	 *
+	 * @param string $width Width.
+	 * @return float|null
+	 */
+	private static function column_width( $width ) {
+		if ( preg_match( '/^([\d.]+)%$/', (string) $width, $m ) ) {
+			return (float) $m[1];
+		}
+
+		if ( preg_match( '/^([\d.]+)px$/', (string) $width, $m ) ) {
+			return round( (float) $m[1] / 1240 * 100, 3 );
+		}
+
+		return null;
+	}
+
+	/**
+	 * Widgets (and inner sections for groups) of the blocks of a column.
+	 *
+	 * @param array $blocks Parsed blocks.
+	 * @return array
+	 */
+	private static function el_children( array $blocks ) {
+		$widgets = array_flip( Elements::legacy_map() );
+		$out     = [];
+
+		foreach ( $blocks as $block ) {
+			$name = (string) $block['blockName'];
+
+			if ( 'core/group' === $name ) {
+				$out[] = array_merge( self::el_section( [ self::el_column( 100, '', self::el_children( $block['innerBlocks'] ) ) ], isset( $block['attrs']['className'] ) ? $block['attrs']['className'] : '' ), [ 'isInner' => true ] );
+				continue;
+			}
+
+			if ( 0 !== strpos( $name, 'buddybuilder/' ) ) {
+				continue;
+			}
+
+			$element = substr( $name, strlen( 'buddybuilder/' ) );
+			$widget  = isset( $widgets[ $element ] ) ? $widgets[ $element ] : ( Elements::get( $element ) ? 'bpb-el-' . $element : '' );
+
+			if ( '' === $widget ) {
+				continue;
+			}
+
+			$out[] = [
+				'id'         => self::id(),
+				'elType'     => 'widget',
+				'widgetType' => $widget,
+				'settings'   => self::elementor_settings( isset( $block['attrs'] ) ? (array) $block['attrs'] : [] ),
+				'elements'   => [],
+			];
+		}
+
+		return $out;
+	}
+
+	/**
+	 * Elementor section.
+	 *
+	 * @param array  $columns Columns.
+	 * @param string $class   CSS classes.
+	 * @return array
+	 */
+	private static function el_section( array $columns, $class = '' ) {
+		$settings = [ 'gap' => 'no' ];
+
+		if ( '' !== $class ) {
+			$settings['css_classes'] = $class;
+		}
+
+		return [
+			'id'       => self::id(),
+			'elType'   => 'section',
+			'settings' => $settings,
+			'elements' => $columns,
+		];
+	}
+
+	/**
+	 * Elementor column.
+	 *
+	 * @param float  $width    Percent.
+	 * @param string $class    CSS classes.
+	 * @param array  $elements Widgets.
+	 * @return array
+	 */
+	private static function el_column( $width, $class, array $elements ) {
+		$settings = [
+			'_column_size' => (int) round( $width ),
+			'_inline_size' => (float) $width,
+		];
+
+		if ( '' !== $class ) {
+			$settings['css_classes'] = $class;
+		}
+
+		return [
+			'id'       => self::id(),
+			'elType'   => 'column',
+			'settings' => $settings,
+			'elements' => $elements,
+		];
+	}
+
+	/**
 	 * Element attributes => Elementor setting values (booleans become switcher values, numbers strings).
 	 *
 	 * @param array $attrs Attributes.

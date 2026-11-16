@@ -209,23 +209,35 @@ final class Presets {
 			return new \WP_Error( 'bpb_no_elementor', __( 'Elementor is not active.', 'stax-buddy-builder' ) );
 		}
 
+		// A style page: its pattern turned into Elementor data, the look classes on the document wrapper.
+		$styled = ! empty( $preset['style'] ) && ! empty( $preset['content'] );
+		$built  = $styled ? Builder::blocks_to_elementor( $preset['content'] ) : [
+			'elements' => Builder::to_elementor( $preset['layout'] ),
+			'look'     => '',
+		];
+		$meta   = [
+			'_bpb_page'   => $preset['type'],
+			'_bpb_preset' => $preset['id'],
+		];
+
+		if ( '' !== $built['look'] ) {
+			$meta['_bpb_look'] = $built['look'];
+		}
+
 		$document = \Elementor\Plugin::$instance->documents->create(
 			'bpb-buddypress',
 			[
 				'post_title'  => self::layout_title( $preset ),
 				'post_status' => 'publish',
 			],
-			[
-				'_bpb_page'   => $preset['type'],
-				'_bpb_preset' => $preset['id'],
-			]
+			$meta
 		);
 
 		if ( is_wp_error( $document ) || ! $document ) {
 			return is_wp_error( $document ) ? $document : new \WP_Error( 'bpb_elementor_create', __( 'Could not create the Elementor template.', 'stax-buddy-builder' ) );
 		}
 
-		$data    = Builder::to_elementor( $preset['layout'] );
+		$data    = $built['elements'];
 		$post_id = (int) $document->get_main_id();
 
 		// Document::save() refuses without an editing user (WP-CLI, abilities run by agents): write the data directly.

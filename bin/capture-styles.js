@@ -6,7 +6,7 @@
  * deleted at the end, pages are assigned per request by the compat cookie).
  *
  *   NODE_PATH=<playwright> node bin/capture-styles.js --site http://bbux.test --wp ~/Sites/bbux/tools/wp \
- *     --out <dir> [--styles classic,creator] [--pages member-profile,...] [--viewer demo-lucas] [--widths 1366,390] [--html]
+ *     --out <dir> [--styles classic,creator] [--pages member-profile,...] [--viewer demo-lucas] [--widths 1366,390] [--html] [--builder elementor]
  */
 const fs = require( 'fs' );
 const path = require( 'path' );
@@ -24,6 +24,8 @@ const out = opt( 'out', '/tmp/bb-styles' );
 const viewer = opt( 'viewer', 'demo-lucas' );
 const widths = opt( 'widths', '1366,390' ).split( ',' ).map( Number );
 const html = argv.includes( '--html' );
+// --builder elementor: the Elementor version of each style page (Presets::create_elementor_layout), same shots.
+const builder = opt( 'builder', 'blocks' );
 const root = path.join( __dirname, '..', 'patterns' );
 const styles = opt( 'styles', fs.readdirSync( root ).filter( ( d ) => fs.statSync( path.join( root, d ) ).isDirectory() ).join( ',' ) ).split( ',' );
 const pages = opt( 'pages', 'member-profile,members-directory,group-profile,groups-directory,sitewide-activity' ).split( ',' );
@@ -50,7 +52,13 @@ const host = new URL( site ).hostname;
 		$cases = json_decode( base64_decode( '${ Buffer.from( JSON.stringify( cases ) ).toString( 'base64' ) }' ), true );
 		$out = [];
 		foreach ( $cases as $c ) {
-			$out[] = [ 'style' => $c['style'], 'page' => $c['page'], 'id' => wp_insert_post( [ 'post_type' => 'bpb_template', 'post_status' => 'publish', 'post_title' => 'Style ' . $c['style'] . ' ' . $c['page'], 'post_content' => wp_slash( $c['content'] ), 'meta_input' => [ '_bpb_type' => $c['page'], '_bpb_capture' => 1 ] ] ) ];
+			if ( 'elementor' === '${ builder }' ) {
+				$id = \\Buddy_Builder\\Presets\\Presets::create_elementor_layout( \\Buddy_Builder\\Presets\\Presets::get( $c['style'] . '-' . $c['page'] ) );
+				update_post_meta( $id, '_bpb_capture', 1 );
+			} else {
+				$id = wp_insert_post( [ 'post_type' => 'bpb_template', 'post_status' => 'publish', 'post_title' => 'Style ' . $c['style'] . ' ' . $c['page'], 'post_content' => wp_slash( $c['content'] ), 'meta_input' => [ '_bpb_type' => $c['page'], '_bpb_capture' => 1 ] ] );
+			}
+			$out[] = [ 'style' => $c['style'], 'page' => $c['page'], 'id' => $id ];
 		}
 		echo "\\nBPB_CAPTURE " . wp_json_encode( $out ) . "\\n";
 	` ], 'BPB_CAPTURE' );
@@ -118,6 +126,6 @@ const host = new URL( site ).hostname;
 		}
 	} finally {
 		await browser.close();
-		wpJson( wp, [ 'eval', `foreach ( get_posts( [ 'post_type' => 'bpb_template', 'post_status' => 'any', 'numberposts' => -1, 'fields' => 'ids', 'meta_key' => '_bpb_capture' ] ) as $id ) { wp_delete_post( $id, true ); } echo "\\nBPB_CAPTURE_DONE 1\\n";` ], 'BPB_CAPTURE_DONE' );
+		wpJson( wp, [ 'eval', `foreach ( get_posts( [ 'post_type' => [ 'bpb_template', 'elementor_library' ], 'post_status' => 'any', 'numberposts' => -1, 'fields' => 'ids', 'meta_key' => '_bpb_capture' ] ) as $id ) { wp_delete_post( $id, true ); } echo "\\nBPB_CAPTURE_DONE 1\\n";` ], 'BPB_CAPTURE_DONE' );
 	}
 } )();
