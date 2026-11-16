@@ -29,7 +29,7 @@ const cssBudget = parseFloat( opt( 'css-kb', '20' ) ) * 1024;
 const withKe = argv.includes( '--with-kelements' );
 const reportFile = opt( 'report', path.join( dir || '.', 'budgets.md' ) );
 
-// Pro 1.x module scripts that keep jQuery until Pro 2.1 (J6 to J8). Free has no exception.
+// Pro 1.x module scripts that use jQuery (Pro 2.0 dropped it: J6 to J8 done 2026-11-16); kept for the Pro 1.7.0 pairing. Free has no exception.
 const JQUERY_ALLOWED = [ 'bpb-pro-post-update-form', 'bpb-pro-post-update-form-notify', 'stax-buddy-pro-ads-module', 'bp-activity-link-preview-js' ];
 
 const res = readResults( dir );
