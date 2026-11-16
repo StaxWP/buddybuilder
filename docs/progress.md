@@ -2,6 +2,10 @@
 
 Branch `main` (the 2.0 line since 2026-11-15; 1.x fixes go to `1.x`). Not released.
 
+## 2026-11-16 (evening): free/Pro split
+
+Decided by Gabriel (see `docs/free-and-pro.md`). Free keeps the five page types in Elementor (as in 1.9) and blocks, every free element (Member header, Member about, Group header, Directory header, People list, Profile tabs, Feed filters, Post composer), the Classic style and Classic cards, read-only abilities (plus get-status). The Pro styles, the platform elements (Community shortcuts, Group rail, Member list, Highlights rail), the Pro card styles (Compact, Cover, Boxed, Post) and the write abilities moved to BuddyBuilder Pro and register through public filters; nothing in free is locked. The Classic style now uses Classic cards. Without Pro: a Pro element renders nothing (editor placeholder), a page with a Pro style renders as Classic with no data change (notice on BuddyBuilder screens), a Pro card style renders as Classic; `tests/compat/pro-missing.js` checks it, and gate.sh runs free only rows (`--base 1ea71dd@none --cand main@none`). The register page stays free in Elementor (it was in 1.9).
+
 ## 2026-11-16 (later): style API, Elementor styles, composer, Pro without jQuery, replace action, docs
 
 - **Style registration** (decision: the KLEO style lives in the KLEO 7 theme): `bpb_register_style()` / `bpb_unregister_style()` (page layouts, token stylesheet, label, preview image, `recommended` flag preselected and badged in the setup); the KLEO presets left BuddyBuilder. Doc: `docs/registering-a-style.md`.
