@@ -6,10 +6,10 @@
 			"theme": "twentytwentyfive",
 			"widget": "elementor-widget-bpb-profile-member-content",
 			"strip_pattern": "<nav[^>]*(?:bp-subnavs|subnav)[^>]*>[\\s\\S]*?</nav>",
-			"max_pixels": 0.08,
+			"max_pixels": 0.12,
 			"since": "701882e",
 			"decided": "2026-11-16 (Gabriel)",
-			"why": "On block themes 2.0 adds BuddyPress' priority-nav classes and id to the member profile sub nav. 1.9.2 left them out, so BuddyPress' priority-nav script threw a JavaScript error on every member profile and the sub nav did not collapse into a More menu. The fix changes the sub nav markup and moves it by a few pixels (3 to 7% of the BuddyPress area on Twenty Twenty-Five, 32 cases per candidate)."
+			"why": "On block themes 2.0 adds BuddyPress' priority-nav classes and id to the member profile sub nav. 1.9.2 left them out, so BuddyPress' priority-nav script threw a JavaScript error on every member profile and the sub nav did not collapse into a More menu. The fix changes the sub nav markup and moves it by a few pixels (3 to 7% of the BuddyPress area on Twenty Twenty-Five, 32 cases per candidate). Without Pro (free only rows) the pages are shorter (the Pro kit widgets do not render), so the same change is 8 to 10% of the area; the limit is 12%."
 		}
 	]
 }
