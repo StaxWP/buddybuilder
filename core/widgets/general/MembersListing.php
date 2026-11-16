@@ -38,7 +38,7 @@ class MembersListing extends \Buddy_Builder\Widgets\Base {
 	}
 
 	protected function register_controls() {
-		if ( ! function_exists( 'bpb_is_pro' ) ) {
+		if ( \Buddy_Builder\Upsell\Upsell::enabled() ) {
 			$this->start_controls_section(
 				'go_pro_section',
 				[
@@ -56,7 +56,7 @@ class MembersListing extends \Buddy_Builder\Widgets\Base {
 							'messages' => [
 								__( 'Power up up your listing with custom queries and templates.', 'stax-buddy-builder' ),
 							],
-							'link'     => 'https://staxwp.com/go/buddybuilder-pro',
+							'link'     => \Buddy_Builder\Upsell\Upsell::url( 'members-listing-query' ),
 						]
 					),
 				]

@@ -35,7 +35,7 @@ class Content extends \Buddy_Builder\Widgets\Base {
 	}
 
 	protected function register_controls() {
-		if ( ! function_exists( 'bpb_is_pro' ) && ! bpb_is_buddyboss() ) {
+		if ( \Buddy_Builder\Upsell\Upsell::enabled() && ! bpb_is_buddyboss() ) {
 			$this->start_controls_section(
 				'go_pro_section',
 				[
@@ -53,7 +53,7 @@ class Content extends \Buddy_Builder\Widgets\Base {
 							'messages' => [
 								__( 'Step up your game and customize your profile content with ease.', 'stax-buddy-builder' ),
 							],
-							'link'     => 'https://staxwp.com/go/buddybuilder-pro',
+							'link'     => \Buddy_Builder\Upsell\Upsell::url( 'group-content' ),
 						]
 					),
 				]

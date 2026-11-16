@@ -782,7 +782,7 @@ final class Plugin {
 			<?php endforeach; ?>
 
 			<?php if ( $texts['link'] ) : ?>
-				<a class="elementor-button elementor-panel-scheme-title" href="<?php echo $texts['link']; ?>"
+				<a class="elementor-button elementor-panel-scheme-title" href="<?php echo esc_url( $texts['link'] ); ?>"
 				   target="_blank">
 					<?php echo __( 'Go PRO', 'stax-buddy-builder' ); ?>
 				</a>

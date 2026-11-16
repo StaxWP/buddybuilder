@@ -29,7 +29,12 @@ $bpb_licensed = buddy_builder()->has_pro_license();
 				</h2>
 
 				<?php if ( $bpb_is_pro && ! $bpb_licensed ) : ?>
-					<p class="description"><?php esc_html_e( 'Needs an active BuddyBuilder Pro license.', 'stax-buddy-builder' ); ?></p>
+					<p class="description">
+						<?php esc_html_e( 'Needs an active BuddyBuilder Pro license.', 'stax-buddy-builder' ); ?>
+						<?php if ( \Buddy_Builder\Upsell\Upsell::enabled() ) : ?>
+							<a href="<?php echo esc_url( \Buddy_Builder\Upsell\Upsell::url( 'starter-kit' ) ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'See BuddyBuilder Pro plans', 'stax-buddy-builder' ); ?><span class="screen-reader-text"> <?php esc_html_e( '(opens in a new tab)', 'stax-buddy-builder' ); ?></span></a>
+						<?php endif; ?>
+					</p>
 				<?php endif; ?>
 
 				<p class="bpb-kit__actions">
