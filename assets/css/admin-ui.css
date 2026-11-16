@@ -46,7 +46,6 @@
 .bpb-cp__item-name { font-weight: 600; min-width: 140px; }
 .bpb-cp__item-layout { flex: 1; color: #50575e; min-width: 160px; }
 .bpb-cp__item-actions { display: flex; gap: 6px; align-items: center; position: relative; }
-.bpb-pro-line { margin-top: 16px; color: #50575e; }
 
 /* Disclosure menus (native <details>, keyboard friendly, no script). */
 .bpb-disclosure { display: inline-block; position: relative; }

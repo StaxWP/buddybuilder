@@ -1,0 +1,81 @@
+/* BuddyBuilder Pro features in the free plugin (Upsell): "Pro" tag, Community pages list, popover. */
+
+.bpb-pro-tag {
+	display: inline-block;
+	margin-inline-start: 4px;
+	padding: 0 5px;
+	border-radius: 8px;
+	background: #f0f0f1;
+	color: #3c434a;
+	font-size: 10px;
+	font-weight: 600;
+	line-height: 16px;
+	letter-spacing: .02em;
+	vertical-align: 1px;
+}
+
+/* Elementor panel: the locked item stays readable; the tag sits under the title. */
+.elementor-element--promotion .bpb-pro-tag {
+	display: block;
+	width: max-content;
+	margin: 3px auto 0;
+	background: #e6e8ea;
+	color: #515962;
+}
+
+/* Community pages screen. */
+.bpb-upsell { margin-top: 24px; padding-top: 16px; border-top: 1px solid #dcdcde; }
+.bpb-upsell__title { margin: 0 0 8px; font-size: 14px; color: #50575e; }
+.bpb-upsell__list { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; }
+.bpb-upsell__list li { margin: 0; }
+.bpb-upsell__item {
+	display: inline-block;
+	padding: 5px 10px;
+	border: 1px dashed #c3c4c7;
+	border-radius: 4px;
+	background: #f6f7f7;
+	color: #646970;
+	text-decoration: none;
+}
+.bpb-upsell__item:hover,
+.bpb-upsell__item:focus { border-color: #8c8f94; color: #1d2327; }
+
+/* Popover (admin screens; Elementor uses its own dialog when it has one). */
+.bpb-upsell-pop {
+	position: absolute;
+	z-index: 100000;
+	box-sizing: border-box;
+	width: 300px;
+	max-width: calc(100vw - 16px);
+	padding: 14px 16px;
+	border: 1px solid #c3c4c7;
+	border-radius: 6px;
+	background: #fff;
+	box-shadow: 0 6px 24px rgba(0, 0, 0, .15);
+	color: #1d2327;
+	font-size: 13px;
+	line-height: 1.5;
+}
+.bpb-upsell-pop p { margin: 0 0 8px; }
+.bpb-upsell-pop__title { padding-inline-end: 20px; font-weight: 600; }
+.bpb-upsell-pop__text { color: #50575e; }
+.bpb-upsell-pop__cta { font-weight: 600; }
+.bpb-upsell-pop__close {
+	position: absolute;
+	top: 6px;
+	inset-inline-end: 6px;
+	width: 24px;
+	height: 24px;
+	padding: 0;
+	border: 0;
+	background: none;
+	color: #646970;
+	font-size: 18px;
+	line-height: 1;
+	cursor: pointer;
+}
+.bpb-upsell-pop__close:hover,
+.bpb-upsell-pop__close:focus { color: #1d2327; }
+
+/* Notice. */
+.bpb-upsell-notice .bpb-upsell-notice__dismiss { margin-inline-start: 12px; vertical-align: middle; }

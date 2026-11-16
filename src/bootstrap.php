@@ -29,3 +29,4 @@ add_shortcode( Dispatcher::SHORTCODE, [ Dispatcher::class, 'shortcode' ] );
 \Buddy_Builder\Admin\Screens::hooks();
 \Buddy_Builder\Admin\Menu::hooks();
 \Buddy_Builder\Abilities\Abilities::hooks();
+\Buddy_Builder\Upsell\Upsell::hooks();

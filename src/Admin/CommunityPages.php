@@ -705,15 +705,7 @@ final class CommunityPages {
 
 		echo '</div>';
 
-		if ( ! defined( 'BPB_PRO_VERSION' ) ) {
-			printf(
-				'<p class="bpb-pro-line">%1$s <a href="%2$s" target="_blank" rel="noopener">%3$s<span class="screen-reader-text"> %4$s</span></a></p>',
-				esc_html__( 'More layouts and modules (register page, member and group cards, notifications, birthdays, ads) in BuddyBuilder Pro.', 'stax-buddy-builder' ),
-				esc_url( 'https://staxwp.com/go/buddybuilder-pro' ),
-				esc_html__( 'Learn more', 'stax-buddy-builder' ),
-				esc_html__( '(opens in a new tab)', 'stax-buddy-builder' )
-			);
-		}
+		\Buddy_Builder\Upsell\Upsell::render_features();
 	}
 
 	/**
