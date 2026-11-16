@@ -385,7 +385,7 @@ body.buddypress .buddypress-wrap .bpb-look--creator :is(.bpb-mh__name, .bpb-gh__
 	box-shadow: none;
 }
 
-#buddypress.buddypress-wrap .bpb-look--creator #whats-new-form {
+#buddypress.buddypress-wrap .bpb-look--creator :is(#whats-new-form, .bpb-composer) {
 	margin: 0;
 	border-color: var(--bpb-color-border);
 	box-shadow: none;
@@ -430,7 +430,7 @@ body.buddypress .buddypress-wrap .bpb-look--creator :is(.bpb-mh__name, .bpb-gh__
 		padding-inline: 12px;
 	}
 
-	.bpb-look--creator .bpb-shortcuts--bar a {
+	.bpb-look--creator .bpb-shortcuts.bpb-shortcuts--bar a {
 		padding: 6px 10px;
 		font-size: 0;
 	}

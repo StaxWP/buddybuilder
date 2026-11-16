@@ -44,5 +44,9 @@
 		"elementor": [
 			"bpb-sitewide-form"
 		]
+	},
+	"deprecated": {
+		"use": "composer",
+		"since": "2.0.0"
 	}
 }

@@ -99,7 +99,7 @@ final class Assets {
 	const LOOK_STYLES = [ 'classic', 'creator', 'professional', 'social', 'network', 'career', 'hub' ];
 
 	/** Elements that need the look components. */
-	const LOOK_ELEMENTS = [ 'member-header', 'member-about', 'group-header', 'directory-header', 'people-rail' ];
+	const LOOK_ELEMENTS = [ 'member-header', 'member-about', 'group-header', 'directory-header', 'people-rail', 'composer' ];
 
 	/**
 	 * Enqueue the look components (handle bpb-looks) and one style (bpb-look-<style>).

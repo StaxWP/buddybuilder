@@ -61,7 +61,7 @@
 	background: none;
 }
 
-#buddypress.buddypress-wrap .bpb-look--social #whats-new-form {
+#buddypress.buddypress-wrap .bpb-look--social :is(#whats-new-form, .bpb-composer) {
 	border: 0;
 	background: var(--bpb-panel-bg);
 	box-shadow: none;

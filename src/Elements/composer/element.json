@@ -1,0 +1,76 @@
+{
+	"version": 1,
+	"name": "composer",
+	"title": "Post composer",
+	"category": "buddybuilder",
+	"icon": "edit",
+	"description": "Write a post: BuddyBuilder's own composer for the activity page, your own profile and group pages (signed-in members). Posts through BuddyPress, so plugins that listen to new updates keep working.",
+	"keywords": [
+		"post",
+		"update",
+		"status",
+		"composer",
+		"what's new",
+		"buddypress",
+		"buddybuilder"
+	],
+	"templateTypes": [
+		"sitewide-activity",
+		"member-profile",
+		"group-profile"
+	],
+	"attributes": {
+		"placeholder": {
+			"type": "string",
+			"default": "",
+			"control": "text",
+			"panel": "basic",
+			"label": "Placeholder (empty: \"What's new, <first name>?\")"
+		},
+		"show_avatar": {
+			"type": "boolean",
+			"default": true,
+			"control": "toggle",
+			"panel": "basic",
+			"label": "Photo"
+		},
+		"show_post_in": {
+			"type": "boolean",
+			"default": true,
+			"control": "toggle",
+			"panel": "basic",
+			"label": "\"Post in\" menu (activity page: your profile or one of your groups)"
+		},
+		"button_label": {
+			"type": "string",
+			"default": "",
+			"control": "text",
+			"panel": "advanced",
+			"label": "Button label (empty: \"Post\")"
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": [
+			"wide",
+			"full"
+		],
+		"color": {
+			"background": true,
+			"text": true,
+			"link": true
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true
+		},
+		"__experimentalBorder": {
+			"radius": true,
+			"width": true,
+			"color": true
+		}
+	}
+}

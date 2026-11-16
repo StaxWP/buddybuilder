@@ -249,7 +249,7 @@
 }
 
 /* The composer: a dark input pinned at the bottom of the stream, like a chat box. */
-.bpb-look--hub .bpb-look__stream .bpb-el-activity-form {
+.bpb-look--hub .bpb-look__stream :is(.bpb-el-activity-form, .bpb-el-composer) {
 	position: sticky;
 	bottom: 0;
 	z-index: 3;
@@ -265,7 +265,7 @@
 	box-shadow: none;
 }
 
-#buddypress.buddypress-wrap .bpb-look--hub #whats-new-form {
+#buddypress.buddypress-wrap .bpb-look--hub :is(#whats-new-form, .bpb-composer) {
 	margin: 0;
 	padding: 6px 10px;
 	border: 0;
@@ -286,6 +286,27 @@
 /* BuddyPress' script sets an inline 50px height; collapsed, the chat input stays one line. */
 #buddypress.buddypress-wrap .bpb-look--hub #whats-new-form:not(.focus-in) textarea {
 	height: 32px !important;
+}
+
+#buddypress.buddypress-wrap .bpb-look--hub .bpb-composer {
+	align-items: center;
+	gap: 10px;
+}
+
+#buddypress.buddypress-wrap .bpb-look--hub .bpb-composer__avatar img {
+	width: 32px;
+	height: 32px;
+}
+
+#buddypress.buddypress-wrap .bpb-look--hub textarea.bpb-composer__input {
+	min-height: 32px;
+	padding: 6px 0;
+	border: 0;
+	background: transparent;
+}
+
+#buddypress.buddypress-wrap .bpb-look--hub .bpb-composer__bar {
+	margin-top: 4px;
 }
 
 #buddypress.buddypress-wrap .bpb-look--hub #whats-new-form textarea {

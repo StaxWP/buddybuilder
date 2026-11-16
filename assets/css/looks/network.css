@@ -148,7 +148,7 @@ body.buddypress .buddypress-wrap .bpb-look--network :is(.bpb-mh__name, .bpb-gh__
 	width: 100%;
 }
 
-#buddypress.buddypress-wrap .bpb-look--network #whats-new-form {
+#buddypress.buddypress-wrap .bpb-look--network :is(#whats-new-form, .bpb-composer) {
 	border: 0;
 	box-shadow: var(--bpb-card-shadow);
 }

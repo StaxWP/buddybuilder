@@ -2013,7 +2013,7 @@
 		position: static;
 	}
 
-	.bpb-look .bpb-shortcuts--bar {
+	.bpb-look .bpb-shortcuts.bpb-shortcuts--bar {
 		position: fixed;
 		right: 0;
 		bottom: 0;
@@ -2024,16 +2024,16 @@
 		background: var(--bpb-color-surface);
 	}
 
-	.bpb-look .bpb-shortcuts--bar .bpb-shortcuts__list {
+	.bpb-look .bpb-shortcuts.bpb-shortcuts--bar .bpb-shortcuts__list {
 		display: flex;
 		justify-content: space-around;
 	}
 
-	.bpb-look .bpb-shortcuts--bar .bpb-shortcuts__item--me {
+	.bpb-look .bpb-shortcuts.bpb-shortcuts--bar .bpb-shortcuts__item--me {
 		display: none;
 	}
 
-	.bpb-look .bpb-shortcuts--bar a {
+	.bpb-look .bpb-shortcuts.bpb-shortcuts--bar a {
 		flex-direction: column;
 		gap: 2px;
 		padding: 4px 8px;
@@ -2041,7 +2041,7 @@
 		background: none;
 	}
 
-	.bpb-look .bpb-shortcuts--bar .bpb-shortcuts__icon {
+	.bpb-look .bpb-shortcuts.bpb-shortcuts--bar .bpb-shortcuts__icon {
 		padding: 0;
 		background: none;
 		box-shadow: none;
@@ -2164,4 +2164,112 @@
 	min-height: 0;
 	padding: 0 4px;
 	font-size: 12px;
+}
+
+/* Images in posts never overflow their card (the width and height attributes keep the ratio). */
+#buddypress.buddypress-wrap .bpb-look .bpb-post__text img {
+	max-width: 100%;
+	height: auto;
+}
+
+/* Post composer (our own "What's new" form). */
+.bpb-composer {
+	display: flex;
+	gap: 12px;
+	align-items: flex-start;
+	margin: 0;
+	padding: 14px 16px;
+	border: var(--bpb-card-border, 1px solid var(--bpb-color-border));
+	border-radius: var(--bpb-radius-lg);
+	background: var(--bpb-card-bg, var(--bpb-color-surface));
+	box-shadow: var(--bpb-card-shadow, none);
+}
+
+.bpb-composer__avatar img {
+	display: block;
+	width: 44px;
+	height: 44px;
+	border-radius: var(--bpb-avatar-radius);
+}
+
+.bpb-composer__body {
+	flex: 1;
+	min-width: 0;
+}
+
+.bpb-look .bpb-composer__input {
+	box-sizing: border-box;
+	display: block;
+	width: 100%;
+	min-height: 44px;
+	margin: 0;
+	padding: 11px 14px;
+	border: 0;
+	border-radius: var(--bpb-radius);
+	background: var(--bpb-panel-bg, var(--bpb-color-surface-2));
+	color: var(--bpb-color-text);
+	font: inherit;
+	line-height: 1.45;
+	resize: none;
+	overflow: hidden;
+}
+
+.bpb-composer__input:focus {
+	outline: 2px solid color-mix(in srgb, var(--bpb-color-accent) 45%, transparent);
+	outline-offset: 0;
+}
+
+/* The bar shows once there is text (or focus), like most composers. */
+.bpb-composer__bar {
+	display: none;
+	flex-wrap: wrap;
+	gap: 8px;
+	align-items: center;
+	justify-content: flex-end;
+	margin-top: 10px;
+}
+
+.bpb-composer:is(.has-text, :focus-within) .bpb-composer__bar {
+	display: flex;
+}
+
+.bpb-composer__in {
+	margin-right: auto;
+}
+
+.bpb-look .bpb-composer__in select {
+	min-height: 34px;
+	padding: 0 28px 0 10px;
+	border: 1px solid var(--bpb-color-border);
+	border-radius: var(--bpb-button-radius);
+	background-color: var(--bpb-color-surface);
+	color: var(--bpb-color-text);
+	font-size: 14px;
+}
+
+.bpb-look .bpb-composer__submit {
+	min-height: 34px;
+	padding: 0 18px;
+	border: 0;
+	border-radius: var(--bpb-button-radius);
+	background: var(--bpb-button-bg, var(--bpb-color-accent));
+	color: var(--bpb-color-accent-contrast, #fff);
+	font-size: 14px;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.bpb-composer.is-busy .bpb-composer__submit {
+	opacity: 0.6;
+	cursor: progress;
+}
+
+.bpb-composer__status:empty {
+	display: none;
+}
+
+.bpb-composer__status {
+	margin: 8px 0 0;
+	color: var(--bpb-color-muted);
+	font-size: 13px;
 }
