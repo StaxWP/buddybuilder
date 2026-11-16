@@ -2,6 +2,18 @@
 
 Branch `main` (the 2.0 line since 2026-11-15; 1.x fixes go to `1.x`). Not released.
 
+## 2026-11-16 (night): Pro upsell in the free plugin
+
+Approved by Gabriel (purchase optimizations after the staxwp.com redesign: most Pro buyers never visit staxwp.com). `src/Upsell/Upsell.php` + `assets/js/upsell.js` + `assets/css/upsell.css`; details in `docs/free-and-pro.md`.
+
+- Elementor panel: the Pro widgets and elements as Elementor's locked promotion items with a "Pro" tag (no drag, no locked free code); a click opens a short popover with the link (own popover in every Elementor version: 3.20's dialog offers Elementor Pro and 4.4's sits under the preview).
+- Community pages: "More with BuddyBuilder Pro" list, greyed out, same popover (link without JavaScript); replaces the one-line Pro mention.
+- Notice: admins, BuddyBuilder screens only, after 3 community page types use a BuddyBuilder layout with content; dismissed for good (nonce, AJAX or admin-post, user meta).
+- One link helper with UTM parameters (`Upsell::url()`) for the new items, the 1.x "Go PRO" boxes, the setup "Get Pro" link and Starter kits.
+- Nothing shows while BuddyBuilder Pro is active.
+
+Tests: PHP lint 7.4 and 8.5; bbmin.test (Elementor 3.20, PHP 7.4) without and with Pro (nothing shows with Pro; the real Pro elements appear instead); bbvideo.test (Elementor 4.4.1, BuddyPress 14.5.4, 1 page built: no notice); dismiss by AJAX, by link, bad nonce refused; panel search finds the Pro items; Member XProfile Field only on member profile templates; regressions 70/70 with Pro, 69/70 without (`cards-follow-layout` fails on `main` too without Pro: it expects a Pro card style); surface check against 1.9.2 ok. POT regenerated.
+
 ## 2026-11-16 (evening): free/Pro split
 
 Decided by Gabriel (see `docs/free-and-pro.md`). Free keeps the five page types in Elementor (as in 1.9) and blocks, every free element (Member header, Member about, Group header, Directory header, People list, Profile tabs, Feed filters, Post composer), the Classic style and Classic cards, read-only abilities (plus get-status). The Pro styles, the platform elements (Community shortcuts, Group rail, Member list, Highlights rail), the Pro card styles (Compact, Cover, Boxed, Post) and the write abilities moved to BuddyBuilder Pro and register through public filters; nothing in free is locked. The Classic style now uses Classic cards. Without Pro: a Pro element renders nothing (editor placeholder), a page with a Pro style renders as Classic with no data change (notice on BuddyBuilder screens), a Pro card style renders as Classic; `tests/compat/pro-missing.js` checks it, and gate.sh runs free only rows (`--base 1ea71dd@none --cand main@none`). The register page stays free in Elementor (it was in 1.9).

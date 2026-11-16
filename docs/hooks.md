@@ -30,6 +30,8 @@
 | `buddy_builder/member_stats`, `buddy_builder/member_badges` | Numbers and badges in member headers. |
 | `buddy_builder/checker/causes` | Reasons the "layout not applied" checker reports. |
 | `buddy_builder/setup/checks` | Setup checks. |
+| `buddy_builder/upsell/enabled` | Pro badges, Pro links and the Pro notice in the free plugin (default: on while BuddyBuilder Pro is not active). |
+| `buddy_builder/upsell/features` | The Pro features shown in the free plugin (`id => [ title, text, elementor? ]`). |
 
 ## Actions
 
