@@ -2,6 +2,16 @@
 
 Branch `main` (the 2.0 line since 2026-11-15; 1.x fixes go to `1.x`). Not released.
 
+## 2026-11-16 (later): style API, Elementor styles, composer, Pro without jQuery, replace action, docs
+
+- **Style registration** (decision: the KLEO style lives in the KLEO 7 theme): `bpb_register_style()` / `bpb_unregister_style()` (page layouts, token stylesheet, label, preview image, `recommended` flag preselected and badged in the setup); the KLEO presets left BuddyBuilder. Doc: `docs/registering-a-style.md`.
+- **Elementor versions of every style**: the style's block pattern turned into Elementor sections, columns (classes, widths), inner sections and widgets with the same settings; look classes on the document wrapper (`_bpb_look`), style CSS in the head after Elementor's. Screenshots match the block versions (`bin/capture-styles.js --builder elementor`).
+- **Composer**: our own `composer` element (no jQuery, BuddyPress `post_update`, `/activity/post/` without JavaScript, BuddyPress form hooks, `buddy_builder/composer/fields`, events); the styles use it; `activity-form` deprecated. Tested: a post appears at the top of the list.
+- **Pro J6 to J8**: post form, ads and link preview without jQuery (see the Pro repo).
+- **Replace with the new element**: block toolbar and sidebar, Elementor note button; one new element for the deprecated siblings that point to it; Undo restores. Tested in both editors.
+- **Docs**: `docs/README.md`, `styles.md`, `composer.md`, `hooks.md`.
+- Fixes on the way: the phone tab bar lost its size to the Network shortcut rules (specificity), post images could overflow their card on phones.
+
 ## 2026-11-16: concept review fixes, the style set, Creator concept, accepted differences
 
 **Style set (Gabriel, 2026-11-16)**: Classic (default, backward compatibility), Creator, Professional, Social, Network, Career, Hub. Learning, Local club, Membership and KLEO on hold. Main review page: vault `looks/platform-concepts.md` (7 columns).
