@@ -14,6 +14,8 @@ Branch `main` (the 2.0 line since 2026-11-15; 1.x fixes go to `1.x`). Not releas
 
 **Gate** (2026-11-16, head 055b8f5, base 1.9.2 + Pro 1.7.0): compare 132/132 on all 8 theme rows for 2.0 + Pro 2.0 and 2.0 + Pro 1.7.0 (Twenty Twenty-Five: 32 of them accepted); WP 6.6 / PHP 7.4 / Elementor 3.20 132/132. Budgets 132/132 with Pro 2.0; 130/132 with Pro 1.7.0 (its own 1.x jQuery scripts, as before), which is why gate.sh still prints FAIL for that pairing. Goldens 88/88 with and without Elementor (re-baselined after review: data only). Regressions 96/96. The env no longer records "last active" on page views (a signed-in run made its member "online" for the next run).
 
+**Second review (2026-11-16)**: Creator's profile grid shows only the member's own posts on the Personal stream (system items left out; Mentions, Favorites and the rest stay a list; "No posts yet" otherwise, a translated string the look CSS prints); Hub media at chat size (at most 480 x 360, natural ratio, rounded); images in Post items link to their full size (`bpb_link_images`). Goldens re-baselined once more: the previous baseline had the viewer "online" (recorded before the env stopped updating last active); now 88/88 twice per row, with and without Elementor. Regressions 96/96.
+
 **Tools**: `capture-styles.js --html` keeps the rendered markup, captures load lazy images; `golden.js` keeps the differing HTML of a failing case under `results/golden-<row>/html/` for review before `--update`.
 
 ## 2026-11-15: gate holes, review defects, cards, styles, Elementor preview, menu fold
