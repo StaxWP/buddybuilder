@@ -2,6 +2,20 @@
 
 Branch `main` (the 2.0 line since 2026-11-15; 1.x fixes go to `1.x`). Not released.
 
+## 2026-11-16: concept review fixes, the style set, Creator concept, accepted differences
+
+**Style set (Gabriel, 2026-11-16)**: Classic (default, backward compatibility), Creator, Professional, Social, Network, Career, Hub. Learning, Local club, Membership and KLEO on hold. Main review page: vault `looks/platform-concepts.md` (7 columns).
+
+**Concept review fixes**: Career (About text full width, one Groups heading, the favorite action labelled like Comment, icon only on phones); Hub (dark ghost Load More, a dark one-line composer pinned at the bottom of the stream, replies as compact indented rows, rows about 40% tighter with actions in a hover toolbar, offline members dimmed less); Network (Intro plus a Friends photo grid in the profile's left column, name and meta closer, the favorite count next to its icon).
+
+**Creator as a platform concept** (creator and photo sharing pattern): shortcuts on the left and a bottom tab bar on phones; a centered profile without a cover, gradient ring photo, stats as a row of numbers, the bio, highlight bubbles (the member's groups), tabs with a rule on top, the Activity tab as a 3-column grid (photo posts as square tiles, text posts as compact cards, counts on hover); the feed with an active members row, full-width media, compact replies. The people list element gained `member-groups` and `friends` sources, `grid` and `bubbles` layouts and `show_title`; the phone tab bar and compact replies are shared rules in `looks/base.css`. The sample community has 7 photo posts (drawn images).
+
+**Twenty Twenty-Five sub nav (701882e) kept** by decision: `tests/compat/accepted.json` lists it as an accepted difference (only the profile sub nav may differ, at most 8% pixels); `compare.js --row <theme>` reports such cases as "pass (accepted: id)" and the gate summary shows the count.
+
+**Gate** (2026-11-16, head 055b8f5, base 1.9.2 + Pro 1.7.0): compare 132/132 on all 8 theme rows for 2.0 + Pro 2.0 and 2.0 + Pro 1.7.0 (Twenty Twenty-Five: 32 of them accepted); WP 6.6 / PHP 7.4 / Elementor 3.20 132/132. Budgets 132/132 with Pro 2.0; 130/132 with Pro 1.7.0 (its own 1.x jQuery scripts, as before), which is why gate.sh still prints FAIL for that pairing. Goldens 88/88 with and without Elementor (re-baselined after review: data only). Regressions 96/96. The env no longer records "last active" on page views (a signed-in run made its member "online" for the next run).
+
+**Tools**: `capture-styles.js --html` keeps the rendered markup, captures load lazy images; `golden.js` keeps the differing HTML of a failing case under `results/golden-<row>/html/` for review before `--update`.
+
 ## 2026-11-15: gate holes, review defects, cards, styles, Elementor preview, menu fold
 
 Brief: review `Projects/staxwp/docs/2026-11-15-buddybuilder-2-review.md` (vault), decisions of 2026-11-15 (1, 3 to 8; decision 2 then approved as option B: hand-designed styles).
