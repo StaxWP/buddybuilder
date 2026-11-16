@@ -623,3 +623,35 @@ function bpb_register_style( $slug, $args ) {
 function bpb_unregister_style( $slug ) {
 	\Buddy_Builder\Presets\Styles::unregister( $slug );
 }
+
+/**
+ * Template file of the current activity card style ('' for Classic, which is the item markup of activity/entry.php).
+ * BuddyBuilder Pro returns its Post card template for the "post" style through buddy_builder/cards/activity_template.
+ *
+ * @since 2.0.0
+ *
+ * @return string Readable file path or ''.
+ */
+function bpb_activity_card_template() {
+	if ( ! class_exists( '\\Buddy_Builder\\Templates\\Cards' ) ) {
+		return '';
+	}
+
+	$style = \Buddy_Builder\Templates\Cards::current( 'activity' );
+
+	if ( 'classic' === $style ) {
+		return '';
+	}
+
+	/**
+	 * Filters the template of an activity card style.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param string $file  Template path ('' keeps the Classic markup).
+	 * @param string $style Card style.
+	 */
+	$file = (string) apply_filters( 'buddy_builder/cards/activity_template', '', $style );
+
+	return '' !== $file && is_readable( $file ) ? $file : '';
+}

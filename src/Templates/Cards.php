@@ -26,12 +26,33 @@ final class Cards {
 	/** Option: [ members_directory|groups_directory|activity => style ]. */
 	const OPTION = 'bpb_cards';
 
-	/** Styles per object. */
+	/** Card styles BuddyBuilder ships, per object (BuddyBuilder Pro adds Compact, Cover, Boxed and Post). */
 	const STYLES = [
-		'members'  => [ 'classic', 'compact', 'cover' ],
-		'groups'   => [ 'classic', 'compact', 'cover' ],
-		'activity' => [ 'classic', 'compact', 'boxed', 'post' ],
+		'members'  => [ 'classic' ],
+		'groups'   => [ 'classic' ],
+		'activity' => [ 'classic' ],
 	];
+
+	/**
+	 * Card styles available for an object on this site.
+	 *
+	 * @param string $object members|groups|activity.
+	 * @return string[]
+	 */
+	public static function styles( $object ) {
+		$styles = isset( self::STYLES[ $object ] ) ? self::STYLES[ $object ] : [ 'classic' ];
+
+		/**
+		 * Filters the card styles of an object (members, groups, activity). "classic" is always available; a style
+		 * that is not available (for example a Pro style without BuddyBuilder Pro) renders as Classic.
+		 *
+		 * @since 2.0.0
+		 *
+		 * @param string[] $styles Style slugs.
+		 * @param string   $object members|groups|activity.
+		 */
+		return array_values( array_unique( array_merge( [ 'classic' ], (array) apply_filters( 'buddy_builder/card_styles', $styles, $object ) ) ) );
+	}
 
 	/** Option key per object (the directory or the activity page). */
 	const TARGETS = [
@@ -101,7 +122,7 @@ final class Cards {
 	public static function sanitize( $object, $style ) {
 		$style = is_string( $style ) ? $style : '';
 
-		return isset( self::STYLES[ $object ] ) && in_array( $style, self::STYLES[ $object ], true ) ? $style : 'classic';
+		return in_array( $style, self::styles( $object ), true ) ? $style : 'classic';
 	}
 
 	/** Page type whose assigned layout a saved style belongs to. */
@@ -246,24 +267,26 @@ final class Cards {
 	}
 
 	/**
-	 * Cover image of the current loop item (cover style), printed by the loop templates.
+	 * Extra markup at the top of a loop item for the current card style (BuddyBuilder Pro prints the Cover style's
+	 * cover there), printed by the loop templates.
 	 *
 	 * @param string $object members|groups.
 	 */
 	public static function print_cover( $object ) {
-		if ( 'cover' !== self::current( $object ) || ! function_exists( 'bp_attachments_get_attachment' ) ) {
+		$style = self::current( $object );
+
+		if ( 'classic' === $style ) {
 			return;
 		}
 
-		$id  = 'members' === $object ? bp_get_member_user_id() : bp_get_group_id();
-		$url = bp_attachments_get_attachment(
-			'url',
-			[
-				'object_dir' => $object,
-				'item_id'    => $id,
-			]
-		);
-
-		echo '<div class="bpb-card__cover"' . ( $url ? ' style="background-image:url(' . esc_url( $url ) . ')"' : '' ) . ' aria-hidden="true"></div>';
+		/**
+		 * Prints card markup at the top of a members or groups loop item.
+		 *
+		 * @since 2.0.0
+		 *
+		 * @param string $style  Current card style.
+		 * @param string $object members|groups.
+		 */
+		do_action( 'buddy_builder/cards/item_top', $style, $object );
 	}
 }

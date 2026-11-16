@@ -96,6 +96,130 @@ final class Styles {
 		Presets::flush();
 	}
 
+	/** Pro elements, for the editor placeholder when BuddyBuilder Pro is not active. */
+	const PRO_ELEMENTS = [ 'shortcuts-nav', 'group-rail', 'member-list', 'highlights-rail' ];
+
+	/**
+	 * Register hooks: the Classic fallback for pages whose style is not available, its notice, editor placeholders.
+	 */
+	public static function hooks() {
+		add_filter( 'buddy_builder/template/resolve', [ __CLASS__, 'fallback' ], 99, 2 );
+		add_action( 'admin_notices', [ __CLASS__, 'fallback_notice' ] );
+		add_action( 'enqueue_block_editor_assets', [ __CLASS__, 'placeholders' ] );
+	}
+
+	/**
+	 * Style slug a layout uses ('' for none): the look class in a block layout, or the meta of an Elementor template.
+	 *
+	 * @param int $id Layout post id.
+	 * @return string
+	 */
+	public static function of_layout( $id ) {
+		$post = $id ? get_post( $id ) : null;
+
+		if ( ! $post ) {
+			return '';
+		}
+
+		$source = 'bpb_template' === $post->post_type ? (string) $post->post_content : (string) get_post_meta( $post->ID, '_bpb_look', true );
+
+		return preg_match( '/\\bbpb-look--([a-z0-9_-]+)/', $source, $m ) ? $m[1] : '';
+	}
+
+	/**
+	 * Whether a layout uses a style that is not available (for example a Pro style without BuddyBuilder Pro).
+	 *
+	 * @param int $id Layout post id.
+	 * @return bool
+	 */
+	public static function is_missing( $id ) {
+		$slug = self::of_layout( $id );
+
+		return '' !== $slug && ! isset( self::all()[ $slug ] );
+	}
+
+	/**
+	 * A page whose layout uses a style that is not available renders with the Classic style page for visitors (no
+	 * stored data changes: reactivating BuddyBuilder Pro brings the layout back at once).
+	 *
+	 * @param array  $entry Entry.
+	 * @param string $type  Template type.
+	 * @return array
+	 */
+	public static function fallback( $entry, $type ) {
+		if ( ! is_array( $entry ) || isset( $entry['content'] ) || empty( $entry['id'] ) || ! self::is_missing( (int) $entry['id'] ) ) {
+			return $entry;
+		}
+
+		$classic = Presets::get( 'classic-' . $type );
+
+		if ( ! $classic || empty( $classic['content'] ) ) {
+			return $entry;
+		}
+
+		\Buddy_Builder\Assets\Assets::looks( 'classic' );
+
+		return [
+			'builder' => 'blocks',
+			'id'      => (int) $entry['id'],
+			'content' => $classic['content'],
+		];
+	}
+
+	/**
+	 * One notice on BuddyBuilder screens while a page shows Classic in place of an unavailable style.
+	 */
+	public static function fallback_notice() {
+		$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+
+		if ( ! $screen || ! current_user_can( 'manage_options' ) || ( false === strpos( (string) $screen->id, 'buddy-builder' ) && 'bpb_template' !== $screen->post_type ) ) {
+			return;
+		}
+
+		foreach ( \Buddy_Builder\Templates\Types::all() as $slug => $type ) {
+			$entry = \Buddy_Builder\Templates\Registry::get( $slug );
+
+			if ( ! empty( $entry['id'] ) && self::is_missing( (int) $entry['id'] ) ) {
+				echo '<div class="notice notice-info"><p>' . esc_html__( 'Pages using Pro styles show the Classic style until BuddyBuilder Pro is active.', 'stax-buddy-builder' ) . '</p></div>';
+				return;
+			}
+		}
+	}
+
+	/**
+	 * Block editor: Pro elements without BuddyBuilder Pro show a small placeholder (editor only; visitors see nothing).
+	 */
+	public static function placeholders() {
+		if ( defined( 'BPB_PRO_VERSION' ) ) {
+			return;
+		}
+
+		wp_register_script( 'bpb-pro-placeholders', '', [ 'wp-blocks', 'wp-element' ], BPB_VERSION, true );
+		wp_enqueue_script( 'bpb-pro-placeholders' );
+		wp_add_inline_script(
+			'bpb-pro-placeholders',
+			'( function ( wp, names, text ) { names.forEach( function ( name ) { if ( wp.blocks.getBlockType( "buddybuilder/" + name ) ) { return; } wp.blocks.registerBlockType( "buddybuilder/" + name, { title: name, category: "buddybuilder", supports: { inserter: false, html: false }, attributes: {}, edit: function () { return wp.element.createElement( "p", { className: "bpb-el-pro-placeholder", style: { margin: 0, padding: "6px 10px", border: "1px dashed #c3c4c7", color: "#50575e", fontSize: "12px" } }, text ); }, save: function () { return null; } } ); } ); }( window.wp, ' . wp_json_encode( self::PRO_ELEMENTS ) . ', ' . wp_json_encode( __( 'This element needs BuddyBuilder Pro.', 'stax-buddy-builder' ) ) . ' ) );'
+		);
+	}
+
+	/**
+	 * BuddyBuilder Pro styles shown as previews in the setup while Pro is not active: slug => name ([] with Pro).
+	 *
+	 * @return array
+	 */
+	public static function pro_teasers() {
+		$names = [
+			'creator'      => __( 'Creator', 'stax-buddy-builder' ),
+			'network'      => __( 'Network', 'stax-buddy-builder' ),
+			'career'       => __( 'Career', 'stax-buddy-builder' ),
+			'hub'          => __( 'Hub', 'stax-buddy-builder' ),
+			'professional' => __( 'Professional', 'stax-buddy-builder' ),
+			'social'       => __( 'Social', 'stax-buddy-builder' ),
+		];
+
+		return array_diff_key( $names, self::all() );
+	}
+
 	/**
 	 * Whether a style is recommended on this site (its flag, or its callback's answer).
 	 *
@@ -121,42 +245,6 @@ final class Styles {
 				'description' => __( 'The familiar community page, finished: cover, photo and name on the side, cards with a soft lift.', 'stax-buddy-builder' ),
 				'audience'    => __( 'Any community', 'stax-buddy-builder' ),
 				'elementor'   => [ 'member-profile' => 'member-classic', 'members-directory' => 'members-grid', 'group-profile' => 'group-community', 'groups-directory' => 'groups-grid', 'sitewide-activity' => 'activity-feed' ],
-			],
-			'creator'      => [
-				'name'        => __( 'Creator', 'stax-buddy-builder' ),
-				'description' => __( 'A creator platform layout: a centered profile with a gradient ring, stats as a row of numbers, highlight bubbles, posts as a photo grid and a tab bar on phones.', 'stax-buddy-builder' ),
-				'audience'    => __( 'Creators, artists, photographers and fan communities', 'stax-buddy-builder' ),
-				'elementor'   => [ 'member-profile' => 'member-creator', 'members-directory' => 'members-grid', 'group-profile' => 'group-community', 'groups-directory' => 'groups-grid', 'sitewide-activity' => 'activity-feed' ],
-			],
-			'professional' => [
-				'name'        => __( 'Professional', 'stax-buddy-builder' ),
-				'description' => __( 'A compact header, facts in a side card and list directories. Quiet and precise.', 'stax-buddy-builder' ),
-				'audience'    => __( 'Professional networks, alumni, associations', 'stax-buddy-builder' ),
-				'elementor'   => [ 'member-profile' => 'member-professional', 'members-directory' => 'members-list', 'group-profile' => 'group-course', 'groups-directory' => 'groups-list', 'sitewide-activity' => 'activity-sidebar' ],
-			],
-			'social'       => [
-				'name'        => __( 'Social', 'stax-buddy-builder' ),
-				'description' => __( 'Feed first, a slim header and people to know on the side.', 'stax-buddy-builder' ),
-				'audience'    => __( 'Friend networks, campus and hobby communities', 'stax-buddy-builder' ),
-				'elementor'   => [ 'member-profile' => 'member-social', 'members-directory' => 'members-list', 'group-profile' => 'group-community', 'groups-directory' => 'groups-list', 'sitewide-activity' => 'activity-sidebar' ],
-			],
-			'network'      => [
-				'name'        => __( 'Network', 'stax-buddy-builder' ),
-				'description' => __( 'A social network layout: shortcuts on the left, the feed in the middle, people and groups on the right, a tab bar on phones.', 'stax-buddy-builder' ),
-				'audience'    => __( 'Large friend networks, alumni and member communities', 'stax-buddy-builder' ),
-				'elementor'   => [ 'member-profile' => 'member-classic', 'members-directory' => 'members-grid', 'group-profile' => 'group-community', 'groups-directory' => 'groups-grid', 'sitewide-activity' => 'activity-sidebar' ],
-			],
-			'career'       => [
-				'name'        => __( 'Career', 'stax-buddy-builder' ),
-				'description' => __( 'A professional network layout: a sticky profile card and the profile as stacked section cards. Calm, light and dense.', 'stax-buddy-builder' ),
-				'audience'    => __( 'Professional networks, associations, alumni and job communities', 'stax-buddy-builder' ),
-				'elementor'   => [ 'member-profile' => 'member-professional', 'members-directory' => 'members-list', 'group-profile' => 'group-course', 'groups-directory' => 'groups-list', 'sitewide-activity' => 'activity-sidebar' ],
-			],
-			'hub'          => [
-				'name'        => __( 'Hub', 'stax-buddy-builder' ),
-				'description' => __( 'A chat community layout, dark by default: a rail of groups, a column of sections, the stream as message rows and who is online.', 'stax-buddy-builder' ),
-				'audience'    => __( 'Gaming, creator and fan communities that live in real time', 'stax-buddy-builder' ),
-				'elementor'   => [ 'member-profile' => 'member-social', 'members-directory' => 'members-list', 'group-profile' => 'group-community', 'groups-directory' => 'groups-list', 'sitewide-activity' => 'activity-sidebar' ],
 			],
 		];
 

@@ -60,6 +60,11 @@ final class Assets {
 	public static function front() {
 		$entry = Current::entry();
 
+		// A layout whose style is not available renders as Classic (Styles::fallback()): Classic's stylesheet.
+		if ( $entry && ! empty( $entry['id'] ) && \Buddy_Builder\Presets\Styles::is_missing( (int) $entry['id'] ) ) {
+			self::looks( 'classic' );
+		}
+
 		// An Elementor template made from a 2.0 style: the style's stylesheet in the head.
 		if ( $entry && Registry::BLOCKS !== $entry['builder'] && ! empty( $entry['id'] ) ) {
 			$look = (string) get_post_meta( (int) $entry['id'], '_bpb_look', true );
@@ -96,7 +101,7 @@ final class Assets {
 	}
 
 	/** Look styles shipped in assets/css/looks/<style>.css (registered styles bring their own stylesheet). */
-	const LOOK_STYLES = [ 'classic', 'creator', 'professional', 'social', 'network', 'career', 'hub' ];
+	const LOOK_STYLES = [ 'classic' ];
 
 	/** Elements that need the look components. */
 	const LOOK_ELEMENTS = [ 'member-header', 'member-about', 'group-header', 'directory-header', 'people-rail', 'composer' ];

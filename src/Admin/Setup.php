@@ -779,6 +779,15 @@ final class Setup {
 			}
 
 			echo '<label class="bpb-pick bpb-pick--card bpb-pick--keep"><input type="radio" name="bpb_style" value=""><span class="bpb-pick__name">' . esc_html__( 'Choose per page', 'stax-buddy-builder' ) . '</span></label>';
+
+			// BuddyBuilder Pro styles, as previews only (no locked choices) while Pro is not active.
+			$teasers = \Buddy_Builder\Presets\Styles::pro_teasers();
+			foreach ( $teasers as $slug => $name ) {
+				echo '<div class="bpb-pick bpb-pick--card bpb-pick--pro" aria-disabled="true"><span class="bpb-pick__thumb bpb-pick__thumb--image" aria-hidden="true"><img src="' . esc_url( BPB_ASSETS_URL . 'images/styles/' . $slug . '.jpg' ) . '" alt="" loading="lazy"></span><span class="bpb-pick__name">' . esc_html( $name ) . ' <span class="bpb-pick__badge bpb-pick__badge--pro">' . esc_html__( 'Pro', 'stax-buddy-builder' ) . '</span></span></div>';
+			}
+			if ( $teasers ) {
+				echo '<p class="bpb-styles__pro"><a href="' . esc_url( 'https://staxwp.com/go/buddybuilder-pro' ) . '" target="_blank" rel="noopener">' . esc_html__( 'Get Pro', 'stax-buddy-builder' ) . '</a></p>';
+			}
 			echo '</div></fieldset>';
 			echo '<details class="bpb-setup__custom"><summary>' . esc_html__( 'Customize per page', 'stax-buddy-builder' ) . '</summary>';
 		}

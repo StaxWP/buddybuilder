@@ -2,6 +2,7 @@
 
 | Doc | For |
 |---|---|
+| [free-and-pro.md](free-and-pro.md) | What is free and what is Pro, how the split works, what happens when Pro is missing. |
 | [styles.md](styles.md) | The seven styles, how a site picks one, block and Elementor versions, card styles. |
 | [registering-a-style.md](registering-a-style.md) | Themes and kits: add your own style (layouts, tokens, label, preview, recommended flag). |
 | [composer.md](composer.md) | The post composer element: how it posts, its hooks and events. |

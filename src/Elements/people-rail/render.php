@@ -93,7 +93,15 @@ $bpb_defaults = [
 	'members'       => __( 'People to know', 'stax-buddy-builder' ),
 ];
 $bpb_title    = '' !== $attrs['title'] ? $attrs['title'] : ( isset( $bpb_defaults[ $attrs['object'] ] ) ? $bpb_defaults[ $attrs['object'] ] : $bpb_defaults['members'] );
-$bpb_layout   = in_array( $attrs['layout'], [ 'grid', 'bubbles' ], true ) ? $attrs['layout'] : 'list';
+/**
+ * Filters the layouts of the people list (BuddyBuilder Pro adds "bubbles" for its highlights rail).
+ *
+ * @since 2.0.0
+ *
+ * @param string[] $layouts Layout slugs; "list" is always there.
+ */
+$bpb_layouts  = (array) apply_filters( 'buddy_builder/people_rail/layouts', [ 'list', 'grid' ] );
+$bpb_layout   = in_array( $attrs['layout'], $bpb_layouts, true ) ? $attrs['layout'] : 'list';
 ?>
 <section class="bpb-rail<?php echo 'list' !== $bpb_layout ? ' bpb-rail--' . esc_attr( $bpb_layout ) : ''; ?>"<?php echo $attrs['show_title'] ? '' : ' aria-label="' . esc_attr( $bpb_title ) . '"'; ?>>
 	<?php if ( $attrs['show_title'] ) : ?>

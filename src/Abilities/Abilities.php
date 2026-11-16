@@ -2,8 +2,9 @@
 /**
  * Abilities (U5, 2.0 part): read and preset abilities for the KLEO 7 setup wizard, agents and MCP.
  *
- * The abilities: buddybuilder/list-template-types, list-elements, list-presets, get-layout (read only) and apply-preset,
- * assign-template (write). Registered only when the Abilities API exists (WordPress 6.9+), so the WordPress 6.6
+ * The abilities (read only): buddybuilder/list-template-types, list-elements, list-presets, get-layout and get-status,
+ * exposed to MCP. Write abilities (apply a preset or style, assign, update a layout) are BuddyBuilder Pro's (filter
+ * buddy_builder/abilities). Registered only when the Abilities API exists (WordPress 6.9+), so the WordPress 6.6
  * minimum is not affected. Layout editing abilities follow in 2.2.
  *
  * @package Buddy_Builder
@@ -111,7 +112,7 @@ final class Abilities {
 			],
 			'buddybuilder/list-presets'        => [
 				__( 'List BuddyBuilder presets', 'stax-buddy-builder' ),
-				'Lists the ready-made layouts (presets) per page type. Apply one with buddybuilder/apply-preset.',
+				'Lists the ready-made layouts (presets) per page type. With BuddyBuilder Pro, buddybuilder/apply-preset drafts one.',
 				self::object( [ 'type' => $type_prop ] ),
 				'edit_pages',
 				true,
@@ -127,44 +128,14 @@ final class Abilities {
 				true,
 				[ __CLASS__, 'get_layout' ],
 			],
-			'buddybuilder/apply-preset'        => [
-				__( 'Apply a BuddyBuilder preset', 'stax-buddy-builder' ),
-				'Creates a layout from a preset and assigns it to its page type. Builder "blocks" (default when block layouts are enabled) or "elementor". Returns the new layout id and edit URL.',
-				self::object(
-					[
-						'preset'  => [
-							'type'        => 'string',
-							'description' => 'Preset id from buddybuilder/list-presets.',
-						],
-						'builder' => [
-							'type' => 'string',
-							'enum' => [ 'blocks', 'elementor' ],
-						],
-					],
-					[ 'preset' ]
-				),
-				'manage_options',
-				false,
-				false,
-				[ __CLASS__, 'apply_preset' ],
-			],
-			'buddybuilder/assign-template'     => [
-				__( 'Assign a BuddyBuilder layout', 'stax-buddy-builder' ),
-				'Assigns an existing layout (block layout or Elementor template) to a page type, or 0 for the BuddyPress default.',
-				self::object(
-					[
-						'type' => $type_prop,
-						'id'   => [
-							'type'    => 'integer',
-							'minimum' => 0,
-						],
-					],
-					[ 'type', 'id' ]
-				),
-				'manage_options',
-				false,
+			'buddybuilder/get-status'          => [
+				__( 'Get the BuddyBuilder status', 'stax-buddy-builder' ),
+				'Read-only overview: the page types with their assigned layout, builder and style, whether block layouts are enabled, and whether BuddyBuilder Pro is active.',
+				self::object(),
+				'edit_pages',
 				true,
-				[ __CLASS__, 'assign_template' ],
+				true,
+				[ __CLASS__, 'get_status' ],
 			],
 		];
 	}
@@ -173,7 +144,15 @@ final class Abilities {
 	 * Register the abilities.
 	 */
 	public static function register_abilities() {
-		foreach ( self::definitions() as $name => $def ) {
+		/**
+		 * Filters the ability definitions. BuddyBuilder ships read-only abilities; BuddyBuilder Pro adds the write
+		 * abilities (behind its agent setting).
+		 *
+		 * @since 2.0.0
+		 *
+		 * @param array $definitions name => [ label, description, input schema, capability, readonly, idempotent, callback ].
+		 */
+		foreach ( (array) apply_filters( 'buddy_builder/abilities', self::definitions() ) as $name => $def ) {
 			list( $label, $description, $input, $capability, $readonly, $idempotent, $callback ) = $def;
 
 			wp_register_ability(
@@ -318,51 +297,29 @@ final class Abilities {
 	}
 
 	/**
-	 * Apply a preset.
+	 * Ability: read-only status.
 	 *
-	 * @param array $input Input.
-	 * @return array|\WP_Error
+	 * @return array
 	 */
-	public static function apply_preset( array $input ) {
-		$builder = isset( $input['builder'] ) ? (string) $input['builder'] : '';
-		$id      = Presets::apply( (string) $input['preset'], $builder );
+	public static function get_status() {
+		$pages = [];
 
-		if ( is_wp_error( $id ) ) {
-			return $id;
+		foreach ( Types::all() as $slug => $type ) {
+			$entry          = Registry::get( $slug );
+			$post           = $entry['id'] ? get_post( $entry['id'] ) : null;
+			$pages[ $slug ] = [
+				'builder' => $entry['builder'],
+				'id'      => (int) $entry['id'],
+				'title'   => $post ? $post->post_title : '',
+				'style'   => $post && preg_match( '/\\bbpb-look--([a-z0-9_-]+)/', (string) $post->post_content . ' ' . (string) get_post_meta( $post->ID, '_bpb_look', true ), $m ) ? $m[1] : '',
+			];
 		}
 
 		return [
-			'id'       => $id,
-			'builder'  => Registry::builder_of( $id ),
-			'edit_url' => Registry::BLOCKS === Registry::builder_of( $id ) ? get_edit_post_link( $id, 'raw' ) : admin_url( 'post.php?post=' . $id . '&action=elementor' ),
-		];
-	}
-
-	/**
-	 * Assign a layout.
-	 *
-	 * @param array $input Input.
-	 * @return array|\WP_Error
-	 */
-	public static function assign_template( array $input ) {
-		$type = (string) $input['type'];
-		$id   = (int) $input['id'];
-
-		if ( ! array_key_exists( $type, Types::all() ) ) {
-			return new \WP_Error( 'bpb_unknown_type', 'Unknown template type.' );
-		}
-
-		if ( $id && PostType::POST_TYPE === get_post_type( $id ) && PostType::type_of( $id ) !== $type ) {
-			return new \WP_Error( 'bpb_type_mismatch', 'This block layout is made for another page type.' );
-		}
-
-		if ( ! Registry::set( $type, Registry::builder_of( $id ), $id ) ) {
-			return new \WP_Error( 'bpb_assign_failed', 'The layout could not be assigned (it must be a block layout or a BuddyBuilder Elementor template).' );
-		}
-
-		return [
-			'type'     => $type,
-			'assigned' => Registry::get( $type ),
+			'pages'          => $pages,
+			'blocks_enabled' => \Buddy_Builder\Features::blocks_enabled(),
+			'pro_active'     => defined( 'BPB_PRO_VERSION' ),
+			'version'        => BPB_VERSION,
 		];
 	}
 }

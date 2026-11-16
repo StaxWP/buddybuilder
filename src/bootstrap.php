@@ -25,6 +25,7 @@ add_shortcode( Dispatcher::SHORTCODE, [ Dispatcher::class, 'shortcode' ] );
 \Buddy_Builder\Settings\Mirror::hooks();
 \Buddy_Builder\Assets\Assets::hooks();
 \Buddy_Builder\Presets\Presets::hooks();
+\Buddy_Builder\Presets\Styles::hooks();
 \Buddy_Builder\Admin\Screens::hooks();
 \Buddy_Builder\Admin\Menu::hooks();
 \Buddy_Builder\Abilities\Abilities::hooks();

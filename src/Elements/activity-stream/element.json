@@ -21,12 +21,9 @@
 			"control": "select",
 			"panel": "basic",
 			"label": "Card style",
-			"help": "How each item looks. A card layout (BuddyBuilder Pro) replaces it.",
+			"help": "How each item looks. BuddyBuilder Pro adds more card styles and card layouts.",
 			"options": {
-				"classic": "Classic",
-				"compact": "Compact",
-				"boxed": "Boxed",
-				"post": "Post"
+				"classic": "Classic"
 			}
 		}
 	},

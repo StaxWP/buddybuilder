@@ -4,7 +4,7 @@
 	"title": "People and groups list",
 	"category": "buddybuilder",
 	"icon": "groups",
-	"description": "A short list for side columns or a highlights row: newest, active or popular members, the displayed member's friends or groups, or active groups. As a list, a photo grid or round bubbles.",
+	"description": "A short list for side columns: newest, active or popular members, the displayed member's friends or groups, or active groups. As a list or a photo grid.",
 	"keywords": [
 		"members",
 		"groups",
@@ -72,8 +72,7 @@
 			"label": "Layout",
 			"options": {
 				"list": "List",
-				"grid": "Photo grid",
-				"bubbles": "Round bubbles in a row"
+				"grid": "Photo grid"
 			}
 		}
 	},

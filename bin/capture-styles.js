@@ -6,7 +6,7 @@
  * deleted at the end, pages are assigned per request by the compat cookie).
  *
  *   NODE_PATH=<playwright> node bin/capture-styles.js --site http://bbux.test --wp ~/Sites/bbux/tools/wp \
- *     --out <dir> [--styles classic,creator] [--pages member-profile,...] [--viewer demo-lucas] [--widths 1366,390] [--html] [--builder elementor]
+ *     --out <dir> [--styles classic,creator] [--pages member-profile,...] [--viewer demo-lucas] [--widths 1366,390] [--html] [--builder elementor] [--patterns <dir with <style>/<page>.html>]
  */
 const fs = require( 'fs' );
 const path = require( 'path' );
@@ -26,7 +26,7 @@ const widths = opt( 'widths', '1366,390' ).split( ',' ).map( Number );
 const html = argv.includes( '--html' );
 // --builder elementor: the Elementor version of each style page (Presets::create_elementor_layout), same shots.
 const builder = opt( 'builder', 'blocks' );
-const root = path.join( __dirname, '..', 'patterns' );
+const root = opt( 'patterns', path.join( __dirname, '..', 'patterns' ) );
 const styles = opt( 'styles', fs.readdirSync( root ).filter( ( d ) => fs.statSync( path.join( root, d ) ).isDirectory() ).join( ',' ) ).split( ',' );
 const pages = opt( 'pages', 'member-profile,members-directory,group-profile,groups-directory,sitewide-activity' ).split( ',' );
 const URLS = {

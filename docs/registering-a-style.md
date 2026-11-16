@@ -1,7 +1,7 @@
 # Registering a style
 
 A style is a complete look for the five community pages: member profile, members directory, group page, groups
-directory and activity. BuddyBuilder 2.0 ships Classic, Creator, Professional, Social, Network, Career and Hub.
+directory and activity. BuddyBuilder ships Classic; BuddyBuilder Pro registers Creator, Professional, Social, Network, Career and Hub through the same API.
 A theme or a kit can add its own style (for example KLEO 7 ships the KLEO style) and have it preselected in the
 BuddyBuilder setup when the theme is active.
 

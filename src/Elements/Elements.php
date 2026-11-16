@@ -53,6 +53,7 @@ final class Elements {
 		add_action( 'enqueue_block_editor_assets', [ __CLASS__, 'hide_from_inserter' ] );
 		add_action( 'elementor/widgets/register', [ __CLASS__, 'elementor_widgets' ] );
 		add_action( 'enqueue_block_editor_assets', [ __CLASS__, 'replace_assets_blocks' ] );
+		add_filter( 'buddy_builder_kit_elements', [ __CLASS__, 'card_options' ], 20, 2 );
 		add_action( 'elementor/preview/enqueue_scripts', [ __CLASS__, 'replace_assets_elementor' ] );
 	}
 
@@ -195,6 +196,44 @@ final class Elements {
 		}
 
 		return $out;
+	}
+
+	/**
+	 * The "card" option of list elements lists the card styles available on the site (Classic, plus the ones
+	 * BuddyBuilder Pro adds through buddy_builder/card_style_labels).
+	 *
+	 * @param Element[] $elements Elements by name.
+	 * @param Kit       $kit      Kit.
+	 * @return Element[]
+	 */
+	public static function card_options( $elements, $kit ) {
+		/**
+		 * Filters the labels of the card styles (slug => label), per object.
+		 *
+		 * @since 2.0.0
+		 *
+		 * @param array $labels [ members|groups|activity => [ slug => label ] ].
+		 */
+		$labels = (array) apply_filters( 'buddy_builder/card_style_labels', [] );
+
+		foreach ( $elements as $name => $element ) {
+			$schema = $element->schema();
+			$loops  = [
+				'members-loop'  => 'members',
+				'groups-loop'   => 'groups',
+				'activity-loop' => 'activity',
+			];
+			$object = isset( $loops[ $name ] ) ? $loops[ $name ] : \Buddy_Builder\Templates\Cards::object_of( $name );
+
+			if ( ! isset( $schema['attributes']['card']['options'] ) || '' === $object || empty( $labels[ $object ] ) ) {
+				continue;
+			}
+
+			$schema['attributes']['card']['options'] = array_merge( $schema['attributes']['card']['options'], (array) $labels[ $object ] );
+			$elements[ $name ]                       = new Element( $kit, $element->dir(), $schema );
+		}
+
+		return $elements;
 	}
 
 	/**
