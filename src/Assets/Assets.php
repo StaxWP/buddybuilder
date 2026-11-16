@@ -80,8 +80,8 @@ final class Assets {
 		}
 	}
 
-	/** Look styles shipped in assets/css/looks/<style>.css. */
-	const LOOK_STYLES = [ 'classic', 'creator', 'professional', 'social', 'network', 'career', 'hub', 'learning', 'club', 'membership', 'kleo' ];
+	/** Look styles shipped in assets/css/looks/<style>.css (registered styles bring their own stylesheet). */
+	const LOOK_STYLES = [ 'classic', 'creator', 'professional', 'social', 'network', 'career', 'hub' ];
 
 	/** Elements that need the look components. */
 	const LOOK_ELEMENTS = [ 'member-header', 'member-about', 'group-header', 'directory-header', 'people-rail' ];
@@ -104,7 +104,16 @@ final class Assets {
 
 		wp_enqueue_style( 'bpb-looks' );
 
-		if ( in_array( $style, self::LOOK_STYLES, true ) && file_exists( BPB_BASE_PATH . 'assets/css/looks/' . $style . '.css' ) ) {
+		if ( '' === $style ) {
+			return;
+		}
+
+		$styles = \Buddy_Builder\Presets\Styles::all();
+
+		if ( ! empty( $styles[ $style ]['css'] ) ) {
+			$deps = isset( $styles[ $style ]['css_deps'] ) ? (array) $styles[ $style ]['css_deps'] : [];
+			wp_enqueue_style( 'bpb-look-' . $style, $styles[ $style ]['css'], array_merge( [ 'bpb-looks' ], $deps ), isset( $styles[ $style ]['version'] ) ? $styles[ $style ]['version'] : BPB_VERSION );
+		} elseif ( in_array( $style, self::LOOK_STYLES, true ) && file_exists( BPB_BASE_PATH . 'assets/css/looks/' . $style . '.css' ) ) {
 			wp_enqueue_style( 'bpb-look-' . $style, BPB_ASSETS_URL . 'css/looks/' . $style . '.css', [ 'bpb-looks' ], BPB_VERSION );
 		}
 	}
@@ -118,7 +127,7 @@ final class Assets {
 	public static function looks_in( $content ) {
 		$found = [];
 
-		if ( preg_match_all( '/bpb-look--([a-z]+)/', (string) $content, $m ) ) {
+		if ( preg_match_all( '/\bbpb-look--([a-z0-9_-]+)/', (string) $content, $m ) ) {
 			$found = array_values( array_unique( $m[1] ) );
 		}
 

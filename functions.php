@@ -596,3 +596,30 @@ function bpb_get_page_slug() {
 
 	return $url;
 }
+
+/**
+ * Register a community style (2.0): page layouts as block patterns, a token stylesheet, a label, a preview and an
+ * optional "recommended" flag (preselected in the setup). Call it on `init` or earlier. See
+ * docs/registering-a-style.md.
+ *
+ * @since 2.0.0
+ *
+ * @param string $slug Style slug: lowercase letters, numbers, "-" and "_".
+ * @param array  $args name, dir (required); css, css_deps, version, preview, description, audience, recommended,
+ *                     elementor (optional).
+ * @return bool
+ */
+function bpb_register_style( $slug, $args ) {
+	return \Buddy_Builder\Presets\Styles::register( $slug, (array) $args );
+}
+
+/**
+ * Remove a community style from the pickers (registered or built-in).
+ *
+ * @since 2.0.0
+ *
+ * @param string $slug Style slug.
+ */
+function bpb_unregister_style( $slug ) {
+	\Buddy_Builder\Presets\Styles::unregister( $slug );
+}

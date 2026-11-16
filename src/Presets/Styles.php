@@ -8,6 +8,10 @@
  * The 2.0-dev looks (member-classic, members-grid, ...) stay resolvable for layouts made from them, but leave the
  * pickers (Presets::all() skips presets marked 'legacy').
  *
+ * Themes and kits register their own style with bpb_register_style() (docs/registering-a-style.md): a folder of page
+ * patterns, a token stylesheet, a label, a preview image and an optional "recommended" flag that preselects it in the
+ * setup.
+ *
  * @package Buddy_Builder
  */
 
@@ -24,7 +28,89 @@ final class Styles {
 	const PAGES = [ 'member-profile', 'members-directory', 'group-profile', 'groups-directory', 'sitewide-activity' ];
 
 	/**
-	 * Styles: slug => [ name, description, for whom, closest 2.0-dev look per page (Elementor version) ].
+	 * Styles registered by themes and kits (bpb_register_style()).
+	 *
+	 * @var array
+	 */
+	private static $registered = [];
+
+	/**
+	 * Register a style (public API, see bpb_register_style()).
+	 *
+	 * @param string $slug Style slug: lowercase letters, numbers, "-" and "_".
+	 * @param array  $args {
+	 *     @type string        $name        Label in the pickers. Required.
+	 *     @type string        $dir         Folder with the page patterns (<page>.html, block markup). Required.
+	 *     @type string        $css         URL of the token stylesheet, loaded after the look components. Optional.
+	 *     @type string[]      $css_deps    Extra stylesheet handles the tokens depend on. Optional.
+	 *     @type string        $version     Stylesheet version. Optional.
+	 *     @type string        $preview     Preview image URL for the setup picker. Optional (a drawn thumbnail otherwise).
+	 *     @type string        $description One sentence for the picker. Optional.
+	 *     @type string        $audience    Who it is for. Optional.
+	 *     @type bool|callable $recommended Preselect it in the setup (for example when the theme that ships it is
+	 *                                      active). Optional, default false.
+	 *     @type array         $elementor   Closest 2.0-dev look per page for the Elementor version. Optional.
+	 * }
+	 * @return bool False when the slug or the required arguments are missing.
+	 */
+	public static function register( $slug, array $args ) {
+		$slug = strtolower( (string) $slug );
+
+		if ( ! preg_match( '/^[a-z0-9_-]+$/', $slug ) || empty( $args['name'] ) || empty( $args['dir'] ) ) {
+			_doing_it_wrong( __FUNCTION__, esc_html__( 'A style needs a slug (a to z, 0 to 9, "-" and "_"), a name and a dir.', 'stax-buddy-builder' ), '2.0.0' );
+			return false;
+		}
+
+		self::$registered[ $slug ] = wp_parse_args(
+			$args,
+			[
+				'description' => '',
+				'audience'    => '',
+				'css'         => '',
+				'css_deps'    => [],
+				'version'     => BPB_VERSION,
+				'preview'     => '',
+				'recommended' => false,
+				'elementor'   => [],
+			]
+		);
+		Presets::flush();
+
+		return true;
+	}
+
+	/**
+	 * Unregister a style (a registered one, or a built-in one a theme wants to hide).
+	 *
+	 * @param string $slug Style slug.
+	 */
+	public static function unregister( $slug ) {
+		unset( self::$registered[ $slug ] );
+		add_filter(
+			'buddy_builder/styles',
+			static function ( $styles ) use ( $slug ) {
+				unset( $styles[ $slug ] );
+				return $styles;
+			}
+		);
+		Presets::flush();
+	}
+
+	/**
+	 * Whether a style is recommended on this site (its flag, or its callback's answer).
+	 *
+	 * @param array $style Style.
+	 * @return bool
+	 */
+	public static function is_recommended( array $style ) {
+		$flag = isset( $style['recommended'] ) ? $style['recommended'] : false;
+
+		return (bool) ( is_callable( $flag ) ? call_user_func( $flag ) : $flag );
+	}
+
+	/**
+	 * Styles: slug => [ name, description, for whom, closest 2.0-dev look per page (Elementor version) ], the
+	 * registered ones after the built-in ones, a recommended one first.
 	 *
 	 * @return array
 	 */
@@ -74,14 +160,26 @@ final class Styles {
 			],
 		];
 
+		$styles = array_merge( $styles, self::$registered );
+
 		/**
-		 * Filters the styles (themes and add-ons can add their own; pages come from their pattern files).
+		 * Filters the styles (prefer bpb_register_style(); pages come from their pattern files).
 		 *
 		 * @since 2.0.0
 		 *
-		 * @param array $styles slug => [ name, description, audience, elementor, dir? ].
+		 * @param array $styles slug => [ name, description, audience, elementor, dir?, css?, preview?, recommended? ].
 		 */
-		return (array) apply_filters( 'buddy_builder/styles', $styles );
+		$styles = (array) apply_filters( 'buddy_builder/styles', $styles );
+
+		// A recommended style leads the pickers.
+		foreach ( $styles as $slug => $style ) {
+			if ( self::is_recommended( (array) $style ) ) {
+				$styles = [ $slug => $style ] + $styles;
+				break;
+			}
+		}
+
+		return $styles;
 	}
 
 	/**

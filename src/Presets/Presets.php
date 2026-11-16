@@ -4,8 +4,8 @@
  * or into Elementor data (an elementor_library template), so both builders get the same layouts.
  *
  * A preset is: id, type (template type), title, description, layout (rows of columns of elements) and optional
- * "theme" (only listed when that theme is active, e.g. the KLEO defaults). Themes and add-ons add presets with the
- * filter buddy_builder/presets.
+ * "theme" (a theme slug: only listed when that theme or its child theme is active). Themes and add-ons add presets
+ * with the filter buddy_builder/presets, or whole styles with bpb_register_style().
  *
  * @package Buddy_Builder
  */
@@ -56,7 +56,7 @@ final class Presets {
 			$presets = (array) apply_filters( 'buddy_builder/presets', Library::presets() );
 
 			foreach ( $presets as $id => $preset ) {
-				if ( ! empty( $preset['theme'] ) && 'kleo' === $preset['theme'] && ! Features::is_kleo7() ) {
+				if ( ! empty( $preset['theme'] ) && ! in_array( $preset['theme'], [ get_template(), get_stylesheet() ], true ) ) {
 					unset( $presets[ $id ] );
 					continue;
 				}
@@ -73,6 +73,13 @@ final class Presets {
 				return ( '' === $type || ( isset( $preset['type'] ) && $type === $preset['type'] ) ) && ( $legacy || empty( $preset['legacy'] ) );
 			}
 		);
+	}
+
+	/**
+	 * Forget the cached presets (a style or preset was registered after the first read).
+	 */
+	public static function flush() {
+		self::$presets = null;
 	}
 
 	/**

@@ -764,12 +764,17 @@ final class Setup {
 		if ( $styles ) {
 			echo '<fieldset class="bpb-looks-set bpb-looks-set--cards bpb-styles"><legend>' . esc_html__( 'Pick a style for your community', 'stax-buddy-builder' ) . '</legend><div class="bpb-looks-set__options">';
 
+			// The first style is preselected: a recommended one (for example the theme's own style) leads the list.
 			$first = true;
 			foreach ( $styles as $slug => $style ) {
 				$thumb = Presets::get( $slug . '-' . $main );
 				echo '<label class="bpb-pick bpb-pick--card"><input type="radio" name="bpb_style" value="' . esc_attr( $slug ) . '" data-bpb-looks="' . esc_attr( wp_json_encode( $style['looks'] ) ) . '"' . checked( $first, true, false ) . '>';
-				echo '<span class="bpb-pick__thumb" aria-hidden="true">' . ( $thumb ? Preview::thumb( $thumb ) : '' ) . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput
-				echo '<span class="bpb-pick__name">' . esc_html( $style['name'] ) . '</span><span class="bpb-pick__desc">' . esc_html( $style['description'] ) . '</span></label>';
+				if ( '' !== $style['preview'] ) {
+					echo '<span class="bpb-pick__thumb bpb-pick__thumb--image" aria-hidden="true"><img src="' . esc_url( $style['preview'] ) . '" alt="" loading="lazy"></span>';
+				} else {
+					echo '<span class="bpb-pick__thumb" aria-hidden="true">' . ( $thumb ? Preview::thumb( $thumb ) : '' ) . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput
+				}
+				echo '<span class="bpb-pick__name">' . esc_html( $style['name'] ) . ( $style['recommended'] ? ' <span class="bpb-pick__badge">' . esc_html__( 'Recommended for your theme', 'stax-buddy-builder' ) . '</span>' : '' ) . '</span><span class="bpb-pick__desc">' . esc_html( $style['description'] ) . '</span></label>';
 				$first = false;
 			}
 
@@ -876,7 +881,9 @@ final class Setup {
 			if ( $looks ) {
 				$out[ $slug ] = [
 					'name'        => $style['name'],
-					'description' => $style['description'],
+					'description' => isset( $style['description'] ) ? $style['description'] : '',
+					'preview'     => isset( $style['preview'] ) ? (string) $style['preview'] : '',
+					'recommended' => \Buddy_Builder\Presets\Styles::is_recommended( $style ),
 					'looks'       => $looks,
 				];
 			}

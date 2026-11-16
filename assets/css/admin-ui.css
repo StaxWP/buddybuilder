@@ -108,6 +108,9 @@
 .bpb-pick--card input { position: absolute; top: 12px; left: 12px; }
 .bpb-pick__thumb { background: #f6f7f7; border-radius: 4px; padding: 6px; }
 .bpb-pick__thumb svg { width: 100%; height: auto; display: block; }
+.bpb-pick__thumb--image { padding: 0; overflow: hidden; }
+.bpb-pick__thumb--image img { width: 100%; aspect-ratio: 4 / 3; display: block; object-fit: cover; }
+.bpb-pick__badge { display: inline-block; margin-left: 6px; padding: 1px 6px; border-radius: 10px; background: #edfaef; color: #00450c; font-size: 11px; font-weight: 600; vertical-align: 1px; }
 .bpb-pick--card .bpb-pick__name { font-weight: 600; }
 .bpb-pick__desc { color: #50575e; font-size: 12px; }
 .bpb-pick--keep { justify-content: center; text-align: center; min-height: 60px; }
