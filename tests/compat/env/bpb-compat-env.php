@@ -232,6 +232,9 @@ add_filter( 'bp_activity_do_heartbeat', '__return_false' );
 // visitor run, and a directory would differ by one is-online class depending on the order of the runs.
 add_action( 'init', static function () {
 	remove_action( 'wp_head', 'bp_core_record_activity' );
+	// No livestamp: it rewrites "1 year, 10 months ago" as "2 years ago" some time after load, so a screenshot
+	// depended on when it was taken (two Pro activity kit cases on WP 6.6, 2026-11-16).
+	remove_action( 'bp_enqueue_community_scripts', 'bp_core_add_livestamp' );
 	wp_deregister_script( 'heartbeat' );
 	remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 }, 1 );
