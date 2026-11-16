@@ -5,7 +5,7 @@ Rule (Gabriel, 2026-11-15): when a new element is better than stretching an old 
 - A deprecated element keeps rendering exactly as before. Its block name, its Elementor widget name, controls and hooks stay registered; saved block and Elementor layouts and the compat gate are unchanged.
 - It leaves the block inserter (everywhere) and the Elementor panel. Editors show a short note "Deprecated, use X." where it is already used (block editor preview and Elementor editor only, never on the live page).
 - Marked in `src/Elements/<name>/element.json` with `"deprecated": { "use": "<new element>", "since": "2.0.0" }`; read by `Elements::deprecated()` and `Elements::deprecated_note()`.
-- No automatic replacement. An optional, reversible "Replace with the new element" action is planned (not done yet, see progress).
+- No automatic replacement. "Replace with the new element" is optional and reversible: in the block editor a button in the block toolbar and in the sidebar ("Deprecated" panel), in the Elementor editor a button in the deprecated note. It replaces the element, and its deprecated siblings in the same column that point to the same new element (for example the six member header parts), with one new element at the first one's place. The new element starts from its defaults; `deprecated.map` in element.json (`{ "old setting": "new setting" }`) carries settings over. Undo brings the old elements back.
 
 | Old element (block / Elementor widget) | New element | Why | Settings mapping |
 |---|---|---|---|

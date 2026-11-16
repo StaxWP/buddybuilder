@@ -52,6 +52,8 @@ final class Elements {
 		add_action( 'enqueue_block_editor_assets', [ __CLASS__, 'editor_assets' ] );
 		add_action( 'enqueue_block_editor_assets', [ __CLASS__, 'hide_from_inserter' ] );
 		add_action( 'elementor/widgets/register', [ __CLASS__, 'elementor_widgets' ] );
+		add_action( 'enqueue_block_editor_assets', [ __CLASS__, 'replace_assets_blocks' ] );
+		add_action( 'elementor/preview/enqueue_scripts', [ __CLASS__, 'replace_assets_elementor' ] );
 	}
 
 	/**
@@ -196,6 +198,79 @@ final class Elements {
 	}
 
 	/**
+	 * "Replace with the new element" data: per deprecated element, its replacement as a block and as an Elementor
+	 * widget. Settings are not carried over (the new element starts from its defaults); deprecated.map in
+	 * element.json can name old => new attributes to carry.
+	 *
+	 * @return array element name => [ use, title, block, from_block, widget, from_widgets, map ]
+	 */
+	public static function replacements() {
+		$widgets = array_flip( self::legacy_map() );
+		$out     = [];
+
+		foreach ( self::kit()->elements() as $element ) {
+			$schema = $element->schema();
+			$use    = ! empty( $schema['deprecated']['use'] ) ? self::get( $schema['deprecated']['use'] ) : null;
+
+			if ( ! $use ) {
+				continue;
+			}
+
+			$new_schema                 = $use->schema();
+			$out[ $element->name() ] = [
+				'use'          => $use->name(),
+				'title'        => $use->title(),
+				'block'        => $use->block_name(),
+				'from_block'   => $element->block_name(),
+				'widget'       => isset( $widgets[ $use->name() ] ) ? $widgets[ $use->name() ] : ( empty( $new_schema['legacy']['elementor'] ) ? 'bpb-el-' . $use->name() : '' ),
+				'from_widgets' => isset( $schema['legacy']['elementor'] ) ? array_values( (array) $schema['legacy']['elementor'] ) : [],
+				'map'          => isset( $schema['deprecated']['map'] ) ? (array) $schema['deprecated']['map'] : (object) [],
+			];
+		}
+
+		return $out;
+	}
+
+	/**
+	 * Block editor: the "Replace with the new element" button on deprecated blocks.
+	 */
+	public static function replace_assets_blocks() {
+		self::replace_script( 'bpb-replace-blocks', 'replace-deprecated.js', [ 'wp-hooks', 'wp-compose', 'wp-element', 'wp-components', 'wp-block-editor', 'wp-blocks', 'wp-data', 'wp-i18n' ] );
+	}
+
+	/**
+	 * Elementor editor preview: the button in the deprecated note.
+	 */
+	public static function replace_assets_elementor() {
+		self::replace_script( 'bpb-replace-elementor', 'replace-deprecated-elementor.js', [] );
+	}
+
+	/**
+	 * Enqueue a replace script with the replacement data and its strings.
+	 *
+	 * @param string $handle Handle.
+	 * @param string $file   File in src/Elements.
+	 * @param array  $deps   Dependencies.
+	 */
+	private static function replace_script( $handle, $file, array $deps ) {
+		wp_enqueue_script( $handle, BPB_BASE_URL . 'src/Elements/' . $file, $deps, BPB_VERSION, true );
+		wp_add_inline_script(
+			$handle,
+			'window.bpbReplace = ' . wp_json_encode(
+				[
+					'elements' => self::replacements(),
+					/* translators: %s: name of the new element */
+					'button'   => __( 'Replace with %s', 'stax-buddy-builder' ),
+					/* translators: 1: number of parts, 2: name of the new element */
+					'group'    => __( 'Replace these %1$d parts with one %2$s', 'stax-buddy-builder' ),
+					'help'     => __( 'Deprecated: it keeps working. The new element starts from its default settings; Undo brings the old one back.', 'stax-buddy-builder' ),
+				]
+			) . ';',
+			'before'
+		);
+	}
+
+	/**
 	 * Note shown in editors on a deprecated element ('' when it is not deprecated).
 	 *
 	 * @param string $name Element name.
@@ -213,7 +288,13 @@ final class Elements {
 
 		/* translators: %s: name of the element to use instead */
 		// Inline style: the Elementor canvas does not load BuddyBuilder's editor styles.
-		return '<p class="bpb-el-deprecated" style="margin:0 0 4px;padding:2px 6px;border-left:3px solid #dba617;background:#fcf9e8;color:#50575e;font:11px/1.4 -apple-system,BlinkMacSystemFont,sans-serif;letter-spacing:0;text-transform:none;text-align:left">' . esc_html( sprintf( __( 'Deprecated, use %s.', 'stax-buddy-builder' ), $use ? $use->title() : $schema['deprecated']['use'] ) ) . '</p>';
+		$button = '';
+		if ( $use && function_exists( 'bpb_is_elementor_editor' ) && bpb_is_elementor_editor() ) {
+			/* translators: %s: name of the element to use instead */
+			$button = ' <button type="button" class="bpb-el-replace" data-bpb-replace="' . esc_attr( $name ) . '" style="margin-left:6px;padding:1px 8px;border:1px solid #c3a24b;border-radius:3px;background:#fff;color:#50575e;font:inherit;cursor:pointer">' . esc_html( sprintf( __( 'Replace with %s', 'stax-buddy-builder' ), $use->title() ) ) . '</button>';
+		}
+
+		return '<p class="bpb-el-deprecated" style="margin:0 0 4px;padding:2px 6px;border-left:3px solid #dba617;background:#fcf9e8;color:#50575e;font:11px/1.4 -apple-system,BlinkMacSystemFont,sans-serif;letter-spacing:0;text-transform:none;text-align:left">' . esc_html( sprintf( __( 'Deprecated, use %s.', 'stax-buddy-builder' ), $use ? $use->title() : $schema['deprecated']['use'] ) ) . $button . '</p>';
 	}
 
 	/**
