@@ -190,7 +190,7 @@ final class LayoutPreview {
 			return self::$map;
 		}
 
-		if ( ! current_user_can( 'manage_options' ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET[ self::NONCE ] ) ), self::ACTION ) ) {
+		if ( ! self::allowed( wp_unslash( $_GET[ self::NONCE ] ) ) ) {
 			return self::$map;
 		}
 
@@ -255,12 +255,47 @@ final class LayoutPreview {
 	}
 
 	/**
+	 * Whether a preview nonce is valid for the current user (administrators only).
+	 *
+	 * @param mixed $nonce Nonce.
+	 * @return bool
+	 */
+	private static function allowed( $nonce ) {
+		return current_user_can( 'manage_options' ) && wp_verify_nonce( sanitize_text_field( (string) $nonce ), self::ACTION );
+	}
+
+	/**
 	 * Whether this request is a layout preview.
 	 *
 	 * @return bool
 	 */
 	public static function is_active() {
 		return (bool) self::map();
+	}
+
+	/**
+	 * Whether this is an AJAX request sent by a layout preview page: BuddyPress reloads the activity, members and
+	 * groups lists over AJAX after the page loads, and that request carries the preview only in its referer. Used
+	 * for what the lists show (the sample member's data), not to swap layouts.
+	 *
+	 * @return bool
+	 */
+	public static function is_preview_ajax() {
+		static $result = null;
+
+		if ( null !== $result ) {
+			return $result;
+		}
+
+		$result = false;
+		$query  = wp_doing_ajax() ? wp_parse_url( (string) wp_get_raw_referer(), PHP_URL_QUERY ) : '';
+
+		if ( $query ) {
+			wp_parse_str( $query, $args );
+			$result = ! empty( $args[ self::PARAM ] ) && ! empty( $args[ self::NONCE ] ) && self::allowed( $args[ self::NONCE ] );
+		}
+
+		return $result;
 	}
 
 	/**

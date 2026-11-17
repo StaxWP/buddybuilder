@@ -372,11 +372,12 @@ final class SampleMember {
 	}
 
 	/**
-	 * Previews show the sample member's data: block editor previews and front-end layout previews (setup).
+	 * Previews show the sample member's data: block editor previews and front-end layout previews (setup), with the
+	 * lists BuddyPress reloads over AJAX on a preview page.
 	 *
 	 * @return bool
 	 */
 	private static function in_preview() {
-		return PreviewContext::is_preview() || LayoutPreview::is_active();
+		return PreviewContext::is_preview() || LayoutPreview::is_active() || LayoutPreview::is_preview_ajax();
 	}
 }
