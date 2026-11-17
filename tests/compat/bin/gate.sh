@@ -3,6 +3,7 @@
 #
 #   NODE_PATH=<playwright + @axe-core/playwright> tests/compat/bin/gate.sh <wp-cli> <site url> <plugins dir> <out dir> \
 #       [--base <free ref>@<pro ref>] [--cand <free ref>@<pro ref>]... [--rows <theme>[:<k-elements dir>],...] [--only <fixture substring>] [--no-axe]
+#       [--goldens <free ref>@<pro ref>|none]
 #
 # Defaults: base 1ea71dd@124127b (free 1.9.2 + Pro 1.7.0), candidates main@main and main@124127b (free 2.0 next to
 # Pro 1.7.0). Free only (no Pro): --base 1ea71dd@none --cand main@none. Rows: KLEO 6.2.4, KLEO 6.2.7, KLEO 7 (with K Elements 7), SweetDate 4.1.7, BuddyApp 2.1.7,
@@ -12,11 +13,14 @@
 # Per row and candidate: compare.js against the row's baseline (identical widget HTML, <= 1% pixels, no new notices
 # or axe ids; intended differences decided for that theme in accepted.json pass as accepted) and budgets.js on the
 # candidate (JS/CSS gzip, no jQuery handles, no dashicons for visitors).
-# Prints one summary table; exit 0 only when every compare and budget passes.
+# Block goldens (golden.js --strict, review G4): after the rows, on Twenty Twenty-Five with the candidate given by
+# --goldens (default main@main; "none" skips them), row tt25 with Elementor active and row tt25-noel with Elementor
+# deactivated (block layouts only). Every look, card style and BuddyBuilder Pro page preset as a block layout.
+# Prints one summary table; exit 0 only when every compare, budget and golden passes.
 set -u
 WP="$1"; SITE="$2"; PLUGINS="$3"; OUT="$4"; shift 4
 HERE=$(cd "$(dirname "$0")/.." && pwd)
-BASE="1ea71dd@124127b"; CANDS=(); ROWS="kleo:k-elements,kleo627:k-elements,kleo7:k-elements-7,sweetdate417,buddyapp,twentytwentyfive,hello-elementor,astra"; ONLY=""; EXTRA=""
+BASE="1ea71dd@124127b"; CANDS=(); GOLDENS="main@main"; ROWS="kleo:k-elements,kleo627:k-elements,kleo7:k-elements-7,sweetdate417,buddyapp,twentytwentyfive,hello-elementor,astra"; ONLY=""; EXTRA=""
 while [ $# -gt 0 ]; do
 	case "$1" in
 		--base) BASE="$2"; shift 2 ;;
@@ -24,6 +28,7 @@ while [ $# -gt 0 ]; do
 		--rows) ROWS="$2"; shift 2 ;;
 		--only) ONLY="--only $2"; shift 2 ;;
 		--no-axe) EXTRA="$EXTRA --no-axe"; shift ;;
+		--goldens) GOLDENS="$2"; shift 2 ;;
 		*) echo "unknown option $1" >&2; exit 2 ;;
 	esac
 done
@@ -80,6 +85,29 @@ for row in "${RLIST[@]}"; do
 		echo "   $cand: $cmp; $bud"
 	done
 done
+
+if [ "$GOLDENS" != "none" ]; then
+	if [ ! -d "$THEMES/twentytwentyfive" ]; then
+		printf '| goldens | | SKIP (twentytwentyfive not installed) | |\n' >> "$SUMMARY"
+	else
+		"$WP" plugin deactivate k-elements k-elements-7 >/dev/null 2>&1
+		"$WP" theme activate twentytwentyfive >/dev/null 2>&1
+		el_was_active=$("$WP" plugin is-active elementor >/dev/null 2>&1 && echo 1 || echo 0)
+		if use "$GOLDENS"; then
+			for grow in tt25 tt25-noel; do
+				if [ "$grow" = "tt25-noel" ]; then "$WP" plugin deactivate elementor >/dev/null 2>&1; else "$WP" plugin activate elementor >/dev/null 2>&1; fi
+				echo "== goldens $grow ($GOLDENS)"
+				res=$(node "$HERE/golden.js" --site "$SITE" --wp "$WP" --row "$grow" --strict --out "$OUT/golden-$grow" | tail -1)
+				echo "   $res"
+				printf '| goldens %s | %s | %s | |\n' "$grow" "$GOLDENS" "$(echo "$res" | grep -oE '[0-9]+/[0-9]+ pass' || echo 'no result')" >> "$SUMMARY"
+				echo "$res" | awk '/^golden / { split( $3, n, "/" ); ok = n[1] != "" && n[1] == n[2] } END { exit ok ? 0 : 1 }' || fail=1
+			done
+		else
+			printf '| goldens | %s | bad ref | |\n' "$GOLDENS" >> "$SUMMARY"; fail=1
+		fi
+		[ "$el_was_active" = 1 ] && "$WP" plugin activate elementor >/dev/null 2>&1 || "$WP" plugin deactivate elementor >/dev/null 2>&1
+	fi
+fi
 
 "$WP" plugin deactivate k-elements-7 >/dev/null 2>&1
 "$WP" plugin activate k-elements >/dev/null 2>&1

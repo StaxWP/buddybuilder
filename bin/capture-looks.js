@@ -10,6 +10,9 @@
  * style) into the Pro plugin's assets/img/presets/<preset>.webp (next to this plugin, or --out): each one as a
  * temporary layout assigned by the compat cookie, cards in their list, seen by the admin (the register page signed out).
  *
+ * Lists show the sample community only (compat env cookie bpb_compat_sample_only: members demo-* and bpb-sample-*,
+ * their groups and activity; seed it with bin/sample-community.php), so the shipped images never show site or test users.
+ *
  * Needs cwebp. Use a neutral theme on the site while capturing (the thumbnails show the look, not a theme).
  */
 const path = require( 'path' );
@@ -41,7 +44,8 @@ const FRAME = {
 	const browser = await chromium.launch();
 	const context = await browser.newContext( { viewport: { width: 1200, height: 900 }, deviceScaleFactor: 1 } );
 	const host = new URL( site ).hostname;
-	const login = Object.entries( data.cookies ).map( ( [ name, value ] ) => ( { name, value, domain: host, path: '/' } ) );
+	const sampleOnly = { name: 'bpb_compat_sample_only', value: '1', domain: host, path: '/' };
+	const login = Object.entries( data.cookies ).map( ( [ name, value ] ) => ( { name, value, domain: host, path: '/' } ) ).concat( [ sampleOnly ] );
 	await context.addCookies( login );
 	let page = await context.newPage();
 	const tmp = fs.mkdtempSync( path.join( os.tmpdir(), 'bpb-looks-' ) );
@@ -56,7 +60,7 @@ const FRAME = {
 			// A fresh context per preset: the layout cookie, and the login except on the register page.
 			await page.context().close().catch( () => {} );
 			const ctx = await browser.newContext( { viewport: { width: 1000, height: 900 }, deviceScaleFactor: 1 } );
-			await ctx.addCookies( ( 'register-page' === look.type ? [] : login ).concat( [ { name: 'bpb_compat_tpl', value: look.cookie, domain: host, path: '/' } ] ) );
+			await ctx.addCookies( ( 'register-page' === look.type ? [ sampleOnly ] : login ).concat( [ { name: 'bpb_compat_tpl', value: look.cookie, domain: host, path: '/' } ] ) );
 			page = await ctx.newPage();
 		}
 		await page.goto( url, { waitUntil: 'networkidle' } );

@@ -6,10 +6,11 @@
  * screenshot is taken (compared with --against <previous out dir> when given).
  *
  *   NODE_PATH=... node tests/compat/golden.js --site http://bbgate.test --wp ~/Sites/bbgate/tools/wp \
- *     --row tt25 [--update] [--against <dir>] [--out <dir>] [--only <substring>]
+ *     --row tt25 [--update] [--strict] [--against <dir>] [--out <dir>] [--only <substring>]
  *
  * - Goldens live in tests/compat/golden/<row>/<case>.html (commit them; --update rewrites them after a reviewed
- *   design change). A missing golden is written and reported as NEW.
+ *   design change). A missing golden is written and reported as NEW; with --strict (the gate) it is a FAIL and
+ *   nothing is written.
  * - <row> names the environment (theme, Elementor on or off), e.g. tt25, tt25-noel, kleo7, kleo7-noel.
  * - THROWAWAY site only: creates the layouts as bpb_template posts (deleted at the end) and assigns them per
  *   request with the compat cookie.
@@ -29,6 +30,7 @@ const site = opt( 'site', 'http://bbgate.test' ).replace( /\/$/, '' );
 const wp = opt( 'wp', path.join( process.env.HOME, 'Sites/bbgate/tools/wp' ) );
 const row = opt( 'row', 'default' );
 const update = argv.includes( '--update' );
+const strict = argv.includes( '--strict' );
 const against = opt( 'against', '' );
 const only = opt( 'only', '' );
 const out = path.resolve( opt( 'out', path.join( __dirname, 'results', 'golden-' + row ) ) );
@@ -111,6 +113,8 @@ const mask = ( html ) => normalise( html )
 			let result = 'ok';
 			if ( resp.status() !== 200 || notices !== '[]' || ! html ) {
 				result = `FAIL status ${ resp.status() } notices ${ notices } ${ html ? '' : 'no layout' }`;
+			} else if ( ! fs.existsSync( file ) && strict ) {
+				result = 'FAIL no golden (run without --strict to write it, then review and commit it)';
 			} else if ( ! fs.existsSync( file ) || update ) {
 				result = fs.existsSync( file ) ? 'updated' : 'NEW';
 				fs.writeFileSync( file, html.replace( /></g, '>\n<' ) + '\n' );

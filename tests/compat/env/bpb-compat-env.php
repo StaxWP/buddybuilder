@@ -9,6 +9,8 @@
  *   `bpb_settings` and the 2.0 registry option `bpb_templates`), so one site can render every fixture without
  *   writing options between requests.
  * - Cookie `bpb_compat_split=1` turns on the per template type CSS (filter `buddy_builder/split_css`).
+ * - Cookie `bpb_compat_sample_only=1`: lists show the sample community only (members "demo-*" and "bpb-sample-*",
+ *   groups "demo-*" and "sample-group-*", their activity), so shipped thumbnails never show site or test users.
  * - Collects PHP notices, warnings and deprecations raised from BuddyBuilder files and prints them in an HTML
  *   comment at the end of the page (`<!-- bpb-compat-notices [...] -->`), so each request reports its own.
  * - Local avatars only (no Gravatar calls), no heartbeat: deterministic screenshots.
@@ -102,6 +104,51 @@ add_filter(
 	},
 	PHP_INT_MAX
 );
+
+// Cookie `bpb_compat_sample_only=1`: the sample community only (bin/capture-looks.js).
+if ( ! empty( $_COOKIE['bpb_compat_sample_only'] ) ) {
+	$bpb_compat_sample = static function ( $what ) {
+		static $ids = null;
+
+		if ( null === $ids ) {
+			global $wpdb;
+
+			$ids = [
+				'users'  => array_map( 'intval', $wpdb->get_col( "SELECT ID FROM {$wpdb->users} WHERE user_login LIKE 'demo-%' OR user_login LIKE 'bpb-sample-%'" ) ), // phpcs:ignore WordPress.DB
+				'groups' => function_exists( 'buddypress' ) && ! empty( buddypress()->groups->table_name ) ? array_map( 'intval', $wpdb->get_col( 'SELECT id FROM ' . buddypress()->groups->table_name . " WHERE slug LIKE 'demo-%' OR slug LIKE 'sample-group-%'" ) ) : [], // phpcs:ignore WordPress.DB
+			];
+		}
+
+		return $ids[ $what ] ? $ids[ $what ] : [ -1 ];
+	};
+	$bpb_compat_only = static function ( $given, array $allowed ) {
+		$given = array_filter( array_map( 'intval', is_array( $given ) ? $given : explode( ',', (string) $given ) ) );
+
+		$both  = array_values( array_intersect( $given, $allowed ) );
+
+		return $given ? ( $both ? $both : [ -1 ] ) : $allowed;
+	};
+	add_action(
+		'bp_pre_user_query_construct',
+		static function ( $query ) use ( $bpb_compat_sample, $bpb_compat_only ) {
+			$query->query_vars['include'] = $bpb_compat_only( $query->query_vars['include'], $bpb_compat_sample( 'users' ) );
+		}
+	);
+	add_filter(
+		'bp_after_groups_get_groups_parse_args',
+		static function ( $args ) use ( $bpb_compat_sample, $bpb_compat_only ) {
+			$args['include'] = $bpb_compat_only( isset( $args['include'] ) ? $args['include'] : '', $bpb_compat_sample( 'groups' ) );
+			return $args;
+		}
+	);
+	add_filter(
+		'bp_activity_get_where_conditions',
+		static function ( $where ) use ( $bpb_compat_sample ) {
+			$where['bpb_compat_sample'] = 'a.user_id IN ( ' . implode( ',', $bpb_compat_sample( 'users' ) ) . ' )';
+			return $where;
+		}
+	);
+}
 
 // Cookie `bpb_compat_split=1|0`: per template type CSS on or off (default on since 2.0).
 if ( isset( $_COOKIE['bpb_compat_split'] ) ) {

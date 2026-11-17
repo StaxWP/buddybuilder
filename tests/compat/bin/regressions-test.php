@@ -35,6 +35,10 @@
  * - elementor-basic-controls    U3 (task 26): every BuddyBuilder Elementor widget keeps the same control keys and
  *                               defaults when its basic settings move to the "Settings" section (first in the
  *                               Content tab, 1 to 4 settings); nothing moves on the front end.
+ * - layout-import               Community pages > Import layout: a block layout export comes back as a draft of the
+ *                               same type, look and preset; Elementor exports, other JSON and unknown types are refused.
+ * - notice-dismiss              Dismissing a notice: only known notice ids, only with their nonce.
+ * - card-line                   "Card: <style>" under the directory and activity rows, with a link to change it.
  *
  * THROWAWAY site only (needs the compat env mu-plugin). Restores the options it touches and deletes the posts it
  * creates. Prints PASS / FAIL / SKIP lines; exits 1 on any FAIL.
@@ -502,6 +506,11 @@ switch ( $bpb_case ) {
 	case 'cards-follow-layout':
 		// A card style belongs to the layout it was saved from: another layout on the page (Elementor, the
 		// BuddyPress default) renders the classic markup again (found by the gate on 2026-11-15).
+		// The case saves the Pro card style Cover: without BuddyBuilder Pro there is no style to follow the layout.
+		if ( ! in_array( 'cover', \Buddy_Builder\Templates\Cards::styles( 'groups' ), true ) ) {
+			$bpb_skip( 'needs the Pro card style Cover (BuddyBuilder Pro is not active)' );
+			break;
+		}
 		update_option( 'bpb_blocks_enabled', '1' );
 		$bpb_saved_cards = get_option( \Buddy_Builder\Templates\Cards::OPTION, null );
 		$bpb_layout      = wp_insert_post( [ 'post_type' => PostType::POST_TYPE, 'post_status' => 'publish', 'post_title' => 'Cards', 'post_content' => '<!-- wp:buddybuilder/groups-listing {"card":"cover"} /-->', 'meta_input' => [ PostType::META_TYPE => 'groups-directory' ] ] );
@@ -657,8 +666,87 @@ switch ( $bpb_case ) {
 		set_current_screen( 'front' );
 		break;
 
+	case 'layout-import':
+		update_option( 'bpb_blocks_enabled', '1' );
+		$bpb_layout = $bpb_block_layout( 'member-profile' );
+		update_post_meta( $bpb_layout, '_bpb_look', 'bpb-look bpb-look--classic' );
+		update_post_meta( $bpb_layout, '_bpb_preset', 'classic-member-profile' );
+		$bpb_file = \Buddy_Builder\Admin\LayoutActions::export( $bpb_layout );
+		$bpb_json = wp_json_encode( $bpb_file['data'] );
+		$bpb_new  = \Buddy_Builder\Admin\LayoutActions::import( $bpb_json );
+		$bpb_ok( is_int( $bpb_new ) && $bpb_new > 0, 'the export imports' );
+		if ( is_int( $bpb_new ) ) {
+			$bpb_created[] = $bpb_new;
+			$bpb_ok( 'draft' === get_post_status( $bpb_new ) && PostType::POST_TYPE === get_post_type( $bpb_new ), 'as a draft block layout' );
+			$bpb_ok( 'member-profile' === PostType::type_of( $bpb_new ) && 'bpb-look bpb-look--classic' === get_post_meta( $bpb_new, '_bpb_look', true ) && 'classic-member-profile' === get_post_meta( $bpb_new, '_bpb_preset', true ), 'with its type, look and preset' );
+			$bpb_ok( get_post_field( 'post_content', $bpb_new ) === get_post_field( 'post_content', $bpb_layout ), 'same content' );
+			$bpb_ok( (int) Registry::get( 'member-profile' )['id'] !== $bpb_new, 'not assigned' );
+		}
+		$bpb_bad = [
+			'bpb_import_elementor' => wp_json_encode( [ 'content' => [], 'version' => '0.4', 'title' => 'E', 'type' => 'page' ] ),
+			'bpb_import_json'      => 'not json',
+			'bpb_import_format'    => wp_json_encode( [ 'format' => 'other', 'version' => 1, 'content' => '' ] ),
+			'bpb_import_type'      => wp_json_encode( array_merge( $bpb_file['data'], [ 'type' => 'no-such-type' ] ) ),
+			'bpb_import_content'   => wp_json_encode( array_merge( $bpb_file['data'], [ 'content' => '<p>No blocks</p>' ] ) ),
+		];
+		foreach ( $bpb_bad as $bpb_code => $bpb_raw ) {
+			$bpb_res = \Buddy_Builder\Admin\LayoutActions::import( $bpb_raw );
+			$bpb_ok( is_wp_error( $bpb_res ) && $bpb_code === $bpb_res->get_error_code(), 'refused: ' . $bpb_code );
+		}
+		$bpb_user = wp_get_current_user();
+		wp_set_current_user( 0 );
+		$bpb_res = \Buddy_Builder\Admin\LayoutActions::import( $bpb_json );
+		$bpb_ok( is_wp_error( $bpb_res ) && 'bpb_import_cap' === $bpb_res->get_error_code(), 'refused without the capability' );
+		wp_set_current_user( $bpb_user->ID );
+		break;
+
+	case 'notice-dismiss':
+		add_filter( 'wp_doing_ajax', '__return_true' );
+		add_filter(
+			'wp_die_ajax_handler',
+			static function () {
+				return static function ( $message, $title, $args ) {
+					throw new RuntimeException( (string) ( is_array( $args ) && isset( $args['response'] ) ? $args['response'] : 200 ) );
+				};
+			}
+		);
+		$bpb_try = static function ( array $request ) {
+			$_REQUEST = $request;
+			try {
+				\Buddy_Builder\Notices::get_instance()->bpb_admin_notice_viewed();
+			} catch ( RuntimeException $e ) {
+				return $e->getMessage();
+			}
+			return 'none';
+		};
+		$bpb_uid  = get_current_user_id();
+		$bpb_prev = get_user_meta( $bpb_uid, 'bpb_rate_us', true );
+		delete_user_meta( $bpb_uid, 'bpb_rate_us' );
+		$bpb_ok( '400' === $bpb_try( [ 'notice_id' => 'wp_capabilities' ] ) && '' === (string) get_user_meta( $bpb_uid, 'wp_capabilities_x', true ), 'an unknown key is refused' );
+		$bpb_ok( '403' === $bpb_try( [ 'notice_id' => 'bpb_rate_us' ] ) && '' === get_user_meta( $bpb_uid, 'bpb_rate_us', true ), 'no nonce: refused, nothing saved' );
+		$bpb_ok( '403' === $bpb_try( [ 'notice_id' => 'bpb_rate_us', '_wpnonce' => wp_create_nonce( 'other' ) ] ), 'another nonce: refused' );
+		$bpb_try( [ 'notice_id' => 'bpb_rate_us', '_wpnonce' => wp_create_nonce( \Buddy_Builder\Notices::DISMISS_NONCE . 'bpb_rate_us' ) ] );
+		$bpb_ok( '1' === (string) get_user_meta( $bpb_uid, 'bpb_rate_us', true ), 'with its nonce: dismissed' );
+		$bpb_ok( false !== strpos( \Buddy_Builder\Notices::dismiss_url( 'bpb_rate_us' ), '_wpnonce=' ), 'the dismiss link carries the nonce' );
+		'' === $bpb_prev ? delete_user_meta( $bpb_uid, 'bpb_rate_us' ) : update_user_meta( $bpb_uid, 'bpb_rate_us', $bpb_prev );
+		$_REQUEST = [];
+		break;
+
+	case 'card-line':
+		ob_start();
+		\Buddy_Builder\Admin\CommunityPages::render();
+		$bpb_html = ob_get_clean();
+		foreach ( \Buddy_Builder\Templates\Cards::PAGE_TYPES as $bpb_object => $bpb_type ) {
+			if ( ! \Buddy_Builder\Templates\Types::is_active( $bpb_type ) ) {
+				continue;
+			}
+			$bpb_ok( (bool) preg_match( '/id="bpb-page-' . preg_quote( $bpb_type, '/' ) . '".*?<p class="bpb-cp__card">Card: [^<]+/s', $bpb_html ), $bpb_type . ' row shows its card' );
+		}
+		$bpb_ok( 3 >= substr_count( $bpb_html, 'bpb-cp__card' ), 'only the directory and activity rows' );
+		break;
+
 	default:
-		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install, checker-readylaunch, change-look-undo, cards-follow-layout, layout-actions, element-settings, elementor-basic-controls' );
+		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install, checker-readylaunch, change-look-undo, cards-follow-layout, layout-actions, element-settings, elementor-basic-controls, layout-import, notice-dismiss, card-line' );
 }
 
 // Cleanup.
