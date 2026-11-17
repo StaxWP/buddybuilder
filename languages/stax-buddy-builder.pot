@@ -200,7 +200,7 @@ msgstr ""
 
 #. translators: %s: version
 #: admin/pages/Status.php:151
-msgid "BuddyBuilder Pro is not installed."
+msgid "BuddyBuilder Pro is not active."
 msgstr ""
 
 #. translators: %s: version
