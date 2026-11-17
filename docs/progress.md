@@ -2,6 +2,29 @@
 
 Branch `main` (the 2.0 line since 2026-11-15; 1.x fixes go to `1.x`). Not released.
 
+## 2026-11-17: Elementor basic settings and real editor previews (tasks 26 and 27, pulled from 2.1 into 2.0)
+
+Decided by Gabriel on 2026-11-17 (inventory U3, U4, F15).
+
+- **Basic settings first (U3, task 26)**, one helper for every 1.x widget, free and Pro (`src/Integrations/Elementor/BasicControls.php`, called from `Base::init_controls()`): the 1 to 4 basic settings (element.json basics, or a short list in `BasicControls::WIDGETS` for widgets without) move into a "Settings" section at the top of the Content tab (avatar size, card style, columns, show home tab, step shown in the editor, ...); everything else stays in its collapsed sections; a 1.x section also called "Settings" becomes "More settings". The 2.0 widgets (`bpb-el-*`) already had Settings / More settings from the kit. No key renamed or removed, no default changed; controls with selectors, prefix classes or frontend settings never move (output order); runs in wp-admin only. Filter `buddy_builder/elementor/basic_controls`.
+- **Real editor previews for every template type (U4, task 27)**: member profile, group, directories, activity and card types already had the real preview (decision 4); register and group creation now get BuddyPress' sign-up state and creation step (`PreviewContext::boot_register()`, `boot_group_create()`, `group_create_step()` for an element's "Step shown in the editor", later steps show the preview group). Directory tabs are set up in previews (they were empty, in both editors). Elsewhere (a widget outside a BuddyBuilder template, no preview member or group, `buddy_builder/elementor/real_preview` false) a widget prints a short placeholder (`bpb_editor_placeholder()`).
+- **Editor page first view**: BuddyBuilder widgets print nothing on the wp-admin editor page, so Elementor asks for each over AJAX in the real context. Fixes a fatal that kept the group profile editor from opening on Elementor 4.4 (`bp_nouveau_group_header_buttons()` returns nothing in wp-admin).
+- **Static previews removed (F15)**: `templates/preview/` (40 files) and the preview images (`assets/img/member-avatar/`, `profile-cover-preview.png`); the BuddyPress wrapper of template previews is inline. `buddy_builder/widget/member-profile/preview` and `buddy_builder/widget/group-profile/preview` are deprecated (`apply_filters_deprecated`, hooked code gets the real markup), `bpb_load_preview_template()` returns '' with a notice. The dummy avatars stay (BuddyBuilder Pro 1.x uses them).
+- **Zip**: BuddyBuilder 3,213,704 to 944,198 bytes; BuddyBuilder Pro 2,047,017 to 764,560 (`bin/build-zip.sh`).
+- **Pro Messages and Notifications**: already 3 basic settings each (title, icon, View all; display and position under More settings), `element-settings` passes with Pro; no change needed.
+
+Tests:
+
+- PHP lint 7.4 and 8.5 on every changed file: 0 errors. Surface check against 1.9.2 and Pro 1.7.0: ok.
+- Compat, bbmin (WP 6.6, PHP 7.4, Elementor 3.20), every fixture before and after (`run.js` + `compare.js`): 132/132 identical.
+- Regressions (new case `elementor-basic-controls`: same keys and defaults for all 76 widgets, Settings first, nothing moved on the front end): bbux 357 PASS with Pro, 265 PASS + `cards-follow-layout` (known) without; bbmin 331 PASS with Pro, 241 PASS + `cards-follow-layout` without.
+- Elementor editor (Playwright, both versions, every "Every widget" template: member profile, group, both directories, activity, register, group creation, three card types): every widget shows real data, no placeholder, no static image, no new JavaScript error (bbmin: Elementor 3.20's own `e.O is not a function`). Pro Content widgets: Notifications, Settings > Email, Profile > Edit, Friends, Groups, Activity > Mentions, group Members and Manage > Settings show the real screens; group creation steps Details, Settings, Photo, Cover image, Invite are real. Block editor (REST block renderer): register parts and group creation steps real.
+- e2e `tests/e2e/ux.js` on bbux: 46 PASS, 1 FAIL (`elementorFrontendConfig is not defined`, as before).
+- Block goldens, bbux row tt25 (`golden.js`): 124/144; the 20 differences are all the members directory grid class (`grid-three ... sm-grid-two` instead of `grid-four ... sm-grid-one`), because bbux `bpb_listings` is members 3/2/2 today, not the 4/2/1 the goldens were recorded with; nothing else differs. 56 cases without a golden yet (looks added by other work) were not written into the repo.
+- POT regenerated.
+
+Open: Messages, group invites and the group members manager are built by BuddyPress' scripts on the live page, so the editor shows BuddyPress' empty container for them (the static previews faked them); the submit button of the register form has no text in the summary (an input). bbux `bpb_listings` is members 3/2/2, groups 3/2/1 (not changed by this work).
+
 ## 2026-11-17: loop items follow the resolve filter (for BuddyBuilder Pro variations)
 
 - `Dispatcher::render_item()`: when `buddy_builder/template/resolve` returns another layout post for a loop item (a BuddyBuilder Pro variation for the card's member, group or author, a look preview), that layout renders, also when the assigned item layout is Elementor: an Elementor layout through the same 1.x `[elementor-template]` shortcode path, a block layout through the parsed block path. Before, an assigned Elementor item layout always rendered its own shortcode and the filter was not asked. Unchanged when the filter returns the assigned layout or block markup (`content`), and when the loop's item string was filtered to a layout of its own (the Pro listing widgets' template setting, 1.x code), so those and the style fallback behave as before. No new strings; no variation UI in the free plugin.
