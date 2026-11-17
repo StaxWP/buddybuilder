@@ -41,6 +41,13 @@ final class CommunityPages {
 	const UNDO_TTL = DAY_IN_SECONDS;
 
 	/**
+	 * Id of the copy the last "duplicate" made (for the notice link).
+	 *
+	 * @var int
+	 */
+	private static $copy = 0;
+
+	/**
 	 * Register hooks.
 	 */
 	public static function hooks() {
@@ -67,6 +74,7 @@ final class CommunityPages {
 
 		if ( 0 === strpos( $page, BPB_ADMIN_PREFIX ) ) {
 			wp_enqueue_style( 'bpb-admin-ui', BPB_ASSETS_URL . 'css/admin-ui.css', [], BPB_VERSION );
+			wp_enqueue_script( 'bpb-disclosure', BPB_ASSETS_URL . 'js/disclosure.js', [], BPB_VERSION, true );
 		}
 	}
 
@@ -448,13 +456,23 @@ final class CommunityPages {
 			wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'stax-buddy-builder' ) );
 		}
 
-		$type = isset( $_POST['type'] ) ? sanitize_key( wp_unslash( $_POST['type'] ) ) : '';
-		$do   = isset( $_POST['do'] ) ? sanitize_key( wp_unslash( $_POST['do'] ) ) : '';
-		$ok   = self::apply(
+		$type   = isset( $_POST['type'] ) ? sanitize_key( wp_unslash( $_POST['type'] ) ) : '';
+		$do     = isset( $_POST['do'] ) ? sanitize_key( wp_unslash( $_POST['do'] ) ) : '';
+		$layout = isset( $_POST['layout'] ) ? absint( $_POST['layout'] ) : 0;
+
+		if ( 'export' === $do && LayoutActions::can( 'export', $layout ) ) {
+			$file = LayoutActions::export( $layout );
+
+			if ( ! is_wp_error( $file ) ) {
+				LayoutActions::send( $file );
+			}
+		}
+
+		$ok = 'export' !== $do && self::apply(
 			$type,
 			$do,
 			[
-				'layout'  => isset( $_POST['layout'] ) ? absint( $_POST['layout'] ) : 0,
+				'layout'  => $layout,
 				'preset'  => isset( $_POST['preset'] ) ? sanitize_key( wp_unslash( $_POST['preset'] ) ) : '',
 				'builder' => isset( $_POST['builder'] ) ? sanitize_key( wp_unslash( $_POST['builder'] ) ) : '',
 			]
@@ -462,10 +480,13 @@ final class CommunityPages {
 
 		wp_safe_redirect(
 			add_query_arg(
-				[
-					'bpb_done' => $ok ? $do : 'error',
-					'bpb_type' => $type,
-				],
+				array_filter(
+					[
+						'bpb_done' => $ok ? $do : 'error',
+						'bpb_type' => $type,
+						'bpb_copy' => $ok && 'duplicate' === $do ? self::$copy : 0,
+					]
+				),
 				admin_url( 'admin.php?page=' . BPB_ADMIN_PREFIX . self::SLUG )
 			) . '#bpb-page-' . $type
 		);
@@ -476,7 +497,7 @@ final class CommunityPages {
 	 * Run one action of the screen (testable without the redirect).
 	 *
 	 * @param string $type Template type.
-	 * @param string $do   default|assign|look|use-pending|discard-pending|undo.
+	 * @param string $do   default|assign|look|use-pending|discard-pending|undo|duplicate|delete.
 	 * @param array  $args layout (id), preset, builder.
 	 * @return bool
 	 */
@@ -502,20 +523,37 @@ final class CommunityPages {
 		$done = self::run( $type, $do, $args );
 
 		if ( $done && isset( $before ) && Registry::get( $type ) !== $before ) {
-			update_option(
-				self::UNDO,
+			self::remember_undo( $type, $before );
+		}
+
+		return $done;
+	}
+
+	/**
+	 * Keep what Undo puts back: the assignment before the change, and the layout a delete moved to the trash.
+	 *
+	 * @param string     $type    Template type.
+	 * @param array      $before  Registry entry before the change.
+	 * @param array|null $trashed LayoutActions::trash() record.
+	 */
+	private static function remember_undo( $type, array $before, $trashed = null ) {
+		update_option(
+			self::UNDO,
+			array_filter(
 				[
 					'type'    => $type,
 					'builder' => $before['builder'],
 					'id'      => (int) $before['id'],
 					'user'    => get_current_user_id(),
 					'time'    => time(),
+					'trashed' => $trashed,
 				],
-				false
-			);
-		}
-
-		return $done;
+				static function ( $value ) {
+					return null !== $value;
+				}
+			),
+			false
+		);
 	}
 
 	/**
@@ -546,11 +584,42 @@ final class CommunityPages {
 			case 'undo':
 				$undo = self::undo_entry();
 
-				if ( ! $undo || $type !== $undo['type'] || ( $undo['id'] && ! get_post( $undo['id'] ) ) || ! self::assign( $type, $undo['builder'], $undo['id'] ) ) {
+				if ( ! $undo || $type !== $undo['type'] ) {
+					return false;
+				}
+
+				if ( ! empty( $undo['trashed'] ) ) {
+					if ( ! current_user_can( 'delete_post', (int) $undo['trashed']['id'] ) || ! LayoutActions::restore( $undo['trashed'] ) ) {
+						return false;
+					}
+				} elseif ( ( $undo['id'] && ! get_post( $undo['id'] ) ) || ! self::assign( $type, $undo['builder'], $undo['id'] ) ) {
 					return false;
 				}
 
 				delete_option( self::UNDO );
+
+				return true;
+
+			case 'duplicate':
+				if ( ! LayoutActions::can( 'duplicate', $args['layout'] ) ) {
+					return false;
+				}
+
+				$copy = LayoutActions::duplicate( $args['layout'] );
+
+				self::$copy = is_wp_error( $copy ) ? 0 : $copy;
+
+				return (bool) self::$copy;
+
+			case 'delete':
+				$before = Registry::get( $type );
+				$record = LayoutActions::can( 'delete', $args['layout'] ) ? LayoutActions::trash( $args['layout'] ) : false;
+
+				if ( ! $record ) {
+					return false;
+				}
+
+				self::remember_undo( $type, $before, $record );
 
 				return true;
 
@@ -609,15 +678,21 @@ final class CommunityPages {
 	/**
 	 * One-button form.
 	 *
-	 * @param string $type  Template type.
-	 * @param string $do    Action.
-	 * @param string $label Button text.
-	 * @param string $class Button classes.
-	 * @param string $aria  Accessible name when the label alone is ambiguous.
+	 * @param string $type   Template type.
+	 * @param string $do     Action.
+	 * @param string $label  Button text.
+	 * @param string $class  Button classes.
+	 * @param string $aria   Accessible name when the label alone is ambiguous.
+	 * @param int    $layout Layout the action is about (0: none).
 	 */
-	private static function button_form( $type, $do, $label, $class = 'button', $aria = '' ) {
+	private static function button_form( $type, $do, $label, $class = 'button', $aria = '', $layout = 0 ) {
 		echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" class="bpb-inline-form">';
 		self::form_fields( $type, $do );
+
+		if ( $layout ) {
+			echo '<input type="hidden" name="layout" value="' . (int) $layout . '">';
+		}
+
 		echo '<button type="submit" class="' . esc_attr( $class ) . '"' . ( $aria ? ' aria-label="' . esc_attr( $aria ) . '"' : '' ) . '>' . esc_html( $label ) . '</button></form>';
 	}
 
@@ -639,6 +714,8 @@ final class CommunityPages {
 			'discard-pending' => __( 'The new look was discarded; the page is unchanged.', 'stax-buddy-builder' ),
 			'setup'           => __( 'Setup done: your new community pages are live.', 'stax-buddy-builder' ),
 			'undo'            => __( 'Undone: the page uses what it used before.', 'stax-buddy-builder' ),
+			'duplicate'       => __( 'A copy was saved as a draft. No page uses it until you pick it.', 'stax-buddy-builder' ),
+			'delete'          => __( 'The layout was moved to the trash.', 'stax-buddy-builder' ),
 		];
 
 		if ( 'error' === $done || ! isset( $messages[ $done ] ) ) {
@@ -647,16 +724,30 @@ final class CommunityPages {
 			return;
 		}
 
-		$undo = self::undo_entry();
-		$type = $undo && isset( $_GET['bpb_type'] ) && $undo['type'] === sanitize_key( wp_unslash( $_GET['bpb_type'] ) ) ? $undo['type'] : ''; // phpcs:ignore WordPress.Security.NonceVerification
+		$undo    = self::undo_entry();
+		$type    = $undo && isset( $_GET['bpb_type'] ) && $undo['type'] === sanitize_key( wp_unslash( $_GET['bpb_type'] ) ) ? $undo['type'] : ''; // phpcs:ignore WordPress.Security.NonceVerification
+		$trashed = $type && ! empty( $undo['trashed'] ) ? $undo['trashed'] : null;
+		$copy    = isset( $_GET['bpb_copy'] ) ? absint( $_GET['bpb_copy'] ) : 0; // phpcs:ignore WordPress.Security.NonceVerification
+		$message = $messages[ $done ];
 
-		echo '<div class="notice notice-success is-dismissible bpb-done"><p>' . esc_html( $messages[ $done ] ) . '</p>';
+		if ( 'delete' === $done && $trashed && ! empty( $trashed['assigned'] ) ) {
+			$message .= ' ' . __( 'The page now shows the BuddyPress default.', 'stax-buddy-builder' );
+		}
 
-		if ( $type && 'undo' !== $done ) {
+		echo '<div class="notice notice-success is-dismissible bpb-done"><p>' . esc_html( $message );
+
+		if ( 'duplicate' === $done && $copy && current_user_can( 'edit_post', $copy ) ) {
+			echo ' <a href="' . esc_url( self::edit_url( $copy ) ) . '">' . esc_html__( 'Edit the copy', 'stax-buddy-builder' ) . '</a>';
+		}
+
+		echo '</p>';
+
+		// Undo follows the change it belongs to: a delete offers it after "delete", a page change after the others.
+		if ( $type && 'undo' !== $done && 'duplicate' !== $done && ( 'delete' === $done ) === (bool) $trashed ) {
 			echo '<p>';
 			/* translators: %s: page name */
 			self::button_form( $type, 'undo', __( 'Undo', 'stax-buddy-builder' ), 'button', sprintf( __( 'Undo the change on %s', 'stax-buddy-builder' ), self::label( $type ) ) );
-			echo ' <span class="description">' . esc_html__( 'Puts back what the page used before. The new layout is kept.', 'stax-buddy-builder' ) . '</span></p>';
+			echo ' <span class="description">' . esc_html( $trashed ? __( 'Takes the layout out of the trash and gives it back to the pages that used it.', 'stax-buddy-builder' ) : __( 'Puts back what the page used before. The new layout is kept.', 'stax-buddy-builder' ) ) . '</span></p>';
 		}
 
 		echo '</div>';
@@ -906,7 +997,8 @@ final class CommunityPages {
 	}
 
 	/**
-	 * "More" menu: BuddyPress default, another existing layout, a new empty layout, discard the new look.
+	 * "More" menu: the layout actions (duplicate, history, export, delete), BuddyPress default, another existing layout,
+	 * a new empty layout, discard the new look.
 	 *
 	 * @param array $row Row.
 	 */
@@ -924,6 +1016,8 @@ final class CommunityPages {
 		if ( $row['pending'] ) {
 			self::button_form( $type, 'discard-pending', __( 'Discard the new look', 'stax-buddy-builder' ), 'button-link button-link-delete' );
 		}
+
+		self::render_layout_actions( $row );
 
 		if ( $layouts ) {
 			$select = 'bpb-layout-' . $type;
@@ -956,6 +1050,69 @@ final class CommunityPages {
 		}
 
 		echo '</ul></div></details>';
+	}
+
+	/**
+	 * The layout part of the "More" menu: Duplicate, History, Export, Delete (review B-L4). Forms post to
+	 * admin-post.php, so every action works without JavaScript; Delete asks once more before it moves the layout to
+	 * the trash, and the notice after it offers Undo.
+	 *
+	 * @param array $row Row.
+	 */
+	private static function render_layout_actions( array $row ) {
+		$id = $row['post'] ? (int) $row['post']->ID : 0;
+
+		if ( ! $id || ! LayoutActions::is_layout( $id ) ) {
+			return;
+		}
+
+		$type   = $row['type'];
+		$layout = $row['title'];
+		$aria   = static function ( $action ) use ( $layout ) {
+			/* translators: 1: action, 2: layout title */
+			return sprintf( __( '%1$s: %2$s', 'stax-buddy-builder' ), $action, $layout );
+		};
+
+		echo '<ul class="bpb-more__layout" aria-label="' . esc_attr( sprintf( /* translators: %s: layout title */ __( 'Layout %s', 'stax-buddy-builder' ), $layout ) ) . '">';
+
+		if ( LayoutActions::can( 'duplicate', $id ) ) {
+			echo '<li>';
+			self::button_form( $type, 'duplicate', __( 'Duplicate', 'stax-buddy-builder' ), 'button-link', $aria( __( 'Duplicate', 'stax-buddy-builder' ) ), $id );
+			echo '</li>';
+		}
+
+		if ( LayoutActions::can( 'history', $id ) ) {
+			$history = LayoutActions::history_url( $id );
+			echo '<li>';
+
+			if ( $history ) {
+				echo '<a href="' . esc_url( $history ) . '" aria-label="' . esc_attr( $aria( __( 'History', 'stax-buddy-builder' ) ) ) . '">' . esc_html__( 'History', 'stax-buddy-builder' ) . '</a>';
+			} else {
+				echo '<span class="bpb-more__muted">' . esc_html__( 'History: no saved changes yet', 'stax-buddy-builder' ) . '</span>';
+			}
+
+			echo '</li>';
+		}
+
+		if ( LayoutActions::can( 'export', $id ) && ( Registry::BLOCKS === $row['builder'] || Elementor::is_available() ) ) {
+			echo '<li>';
+			self::button_form( $type, 'export', __( 'Export', 'stax-buddy-builder' ), 'button-link', $aria( __( 'Export', 'stax-buddy-builder' ) ), $id );
+			echo '</li>';
+		}
+
+		if ( LayoutActions::can( 'delete', $id ) ) {
+			echo '<li><details class="bpb-more__confirm"><summary class="button-link button-link-delete" aria-label="' . esc_attr( $aria( __( 'Delete', 'stax-buddy-builder' ) ) ) . '">' . esc_html__( 'Delete', 'stax-buddy-builder' ) . '</summary>';
+			echo '<p>' . esc_html(
+				LayoutActions::assigned_types( $id )
+					/* translators: %s: page name */
+					? sprintf( __( 'Move it to the trash? %s shows the BuddyPress default until you pick another layout.', 'stax-buddy-builder' ), $row['label'] )
+					: __( 'Move it to the trash?', 'stax-buddy-builder' )
+			) . '</p>';
+			self::button_form( $type, 'delete', __( 'Yes, move to trash', 'stax-buddy-builder' ), 'button button-small', $aria( __( 'Move to trash', 'stax-buddy-builder' ) ), $id );
+			echo '</details></li>';
+		}
+
+		echo '</ul>';
 	}
 
 	/**

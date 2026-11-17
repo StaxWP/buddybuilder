@@ -57,6 +57,14 @@
 .bpb-more__assign label { display: block; font-weight: 600; margin-bottom: 4px; }
 .bpb-more__assign select { max-width: 200px; }
 .bpb-more__links { margin: 8px 0 0; border-top: 1px solid #f0f0f1; padding-top: 8px; }
+.bpb-more__layout { margin: 0 0 8px; padding: 0 0 8px; border-bottom: 1px solid #f0f0f1; }
+.bpb-more__layout li { margin: 4px 0; }
+.bpb-more__layout .bpb-inline-form { display: inline; margin: 0; }
+.bpb-more__muted { color: #646970; }
+.bpb-more__confirm > summary { list-style: none; cursor: pointer; display: inline; }
+.bpb-more__confirm > summary::-webkit-details-marker { display: none; }
+.bpb-more__confirm[open] > summary { font-weight: 600; }
+.bpb-more__confirm p { margin: 4px 0 6px; max-width: 240px; }
 .bpb-more__links li { margin: 4px 0; }
 .bpb-looks__panel { width: min(760px, 80vw); }
 .bpb-looks__panel > p { margin-top: 0; }

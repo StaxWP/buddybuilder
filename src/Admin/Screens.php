@@ -25,6 +25,7 @@ final class Screens {
 		add_action( 'admin_post_bpb_new_layout', [ __CLASS__, 'new_layout' ] );
 
 		CommunityPages::hooks();
+		LayoutActions::hooks();
 		Setup::hooks();
 		Options::hooks();
 		Checker::hooks();
