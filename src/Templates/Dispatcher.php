@@ -80,7 +80,7 @@ final class Dispatcher {
 
 	/**
 	 * Layout that renders a type on this request: the assigned one, unless a filter picks another (a preview of a
-	 * look not live yet, or, in BuddyBuilder Pro 2.1, a layout variation for a member type, group type or role).
+	 * look not live yet, or, in BuddyBuilder Pro 2.0, a layout variation for a member type, group type or role).
 	 *
 	 * @param string $type    Template type.
 	 * @param array  $context Render context.
@@ -183,7 +183,8 @@ final class Dispatcher {
 	 * Render one loop item (members, groups, activity loops).
 	 *
 	 * 1.x loops print an Elementor item layout through a filterable shortcode string; Pro and the listing widgets
-	 * filter that string. A non-empty string keeps the 1.x path; otherwise a block item layout renders (2.1).
+	 * filter that string. A non-empty string keeps the 1.x path; otherwise a block item layout renders (2.1). When the
+	 * resolve filter picks another layout post for the item, that layout renders instead (Elementor by its shortcode).
 	 *
 	 * @param string $type      Item template type (e.g. members-directory-item).
 	 * @param string $shortcode Filtered shortcode string.
@@ -191,11 +192,20 @@ final class Dispatcher {
 	 * @return string
 	 */
 	public static function render_item( $type, $shortcode, array $context = [] ) {
+		$entry = self::resolve( $type, $context );
+
+		// Another layout post picked for this item by the resolve filter (a BuddyBuilder Pro variation, a preview):
+		// an Elementor one takes the same 1.x shortcode path as an assigned Elementor layout. A loop whose item string
+		// was filtered to a layout of its own (a listing widget's template) keeps it.
+		$own = is_string( $shortcode ) && '' !== $shortcode && bpb_get_shortcode_str( $type ) !== $shortcode;
+
+		if ( ! $own && ! isset( $entry['content'] ) && (int) $entry['id'] !== (int) Registry::get( $type )['id'] ) {
+			$shortcode = Registry::ELEMENTOR === $entry['builder'] && Registry::is_post_populated( $entry['id'] ) ? bpb_get_shortcode_str( (int) $entry['id'] ) : '';
+		}
+
 		if ( is_string( $shortcode ) && '' !== $shortcode ) {
 			return do_shortcode( $shortcode );
 		}
-
-		$entry = self::resolve( $type, $context );
 
 		if ( isset( $entry['content'] ) ) {
 			$key     = 'c' . md5( (string) $entry['content'] );

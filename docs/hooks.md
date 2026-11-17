@@ -22,7 +22,7 @@
 | `buddy_builder/people_rail/layouts` | Layouts of the people list (Pro adds `bubbles`). |
 | `buddy_builder/abilities` | Ability definitions (BuddyBuilder Pro adds the write abilities). |
 | `buddy_builder/presets` | Preset layouts (`type`, `title`, `layout` or `content`, optional `theme`). |
-| `buddy_builder/template/resolve` | The layout used for a type on this request (`[ builder, id ]`), for variations (BuddyBuilder Pro uses it per member type and group type). |
+| `buddy_builder/template/resolve` | The layout used for a type on this request or loop item (`[ builder, id ]`, `$context` with `user_id` / `group_id` when known). BuddyBuilder Pro uses it for layout variations (member type, role, group type, one group). For loop items, another layout post returned here renders instead of the assigned one, also when the assigned item layout is Elementor (2026-11-17). |
 | `buddy_builder/blocks_enabled` | Block layouts on or off. |
 | `buddy_builder/split_css` | Per page BuddyPress CSS (default on). |
 | `buddy_builder/full_dashicons` | Load the full dashicons font instead of the community icon subset. |
@@ -43,7 +43,7 @@
 | `buddy_builder/preset_applied` | A preset or style page was applied (`$id`, `$post_id`, `$builder`). |
 | `buddy_builder/registry/changed` | Layout assignments changed. |
 | `buddy_builder/setup/after_looks` | After the setup's look step. |
-| `buddy_builder/community_pages/after_row` | Extra content after a row of Community pages. |
+| `buddy_builder/community_pages/after_row` | Extra content after a row of Community pages (`$type`, `$row`; BuddyBuilder Pro prints the variations of the page and of its item layouts). |
 | `buddy_builder/layout/duplicated` | A layout was duplicated from Community pages (`$copy` draft id, `$id` original). |
 
 ## Events (JavaScript)
