@@ -2,6 +2,36 @@
 
 Branch `main` (the 2.0 line since 2026-11-15; 1.x fixes go to `1.x`). Not released.
 
+## 2026-11-17 (late): release fixes and improvements
+
+Asked by Gabriel on 2026-11-17 ("fix, improve and prepare everything for the release").
+
+- **Notice dismiss (security, also on `1.x`)**: `bpb_admin_notice_viewed` (`core/Notices.php`) saved any user meta key named in the request, without a nonce. Now only known notice ids (`Notices::DISMISSIBLE`, filter `buddy_builder/notices/dismissible`, default `bpb_rate_us`), with the notice's nonce (`Notices::dismiss_url()`, `data-nonce` for the AJAX request in `admin/assets/js/admin.js`), signed-in users only; 400 for an unknown id, 403 without the nonce. 1.x: the rate-us notice prints the nonce link and attribute.
+- **Pro element strings (i18n)**: the kit translates an element's strings with the element's own `textdomain` from `element.json` (as in `block.json`; `Element::t()`, `Kit::t( $text, $domain )`), else the kit's; variation titles are translated too. BuddyBuilder Pro sets its domain on its elements, and `bin/element-strings.php --root <plugin> --domain <domain> --package <name>` writes Pro's `src/Elements/strings.php` (175 strings now in the Pro POT). The kit is synced from k-elements: the same change has to go upstream before the next sync.
+- **Import layout (Community pages)**: an "Import layout" disclosure under the rows (block layouts on) takes the JSON of More > Export of a block layout: `manage_options` plus the post type's create capability, nonce, upload checks (2 MB), format `buddybuilder-layout` v1, a page type that can have block layouts on this site, block markup; content saved with `wp_insert_post()` like a layout saved in the editor (WordPress' HTML filtering without `unfiltered_html`); title, look and preset sanitized. Creates a draft "(imported)", not assigned; the notice links to the editor. Elementor exports get a message pointing to Elementor > Templates > Import Templates. Action `buddy_builder/layout/imported`.
+- **Card line**: under the members directory, groups directory and activity rows, "Card: <style>" (the saved card style of the page's lists, `Cards::label()`; labels from `Cards::labels()`, now also used by the list elements) with Change (the page layout's editor, where the list's Card setting is), or "Card: your card layout" / "Design the card" linking to the card row when BuddyBuilder Pro's card rows are there.
+- **Register page Preview**: the look picker of the Register row has Preview again. `LayoutPreview` (administrators, preview nonce, noindex, no cache) replaces BuddyPress' sign-up screen for that request with the same screen minus the redirect of signed-in members and minus the form handling; without the preview nonce BuddyPress redirects as before.
+- **Editor previews of script-built screens** (`src/Templates/ScriptScreens.php`): in the block and Elementor editors only, messages, group invites (group page and the Invite step of group creation) and the group members manager print a labelled box after BuddyPress' empty containers: what the live page shows there, and real data (the editor's own latest conversations, members who could be invited, the group's members and roles). Front end and front-end look previews unchanged.
+- **Look previews load the look's stylesheet**: `Assets::front()` reads the look classes of a preview's markup too (Change look Preview showed the base style, so the Creator photo was clipped by the header card). A centered member or group header without a cover keeps the photo inside the card in every style (`base.css`).
+- **Docs link**: Help and status links to https://staxwp.com/docs/buddybuilder/ (docs.staxwp.com does not resolve; also on `1.x`).
+- **Register is Pro (checked)**: in 1.9 the free plugin had no register template type and no register widgets (`bpb_get_template_types()` lists five types; BuddyBuilder Pro 1.x adds `register-page` and its five widgets); free only renders an assigned register layout. The Pro label on the Register row is right; `free-and-pro.md` said otherwise and is fixed.
+- **Thumbnails**: the twelve 2.0-dev look thumbnails (`assets/img/looks/`, legacy looks out of pickers) showed site and test users: removed (drawings show for layouts made from them). Pro's 35 preset thumbnails recaptured with the sample community only: compat env cookie `bpb_compat_sample_only` (members `demo-*` and `bpb-sample-*`, their groups and activity), set by `bin/capture-looks.js`; every image checked by eye.
+- **Tests and tools**: `cards-follow-layout` now SKIPs without BuddyBuilder Pro; new regression cases `layout-import`, `notice-dismiss`, `card-line`; `golden.js --strict` (a missing golden fails, nothing written) and block layouts on during a golden run; `gate.sh` runs the goldens after the theme rows (`--goldens <free>@<pro>|none`, default main@main): rows `bbgate` (Twenty Twenty-Five, Elementor on) and `bbgate-noel` (Elementor and Elementor Pro off, block layouts only), recorded on bbgate.test. The BuddyBoss theme is not covered (no row).
+- **bbux.test cleanup**: the `bpbtest` member type removed; `bpb_listings` is members 4/2/1; Lucas Moreau's latest update pointed to a deleted test post ("Pro form test ..."), set back to his latest real update.
+
+Tests (2026-11-17, late):
+
+- PHP lint 7.4 and 8.5 on every changed PHP file (main and the 1.x branches of both plugins): 0 errors. No em-dash in the changes.
+- Regressions (`tests/compat/bin/regressions.sh`): bbux (WP 7.1, Elementor 4.4) 372 PASS with Pro (352 before plus 20 new), 260 PASS without Pro (`cards-follow-layout` SKIP); bbmin (WP 6.6, PHP 7.4, Elementor 3.20) 351 PASS with Pro, 260 without (same SKIP). No FAIL.
+- Compat, bbmin, every fixture (`run.js` base 6ce8723@ff076c9, candidate the new commits, `compare.js`): 132/132 identical.
+- e2e `tests/e2e/ux.js` on bbux: 46 PASS, 1 FAIL (`elementorFrontendConfig is not defined`, as before). The e2e run now also snapshots `bpb_listings` and `bpb_cards` (it left bbux members at 3/2/2, the columns mirrored from the assigned Elementor directory); `golden.js` restores them too.
+- Goldens: new rows `bbgate` and `bbgate-noel` on bbgate.test (Twenty Twenty-Five, the new commits): 144/144 written, then 144/144 with `--strict`, each row; bbux row `bbux` 56/56 (Pro presets, incl. 42 card cases now rendered inside a block list layout); bbux row `tt25` (strict): the 88 cases it has, 68 identical and 20 with the members grid class only (members at 3/2/2 during that run, see above); its 56 Pro cases have their golden in row `bbux`. Card cases now render in a block layout of their list (same on every site; on bbgate the cards did not render on the BuddyPress default directory).
+- Browser (Playwright): Import layout (good file, Elementor export, not JSON) and notices on bbux and bbmin; register Preview signed in on bbux and bbmin (200, no redirect, sign-up form, noindex, banner; without or with a bad nonce BuddyPress redirects as before); card line on bbux; script-built screens in the Elementor editor (bbux Elementor 4.4 and bbmin 3.20: manage members, send invites, messages) and the block editor (group creation Invite step); variations group search with and without JavaScript; Creator and every style's member and group header without a cover, block and Elementor, 1300 and 390 px wide: photo not clipped.
+- Notice dismiss over HTTP on bbux: unknown key 400, no nonce 403 (page and AJAX), signed out refused; 1.x on bbmin (free 1.x + Pro 1.x checked out, then restored): 400, 403, dismissed with the nonce; Pro 1.x field visibility with a temporary field (removed after).
+- POTs regenerated (free 856 strings, Pro 1055).
+
+Open: port the kit text domain change to k-elements' `src/Kit`; the register preview shows the admin bar of a signed-in administrator over the sign-up form (by design).
+
 ## 2026-11-17: register, group creation and card presets (task 28, U1, pulled from 2.1 into 2.0)
 
 Decided by Gabriel on 2026-11-17: the "8 more presets" of task 28 and Pro's "card presets for the styles (Design the card)" ship in 2.0. The presets live in BuddyBuilder Pro (the page types are Pro); see the Pro progress of the same day and [styles.md](styles.md#register-group-creation-and-card-presets-buddybuilder-pro).
@@ -132,7 +162,7 @@ Brief: review `Projects/staxwp/docs/2026-11-15-buddybuilder-2-review.md` (vault)
 | Gate | Done | Where |
 |---|---|---|
 | G1 Pro starter kits | 31 templates from the demo.staxwp.com feed (22 BuddyPress Pro, 9 BuddyBoss) as fixtures; feed export by the coordinator, no key needed | `tests/compat/fixtures/kit-*.json`, `bin/import-kit-feed.js` |
-| G2 theme rows | Driver over KLEO 6.2.4, 6.2.7, KLEO 7 (K Elements 7), SweetDate 4.1.7, BuddyApp 2.1.7, Twenty Twenty-Five, Hello Elementor, Astra; base 1.9.2 + Pro 1.7.0, candidates 2.0 + Pro 2.0 and 2.0 + Pro 1.7.0. BuddyBoss theme: not available locally | `tests/compat/bin/gate.sh` |
+| G2 theme rows | Driver over KLEO 6.2.4, 6.2.7, KLEO 7 (K Elements 7), SweetDate 4.1.7, BuddyApp 2.1.7, Twenty Twenty-Five, Hello Elementor, Astra; base 1.9.2 + Pro 1.7.0, candidates 2.0 + Pro 2.0 and 2.0 + Pro 1.7.0. The BuddyBoss theme is not covered (no row). | `tests/compat/bin/gate.sh` |
 | G3 WP 6.6 / PHP 7.4 | Fresh site http://bbmin.test (Herd PHP 7.4, WP 6.6.2, Twenty Twenty-One): full gate row and the fresh install check | `tests/compat/fresh.js` |
 | G4 block layout goldens | Every look and card style as a block layout, visitor and member, HTML goldens + screenshots | `tests/compat/golden.js` |
 | G5 blocks-only classic theme | Fresh install without Elementor on Twenty Twenty-One: setup opens, style applied, five pages render for visitor and member | `tests/compat/fresh.js` |
@@ -161,7 +191,7 @@ Test env fixes found on the way: the activity directory and group activity never
 
 Tests (2026-11-15): PHP lint 7.4 and 8.5 on every changed file (123 checks, 0 errors); regressions 95/95 on bbux; e2e 47/47 (KLEO 6); fresh install ALL PASS on WP 6.6 / PHP 7.4 and on multisite; G8 PASS; gate rows: see the vault inventory 15 entry for the final numbers.
 
-Open for 2.0: the four remaining styles, Elementor versions of the styles (generated from the closest 2.0-dev look today), real photos for screenshots (needs Gabriel's OK to download), composer as our own element (BuddyPress' form, restyled), "Replace with the new element" action for deprecated parts, BuddyBoss theme row, docs.
+Open for 2.0: the four remaining styles, Elementor versions of the styles (generated from the closest 2.0-dev look today), real photos for screenshots (needs Gabriel's OK to download), composer as our own element (BuddyPress' form, restyled), "Replace with the new element" action for deprecated parts, docs. (The BuddyBoss theme is not covered by the gate.)
 
 
 ## 2026-11-13: majors UX (Community pages, setup, previews, checker, help)

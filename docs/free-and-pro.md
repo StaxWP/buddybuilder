@@ -4,7 +4,7 @@ Decided by Gabriel on 2026-11-16. Hard rule: nothing that is free in 1.9.x becom
 
 | | BuddyBuilder (free, wordpress.org) | BuddyBuilder Pro |
 |---|---|---|
-| Page types | Member profile, group, members directory, groups directory, activity; register page in Elementor (as in 1.9) | Block layouts for register, create a group and the cards (2.0) |
+| Page types | Member profile, group, members directory, groups directory, activity (as in 1.9) | Register, create a group and the cards: Elementor as in Pro 1.x (in 1.9 the register page type and its widgets were already Pro), and block layouts (2.0) |
 | Builders | Elementor (as in 1.9) and the block editor | |
 | Elements | All free elements, including Member header, Member about, Group header, Directory header, People list (list and photo grid), Profile tabs, Feed filters, Post composer | Community shortcuts, Group rail, Member list, Highlights rail; the card designer (19 card blocks and widgets); every other Pro widget as a block too (register, create a group, profile field, notifications, messages, tab lists, post form); member Block Bindings (`buddybuilder/member`) |
 | Styles | Classic | Creator, Professional, Social, Network, Career, Hub, and future styles |

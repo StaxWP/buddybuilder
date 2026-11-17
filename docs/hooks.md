@@ -34,7 +34,14 @@
 | `buddy_builder/setup/checks` | Setup checks. |
 | `buddy_builder/upsell/enabled` | Pro badges, Pro links and the Pro notice in the free plugin (default: on while BuddyBuilder Pro is not active). |
 | `buddy_builder/upsell/features` | The Pro features shown in the free plugin (`id => [ title, text, elementor? ]`). |
-| `buddy_builder/layout/export` | Data of a layout export from Community pages > More > Export (`$data`, `$post`). Elementor templates use Elementor's template format. |
+| `buddy_builder/layout/export` | Data of a layout export from Community pages > More > Export (`$data`, `$post`). Elementor templates use Elementor's template format. Block layout exports come back with Community pages > Import layout (2026-11-17). |
+| `buddy_builder/notices/dismissible` | Notice ids (user meta keys) the notice dismiss request (`bpb_admin_notice_viewed`) may set; default `bpb_rate_us`. The request also needs the notice's nonce (`Notices::dismiss_url()`, or `data-nonce` for the AJAX request). |
+
+## Element kit
+
+| Key | |
+|---|---|
+| `textdomain` in `element.json` | Text domain of the element's strings (title, description, setting labels and help, option labels, keywords, variation titles), as in `block.json`. Elements another plugin adds through `buddy_builder_kit_elements` set it (BuddyBuilder Pro sets `stax-buddy-builder-pro`); without it, BuddyBuilder's domain. `php bin/element-strings.php --root <plugin> --domain <domain> --package <name>` writes that plugin's `src/Elements/strings.php` for its POT. The kit change (`Element::t()`, `Kit::t( $text, $domain )`) still has to go upstream to k-elements' `src/Kit` before the next `bin/sync-kit.sh`. |
 
 ## Deprecated in 2.0
 
@@ -55,6 +62,7 @@
 | `buddy_builder/setup/after_looks` | After the setup's look step. |
 | `buddy_builder/community_pages/after_row` | Extra content after a row of Community pages (`$type`, `$row`; BuddyBuilder Pro prints the variations of the page and of its item layouts). |
 | `buddy_builder/layout/duplicated` | A layout was duplicated from Community pages (`$copy` draft id, `$id` original). |
+| `buddy_builder/layout/imported` | A block layout export was imported from Community pages (`$id` new draft, `$data` export data). |
 
 ## Events (JavaScript)
 
