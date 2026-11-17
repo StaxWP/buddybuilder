@@ -7,7 +7,7 @@ Branch `main` (the 2.0 line since 2026-11-15; 1.x fixes go to `1.x`). Not releas
 - `Dispatcher::render_item()`: when `buddy_builder/template/resolve` returns another layout post for a loop item (a BuddyBuilder Pro variation for the card's member, group or author, a look preview), that layout renders, also when the assigned item layout is Elementor: an Elementor layout through the same 1.x `[elementor-template]` shortcode path, a block layout through the parsed block path. Before, an assigned Elementor item layout always rendered its own shortcode and the filter was not asked. Unchanged when the filter returns the assigned layout or block markup (`content`), and when the loop's item string was filtered to a layout of its own (the Pro listing widgets' template setting, 1.x code), so those and the style fallback behave as before. No new strings; no variation UI in the free plugin.
 - `docs/hooks.md`: the resolve filter and `community_pages/after_row` rows describe what Pro does with them.
 
-Tests: PHP lint 7.4 and 8.5; regressions bbux 170/170 with Pro, 168/169 without (`cards-follow-layout`, known); bbmin: see the Pro `docs/progress.md` of the same day for the numbers; Pro `tests/variations-test.php` case "Elementor card: the variation for its member, the main card for others".
+Tests: PHP lint 7.4 and 8.5; regressions bbux 170/170 with Pro, 168/169 without; bbmin 144/144 with Pro, 143/144 without (`cards-follow-layout`, known); Pro `tests/variations-test.php` case "Elementor card: the variation for its member, the main card for others".
 
 ## 2026-11-17: More menu, element list per page, uninstall (pulled from 2.1 into 2.0)
 
