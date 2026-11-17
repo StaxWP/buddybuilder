@@ -28,6 +28,7 @@ else
 	echo "SKIP preview-buddyboss: BuddyBoss Platform not installed on this site"
 fi
 run eval-file "$TEST" sample-member-hidden
+run eval-file "$TEST" sample-member-preview
 for v in self friend member guest ''; do
 	run eval-file "$TEST" preview-seen-by "$v"
 done
@@ -43,6 +44,7 @@ run eval-file "$TEST" element-settings
 run eval-file "$TEST" elementor-basic-controls
 run eval-file "$TEST" layout-import
 run eval-file "$TEST" notice-dismiss
+run eval-file "$TEST" upsell-delay
 run eval-file "$TEST" card-line
 if [ -n "${BPB_BUDDYBOSS_PLUGIN:-}" ]; then
 	run --require="$HERE/env/buddyboss.php" eval-file "$TEST" checker-readylaunch

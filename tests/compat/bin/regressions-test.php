@@ -19,8 +19,10 @@
  *                               Platform installed; also passes on BuddyPress).
  * - sample-member-hidden        BB-7: the sample member and its friends stay out of member queries, counts and
  *                               activity; remove() deletes them.
- * - preview-seen-by <viewer>    Majors UX B-M3: member preview seen by self|friend|member|guest|'' (buttons follow,
- *                               the real user is back after the request).
+ * - preview-seen-by <viewer>    Majors UX B-M3: member preview seen by self|friend|member|guest|'' (buttons and
+ *                               owner-only profile tabs follow, the real user is back after the request).
+ * - sample-member-preview       Previews show and count the sample member's own (sitewide-hidden) activity.
+ * - upsell-delay                The Pro notice waits 7 days after the first live layout (or the 1.x milestone).
  * - community-pages-read-only   B-M1: rendering Community pages writes nothing; rows show the assignments.
  * - checker-known-issues        B-M4: page template finding; last finding kept and forgotten.
  * - setup-new-install           B-M2: the setup redirect is asked for on new installs only.
@@ -379,6 +381,127 @@ switch ( $bpb_case ) {
 		}
 		foreach ( isset( $bpb_expect[ $bpb_viewer ]['none'] ) ? $bpb_expect[ $bpb_viewer ]['none'] : [] as $bpb_needle ) {
 			$bpb_ok( false === strpos( $bpb_html, $bpb_needle ), $bpb_viewer . ': no ' . $bpb_needle );
+		}
+
+		// The profile tabs follow the viewer as on the front end: owner-only tabs for you (an administrator) and the
+		// member only.
+		$bpb_request = new WP_REST_Request( 'GET', '/wp/v2/block-renderer/buddybuilder/profile-tabs' );
+		$bpb_request->set_query_params(
+			[
+				'context' => 'edit',
+				'post_id' => $bpb_id,
+			]
+		);
+		$bpb_response = rest_do_request( $bpb_request );
+		$bpb_html     = isset( $bpb_response->get_data()['rendered'] ) ? $bpb_response->get_data()['rendered'] : '';
+		$bpb_owner    = in_array( $bpb_viewer, [ '', 'self' ], true );
+		$bpb_ok( false !== strpos( $bpb_html, 'xprofile-personal-li' ), $bpb_viewer . ': profile tabs rendered' );
+		foreach ( [ 'notifications', 'messages', 'settings' ] as $bpb_tab ) {
+			if ( bp_is_active( $bpb_tab ) ) {
+				$bpb_ok( $bpb_owner === ( false !== strpos( $bpb_html, $bpb_tab . '-personal-li' ) ), $bpb_viewer . ': ' . $bpb_tab . ' tab ' . ( $bpb_owner ? 'shown' : 'hidden' ) );
+			}
+		}
+		break;
+
+	case 'sample-member-preview':
+		// Previews show the sample member's own activity and count it (create() hides it sitewide); other hidden
+		// items stay hidden. The real site is covered by sample-member-hidden.
+		if ( ! bp_is_active( 'activity' ) ) {
+			$bpb_skip( 'needs the Activity component' );
+			break;
+		}
+		$bpb_sample = \Buddy_Builder\Templates\SampleMember::class;
+		$bpb_made   = ! $bpb_sample::user_id();
+		$bpb_user   = $bpb_sample::create();
+		$bpb_id     = $bpb_block_layout( 'member-profile' );
+
+		if ( ! defined( 'REST_REQUEST' ) ) {
+			define( 'REST_REQUEST', true );
+		}
+		$_GET['post_id'] = $bpb_id;
+		$bpb_ok( \Buddy_Builder\Templates\PreviewContext::is_preview(), 'preview context' );
+
+		$bpb_updates = [
+			'filter'      => [
+				'user_id' => $bpb_user,
+				'action'  => 'activity_update',
+			],
+			'count_total' => true,
+		];
+		$bpb_stream  = bp_activity_get( $bpb_updates );
+		$bpb_ok( 5 <= (int) $bpb_stream['total'], 'their updates are counted (' . (int) $bpb_stream['total'] . ')' );
+		$bpb_stream = bp_activity_get( array_merge( $bpb_updates, [ 'scope' => 'just-me' ] ) );
+		$bpb_ok( 5 <= (int) $bpb_stream['total'], 'their profile stream (just-me scope) shows them (' . (int) $bpb_stream['total'] . ')' );
+
+		$bpb_hidden = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}bp_activity WHERE hide_sitewide = 1 AND user_id NOT IN (" . implode( ',', array_map( 'intval', array_merge( [ $bpb_user ], $bpb_sample::data()['friends'] ) ) ) . ')' ); // phpcs:ignore WordPress.DB
+		$bpb_all    = bp_activity_get( [ 'per_page' => 0, 'count_total' => true ] );
+		$bpb_ok( ! array_filter( (array) $bpb_all['activities'], static function ( $a ) use ( $bpb_sample, $bpb_user ) {
+			return (int) $a->hide_sitewide && ! in_array( (int) $a->user_id, array_map( 'intval', array_merge( [ $bpb_user ], $bpb_sample::data()['friends'] ) ), true );
+		} ), 'other hidden items stay hidden (' . $bpb_hidden . ' on the site)' );
+
+		if ( $bpb_made ) {
+			$bpb_sample::remove();
+		}
+		break;
+
+	case 'upsell-delay':
+		// The Pro notice waits DELAY_DAYS after the first live layout (sites from 1.x: after the milestone is first
+		// reached), admins on BuddyBuilder screens only, dismissible for good, never with Pro active.
+		$bpb_upsell = \Buddy_Builder\Upsell\Upsell::class;
+		if ( $bpb_upsell::pages_built() < $bpb_upsell::MILESTONE ) {
+			$bpb_skip( 'needs ' . $bpb_upsell::MILESTONE . ' community pages built with BuddyBuilder' );
+			break;
+		}
+		$bpb_since_saved = get_option( $bpb_upsell::SINCE_OPTION, null );
+		$bpb_dismissed   = get_user_meta( get_current_user_id(), $bpb_upsell::DISMISSED_META, true );
+		delete_user_meta( get_current_user_id(), $bpb_upsell::DISMISSED_META );
+		add_filter( 'buddy_builder/upsell/enabled', '__return_true' );
+		$_GET['page'] = BPB_ADMIN_PREFIX . 'community-pages';
+
+		delete_option( $bpb_upsell::SINCE_OPTION );
+		$bpb_ok( ! $bpb_upsell::notice_due(), 'updated from 1.x (no time stored): not shown when the milestone is first reached' );
+		$bpb_ok( abs( (int) get_option( $bpb_upsell::SINCE_OPTION ) - time() ) < 60, 'the delay starts then' );
+
+		delete_option( $bpb_upsell::SINCE_OPTION );
+		do_action( 'buddy_builder/registry/changed', 'member-profile', [], [ 'builder' => 'blocks', 'id' => 1 ] );
+		$bpb_first = (int) get_option( $bpb_upsell::SINCE_OPTION );
+		$bpb_ok( abs( $bpb_first - time() ) < 60, 'the first live layout stores the time' );
+		update_option( $bpb_upsell::SINCE_OPTION, $bpb_first - 100, false );
+		do_action( 'buddy_builder/registry/changed', 'member-profile', [], [ 'builder' => 'blocks', 'id' => 1 ] );
+		$bpb_ok( $bpb_first - 100 === (int) get_option( $bpb_upsell::SINCE_OPTION ), 'later layouts keep the first time' );
+		$bpb_ok( ! $bpb_upsell::notice_due(), 'not shown right after the setup' );
+
+		update_option( $bpb_upsell::SINCE_OPTION, time() - ( $bpb_upsell::DELAY_DAYS - 1 ) * DAY_IN_SECONDS, false );
+		$bpb_ok( ! $bpb_upsell::notice_due(), 'not shown after ' . ( $bpb_upsell::DELAY_DAYS - 1 ) . ' days' );
+		update_option( $bpb_upsell::SINCE_OPTION, time() - $bpb_upsell::DELAY_DAYS * DAY_IN_SECONDS - 60, false );
+		$bpb_ok( $bpb_upsell::notice_due(), 'shown after ' . $bpb_upsell::DELAY_DAYS . ' days' );
+
+		$_GET['page'] = 'plugins';
+		$bpb_ok( ! $bpb_upsell::notice_due(), 'BuddyBuilder screens only' );
+		$_GET['page'] = BPB_ADMIN_PREFIX . 'community-pages';
+		update_user_meta( get_current_user_id(), $bpb_upsell::DISMISSED_META, 1 );
+		$bpb_ok( ! $bpb_upsell::notice_due(), 'dismissed for good' );
+		delete_user_meta( get_current_user_id(), $bpb_upsell::DISMISSED_META );
+		remove_filter( 'buddy_builder/upsell/enabled', '__return_true' );
+		add_filter( 'buddy_builder/upsell/enabled', '__return_false' );
+		$bpb_ok( ! $bpb_upsell::notice_due(), 'never with Pro active' );
+		remove_filter( 'buddy_builder/upsell/enabled', '__return_false' );
+		$bpb_sub = get_users( [ 'role' => 'subscriber', 'number' => 1, 'fields' => 'ID' ] );
+		if ( $bpb_sub ) {
+			$bpb_admin_id = get_current_user_id();
+			wp_set_current_user( (int) $bpb_sub[0] );
+			add_filter( 'buddy_builder/upsell/enabled', '__return_true' );
+			$bpb_ok( ! $bpb_upsell::notice_due(), 'administrators only' );
+			wp_set_current_user( $bpb_admin_id );
+		}
+
+		if ( null === $bpb_since_saved ) {
+			delete_option( $bpb_upsell::SINCE_OPTION );
+		} else {
+			update_option( $bpb_upsell::SINCE_OPTION, $bpb_since_saved, false );
+		}
+		if ( $bpb_dismissed ) {
+			update_user_meta( get_current_user_id(), $bpb_upsell::DISMISSED_META, $bpb_dismissed );
 		}
 		break;
 
