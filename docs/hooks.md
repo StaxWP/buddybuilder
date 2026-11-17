@@ -50,6 +50,7 @@
 | `buddy_builder/cards/item_top` | Markup at the top of a members or groups loop item for the current card style. |
 | `buddy_builder/composer/fields` | Extra fields in the post composer. See [composer.md](composer.md). |
 | `buddy_builder/preset_applied` | A preset or style page was applied (`$id`, `$post_id`, `$builder`). |
+| `buddy_builder/looks/enqueued` | A style's stylesheet was enqueued (`$style`; BuddyBuilder Pro adds the rules of its register, group creation and card presets). |
 | `buddy_builder/registry/changed` | Layout assignments changed. |
 | `buddy_builder/setup/after_looks` | After the setup's look step. |
 | `buddy_builder/community_pages/after_row` | Extra content after a row of Community pages (`$type`, `$row`; BuddyBuilder Pro prints the variations of the page and of its item layouts). |

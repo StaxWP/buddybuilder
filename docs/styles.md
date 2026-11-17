@@ -29,6 +29,28 @@ The builder of the site decides which version is created:
 - **Blocks**: the style's pattern (`patterns/<style>/<page>.html` in the plugin that registers the style) as a `bpb_template` layout. The page wrapper carries `bpb-look bpb-look--<style> bpb-page--<page>`; the style's stylesheet loads in the head.
 - **Elementor**: the same pattern turned into an Elementor template: sections and columns with the same classes and widths, a card group as an inner section, every element as its widget (1.x widget names where the element has one, `bpb-el-<element>` for 2.0 elements) with the same settings. The look classes sit on the Elementor document wrapper (meta `_bpb_look`), and the style's stylesheet loads in the head after Elementor's.
 
+## Register, group creation and card presets (BuddyBuilder Pro)
+
+BuddyBuilder Pro adds presets for its page types to every style (`<style>-register-page`, `<style>-groups-create`, `<style>-members-directory-item`, `<style>-groups-directory-item`, `<style>-sitewide-activity-item`; Pro `src/Presets.php`), 35 in all. A style picks one arrangement per page; its tokens give the look, so one arrangement looks like Career in Career and like Hub in Hub. The arrangements' rules are in Pro `assets/css/looks/items.css`, loaded with any style stylesheet (action `buddy_builder/looks/enqueued`).
+
+| Style | Register | Create a group | Member card | Group card | Activity item |
+|---|---|---|---|---|---|
+| Classic | Centered card | Centered card, steps as pills | Classic (centered photo) | Classic | Classic (photo column) |
+| Creator | Centered card | Centered card, steps as pills | Cover band | Cover band | Post card |
+| Professional | Welcome on the side, form card | Steps listed on the side | Compact (photo next to text) | Compact | Post card |
+| Social | Form, welcome and "Already here" photo grid | Centered card, steps as pills | Compact | Compact | Post card |
+| Network | Form, welcome and "Already here" photo grid | Steps listed on the side | Cover band | Cover band | Post card |
+| Career | Sticky welcome card, form as section cards | Steps listed on the side | Compact | Compact | Post card |
+| Hub (dark) | Centered card | Centered card, steps as pills | Compact | Compact | Message row (buttons on hover) |
+
+Where they show:
+
+- **Community pages**: Change look (Pick a look) on the Register and Create a group rows; on the Member card, Group card and Activity item rows, "Design the card" (Change card once a card layout is assigned): the card layout is its own page (review decision 3) and starts from the style's card instead of a blank layout. Preview opens the real page (the directory for cards); the register page has no preview for signed-in administrators (BuddyPress sends them away from it).
+- **Setup**: Register and Create a group are set with the style ("Customize per page" lists them). Cards stay out of the setup: a card layout replaces the card style of every list.
+- **Block editor**: block patterns (category BuddyBuilder) in layouts of those page types; **Variations**: "Add a variation from a look" offers them.
+- **Elementor**: the same patterns turned into Elementor templates (look classes on the document wrapper, every element its 1.x Pro widget).
+- **Thumbnails**: Pro `assets/img/presets/<preset>.webp`, made by `bin/capture-looks.js --pro` (sample community media only, all drawn by `bin/sample-media.js`). A preset's `thumb` (image URL) is used by `Preview::thumb()`.
+
 ## Card styles
 
 Member, group and activity lists have a card style: Classic in BuddyBuilder; BuddyBuilder Pro adds Compact and Cover (members and groups) and Compact, Boxed and Post (activity). Without Pro, a Pro card style renders as Classic. A style sets them in its pattern (`"card"` on the list block, the `card` control on the widget). The choice is stored with the layout it belongs to (option `bpb_cards`) and applies only while that layout is assigned, so AJAX loads (filters, load more) keep the same cards.

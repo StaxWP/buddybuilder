@@ -2,6 +2,30 @@
 
 Branch `main` (the 2.0 line since 2026-11-15; 1.x fixes go to `1.x`). Not released.
 
+## 2026-11-17: register, group creation and card presets (task 28, U1, pulled from 2.1 into 2.0)
+
+Decided by Gabriel on 2026-11-17: the "8 more presets" of task 28 and Pro's "card presets for the styles (Design the card)" ship in 2.0. The presets live in BuddyBuilder Pro (the page types are Pro); see the Pro progress of the same day and [styles.md](styles.md#register-group-creation-and-card-presets-buddybuilder-pro).
+
+Free side:
+
+- **Community pages**: the item rows (Member card, Group card, Activity item, Create a group) get the look picker (small button, the item named for screen readers; the More menu stays). Cards: "Design the card" / "Change card" with their own intro. The register row has no Preview (BuddyPress sends signed-in administrators away from the sign-up page).
+- **Setup**: card types stay out of the setup (a card layout replaces the card style of every list); register and group creation join the style choice and "Customize per page" as soon as they have looks.
+- **Thumbnails**: `Preview::thumb()` takes a preset's `thumb` image URL (Pro ships its own).
+- **Styles of item layouts**: a BuddyPress page loads the style stylesheets of the card layouts that render on it (`Assets::entry_looks()`, page and item layouts, block markup or the `_bpb_look` meta), in the head; new action `buddy_builder/looks/enqueued` after a style's stylesheet. The block editor canvas loads the styles of the layout being edited.
+- **Group creation** is a current page type (`Current::type()` returns `groups-create`, so its layout's style loads in the head and the admin bar shows it), has a preview URL, and `Types::component()` knows the Pro types (group creation and group card need Groups, activity item needs Activity).
+- **Tools**: `bin/capture-looks.js --pro` captures the Pro presets' thumbnails (temporary layouts, compat cookie, the register page signed out); `tests/compat/golden.js` renders the Pro page presets as they are applied (cards: the first card of the list) with the viewers of `VARIANTS` (register signed out, group creation signed in). New golden row `bbux` (Twenty Twenty-Five, Elementor 4.4, on bbux.test).
+
+Tests (2026-11-17):
+
+- PHP lint 7.4 and 8.5 on every changed PHP file: 0 errors.
+- Goldens (`golden.js --row bbux`, the 35 Pro page presets, 56 cases): written, then 56/56 again with the pixel check against the first run.
+- Regressions (`tests/compat/bin/regressions.sh`): bbux with Pro 352 PASS, 0 FAIL; bbux without Pro 261 PASS, 1 FAIL (`cards-follow-layout`, known); bbmin (WP 6.6, PHP 7.4, Elementor 3.20, Twenty Twenty-One) with Pro 331 PASS, 0 FAIL; without Pro 241 PASS, 1 FAIL (same). Without Pro means `--skip-plugins` for the run.
+- Apply (Community pages handler, both builders, 4 presets, assignment, style and preset of the layout; setup types and style looks; block patterns registered): 27/27 on bbux and bbmin, assignments restored after.
+- Browser: every preset on the front end in both builders on bbux and bbmin (70 + 70 pages, no notices, no JavaScript errors besides Elementor 4.4's known `elementorFrontendConfig`); the 35 block layouts open in the block editor with no invalid blocks; 4 Elementor layouts open in the Elementor editor; Community pages pickers on bbux and bbmin.
+- POT regenerated.
+
+Open: the golden row `bbux` runs on bbux.test only (not on the gate site bbgate, no row without Elementor); bbux `bpb_listings` was found at members 3/2/2 at the end of the day and set back to 4/2/1.
+
 ## 2026-11-17: Elementor basic settings and real editor previews (tasks 26 and 27, pulled from 2.1 into 2.0)
 
 Decided by Gabriel on 2026-11-17 (inventory U3, U4, F15).
