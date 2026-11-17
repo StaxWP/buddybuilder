@@ -37,6 +37,9 @@ run eval-file "$TEST" setup-new-install
 run eval-file "$TEST" checker-readylaunch
 run eval-file "$TEST" change-look-undo
 run eval-file "$TEST" cards-follow-layout
+run eval-file "$TEST" layout-actions
+run $NO_ELEMENTOR eval-file "$TEST" layout-actions
+run eval-file "$TEST" element-settings
 if [ -n "${BPB_BUDDYBOSS_PLUGIN:-}" ]; then
 	run --require="$HERE/env/buddyboss.php" eval-file "$TEST" checker-readylaunch
 fi

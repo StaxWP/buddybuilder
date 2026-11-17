@@ -28,6 +28,10 @@
  * - cards-follow-layout         Card styles apply only with the layout they were saved from.
  * - change-look-undo            Review W6: each look has a Preview of the real page and a confirm step; using a look
  *                               can be undone once (the previous layout is live again, the new one is kept).
+ * - layout-actions              B-L4: More menu Duplicate, History, Export, Delete (trash, default shows, Undo
+ *                               restores the layout and the assignment), block layouts and Elementor templates.
+ * - element-settings            U3: every element shows 1 to 4 basic settings, the rest under More settings; the
+ *                               block editor gets the page types of every element (inserter order per page).
  *
  * THROWAWAY site only (needs the compat env mu-plugin). Restores the options it touches and deletes the posts it
  * creates. Prints PASS / FAIL / SKIP lines; exits 1 on any FAIL.
@@ -64,6 +68,7 @@ foreach ( $bpb_options as $bpb_name ) {
 	$bpb_saved[ $bpb_name ] = get_option( $bpb_name, null );
 }
 $bpb_created = [];
+global $wpdb;
 
 $bpb_admin = get_users(
 	[
@@ -507,8 +512,100 @@ switch ( $bpb_case ) {
 		null === $bpb_saved_cards ? delete_option( \Buddy_Builder\Templates\Cards::OPTION ) : update_option( \Buddy_Builder\Templates\Cards::OPTION, $bpb_saved_cards );
 		break;
 
+	case 'layout-actions':
+		// B-L4: the layout part of the More menu, for both builders.
+		update_option( 'bpb_blocks_enabled', '1' );
+		$bpb_type   = 'member-profile';
+		$bpb_layout = $bpb_block_layout( $bpb_type );
+		update_post_meta( $bpb_layout, '_bpb_look', 'bpb-look bpb-look--classic' );
+		Registry::set( $bpb_type, Registry::BLOCKS, $bpb_layout );
+		Registry::flush();
+
+		ob_start();
+		\Buddy_Builder\Admin\CommunityPages::render();
+		$bpb_html = ob_get_clean();
+		foreach ( [ 'duplicate', 'export', 'delete' ] as $bpb_do ) {
+			$bpb_ok( false !== strpos( $bpb_html, 'name="do" value="' . $bpb_do . '"' ), 'More menu has ' . $bpb_do . ' (admin-post form)' );
+		}
+		$bpb_ok( false !== strpos( $bpb_html, 'class="bpb-more__confirm"' ), 'Delete asks for a confirmation first' );
+
+		$bpb_ok( \Buddy_Builder\Admin\CommunityPages::apply( $bpb_type, 'duplicate', [ 'layout' => $bpb_layout ] ), 'duplicate runs' );
+		$bpb_copy = (int) $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_type = %s AND post_title = %s ORDER BY ID DESC LIMIT 1", PostType::POST_TYPE, get_the_title( $bpb_layout ) . ' (copy)' ) ); // phpcs:ignore WordPress.DB
+		$bpb_created[] = $bpb_copy;
+		$bpb_ok( $bpb_copy && 'draft' === get_post_status( $bpb_copy ), 'the copy is a draft' );
+		$bpb_ok( $bpb_copy && get_post( $bpb_copy )->post_content === get_post( $bpb_layout )->post_content, 'the copy has the same blocks' );
+		$bpb_ok( $bpb_copy && $bpb_type === get_post_meta( $bpb_copy, PostType::META_TYPE, true ) && 'bpb-look bpb-look--classic' === get_post_meta( $bpb_copy, '_bpb_look', true ), 'the copy keeps the page type and the look' );
+		$bpb_ok( Registry::get( $bpb_type )['id'] === $bpb_layout, 'the copy is not assigned' );
+
+		$bpb_ok( '' === \Buddy_Builder\Admin\LayoutActions::history_url( $bpb_layout ), 'History: no revision yet, no link' );
+		wp_update_post( [ 'ID' => $bpb_layout, 'post_content' => get_post( $bpb_layout )->post_content . "\n<!-- wp:paragraph --><p>x</p><!-- /wp:paragraph -->" ] );
+		$bpb_ok( false !== strpos( \Buddy_Builder\Admin\LayoutActions::history_url( $bpb_layout ), 'revision.php?revision=' ), 'History links to the revisions screen after an edit' );
+
+		$bpb_file = \Buddy_Builder\Admin\LayoutActions::export( $bpb_layout );
+		$bpb_ok( ! is_wp_error( $bpb_file ) && 'buddybuilder-layout' === $bpb_file['data']['format'] && $bpb_type === $bpb_file['data']['type'] && get_post( $bpb_layout )->post_content === $bpb_file['data']['content'], 'Export: format, page type and content' );
+		$bpb_ok( ! is_wp_error( $bpb_file ) && ! isset( $bpb_file['data']['meta'][ PostType::META_USER ] ) && isset( $bpb_file['data']['meta']['_bpb_look'] ), 'Export: look meta, no preview member' );
+
+		$bpb_ok( \Buddy_Builder\Admin\CommunityPages::apply( $bpb_type, 'delete', [ 'layout' => $bpb_layout ] ), 'delete runs' );
+		$bpb_ok( 'trash' === get_post_status( $bpb_layout ), 'the layout is in the trash' );
+		$bpb_ok( 0 === Registry::get( $bpb_type )['id'], 'the page shows the BuddyPress default' );
+		$bpb_ok( ! \Buddy_Builder\Admin\CommunityPages::apply( $bpb_type, 'delete', [ 'layout' => $bpb_layout ] ), 'a trashed layout is not deleted twice' );
+		$bpb_ok( \Buddy_Builder\Admin\CommunityPages::apply( $bpb_type, 'undo' ), 'Undo runs' );
+		$bpb_ok( 'publish' === get_post_status( $bpb_layout ), 'Undo restores the layout as published' );
+		$bpb_ok( Registry::get( $bpb_type )['id'] === $bpb_layout, 'Undo gives the layout back to the page' );
+		$bpb_ok( ! \Buddy_Builder\Admin\CommunityPages::apply( $bpb_type, 'delete', [ 'layout' => (int) get_option( 'page_on_front' ) ?: 1 ] ), 'a post that is not a layout is refused' );
+
+		wp_set_current_user( 0 );
+		$bpb_ok( ! \Buddy_Builder\Admin\CommunityPages::apply( $bpb_type, 'duplicate', [ 'layout' => $bpb_layout ] ) && ! \Buddy_Builder\Admin\CommunityPages::apply( $bpb_type, 'delete', [ 'layout' => $bpb_layout ] ), 'without the capability nothing runs' );
+		wp_set_current_user( $bpb_admin ? (int) $bpb_admin[0] : 0 );
+
+		if ( ! did_action( 'elementor/loaded' ) ) {
+			$bpb_skip( 'Elementor part: needs Elementor active' );
+			break;
+		}
+
+		$bpb_el = wp_insert_post( [ 'post_type' => 'elementor_library', 'post_status' => 'publish', 'post_title' => 'Regression Elementor', 'meta_input' => [ '_elementor_template_type' => 'bpb-buddypress', '_bpb_page' => $bpb_type, '_elementor_edit_mode' => 'builder', '_bpb_look' => 'bpb-look bpb-look--classic', '_elementor_data' => wp_slash( wp_json_encode( [ [ 'id' => 'a1b2c3d', 'elType' => 'widget', 'widgetType' => 'heading', 'settings' => [ 'title' => 'Quote " and \\ slash' ], 'elements' => [] ] ] ) ) ] ] );
+		$bpb_created[] = (int) $bpb_el;
+		wp_set_object_terms( $bpb_el, 'bpb-buddypress', 'elementor_library_type' );
+		Registry::set( $bpb_type, Registry::ELEMENTOR, $bpb_el );
+		Registry::flush();
+		$bpb_ok( \Buddy_Builder\Admin\CommunityPages::apply( $bpb_type, 'duplicate', [ 'layout' => $bpb_el ] ), 'Elementor: duplicate runs' );
+		$bpb_ecopy = (int) $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_type = 'elementor_library' AND post_title = %s ORDER BY ID DESC LIMIT 1", 'Regression Elementor (copy)' ) ); // phpcs:ignore WordPress.DB
+		$bpb_created[] = $bpb_ecopy;
+		$bpb_ok( $bpb_ecopy && get_post_meta( $bpb_ecopy, '_elementor_data', true ) === get_post_meta( $bpb_el, '_elementor_data', true ), 'Elementor: the copy has the same data (slashes kept)' );
+		$bpb_ok( $bpb_ecopy && 'bpb-look bpb-look--classic' === get_post_meta( $bpb_ecopy, '_bpb_look', true ) && $bpb_type === get_post_meta( $bpb_ecopy, '_bpb_page', true ), 'Elementor: the copy keeps the look and the page' );
+		$bpb_ok( $bpb_ecopy && has_term( 'bpb-buddypress', 'elementor_library_type', $bpb_ecopy ), 'Elementor: the copy keeps the template type term' );
+		$bpb_ok( false !== strpos( \Buddy_Builder\Admin\LayoutActions::history_url( $bpb_el ), 'action=elementor&bpb_history=1' ), 'Elementor: History opens Elementor revisions' );
+		$bpb_file = \Buddy_Builder\Admin\LayoutActions::export( $bpb_el );
+		$bpb_ok( ! is_wp_error( $bpb_file ) && isset( $bpb_file['data']['content'], $bpb_file['data']['page_settings'], $bpb_file['data']['version'] ) && 'bpb-buddypress' === $bpb_file['data']['type'], 'Elementor: export in Elementor\'s format' );
+		$bpb_ok( \Buddy_Builder\Admin\CommunityPages::apply( $bpb_type, 'delete', [ 'layout' => $bpb_el ] ) && 0 === Registry::get( $bpb_type )['id'], 'Elementor: delete, the page shows the default' );
+		$bpb_ok( \Buddy_Builder\Admin\CommunityPages::apply( $bpb_type, 'undo' ) && 'publish' === get_post_status( $bpb_el ) && Registry::get( $bpb_type )['id'] === $bpb_el, 'Elementor: Undo restores it' );
+		break;
+
+	case 'element-settings':
+		// U3: 1 to 4 basic settings per element (deprecated parts are not offered, they keep what they had).
+		foreach ( \Buddy_Builder\Elements\Elements::kit()->elements() as $bpb_element ) {
+			$bpb_schema = $bpb_element->schema();
+			if ( ! empty( $bpb_schema['deprecated'] ) ) {
+				continue;
+			}
+			$bpb_basic = 0;
+			foreach ( $bpb_element->editor_definition()['controls'] as $bpb_control ) {
+				$bpb_basic += 'basic' === $bpb_control['panel'] ? 1 : 0;
+			}
+			if ( 0 !== strpos( wp_normalize_path( $bpb_element->dir() ), wp_normalize_path( BPB_BASE_PATH ) ) ) {
+				// Elements of other plugins (BuddyBuilder Pro): reported, checked in their own repo.
+				$bpb_basic > 4 && $bpb_skip( $bpb_element->name() . ' (not in this plugin): ' . $bpb_basic . ' basic settings' );
+				continue;
+			}
+			$bpb_ok( $bpb_basic <= 4, $bpb_element->name() . ': ' . $bpb_basic . ' basic settings' );
+		}
+		$bpb_types = \Buddy_Builder\Elements\Elements::page_types();
+		$bpb_ok( isset( $bpb_types['buddybuilder/member-header'] ) && [ 'member-profile' ] === $bpb_types['buddybuilder/member-header'], 'page types of the elements for the inserter' );
+		$bpb_ok( isset( $bpb_types['buddybuilder/people-rail'] ) && [] === $bpb_types['buddybuilder/people-rail'], 'elements for any page have no page type' );
+		break;
+
 	default:
-		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install, checker-readylaunch, change-look-undo, cards-follow-layout' );
+		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install, checker-readylaunch, change-look-undo, cards-follow-layout, layout-actions, element-settings' );
 }
 
 // Cleanup.
