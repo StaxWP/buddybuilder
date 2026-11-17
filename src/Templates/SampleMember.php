@@ -94,29 +94,6 @@ final class SampleMember {
 
 		$data['user'] = $user_id;
 
-		$updates = [
-			__( 'Just joined the community. Happy to be here!', 'stax-buddy-builder' ),
-			__( 'Working on a new project this week, more soon.', 'stax-buddy-builder' ),
-			__( 'Thanks everyone for the warm welcome.', 'stax-buddy-builder' ),
-			__( 'Looking for recommendations: what should I read next?', 'stax-buddy-builder' ),
-			__( 'Great meetup yesterday, see you at the next one.', 'stax-buddy-builder' ),
-		];
-
-		if ( bp_is_active( 'activity' ) ) {
-			foreach ( $updates as $content ) {
-				$activity_id = bp_activity_post_update(
-					[
-						'content' => $content,
-						'user_id' => $user_id,
-					]
-				);
-
-				if ( $activity_id ) {
-					$data['activities'][] = (int) $activity_id;
-				}
-			}
-		}
-
 		if ( bp_is_active( 'friends' ) ) {
 			foreach ( [ 'Maria Sample', 'Sam Sample', 'Ioana Sample' ] as $i => $name ) {
 				$friend_id = self::create_user( 'bpb-sample-friend-' . ( $i + 1 ), $name );
@@ -147,6 +124,30 @@ final class SampleMember {
 					foreach ( $data['friends'] as $friend_id ) {
 						groups_join_group( $group_id, $friend_id );
 					}
+				}
+			}
+		}
+
+		// Updates last: they are the newest items, so the sample's stream starts with its posts.
+		$updates = [
+			__( 'Just joined the community. Happy to be here!', 'stax-buddy-builder' ),
+			__( 'Working on a new project this week, more soon.', 'stax-buddy-builder' ),
+			__( 'Thanks everyone for the warm welcome.', 'stax-buddy-builder' ),
+			__( 'Looking for recommendations: what should I read next?', 'stax-buddy-builder' ),
+			__( 'Great meetup yesterday, see you at the next one.', 'stax-buddy-builder' ),
+		];
+
+		if ( bp_is_active( 'activity' ) ) {
+			foreach ( $updates as $content ) {
+				$activity_id = bp_activity_post_update(
+					[
+						'content' => $content,
+						'user_id' => $user_id,
+					]
+				);
+
+				if ( $activity_id ) {
+					$data['activities'][] = (int) $activity_id;
 				}
 			}
 		}
