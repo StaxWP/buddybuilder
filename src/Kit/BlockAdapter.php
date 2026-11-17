@@ -47,11 +47,11 @@ final class BlockAdapter {
 		$args = array(
 			'api_version'           => 3,
 			'title'                 => $element->title(),
-			'description'           => isset( $schema['description'] ) ? $kit->t( $schema['description'] ) : '',
+			'description'           => isset( $schema['description'] ) ? $element->t( $schema['description'] ) : '',
 			'category'              => isset( $schema['category'] ) ? $schema['category'] : $kit->config( 'block_category' ),
 			'icon'                  => isset( $schema['icon'] ) ? $schema['icon'] : 'admin-generic',
-			'keywords'              => isset( $schema['keywords'] ) ? array_map( array( $kit, 't' ), (array) $schema['keywords'] ) : array(),
-			'textdomain'            => $kit->config( 'text_domain' ),
+			'keywords'              => isset( $schema['keywords'] ) ? array_map( array( $element, 't' ), (array) $schema['keywords'] ) : array(),
+			'textdomain'            => $element->text_domain(),
 			'attributes'            => self::attributes( $schema ),
 			'supports'              => isset( $schema['supports'] ) ? (array) $schema['supports'] : array( 'html' => false ),
 			'uses_context'          => array( 'postId', 'postType' ),
@@ -67,6 +67,11 @@ final class BlockAdapter {
 		foreach ( array( 'example', 'variations', 'parent', 'ancestor' ) as $key ) {
 			if ( isset( $schema[ $key ] ) ) {
 				$args[ $key ] = $schema[ $key ];
+			}
+		}
+		foreach ( isset( $args['variations'] ) ? (array) $args['variations'] : array() as $i => $variation ) {
+			if ( ! empty( $variation['title'] ) ) {
+				$args['variations'][ $i ]['title'] = $element->t( $variation['title'] );
 			}
 		}
 

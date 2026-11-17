@@ -74,7 +74,6 @@ trait ElementorAdapter {
 	 * @return array
 	 */
 	protected static function kit_control( Element $element, array $def, $default_value ) {
-		$kit     = $element->kit();
 		$type    = isset( $def['control'] ) ? $def['control'] : Element::default_control( $def );
 		$options = array();
 
@@ -83,11 +82,11 @@ trait ElementorAdapter {
 		}
 
 		$control = array(
-			'label'   => $kit->t( isset( $def['label'] ) ? $def['label'] : '' ),
+			'label'   => $element->t( isset( $def['label'] ) ? $def['label'] : '' ),
 			'default' => $default_value,
 		);
 		if ( ! empty( $def['help'] ) ) {
-			$control['description'] = $kit->t( $def['help'] );
+			$control['description'] = $element->t( $def['help'] );
 		}
 
 		switch ( $type ) {

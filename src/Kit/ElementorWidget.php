@@ -99,7 +99,7 @@ class ElementorWidget extends \Elementor\Widget_Base {
 	public function get_keywords() {
 		$element = $this->kit_element();
 
-		return $element && isset( $element->schema()['keywords'] ) ? array_map( array( $element->kit(), 't' ), (array) $element->schema()['keywords'] ) : array();
+		return $element && isset( $element->schema()['keywords'] ) ? array_map( array( $element, 't' ), (array) $element->schema()['keywords'] ) : array();
 	}
 
 	/**

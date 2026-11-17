@@ -111,7 +111,7 @@ final class Element {
 				}
 				// Text defaults marked "translate" follow the site language (unchanged defaults are not saved).
 				if ( ! empty( $def['translate'] ) && isset( $def['default'] ) && is_string( $def['default'] ) ) {
-					$schema['attributes'][ $key ]['default'] = $this->kit->t( $def['default'] );
+					$schema['attributes'][ $key ]['default'] = $this->t( $def['default'] );
 				}
 			}
 			$this->resolved = $schema;
@@ -131,12 +131,32 @@ final class Element {
 	}
 
 	/**
+	 * Text domain of the strings of this element.json: its own "textdomain" (as in block.json; an element that
+	 * another plugin adds to the kit), else the kit's.
+	 *
+	 * @return string
+	 */
+	public function text_domain() {
+		return ! empty( $this->schema['textdomain'] ) ? (string) $this->schema['textdomain'] : (string) $this->kit->config( 'text_domain' );
+	}
+
+	/**
+	 * Translate a string of this element.json with the element's text domain.
+	 *
+	 * @param string $text Text.
+	 * @return string
+	 */
+	public function t( $text ) {
+		return $this->kit->t( $text, $this->text_domain() );
+	}
+
+	/**
 	 * Translated title.
 	 *
 	 * @return string
 	 */
 	public function title() {
-		return $this->kit->t( $this->schema['title'] );
+		return $this->t( $this->schema['title'] );
 	}
 
 	/**
@@ -262,7 +282,7 @@ final class Element {
 				'key'     => $key,
 				'type'    => $def['type'],
 				'control' => isset( $def['control'] ) ? $def['control'] : self::default_control( $def ),
-				'label'   => $this->kit->t( isset( $def['label'] ) ? $def['label'] : $key ),
+				'label'   => $this->t( isset( $def['label'] ) ? $def['label'] : $key ),
 				'panel'   => isset( $def['panel'] ) ? $def['panel'] : 'basic',
 			);
 			foreach ( array( 'min', 'max', 'step' ) as $opt ) {
@@ -271,7 +291,7 @@ final class Element {
 				}
 			}
 			if ( ! empty( $def['help'] ) ) {
-				$control['help'] = $this->kit->t( $def['help'] );
+				$control['help'] = $this->t( $def['help'] );
 			}
 			if ( isset( $def['options'] ) ) {
 				$control['options'] = $this->translated_options( $def['options'] );
@@ -294,13 +314,13 @@ final class Element {
 	 * @return array
 	 */
 	public function translated_options( array $options ) {
-		$kit = $this->kit;
+		$element = $this;
 
 		return array_map(
-			static function ( $option ) use ( $kit ) {
+			static function ( $option ) use ( $element ) {
 				return array(
 					'value' => $option['value'],
-					'label' => $kit->t( $option['label'] ),
+					'label' => $element->t( $option['label'] ),
 				);
 			},
 			$options

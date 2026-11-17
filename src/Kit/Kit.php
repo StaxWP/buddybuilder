@@ -259,14 +259,16 @@ final class Kit {
 	}
 
 	/**
-	 * Translate a string from element.json with the configured text domain.
+	 * Translate a string from element.json with the configured text domain (or another one: an element added to the
+	 * kit by another plugin translates with its own, see Element::t()).
 	 *
-	 * @param string $text Text.
+	 * @param string      $text   Text.
+	 * @param string|null $domain Text domain; null for the kit's.
 	 * @return string
 	 */
-	public function t( $text ) {
+	public function t( $text, $domain = null ) {
 		// phpcs:ignore WordPress.WP.I18n.LowLevelTranslationFunction,WordPress.WP.I18n.NonSingularStringLiteralText,WordPress.WP.I18n.NonSingularStringLiteralDomain -- strings come from element.json.
-		return '' === (string) $text ? '' : translate( (string) $text, $this->config['text_domain'] );
+		return '' === (string) $text ? '' : translate( (string) $text, $domain ? (string) $domain : $this->config['text_domain'] );
 	}
 
 	/**
@@ -329,7 +331,7 @@ final class Kit {
 			return (string) call_user_func( $this->config['empty_preview'], $element, $ctx );
 		}
 
-		$hint = isset( $element->schema()['emptyHint'] ) ? $this->t( $element->schema()['emptyHint'] ) : $this->config['labels']['empty'];
+		$hint = isset( $element->schema()['emptyHint'] ) ? $element->t( $element->schema()['emptyHint'] ) : $this->config['labels']['empty'];
 
 		return '<p class="' . esc_attr( $this->config['css_prefix'] ) . '-el-empty">' . esc_html( $hint ) . '</p>';
 	}
