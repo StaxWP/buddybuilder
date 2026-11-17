@@ -6,7 +6,7 @@
 #
 # 1. Moves the plugin folder aside if it is a git clone (put back at the end), installs <from zip> as a normal plugin,
 #    assigns the starter-kit fixtures in bpb_settings (as a 1.x site has them) and snapshots the pages.
-# 2. Builds a test package of <to ref> (git archive of this repo minus .distignore, into <work dir>; never published),
+# 2. Builds the release zip of <to ref> with bin/build-zip.sh (into <work dir>; never published),
 #    serves it from the site itself, offers it through the update_plugins transient and runs `wp plugin update`
 #    (Plugin_Upgrader: download, unzip, replace the folder, upgrader_process_complete), then loads an admin request.
 # 3. Checks: same version string, migration ran, bpb_templates written, no fatal, pages identical (compare.js).
@@ -54,17 +54,12 @@ echo "installed $from from zip"
 ' >/dev/null 2>&1
 node "$HERE/run.js" --site "$SITE" --wp "$WP" --assigned --no-axe --label before --out "$WORK/before" | tail -1
 
-# Test package of <to ref> (same rules as bin/build-zip.sh), served by the site under test.
-pkg="$WORK/pkg"; rm -rf "$pkg"; mkdir -p "$pkg/$SLUG"
-git -C "$REPO" archive "$TO" | tar -x -C "$pkg/$SLUG"
-while IFS= read -r line; do
-	case "$line" in ''|\#*) continue ;; esac
-	rm -rf "${pkg:?}/$SLUG/${line#/}"
-done < "$REPO/.distignore"
-( cd "$pkg" && zip -qr "$WORK/bpb-update-test.zip" "$SLUG" )
+# Test package of <to ref>: the release zip itself (bin/build-zip.sh), served by the site under test.
+built=$("$REPO/bin/build-zip.sh" "$TO" "$WORK/pkg") || { echo "build-zip.sh failed for $TO"; exit 1; }
+cp "$built" "$WORK/bpb-update-test.zip"
 public=$(dirname "$(dirname "$PLUGINS")")
 cp "$WORK/bpb-update-test.zip" "$public/bpb-update-test.zip"
-to_version=$(grep -m1 "Version:" "$pkg/$SLUG/loader.php" | sed 's/.*Version: *//')
+to_version=$(unzip -p "$built" "$SLUG/loader.php" | grep -m1 "Version:" | sed 's/.*Version: *//' | tr -d '\r')
 
 # The offer comes through the update transient filter, so a refresh from wordpress.org cannot drop it.
 cat > "$WORK/offer.php" <<PHP
