@@ -67,7 +67,9 @@ const host = new URL( site ).hostname;
 	try {
 		for ( const width of widths ) {
 			const ctx = await browser.newContext( { viewport: { width, height: 900 }, deviceScaleFactor: width < 600 ? 2 : 1 } );
-			await ctx.addCookies( Object.entries( cookies ).map( ( [ name, value ] ) => ( { name, value, domain: host, path: '/' } ) ) );
+			// Lists show the sample community only (compat env cookie, as bin/capture-looks.js): shipped images never show
+			// site or test users.
+			await ctx.addCookies( Object.entries( cookies ).map( ( [ name, value ] ) => ( { name, value, domain: host, path: '/' } ) ).concat( [ { name: 'bpb_compat_sample_only', value: '1', domain: host, path: '/' } ] ) );
 			for ( const c of made ) {
 				// What assigning the layout does on a real site: the directory card style goes to the option the AJAX list reads.
 				const content = cases.find( ( x ) => x.style === c.style && x.page === c.page ).content;
