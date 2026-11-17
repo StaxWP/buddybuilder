@@ -252,6 +252,8 @@ final class SampleMember {
 
 	/**
 	 * Hide the sample members' activity (updates, friendships, group joins) from every activity query outside previews.
+	 * In previews their own items show and count, although create() marked them hidden sitewide (BuddyPress shows
+	 * hidden items only to their author); other hidden items stay hidden.
 	 *
 	 * @param array $where Where conditions.
 	 * @return array
@@ -259,11 +261,25 @@ final class SampleMember {
 	public static function hide_activity( $where ) {
 		$ids = self::member_ids();
 
-		if ( empty( $ids ) || self::in_preview() ) {
+		if ( empty( $ids ) ) {
 			return $where;
 		}
 
-		$where['bpb_sample'] = 'a.user_id NOT IN (' . implode( ',', array_map( 'intval', $ids ) ) . ')';
+		$in = 'a.user_id IN (' . implode( ',', array_map( 'intval', $ids ) ) . ')';
+
+		if ( ! self::in_preview() ) {
+			$where['bpb_sample'] = 'NOT ' . $in;
+
+			return $where;
+		}
+
+		// BuddyPress hides them with "a.hide_sitewide = 0": in the main condition and in the scope query (the
+		// profile stream's just-me scope, friends, groups, ...).
+		foreach ( [ 'hidden_sql', 'scope_query_sql' ] as $key ) {
+			if ( isset( $where[ $key ] ) && is_string( $where[ $key ] ) ) {
+				$where[ $key ] = str_replace( 'a.hide_sitewide = 0', '( a.hide_sitewide = 0 OR ' . $in . ' )', $where[ $key ] );
+			}
+		}
 
 		return $where;
 	}
