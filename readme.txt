@@ -1,145 +1,173 @@
-=== BuddyPress Builder for Elementor - BuddyBuilder ===
+=== BuddyPress Builder for Elementor and the Block Editor - BuddyBuilder ===
 Contributors: staxwp, seventhqueen, codezz, rtynio, geowrge
-Tags: elementor, buddypress, buddyboss, community builder, buddypress builder
+Tags: buddypress, elementor, buddyboss, community builder, buddypress builder
 Requires at least: 6.6
 Requires PHP: 7.4
-Tested up to: 7.1.4
+Tested up to: 7.1
 Stable tag: 1.9.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-BuddyPress builder for Elementor — design member profiles, group pages, activity feeds and directories with drag & drop.
+Design BuddyPress member profiles, groups, directories and activity with the block editor or Elementor. Ready-made styles and live previews.
 
 == Description ==
 
-**BuddyBuilder** is the most flexible **BuddyPress page builder for Elementor**. Design every BuddyPress page visually — member profiles, group pages, activity streams, member directories, and group directories — using the Elementor editor you already know. No code, no theme lock-in, full creative freedom.
+**BuddyBuilder** lets you design every BuddyPress page yourself: member profiles, group pages, the members and groups directories and the activity stream. Build them in the **block editor** or in **Elementor**, start from a ready-made style, and see your real community while you edit.
 
-Instead of being stuck with your theme's default BuddyPress templates, BuddyBuilder **replaces them with Elementor-powered layouts** you design yourself. Works with any WordPress theme, including BuddyBoss.
+BuddyBuilder replaces the BuddyPress templates of your theme with layouts you design. It works with any WordPress theme, with BuddyPress and with BuddyBoss Platform. Elementor is optional.
 
-= When to use BuddyBuilder =
-- **Custom member profiles** — design unique profile pages with cover images, avatars, xprofile fields, and custom layouts
-- **Branded community directories** — build grid or list layouts for members and groups that match your site design
-- **Activity feed design** — control how activity entries, post forms, and filters look and feel
-- **Group page customization** — design group covers, member lists, activity tabs, and invite sections
-- **Community widgets on any page** — embed members grid, groups grid, or activity list anywhere on your site
-- **BuddyBoss migration** — switch from BuddyBoss themes to any theme while keeping full community design control
+= What you can do =
 
-= BuddyPress Pages You Can Design =
-- **Members Directory** — custom grid/list layout with responsive columns and list/grid toggle
-- **Member Profile** — fully designed profile page with cover, avatar, navigation, and content widgets
-- **Groups Directory** — showcase all BuddyPress groups with custom styling
-- **Group Page** — custom group layout with cover, activity feed, members, and management sections
-- **Site Wide Activity** — design the main activity feed with post form, filters, and entry styling
+* **Community pages**: one screen lists every BuddyPress page with the layout it uses, its builder and whether it is live. Edit, change the look, duplicate, export, import or go back to the BuddyPress default from there.
+* **Setup in three steps**: check your community, pick a style with a live preview, then review the new pages before anyone else sees them. Nothing changes until you press Use these.
+* **Classic style**: a finished look for profiles, groups, directories and activity: cover, photo and name, cards with a soft lift. It takes your theme's colors and fonts.
+* **Real data in the editor**: the block editor and Elementor show a real member or group while you edit. "Seen by" shows the page as the member, a friend, another member or a guest would see it.
+* **Elements for both builders**: Member header, Member about, Group header, Directory header, People list (list or photo grid), Profile tabs, Feed filters, Post composer, plus the BuddyBuilder 1.x widgets.
+* **Card styles** for member, group and activity lists.
+* **Admin bar help**: edit the page you are on, change its look, view it as a guest, and "Layout not applied" with the likely cause when a layout does not show (page template, theme files, page cache and more).
+* **Help and status** in plain language, including the data update and its Undo.
+* **Starter kits** for Elementor, imported in one click.
 
-= Community Widgets for Any Page =
-- **Members Grid** — display community members anywhere on your site
-- **Groups Grid** — showcase BuddyPress groups on any page
-- **Activity List** — embed activity entries in any Elementor layout
+= BuddyPress pages you can design =
 
-= How it works =
-1. Go to WP Admin → BuddyBuilder and create a new template
-2. Choose the BuddyPress component (e.g., Member Profile, Groups Directory)
-3. Design with BuddyPress-specific Elementor widgets — drag, drop, style
-4. Save and your BuddyPress pages instantly use the new design
+* Member profile
+* Members directory
+* Group page
+* Groups directory
+* Activity (site-wide stream)
 
-= Starter Template Kits =
-Get started instantly with our **ready-made template kit** — import with a single click and customize from there. No design skills needed.
+= Updating from BuddyBuilder 1.x =
 
-= BuddyBoss Compatible =
-BuddyBuilder works with both **BuddyPress** and **BuddyBoss Platform**, giving you full Elementor control over your community regardless of which platform you use.
+Your Elementor templates keep working as they are. BuddyBuilder 2.0 copies which layout each page uses into a new format on the first admin page after the update; your pages look the same before and after, and Help and status has Undo. Older widgets that have a newer element keep working on your pages and only leave the widget list; one click replaces them when you want.
 
-= Get more with BuddyBuilder Pro =
+= Free and Pro =
 
-**Pro Template Kits**
-Beautifully designed template kits — build a stunning community with one click.
+BuddyBuilder is free and complete: all five BuddyPress pages, both builders, the Classic style and every element above. Nothing that was free in 1.x is locked.
 
-**Live Notifications Widget**
-Real-time notifications icon for your menu or content area — auto-updates with latest community notifications.
+[BuddyBuilder Pro](https://staxwp.com/buddybuilder/) is a separate, paid plugin. It adds six more styles (Creator, Professional, Social, Network, Career, Hub), the register and group creation pages, card layouts you design, layouts per member type, role or group, live notifications and messages, ads, birthdays, link previews and more elements. BuddyBuilder shows these Pro features with a "Pro" label on its own screens and in the Elementor panel; nothing shows while Pro is active.
 
-**Live Messages Widget**
-Real-time messages icon that shows latest private messages from your community.
+= Developers =
 
-**Customize Activity Page**
-Full control over the activity/news feed — structure, design, and styling.
-
-**Customize Member Profile Tabs**
-Style profile tab content for Activity, Profile, Messages, Notifications, and Settings.
-
-**Customize Group Page Tabs**
-Design group tabs for Activity, Members, Invite, and Manage sections.
-
-Get [BuddyBuilder Pro](https://staxwp.com/go/buddybuilder-pro) and take your community design to the next level.
+* Register your own style with `bpb_register_style()`, so your theme or kit appears in the setup and in Change look.
+* Abilities for AI agents and MCP (WordPress 6.9 and newer, read only): page types, elements, styles, the layout a page uses and the status.
+* Actions and filters for layouts, previews and the setup.
+* Code on [GitHub](https://github.com/staxwp/buddybuilder). Translations on [translate.wordpress.org](https://translate.wordpress.org/projects/wp-plugins/stax-buddy-builder).
 
 = More from StaxWP =
-- [Visibility Logic for Elementor](https://wordpress.org/plugins/visibility-logic-elementor/) — conditional visibility for Elementor: show or hide widgets based on user role, device, ACF fields, date & time, and more.
 
-= Privacy Policy =
-BuddyBuilder collects no usage data and sends nothing to us on its own. The usage tracker (Appsero) bundled until version 1.9.2 was removed in 2.0, and what it stored is deleted on update and on uninstall.
+* [Visibility Logic for Elementor and the Block Editor](https://wordpress.org/plugins/visibility-logic-elementor/): show or hide content by user role, device, date and more.
 
-When you open the starter templates in BuddyBuilder > Templates or the Elementor template library and import one, the plugin fetches the template list and the chosen template from demo.staxwp.com (StaxWP). These requests happen only on that admin action and send the standard WordPress request data (your site URL in the user agent); no personal data is included. See the [StaxWP privacy policy](https://staxwp.com/privacy-policy/).
+= Privacy =
 
-= Found a bug? =
-Report security bugs through the [Patchstack Vulnerability Disclosure Program](https://patchstack.com/database/vdp/stax-buddy-builder). The Patchstack team helps validate, triage, and handle any security vulnerabilities.
+BuddyBuilder collects no usage data and sends nothing to us on its own. The usage tracker (Appsero) bundled with 1.x was removed in 2.0, and what it stored is deleted on update and on uninstall.
+
+When you open the starter kits in BuddyBuilder or the Elementor template library and import one, the plugin fetches the kit list and the chosen kit from demo.staxwp.com (StaxWP). These requests happen only on that admin action and send the standard WordPress request data (your site URL in the user agent); no personal data is included. See the [StaxWP privacy policy](https://staxwp.com/privacy-policy/).
+
+= Found a security issue? =
+
+Report it through the [Patchstack Vulnerability Disclosure Program](https://patchstack.com/database/vdp/stax-buddy-builder). The Patchstack team helps validate, triage and handle security reports.
 
 == Installation ==
 
-1. Upload the plugin to your `wp-content/plugins` directory or install directly from WP Admin → Plugins → Add New
-2. Activate the plugin
-3. Go to WP Admin → BuddyBuilder
-4. Create a new template for the component you need (e.g., Member Profile)
-5. Build the template using our BuddyPress-specific widgets
-6. Save and check your BuddyPress pages — done!
+1. Install BuddyBuilder from Plugins > Add New, or upload the plugin to `wp-content/plugins`.
+2. Activate it. BuddyPress (or BuddyBoss Platform) must be active.
+3. The setup opens on the next admin screen: check your community, pick a style, review it on your pages, then press Use these.
+4. Later, go to BuddyBuilder > Community pages to edit a page, change its look or run the setup again.
 
 == Frequently Asked Questions ==
 
-= Does BuddyBuilder work with any theme? =
-Yes. BuddyBuilder overrides BuddyPress templates with Elementor layouts, so it works with any properly coded WordPress theme.
+= Do I need Elementor? =
+
+No. BuddyBuilder 2.0 works with the block editor alone. If you use Elementor, every page can also be built with Elementor (version 3.20 or newer). Elementor Pro is not required.
+
+= Will updating from 1.x change my pages? =
+
+No. Your Elementor templates and assignments are kept and render as before. The data update can be undone from BuddyBuilder > Settings > Help and status.
+
+= What happens to the old widgets? =
+
+They keep working on the pages that use them. Widgets that have a newer element leave the widget list and show a "Deprecated" note in the editor, with a button to replace them with the new element (Undo brings them back).
+
+= Does BuddyBuilder work with my theme? =
+
+It works with any theme that follows WordPress standards, block themes and classic themes. If a layout does not show, the admin bar on that page says why ("Layout not applied") and what to change.
 
 = Is BuddyBoss supported? =
-Yes. BuddyBuilder is compatible with both BuddyPress and BuddyBoss Platform.
 
-= Do I need Elementor Pro? =
-No. BuddyBuilder works with the free version of Elementor. Elementor Pro is not required.
+BuddyBuilder works with BuddyBoss Platform. When BuddyBoss ReadyLaunch is on, ReadyLaunch draws the community pages instead; the admin bar and the setup tell you.
 
-= Can I use my own design instead of the starter templates? =
-Absolutely. The starter templates are optional — you can build everything from scratch using the Elementor editor.
+= What is in BuddyBuilder Pro? =
 
-= Can I display members or groups on any page? =
-Yes. BuddyBuilder includes Members Grid, Groups Grid, and Activity List widgets that you can place on any Elementor page.
+More styles, the register and group creation pages, card layouts, layouts per member type, role or group, live notifications and messages, ads, birthdays, link previews and more elements. See [BuddyBuilder Pro](https://staxwp.com/buddybuilder/).
 
-= Does BuddyBuilder affect site performance? =
-No. BuddyBuilder only loads assets on pages where BuddyPress templates are active. It does not add overhead to other pages.
+= I use BuddyBuilder Pro 1.x. Can I update BuddyBuilder first? =
 
-= What does BuddyBuilder Pro add? =
-Pro adds live notifications and messages widgets, additional template kits, full activity page customization, and the ability to style all member profile and group page tabs.
+Yes. BuddyBuilder Pro 1.x keeps working next to BuddyBuilder 2.0: its Elementor widgets and modules work as before, and a notice suggests updating Pro to 2.x for blocks and the new features.
 
-= Where can I get support? =
-Visit the [WordPress.org support forum](https://wordpress.org/support/plugin/stax-buddy-builder/) or our [website](https://staxwp.com/).
+= Does BuddyBuilder slow down my site? =
+
+No. It loads its styles only on community pages, and only the CSS for the page type shown. It adds no jQuery to the front end.
+
+= Where can I get help? =
+
+In the [support forum](https://wordpress.org/support/plugin/stax-buddy-builder/) and the [documentation](https://staxwp.com/docs/buddybuilder/).
 
 == Screenshots ==
-1. **Drag & Drop** — build your BuddyPress templates visually with Elementor
-2. **Specific Widgets** — dedicated BuddyPress widgets for each page type
-3. **Multiple Templates** — create unlimited templates and set the active one
+
+1. Community pages: every BuddyPress page, the layout it uses, its builder and its live status.
+2. Setup: pick a style with a live preview before anything changes. Classic is free; the other styles come with BuddyBuilder Pro.
+3. A member profile in the Classic style.
+4. The activity stream in the Classic style, with the post composer and the sidebar lists.
+5. A group page in the Classic style.
+6. The block editor shows a real member while you edit; "Seen by" shows the page as another visitor would see it.
+7. The same Classic layout in Elementor, with the BuddyBuilder widgets.
+8. Help and status: your setup and the data update, with Undo.
 
 == Changelog ==
 
-= 2.0.0 (in development) =
-* New: build BuddyPress pages with the block editor (Block layouts), next to Elementor. On KLEO 7 and on sites without Elementor it is on by default; elsewhere turn it on in BuddyBuilder > Settings or pick the block editor in the setup.
-* New: BuddyBuilder no longer requires Elementor. Existing Elementor templates keep working unchanged.
-* New: BuddyBuilder > Community pages: one list of your BuddyPress pages with the layout each one uses, its builder and a live status ("Live on 214 profiles", "BuddyPress default"), and Edit, Change look and "Use the BuddyPress default" on every row. It replaces the old template selects; your assignments are kept as they are.
-* New: one-click looks (Classic, Creator, Professional and Social member profiles, group, directory and activity layouts) for both builders.
-* New: setup for new sites in three steps: check your community, pick a look with a live preview on your own profile, review it on your real pages, then Use these. Nothing changes before that; run it again any time from Community pages.
-* New: editor previews with real BuddyPress data for a chosen member or group, seen by the member, a friend, another member or a guest, and an optional hidden sample member.
-* New: "Edit this community page" in the admin bar on BuddyPress pages, and "Layout not applied" with the likely cause (page template, theme files, Elementor Pro theme template, BuddyBoss ReadyLaunch, page cache) when a layout does not show.
-* Improvement: WordPress-native admin screens: Community pages, Starter kits, Settings, Help and status (in plain language, with undo for the data update).
-* Removed: the review request notice.
-* New: abilities for AI agents and MCP (WordPress 6.9+): list template types, elements and presets, read the assigned layout, apply a preset, assign a layout.
-* Improvement: one renderer per element for both builders; neutral .bpb-el-* CSS classes next to the Elementor ones.
-* Improvement: icon font as WOFF2; fewer requests and smaller package.
-* Fix: fatal error on a fresh site before BuddyPress has its pages (bp-pages not set).
-* Fix: a page whose slug contains "members" or "groups" was treated as a BuddyPress page.
-* Removed: usage tracker (Appsero), Youzer and old third-party theme workarounds. The tracker's stored options and scheduled event are deleted on update and on uninstall.
-* Requires WordPress 6.6, PHP 7.4 and, for the Elementor integration, Elementor 3.20 or newer.
+= 2.0.0 =
+New:
+
+* Build community pages with the block editor. Elementor is no longer required; your Elementor templates keep working.
+* BuddyBuilder > Community pages: every BuddyPress page with its layout, builder and live status, and Edit, Change look, Duplicate, History, Export, Import and Delete (with Undo).
+* Setup in three steps with a live preview: nothing changes until you press Use these.
+* Classic style for profiles, groups, directories and activity, in both builders.
+* New elements: Member header, Member about, Group header, Directory header, People list, Profile tabs, Feed filters and Post composer.
+* Card styles for member, group and activity lists.
+* Real community data in the block editor and in Elementor, with "Seen by" (the member, a friend, another member, a guest).
+* Admin bar on community pages: edit the page, change its look, view it as a guest, and "Layout not applied" with the likely cause.
+* Help and status in plain language, with Undo for the data update.
+* "Replace with the new element" for older widgets that have a newer element (Undo brings them back).
+* Themes and kits can register their own style (`bpb_register_style()`).
+* Read-only abilities for AI agents and MCP (WordPress 6.9 and newer).
+
+Improvements:
+
+* Elementor widgets show their basic settings first.
+* The block inserter lists the elements made for the page you edit first.
+* WordPress-native admin screens: Community pages, Settings, Help and status.
+* Lighter: CSS per page type, a small icon font, no jQuery added to the front end, a much smaller download.
+* Neutral `.bpb-el-*` CSS classes next to the Elementor ones.
+
+Fixes:
+
+* Fatal error on a new site before BuddyPress had its pages.
+* A page whose address contained "members" or "groups" was treated as a BuddyPress page.
+* A group creation page with its own layout caused a fatal error.
+* JavaScript error in the member profile menu on block themes such as Twenty Twenty-Five.
+* Dismissing an admin notice now checks a security token (also in 1.9.4).
+
+Removed:
+
+* The usage tracker (Appsero); what it stored is deleted on update.
+* The review request notice, Youzer support and old third-party theme workarounds.
+* The static preview images of the editor (replaced by real data).
+
+Requires WordPress 6.6 and PHP 7.4; Elementor 3.20 or newer for the Elementor integration.
+
+= 1.9.4 =
+* Security: dismissing an admin notice now checks a security token and accepts only BuddyBuilder's own notices.
+* Fix: help and documentation links point to the current documentation at staxwp.com/docs/buddybuilder/.
 
 = 1.9.3 =
 * Fix: Fatal error on BuddyPress pages when the BuddyPress page settings (bp-pages option) are missing; deleted directory pages are skipped and nested directory pages (for example community/members) are detected.
@@ -155,7 +183,7 @@ Visit the [WordPress.org support forum](https://wordpress.org/support/plugin/sta
 
 = 1.9.1 =
 * Fix: BuddyPress CSS not loading on frontend when template is active
-* Fix: PHP 8.x compatibility — null check on $wp->request
+* Fix: PHP 8.x compatibility: null check on $wp->request
 * Update: BuddyPress Nouveau CSS updated to match BuddyPress 14.4.0
 * Compatibility: BuddyPress 14.4.0
 
@@ -277,7 +305,7 @@ Visit the [WordPress.org support forum](https://wordpress.org/support/plugin/sta
 = 1.2.1 =
 * Fix template full alignment on some themes
 * Allow template override in child theme under "buddybuilder" folder
-* Sitewide activity — Post form template preview update
+* Sitewide activity: Post form template preview update
 * Added more theme compatibility code
 * Added some compatibility with PHP 7.0
 
@@ -296,28 +324,28 @@ Enable/disable the feature by editing the members/groups navigation widget
 = 1.1.1 =
 * Wider plugins compatibility with plugins like rtMedia and others
 * Fix pagination links padding
-* Sitewide activity item — Style update
-* Profile member — Message filter style update
+* Sitewide activity item: Style update
+* Profile member: Message filter style update
 
 = 1.1.0 =
 * Added responsive columns for listings
 * Rewrite style & settings for members & groups grid listings.
-* Member profile — Profile edit settings update.
-* Member profile — Settings - Export data form style update.
-* Groups & Members directory — Settings update.
-* Sitewide activity — Search style update.
+* Member profile: Profile edit settings update.
+* Member profile: Settings - Export data form style update.
+* Groups & Members directory: Settings update.
+* Sitewide activity: Search style update.
 * Mobile view optimisations.
 
 = 1.0.5 =
 * Template import fixes
-* Profile groups — Manage photo style update.
-* Members directory — Style update.
+* Profile groups: Manage photo style update.
+* Members directory: Style update.
 * Forms style update.
 
 = 1.0.4 =
 * Extra check when checking templates used.
-* Group Item — Cover style update.
-* Site wide — Meta style update.
+* Group Item: Cover style update.
+* Site wide: Meta style update.
 * Sitewide activity filters update.
 * Load more button style update.
 
@@ -325,9 +353,9 @@ Enable/disable the feature by editing the members/groups navigation widget
 * Fix profile navigation alignment
 * Group profile - Buttons settings update.
 * Profile group - Invite filters style update.
-* Member profile — Message filters style update.
-* Manage group members — Filter style update.
-* Group profile — Manage members style update.
+* Member profile: Message filters style update.
+* Manage group members: Filter style update.
+* Group profile: Manage members style update.
 
 = 1.0.2 =
 * Member & Group Directory style updates.
@@ -337,10 +365,8 @@ Enable/disable the feature by editing the members/groups navigation widget
 
 == Upgrade Notice ==
 
-= 1.9.2 =
-Elementor 4.2.4 compatibility update. Upgrade if you use Elementor 4.x or want the latest WordPress compatibility metadata.
+= 2.0.0 =
+Big update: block editor support, Community pages, a guided setup and real previews. Your Elementor templates keep working and pages look the same; the data update can be undone. Older widgets keep working. Requires WordPress 6.6 and PHP 7.4.
 
-= Be a contributor =
-If you want to contribute, go to our [GitHub Repository](https://github.com/staxwp/buddybuilder).
-
-You can also add a new language via [translate.wordpress.org](https://translate.wordpress.org/projects/wp-plugins/stax-buddy-builder).
+= 1.9.4 =
+Security fix for the admin notice dismiss request. Recommended for all users.
