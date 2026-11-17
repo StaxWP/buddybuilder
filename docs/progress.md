@@ -2,6 +2,18 @@
 
 Branch `main` (the 2.0 line since 2026-11-15; 1.x fixes go to `1.x`). Not released.
 
+## 2026-11-17 (release fixes): last four bugs before 2.0.0
+
+Commits `c127b21` to `37816eb` (local, not pushed). Release zip `stax-buddy-builder-2.0.0.zip` rebuilt; Pro 2.0.0 unchanged.
+
+- **Sample member in previews** (`SampleMember::hide_activity()`): create() hides the sample's activity sitewide, so the setup preview showed "0 Posts" and an empty feed. In previews (setup, LayoutPreview, editor preview context) the sample members' own items now show and count: `a.hide_sitewide = 0` becomes `( ... OR a.user_id IN (samples) )` in the main and scope conditions; other hidden items stay hidden. BuddyPress reloads the stream over AJAX on a preview page; that request carries the preview only in its referer: `LayoutPreview::is_preview_ajax()` (administrator, valid preview nonce). The sample's updates are now created last, so its stream starts with its posts. The real site still hides everything of the sample members.
+- **Seen by** (`PreviewContext::apply_viewer()`): BuddyPress' access checks follow the viewer (`bp_current_user_can` mapped to `bp_user_can( viewer )`, `bp_core_can_edit_settings`, group `is_item_admin` / `is_item_mod` for the viewer). A friend, another member or a guest no longer sees Notifications, Messages, Settings or the group Manage tab, in the block editor and in Elementor; checked against the front end for each role. "Another member" and "a group member" are never the editor or a community moderator (they could be the site admin before).
+- **Sort menus** (`assets/css/looks/base.css`): the directory and feed sort selects never get wider than their bar (Classic on Twenty Twenty-Five ended 32 px past the content at 1280 px) and show the style's arrow (`--bpb-select-arrow`, shared with the feed filter). Checked every style on Twenty Twenty-Five, Twenty Twenty-One, Hello, Astra, KLEO 6.2.7 and KLEO 7, at 1280 and 390 px: no overflow, no page scroll.
+- **Pro notice delay** (`Upsell`): shown only 7 days (`DELAY_DAYS`) after the first BuddyBuilder layout went live (option `bpb_upsell_since`, set on `buddy_builder/registry/changed`); sites updated from 1.x without that time start the 7 days the first time the milestone is reached. Still administrators, BuddyBuilder screens, dismissible for good, never with Pro active. Removed on uninstall.
+- New regression cases: `sample-member-preview`, `sample-member-preview-ajax` (valid, forged, subscriber), `upsell-delay`, profile tabs per viewer in `preview-seen-by`.
+
+Tests: PHP lint 8.5 and 7.4 on the changed files, 0 errors; regressions bbux 410 PASS / 2 SKIP with Pro, 318 / 3 without; bbmin 389 / 4 with Pro, 298 / 5 without; 0 FAIL. Goldens (strict): bbgate 144/144, bbgate-noel 144/144, bbux 56/56 recorded. bbmin row (WP 6.6, PHP 7.4, Elementor 3.20): compare 132/132 with Pro 2.0 and with Pro 1.7.3, budgets 132/132 and 130/132 (Pro 1.x jQuery, known); fresh install blocks and Elementor ALL PASS. wp.org screenshot 2 recaptured.
+
 ## 2026-11-17 (release prep): 2.0.0 and 1.9.4 ready to publish
 
 Asked by Gabriel on 2026-11-17 ("prepare everything for when we release"). Nothing published; release steps, commands and rollback in `~/projects/bb-2.0-ux/release-2.0.0/CHECKLIST.md` (outside the repo, with the zips and the wp.org screenshots).
