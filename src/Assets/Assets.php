@@ -88,13 +88,13 @@ final class Assets {
 
 		wp_enqueue_style( self::tokens() );
 
-		// Looks: the component styles and the style of the layout, in the head (found in the layout markup).
-		$post = $entry['id'] ? get_post( $entry['id'] ) : null;
+		// Looks: the component styles and the style of the layout, in the head (found in the layout markup, also the
+		// markup of a look preview, which has no post).
+		$post    = $entry['id'] ? get_post( $entry['id'] ) : null;
+		$content = isset( $entry['content'] ) ? (string) $entry['content'] : ( $post ? $post->post_content : '' );
 
-		if ( $post ) {
-			foreach ( self::looks_in( $post->post_content ) as $style ) {
-				self::looks( $style );
-			}
+		foreach ( '' !== $content ? self::looks_in( $content ) : [] as $style ) {
+			self::looks( $style );
 		}
 
 		if ( wp_style_is( 'stax-buddy-builder-front', 'registered' ) ) {

@@ -338,6 +338,12 @@
 	height: 152px;
 }
 
+/* Without a cover the photo has nothing to overlap: it stays inside the header card (no clipped top). */
+:is(.bpb-mh--center, .bpb-gh--center):not(.bpb-mh--has-cover, .bpb-gh--has-cover) :is(.bpb-mh__avatar, .bpb-gh__avatar) {
+	margin-top: 0;
+	padding-top: 24px;
+}
+
 :is(.bpb-mh--center, .bpb-gh--center) :is(.bpb-mh__main, .bpb-gh__main) {
 	padding-top: 4px;
 }
@@ -516,6 +522,10 @@
 
 	:is(.bpb-mh--center, .bpb-gh--center) :is(.bpb-mh__avatar, .bpb-gh__avatar) {
 		margin-top: -60px;
+	}
+
+	:is(.bpb-mh--center, .bpb-gh--center):not(.bpb-mh--has-cover, .bpb-gh--has-cover) :is(.bpb-mh__avatar, .bpb-gh__avatar) {
+		margin-top: 0;
 	}
 
 	:is(.bpb-mh--center, .bpb-gh--center) :is(.bpb-mh__avatar, .bpb-gh__avatar) img {
