@@ -4,9 +4,9 @@ Decided by Gabriel on 2026-11-16. Hard rule: nothing that is free in 1.9.x becom
 
 | | BuddyBuilder (free, wordpress.org) | BuddyBuilder Pro |
 |---|---|---|
-| Page types | Member profile, group, members directory, groups directory, activity; register page in Elementor (as in 1.9) | Block layouts for register and create a group (2.1) |
+| Page types | Member profile, group, members directory, groups directory, activity; register page in Elementor (as in 1.9) | Block layouts for register, create a group and the cards (2.0) |
 | Builders | Elementor (as in 1.9) and the block editor | |
-| Elements | All free elements, including Member header, Member about, Group header, Directory header, People list (list and photo grid), Profile tabs, Feed filters, Post composer | Community shortcuts, Group rail, Member list, Highlights rail; the card designer (19 card blocks and widgets) |
+| Elements | All free elements, including Member header, Member about, Group header, Directory header, People list (list and photo grid), Profile tabs, Feed filters, Post composer | Community shortcuts, Group rail, Member list, Highlights rail; the card designer (19 card blocks and widgets); every other Pro widget as a block too (register, create a group, profile field, notifications, messages, tab lists, post form); member Block Bindings (`buddybuilder/member`) |
 | Styles | Classic | Creator, Professional, Social, Network, Career, Hub, and future styles |
 | Card styles | Classic | Compact and Cover (members, groups); Compact, Boxed and Post (activity) |
 | Variations | | Layout per member type, role, group type or group |
@@ -34,6 +34,7 @@ Pro deactivated, removed, or a Pro that does not load:
 - **A Pro element in a layout** renders nothing for visitors: no markup, no notice, no empty wrapper; the rest of the layout renders. The block editor shows "This element needs BuddyBuilder Pro." in its place.
 - **A page whose layout uses a Pro style** renders with the Classic style page for visitors. No stored data changes: the assignment and the layout stay, and activating Pro brings the page back at once. BuddyBuilder screens show one notice: "Pages using Pro styles show the Classic style until BuddyBuilder Pro is active."
 - **A Pro card style** renders as Classic.
+- **A block layout of a Pro page type** (register, create a group, cards) is not used: BuddyPress shows its own page or loop item.
 
 `tests/compat/pro-missing.js` checks both page cases for visitors and members (status, no notices, no Pro markup, no empty wrappers, Classic for the Pro style, identical HTML after reactivation).
 

@@ -33,6 +33,13 @@ final class Dispatcher {
 	 */
 	private static $rendered = [];
 
+	/**
+	 * Parsed item layouts (E11): an item layout renders once per loop item, so its blocks are parsed once per request.
+	 *
+	 * @var array[] key => parsed blocks
+	 */
+	private static $parsed = [];
+
 	/** Shortcode returned by bpb_get_shortcode_str() for block layouts (1.x theme overrides print it). */
 	const SHORTCODE = 'bpb-layout';
 
@@ -147,6 +154,17 @@ final class Dispatcher {
 
 		array_pop( self::$stack );
 
+		return self::wrap( $type, $html );
+	}
+
+	/**
+	 * Neutral wrapper of a rendered block layout.
+	 *
+	 * @param string $type Template type.
+	 * @param string $html Rendered blocks.
+	 * @return string
+	 */
+	private static function wrap( $type, $html ) {
 		return '<div class="bpb-template bpb-template-' . esc_attr( $type ) . '">' . $html . '</div>';
 	}
 
@@ -180,14 +198,30 @@ final class Dispatcher {
 		$entry = self::resolve( $type, $context );
 
 		if ( isset( $entry['content'] ) ) {
-			return self::render_content( $type, (string) $entry['content'], $context );
-		}
-
-		if ( Registry::BLOCKS !== $entry['builder'] || ! Registry::is_post_populated( $entry['id'] ) ) {
+			$key     = 'c' . md5( (string) $entry['content'] );
+			$content = (string) $entry['content'];
+		} elseif ( Registry::BLOCKS === $entry['builder'] && Registry::is_post_populated( $entry['id'] ) ) {
+			$key     = 'p' . (int) $entry['id'];
+			$content = isset( self::$parsed[ $key ] ) ? '' : (string) get_post_field( 'post_content', $entry['id'] );
+		} else {
 			return '';
 		}
 
-		return self::render_blocks( $type, $entry['id'], $context );
+		if ( ! isset( self::$parsed[ $key ] ) ) {
+			self::$parsed[ $key ] = parse_blocks( $content );
+		}
+
+		// Like core/post-template: the parsed blocks render per item with the item context (no ajax flip as in 1.x).
+		self::$stack[] = array_merge( [ 'type' => $type ], $context );
+
+		$html = '';
+		foreach ( self::$parsed[ $key ] as $block ) {
+			$html .= render_block( $block );
+		}
+
+		array_pop( self::$stack );
+
+		return self::wrap( $type, $html );
 	}
 
 	/**

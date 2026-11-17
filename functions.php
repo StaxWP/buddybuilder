@@ -94,6 +94,12 @@ function bpb_is_template_populated( $template = null ) {
 			return (bool) $pre;
 		}
 
+		// A block layout of a type block layouts do not support here (a BuddyBuilder Pro page type while Pro is off:
+		// register, group creation, cards) is not used, so BuddyPress shows its own page or loop item.
+		if ( Registry::BLOCKS === Registry::get( (string) $template )['builder'] && ! isset( \Buddy_Builder\Templates\Types::for_blocks()[ $template ] ) ) {
+			return false;
+		}
+
 		$settings    = bpb_get_settings();
 		$template_id = isset( $settings['templates'][ $template ] ) ? $settings['templates'][ $template ] : 0;
 	} else {
