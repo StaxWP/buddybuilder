@@ -69,12 +69,7 @@ class Content extends \Buddy_Builder\Widgets\Base {
 	protected function render() {
 		parent::render();
 
-		if ( bpb_is_elementor_editor() && ! bpb_real_preview() ) {
-			$template = bpb_load_preview_template( 'profile-member/content', [], false );
-			echo apply_filters( 'buddy_builder/widget/member-profile/preview', $template, $this ); // phpcs:ignore WordPress.Security.EscapeOutput
-		} else {
-			$this->kit_render();
-		}
+		$this->bpb_render_element( 'buddy_builder/widget/member-profile/preview' );
 	}
 
 	public function render_plain_content() {

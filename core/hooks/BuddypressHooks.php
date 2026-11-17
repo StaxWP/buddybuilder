@@ -278,7 +278,8 @@ class BuddypressHooks extends Singleton {
 			return $content;
 		}
 
-		$template = bpb_load_preview_template( 'wrapper', [ 'content' => $content ], false );
+		// BuddyPress wrapper of the template preview (templates/preview/buddypress/wrapper.php in 1.x).
+		$template = "\n" . '<div id="buddypress" class="buddypress-wrap bp-dir-hori-nav">' . "\n\t" . $content . "</div>\n";
 
 		return apply_filters( 'buddy_builder/preview/content', $template, $template_type, $content );
 	}

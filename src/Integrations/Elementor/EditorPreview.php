@@ -41,6 +41,24 @@ final class EditorPreview {
 	}
 
 	/**
+	 * First view of the Elementor editor page of a BuddyBuilder template (wp-admin, not AJAX). Widgets print nothing
+	 * there: BuddyPress runs as in wp-admin (some template tags return nothing), so the editor asks for each widget
+	 * over AJAX instead, in the real preview context (an empty first render makes Elementor do that).
+	 *
+	 * @return bool
+	 */
+	public static function is_first_view() {
+		static $first = null;
+
+		if ( null === $first ) {
+			$post_id = isset( $_GET['post'] ) ? absint( $_GET['post'] ) : 0; // phpcs:ignore WordPress.Security.NonceVerification
+			$first   = is_admin() && ! wp_doing_ajax() && $post_id && isset( $_GET['action'] ) && 'elementor' === $_GET['action'] && '' !== self::type_of( $post_id ); // phpcs:ignore WordPress.Security.NonceVerification
+		}
+
+		return $first;
+	}
+
+	/**
 	 * Page type of a BuddyBuilder template ('' for other documents).
 	 *
 	 * @param int $post_id Template id.

@@ -32,6 +32,9 @@
  *                               restores the layout and the assignment), block layouts and Elementor templates.
  * - element-settings            U3: every element shows 1 to 4 basic settings, the rest under More settings; the
  *                               block editor gets the page types of every element (inserter order per page).
+ * - elementor-basic-controls    U3 (task 26): every BuddyBuilder Elementor widget keeps the same control keys and
+ *                               defaults when its basic settings move to the "Settings" section (first in the
+ *                               Content tab, 1 to 4 settings); nothing moves on the front end.
  *
  * THROWAWAY site only (needs the compat env mu-plugin). Restores the options it touches and deletes the posts it
  * creates. Prints PASS / FAIL / SKIP lines; exits 1 on any FAIL.
@@ -604,8 +607,58 @@ switch ( $bpb_case ) {
 		$bpb_ok( isset( $bpb_types['buddybuilder/people-rail'] ) && [] === $bpb_types['buddybuilder/people-rail'], 'elements for any page have no page type' );
 		break;
 
+	case 'elementor-basic-controls':
+		if ( ! did_action( 'elementor/loaded' ) ) {
+			$bpb_skip( 'Elementor is not active' );
+			break;
+		}
+		$bpb_manager = \Elementor\Plugin::$instance->widgets_manager;
+		$bpb_shape   = static function ( $widget ) {
+			$out = [];
+			foreach ( $widget->get_controls() as $id => $control ) {
+				if ( 'section' !== $control['type'] ) {
+					$out[ $id ] = isset( $control['default'] ) ? wp_json_encode( $control['default'] ) : '';
+				}
+			}
+			ksort( $out );
+			return $out;
+		};
+		$bpb_front = [];
+		foreach ( $bpb_manager->get_widget_types() as $bpb_name => $bpb_widget ) {
+			if ( 0 === strpos( $bpb_name, 'bpb-' ) ) {
+				$bpb_front[ $bpb_name ] = [ $bpb_shape( $bpb_widget ), isset( $bpb_widget->get_controls()[ \Buddy_Builder\Integrations\Elementor\BasicControls::SECTION ] ) ];
+				\Elementor\Plugin::$instance->controls_manager->delete_stack( $bpb_widget );
+			}
+		}
+		set_current_screen( 'dashboard' ); // is_admin(): the editor and its AJAX requests.
+		$bpb_moved = 0;
+		foreach ( $bpb_front as $bpb_name => $bpb_before ) {
+			$bpb_widget = $bpb_manager->get_widget_types( $bpb_name );
+			$bpb_ok( ! $bpb_before[1], $bpb_name . ': no regrouping on the front end' );
+			$bpb_ok( $bpb_before[0] === $bpb_shape( $bpb_widget ), $bpb_name . ': same control keys and defaults' );
+			$bpb_controls = $bpb_widget->get_controls();
+			if ( ! isset( $bpb_controls[ \Buddy_Builder\Integrations\Elementor\BasicControls::SECTION ] ) ) {
+				continue;
+			}
+			++$bpb_moved;
+			$bpb_first = '';
+			$bpb_in    = 0;
+			foreach ( $bpb_controls as $bpb_id => $bpb_control ) {
+				if ( '' === $bpb_first && 'section' === $bpb_control['type'] && 'content' === $bpb_control['tab'] ) {
+					$bpb_first = $bpb_id;
+				}
+				if ( isset( $bpb_control['section'] ) && \Buddy_Builder\Integrations\Elementor\BasicControls::SECTION === $bpb_control['section'] && empty( $bpb_control['responsive'] ) ) {
+					++$bpb_in;
+				}
+			}
+			$bpb_ok( \Buddy_Builder\Integrations\Elementor\BasicControls::SECTION === $bpb_first && $bpb_in >= 1 && $bpb_in <= 4, $bpb_name . ': Settings first in the Content tab with ' . $bpb_in . ' settings' );
+		}
+		$bpb_ok( $bpb_moved >= ( defined( 'BPB_PRO_VERSION' ) ? 30 : 15 ), $bpb_moved . ' widgets show basic settings first' );
+		set_current_screen( 'front' );
+		break;
+
 	default:
-		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install, checker-readylaunch, change-look-undo, cards-follow-layout, layout-actions, element-settings' );
+		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install, checker-readylaunch, change-look-undo, cards-follow-layout, layout-actions, element-settings, elementor-basic-controls' );
 }
 
 // Cleanup.

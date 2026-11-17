@@ -11,6 +11,7 @@
 | `bpb_get_shortcode_str( $template )` | 1.x: the shortcode that prints a layout (block layouts return `[bpb-layout]`). |
 | `bpb_activity_card_template()` | Template of the current activity card style ('' for Classic). |
 | `bpb_real_preview()` | Whether the Elementor editor previews a real member or group. |
+| `bpb_editor_placeholder( $widget )` | In an Elementor editor without real data, prints a short placeholder for a widget and returns true (2.0 replaces the 1.x static previews with it). |
 
 ## Filters
 
@@ -26,13 +27,21 @@
 | `buddy_builder/blocks_enabled` | Block layouts on or off. |
 | `buddy_builder/split_css` | Per page BuddyPress CSS (default on). |
 | `buddy_builder/full_dashicons` | Load the full dashicons font instead of the community icon subset. |
-| `buddy_builder/elementor/real_preview` | Real member or group in the Elementor editor preview. |
+| `buddy_builder/elementor/real_preview` | Real member or group in the Elementor editor preview (false: a placeholder per widget). |
+| `buddy_builder/elementor/basic_controls` | Control keys a BuddyBuilder Elementor widget shows first, in its "Settings" section (at most 4; keys and defaults never change). |
 | `buddy_builder/member_stats`, `buddy_builder/member_badges` | Numbers and badges in member headers. |
 | `buddy_builder/checker/causes` | Reasons the "layout not applied" checker reports. |
 | `buddy_builder/setup/checks` | Setup checks. |
 | `buddy_builder/upsell/enabled` | Pro badges, Pro links and the Pro notice in the free plugin (default: on while BuddyBuilder Pro is not active). |
 | `buddy_builder/upsell/features` | The Pro features shown in the free plugin (`id => [ title, text, elementor? ]`). |
 | `buddy_builder/layout/export` | Data of a layout export from Community pages > More > Export (`$data`, `$post`). Elementor templates use Elementor's template format. |
+
+## Deprecated in 2.0
+
+| Hook or function | |
+|---|---|
+| `buddy_builder/widget/member-profile/preview`, `buddy_builder/widget/group-profile/preview` | Filtered the 1.x static editor preview of the Content widgets. The static templates (`templates/preview/`) are gone: the editor shows real data. Code still hooked gets the real preview markup, with a deprecation notice. |
+| `bpb_load_preview_template()` | Returns '' with a deprecation notice. |
 
 ## Actions
 

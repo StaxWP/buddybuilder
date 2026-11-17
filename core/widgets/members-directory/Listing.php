@@ -1234,26 +1234,7 @@ class Listing extends \Buddy_Builder\Widgets\Base {
 	protected function render() {
 		parent::render();
 
-		if ( bpb_is_elementor_editor() && ! bpb_real_preview() ) {
-			bpb_load_preview_template( 'members-directory/listing', [ 'columns' => $this->preview_columns() ] );
-		} else {
-			$this->kit_render();
-		}
-	}
-
-	/**
-	 * Columns for the static editor preview (1.x defaults).
-	 *
-	 * @return array
-	 */
-	private function preview_columns() {
-		$settings = $this->get_settings_for_display();
-
-		return [
-			'desktop' => isset( $settings['columns'] ) && $settings['columns'] ? $settings['columns'] : 3,
-			'tablet'  => isset( $settings['columns_tablet'] ) && $settings['columns_tablet'] ? $settings['columns_tablet'] : 2,
-			'mobile'  => isset( $settings['columns_mobile'] ) && $settings['columns_mobile'] ? $settings['columns_mobile'] : 1,
-		];
+		$this->bpb_render_element();
 	}
 
 }

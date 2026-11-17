@@ -350,6 +350,14 @@ final class PreviewContext {
 				self::$ctx = array_merge( self::$ctx, self::boot_item( $type, $user_id, $group_id ) );
 				break;
 
+			case 'register-page':
+				self::boot_register();
+				break;
+
+			case 'groups-create':
+				self::boot_group_create( $group_id );
+				break;
+
 			default:
 				self::boot_directory( Types::component( $type ) );
 				break;
@@ -406,9 +414,6 @@ final class PreviewContext {
 
 		if ( isset( $_GET['elementor-preview'] ) && ! is_admin() ) { // phpcs:ignore WordPress.Security.NonceVerification
 			$post_id = absint( $_GET['elementor-preview'] ); // phpcs:ignore WordPress.Security.NonceVerification
-		} elseif ( is_admin() && ! wp_doing_ajax() && isset( $_GET['action'], $_GET['post'] ) && 'elementor' === $_GET['action'] ) { // phpcs:ignore WordPress.Security.NonceVerification
-			// The editor page renders the widgets once for its first view.
-			$post_id = absint( $_GET['post'] ); // phpcs:ignore WordPress.Security.NonceVerification
 		} elseif ( wp_doing_ajax() && isset( $_POST['action'], $_POST['editor_post_id'] ) && 'elementor_ajax' === $_POST['action'] ) { // phpcs:ignore WordPress.Security.NonceVerification
 			$post_id = absint( $_POST['editor_post_id'] ); // phpcs:ignore WordPress.Security.NonceVerification
 		}
@@ -418,8 +423,8 @@ final class PreviewContext {
 		}
 
 		/**
-		 * Filters whether the Elementor editor previews BuddyBuilder templates with real data (2.0). Return false for
-		 * the 1.x static previews (one release of fallback, review 4.2).
+		 * Filters whether the Elementor editor previews BuddyBuilder templates with real data (2.0). Return false to
+		 * show a short placeholder per widget instead (the 1.x static previews were removed in 2.0).
 		 *
 		 * @since 2.0.0
 		 *
@@ -596,6 +601,99 @@ final class PreviewContext {
 		$bp->current_action     = '';
 		$bp->is_directory       = true;
 		$bp->displayed_user->id = 0;
+
+		// The directory tabs (All members, My friends, ...): Nouveau defines them on bp_screens, which previews skip.
+		$nouveau = function_exists( 'bp_nouveau' ) ? bp_nouveau() : null;
+
+		if ( is_object( $nouveau ) && method_exists( $nouveau, 'setup_directory_nav' ) && isset( $nouveau->directory_nav ) && ! $nouveau->directory_nav->get_primary() ) {
+			$nouveau->setup_directory_nav();
+		}
+	}
+
+	/**
+	 * BuddyPress as on the sign-up page, at the form step (what a visitor sees while registration is open; the
+	 * editor is signed in, so BuddyPress would not show the form otherwise).
+	 */
+	private static function boot_register() {
+		$bp = buddypress();
+
+		self::boot_directory( 'members' );
+
+		$bp->current_component = 'register';
+		$bp->is_directory      = false;
+
+		if ( ! isset( $bp->signup ) || ! is_object( $bp->signup ) ) {
+			$bp->signup = new \stdClass();
+		}
+
+		$bp->signup->step = 'request-details';
+	}
+
+	/**
+	 * Group being "created" in group creation previews (the preview group: later steps show its data).
+	 *
+	 * @var int
+	 */
+	private static $create_group = 0;
+
+	/**
+	 * BuddyPress as on the group creation page, at the first step (elements can show another step, see
+	 * group_create_step()).
+	 *
+	 * @param int $group_id Preview group (later steps show its data; 0 when the site has none).
+	 */
+	private static function boot_group_create( $group_id ) {
+		if ( ! bp_is_active( 'groups' ) ) {
+			return;
+		}
+
+		$bp = buddypress();
+
+		self::boot_directory( 'groups' );
+
+		$steps              = isset( $bp->groups->group_creation_steps ) ? (array) $bp->groups->group_creation_steps : [];
+		self::$create_group = (int) $group_id;
+
+		$bp->is_directory                = false;
+		$bp->current_action              = 'create';
+		$bp->groups->new_group_id        = 0;
+		$bp->groups->current_create_step = $steps ? (string) key( $steps ) : 'group-details';
+		$bp->action_variables            = [ 'step', $bp->groups->current_create_step ];
+
+		self::setup_nav();
+	}
+
+	/**
+	 * Run a callback with another group creation step (an element's "Step shown in the editor" setting), in a
+	 * group creation preview: the steps before it count as done and the preview group is the one being created, as
+	 * BuddyPress needs to show a later step. Everything comes back afterwards.
+	 *
+	 * @param string   $step     Step slug (group-details, group-settings, group-avatar, group-cover-image, group-invites).
+	 * @param callable $callback Callback.
+	 * @return mixed The callback's return value.
+	 */
+	public static function group_create_step( $step, callable $callback ) {
+		$ctx = self::ctx();
+		$bp  = function_exists( 'buddypress' ) ? buddypress() : null;
+
+		if ( empty( $ctx['preview'] ) || 'groups-create' !== $ctx['type'] || ! $bp || empty( $bp->groups->group_creation_steps[ $step ] ) ) {
+			return $callback();
+		}
+
+		$keys   = array_keys( $bp->groups->group_creation_steps );
+		$first  = $keys[0] === $step;
+		$before = [ $bp->groups->current_create_step, $bp->action_variables, $bp->groups->new_group_id, isset( $bp->groups->completed_create_steps ) ? $bp->groups->completed_create_steps : [] ];
+
+		$bp->groups->current_create_step    = $step;
+		$bp->action_variables               = [ 'step', $step ];
+		$bp->groups->new_group_id           = $first ? 0 : self::$create_group;
+		$bp->groups->completed_create_steps = array_slice( $keys, 0, (int) array_search( $step, $keys, true ) );
+
+		try {
+			return $callback();
+		} finally {
+			list( $bp->groups->current_create_step, $bp->action_variables, $bp->groups->new_group_id, $bp->groups->completed_create_steps ) = $before;
+		}
 	}
 
 	/**

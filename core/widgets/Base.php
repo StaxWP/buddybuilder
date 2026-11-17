@@ -33,6 +33,17 @@ class Base extends \Elementor\Widget_Base {
 	}
 
 	/**
+	 * Register the controls, then show the basic settings first (U3; keys and defaults unchanged).
+	 */
+	protected function init_controls() {
+		parent::init_controls();
+
+		if ( class_exists( '\\Buddy_Builder\\Integrations\\Elementor\\BasicControls' ) ) {
+			\Buddy_Builder\Integrations\Elementor\BasicControls::apply( $this, $this->kit_element() );
+		}
+	}
+
+	/**
 	 * Wrapper attributes: Elementor's own, plus the neutral "bpb-el bpb-el-<name>" classes shared with the blocks.
 	 */
 	protected function add_render_attributes() {
@@ -112,6 +123,42 @@ class Base extends \Elementor\Widget_Base {
 		$html = ob_get_clean();
 
 		echo ( '' === $html && $this->bpb_keep_wrapper ) ? "\n" : $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in render.php.
+	}
+
+	/**
+	 * Render the shared element; in an Elementor editor without real data, a short placeholder instead (2.0: the
+	 * 1.x static previews are gone).
+	 *
+	 * @param string $preview_filter 1.x filter of the widget's static editor preview (deprecated): in the editor,
+	 *                               code still hooked to it gets the real preview markup.
+	 */
+	protected function bpb_render_element( $preview_filter = '' ) {
+		if ( bpb_editor_placeholder( $this ) ) {
+			return;
+		}
+
+		if ( '' === $preview_filter || ! bpb_is_elementor_editor() || ! has_filter( $preview_filter ) ) {
+			$this->bpb_kit_render();
+			return;
+		}
+
+		ob_start();
+		$this->bpb_kit_render();
+		$html = ob_get_clean();
+
+		echo apply_filters_deprecated( $preview_filter, [ $html, $this ], '2.0.0', '', __( 'The Elementor editor shows BuddyBuilder templates with real data; the static preview templates were removed.', 'stax-buddy-builder' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped, WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- markup of render.php; 1.x hook names.
+	}
+
+	/**
+	 * Widget markup. Not on the first view of the Elementor editor page of a BuddyBuilder template: the editor then
+	 * asks for each widget in its real preview context (AJAX), where BuddyPress runs as on the front end.
+	 */
+	public function render_content() {
+		if ( \Buddy_Builder\Integrations\Elementor\EditorPreview::is_first_view() ) {
+			return;
+		}
+
+		parent::render_content();
 	}
 
 	/**

@@ -718,11 +718,7 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 	protected function render() {
 		parent::render();
 
-		if ( bpb_is_elementor_editor() && ! bpb_real_preview() ) {
-			bpb_load_preview_template( 'profile-member/buttons' );
-		} else {
-			$this->kit_render();
-		}
+		$this->bpb_render_element();
 	}
 
 }

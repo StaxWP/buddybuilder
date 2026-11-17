@@ -311,8 +311,9 @@ function bpb_set_template_id( $template_slug, $id ) {
 }
 
 /**
- * Whether the Elementor editor shows this BuddyBuilder template with real data (a preview member, group or the
- * directory), so widgets render their live markup instead of the 1.x static preview (2.0, decision 4).
+ * Whether the Elementor editor shows this BuddyBuilder template with real data (a preview member, group, the
+ * directory, the sign-up form or the group creation step), so widgets render their live markup (2.0, decision 4);
+ * otherwise they print bpb_editor_placeholder().
  *
  * @return bool
  */
@@ -492,41 +493,52 @@ function bpb_is_doc_type( $id = 0 ) {
 }
 
 /**
- * Load preview template
+ * 1.x static editor previews (templates/preview), removed in 2.0: the Elementor editor shows BuddyBuilder templates
+ * with real data (the preview member, group or directory) and a short placeholder elsewhere (bpb_editor_placeholder()).
  *
- * @param string  $name
- * @param array   $args
- * @param boolean $echo
+ * @deprecated 2.0.0
  *
- * @return void
+ * @param string $name Template name.
+ * @param array  $args Template variables.
+ * @param bool   $echo Print instead of returning.
+ * @return string Empty.
  */
-function bpb_load_preview_template( $name, $args = [], $echo = true ) {
-	if ( ! $name ) {
-		return;
-	}
+function bpb_load_preview_template( $name, $args = [], $echo = true ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter -- 1.x signature.
+	_deprecated_function( __FUNCTION__, '2.0.0', 'bpb_editor_placeholder()' );
 
-	extract( $args );
-	$name = trim( $name );
+	return '';
+}
 
-	$template           = __DIR__ . '/templates/preview/buddypress/' . $name . '.php';
-	$buddyboss_template = __DIR__ . '/templates/preview/buddyboss/' . $name . '.php';
-
-	if ( bpb_is_buddyboss() && file_exists( $buddyboss_template ) ) {
-		$template = $buddyboss_template;
-	}
-
-	if ( ! file_exists( $template ) ) {
+/**
+ * In an Elementor editor that cannot show real data (a widget outside a BuddyBuilder template, a template without a
+ * preview member or group, or buddy_builder/elementor/real_preview returned false), print a short placeholder in
+ * place of the widget. 2.0 replaces the 1.x static previews with this.
+ *
+ * @since 2.0.0
+ *
+ * @param \Elementor\Widget_Base|null $widget Widget being rendered (its title starts the text).
+ * @return bool Whether the placeholder was printed (the widget then prints nothing else).
+ */
+function bpb_editor_placeholder( $widget = null ) {
+	if ( ! bpb_is_elementor_editor() || bpb_real_preview() ) {
 		return false;
 	}
 
-	ob_start();
-	include $template;
+	$ctx = class_exists( '\\Buddy_Builder\\Templates\\PreviewContext' ) ? \Buddy_Builder\Templates\PreviewContext::ctx() : [];
 
-	if ( $echo ) {
-		echo ob_get_clean();
+	if ( empty( $ctx['preview'] ) ) {
+		$text = __( 'Shows real community data. Edit it in a BuddyBuilder layout (BuddyBuilder > Community pages) to preview it with a member or group.', 'stax-buddy-builder' );
+	} elseif ( in_array( $ctx['type'], [ 'group-profile', 'groups-directory-item' ], true ) ) {
+		$text = __( 'Pick a preview group in the page settings, section BuddyBuilder preview (or create the sample member and groups).', 'stax-buddy-builder' );
 	} else {
-		return ob_get_clean();
+		$text = __( 'Pick a preview member in the page settings, section BuddyBuilder preview (or create the sample member).', 'stax-buddy-builder' );
 	}
+
+	$title = $widget instanceof \Elementor\Widget_Base ? $widget->get_title() . ': ' : '';
+
+	echo '<p class="bpb-el-empty bpb-editor-placeholder" style="margin:0;padding:1em;border:1px dashed currentColor;border-radius:4px;font-size:13px;opacity:.7">' . esc_html( $title . $text ) . '</p>';
+
+	return true;
 }
 
 /**
@@ -555,12 +567,13 @@ function bpb_is_buddyboss() {
 }
 
 /**
- * Get dummy avatar url
+ * Get dummy avatar url. BuddyBuilder 2.0 has no static previews; the images stay for BuddyBuilder Pro 1.x, whose
+ * editor previews use them.
  *
  * @param string $type
  * @param int    $size
  *
- * @return void
+ * @return string
  */
 function bpb_get_dummy_avatar_url( $type, $size = null ) {
 	if ( $size ) {

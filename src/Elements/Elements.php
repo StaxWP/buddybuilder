@@ -59,7 +59,8 @@ final class Elements {
 
 	/**
 	 * Elementor widgets for the 2.0 elements that have no 1.x widget (member header, group header, ...): the kit's
-	 * generic adapter (controls from element.json, markup from render.php), named "bpb-el-<element>".
+	 * generic adapter (controls from element.json, markup from render.php, BuddyBuilder's KitWidget), named
+	 * "bpb-el-<element>".
 	 *
 	 * @param \Elementor\Widgets_Manager $manager Widgets manager.
 	 */
@@ -77,7 +78,7 @@ final class Elements {
 				continue;
 			}
 
-			$manager->register( new \Buddy_Builder\Kit\ElementorWidget( [], [ 'kit_element' => $element->name() ] ) );
+			$manager->register( new \Buddy_Builder\Integrations\Elementor\KitWidget( [], [ 'kit_element' => $element->name() ] ) );
 		}
 	}
 

@@ -570,17 +570,7 @@ class Cover extends \Buddy_Builder\Widgets\Base {
 	protected function render() {
 		parent::render();
 
-		if ( ! bpb_is_elementor_editor() ) {
-			$this->kit_render();
-
-			return;
-		}
-
-		$settings              = $this->get_settings_for_display();
-		$settings['cover_url'] = BPB_ASSETS_URL . 'img/profile-cover-preview.png';
-
-		bpb_load_preview_template( 'profile-group/cover', $settings );
-		bpb_print_cover_styles( $settings['cover_url'], 'background' );
+		$this->bpb_render_element();
 	}
 
 }
