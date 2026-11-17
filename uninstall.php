@@ -1,9 +1,11 @@
 <?php
 /**
- * Uninstall: removes the sample member data, the options added in 2.0 and the Appsero tracker data (1.x).
+ * Uninstall: removes the sample member data, the options, transients and user meta added in 2.0, the 1.x install
+ * time and the Appsero tracker data (1.x).
  *
- * Kept on purpose: `bpb_settings` (1.x assignments, also read by BuddyBuilder Pro and KLEO 6), Elementor templates
- * and block layouts (site content).
+ * Kept on purpose: `bpb_settings` and `bpb_listings` (1.x assignments and list columns, also read by BuddyBuilder Pro
+ * and KLEO 6), `buddybuilder_db_version` and `bpb_imported_templates` (1.x upgrade and starter kit records of content
+ * that stays), Elementor templates and block layouts (site content).
  *
  * @package Buddy_Builder
  */
@@ -22,17 +24,58 @@ function bpb_uninstall_site() {
 	// The sample member, its friends, groups and activity (needs BuddyPress loaded for groups and activity).
 	\Buddy_Builder\Templates\SampleMember::remove();
 
-	foreach ( [ 'bpb_templates', 'bpb_migrations', 'bpb_migrations_checked', 'bpb_db_version', 'bpb_blocks_enabled', 'bpb_sample_member', 'bpb_replaced_elementor', 'bpb_undo', 'bpb_cards', \Buddy_Builder\Compat\Appsero::VERSION_OPTION ] as $option ) {
+	foreach ( bpb_uninstall_options() as $option ) {
 		delete_option( $option );
 	}
+
+	delete_transient( 'bpb_setup_redirect' );
 
 	// What the Appsero usage tracker (bundled until 1.9.2) stored.
 	\Buddy_Builder\Compat\Appsero::remove( dirname( WP_UNINSTALL_PLUGIN ) ); // "<folder>/loader.php".
 
-	$backups = $wpdb->get_col( $wpdb->prepare( "SELECT option_name FROM {$wpdb->options} WHERE option_name LIKE %s", $wpdb->esc_like( 'bpb_migration_backup_' ) . '%' ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+	// Migration backups and the per user migration reports (transients).
+	$prefixes = [ 'bpb_migration_backup_', '_transient_bpb_migration_report_', '_transient_timeout_bpb_migration_report_' ];
 
-	foreach ( $backups as $option ) {
-		delete_option( $option );
+	foreach ( $prefixes as $prefix ) {
+		$names = $wpdb->get_col( $wpdb->prepare( "SELECT option_name FROM {$wpdb->options} WHERE option_name LIKE %s", $wpdb->esc_like( $prefix ) . '%' ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+
+		foreach ( $names as $option ) {
+			delete_option( $option );
+		}
+	}
+}
+
+/**
+ * Options of one site BuddyBuilder removes.
+ *
+ * @return string[]
+ */
+function bpb_uninstall_options() {
+	return [
+		'bpb_templates',
+		'bpb_migrations',
+		'bpb_migrations_checked',
+		'bpb_migration_lock',
+		'bpb_db_version',
+		'bpb_blocks_enabled',
+		'bpb_sample_member',
+		'bpb_replaced_elementor',
+		'bpb_undo',
+		'bpb_cards',
+		'bpb_render_issues',
+		'bpb_setup',
+		'bpb_setup_pending',
+		'_bpb_installed_time',
+		\Buddy_Builder\Compat\Appsero::VERSION_OPTION,
+	];
+}
+
+/**
+ * User meta of every user (one users table for the whole network): dismissed notices.
+ */
+function bpb_uninstall_user_meta() {
+	foreach ( [ 'bpb_upsell_notice_dismissed', 'bpb_pairing_dismissed' ] as $key ) {
+		delete_metadata( 'user', 0, $key, '', true );
 	}
 }
 
@@ -45,3 +88,5 @@ if ( is_multisite() ) {
 } else {
 	bpb_uninstall_site();
 }
+
+bpb_uninstall_user_meta();
