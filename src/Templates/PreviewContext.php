@@ -364,6 +364,7 @@ final class PreviewContext {
 		}
 
 		self::server_render_streams();
+		ScriptScreens::hooks(); // Editors only: the front-end look previews run BuddyPress' scripts.
 
 		return self::$ctx;
 	}
