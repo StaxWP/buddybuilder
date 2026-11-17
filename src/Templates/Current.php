@@ -28,6 +28,10 @@ final class Current {
 			return 'members-directory';
 		}
 
+		if ( bp_is_active( 'groups' ) && function_exists( 'bp_is_group_create' ) && bp_is_group_create() ) {
+			return 'groups-create';
+		}
+
 		if ( bp_is_active( 'groups' ) && bp_is_groups_directory() ) {
 			return 'groups-directory';
 		}

@@ -1,9 +1,10 @@
 <?php
 /**
  * Prints what bin/capture-looks.js needs, as JSON: login cookies with a fresh session and, for every shipped look,
- * a preview URL of its page (nonce bound to that session). THROWAWAY site only (needs the compat env mu-plugin).
+ * a preview URL of its page (nonce bound to that session); with "pro", the BuddyBuilder Pro presets (register, group
+ * creation, cards) as temporary layouts and their compat cookie. THROWAWAY site only (needs the compat env mu-plugin).
  *
- *   wp eval-file bin/capture-looks.php <admin login>
+ *   wp eval-file bin/capture-looks.php <admin login> [pro]
  *
  * @package Buddy_Builder
  */
@@ -30,12 +31,45 @@ $_COOKIE[ LOGGED_IN_COOKIE ] = $bpb_login;
 
 $bpb_sample = \Buddy_Builder\Templates\SampleMember::create();
 $bpb_looks  = [];
+$bpb_pro    = isset( $args[1] ) && 'pro' === $args[1];
 
-foreach ( \Buddy_Builder\Presets\Library::presets() as $bpb_id => $bpb_preset ) {
-	$bpb_url = \Buddy_Builder\Templates\LayoutPreview::page_url( $bpb_preset['type'], [ $bpb_preset['type'] => 'preset:' . $bpb_id ], true, is_wp_error( $bpb_sample ) ? 0 : (int) $bpb_sample );
+if ( $bpb_pro ) {
+	// BuddyBuilder Pro presets (register, group creation, cards): temporary block layouts (meta _bpb_capture, deleted
+	// by capture-looks.js), assigned per request with the compat cookie (the register page is seen signed out).
+	foreach ( \Buddy_Builder\Presets\Presets::all() as $bpb_id => $bpb_preset ) {
+		if ( in_array( $bpb_preset['type'], \Buddy_Builder\Templates\Types::BLOCK_TYPES, true ) ) {
+			continue;
+		}
 
-	if ( $bpb_url ) {
-		$bpb_looks[ $bpb_id ] = $bpb_url;
+		$bpb_post = wp_insert_post(
+			[
+				'post_type'    => 'bpb_template',
+				'post_status'  => 'publish',
+				'post_title'   => 'Capture ' . $bpb_id,
+				'post_content' => wp_slash( \Buddy_Builder\Presets\Presets::blocks( $bpb_preset ) ),
+				'meta_input'   => [
+					'_bpb_type'    => $bpb_preset['type'],
+					'_bpb_capture' => 1,
+				],
+			]
+		);
+		$bpb_url  = \Buddy_Builder\Templates\LayoutPreview::type_url( $bpb_preset['type'] );
+
+		if ( $bpb_post && $bpb_url ) {
+			$bpb_looks[ $bpb_id ] = [
+				'url'    => $bpb_url,
+				'type'   => $bpb_preset['type'],
+				'cookie' => $bpb_preset['type'] . ':' . $bpb_post,
+			];
+		}
+	}
+} else {
+	foreach ( \Buddy_Builder\Presets\Library::presets() as $bpb_id => $bpb_preset ) {
+		$bpb_url = \Buddy_Builder\Templates\LayoutPreview::page_url( $bpb_preset['type'], [ $bpb_preset['type'] => 'preset:' . $bpb_id ], true, is_wp_error( $bpb_sample ) ? 0 : (int) $bpb_sample );
+
+		if ( $bpb_url ) {
+			$bpb_looks[ $bpb_id ] = $bpb_url;
+		}
 	}
 }
 

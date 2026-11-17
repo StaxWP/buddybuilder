@@ -939,9 +939,10 @@ final class CommunityPages {
 	/**
 	 * "Change look" / "Pick a look": the presets of the type, one click creates and assigns the layout.
 	 *
-	 * @param array $row Row.
+	 * @param array $row   Row.
+	 * @param bool  $child An item row (small button under its page row).
 	 */
-	private static function render_looks( array $row ) {
+	private static function render_looks( array $row, $child = false ) {
 		$presets  = Presets::all( $row['type'] );
 		$builders = self::builders();
 
@@ -950,12 +951,26 @@ final class CommunityPages {
 		}
 
 		$primary = ! $row['post'] && ! $row['pending'];
+		$card    = '-item' === substr( $row['type'], -5 );
 
-		echo '<details class="bpb-disclosure bpb-looks"><summary class="button' . ( $primary ? ' button-primary' : '' ) . '">' . esc_html( $row['post'] ? __( 'Change look', 'stax-buddy-builder' ) : __( 'Pick a look', 'stax-buddy-builder' ) ) . '</summary>';
-		echo '<div class="bpb-disclosure__panel bpb-looks__panel"><p>' . esc_html__( 'Preview a look on the real page first. Using it creates a new layout and makes it live; your current layout is kept and Undo puts it back.', 'stax-buddy-builder' ) . '</p><div class="bpb-looks__grid">';
+		// Cards (item layouts, BuddyBuilder Pro): "Design the card" starts one from a style's card (review 3.3).
+		if ( $card ) {
+			$summary = $row['post'] ? __( 'Change card', 'stax-buddy-builder' ) : __( 'Design the card', 'stax-buddy-builder' );
+			$intro   = __( 'Start the card from a style, then edit it like any layout. Using it makes it live in every list of this kind; your current card is kept and Undo puts it back.', 'stax-buddy-builder' );
+		} else {
+			$summary = $row['post'] ? __( 'Change look', 'stax-buddy-builder' ) : __( 'Pick a look', 'stax-buddy-builder' );
+			$intro   = __( 'Preview a look on the real page first. Using it creates a new layout and makes it live; your current layout is kept and Undo puts it back.', 'stax-buddy-builder' );
+		}
+
+		// Item rows sit under their page row: their summary names the item for screen readers.
+		/* translators: 1: action (Design the card, Pick a look, ...), 2: item name (Member card, Create a group, ...) */
+		$aria = $child ? ' aria-label="' . esc_attr( sprintf( __( '%1$s: %2$s', 'stax-buddy-builder' ), $summary, $row['label'] ) ) . '"' : '';
+		echo '<details class="bpb-disclosure bpb-looks"><summary class="button' . ( $child ? ' button-small' : ( $primary ? ' button-primary' : '' ) ) . '"' . $aria . '>' . esc_html( $summary ) . '</summary>'; // phpcs:ignore WordPress.Security.EscapeOutput -- $aria is escaped above.
+		echo '<div class="bpb-disclosure__panel bpb-looks__panel"><p>' . esc_html( $intro ) . '</p><div class="bpb-looks__grid">';
 
 		foreach ( $presets as $id => $preset ) {
-			$preview = LayoutPreview::page_url( $row['type'], [ $row['type'] => 'preset:' . $id ] );
+			// Signed-in administrators are sent away from the register page, so it has no preview.
+			$preview = 'register-page' === $row['type'] ? '' : LayoutPreview::page_url( $row['type'], [ $row['type'] => 'preset:' . $id ] );
 
 			echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" class="bpb-look">';
 			self::form_fields( $row['type'], 'look' );
@@ -1189,6 +1204,7 @@ final class CommunityPages {
 			echo '<a class="button button-small" href="' . esc_url( $row['edit_url'] ) . '" aria-label="' . esc_attr( sprintf( __( 'Edit the %s layout', 'stax-buddy-builder' ), $row['label'] ) ) . '">' . esc_html__( 'Edit', 'stax-buddy-builder' ) . '</a>';
 		}
 
+		self::render_looks( $row, true );
 		self::render_more( $row );
 		echo '</span></li>';
 	}

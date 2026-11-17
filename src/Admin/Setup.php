@@ -353,7 +353,8 @@ final class Setup {
 	}
 
 	/**
-	 * Page types the setup offers looks for (active component, at least one look).
+	 * Page types the setup offers looks for (active component, at least one look). Cards (item types) stay out: a card
+	 * layout replaces the card style of every list, so it is designed from its row on Community pages.
 	 *
 	 * @return array type => presets
 	 */
@@ -361,6 +362,10 @@ final class Setup {
 		$out = [];
 
 		foreach ( array_keys( Types::for_blocks() ) as $type ) {
+			if ( '-item' === substr( $type, -5 ) ) {
+				continue;
+			}
+
 			$presets = Types::is_active( $type ) ? Presets::all( $type ) : [];
 
 			if ( $presets ) {

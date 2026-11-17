@@ -52,11 +52,14 @@ final class Types {
 	 */
 	public static function component( $type ) {
 		$map = [
-			'member-profile'    => 'members',
-			'members-directory' => 'members',
-			'group-profile'     => 'groups',
-			'groups-directory'  => 'groups',
-			'sitewide-activity' => 'activity',
+			'member-profile'         => 'members',
+			'members-directory'      => 'members',
+			'group-profile'          => 'groups',
+			'groups-directory'       => 'groups',
+			'sitewide-activity'      => 'activity',
+			'groups-create'          => 'groups',
+			'groups-directory-item'  => 'groups',
+			'sitewide-activity-item' => 'activity',
 		];
 
 		return isset( $map[ $type ] ) ? $map[ $type ] : 'members';

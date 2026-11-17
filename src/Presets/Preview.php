@@ -31,20 +31,26 @@ final class Preview {
 
 	/**
 	 * Thumbnail of a preset: the real look rendered on the sample member (assets/img/looks/<id>.webp, made by
-	 * bin/capture-looks.js), or the drawing for presets without one (theme and add-on presets).
+	 * bin/capture-looks.js, or the image URL of the preset's "thumb", for example BuddyBuilder Pro's presets), or the
+	 * drawing for presets without one (theme and add-on presets).
 	 *
-	 * @param array $preset Preset (id, layout).
+	 * @param array $preset Preset (id, layout, thumb?).
 	 * @return string HTML.
 	 */
 	public static function thumb( array $preset ) {
 		$id   = isset( $preset['id'] ) ? sanitize_key( $preset['id'] ) : '';
 		$file = 'assets/img/looks/' . $id . '.webp';
+		$url  = ! empty( $preset['thumb'] ) ? (string) $preset['thumb'] : '';
 
-		if ( '' !== $id && file_exists( BPB_BASE_PATH . $file ) ) {
-			return '<img class="bpb-look-img" src="' . esc_url( BPB_BASE_URL . $file . '?ver=' . BPB_VERSION ) . '" alt="" width="480" height="480" loading="lazy" decoding="async">';
+		if ( '' === $url && '' !== $id && file_exists( BPB_BASE_PATH . $file ) ) {
+			$url = BPB_BASE_URL . $file . '?ver=' . BPB_VERSION;
 		}
 
-		return self::svg( $preset['layout'] );
+		if ( '' !== $url ) {
+			return '<img class="bpb-look-img" src="' . esc_url( $url ) . '" alt="" width="480" height="480" loading="lazy" decoding="async">';
+		}
+
+		return self::svg( isset( $preset['layout'] ) ? (array) $preset['layout'] : [] );
 	}
 
 	/**

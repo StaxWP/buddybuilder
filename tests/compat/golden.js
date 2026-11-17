@@ -18,7 +18,7 @@
  */
 const fs = require( 'fs' );
 const path = require( 'path' );
-const { TYPE_URLS, wpJson, normalise, loadPlaywright } = require( './lib' );
+const { TYPE_URLS, VARIANTS, wpJson, normalise, loadPlaywright } = require( './lib' );
 
 const argv = process.argv.slice( 2 );
 const opt = ( name, def ) => {
@@ -64,7 +64,9 @@ const mask = ( html ) => normalise( html )
 		$cases = json_decode( base64_decode( '${ Buffer.from( JSON.stringify( cards ) ).toString( 'base64' ) }' ), true );
 		foreach ( \\Buddy_Builder\\Presets\\Presets::all() as $id => $preset ) {
 			if ( isset( \\Buddy_Builder\\Templates\\Types::for_blocks()[ $preset['type'] ] ) ) {
-				$cases[] = [ 'name' => 'look-' . $id, 'type' => $preset['type'], 'content' => \\Buddy_Builder\\Presets\\Builder::to_blocks( $preset['layout'] ) ];
+				// BuddyBuilder Pro presets (register, group creation, cards) as they are applied; the five pages as before.
+				$pro = ! in_array( $preset['type'], \\Buddy_Builder\\Templates\\Types::BLOCK_TYPES, true );
+				$cases[] = [ 'name' => 'look-' . $id, 'type' => $preset['type'], 'content' => $pro ? \\Buddy_Builder\\Presets\\Presets::blocks( $preset ) : \\Buddy_Builder\\Presets\\Builder::to_blocks( $preset['layout'] ) ];
 			}
 		}
 		$out = [];
@@ -92,7 +94,7 @@ const mask = ( html ) => normalise( html )
 			continue;
 		}
 		const url = ( TYPE_URLS[ c.type ] || [] )[ 0 ];
-		for ( const v of [ 'anon', 'member' ] ) {
+		for ( const v of VARIANTS[ c.type ] || VARIANTS.default ) {
 			const key = `${ c.name }-${ v }`;
 			const ctx = contexts[ v ];
 			await ctx.addCookies( [ { name: 'bpb_compat_tpl', value: `${ c.type }:${ c.id }`, domain: host, path: '/' } ] );
@@ -102,7 +104,8 @@ const mask = ( html ) => normalise( html )
 			await page.addStyleTag( { content: '*,*::before,*::after{animation:none!important;transition:none!important;caret-color:transparent!important}#wpadminbar{display:none!important}' } );
 			const raw = await resp.text();
 			const notices = ( raw.match( /<!-- bpb-compat-notices (\[.*?\]) -->/ ) || [ '', '["NO-ENV"]' ] )[ 1 ];
-			const tpl = page.locator( '.bpb-template' ).first();
+			// Cards: the first card of the list (the page itself may have no layout).
+			const tpl = page.locator( c.type.endsWith( '-item' ) ? `.bpb-template-${ c.type }` : '.bpb-template' ).first();
 			const html = ( await tpl.count() ) ? mask( await tpl.evaluate( ( e ) => e.outerHTML ) ) : '';
 			const file = path.join( goldenDir, key + '.html' );
 			let result = 'ok';

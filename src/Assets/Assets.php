@@ -80,6 +80,8 @@ final class Assets {
 			}
 		}
 
+		self::item_looks();
+
 		if ( ! $entry || Registry::BLOCKS !== $entry['builder'] ) {
 			return;
 		}
@@ -98,6 +100,55 @@ final class Assets {
 		if ( wp_style_is( 'stax-buddy-builder-front', 'registered' ) ) {
 			wp_enqueue_style( 'stax-buddy-builder-front' );
 		}
+	}
+
+	/**
+	 * Item layouts (member card, group card, activity item) made from a style: the style's stylesheet in the head of
+	 * every BuddyPress page, so cards in lists, rails and AJAX loads look right from the first paint.
+	 */
+	private static function item_looks() {
+		if ( ! function_exists( 'is_buddypress' ) || ! is_buddypress() ) {
+			return;
+		}
+
+		foreach ( array_keys( \Buddy_Builder\Templates\Types::all() ) as $type ) {
+			if ( '-item' !== substr( $type, -5 ) ) {
+				continue;
+			}
+
+			foreach ( self::entry_looks( \Buddy_Builder\Templates\Dispatcher::resolve( $type ) ) as $style ) {
+				self::looks( $style );
+			}
+		}
+	}
+
+	/**
+	 * Styles a layout entry uses: the look classes of block markup (a layout or a look preview), the _bpb_look meta of
+	 * an Elementor template.
+	 *
+	 * @param array $entry Registry entry [ builder, id, content? ].
+	 * @return string[]
+	 */
+	public static function entry_looks( $entry ) {
+		if ( ! is_array( $entry ) ) {
+			return [];
+		}
+
+		if ( isset( $entry['content'] ) ) {
+			return self::looks_in( (string) $entry['content'] );
+		}
+
+		if ( empty( $entry['id'] ) || ! Registry::is_post_populated( (int) $entry['id'] ) ) {
+			return [];
+		}
+
+		if ( Registry::BLOCKS === $entry['builder'] ) {
+			return self::looks_in( (string) get_post_field( 'post_content', (int) $entry['id'] ) );
+		}
+
+		$look = (string) get_post_meta( (int) $entry['id'], '_bpb_look', true );
+
+		return preg_match( '/\bbpb-look--([a-z0-9_-]+)/', $look, $m ) ? [ $m[1] ] : [];
 	}
 
 	/** Look styles shipped in assets/css/looks/<style>.css (registered styles bring their own stylesheet). */
@@ -136,6 +187,16 @@ final class Assets {
 		} elseif ( in_array( $style, self::LOOK_STYLES, true ) && file_exists( BPB_BASE_PATH . 'assets/css/looks/' . $style . '.css' ) ) {
 			wp_enqueue_style( 'bpb-look-' . $style, BPB_ASSETS_URL . 'css/looks/' . $style . '.css', [ 'bpb-looks' ], BPB_VERSION );
 		}
+
+		/**
+		 * Fires after a style's stylesheet was enqueued (BuddyBuilder Pro adds the card, register and group creation
+		 * rules of its presets).
+		 *
+		 * @since 2.0.0
+		 *
+		 * @param string $style Style slug.
+		 */
+		do_action( 'buddy_builder/looks/enqueued', $style );
 	}
 
 	/**
@@ -245,5 +306,10 @@ final class Assets {
 		wp_enqueue_style( self::tokens() );
 		wp_enqueue_style( 'stax-buddy-builder-front-editor', BPB_ASSETS_URL . 'css/index' . $min . '.css', [], BPB_VERSION );
 		wp_enqueue_style( 'bpb-editor-canvas', BPB_ASSETS_URL . 'css/editor-canvas.css', [], BPB_VERSION );
+
+		// The styles the layout uses (a layout made from a style, a card from "Design the card").
+		foreach ( self::looks_in( (string) get_post_field( 'post_content', get_the_ID() ) ) as $style ) {
+			self::looks( $style );
+		}
 	}
 }

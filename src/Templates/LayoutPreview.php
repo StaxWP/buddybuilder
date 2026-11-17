@@ -111,6 +111,13 @@ final class LayoutPreview {
 			case 'sitewide-activity-item':
 				return bp_is_active( 'activity' ) && function_exists( 'bp_get_activity_directory_permalink' ) ? bp_get_activity_directory_permalink() : '';
 
+			case 'groups-create':
+				if ( ! bp_is_active( 'groups' ) ) {
+					return '';
+				}
+
+				return trailingslashit( function_exists( 'bp_get_groups_directory_url' ) ? bp_get_groups_directory_url() : bp_get_groups_directory_permalink() ) . 'create/step/group-details/';
+
 			case 'register-page':
 				return function_exists( 'bp_get_signup_page' ) ? bp_get_signup_page() : '';
 		}
