@@ -12,9 +12,11 @@ var BPBAdmin = BPBAdmin || {};
         initNotices: function() {
             $('div.notice.bpb-dismissable').on('click', '.bpb-dismiss-button', function (event) {
                 event.preventDefault();
+                var $notice = $(this).closest('.bpb-dismissable');
                 $.post(ajaxurl, {
                     action: 'bpb_admin_notice_viewed',
-                    notice_id: $(this).closest('.bpb-dismissable').data('notice_id')
+                    notice_id: $notice.data('notice_id'),
+                    _wpnonce: $notice.data('nonce')
                 });
                 var $wrapperElm = $(this).closest('.bpb-dismissable');
                 $wrapperElm.fadeTo(100, 0, function () {

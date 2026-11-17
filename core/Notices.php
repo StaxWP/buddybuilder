@@ -13,6 +13,16 @@ defined( 'ABSPATH' ) || die();
 final class Notices extends Singleton {
 
 	/**
+	 * Notices a user can hide for good: the only user meta keys the dismiss request may set.
+	 */
+	const DISMISSIBLE = [ 'bpb_rate_us' ];
+
+	/**
+	 * Nonce action prefix of the dismiss request (the notice id is appended).
+	 */
+	const DISMISS_NONCE = 'bpb_notice_viewed_';
+
+	/**
 	 * Notices constructor.
 	 */
 	public function __construct() {
@@ -21,21 +31,61 @@ final class Notices extends Singleton {
 	}
 
 	/**
-	 * Mark notice as viewed.
+	 * Notice ids that can be dismissed.
+	 *
+	 * @return string[]
+	 */
+	public static function dismissible() {
+		/**
+		 * Notice ids (user meta keys) the dismiss request accepts.
+		 *
+		 * @param string[] $ids Notice ids.
+		 */
+		return array_map( 'sanitize_key', (array) apply_filters( 'buddy_builder/notices/dismissible', self::DISMISSIBLE ) );
+	}
+
+	/**
+	 * Dismiss link of a notice (works without JavaScript; the AJAX request sends the same nonce).
+	 *
+	 * @param string $notice_id Notice id.
+	 *
+	 * @return string
+	 */
+	public static function dismiss_url( $notice_id ) {
+		return wp_nonce_url(
+			add_query_arg(
+				[
+					'action'    => 'bpb_admin_notice_viewed',
+					'notice_id' => $notice_id,
+				],
+				admin_url( 'admin-post.php' )
+			),
+			self::DISMISS_NONCE . $notice_id
+		);
+	}
+
+	/**
+	 * Mark notice as viewed: a known notice id, with its nonce, for the current user only.
 	 *
 	 * @return void
 	 */
 	public function bpb_admin_notice_viewed() {
-		$notice_id = ! empty( $_REQUEST['notice_id'] ) ? sanitize_text_field( $_REQUEST['notice_id'] ) : '';
+		$notice_id = isset( $_REQUEST['notice_id'] ) ? sanitize_key( wp_unslash( $_REQUEST['notice_id'] ) ) : '';
 
-		if ( ! $notice_id ) {
-			wp_die();
+		if ( ! $notice_id || ! in_array( $notice_id, self::dismissible(), true ) ) {
+			wp_die( esc_html__( 'This notice cannot be dismissed.', 'stax-buddy-builder' ), '', [ 'response' => 400 ] );
+		}
+
+		$nonce = isset( $_REQUEST['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) ) : '';
+
+		if ( ! is_user_logged_in() || ! wp_verify_nonce( $nonce, self::DISMISS_NONCE . $notice_id ) ) {
+			wp_die( esc_html__( 'The link has expired. Please reload the page and try again.', 'stax-buddy-builder' ), '', [ 'response' => 403 ] );
 		}
 
 		update_user_meta( get_current_user_id(), $notice_id, 1 );
 
 		if ( ! wp_doing_ajax() ) {
-			wp_safe_redirect( admin_url() );
+			wp_safe_redirect( wp_get_referer() ? wp_get_referer() : admin_url() );
 			die;
 		}
 
