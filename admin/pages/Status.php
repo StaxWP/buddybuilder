@@ -105,8 +105,6 @@ class StatusPage {
 	 * Screen.
 	 */
 	public static function render() {
-		\Buddy_Builder\Admin\Menu::render_tabs();
-
 		$data   = Status::collect();
 		$report = get_transient( 'bpb_migration_report_' . get_current_user_id() );
 		delete_transient( 'bpb_migration_report_' . get_current_user_id() );
@@ -119,10 +117,7 @@ class StatusPage {
 			$failed = $failed || 'failed' === $step['state'];
 		}
 		?>
-		<div class="wrap bpb-admin bpb-help">
-			<h1 class="wp-heading-inline"><?php esc_html_e( 'Help and status', 'stax-buddy-builder' ); ?></h1>
-			<span class="bpb-admin__version"><?php echo esc_html( sprintf( /* translators: %s: version */ __( 'BuddyBuilder %s', 'stax-buddy-builder' ), $versions['buddybuilder'] ) ); ?></span>
-			<hr class="wp-header-end">
+		<?php \Buddy_Builder\Admin\App::open( [ 'wrapper_class' => [ 'bpb-help' ] ] ); ?>
 
 			<?php if ( $report ) : ?>
 				<div class="notice notice-info is-dismissible"><p><?php esc_html_e( 'Done. The list below shows the result.', 'stax-buddy-builder' ); ?></p></div>
@@ -201,7 +196,7 @@ class StatusPage {
 					</tbody>
 				</table>
 			</details>
-		</div>
 		<?php
+		\Buddy_Builder\Admin\App::close();
 	}
 }

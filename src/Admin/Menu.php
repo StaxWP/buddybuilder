@@ -1,9 +1,10 @@
 <?php
 /**
  * Menu fold (decision 5, 2026-11-15): BuddyBuilder shows three entries, Community pages, Features (Pro) and Settings.
+ * The app (App) shows the same screens as tabs, plus Help.
  *
  * - Starter kits leaves the menu: the look picker on Community pages links to it ("More looks: Elementor kits").
- * - Help and status and License (Pro) leave the menu and become tabs of Settings.
+ * - Help and status leaves the menu (a tab of the app); License and Agents (Pro) become cards of Settings.
  * - Every slug stays registered and reachable (bookmarks, the 1.x admin_post handler, links from other plugins);
  *   only the menu entries move. The highlighted menu entry follows the tab.
  *
@@ -94,18 +95,11 @@ final class Menu {
 	}
 
 	/**
-	 * Tab bar at the top of the Settings screens.
+	 * Tab bar of the 2.0 development Settings screens. The app (App) shows every screen as a tab now: kept as a no-op
+	 * for add-ons that still call it.
+	 *
+	 * @deprecated 2.0.0 Use App::render().
 	 */
 	public static function render_tabs() {
-		$page = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification
-
-		echo '<nav class="nav-tab-wrapper bpb-settings-tabs" aria-label="' . esc_attr__( 'Settings', 'stax-buddy-builder' ) . '">';
-
-		foreach ( self::tabs() as $slug => $label ) {
-			$current = $slug === $page;
-			echo '<a class="nav-tab' . ( $current ? ' nav-tab-active' : '' ) . '" href="' . esc_url( admin_url( 'admin.php?page=' . $slug ) ) . '"' . ( $current ? ' aria-current="page"' : '' ) . '>' . esc_html( $label ) . '</a>';
-		}
-
-		echo '</nav>';
 	}
 }

@@ -203,7 +203,19 @@ async function shot( page, name, locator ) {
 		// Menu fold (decision 5): Community pages, Features (Pro), Settings; Help and status and License are tabs.
 		const menu = ( await page.locator( '#toplevel_page_buddy-builder-settings .wp-submenu a' ).allInnerTexts() ).map( ( t ) => t.trim() );
 		ok( ! menu.includes( 'Starter kits' ) && ! menu.includes( 'Help and status' ) && ! menu.includes( 'License' ) && menu.includes( 'Settings' ), 'menu folds to Community pages, Features and Settings (' + menu.join( ', ' ) + ')' );
-		ok( await page.locator( '.bpb-settings-tabs a:has-text("Help and status")' ).count() === 1, 'Settings has a Help and status tab' );
+		// Admin app: one shell, tabs Community pages, Features (Pro), Settings, Help; Settings is one screen of cards.
+		const tabs = ( await page.locator( '.bpb-app-nav a' ).allInnerTexts() ).map( ( t ) => t.trim() );
+		ok( tabs.includes( 'Community pages' ) && tabs.includes( 'Settings' ) && tabs.includes( 'Help' ), 'app tabs (' + tabs.join( ', ' ) + ')' );
+		ok( await page.locator( '.bpb-app-nav a.is-active:has-text("Settings")' ).count() === 1, 'Settings tab is the current one' );
+		ok( await page.locator( '#bpb-card-sample-member' ).count() === 1 && await page.locator( '#bpb-card-setup' ).count() === 1, 'Settings shows its cards' );
+		if ( php( echo( "defined( 'BPB_PRO_VERSION' )" ) ) ) {
+			ok( await page.locator( '#bpb-card-license' ).count() === 1 && await page.locator( '#bpb-card-agents' ).count() === 1, 'Pro adds the License and Agents cards' );
+			await page.goto( site + '/wp-admin/admin.php?page=buddy-builder-pro-license' );
+			ok( page.url().includes( 'page=buddy-builder-options' ) && page.url().endsWith( '#bpb-card-license' ), 'the old License screen opens its card' );
+			await page.goto( site + '/wp-admin/admin.php?page=buddy-builder-agents' );
+			ok( page.url().endsWith( '#bpb-card-agents' ), 'the old Agents screen opens its card' );
+			await page.goto( site + '/wp-admin/admin.php?page=buddy-builder-options' );
+		}
 		await axeCheck( page, 'settings' );
 		await shot( page, 'settings' );
 		await page.goto( site + '/wp-admin/admin.php?page=buddy-builder-status' );

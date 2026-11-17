@@ -102,6 +102,7 @@ class Settings extends Base {
             'link'     => admin_url( 'admin.php?page=' . BPB_ADMIN_PREFIX . $this->current_slug ),
             'query'    => BPB_ADMIN_PREFIX . $this->current_slug,
             'priority' => 1,
+            'icon'     => 'layout',
         ];
 
         return $menu;
