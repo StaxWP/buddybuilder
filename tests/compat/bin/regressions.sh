@@ -29,6 +29,9 @@ else
 fi
 run eval-file "$TEST" sample-member-hidden
 run eval-file "$TEST" sample-member-preview
+for v in valid forged subscriber; do
+	run eval-file "$TEST" sample-member-preview-ajax "$v"
+done
 for v in self friend member guest ''; do
 	run eval-file "$TEST" preview-seen-by "$v"
 done

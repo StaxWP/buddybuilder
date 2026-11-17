@@ -22,6 +22,7 @@
  * - preview-seen-by <viewer>    Majors UX B-M3: member preview seen by self|friend|member|guest|'' (buttons and
  *                               owner-only profile tabs follow, the real user is back after the request).
  * - sample-member-preview       Previews show and count the sample member's own (sitewide-hidden) activity.
+ * - sample-member-preview-ajax <valid|forged|subscriber>  ... and in the lists a preview page reloads over AJAX.
  * - upsell-delay                The Pro notice waits 7 days after the first live layout (or the 1.x milestone).
  * - community-pages-read-only   B-M1: rendering Community pages writes nothing; rows show the assignments.
  * - checker-known-issues        B-M4: page template finding; last finding kept and forgotten.
@@ -439,6 +440,41 @@ switch ( $bpb_case ) {
 			return (int) $a->hide_sitewide && ! in_array( (int) $a->user_id, array_map( 'intval', array_merge( [ $bpb_user ], $bpb_sample::data()['friends'] ) ), true );
 		} ), 'other hidden items stay hidden (' . $bpb_hidden . ' on the site)' );
 
+		if ( $bpb_made ) {
+			$bpb_sample::remove();
+		}
+		break;
+
+	case 'sample-member-preview-ajax':
+		// BuddyPress reloads the lists of a layout preview page over AJAX: the sample member's activity shows there
+		// only for a valid preview (administrator, nonce), never for a forged referer or another user.
+		$bpb_how = isset( $args[1] ) ? $args[1] : 'valid';
+		if ( ! bp_is_active( 'activity' ) ) {
+			$bpb_skip( 'needs the Activity component' );
+			break;
+		}
+		$bpb_sample = \Buddy_Builder\Templates\SampleMember::class;
+		$bpb_made   = ! $bpb_sample::user_id();
+		$bpb_user   = $bpb_sample::create();
+		$bpb_url    = \Buddy_Builder\Templates\LayoutPreview::url( home_url( '/members/' ), [ 'member-profile' => 'preset:classic-member-profile' ], true );
+		if ( 'forged' === $bpb_how ) {
+			$bpb_url = add_query_arg( 'bpb_lp_nonce', 'abc123', $bpb_url );
+		} elseif ( 'subscriber' === $bpb_how ) {
+			$bpb_sub = get_users( [ 'role' => 'subscriber', 'number' => 1, 'fields' => 'ID' ] );
+			wp_set_current_user( $bpb_sub ? (int) $bpb_sub[0] : 0 );
+		}
+		add_filter( 'wp_doing_ajax', '__return_true' );
+		$_SERVER['HTTP_REFERER'] = $bpb_url;
+		$bpb_stream = bp_activity_get(
+			[
+				'filter'      => [ 'user_id' => $bpb_user ],
+				'count_total' => true,
+			]
+		);
+		$bpb_shown  = 0 < (int) $bpb_stream['total'];
+		$bpb_ok( ( 'valid' === $bpb_how ) === $bpb_shown, $bpb_how . ': sample activity ' . ( $bpb_shown ? 'shown' : 'hidden' ) . ' in the AJAX list (' . (int) $bpb_stream['total'] . ')' );
+		remove_filter( 'wp_doing_ajax', '__return_true' );
+		wp_set_current_user( $bpb_admin ? (int) $bpb_admin[0] : 0 );
 		if ( $bpb_made ) {
 			$bpb_sample::remove();
 		}
