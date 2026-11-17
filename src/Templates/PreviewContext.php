@@ -220,11 +220,31 @@ final class PreviewContext {
 			);
 		}
 
+		// BuddyPress' own access checks follow the viewer too, as on the front end: owner-only profile tabs
+		// (Notifications, Messages, Settings), group admin tabs and capabilities read the viewer, not the editor.
+		add_filter(
+			'bp_current_user_can',
+			static function ( $retval, $capability, $site_id = 0, $args = [] ) use ( $viewer_id ) {
+				return $viewer_id && bp_user_can( $viewer_id, $capability, is_array( $args ) ? $args : [] );
+			},
+			99,
+			4
+		);
+
+		add_filter(
+			'bp_core_can_edit_settings',
+			static function () use ( $viewer_id, $user_id ) {
+				return $viewer_id && ( (int) $viewer_id === (int) $user_id || user_can( $viewer_id, 'edit_users' ) || bp_user_can( $viewer_id, 'bp_moderate' ) );
+			},
+			99
+		);
+
 		return $viewer;
 	}
 
 	/**
-	 * A member who is not in the excluded list (and not in the group), 0 when the site has none.
+	 * A regular member (not the editor, not a community moderator, whose view would differ from a member's) who is
+	 * not in the excluded list and not in the group, 0 when the site has none.
 	 *
 	 * @param int[] $exclude  Excluded ids.
 	 * @param int   $group_id Group the member must not belong to (0: any).
@@ -235,13 +255,13 @@ final class PreviewContext {
 			[
 				'number'  => 50,
 				'fields'  => 'ID',
-				'exclude' => array_filter( array_map( 'intval', $exclude ) ),
+				'exclude' => array_filter( array_map( 'intval', array_merge( $exclude, [ get_current_user_id() ] ) ) ),
 				'orderby' => 'ID',
 			]
 		);
 
 		foreach ( $ids as $id ) {
-			if ( ! $group_id || ! groups_is_user_member( (int) $id, $group_id ) ) {
+			if ( self::is_regular( (int) $id ) && ( ! $group_id || ! groups_is_user_member( (int) $id, $group_id ) ) ) {
 				return (int) $id;
 			}
 		}
@@ -250,7 +270,17 @@ final class PreviewContext {
 	}
 
 	/**
-	 * A member of the group (not the previewing user when possible), else its creator.
+	 * Whether a member sees the community as a regular member (not a community moderator).
+	 *
+	 * @param int $user_id Member.
+	 * @return bool
+	 */
+	private static function is_regular( $user_id ) {
+		return ! bp_user_can( $user_id, 'bp_moderate' );
+	}
+
+	/**
+	 * A regular member of the group (not the editor, not a group admin or moderator when possible), else its creator.
 	 *
 	 * @param int $group_id Group.
 	 * @return int
@@ -260,17 +290,19 @@ final class PreviewContext {
 			return 0;
 		}
 
-		$members = groups_get_group_members(
-			[
-				'group_id'   => $group_id,
-				'per_page'   => 5,
-				'exclude_admins_mods' => false,
-			]
-		);
+		foreach ( [ true, false ] as $exclude_admins_mods ) {
+			$members = groups_get_group_members(
+				[
+					'group_id'            => $group_id,
+					'per_page'            => 5,
+					'exclude_admins_mods' => $exclude_admins_mods,
+				]
+			);
 
-		foreach ( isset( $members['members'] ) ? $members['members'] : [] as $member ) {
-			if ( (int) $member->ID !== get_current_user_id() ) {
-				return (int) $member->ID;
+			foreach ( isset( $members['members'] ) ? $members['members'] : [] as $member ) {
+				if ( (int) $member->ID !== get_current_user_id() && self::is_regular( (int) $member->ID ) ) {
+					return (int) $member->ID;
+				}
 			}
 		}
 
@@ -565,8 +597,8 @@ final class PreviewContext {
 		$bp->current_item          = $group->slug;
 		$bp->current_action        = 'home';
 		$bp->is_single_item        = true;
-		$bp->is_item_admin         = bp_current_user_can( 'bp_moderate' ) || groups_is_user_admin( get_current_user_id(), $group_id );
-		$bp->is_item_mod           = (bool) groups_is_user_mod( get_current_user_id(), $group_id );
+		$bp->is_item_admin         = bp_current_user_can( 'bp_moderate' ) || groups_is_user_admin( bp_loggedin_user_id(), $group_id );
+		$bp->is_item_mod           = (bool) groups_is_user_mod( bp_loggedin_user_id(), $group_id );
 
 		// As BP_Groups_Component::setup_current_group() does on a real group page.
 		$group->front_template = bp_groups_get_front_template( $group );
