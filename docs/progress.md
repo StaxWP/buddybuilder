@@ -2,6 +2,19 @@
 
 Branch `main` (the 2.0 line since 2026-11-15; 1.x fixes go to `1.x`). Not released.
 
+## 2026-11-17 (release prep): 2.0.0 and 1.9.4 ready to publish
+
+Asked by Gabriel on 2026-11-17 ("prepare everything for when we release"). Nothing published; release steps, commands and rollback in `~/projects/bb-2.0-ux/release-2.0.0/CHECKLIST.md` (outside the repo, with the zips and the wp.org screenshots).
+
+- **Versions**: `main` 2.0.0 (header, `BPB_VERSION`); readme Requires at least 6.6, Requires PHP 7.4, Tested up to 7.1, **Stable tag stays 1.9.3** until the SVN commit (patch `stable-tag-2.0.0.patch` in the release folder). `1.x`: 1.9.4 (notice nonce and allow list, docs link) with changelog and upgrade notice.
+- **readme.txt**: description and FAQ for 2.0 (block editor and Elementor, Community pages, setup, Classic style, real previews, honest Free and Pro, privacy), 8 screenshot captions, 2.0.0 changelog (New, Improvements, Fixes, Removed, requirements), 2.0.0 upgrade notice, 1.9.4 entry; no em-dash left in the file.
+- **Fix: wide images in posts** (`assets/css/looks/base.css`): an image or video wider than the feed column made the activity card (a grid item) as wide as the image, under the sidebar; now `min-width: 0` on the item and `max-width: 100%; height: auto` on post media, at `:where()` specificity so a style's own media rules win.
+- **Help and status** says "BuddyBuilder Pro is not active." (it said "not installed" also when Pro was installed but off).
+- **Setup style previews** (`assets/images/styles/*.jpg`, the Pro style cards shown without Pro): recaptured on the sample community; the old ones showed a test user ("kleo-mcp-test"), the compat group and a test member type badge. `bin/capture-styles.js` now sets the sample-only cookie, like `capture-looks.js`.
+- **Tools**: `bin/build-zip.sh` reads `.distignore` at the built ref (a 1.x ref has none and ships its whole tree, as on wp.org; `main`'s list would have dropped 1.x's `vendor/`); `tests/compat/bin/update-real.sh` updates to the zip of `bin/build-zip.sh` (one packaging rule).
+
+Tests: see the Test record in CHECKLIST.md (gate rows, goldens, budgets, WP 6.6 / PHP 7.4 / Elementor 3.20, fresh installs, real updater, multisite, regressions, licensing, zip installs).
+
 ## 2026-11-17 (late): release fixes and improvements
 
 Asked by Gabriel on 2026-11-17 ("fix, improve and prepare everything for the release").
