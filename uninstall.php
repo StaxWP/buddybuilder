@@ -14,6 +14,7 @@ defined( 'WP_UNINSTALL_PLUGIN' ) || exit;
 
 require_once __DIR__ . '/src/Templates/SampleMember.php';
 require_once __DIR__ . '/src/Compat/Appsero.php';
+require_once __DIR__ . '/src/Upsell/Upsell.php';
 
 /**
  * Clean one site.
@@ -66,6 +67,7 @@ function bpb_uninstall_options() {
 		'bpb_setup',
 		'bpb_setup_pending',
 		'_bpb_installed_time',
+		\Buddy_Builder\Upsell\Upsell::SINCE_OPTION,
 		\Buddy_Builder\Compat\Appsero::VERSION_OPTION,
 	];
 }
@@ -74,7 +76,7 @@ function bpb_uninstall_options() {
  * User meta of every user (one users table for the whole network): dismissed notices.
  */
 function bpb_uninstall_user_meta() {
-	foreach ( [ 'bpb_upsell_notice_dismissed', 'bpb_pairing_dismissed' ] as $key ) {
+	foreach ( [ \Buddy_Builder\Upsell\Upsell::DISMISSED_META, 'bpb_pairing_dismissed' ] as $key ) {
 		delete_metadata( 'user', 0, $key, '', true );
 	}
 }

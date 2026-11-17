@@ -31,6 +31,12 @@ final class Upsell {
 	/** Community page types with a BuddyBuilder layout before the notice shows. */
 	const MILESTONE = 3;
 
+	/** Option: when the first BuddyBuilder layout went live (timestamp), the start of the notice delay. */
+	const SINCE_OPTION = 'bpb_upsell_since';
+
+	/** Days between the first live layout (or, on sites updated from 1.x, the milestone) and the notice. */
+	const DELAY_DAYS = 7;
+
 	/** Prefix of the promotion items in the Elementor panel. */
 	const ELEMENTOR_PREFIX = 'bpb-pro-';
 
@@ -42,6 +48,7 @@ final class Upsell {
 		add_action( 'elementor/editor/after_enqueue_scripts', [ __CLASS__, 'elementor_assets' ] );
 		add_action( 'admin_enqueue_scripts', [ __CLASS__, 'admin_assets' ] );
 		add_action( 'admin_notices', [ __CLASS__, 'notice' ] );
+		add_action( 'buddy_builder/registry/changed', [ __CLASS__, 'layout_live' ], 10, 3 );
 		add_action( 'admin_post_' . self::DISMISS_ACTION, [ __CLASS__, 'dismiss' ] );
 		add_action( 'wp_ajax_' . self::DISMISS_ACTION, [ __CLASS__, 'dismiss' ] );
 	}
@@ -362,8 +369,41 @@ final class Upsell {
 	}
 
 	/**
+	 * Start the notice delay when the first BuddyBuilder layout goes live (the setup's "Use these", or any
+	 * assignment on Community pages). Later assignments keep the first time.
+	 *
+	 * @param string $type Template type.
+	 * @param array  $old  Previous [ builder, id ].
+	 * @param array  $new  New [ builder, id ].
+	 */
+	public static function layout_live( $type, $old, $new ) {
+		if ( ! empty( $new['id'] ) && ! get_option( self::SINCE_OPTION ) ) {
+			update_option( self::SINCE_OPTION, time(), false );
+		}
+	}
+
+	/**
+	 * Whether the notice delay is over: DELAY_DAYS after the first live layout. Sites updated from 1.x have no
+	 * such time: the delay starts the first time the milestone is reached.
+	 *
+	 * @return bool
+	 */
+	private static function delay_over() {
+		$since = (int) get_option( self::SINCE_OPTION );
+
+		if ( ! $since ) {
+			update_option( self::SINCE_OPTION, time(), false );
+
+			return false;
+		}
+
+		return time() >= $since + self::DELAY_DAYS * DAY_IN_SECONDS;
+	}
+
+	/**
 	 * Whether the notice shows to the current user: Pro not active, an admin who has not dismissed it, on a
-	 * BuddyBuilder screen, and at least MILESTONE community pages built with BuddyBuilder (never on fresh installs).
+	 * BuddyBuilder screen, at least MILESTONE community pages built with BuddyBuilder (never on fresh installs), and
+	 * DELAY_DAYS after the first layout went live (never right after the setup).
 	 *
 	 * @return bool
 	 */
@@ -372,7 +412,8 @@ final class Upsell {
 			&& current_user_can( 'manage_options' )
 			&& self::is_bpb_screen()
 			&& ! get_user_meta( get_current_user_id(), self::DISMISSED_META, true )
-			&& self::pages_built() >= self::MILESTONE;
+			&& self::pages_built() >= self::MILESTONE
+			&& self::delay_over();
 	}
 
 	/**
