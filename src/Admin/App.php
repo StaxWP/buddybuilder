@@ -38,6 +38,7 @@ final class App {
 
 	/** Stroke icons (24x24, Lucide-style), shared by the app, the settings cards and add-ons. */
 	const ICONS = [
+		'heading'  => '<path d="M6 4v16M18 4v16M6 12h12"/>',
 		'layout'   => '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>',
 		'puzzle'   => '<path d="M19.4 13.6a2 2 0 1 0 0-3.2V6a1 1 0 0 0-1-1h-4.4a2 2 0 1 0-3.2 0H6.4a1 1 0 0 0-1 1v4.4a2 2 0 1 1 0 3.2V18a1 1 0 0 0 1 1h4.4a2 2 0 1 1 3.2 0h4.4a1 1 0 0 0 1-1z"/>',
 		'gear'     => '<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1 7 17M17 7l2.1-2.1"/>',

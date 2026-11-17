@@ -17,6 +17,7 @@ PreviewContext::hooks();
 \Buddy_Builder\Templates\SampleMember::hooks();
 \Buddy_Builder\Templates\Cards::hooks();
 \Buddy_Builder\Templates\ViewAs::hooks();
+\Buddy_Builder\Templates\PageTitle::hooks();
 
 add_filter( 'buddy_builder/settings', [ Dispatcher::class, 'filter_settings' ] );
 add_shortcode( Dispatcher::SHORTCODE, [ Dispatcher::class, 'shortcode' ] );

@@ -10,6 +10,7 @@ namespace Buddy_Builder\Admin;
 
 use Buddy_Builder\Features;
 use Buddy_Builder\Helpers;
+use Buddy_Builder\Templates\PageTitle;
 use Buddy_Builder\Templates\SampleMember;
 
 defined( 'ABSPATH' ) || die();
@@ -70,6 +71,17 @@ final class Options {
 			];
 		}
 
+		if ( PageTitle::available() ) {
+			$cards[] = [
+				'id'          => 'page-title',
+				'title'       => __( 'Page title from your theme', 'stax-buddy-builder' ),
+				'description' => __( 'Your theme prints the page name ("Members", the member\'s name) above the layout. BuddyBuilder layouts have their own header.', 'stax-buddy-builder' ),
+				'icon'        => 'heading',
+				'render'      => [ __CLASS__, 'render_page_title' ],
+				'priority'    => 15,
+			];
+		}
+
 		$cards[] = [
 			'id'          => 'sample-member',
 			'title'       => __( 'Sample member for previews', 'stax-buddy-builder' ),
@@ -114,11 +126,15 @@ final class Options {
 			wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'stax-buddy-builder' ) );
 		}
 
-		if ( Features::shows_blocks_toggle() ) {
+		$card = isset( $_POST['bpb_card'] ) ? sanitize_key( wp_unslash( $_POST['bpb_card'] ) ) : 'builders';
+
+		if ( 'page-title' === $card ) {
+			update_option( PageTitle::OPTION, empty( $_POST['bpb_hide_theme_title'] ) ? 'show' : 'hide' );
+		} elseif ( Features::shows_blocks_toggle() ) {
 			update_option( Features::BLOCKS_OPTION, empty( $_POST['bpb_blocks_enabled'] ) ? '0' : '1' );
 		}
 
-		wp_safe_redirect( App::settings_url( 'builders', [ 'bpb_saved' => 1 ] ) );
+		wp_safe_redirect( App::settings_url( $card, [ 'bpb_saved' => 1 ] ) );
 		exit;
 	}
 
@@ -143,15 +159,46 @@ final class Options {
 	 * Builders card.
 	 */
 	public static function render_builders() {
-		echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '">';
-		echo '<input type="hidden" name="action" value="' . esc_attr( self::ACTION ) . '">';
-		wp_nonce_field( self::ACTION );
+		self::form_open( 'builders' );
 		self::switch_row(
 			'bpb_blocks_enabled',
 			Features::blocks_enabled(),
 			__( 'Design community pages with the block editor', 'stax-buddy-builder' ),
 			__( 'Adds block layouts and the BuddyBuilder blocks. Your Elementor templates keep working; each page uses the layout you pick on Community pages.', 'stax-buddy-builder' )
 		);
+		self::form_close();
+	}
+
+	/**
+	 * Theme page title card.
+	 */
+	public static function render_page_title() {
+		self::form_open( 'page-title' );
+		self::switch_row(
+			'bpb_hide_theme_title',
+			PageTitle::enabled(),
+			__( 'Hide the theme\'s page title on community pages', 'stax-buddy-builder' ),
+			__( 'Only on pages that show a BuddyBuilder layout. Pages with the BuddyPress default keep the title.', 'stax-buddy-builder' )
+		);
+		self::form_close();
+	}
+
+	/**
+	 * Start of a card form saved by handle().
+	 *
+	 * @param string $card Card id.
+	 */
+	private static function form_open( $card ) {
+		echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '">';
+		echo '<input type="hidden" name="action" value="' . esc_attr( self::ACTION ) . '">';
+		echo '<input type="hidden" name="bpb_card" value="' . esc_attr( $card ) . '">';
+		wp_nonce_field( self::ACTION );
+	}
+
+	/**
+	 * Save button and end of a card form.
+	 */
+	private static function form_close() {
 		echo '<div class="bpb-app-setting__foot"><button type="submit" class="bpb-app-btn bpb-app-btn--primary">' . esc_html__( 'Save', 'stax-buddy-builder' ) . '</button></div>';
 		echo '</form>';
 	}

@@ -67,6 +67,7 @@ final class Setup {
 			// A transient, checked on the next admin pages: another plugin's own activation redirect may take the
 			// first one. It expires after a day, so an ignored setup never surprises the site later.
 			set_transient( self::REDIRECT, 1, DAY_IN_SECONDS );
+			\Buddy_Builder\Templates\PageTitle::default_for_new_site();
 		}
 	}
 
