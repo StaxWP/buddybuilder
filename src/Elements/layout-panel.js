@@ -1,6 +1,9 @@
 /**
  * BuddyBuilder layout panel (block editor, bpb_template only): page, preview member (searchable) or group, seen by.
  * The element kit's editor sends the unsaved choices with every preview request (editor_query_args).
+ * Element list per page (review 3.5, U3): the BuddyBuilder inserter category lists the elements made for the page
+ * first, then the ones for any page; elements made for other pages leave the inserter (layouts that already use them
+ * keep them). It follows the Page setting.
  * Plain ES5 + wp globals, no build step.
  */
 ( function ( wp, config ) {
@@ -13,6 +16,66 @@
 	var useDispatch = wp.data.useDispatch;
 	var SelectControl = wp.components.SelectControl;
 	var __ = wp.i18n.__;
+
+	// Block name => whether the inserter offered it before the page filter (deprecated elements stay out).
+	var offered = {};
+	var arranged = null;
+
+	/**
+	 * Re-register the BuddyBuilder blocks in page order: the inserter lists a category's blocks in registration
+	 * order. Runs before the editor starts (the page saved on the layout) and when the Page setting changes.
+	 *
+	 * @param {string} type Page type.
+	 */
+	function arrange( type ) {
+		var elements = config.elements || {};
+		var names = Object.keys( elements ).filter( function ( name ) {
+			return !! wp.blocks.getBlockType( name );
+		} );
+		var fits = function ( name ) {
+			return elements[ name ].indexOf( type ) !== -1;
+		};
+		var any = function ( name ) {
+			return ! elements[ name ].length;
+		};
+
+		if ( ! type || type === arranged || ! names.length ) {
+			return;
+		}
+
+		arranged = type;
+
+		// Made for this page only first (headers, about, content), then the ones shared with other pages.
+		names.filter( fits ).sort( function ( a, b ) {
+			return elements[ a ].length - elements[ b ].length;
+		} ).concat( names.filter( any ), names.filter( function ( name ) {
+			return ! fits( name ) && ! any( name );
+		} ) ).forEach( function ( name ) {
+			var settings = wp.blocks.unregisterBlockType( name );
+
+			if ( ! settings ) {
+				return;
+			}
+
+			if ( ! offered.hasOwnProperty( name ) ) {
+				offered[ name ] = ! settings.supports || false !== settings.supports.inserter;
+			}
+
+			settings.supports = Object.assign( {}, settings.supports, { inserter: offered[ name ] && ( fits( name ) || any( name ) ) } );
+			wp.blocks.registerBlockType( name, settings );
+		} );
+	}
+
+	arrange( config.type || 'member-profile' );
+
+	wp.data.subscribe( function () {
+		var editor = wp.data.select( 'core/editor' );
+		var meta = editor && editor.getCurrentPostType && 'bpb_template' === editor.getCurrentPostType() ? editor.getEditedPostAttribute( 'meta' ) : null;
+
+		if ( meta && meta._bpb_type ) {
+			arrange( meta._bpb_type );
+		}
+	} );
 
 	function options( list, emptyLabel ) {
 		return [ { value: '0', label: emptyLabel } ].concat( ( list || [] ).map( function ( item ) {

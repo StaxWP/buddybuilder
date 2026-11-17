@@ -27,7 +27,7 @@
 			"type": "boolean",
 			"default": true,
 			"control": "toggle",
-			"panel": "basic",
+			"panel": "advanced",
 			"label": "Show the title"
 		},
 		"object": {
@@ -47,7 +47,7 @@
 			"type": "string",
 			"default": "active",
 			"control": "select",
-			"panel": "basic",
+			"panel": "advanced",
 			"label": "Order",
 			"options": {
 				"active": "Recently active",

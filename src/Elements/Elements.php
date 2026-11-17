@@ -408,6 +408,24 @@ final class Elements {
 	}
 
 	/**
+	 * Page types of every element ("templateTypes" in element.json), in kit order: block name => types ([] when the
+	 * element fits any page). The layout editor lists the elements of the page first (layout-panel.js).
+	 *
+	 * @return array
+	 */
+	public static function page_types() {
+		$out = [];
+
+		foreach ( self::kit()->elements() as $element ) {
+			$schema = $element->schema();
+
+			$out[ $element->block_name() ] = isset( $schema['templateTypes'] ) ? array_values( (array) $schema['templateTypes'] ) : [];
+		}
+
+		return $out;
+	}
+
+	/**
 	 * Blocks hidden from the inserter outside block layouts: the page blocks (they need a BuddyPress page), and every
 	 * BuddyBuilder block while block layouts are disabled.
 	 *
@@ -485,10 +503,11 @@ final class Elements {
 			return;
 		}
 
+		// After the kit editor script: the element list per page re-registers the blocks it registered.
 		wp_enqueue_script(
 			'bpb-layout-panel',
 			BPB_BASE_URL . 'src/Elements/layout-panel.js',
-			[ 'wp-plugins', 'wp-editor', 'wp-element', 'wp-components', 'wp-data', 'wp-core-data', 'wp-i18n', 'wp-api-fetch', 'wp-url' ],
+			[ 'wp-plugins', 'wp-editor', 'wp-element', 'wp-components', 'wp-data', 'wp-core-data', 'wp-i18n', 'wp-api-fetch', 'wp-url', 'wp-blocks', self::kit()->editor_handle() ],
 			BPB_VERSION,
 			true
 		);
@@ -508,6 +527,8 @@ final class Elements {
 			'window.bpbLayout = ' . wp_json_encode(
 				[
 					'types'        => $types,
+					'type'         => get_post() ? PostType::type_of( get_post()->ID ) : PostType::TEMPLATE_TYPE,
+					'elements'     => self::page_types(),
 					'sampleMember' => \Buddy_Builder\Templates\SampleMember::user_id(),
 					'viewers'      => \Buddy_Builder\Templates\PreviewContext::viewer_options(),
 					'canSimulate'  => \Buddy_Builder\Templates\PreviewContext::can_simulate_members(),

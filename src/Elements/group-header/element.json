@@ -46,7 +46,7 @@
 			"type": "boolean",
 			"default": true,
 			"control": "toggle",
-			"panel": "basic",
+			"panel": "advanced",
 			"label": "Members"
 		},
 		"show_buttons": {

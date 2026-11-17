@@ -41,28 +41,28 @@
 			"type": "boolean",
 			"default": true,
 			"control": "toggle",
-			"panel": "basic",
+			"panel": "advanced",
 			"label": "@username"
 		},
 		"show_headline": {
 			"type": "boolean",
 			"default": true,
 			"control": "toggle",
-			"panel": "basic",
+			"panel": "advanced",
 			"label": "Headline"
 		},
 		"show_meta": {
 			"type": "boolean",
 			"default": true,
 			"control": "toggle",
-			"panel": "basic",
+			"panel": "advanced",
 			"label": "Location and dates"
 		},
 		"show_badges": {
 			"type": "boolean",
 			"default": true,
 			"control": "toggle",
-			"panel": "basic",
+			"panel": "advanced",
 			"label": "Badges"
 		},
 		"show_stats": {
