@@ -110,7 +110,7 @@ do_action( BPB_HOOK_PREFIX . $current_slug . '_page_container_before' );
 					<p class="ste-m-0 ste-p-0 ste-mb-4">
 						Have questions? Check out our knowledge base to learn more.
 					</p>
-					<a href="https://docs.staxwp.com/buddybuilder" target="_blank" rel="noopener"
+					<a href="https://staxwp.com/docs/buddybuilder/" target="_blank" rel="noopener"
 					   class="focus:ste-shadow-none">
 						Visit Knowledge Base »
 					</a>

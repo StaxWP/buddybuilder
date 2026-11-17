@@ -13,6 +13,16 @@ defined( 'ABSPATH' ) || die();
 final class Notices extends Singleton {
 
 	/**
+	 * Notices a user can hide for good: the only user meta keys the dismiss request may set.
+	 */
+	const DISMISSIBLE = [ 'bpb_rate_us' ];
+
+	/**
+	 * Nonce action prefix of the dismiss request (the notice id is appended).
+	 */
+	const DISMISS_NONCE = 'bpb_notice_viewed_';
+
+	/**
 	 * Notices constructor.
 	 */
 	public function __construct() {
@@ -21,21 +31,61 @@ final class Notices extends Singleton {
 	}
 
 	/**
-	 * Mark notice as viewed.
+	 * Notice ids that can be dismissed.
+	 *
+	 * @return string[]
+	 */
+	public static function dismissible() {
+		/**
+		 * Notice ids (user meta keys) the dismiss request accepts.
+		 *
+		 * @param string[] $ids Notice ids.
+		 */
+		return array_map( 'sanitize_key', (array) apply_filters( 'buddy_builder/notices/dismissible', self::DISMISSIBLE ) );
+	}
+
+	/**
+	 * Dismiss link of a notice (works without JavaScript; the AJAX request sends the same nonce).
+	 *
+	 * @param string $notice_id Notice id.
+	 *
+	 * @return string
+	 */
+	public static function dismiss_url( $notice_id ) {
+		return wp_nonce_url(
+			add_query_arg(
+				[
+					'action'    => 'bpb_admin_notice_viewed',
+					'notice_id' => $notice_id,
+				],
+				admin_url( 'admin-post.php' )
+			),
+			self::DISMISS_NONCE . $notice_id
+		);
+	}
+
+	/**
+	 * Mark notice as viewed: a known notice id, with its nonce, for the current user only.
 	 *
 	 * @return void
 	 */
 	public function bpb_admin_notice_viewed() {
-		$notice_id = ! empty( $_REQUEST['notice_id'] ) ? sanitize_text_field( $_REQUEST['notice_id'] ) : '';
+		$notice_id = isset( $_REQUEST['notice_id'] ) ? sanitize_key( wp_unslash( $_REQUEST['notice_id'] ) ) : '';
 
-		if ( ! $notice_id ) {
-			wp_die();
+		if ( ! $notice_id || ! in_array( $notice_id, self::dismissible(), true ) ) {
+			wp_die( esc_html__( 'This notice cannot be dismissed.', 'stax-buddy-builder' ), '', [ 'response' => 400 ] );
+		}
+
+		$nonce = isset( $_REQUEST['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) ) : '';
+
+		if ( ! is_user_logged_in() || ! wp_verify_nonce( $nonce, self::DISMISS_NONCE . $notice_id ) ) {
+			wp_die( esc_html__( 'The link has expired. Please reload the page and try again.', 'stax-buddy-builder' ), '', [ 'response' => 403 ] );
 		}
 
 		update_user_meta( get_current_user_id(), $notice_id, 1 );
 
 		if ( ! wp_doing_ajax() ) {
-			wp_safe_redirect( admin_url() );
+			wp_safe_redirect( wp_get_referer() ? wp_get_referer() : admin_url() );
 			die;
 		}
 
@@ -225,16 +275,10 @@ final class Notices extends Singleton {
 			return;
 		}
 
-		$dismiss_url = add_query_arg(
-			[
-				'action'    => 'bpb_admin_notice_viewed',
-				'notice_id' => esc_attr( $notice_id ),
-			],
-			admin_url( 'admin-post.php' )
-		);
+		$dismiss_url = self::dismiss_url( $notice_id );
 
 		?>
-		<div class="notice bpb-notice-box bpb-notice-info bpb-dismissable" data-notice_id="<?php echo esc_attr( $notice_id ); ?>">
+		<div class="notice bpb-notice-box bpb-notice-info bpb-dismissable" data-notice_id="<?php echo esc_attr( $notice_id ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( self::DISMISS_NONCE . $notice_id ) ); ?>">
 			<div class="bpb-notice-container">
 				<div class="bpb-notice-icon">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 66.75 78.81"><defs><style>.cls-1{fill:#2f3565;}.cls-2{fill:#03a9f4;}</style></defs><g id="Layer_2" data-name="Layer 2"><g id="StaxWP"><path class="cls-1" d="M62.48,42.82c-.45-.46-1-1-1.67-1.6C57.7,38.34,53,34,53,29v-.11a8.71,8.71,0,0,1,2.88-6.32c4.38-4.3,6.65-8.59,6.65-12.4a8.7,8.7,0,0,0-.66-3.38C60.17,2.73,55.38,0,49.9,0H11.72l-6,.14L4.59,3.31A11,11,0,0,1,5.68,4.67c1.81,2.77,1.51,6.68,1.38,8.69-1,15.58-5.28,35.46-7,45.83a6.61,6.61,0,0,0-.08,1,2,2,0,0,0,.32,1.24c.41.48,1.45.74,3,.74H31c6.15,0,13.78,0,16-3.33a4.77,4.77,0,0,0,.68-2.66A16.87,16.87,0,0,0,46,49.8c-4.25-9.39-14-13.13-14.15-13.17a2,2,0,0,0-.43-.07,7.82,7.82,0,0,0-1.18.18l-.44.06a13.81,13.81,0,0,1-1.82.14A13.38,13.38,0,1,1,41.34,23.55h0a12.58,12.58,0,0,1-.09,1.5,4.11,4.11,0,0,1-.07.47c0,.33-.1.65-.18,1s-.09.36-.13.53-.17.59-.26.88l-.19.53c-.12.29-.24.59-.37.84s-.15.32-.23.47c-.16.3-.32.59-.5.87l-.21.35a13.23,13.23,0,0,1-.84,1.13l-.15.16a11,11,0,0,1-.81.87l-.37.34-.68.59c-.06,0-.1.08-.09.13s0,.07.08.11A30.38,30.38,0,0,1,49.63,48.16a20.16,20.16,0,0,1,2.09,8.05A8.72,8.72,0,0,1,50.37,61c-3,4.64-10.07,5.11-16.89,5.16H31.26c-4.84,0-13.8-.31-19.92-.6a13.62,13.62,0,0,0-1,5.86,20.36,20.36,0,0,0,.28,3.21q.21,1.32.54,2.61l.26.89,1.6.65a7.47,7.47,0,0,0,.79-.6,5,5,0,0,1,1-.59,8.24,8.24,0,0,1,1.37-.48,11.39,11.39,0,0,1,2-.31c.83-.07,1.78-.12,2.91-.12s4.3-.09,9.16,0c5,.14,12.66.24,12.66.24C54.52,77,62.06,69,65,62.14a21.33,21.33,0,0,0,1.78-8.33A15.62,15.62,0,0,0,62.48,42.82ZM21.79,41.58c3.66,4.83-1.62,4.35-4.56,2.07C13.81,41,16.33,34.55,21.79,41.58ZM13.92,57.14c-7.38,3.21-15.68-6.62.66-9.26C25.73,46.21,20.26,54.38,13.92,57.14Z"/><path class="cls-2" d="M28,14.22a9.36,9.36,0,1,0,9.38,9.35h0A9.38,9.38,0,0,0,28,14.22Z"/></g></g></svg>
@@ -243,7 +287,7 @@ final class Notices extends Singleton {
 					<p><strong><?php echo __( 'We\'re happy when you\'re happy!', 'elementor' ); ?></strong> <?php _e( 'It\'s been a while since you\'re using BuddyBuilder and we are really grateful for that! You can boost our morale and confidence by leaving a five star review on WordPress.org.', 'stax-buddy-builder' ); ?></p>
 					<p>
 						<a href="https://staxwp.com/go/buddybuilder-rate-us/" target="_blank" class="button button-primary"><?php _e( 'Sure, will do', 'stax-buddy-builder' ); ?></a>
-						<a href="<?php echo esc_url_raw( $dismiss_url ); ?>" class="button bpb-dismiss-button"><?php _e( 'Hide', 'stax-buddy-builder' ); ?></a>
+						<a href="<?php echo esc_url( $dismiss_url ); ?>" class="button bpb-dismiss-button"><?php _e( 'Hide', 'stax-buddy-builder' ); ?></a>
 					</p>
 				</div>
 			</div>
