@@ -208,14 +208,7 @@ final class Elements {
 	 * @return Element[]
 	 */
 	public static function card_options( $elements, $kit ) {
-		/**
-		 * Filters the labels of the card styles (slug => label), per object.
-		 *
-		 * @since 2.0.0
-		 *
-		 * @param array $labels [ members|groups|activity => [ slug => label ] ].
-		 */
-		$labels = (array) apply_filters( 'buddy_builder/card_style_labels', [] );
+		$labels = \Buddy_Builder\Templates\Cards::labels();
 
 		foreach ( $elements as $name => $element ) {
 			$schema = $element->schema();

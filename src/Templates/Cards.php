@@ -54,6 +54,39 @@ final class Cards {
 		return array_values( array_unique( array_merge( [ 'classic' ], (array) apply_filters( 'buddy_builder/card_styles', $styles, $object ) ) ) );
 	}
 
+	/**
+	 * Labels of the card styles (slug => label) per object: Classic, plus the styles BuddyBuilder Pro adds.
+	 *
+	 * @return array [ members|groups|activity => [ slug => label ] ]
+	 */
+	public static function labels() {
+		/**
+		 * Filters the labels of the card styles (slug => label), per object.
+		 *
+		 * @since 2.0.0
+		 *
+		 * @param array $labels [ members|groups|activity => [ slug => label ] ].
+		 */
+		return (array) apply_filters( 'buddy_builder/card_style_labels', [] );
+	}
+
+	/**
+	 * Label of one card style.
+	 *
+	 * @param string $object members|groups|activity.
+	 * @param string $style  Style slug.
+	 * @return string
+	 */
+	public static function label( $object, $style ) {
+		$labels = self::labels();
+
+		if ( 'classic' !== $style && isset( $labels[ $object ][ $style ] ) ) {
+			return (string) $labels[ $object ][ $style ];
+		}
+
+		return 'classic' === $style ? __( 'Classic', 'stax-buddy-builder' ) : ucfirst( (string) $style );
+	}
+
 	/** Option key per object (the directory or the activity page). */
 	const TARGETS = [
 		'members'  => 'members_directory',

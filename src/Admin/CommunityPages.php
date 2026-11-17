@@ -16,6 +16,7 @@ use Buddy_Builder\Features;
 use Buddy_Builder\Integrations\Elementor\Integration as Elementor;
 use Buddy_Builder\Presets\Presets;
 use Buddy_Builder\Presets\Preview;
+use Buddy_Builder\Templates\Cards;
 use Buddy_Builder\Templates\LayoutPreview;
 use Buddy_Builder\Templates\PostType;
 use Buddy_Builder\Templates\Registry;
@@ -460,6 +461,27 @@ final class CommunityPages {
 		$do     = isset( $_POST['do'] ) ? sanitize_key( wp_unslash( $_POST['do'] ) ) : '';
 		$layout = isset( $_POST['layout'] ) ? absint( $_POST['layout'] ) : 0;
 
+		if ( 'import' === $do ) {
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- an upload: the file is validated and its JSON sanitized by LayoutActions.
+			$id   = isset( $_FILES['bpb_layout_file'] ) && is_array( $_FILES['bpb_layout_file'] ) ? LayoutActions::import_upload( $_FILES['bpb_layout_file'] ) : LayoutActions::import_upload( [] );
+			$type = is_wp_error( $id ) ? '' : PostType::type_of( $id );
+
+			wp_safe_redirect(
+				add_query_arg(
+					array_filter(
+						[
+							'bpb_done'         => is_wp_error( $id ) ? 'import-error' : 'import',
+							'bpb_import_error' => is_wp_error( $id ) ? $id->get_error_code() : '',
+							'bpb_type'         => $type,
+							'bpb_copy'         => is_wp_error( $id ) ? 0 : $id,
+						]
+					),
+					admin_url( 'admin.php?page=' . BPB_ADMIN_PREFIX . self::SLUG )
+				) . ( $type ? '#bpb-page-' . $type : '#bpb-import' )
+			);
+			exit;
+		}
+
 		if ( 'export' === $do && LayoutActions::can( 'export', $layout ) ) {
 			$file = LayoutActions::export( $layout );
 
@@ -716,7 +738,17 @@ final class CommunityPages {
 			'undo'            => __( 'Undone: the page uses what it used before.', 'stax-buddy-builder' ),
 			'duplicate'       => __( 'A copy was saved as a draft. No page uses it until you pick it.', 'stax-buddy-builder' ),
 			'delete'          => __( 'The layout was moved to the trash.', 'stax-buddy-builder' ),
+			'import'          => __( 'The layout was imported as a draft. No page uses it until you pick it.', 'stax-buddy-builder' ),
 		];
+
+		if ( 'import-error' === $done ) {
+			$code   = isset( $_GET['bpb_import_error'] ) ? sanitize_key( wp_unslash( $_GET['bpb_import_error'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification
+			$errors = LayoutActions::import_messages();
+
+			echo '<div class="notice notice-error is-dismissible" role="alert"><p>' . esc_html( isset( $errors[ $code ] ) ? $errors[ $code ] : __( 'That did not work. Nothing was changed.', 'stax-buddy-builder' ) ) . '</p></div>';
+
+			return;
+		}
 
 		if ( 'error' === $done || ! isset( $messages[ $done ] ) ) {
 			echo '<div class="notice notice-error is-dismissible"><p>' . esc_html__( 'That did not work. Nothing was changed.', 'stax-buddy-builder' ) . '</p></div>';
@@ -736,14 +768,14 @@ final class CommunityPages {
 
 		echo '<div class="notice notice-success is-dismissible bpb-done"><p>' . esc_html( $message );
 
-		if ( 'duplicate' === $done && $copy && current_user_can( 'edit_post', $copy ) ) {
-			echo ' <a href="' . esc_url( self::edit_url( $copy ) ) . '">' . esc_html__( 'Edit the copy', 'stax-buddy-builder' ) . '</a>';
+		if ( in_array( $done, [ 'duplicate', 'import' ], true ) && $copy && current_user_can( 'edit_post', $copy ) ) {
+			echo ' <a href="' . esc_url( self::edit_url( $copy ) ) . '">' . esc_html( 'import' === $done ? __( 'Edit the imported layout', 'stax-buddy-builder' ) : __( 'Edit the copy', 'stax-buddy-builder' ) ) . '</a>';
 		}
 
 		echo '</p>';
 
 		// Undo follows the change it belongs to: a delete offers it after "delete", a page change after the others.
-		if ( $type && 'undo' !== $done && 'duplicate' !== $done && ( 'delete' === $done ) === (bool) $trashed ) {
+		if ( $type && ! in_array( $done, [ 'undo', 'duplicate', 'import' ], true ) && ( 'delete' === $done ) === (bool) $trashed ) {
 			echo '<p>';
 			/* translators: %s: page name */
 			self::button_form( $type, 'undo', __( 'Undo', 'stax-buddy-builder' ), 'button', sprintf( __( 'Undo the change on %s', 'stax-buddy-builder' ), self::label( $type ) ) );
@@ -796,7 +828,26 @@ final class CommunityPages {
 
 		echo '</div>';
 
+		self::render_import();
+
 		\Buddy_Builder\Upsell\Upsell::render_features();
+	}
+
+	/**
+	 * Import a block layout export (the JSON of More > Export): a draft layout, used once picked for its page.
+	 */
+	private static function render_import() {
+		if ( ! isset( self::builders()[ Registry::BLOCKS ] ) ) {
+			return;
+		}
+
+		echo '<details class="bpb-disclosure bpb-cp__import" id="bpb-import"><summary class="button">' . esc_html__( 'Import layout', 'stax-buddy-builder' ) . '</summary><div class="bpb-disclosure__panel">';
+		echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" enctype="multipart/form-data">';
+		self::form_fields( '', 'import' );
+		echo '<p><label for="bpb-import-file">' . esc_html__( 'Block layout export (.json)', 'stax-buddy-builder' ) . '</label><br><input type="file" id="bpb-import-file" name="bpb_layout_file" accept=".json,application/json" required aria-describedby="bpb-import-help"></p>';
+		echo '<p class="description" id="bpb-import-help">' . esc_html__( 'A file made by More > Export of a block layout. It becomes a draft; pick it on its page to use it. Elementor exports go to Elementor > Templates > Import Templates.', 'stax-buddy-builder' ) . '</p>';
+		echo '<p><button type="submit" class="button button-primary">' . esc_html__( 'Import', 'stax-buddy-builder' ) . '</button></p>';
+		echo '</form></div></details>';
 	}
 
 	/**
@@ -837,7 +888,9 @@ final class CommunityPages {
 			echo ' <span class="bpb-label">' . esc_html__( 'Pro', 'stax-buddy-builder' ) . '</span>';
 		}
 
-		echo '</h2><p>' . esc_html( self::subtitle( $row ) ) . '</p></div>';
+		echo '</h2><p>' . esc_html( self::subtitle( $row ) ) . '</p>';
+		self::render_card_line( $row );
+		echo '</div>';
 
 		echo '<div class="bpb-cp__builder"><span class="screen-reader-text">' . esc_html__( 'Builder:', 'stax-buddy-builder' ) . ' </span>' . esc_html( $row['builder_label'] ? $row['builder_label'] : __( 'none', 'stax-buddy-builder' ) ) . '</div>';
 
@@ -866,7 +919,7 @@ final class CommunityPages {
 		}
 
 		/**
-		 * Fires after a page row on the Community pages screen (Pro 2.1 adds layout variations here).
+		 * Fires after a page row on the Community pages screen (BuddyBuilder Pro adds layout variations here).
 		 *
 		 * @param string $type Template type.
 		 * @param array  $row  Row data.
@@ -874,6 +927,46 @@ final class CommunityPages {
 		do_action( 'buddy_builder/community_pages/after_row', $type, $row );
 
 		echo '</section>';
+	}
+
+	/**
+	 * "Card: <style>" under the directory and activity rows: how the page's list shows each member, group or post,
+	 * with a link to where it changes (the list element's Card setting in the page layout, or the card layout).
+	 *
+	 * @param array $row Row.
+	 */
+	private static function render_card_line( array $row ) {
+		$object = array_search( $row['type'], Cards::PAGE_TYPES, true );
+
+		if ( false === $object || ! $row['active'] ) {
+			return;
+		}
+
+		$item = Cards::ITEM_TYPES[ $object ];
+
+		if ( Cards::has_card_layout( $object ) ) {
+			$text = __( 'Card: your card layout', 'stax-buddy-builder' );
+			$link = [ '#bpb-page-' . $item, __( 'Edit the card', 'stax-buddy-builder' ), '' ];
+		} else {
+			/* translators: %s: card style name, e.g. Compact */
+			$text = sprintf( __( 'Card: %s', 'stax-buddy-builder' ), Cards::label( $object, Cards::saved( $object ) ) );
+			$link = null;
+
+			if ( $row['post'] && $row['edit_url'] ) {
+				/* translators: %s: page name */
+				$link = [ $row['edit_url'], __( 'Change', 'stax-buddy-builder' ), sprintf( __( 'Change the card style: the Card setting of the list in the %s layout', 'stax-buddy-builder' ), $row['label'] ) ];
+			} elseif ( Types::is_active( $item ) && isset( Types::for_blocks()[ $item ] ) ) {
+				$link = [ '#bpb-page-' . $item, __( 'Design the card', 'stax-buddy-builder' ), '' ];
+			}
+		}
+
+		echo '<p class="bpb-cp__card">' . esc_html( $text );
+
+		if ( $link ) {
+			echo ' <a href="' . esc_url( $link[0] ) . '"' . ( $link[2] ? ' aria-label="' . esc_attr( $link[2] ) . '"' : '' ) . '>' . esc_html( $link[1] ) . '</a>';
+		}
+
+		echo '</p>';
 	}
 
 	/**
@@ -969,8 +1062,8 @@ final class CommunityPages {
 		echo '<div class="bpb-disclosure__panel bpb-looks__panel"><p>' . esc_html( $intro ) . '</p><div class="bpb-looks__grid">';
 
 		foreach ( $presets as $id => $preset ) {
-			// Signed-in administrators are sent away from the register page, so it has no preview.
-			$preview = 'register-page' === $row['type'] ? '' : LayoutPreview::page_url( $row['type'], [ $row['type'] => 'preset:' . $id ] );
+			// The register page previews too: LayoutPreview shows it to the signed-in administrator as to a visitor.
+			$preview = LayoutPreview::page_url( $row['type'], [ $row['type'] => 'preset:' . $id ] );
 
 			echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" class="bpb-look">';
 			self::form_fields( $row['type'], 'look' );

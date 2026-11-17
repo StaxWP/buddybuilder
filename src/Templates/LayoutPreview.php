@@ -279,6 +279,13 @@ final class LayoutPreview {
 		nocache_headers();
 		PreviewContext::server_render_streams();
 
+		// BuddyPress sends signed-in members away from the sign-up page: the administrator previewing it sees the
+		// page as a visitor would (nothing is submitted or saved, see register_screen()).
+		if ( isset( self::map()['register-page'] ) && is_user_logged_in() && has_action( 'bp_screens', 'bp_core_screen_signup' ) ) {
+			remove_action( 'bp_screens', 'bp_core_screen_signup' );
+			add_action( 'bp_screens', [ __CLASS__, 'register_screen' ] );
+		}
+
 		if ( ! defined( 'DONOTCACHEPAGE' ) ) {
 			define( 'DONOTCACHEPAGE', true ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals
 		}
@@ -289,6 +296,37 @@ final class LayoutPreview {
 		} else {
 			add_action( 'wp_footer', [ __CLASS__, 'banner' ] );
 		}
+	}
+
+	/**
+	 * The sign-up screen of a register page preview (an administrator with the preview nonce, see map()): BuddyPress'
+	 * own screen without the redirect of signed-in members and without handling a submitted form. The page is not
+	 * indexed and not cached (boot()).
+	 */
+	public static function register_screen() {
+		if ( ! bp_is_current_component( 'register' ) || bp_current_action() ) {
+			return;
+		}
+
+		$bp = buddypress();
+
+		bp_update_is_directory( false, 'register' );
+
+		if ( ! isset( $bp->signup ) || ! is_object( $bp->signup ) ) {
+			$bp->signup = new \stdClass();
+		}
+
+		$open             = bp_get_signup_allowed() || ( function_exists( 'bp_get_membership_requests_required' ) && bp_get_membership_requests_required() );
+		$bp->signup->step = $open ? 'request-details' : 'registration-disabled';
+
+		/** This action is documented in BuddyPress' bp-members/screens/register.php. */
+		do_action( 'bp_core_screen_signup' );
+
+		/** This filter is documented in BuddyPress' bp-members/screens/register.php. */
+		$templates   = apply_filters( 'bp_core_template_register', [ 'register', 'registration/register' ] );
+		$templates[] = 'members/register';
+
+		bp_core_load_template( $templates );
 	}
 
 	/**

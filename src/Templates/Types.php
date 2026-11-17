@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || die();
 final class Types {
 
 	/**
-	 * Types that block layouts support in 2.0 (Pro item, register and group-create types follow in 2.1).
+	 * Types that block layouts support in the free plugin (BuddyBuilder Pro adds the card, register and group creation types).
 	 */
 	const BLOCK_TYPES = [ 'member-profile', 'members-directory', 'group-profile', 'groups-directory', 'sitewide-activity' ];
 

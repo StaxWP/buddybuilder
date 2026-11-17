@@ -29,6 +29,9 @@ final class LayoutActions {
 	/** Block layout meta that travels in an export (the preview member, group and viewer are site data). */
 	const EXPORT_META = [ PostType::META_TYPE, PostType::META_PRESET, '_bpb_look' ];
 
+	/** Largest import file (bytes). */
+	const IMPORT_MAX = 2097152;
+
 	/** Query argument of the Elementor editor URL that opens History > Revisions. */
 	const OPEN_HISTORY = 'bpb_history';
 
@@ -263,6 +266,142 @@ final class LayoutActions {
 			'name' => ( Registry::ELEMENTOR === Registry::builder_of( $post->ID ) ? 'elementor-' : 'buddybuilder-' ) . ( $slug ? $slug : $post->ID ) . '-' . gmdate( 'Y-m-d' ) . '.json',
 			'data' => $data,
 		];
+	}
+
+	/**
+	 * Messages of a failed import, by error code (Community pages shows them after the redirect).
+	 *
+	 * @return string[]
+	 */
+	public static function import_messages() {
+		return [
+			'bpb_import_upload'    => __( 'Choose an exported layout file (.json) to import.', 'stax-buddy-builder' ),
+			'bpb_import_size'      => __( 'The file is too large for a layout export.', 'stax-buddy-builder' ),
+			'bpb_import_cap'       => __( 'You are not allowed to import layouts.', 'stax-buddy-builder' ),
+			'bpb_import_json'      => __( 'This file is not a layout export (it is not valid JSON).', 'stax-buddy-builder' ),
+			'bpb_import_elementor' => __( 'This is an Elementor template export: import it in Elementor > Templates > Import Templates.', 'stax-buddy-builder' ),
+			'bpb_import_format'    => __( 'This file is not a BuddyBuilder block layout export.', 'stax-buddy-builder' ),
+			'bpb_import_type'      => __( 'This layout is for a page type this site cannot use (it may need BuddyBuilder Pro or a BuddyPress component).', 'stax-buddy-builder' ),
+			'bpb_import_content'   => __( 'The layout in this file has no blocks.', 'stax-buddy-builder' ),
+		];
+	}
+
+	/**
+	 * Import error.
+	 *
+	 * @param string $code Code (import_messages()).
+	 * @return \WP_Error
+	 */
+	private static function import_error( $code ) {
+		$messages = self::import_messages();
+
+		return new \WP_Error( $code, isset( $messages[ $code ] ) ? $messages[ $code ] : __( 'That did not work. Nothing was changed.', 'stax-buddy-builder' ) );
+	}
+
+	/**
+	 * Import a block layout export (Community pages > Import layout) from an uploaded file.
+	 *
+	 * @param array $file One entry of $_FILES.
+	 * @return int|\WP_Error New layout id (draft).
+	 */
+	public static function import_upload( array $file ) {
+		if ( ! isset( $file['error'], $file['tmp_name'], $file['size'] ) || UPLOAD_ERR_OK !== (int) $file['error'] || ! is_uploaded_file( $file['tmp_name'] ) ) {
+			return self::import_error( 'bpb_import_upload' );
+		}
+
+		if ( (int) $file['size'] > self::IMPORT_MAX ) {
+			return self::import_error( 'bpb_import_size' );
+		}
+
+		return self::import( (string) file_get_contents( $file['tmp_name'] ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- local upload.
+	}
+
+	/**
+	 * Import a block layout export (the JSON of Community pages > More > Export): a draft block layout with the
+	 * export's title, content, page type, preset and look. Not assigned to any page. The content is saved like a
+	 * layout saved in the block editor (wp_insert_post with WordPress' content filters: without the unfiltered_html
+	 * capability, the same HTML filtering).
+	 *
+	 * @param string $json Export file contents.
+	 * @return int|\WP_Error New layout id (draft).
+	 */
+	public static function import( $json ) {
+		$type_object = get_post_type_object( PostType::POST_TYPE );
+
+		if ( ! current_user_can( 'manage_options' ) || ! $type_object || ! current_user_can( $type_object->cap->create_posts ) ) {
+			return self::import_error( 'bpb_import_cap' );
+		}
+
+		$data = json_decode( (string) $json, true );
+
+		if ( ! is_array( $data ) ) {
+			return self::import_error( 'bpb_import_json' );
+		}
+
+		if ( ! isset( $data['format'] ) && isset( $data['content'], $data['version'] ) ) {
+			return self::import_error( 'bpb_import_elementor' );
+		}
+
+		if ( ! isset( $data['format'], $data['version'], $data['content'] ) || self::FORMAT !== $data['format'] || 1 !== (int) $data['version'] || ! is_string( $data['content'] ) || ( isset( $data['builder'] ) && Registry::BLOCKS !== $data['builder'] ) ) {
+			return self::import_error( 'bpb_import_format' );
+		}
+
+		$type = isset( $data['type'] ) && is_string( $data['type'] ) ? sanitize_key( $data['type'] ) : '';
+
+		if ( ! isset( Types::for_blocks()[ $type ] ) ) {
+			return self::import_error( 'bpb_import_type' );
+		}
+
+		if ( '' !== trim( $data['content'] ) && ! has_blocks( $data['content'] ) ) {
+			return self::import_error( 'bpb_import_content' );
+		}
+
+		$title = isset( $data['title'] ) && is_string( $data['title'] ) ? sanitize_text_field( $data['title'] ) : '';
+		$meta  = isset( $data['meta'] ) && is_array( $data['meta'] ) ? $data['meta'] : [];
+		$look  = isset( $meta['_bpb_look'] ) && is_string( $meta['_bpb_look'] ) ? implode( ' ', array_filter( array_map( 'sanitize_html_class', preg_split( '/\s+/', $meta['_bpb_look'] ) ) ) ) : '';
+
+		$id = wp_insert_post(
+			wp_slash(
+				[
+					'post_type'    => PostType::POST_TYPE,
+					'post_status'  => 'draft',
+					/* translators: %s: layout title */
+					'post_title'   => sprintf( __( '%s (imported)', 'stax-buddy-builder' ), '' !== $title ? $title : CommunityPages::label( $type ) ),
+					'post_content' => $data['content'],
+					'post_author'  => get_current_user_id(),
+				]
+			),
+			true
+		);
+
+		if ( is_wp_error( $id ) ) {
+			return $id;
+		}
+
+		// Registered meta run their sanitize callbacks (page type, preset).
+		update_post_meta( $id, PostType::META_TYPE, $type );
+
+		if ( isset( $meta[ PostType::META_PRESET ] ) && is_string( $meta[ PostType::META_PRESET ] ) ) {
+			update_post_meta( $id, PostType::META_PRESET, sanitize_key( $meta[ PostType::META_PRESET ] ) );
+		}
+
+		if ( '' !== $look ) {
+			update_post_meta( $id, '_bpb_look', $look );
+		}
+
+		Registry::flush();
+
+		/**
+		 * Fires after a block layout was imported from Community pages.
+		 *
+		 * @since 2.0.0
+		 *
+		 * @param int   $id   New layout id (draft).
+		 * @param array $data Export data.
+		 */
+		do_action( 'buddy_builder/layout/imported', (int) $id, $data );
+
+		return (int) $id;
 	}
 
 	/**

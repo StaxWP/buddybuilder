@@ -52,6 +52,8 @@
 .bpb-disclosure > summary { list-style: none; }
 .bpb-disclosure > summary::-webkit-details-marker { display: none; }
 .bpb-disclosure__panel { position: absolute; right: 0; top: calc(100% + 4px); z-index: 20; background: #fff; border: 1px solid #c3c4c7; border-radius: 4px; box-shadow: 0 4px 16px rgba(0, 0, 0, .12); padding: 12px; text-align: left; }
+.bpb-cp__import { position: relative; display: inline-block; margin: 16px 0 0; }
+.bpb-cp__import .bpb-disclosure__panel { left: 0; right: auto; min-width: 320px; max-width: calc(100vw - 48px); }
 .bpb-more__panel { min-width: 260px; }
 .bpb-more__panel .bpb-inline-form { display: block; margin-bottom: 8px; }
 .bpb-more__assign label { display: block; font-weight: 600; margin-bottom: 4px; }

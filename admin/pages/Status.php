@@ -135,7 +135,7 @@ class StatusPage {
 			<div class="bpb-card">
 				<h2><?php esc_html_e( 'Get help', 'stax-buddy-builder' ); ?></h2>
 				<ul class="bpb-help-links">
-					<li><a href="https://docs.staxwp.com/buddybuilder" target="_blank" rel="noopener"><?php esc_html_e( 'BuddyBuilder documentation', 'stax-buddy-builder' ); ?><span class="screen-reader-text"> <?php esc_html_e( '(opens in a new tab)', 'stax-buddy-builder' ); ?></span></a></li>
+					<li><a href="https://staxwp.com/docs/buddybuilder/" target="_blank" rel="noopener"><?php esc_html_e( 'BuddyBuilder documentation', 'stax-buddy-builder' ); ?><span class="screen-reader-text"> <?php esc_html_e( '(opens in a new tab)', 'stax-buddy-builder' ); ?></span></a></li>
 					<li><a href="<?php echo esc_url( \Buddy_Builder\Admin\CommunityPages::url() ); ?>"><?php esc_html_e( 'Community pages: which layout each page uses and why one may not show', 'stax-buddy-builder' ); ?></a></li>
 					<li><a href="<?php echo esc_url( \Buddy_Builder\Admin\Setup::url() ); ?>"><?php esc_html_e( 'Run setup again', 'stax-buddy-builder' ); ?></a></li>
 					<li><a href="https://wordpress.org/support/plugin/stax-buddy-builder/" target="_blank" rel="noopener"><?php esc_html_e( 'Ask on the support forum', 'stax-buddy-builder' ); ?><span class="screen-reader-text"> <?php esc_html_e( '(opens in a new tab)', 'stax-buddy-builder' ); ?></span></a><?php echo '-' !== $versions['pro'] ? ' &middot; <a href="https://my.staxwp.com/" target="_blank" rel="noopener">' . esc_html__( 'Pro support (my.staxwp.com)', 'stax-buddy-builder' ) . '<span class="screen-reader-text"> ' . esc_html__( '(opens in a new tab)', 'stax-buddy-builder' ) . '</span></a>' : ''; ?></li>
