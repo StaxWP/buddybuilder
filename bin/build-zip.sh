@@ -1,5 +1,5 @@
 #!/bin/sh
-# Release zip from the committed tree (git archive), minus the paths in .distignore.
+# Release zip from the committed tree (git archive), minus the paths in the ref's .distignore.
 #   bin/build-zip.sh [ref] [out dir]   ->   <out dir>/<slug>-<version>.zip, top folder <slug>/
 # Builds only; publishing is a separate, approved step.
 set -eu
@@ -16,8 +16,9 @@ trap 'rm -rf "$TMP"' EXIT
 mkdir -p "$OUT" "$TMP/$SLUG"
 git -C "$ROOT" archive "$REF" | tar -x -C "$TMP/$SLUG"
 
-# .distignore: "/path" is relative to the plugin root, other patterns match anywhere.
-grep -v '^\s*#' "$ROOT/.distignore" | grep -v '^\s*$' | while read -r pattern; do
+# .distignore read at REF (a maintenance branch ships other files): "/path" is relative to the plugin root, other
+# patterns match anywhere. A ref without .distignore ships its whole tree.
+git -C "$ROOT" show "$REF:.distignore" 2>/dev/null | grep -v '^\s*#' | grep -v '^\s*$' | while read -r pattern; do
 	case "$pattern" in
 		/*) rm -rf "$TMP/$SLUG$pattern" ;;
 		*) find "$TMP/$SLUG" -name "$pattern" -exec rm -rf {} + ;;

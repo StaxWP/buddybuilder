@@ -5,7 +5,7 @@
  * Plugin URI: https://staxwp.com/go/buddybuilder/
  * Author: StaxWP
  * Author URI: https://staxwp.com
- * Version: 2.0.0-dev
+ * Version: 2.0.0
  * Requires at least: 6.6
  * Requires PHP: 7.4
  * License: GPLv2 or later
@@ -17,7 +17,7 @@
  * Text Domain: stax-buddy-builder
  */
 
-define( 'BPB_VERSION', '2.0.0-dev' );
+define( 'BPB_VERSION', '2.0.0' );
 
 /**
  * Integer API version checked by BuddyBuilder Pro and other add-ons (not the marketing version).
