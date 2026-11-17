@@ -14,7 +14,7 @@
 # or axe ids; intended differences decided for that theme in accepted.json pass as accepted) and budgets.js on the
 # candidate (JS/CSS gzip, no jQuery handles, no dashicons for visitors).
 # Block goldens (golden.js --strict, review G4): after the rows, on Twenty Twenty-Five with the candidate given by
-# --goldens (default main@main; "none" skips them), row tt25 with Elementor active and row tt25-noel with Elementor
+# --goldens (default main@main; "none" skips them), row bbgate with Elementor active and row bbgate-noel with Elementor
 # deactivated (block layouts only). Every look, card style and BuddyBuilder Pro page preset as a block layout.
 # Prints one summary table; exit 0 only when every compare, budget and golden passes.
 set -u
@@ -92,10 +92,10 @@ if [ "$GOLDENS" != "none" ]; then
 	else
 		"$WP" plugin deactivate k-elements k-elements-7 >/dev/null 2>&1
 		"$WP" theme activate twentytwentyfive >/dev/null 2>&1
-		el_was_active=$("$WP" plugin is-active elementor >/dev/null 2>&1 && echo 1 || echo 0)
+		el_active=""; for p in elementor elementor-pro; do "$WP" plugin is-active "$p" >/dev/null 2>&1 && el_active="$el_active $p"; done
 		if use "$GOLDENS"; then
-			for grow in tt25 tt25-noel; do
-				if [ "$grow" = "tt25-noel" ]; then "$WP" plugin deactivate elementor >/dev/null 2>&1; else "$WP" plugin activate elementor >/dev/null 2>&1; fi
+			for grow in bbgate bbgate-noel; do
+				if [ "$grow" = "bbgate-noel" ]; then "$WP" plugin deactivate elementor-pro elementor >/dev/null 2>&1; else "$WP" plugin activate elementor $el_active >/dev/null 2>&1; fi
 				echo "== goldens $grow ($GOLDENS)"
 				res=$(node "$HERE/golden.js" --site "$SITE" --wp "$WP" --row "$grow" --strict --out "$OUT/golden-$grow" | tail -1)
 				echo "   $res"
@@ -105,7 +105,8 @@ if [ "$GOLDENS" != "none" ]; then
 		else
 			printf '| goldens | %s | bad ref | |\n' "$GOLDENS" >> "$SUMMARY"; fail=1
 		fi
-		[ "$el_was_active" = 1 ] && "$WP" plugin activate elementor >/dev/null 2>&1 || "$WP" plugin deactivate elementor >/dev/null 2>&1
+		"$WP" plugin deactivate elementor-pro elementor >/dev/null 2>&1
+		[ -n "$el_active" ] && "$WP" plugin activate $el_active >/dev/null 2>&1
 	fi
 fi
 

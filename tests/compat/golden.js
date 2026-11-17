@@ -62,8 +62,11 @@ const mask = ( html ) => normalise( html )
 
 	// Create one block layout per look and per card style.
 	const cards = CARDS.flatMap( ( [ type, block, styles ] ) => styles.map( ( style ) => ( { name: `card-${ type }-${ style }`, type, content: `<!-- wp:buddybuilder/${ block } {"card":"${ style }"} /-->` } ) ) );
+	// Card layouts render in their list on a page with a block layout of the list (the same on every site, whatever
+	// the site assigns to the directory or activity page).
+	const lists = CARDS.map( ( [ type, block ] ) => ( { name: `list-${ type }`, type, content: `<!-- wp:buddybuilder/${ block } /-->`, list: true } ) );
 	const made = wpJson( wp, [ 'eval', `
-		$cases = json_decode( base64_decode( '${ Buffer.from( JSON.stringify( cards ) ).toString( 'base64' ) }' ), true );
+		$cases = json_decode( base64_decode( '${ Buffer.from( JSON.stringify( cards.concat( lists ) ) ).toString( 'base64' ) }' ), true );
 		foreach ( \\Buddy_Builder\\Presets\\Presets::all() as $id => $preset ) {
 			if ( isset( \\Buddy_Builder\\Templates\\Types::for_blocks()[ $preset['type'] ] ) ) {
 				// BuddyBuilder Pro presets (register, group creation, cards) as they are applied; the five pages as before.
@@ -71,9 +74,13 @@ const mask = ( html ) => normalise( html )
 				$cases[] = [ 'name' => 'look-' . $id, 'type' => $preset['type'], 'content' => $pro ? \\Buddy_Builder\\Presets\\Presets::blocks( $preset ) : \\Buddy_Builder\\Presets\\Builder::to_blocks( $preset['layout'] ) ];
 			}
 		}
+		// Block layouts on for the run (card, register and group creation layouts need it); the options a render can
+		// write (card styles and columns mirrored from the layouts) are put back at the end.
+		update_option( 'bpb_golden_was', array_map( function ( $o ) { return get_option( $o, '__none__' ); }, array_combine( [ 'bpb_blocks_enabled', 'bpb_cards', 'bpb_listings' ], [ 'bpb_blocks_enabled', 'bpb_cards', 'bpb_listings' ] ) ) );
+		update_option( 'bpb_blocks_enabled', '1' );
 		$out = [];
 		foreach ( $cases as $c ) {
-			$out[] = [ 'name' => $c['name'], 'type' => $c['type'], 'id' => wp_insert_post( [ 'post_type' => 'bpb_template', 'post_status' => 'publish', 'post_title' => 'Golden ' . $c['name'], 'post_content' => $c['content'], 'meta_input' => [ '_bpb_type' => $c['type'], '_bpb_golden' => 1 ] ] ) ];
+			$out[] = [ 'name' => $c['name'], 'type' => $c['type'], 'list' => ! empty( $c['list'] ), 'id' => wp_insert_post( [ 'post_type' => 'bpb_template', 'post_status' => 'publish', 'post_title' => 'Golden ' . $c['name'], 'post_content' => $c['content'], 'meta_input' => [ '_bpb_type' => $c['type'], '_bpb_golden' => 1 ] ] ) ];
 		}
 		echo "\\nBPB_GOLDEN " . wp_json_encode( $out ) . "\\n";
 	` ], 'BPB_GOLDEN' );
@@ -92,14 +99,15 @@ const mask = ( html ) => normalise( html )
 	let fails = 0;
 	const lines = [];
 	for ( const c of made ) {
-		if ( only && ! c.name.includes( only ) ) {
+		if ( c.list || ( only && ! c.name.includes( only ) ) ) {
 			continue;
 		}
 		const url = ( TYPE_URLS[ c.type ] || [] )[ 0 ];
 		for ( const v of VARIANTS[ c.type ] || VARIANTS.default ) {
 			const key = `${ c.name }-${ v }`;
 			const ctx = contexts[ v ];
-			await ctx.addCookies( [ { name: 'bpb_compat_tpl', value: `${ c.type }:${ c.id }`, domain: host, path: '/' } ] );
+			const list = c.type.endsWith( '-item' ) ? made.find( ( m ) => m.list && m.type === c.type.replace( /-item$/, '' ) ) : null;
+			await ctx.addCookies( [ { name: 'bpb_compat_tpl', value: ( list ? `${ list.type }:${ list.id },` : '' ) + `${ c.type }:${ c.id }`, domain: host, path: '/' } ] );
 			const page = await ctx.newPage();
 			const resp = await page.goto( site + url, { waitUntil: 'networkidle' } );
 			await page.waitForTimeout( 400 );
@@ -168,7 +176,7 @@ const mask = ( html ) => normalise( html )
 	}
 	await browser.close();
 
-	wpJson( wp, [ 'eval', `foreach ( get_posts( [ 'post_type' => 'bpb_template', 'post_status' => 'any', 'numberposts' => -1, 'fields' => 'ids', 'meta_key' => '_bpb_golden' ] ) as $id ) { wp_delete_post( $id, true ); } echo "\\nBPB_GOLDEN_DONE 1\\n";` ], 'BPB_GOLDEN_DONE' );
+	wpJson( wp, [ 'eval', `foreach ( get_posts( [ 'post_type' => 'bpb_template', 'post_status' => 'any', 'numberposts' => -1, 'fields' => 'ids', 'meta_key' => '_bpb_golden' ] ) as $id ) { wp_delete_post( $id, true ); } foreach ( (array) get_option( 'bpb_golden_was', [] ) as $o => $was ) { '__none__' === $was ? delete_option( $o ) : update_option( $o, $was ); } delete_option( 'bpb_golden_was' ); echo "\\nBPB_GOLDEN_DONE 1\\n";` ], 'BPB_GOLDEN_DONE' );
 	fs.writeFileSync( path.join( out, 'golden.md' ), `# Golden ${ row }\n\n${ lines.length - fails }/${ lines.length } pass.\n\n| Case | Result |\n|---|---|\n${ lines.join( '\n' ) }\n` );
 	console.log( `golden ${ row }: ${ lines.length - fails }/${ lines.length } pass -> ${ out }` );
 	process.exit( fails ? 1 : 0 );

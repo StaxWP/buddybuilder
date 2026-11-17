@@ -30,7 +30,7 @@ const member = opt( 'member', 'ana' );
 const shots = opt( 'shots', '' );
 const host = new URL( site ).hostname;
 
-const OPTIONS = [ 'bpb_settings', 'bpb_templates', 'bpb_db_version', 'buddybuilder_db_version', 'bpb_imported_templates', 'bpb_setup', 'bpb_setup_pending', 'bpb_blocks_enabled', 'bpb_render_issues', 'bpb_migrations', 'bpb_migrations_checked', '_bpb_enabled_widgets' ];
+const OPTIONS = [ 'bpb_settings', 'bpb_templates', 'bpb_db_version', 'buddybuilder_db_version', 'bpb_imported_templates', 'bpb_setup', 'bpb_setup_pending', 'bpb_blocks_enabled', 'bpb_render_issues', 'bpb_migrations', 'bpb_migrations_checked', '_bpb_enabled_widgets', 'bpb_listings', 'bpb_cards' ];
 
 let fails = 0;
 const ok = ( cond, msg ) => {
