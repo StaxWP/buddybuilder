@@ -2,6 +2,31 @@
 
 Branch `main` (the 2.0 line since 2026-11-15; 1.x fixes go to `1.x`). Not released.
 
+## 2026-11-17: More menu, element list per page, uninstall (pulled from 2.1 into 2.0)
+
+Decided by Gabriel on 2026-11-17: B-L4 and the U3 block part ship in 2.0.
+
+- **More menu on Community pages (B-L4)**, `src/Admin/LayoutActions.php`, for the layout of a page row and of its item rows:
+  - Duplicate: a draft copy with the same builder, content, every meta (`_bpb_look`, `_bpb_type`, `_bpb_preset`, Elementor data and settings; not locks, trash records or Elementor CSS caches) and terms (Elementor's template type). Not assigned; the notice links to "Edit the copy". Action `buddy_builder/layout/duplicated`.
+  - History: block layouts open the newest WordPress revision (`revision.php`; "no saved changes yet" while there is none; `bpb_template` already supported revisions); Elementor templates open the Elementor editor with History > Revisions shown (`bpb_history=1`: Elementor 4 replaces its own `#e:route:` links with the default panel).
+  - Export: a JSON download. Elementor templates in Elementor's own format (`content`, `page_settings`, `version`, `title`, `type`: Templates > Import takes it); block layouts as `buddybuilder-layout` v1 (title, content, page type, preset, look; not the preview member, group or viewer). Filter `buddy_builder/layout/export`. No import yet.
+  - Delete: a confirm step, then the layout goes to the trash; the pages that used it show the BuddyPress default (assignment cleared, as with no layout). The notice offers Undo (`bpb_undo`, same 24 hours as Change look): the layout comes back with its previous status (core untrashes to draft since WordPress 5.6) and gets its pages back.
+  - Every action: `manage_options` plus the post capability (`edit_post`, `delete_post` for Delete), nonce, admin-post forms (all work without JavaScript). `assets/js/disclosure.js` on BuddyBuilder screens: Escape closes the open confirm step, then the menu, and gives the focus back to its button; one menu open at a time; a click outside closes it.
+- **Element list per page in the block layout editor (review 3.5, U3)**: the BuddyBuilder category lists the elements made for the layout's page first (made for this page only, then shared with other pages), then the elements for any page; elements made for other pages leave the inserter (layouts that use them keep them). Follows the Page setting without a reload (`layout-panel.js` re-registers the BuddyBuilder blocks in that order; the inserter lists a category in registration order). Data: `Elements::page_types()` (`templateTypes` of every element.json, Pro elements included).
+- **Basic settings (U3)**: task 8 already had the Settings / More settings panels; the elements over 4 basic settings moved the rest to More settings (no attribute renamed): Member header (layout, cover, stats, buttons), Group header (layout, cover, description, buttons), People list (show, layout, how many, title). Pro elements over 4 (Highlights rail, Messages, Notifications: 5 each) are for the Pro repo.
+- **Uninstall**: also removes `bpb_render_issues`, `bpb_setup`, `bpb_setup_pending`, `bpb_migration_lock`, `_bpb_installed_time` (1.x), the `bpb_setup_redirect` and `bpb_migration_report_*` transients, and the user meta `bpb_upsell_notice_dismissed` and `bpb_pairing_dismissed` of every user (`delete_metadata`, once per network). Kept: `bpb_settings`, `bpb_listings`, `buddybuilder_db_version`, `bpb_imported_templates`, layouts.
+
+Tests:
+
+- PHP lint 7.4 and 8.5 on every changed PHP file: 0 errors.
+- Regressions (`tests/compat/bin/regressions.sh`, new cases `layout-actions` and `element-settings`): bbux (WP 7.1, Elementor 4.4) 170/170 with Pro, 168/169 without Pro (`cards-follow-layout`, known: it expects a Pro card style); bbmin (WP 6.6, PHP 7.4, Elementor 3.20) 144/144 with Pro, 143/144 without (same case). Without Pro means `--skip-plugins` for the run; the sites were not changed.
+- Browser (Playwright, throwaway script, both sites, bbmin also with Pro deactivated and reactivated): keyboard (Enter opens, Tab enters, Escape closes the confirm step then the menu, focus back), axe on the open menu and confirm step (no serious or critical), Export download, Duplicate, Delete then Undo, History on the revisions screen, the same without JavaScript, Elementor History opens Revisions on Elementor 3.20 and 4.4; inserter order for groups directory and member profile and after changing the Page setting, deprecated elements stay hidden. One JavaScript error on bbmin is Elementor 3.20's own (`e.O is not a function` in its editor, also without BuddyBuilder's parameter).
+- Uninstall: `uninstall.php` run inside a database transaction on bbux and rolled back: 12/12 (options, transients, user meta removed; `bpb_settings` and the 74 layouts kept).
+- e2e `tests/e2e/ux.js` on bbux: 46 PASS, 1 FAIL (`no JavaScript errors`: `elementorFrontendConfig is not defined`), the same result on `main` before these changes.
+- POT regenerated.
+
+Open: import of a block layout export; Elementor panel "Basic / Advanced" regrouping (task 26, 2.1); a visible separator or heading for "for this page" in the inserter (one category today).
+
 ## 2026-11-16 (night): Pro upsell in the free plugin
 
 Approved by Gabriel (purchase optimizations after the staxwp.com redesign: most Pro buyers never visit staxwp.com). `src/Upsell/Upsell.php` + `assets/js/upsell.js` + `assets/css/upsell.css`; details in `docs/free-and-pro.md`.

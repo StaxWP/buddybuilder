@@ -32,6 +32,7 @@
 | `buddy_builder/setup/checks` | Setup checks. |
 | `buddy_builder/upsell/enabled` | Pro badges, Pro links and the Pro notice in the free plugin (default: on while BuddyBuilder Pro is not active). |
 | `buddy_builder/upsell/features` | The Pro features shown in the free plugin (`id => [ title, text, elementor? ]`). |
+| `buddy_builder/layout/export` | Data of a layout export from Community pages > More > Export (`$data`, `$post`). Elementor templates use Elementor's template format. |
 
 ## Actions
 
@@ -43,6 +44,7 @@
 | `buddy_builder/registry/changed` | Layout assignments changed. |
 | `buddy_builder/setup/after_looks` | After the setup's look step. |
 | `buddy_builder/community_pages/after_row` | Extra content after a row of Community pages. |
+| `buddy_builder/layout/duplicated` | A layout was duplicated from Community pages (`$copy` draft id, `$id` original). |
 
 ## Events (JavaScript)
 
