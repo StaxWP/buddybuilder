@@ -121,6 +121,10 @@ Visit the [WordPress.org support forum](https://wordpress.org/support/plugin/sta
 
 == Changelog ==
 
+= 1.9.4 =
+* Security: dismissing an admin notice now checks a security token and accepts only BuddyBuilder's own notices.
+* Fix: help and documentation links point to the current documentation at staxwp.com/docs/buddybuilder/.
+
 = 1.9.3 =
 * Fix: Fatal error on BuddyPress pages when the BuddyPress page settings (bp-pages option) are missing; deleted directory pages are skipped and nested directory pages (for example community/members) are detected.
 * Fix: PHP warning in the Members Directory and Groups Directory Filters widgets when the content display setting is missing.
@@ -316,6 +320,9 @@ Enable/disable the feature by editing the members/groups navigation widget
 * Initial release
 
 == Upgrade Notice ==
+
+= 1.9.4 =
+Security fix for the admin notice dismiss request. Recommended for all users.
 
 = 1.9.3 =
 Bug fix release: fixes a fatal error on BuddyPress pages when the BuddyPress page settings are missing, plus PHP 8 and BuddyPress 12 notices. Recommended for all users.
