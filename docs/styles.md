@@ -22,6 +22,10 @@ Themes add their own with [`bpb_register_style()`](registering-a-style.md) (KLEO
 
 Applying a style page creates a layout (a copy): editing it never changes the style, and later style updates never change it.
 
+## Thumbnails
+
+The pickers (setup, Change look) and the Community pages rows show a screenshot of each style page: a 480 px square WebP of the top of the page, rendered on the sample community only (members `demo-*` and `bpb-sample-*` with drawn media, their groups and activity; compat env cookie `bpb_compat_sample_only`), never site or test users. Classic: `assets/img/looks/classic-<page>.webp` (found by `Preview::thumb()`); BuddyBuilder Pro styles: Pro `assets/img/presets/<style>-<page>.webp` (the preset's `thumb`, set by Pro). Made by `bin/capture-styles.js --widths 1200 --thumbs <dir>` (Pro: add `--patterns <Pro>/styles`); a style without a screenshot keeps the drawing.
+
 ## Block and Elementor versions
 
 The builder of the site decides which version is created:

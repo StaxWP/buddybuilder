@@ -1,6 +1,7 @@
 <?php
 /**
- * Schematic SVG thumbnail of a preset layout (no screenshots shipped: drawn from the layout description).
+ * Preset thumbnails: the real screenshot of a style page (assets/img/looks/<id>.webp, or the preset's "thumb" URL),
+ * else a schematic SVG drawn from the layout description.
  *
  * @package Buddy_Builder
  */
@@ -30,9 +31,9 @@ final class Preview {
 	];
 
 	/**
-	 * Thumbnail of a preset: the real look rendered on the sample member (assets/img/looks/<id>.webp, made by
-	 * bin/capture-looks.js, or the image URL of the preset's "thumb", for example BuddyBuilder Pro's presets), or the
-	 * drawing for presets without one (theme and add-on presets).
+	 * Thumbnail of a preset: the real page rendered on the sample community (assets/img/looks/<id>.webp, made by
+	 * bin/capture-styles.js --thumbs, or the image URL of the preset's "thumb", for example BuddyBuilder Pro's presets
+	 * and Pro style pages), or the drawing for presets without one (theme and add-on presets).
 	 *
 	 * @param array $preset Preset (id, layout, thumb?).
 	 * @return string HTML.

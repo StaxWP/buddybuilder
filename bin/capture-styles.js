@@ -6,10 +6,16 @@
  * deleted at the end, pages are assigned per request by the compat cookie).
  *
  *   NODE_PATH=<playwright> node bin/capture-styles.js --site http://bbux.test --wp ~/Sites/bbux/tools/wp \
- *     --out <dir> [--styles classic,creator] [--pages member-profile,...] [--viewer demo-lucas] [--widths 1366,390] [--html] [--builder elementor] [--patterns <dir with <style>/<page>.html>]
+ *     --out <dir> [--styles classic,creator] [--pages member-profile,...] [--viewer demo-lucas] [--widths 1366,390] [--html] [--builder elementor] [--patterns <dir with <style>/<page>.html>] [--thumbs <dir>]
+ *
+ * --thumbs <dir>: also the picker thumbnail of every style page, <dir>/<style>-<page>.webp (480 px square WebP of the
+ * top of the layout, from the widest capture; needs cwebp). Classic: assets/img/looks of this plugin (Preview::thumb()
+ * finds it); BuddyBuilder Pro styles (--patterns <Pro>/styles): Pro's assets/img/presets. The card style options the
+ * run saves (bpb_cards) are put back at the end.
  */
 const fs = require( 'fs' );
 const path = require( 'path' );
+const { execFileSync } = require( 'child_process' );
 const { wpJson } = require( '../tests/compat/lib' );
 const { chromium } = require( 'playwright' );
 
@@ -27,6 +33,8 @@ const html = argv.includes( '--html' );
 // --builder elementor: the Elementor version of each style page (Presets::create_elementor_layout), same shots.
 const builder = opt( 'builder', 'blocks' );
 const root = opt( 'patterns', path.join( __dirname, '..', 'patterns' ) );
+const thumbs = opt( 'thumbs', '' );
+const thumbWidth = Math.max( ...widths );
 const styles = opt( 'styles', fs.readdirSync( root ).filter( ( d ) => fs.statSync( path.join( root, d ) ).isDirectory() ).join( ',' ) ).split( ',' );
 const pages = opt( 'pages', 'member-profile,members-directory,group-profile,groups-directory,sitewide-activity' ).split( ',' );
 const URLS = {
@@ -49,6 +57,7 @@ const host = new URL( site ).hostname;
 		}
 	}
 	const made = wpJson( wp, [ 'eval', `
+		update_option( 'bpb_capture_cards_was', get_option( 'bpb_cards', '__none__' ) );
 		$cases = json_decode( base64_decode( '${ Buffer.from( JSON.stringify( cases ) ).toString( 'base64' ) }' ), true );
 		$out = [];
 		foreach ( $cases as $c ) {
@@ -99,6 +108,20 @@ const host = new URL( site ).hostname;
 				const file = path.join( out, c.style, `${ c.page }-${ width }.png` );
 				const target = ( await page.$( '.bpb-look' ) ) || ( await page.$( 'main' ) );
 				await target.screenshot( { path: file } );
+				// The picker thumbnail: a square from the top of the layout (the part that tells styles apart).
+				if ( thumbs && width === thumbWidth ) {
+					// Page coordinates (the element screenshot above may have scrolled the page).
+					const box = await target.evaluate( ( el ) => {
+						const r = el.getBoundingClientRect();
+						return { x: r.left + window.scrollX, y: r.top + window.scrollY, width: r.width, height: r.height };
+					} );
+					const png = file.replace( /\.png$/, '-thumb.png' );
+					await page.screenshot( { path: png, fullPage: true, clip: { x: box.x, y: box.y, width: box.width, height: Math.min( box.height, Math.round( box.width ) ) } } );
+					fs.mkdirSync( thumbs, { recursive: true } );
+					const webp = path.join( thumbs, `${ c.style }-${ c.page }.webp` );
+					execFileSync( 'cwebp', [ '-quiet', '-q', '72', '-resize', '480', '0', '-m', '6', png, '-o', webp ] );
+					console.log( `${ webp } ${ Math.round( fs.statSync( webp ).size / 1024 ) } KB` );
+				}
 				// --html: the rendered markup of the look too, to inspect what a rule has to target.
 				if ( html ) {
 					fs.writeFileSync( file.replace( /\.png$/, '.html' ), await target.evaluate( ( el ) => el.outerHTML ) );
@@ -128,6 +151,6 @@ const host = new URL( site ).hostname;
 		}
 	} finally {
 		await browser.close();
-		wpJson( wp, [ 'eval', `foreach ( get_posts( [ 'post_type' => [ 'bpb_template', 'elementor_library' ], 'post_status' => 'any', 'numberposts' => -1, 'fields' => 'ids', 'meta_key' => '_bpb_capture' ] ) as $id ) { wp_delete_post( $id, true ); } echo "\\nBPB_CAPTURE_DONE 1\\n";` ], 'BPB_CAPTURE_DONE' );
+		wpJson( wp, [ 'eval', `foreach ( get_posts( [ 'post_type' => [ 'bpb_template', 'elementor_library' ], 'post_status' => 'any', 'numberposts' => -1, 'fields' => 'ids', 'meta_key' => '_bpb_capture' ] ) as $id ) { wp_delete_post( $id, true ); } $was = get_option( 'bpb_capture_cards_was', '__none__' ); '__none__' === $was ? delete_option( 'bpb_cards' ) : update_option( 'bpb_cards', $was ); delete_option( 'bpb_capture_cards_was' ); echo "\\nBPB_CAPTURE_DONE 1\\n";` ], 'BPB_CAPTURE_DONE' );
 	}
 } )();
