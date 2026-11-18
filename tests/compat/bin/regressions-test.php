@@ -919,8 +919,11 @@ switch ( $bpb_case ) {
 			$bpb_ok( 1 === $bpb_lines, $bpb_type . ' row has one card line (' . $bpb_lines . ', card layout: ' . ( $bpb_layout ? 'yes' : 'no' ) . ')' );
 			if ( ! $bpb_layout ) {
 				$bpb_ok( (bool) preg_match( '/<div class="bpb-cp__card">Card: [^<]+/', $bpb_row ) && false === strpos( $bpb_row, '<li class="bpb-cp__item" id="bpb-page-' . $bpb_item . '"' ), $bpb_type . ': the card style line, no card row without a card layout' );
-				if ( Registry::get( $bpb_type )['id'] ) {
+				$bpb_styles = \Buddy_Builder\Templates\Cards::labels();
+				if ( Registry::get( $bpb_type )['id'] && ! empty( $bpb_styles[ $bpb_object ] ) ) {
 					$bpb_ok( false !== strpos( $bpb_row, 'bpb_select=' . $bpb_object ), $bpb_type . ': Change opens the editor with the list selected' );
+				} elseif ( empty( $bpb_styles[ $bpb_object ] ) ) {
+					$bpb_ok( false === strpos( $bpb_row, 'bpb_select=' ) && ( ! \Buddy_Builder\Upsell\Upsell::enabled() || false !== strpos( $bpb_row, 'utm_content=card-designer' ) ), $bpb_type . ': only Classic: no Change (nothing to pick), More card styles links to Pro' );
 				}
 			}
 		}

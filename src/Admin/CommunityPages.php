@@ -276,6 +276,11 @@ final class CommunityPages {
 
 		if ( 'group-profile' === $type && function_exists( 'groups_get_total_group_count' ) ) {
 			$count = (int) groups_get_total_group_count();
+
+			if ( ! $count ) {
+				return self::state( 'live', __( 'Live, no groups yet', 'stax-buddy-builder' ), 'live' );
+			}
+
 			/* translators: %s: number of groups */
 			return self::state( 'live', sprintf( _n( 'Live on %s group', 'Live on %s groups', $count, 'stax-buddy-builder' ), number_format_i18n( $count ) ), 'live' );
 		}
@@ -1005,9 +1010,14 @@ final class CommunityPages {
 			/* translators: %s: card style name, e.g. Compact */
 			echo esc_html( sprintf( __( 'Card: %s', 'stax-buddy-builder' ), Cards::label( $object, Cards::saved( $object ) ) ) );
 
-			if ( $row['post'] && $row['edit_url'] ) {
+			$labels = Cards::labels();
+
+			// Change only when there is another card style to pick; without BuddyBuilder Pro, Classic is the only one.
+			if ( $row['post'] && $row['edit_url'] && ! empty( $labels[ $object ] ) ) {
 				/* translators: %s: page name */
 				echo ' <a href="' . esc_url( add_query_arg( Cards::SELECT_ARG, $object, $row['edit_url'] ) ) . '" aria-label="' . esc_attr( sprintf( __( 'Change the card style: opens the %s layout with its list selected, Card setting', 'stax-buddy-builder' ), $row['label'] ) ) . '">' . esc_html__( 'Change', 'stax-buddy-builder' ) . '</a>';
+			} elseif ( \Buddy_Builder\Upsell\Upsell::enabled() ) {
+				echo ' <a href="' . esc_url( \Buddy_Builder\Upsell\Upsell::url( 'card-designer', 'card-line' ) ) . '" target="_blank" rel="noopener">' . esc_html__( 'More card styles', 'stax-buddy-builder' ) . ' <span class="bpb-label">' . esc_html__( 'Pro', 'stax-buddy-builder' ) . '</span><span class="screen-reader-text"> ' . esc_html__( '(opens in a new tab)', 'stax-buddy-builder' ) . '</span></a>';
 			}
 
 			if ( $card ) {
