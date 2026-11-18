@@ -47,6 +47,7 @@ final class PageTitle {
 		}
 
 		add_filter( 'render_block_core/post-title', [ __CLASS__, 'block_title' ], 10, 3 );
+		add_filter( 'render_block_core/group', [ __CLASS__, 'title_group' ], 10, 3 );
 		add_filter( 'the_title', [ __CLASS__, 'classic_title' ], 10, 2 );
 		add_filter( 'body_class', [ __CLASS__, 'body_class' ] );
 		add_action( 'wp_enqueue_scripts', [ __CLASS__, 'styles' ], 20 );
@@ -118,6 +119,44 @@ final class PageTitle {
 		}
 
 		return self::hides() ? '' : $content;
+	}
+
+	/**
+	 * Block themes: the group that holds the hidden Post Title loses its top padding, which was the space above the
+	 * title (Twenty Twenty-Five: the main's margin plus this padding left about 140 px empty above the layout).
+	 *
+	 * @param string    $content  Block output.
+	 * @param array     $block    Block.
+	 * @param \WP_Block $instance Block instance.
+	 * @return string
+	 */
+	public static function title_group( $content, $block, $instance = null ) {
+		if ( '' === $content || ! class_exists( '\\WP_HTML_Tag_Processor' ) || ( $instance instanceof \WP_Block && isset( $instance->context['queryId'] ) ) ) {
+			return $content;
+		}
+
+		$names = wp_list_pluck( isset( $block['innerBlocks'] ) ? (array) $block['innerBlocks'] : [], 'blockName' );
+
+		if ( ! in_array( 'core/post-title', $names, true ) || ! self::hides() ) {
+			return $content;
+		}
+
+		$tags = new \WP_HTML_Tag_Processor( $content );
+
+		if ( ! $tags->next_tag() ) {
+			return $content;
+		}
+
+		$style = (string) $tags->get_attribute( 'style' );
+		$clean = trim( (string) preg_replace( '/(^|;)\s*padding-top\s*:[^;]*/i', '$1', $style ), '; ' );
+
+		if ( $clean === $style ) {
+			return $content;
+		}
+
+		'' === $clean ? $tags->remove_attribute( 'style' ) : $tags->set_attribute( 'style', $clean );
+
+		return $tags->get_updated_html();
 	}
 
 	/**

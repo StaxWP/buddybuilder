@@ -928,8 +928,26 @@ switch ( $bpb_case ) {
 		}
 		break;
 
+	case 'theme-title-space':
+		// UX review 2026-11-17, item 4: the group around a hidden Post Title loses its top padding (Twenty Twenty-Five
+		// left about 140 px empty above the layout); nothing changes while the title shows or in other groups.
+		$bpb_hide  = new ReflectionProperty( \Buddy_Builder\Templates\PageTitle::class, 'hide' );
+		$bpb_hide->setAccessible( true );
+		$bpb_html  = '<div class="wp-block-group alignfull" style="padding-top:var(--wp--preset--spacing--60);padding-bottom:var(--wp--preset--spacing--60)"><h1>x</h1></div>';
+		$bpb_block = [ 'blockName' => 'core/group', 'innerBlocks' => [ [ 'blockName' => 'core/post-title' ], [ 'blockName' => 'core/post-content' ] ] ];
+		$bpb_other = [ 'blockName' => 'core/group', 'innerBlocks' => [ [ 'blockName' => 'core/paragraph' ] ] ];
+		$bpb_hide->setValue( null, true );
+		$bpb_out = \Buddy_Builder\Templates\PageTitle::title_group( $bpb_html, $bpb_block );
+		$bpb_ok( false === strpos( $bpb_out, 'padding-top' ) && false !== strpos( $bpb_out, 'padding-bottom:var(--wp--preset--spacing--60)' ), 'title hidden: the group loses its top padding only' );
+		$bpb_ok( $bpb_html === \Buddy_Builder\Templates\PageTitle::title_group( $bpb_html, $bpb_other ), 'title hidden: other groups unchanged' );
+		$bpb_ok( '<div class="x" style="padding-top:2rem"></div>' !== \Buddy_Builder\Templates\PageTitle::title_group( '<div class="x" style="padding-top:2rem"></div>', $bpb_block ) && false === strpos( \Buddy_Builder\Templates\PageTitle::title_group( '<div class="x" style="padding-top:2rem"></div>', $bpb_block ), 'style=' ), 'title hidden: an empty style attribute is removed' );
+		$bpb_hide->setValue( null, false );
+		$bpb_ok( $bpb_html === \Buddy_Builder\Templates\PageTitle::title_group( $bpb_html, $bpb_block ), 'title shown: unchanged' );
+		$bpb_hide->setValue( null, null );
+		break;
+
 	default:
-		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install, checker-readylaunch, change-look-undo, cards-follow-layout, layout-actions, element-settings, elementor-basic-controls, layout-import, notice-dismiss, card-line, header-parts' );
+		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install, checker-readylaunch, change-look-undo, cards-follow-layout, layout-actions, element-settings, elementor-basic-controls, layout-import, notice-dismiss, card-line, header-parts, theme-title-space' );
 }
 
 // Cleanup.

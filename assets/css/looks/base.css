@@ -51,6 +51,15 @@
 	margin-inline: calc((100% - var(--bpb-look-width)) / 2);
 }
 
+/*
+ * Classic themes limit the children of a group's inner container to their text column (Twenty Twenty-One: 610 px,
+ * with a selector of eight classes): inside a look they use the look's width. :not(#bpb-none) only raises the
+ * specificity (an id that never exists).
+ */
+.bpb-look .wp-block-group__inner-container > :not(#bpb-none) {
+	max-width: none;
+}
+
 @media (min-width: 900px) {
 	.bpb-look__aside--sticky {
 		position: sticky;
@@ -569,9 +578,10 @@
 	}
 }
 
-/* Cards in side columns: about, rails. */
-.bpb-about,
-.bpb-rail {
+/* Cards in side columns: about, rails. Doubled classes: the 1.x front stylesheet clears the padding of every section
+ * on classic themes (.stax-buddybuilder-template section). */
+.bpb-about.bpb-about,
+.bpb-rail.bpb-rail {
 	padding: 20px;
 	border: 1px solid var(--bpb-color-border);
 	border-radius: var(--bpb-radius-lg);
