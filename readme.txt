@@ -48,7 +48,7 @@ BuddyBuilder is free and complete: all five BuddyPress pages, both builders, the
 
 = Developers =
 
-* Register your own style with `bpb_register_style()`, so your theme or kit appears in the setup and in Change look.
+* Register your own style with `bpb_register_style()`, so your theme or kit appears in the setup and in Change style.
 * Abilities for AI agents and MCP (WordPress 6.9 and newer, read only): page types, elements, styles, the layout a page uses and the status.
 * Actions and filters for layouts, previews and the setup.
 * Code on [GitHub](https://github.com/staxwp/buddybuilder). Translations on [translate.wordpress.org](https://translate.wordpress.org/projects/wp-plugins/stax-buddy-builder).
@@ -129,7 +129,7 @@ In the [support forum](https://wordpress.org/support/plugin/stax-buddy-builder/)
 New:
 
 * Build community pages with the block editor. Elementor is no longer required; your Elementor templates keep working.
-* BuddyBuilder > Community pages: every BuddyPress page with its layout, builder and live status, and Edit, Change look, Duplicate, History, Export, Import and Delete (with Undo).
+* BuddyBuilder > Community pages: every BuddyPress page with its layout, builder and live status, and Edit, Change style, Duplicate, History, Export, Import and Delete (with Undo).
 * Setup in three steps with a live preview: nothing changes until you press Use these.
 * Classic style for profiles, groups, directories and activity, in both builders.
 * New elements: Member header, Member about, Group header, Directory header, People list, Profile tabs, Feed filters and Post composer.

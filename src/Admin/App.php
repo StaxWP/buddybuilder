@@ -483,7 +483,7 @@ final class App {
 			<div class="bpb-app-card bpb-app-side-card">
 				<h2><?php esc_html_e( 'Get started', 'stax-buddy-builder' ); ?></h2>
 				<ol class="bpb-app-steps">
-					<li><?php esc_html_e( 'Pick a look for each page on Community pages.', 'stax-buddy-builder' ); ?></li>
+					<li><?php esc_html_e( 'Pick a style for each page on Community pages.', 'stax-buddy-builder' ); ?></li>
 					<li><?php esc_html_e( 'Edit it in Elementor or the block editor.', 'stax-buddy-builder' ); ?></li>
 					<li><?php esc_html_e( 'Check it with "Seen by" in the editor, then press Use.', 'stax-buddy-builder' ); ?></li>
 				</ol>

@@ -651,7 +651,7 @@ switch ( $bpb_case ) {
 		$bpb_html = ob_get_clean();
 		$bpb_looks = count( \Buddy_Builder\Presets\Presets::all( $bpb_type ) );
 		$bpb_ok( substr_count( $bpb_html, 'bpb_lp' ) >= $bpb_looks, 'every look links to a live preview (' . $bpb_looks . ' looks)' );
-		$bpb_ok( false !== strpos( $bpb_html, 'class="bpb-look__confirm"' ), 'Use this look asks for a confirmation first' );
+		$bpb_ok( false !== strpos( $bpb_html, 'class="bpb-look__confirm"' ), 'Use this style asks for a confirmation first' );
 		$bpb_preset = array_keys( \Buddy_Builder\Presets\Presets::all( $bpb_type ) )[0];
 		$bpb_ok( \Buddy_Builder\Admin\CommunityPages::apply( $bpb_type, 'look', [ 'preset' => $bpb_preset, 'builder' => Registry::BLOCKS ] ), 'look applied' );
 		$bpb_new = Registry::get( $bpb_type );

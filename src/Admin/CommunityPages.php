@@ -731,9 +731,9 @@ final class CommunityPages {
 		$messages = [
 			'default'         => __( 'The page now uses the BuddyPress default. Your layout is kept: pick it again any time.', 'stax-buddy-builder' ),
 			'assign'          => __( 'Layout saved for this page.', 'stax-buddy-builder' ),
-			'look'            => __( 'New look created and live. Edit it to make it yours.', 'stax-buddy-builder' ),
-			'use-pending'     => __( 'The new look is live.', 'stax-buddy-builder' ),
-			'discard-pending' => __( 'The new look was discarded; the page is unchanged.', 'stax-buddy-builder' ),
+			'look'            => __( 'The page uses the new style now. Edit it to make it yours.', 'stax-buddy-builder' ),
+			'use-pending'     => __( 'The new style is live.', 'stax-buddy-builder' ),
+			'discard-pending' => __( 'The new style was discarded; the page is unchanged.', 'stax-buddy-builder' ),
 			'setup'           => __( 'Setup done: your new community pages are live.', 'stax-buddy-builder' ),
 			'undo'            => __( 'Undone: the page uses what it used before.', 'stax-buddy-builder' ),
 			'duplicate'       => __( 'A copy was saved as a draft. No page uses it until you pick it.', 'stax-buddy-builder' ),
@@ -913,7 +913,7 @@ final class CommunityPages {
 		echo '<div class="bpb-cp__status"><span class="screen-reader-text">' . esc_html__( 'Status:', 'stax-buddy-builder' ) . ' </span><span class="bpb-status bpb-status--' . esc_attr( $row['status']['tone'] ) . '">' . esc_html( $row['status']['text'] ) . '</span>';
 
 		if ( $row['pending'] ) {
-			echo '<span class="bpb-status bpb-status--info">' . esc_html__( 'New look ready, not live yet', 'stax-buddy-builder' ) . '</span>';
+			echo '<span class="bpb-status bpb-status--info">' . esc_html__( 'New style ready, not live yet', 'stax-buddy-builder' ) . '</span>';
 		}
 
 		echo '</div>';
@@ -1102,12 +1102,12 @@ final class CommunityPages {
 			$summary = $row['post'] ? __( 'Change card', 'stax-buddy-builder' ) : __( 'Design the card', 'stax-buddy-builder' );
 			$intro   = __( 'Start the card from a style, then edit it like any layout. Using it makes it live in every list of this kind; your current card is kept and Undo puts it back.', 'stax-buddy-builder' );
 		} else {
-			$summary = $row['post'] ? __( 'Change look', 'stax-buddy-builder' ) : __( 'Pick a look', 'stax-buddy-builder' );
-			$intro   = __( 'Preview a look on the real page first. Using it creates a new layout and makes it live; your current layout is kept and Undo puts it back.', 'stax-buddy-builder' );
+			$summary = $row['post'] ? __( 'Change style', 'stax-buddy-builder' ) : __( 'Pick a style', 'stax-buddy-builder' );
+			$intro   = __( 'Preview a style on the real page first. Using it creates a new layout and makes it live; your current layout is kept and Undo puts it back.', 'stax-buddy-builder' );
 		}
 
 		// Item rows sit under their page row: their summary names the item for screen readers.
-		/* translators: 1: action (Design the card, Pick a look, ...), 2: item name (Member card, Create a group, ...) */
+		/* translators: 1: action (Design the card, Pick a style, ...), 2: item name (Member card, Create a group, ...) */
 		$aria = $child ? ' aria-label="' . esc_attr( sprintf( __( '%1$s: %2$s', 'stax-buddy-builder' ), $summary, $row['label'] ) ) . '"' : '';
 		echo '<details class="bpb-disclosure bpb-looks"><summary class="button' . ( $child ? ' button-small' : ( $primary ? ' button-primary' : '' ) ) . '"' . $aria . '>' . esc_html( $summary ) . '</summary>'; // phpcs:ignore WordPress.Security.EscapeOutput -- $aria is escaped above.
 		echo '<div class="bpb-disclosure__panel bpb-looks__panel"><p>' . esc_html( $intro ) . '</p><div class="bpb-looks__grid">';
@@ -1124,18 +1124,18 @@ final class CommunityPages {
 			echo '<span class="bpb-look__desc">' . esc_html( isset( $preset['description'] ) ? $preset['description'] : '' ) . '</span>';
 
 			if ( $preview ) {
-				/* translators: %s: look name */
+				/* translators: %s: style name */
 				echo '<a class="button" href="' . esc_url( $preview ) . '" target="_blank" rel="noopener" aria-label="' . esc_attr( sprintf( __( 'Preview %s on the real page (opens in a new tab)', 'stax-buddy-builder' ), $preset['title'] ) ) . '">' . esc_html__( 'Preview', 'stax-buddy-builder' ) . '</a>';
 			}
 
 			// Confirm step without JavaScript: the buttons that change the live page sit behind a second click.
-			/* translators: %s: look name */
-			echo '<details class="bpb-look__confirm"><summary class="button button-primary" aria-label="' . esc_attr( sprintf( __( 'Use %s', 'stax-buddy-builder' ), $preset['title'] ) ) . '">' . esc_html__( 'Use this look', 'stax-buddy-builder' ) . '</summary>';
+			/* translators: %s: style name */
+			echo '<details class="bpb-look__confirm"><summary class="button button-primary" aria-label="' . esc_attr( sprintf( __( 'Use %s', 'stax-buddy-builder' ), $preset['title'] ) ) . '">' . esc_html__( 'Use this style', 'stax-buddy-builder' ) . '</summary>';
 			/* translators: %s: page name */
 			echo '<p>' . esc_html( sprintf( __( 'Make it live on %s now?', 'stax-buddy-builder' ), $row['label'] ) ) . '</p>';
 
 			foreach ( $builders as $builder => $label ) {
-				/* translators: 1: look name, 2: builder name */
+				/* translators: 1: style name, 2: builder name */
 				$aria = sprintf( __( 'Use %1$s with %2$s', 'stax-buddy-builder' ), $preset['title'], $label );
 				/* translators: %s: builder name */
 				$text = count( $builders ) > 1 ? sprintf( __( 'Yes, build it with %s', 'stax-buddy-builder' ), $label ) : __( 'Yes, make it live', 'stax-buddy-builder' );
@@ -1149,7 +1149,7 @@ final class CommunityPages {
 
 		// Starter kits fold into the look picker (decision 5): the Elementor kits stay one click away.
 		if ( Elementor::is_available() ) {
-			echo '<p class="bpb-looks__more"><a href="' . esc_url( admin_url( 'admin.php?page=buddy-builder-templates' ) ) . '">' . esc_html__( 'More looks: starter kits for Elementor', 'stax-buddy-builder' ) . '</a></p>';
+			echo '<p class="bpb-looks__more"><a href="' . esc_url( admin_url( 'admin.php?page=buddy-builder-templates' ) ) . '">' . esc_html__( 'More styles: starter kits for Elementor', 'stax-buddy-builder' ) . '</a></p>';
 		}
 
 		echo '</div></details>';
@@ -1173,7 +1173,7 @@ final class CommunityPages {
 		}
 
 		if ( $row['pending'] ) {
-			self::button_form( $type, 'discard-pending', __( 'Discard the new look', 'stax-buddy-builder' ), 'button-link button-link-delete' );
+			self::button_form( $type, 'discard-pending', __( 'Discard the new style', 'stax-buddy-builder' ), 'button-link button-link-delete' );
 		}
 
 		self::render_layout_actions( $row );

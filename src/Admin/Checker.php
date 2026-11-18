@@ -123,7 +123,7 @@ final class Checker {
 			$nodes['layout'] = [ sprintf( __( 'Edit in %s', 'stax-buddy-builder' ), CommunityPages::builder_label( $entry['builder'] ) ), $edit ];
 		}
 
-		$nodes['look']   = [ $entry && $entry['id'] ? __( 'Change look', 'stax-buddy-builder' ) : __( 'Pick a look', 'stax-buddy-builder' ), CommunityPages::url( $type ) ];
+		$nodes['look']   = [ $entry && $entry['id'] ? __( 'Change style', 'stax-buddy-builder' ) : __( 'Pick a style', 'stax-buddy-builder' ), CommunityPages::url( $type ) ];
 		$nodes['guest']  = [ __( 'View as a guest', 'stax-buddy-builder' ), ViewAs::url( $current, 'guest' ) ];
 		$nodes['sample'] = [ __( 'View as the sample member', 'stax-buddy-builder' ), ViewAs::url( $current, 'sample' ) ];
 		$nodes['pages']  = [ __( 'All community pages', 'stax-buddy-builder' ), CommunityPages::url() ];

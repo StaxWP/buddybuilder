@@ -94,7 +94,7 @@ final class Options {
 		$cards[] = [
 			'id'          => 'setup',
 			'title'       => __( 'Setup', 'stax-buddy-builder' ),
-			'description' => __( 'Check your community and pick new looks again. Nothing changes until you press Use these.', 'stax-buddy-builder' ),
+			'description' => __( 'Check your community and pick new styles again. Nothing changes until you press Use these.', 'stax-buddy-builder' ),
 			'icon'        => 'refresh',
 			'render'      => [ __CLASS__, 'render_setup' ],
 			'priority'    => 30,

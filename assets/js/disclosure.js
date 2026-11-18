@@ -1,5 +1,5 @@
 /**
- * BuddyBuilder screens: the "More" and "Change look" menus are <details> elements (they work without JavaScript).
+ * BuddyBuilder screens: the "More" and "Change style" menus are <details> elements (they work without JavaScript).
  * This adds the menu keyboard habits: Escape closes the open menu (or its open confirm step) and gives the focus back
  * to its button, opening one menu closes the others, a click outside closes it.
  * Plain ES5, no dependencies.

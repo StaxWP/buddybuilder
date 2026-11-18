@@ -17,14 +17,14 @@ Themes add their own with [`bpb_register_style()`](registering-a-style.md) (KLEO
 ## Picking a style
 
 - **Setup** (BuddyBuilder > Community pages, first run): "Pick a style for your community" sets all five pages at once; "Choose per page" keeps per page choices. A style the active theme marks as recommended is preselected.
-- **Community pages > Change look**: per page, with Preview, a confirm step and Undo.
+- **Community pages > Change style**: per page, with Preview, a confirm step and Undo.
 - **Block editor**: every style page is also a block pattern (category BuddyBuilder) in the layout editor.
 
 Applying a style page creates a layout (a copy): editing it never changes the style, and later style updates never change it.
 
 ## Thumbnails
 
-The pickers (setup, Change look) and the Community pages rows show a screenshot of each style page: a 480 px square WebP of the top of the page, rendered on the sample community only (members `demo-*` and `bpb-sample-*` with drawn media, their groups and activity; compat env cookie `bpb_compat_sample_only`), never site or test users. Classic: `assets/img/looks/classic-<page>.webp` (found by `Preview::thumb()`); BuddyBuilder Pro styles: Pro `assets/img/presets/<style>-<page>.webp` (the preset's `thumb`, set by Pro). Made by `bin/capture-styles.js --widths 1200 --thumbs <dir>` (Pro: add `--patterns <Pro>/styles`); a style without a screenshot keeps the drawing.
+The pickers (setup, Change style) and the Community pages rows show a screenshot of each style page: a 480 px square WebP of the top of the page, rendered on the sample community only (members `demo-*` and `bpb-sample-*` with drawn media, their groups and activity; compat env cookie `bpb_compat_sample_only`), never site or test users. Classic: `assets/img/looks/classic-<page>.webp` (found by `Preview::thumb()`); BuddyBuilder Pro styles: Pro `assets/img/presets/<style>-<page>.webp` (the preset's `thumb`, set by Pro). Made by `bin/capture-styles.js --widths 1200 --thumbs <dir>` (Pro: add `--patterns <Pro>/styles`); a style without a screenshot keeps the drawing.
 
 ## Block and Elementor versions
 
@@ -49,9 +49,9 @@ BuddyBuilder Pro adds presets for its page types to every style (`<style>-regist
 
 Where they show:
 
-- **Community pages**: Change look (Pick a look) on the Register and Create a group rows; on the Member card, Group card and Activity item rows, "Design the card" (Change card once a card layout is assigned): the card layout is its own page (review decision 3) and starts from the style's card instead of a blank layout. Preview opens the real page (the directory for cards); the register page has no preview for signed-in administrators (BuddyPress sends them away from it).
+- **Community pages**: Change style (Pick a style) on the Register and Create a group rows; on the Member card, Group card and Activity item rows, "Design the card" (Change card once a card layout is assigned): the card layout is its own page (review decision 3) and starts from the style's card instead of a blank layout. Preview opens the real page (the directory for cards); the register page has no preview for signed-in administrators (BuddyPress sends them away from it).
 - **Setup**: Register and Create a group are set with the style ("Customize per page" lists them). Cards stay out of the setup: a card layout replaces the card style of every list.
-- **Block editor**: block patterns (category BuddyBuilder) in layouts of those page types; **Variations**: "Add a variation from a look" offers them.
+- **Block editor**: block patterns (category BuddyBuilder) in layouts of those page types; **Variations**: a new variation can start from them ("Start from a style").
 - **Elementor**: the same patterns turned into Elementor templates (look classes on the document wrapper, every element its 1.x Pro widget).
 - **Thumbnails**: Pro `assets/img/presets/<preset>.webp`, made by `bin/capture-looks.js --pro` (sample community media only, all drawn by `bin/sample-media.js`). A preset's `thumb` (image URL) is used by `Preview::thumb()`.
 

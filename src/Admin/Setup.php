@@ -305,7 +305,7 @@ final class Setup {
 		printf(
 			'<div class="notice notice-info"><p><strong>%1$s</strong> %2$s <a class="button button-primary" href="%3$s">%4$s</a></p></div>',
 			esc_html__( 'BuddyBuilder:', 'stax-buddy-builder' ),
-			esc_html__( 'give your community pages a look in three steps. Nothing changes until you press Use these.', 'stax-buddy-builder' ),
+			esc_html__( 'give your community pages a style in three steps. Nothing changes until you press Use these.', 'stax-buddy-builder' ),
 			esc_url( self::url() ),
 			esc_html__( 'Start setup', 'stax-buddy-builder' )
 		);
@@ -476,13 +476,13 @@ final class Setup {
 		$checks[] = [
 			'tone' => 'ok',
 			/* translators: %s: theme name */
-			'text' => sprintf( __( 'Theme: %s. The looks use its colors and fonts.', 'stax-buddy-builder' ), $theme->get( 'Name' ) ),
+			'text' => sprintf( __( 'Theme: %s. The styles use its colors and fonts.', 'stax-buddy-builder' ), $theme->get( 'Name' ) ),
 		];
 
 		if ( Checker::readylaunch_active() ) {
 			$checks[] = [
 				'tone' => 'warn',
-				'text' => __( 'BuddyBoss ReadyLaunch is on: it styles these pages. BuddyBuilder layouts take over only for the pages you pick a look for.', 'stax-buddy-builder' ),
+				'text' => __( 'BuddyBoss ReadyLaunch is on: it styles these pages. BuddyBuilder layouts take over only for the pages you pick a style for.', 'stax-buddy-builder' ),
 			];
 		}
 
@@ -658,7 +658,7 @@ final class Setup {
 
 		$steps = [
 			1 => __( 'Check your community', 'stax-buddy-builder' ),
-			2 => __( 'Pick a look', 'stax-buddy-builder' ),
+			2 => __( 'Pick a style', 'stax-buddy-builder' ),
 			3 => __( 'Review on your profile', 'stax-buddy-builder' ),
 		];
 
@@ -716,7 +716,7 @@ final class Setup {
 			echo '<label class="bpb-choice"><input type="radio" name="builder" value="' . esc_attr( $builder ) . '"' . checked( $current, $builder, false ) . '> ' . esc_html( $label ) . '</label>';
 		}
 
-		echo '<p class="description">' . esc_html__( 'Both make the same looks. You can switch a page to the other builder later.', 'stax-buddy-builder' ) . '</p></fieldset>';
+		echo '<p class="description">' . esc_html__( 'Both make the same styles. You can switch a page to the other builder later.', 'stax-buddy-builder' ) . '</p></fieldset>';
 
 		if ( ! SampleMember::user_id() ) {
 			echo '<fieldset class="bpb-setup__field"><legend>' . esc_html__( 'Previews', 'stax-buddy-builder' ) . '</legend>';
@@ -755,11 +755,11 @@ final class Setup {
 		$types = self::types();
 
 		if ( isset( $_GET['bpb_error'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
-			echo '<div class="notice notice-error inline"><p>' . esc_html__( 'Pick a look for at least one page, or skip the setup.', 'stax-buddy-builder' ) . '</p></div>';
+			echo '<div class="notice notice-error inline"><p>' . esc_html__( 'Pick a style for at least one page, or skip the setup.', 'stax-buddy-builder' ) . '</p></div>';
 		}
 
 		if ( ! $types ) {
-			echo '<div class="notice notice-warning inline"><p>' . esc_html__( 'No BuddyPress page can get a look yet: turn on the Members component.', 'stax-buddy-builder' ) . '</p></div>';
+			echo '<div class="notice notice-warning inline"><p>' . esc_html__( 'No BuddyPress page can get a style yet: turn on the Members component.', 'stax-buddy-builder' ) . '</p></div>';
 
 			return;
 		}
@@ -869,7 +869,7 @@ final class Setup {
 				echo '<span>' . esc_html__( 'Previewed with your profile', 'stax-buddy-builder' ) . '</span>';
 			}
 
-			echo '</div><div class="bpb-setup__frame"><iframe title="' . esc_attr__( 'Preview of the selected look on a real profile', 'stax-buddy-builder' ) . '" src="' . esc_url( $urls[0][ $first ] ) . '" loading="lazy"></iframe></div></aside>';
+			echo '</div><div class="bpb-setup__frame"><iframe title="' . esc_attr__( 'Preview of the selected style on a real profile', 'stax-buddy-builder' ) . '" src="' . esc_url( $urls[0][ $first ] ) . '" loading="lazy"></iframe></div></aside>';
 		}
 
 		echo '<div class="bpb-setup__nav"><a class="button" href="' . esc_url( self::url( 1 ) ) . '">' . esc_html__( 'Back', 'stax-buddy-builder' ) . '</a>';
@@ -930,7 +930,7 @@ final class Setup {
 
 		if ( $current ) {
 			/* translators: %s: layout title */
-			echo '<p class="description">' . esc_html( sprintf( __( 'Now: %s. Picking a look replaces it only when you press Use these.', 'stax-buddy-builder' ), $current->post_title ) ) . '</p>';
+			echo '<p class="description">' . esc_html( sprintf( __( 'Now: %s. Picking a style replaces it only when you press Use these.', 'stax-buddy-builder' ), $current->post_title ) ) . '</p>';
 		}
 
 		echo '<div class="bpb-looks-set__options">';
@@ -991,7 +991,7 @@ final class Setup {
 
 		echo '<div class="notice notice-info inline bpb-setup__fields"><p>';
 		/* translators: %s: profile field names, e.g. Headline, Location, About */
-		echo esc_html( sprintf( __( 'These looks show %s from the member\'s profile. Your site has no such profile fields yet, so that part stays empty.', 'stax-buddy-builder' ), implode( ', ', $missing ) ) );
+		echo esc_html( sprintf( __( 'These styles show %s from the member\'s profile. Your site has no such profile fields yet, so that part stays empty.', 'stax-buddy-builder' ), implode( ', ', $missing ) ) );
 		echo '</p><form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '"><p>';
 		self::fields( 'fields' );
 		echo '<button type="submit" class="button">' . esc_html__( 'Create these profile fields', 'stax-buddy-builder' ) . '</button> ';
@@ -1023,7 +1023,7 @@ final class Setup {
 		}
 
 		echo '<div class="bpb-setup__review">';
-		echo '<p class="bpb-lead">' . esc_html__( 'This is your community with the new looks. Only you see them; visitors see the current pages until you press Use these.', 'stax-buddy-builder' ) . '</p>';
+		echo '<p class="bpb-lead">' . esc_html__( 'This is your community with the new styles. Only you see them; visitors see the current pages until you press Use these.', 'stax-buddy-builder' ) . '</p>';
 		self::render_fields();
 
 		if ( $links ) {
@@ -1036,7 +1036,7 @@ final class Setup {
 			}
 
 			echo '</ul><a href="' . esc_url( reset( $links ) ) . '" target="_blank" rel="noopener" class="bpb-review-tabs__open">' . esc_html__( 'Open in a new tab', 'stax-buddy-builder' ) . '<span class="screen-reader-text"> ' . esc_html__( '(opens in a new tab)', 'stax-buddy-builder' ) . '</span></a></nav>';
-			echo '<div class="bpb-setup__frame bpb-setup__frame--large"><iframe name="bpb-review-frame" title="' . esc_attr__( 'Your community pages with the new looks', 'stax-buddy-builder' ) . '" src="' . esc_url( reset( $tabs ) ) . '"></iframe></div>';
+			echo '<div class="bpb-setup__frame bpb-setup__frame--large"><iframe name="bpb-review-frame" title="' . esc_attr__( 'Your community pages with the new styles', 'stax-buddy-builder' ) . '" src="' . esc_url( reset( $tabs ) ) . '"></iframe></div>';
 		}
 
 		echo '<div class="bpb-setup__nav">';

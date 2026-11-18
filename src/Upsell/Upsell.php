@@ -191,7 +191,7 @@ final class Upsell {
 			$features['styles'] = [
 				'title' => __( 'More community styles', 'stax-buddy-builder' ),
 				/* translators: %s: comma separated style names */
-				'text'  => sprintf( __( 'Complete looks for every community page: %s.', 'stax-buddy-builder' ), implode( ', ', $styles ) ),
+				'text'  => sprintf( __( 'Complete styles for every community page: %s.', 'stax-buddy-builder' ), implode( ', ', $styles ) ),
 			];
 		}
 

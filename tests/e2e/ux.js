@@ -156,10 +156,10 @@ async function shot( page, name, locator ) {
 		await shot( page, 'community-pages-pick-a-look', { clip: { x: 160, y: Math.max( 0, top - 20 ), width: 1280, height: Math.min( 560, 900 - Math.max( 0, top - 20 ) ) } } );
 		// Review W6: every look has a Preview link and a confirm step before it goes live, then Undo.
 		const card = looks.locator( 'form.bpb-look' ).first();
-		ok( ( await card.locator( 'a:has-text("Preview")' ).getAttribute( 'href' ) || '' ).includes( 'bpb_lp' ), 'each look has a Preview of the real page' );
+		ok( ( await card.locator( 'a:has-text("Preview")' ).getAttribute( 'href' ) || '' ).includes( 'bpb_lp' ), 'each style has a Preview of the real page' );
 		await card.locator( 'summary' ).click();
 		await Promise.all( [ page.waitForNavigation(), card.locator( 'button' ).first().click() ] );
-		ok( ( await page.locator( '#bpb-page-member-profile .bpb-cp__status' ).textContent() ).includes( 'Live' ), 'Use this look (after the confirm step) makes a new layout live' );
+		ok( ( await page.locator( '#bpb-page-member-profile .bpb-cp__status' ).textContent() ).includes( 'Live' ), 'Use this style (after the confirm step) makes a new layout live' );
 		ok( await page.locator( '.bpb-done button:has-text("Undo")' ).count() === 1, 'the result notice offers Undo' );
 		const select = page.locator( '#bpb-layout-member-profile' );
 		const options = await select.locator( 'option' ).count();
@@ -194,7 +194,7 @@ async function shot( page, name, locator ) {
 		await shot( page, 'community-pages-not-applied', '#bpb-page-member-profile' );
 		fs.unlinkSync( override );
 		await page.goto( profile );
-		ok( ( await page.locator( '#wp-admin-bar-bpb-community .bpb-ab-title' ).textContent() ).includes( 'Member profile:' ), 'without the override: the admin bar names the page and its look' );
+		ok( ( await page.locator( '#wp-admin-bar-bpb-community .bpb-ab-title' ).textContent() ).includes( 'Member profile:' ), 'without the override: the admin bar names the page and its style' );
 		ok( null === php( echo( "\\Buddy_Builder\\Admin\\Checker::last_issue( 'member-profile' )" ) ), 'the finding is forgotten once the layout shows' );
 
 		// 5. Settings and Help and status (B-M6).
