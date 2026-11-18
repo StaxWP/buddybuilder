@@ -64,10 +64,15 @@
 	vertical-align: -3px;
 }
 
-/* Small screens: the side column comes after the main column. */
+/* Small screens: the side column comes after the main column, unless it holds the member or group header (Career's
+ * profile card): the header heads the page on phones. */
 @media (max-width: 781px) {
 	.bpb-look .bpb-look__aside {
 		order: 2;
+	}
+
+	.bpb-look .bpb-look__aside:has(.bpb-mh, .bpb-gh) {
+		order: 0;
 	}
 }
 

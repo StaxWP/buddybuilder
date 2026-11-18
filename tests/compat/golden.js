@@ -14,8 +14,12 @@
  * - <row> names the environment (theme, Elementor on or off), e.g. tt25, tt25-noel, kleo7, kleo7-noel.
  * - THROWAWAY site only: creates the layouts as bpb_template posts (deleted at the end) and assigns them per
  *   request with the compat cookie.
- * Exit 1 when an HTML golden differs, a page is not 200, a BuddyBuilder notice appears, or (with --against) more than
- * 1% of the pixels changed.
+ * - Phone cases (phone-<preset>): every member profile and group page preset as it is applied (the style's own
+ *   pattern), at 390 px wide, signed out: the member or group header (.bpb-mh, .bpb-gh) must start within PHONE_MAX
+ *   px of the layout's top (UX review 2026-11-17: the Career profile showed its header card after the whole activity
+ *   stream on phones). No HTML golden; a screenshot is kept.
+ * Exit 1 when an HTML golden differs, a page is not 200, a BuddyBuilder notice appears, a phone case has its header
+ * further down, or (with --against) more than 1% of the pixels changed.
  */
 const fs = require( 'fs' );
 const path = require( 'path' );
@@ -44,6 +48,9 @@ const CARDS = [
 	[ 'sitewide-activity', 'activity-stream', [ 'classic', 'compact', 'boxed' ] ],
 ];
 
+// Phone cases: the header of a member profile or group page starts within this many px of the layout's top at 390 px.
+const PHONE_MAX = 400;
+
 // Dynamic parts of a block layout that change between runs without a code change.
 const mask = ( html ) => normalise( html )
 	.replace( /\b(?:user|group)-\d+-avatar\b/g, 'ID-avatar' )
@@ -52,6 +59,33 @@ const mask = ( html ) => normalise( html )
 	.replace( /\bdata-bp-item-id="\d+"/g, 'data-bp-item-id="N"' )
 	.replace( /\b(activity|acomment|comment)-(\d+)\b/g, '$1-N' )
 	.replace( /([?&](?:amp;)?(?:_wpnonce|nonce|rand|ver)=)[^"&\s]+/g, '$1X' );
+
+/**
+ * Phone case: the layout at 390 px wide; its member or group header must start near the top.
+ *
+ * @param {Object} ctx Browser context (signed out).
+ * @param {Object} c   Case (name, type, id).
+ * @param {string} url Page path.
+ * @return {Promise<string>} Result line.
+ */
+async function phoneCase( ctx, c, url ) {
+	await ctx.addCookies( [ { name: 'bpb_compat_tpl', value: `${ c.type }:${ c.id }`, domain: host, path: '/' } ] );
+	const page = await ctx.newPage();
+	await page.setViewportSize( { width: 390, height: 844 } );
+	const resp = await page.goto( site + url, { waitUntil: 'networkidle' } );
+	await page.waitForTimeout( 400 );
+	const top = await page.evaluate( () => {
+		const tpl = document.querySelector( '.bpb-template' );
+		const head = tpl ? tpl.querySelector( '.bpb-mh, .bpb-gh' ) : null;
+		return head ? Math.round( head.getBoundingClientRect().top - tpl.getBoundingClientRect().top ) : null;
+	} );
+	await page.screenshot( { path: path.join( out, 'png', c.name + '.png' ), fullPage: true } );
+	await page.close();
+	if ( resp.status() !== 200 || null === top ) {
+		return `FAIL status ${ resp.status() }${ null === top ? ', no header' : '' }`;
+	}
+	return top <= PHONE_MAX ? `ok (header at ${ top }px)` : `FAIL header at ${ top }px at 390 px wide (over ${ PHONE_MAX })`;
+}
 
 ( async () => {
 	const { chromium } = loadPlaywright();
@@ -72,6 +106,9 @@ const mask = ( html ) => normalise( html )
 				// BuddyBuilder Pro presets (register, group creation, cards) as they are applied; the five pages as before.
 				$pro = ! in_array( $preset['type'], \\Buddy_Builder\\Templates\\Types::BLOCK_TYPES, true );
 				$cases[] = [ 'name' => 'look-' . $id, 'type' => $preset['type'], 'content' => $pro ? \\Buddy_Builder\\Presets\\Presets::blocks( $preset ) : \\Buddy_Builder\\Presets\\Builder::to_blocks( $preset['layout'] ) ];
+				if ( in_array( $preset['type'], [ 'member-profile', 'group-profile' ], true ) ) {
+					$cases[] = [ 'name' => 'phone-' . $id, 'type' => $preset['type'], 'content' => \\Buddy_Builder\\Presets\\Presets::blocks( $preset ), 'phone' => true ];
+				}
 			}
 		}
 		// Block layouts on for the run (card, register and group creation layouts need it); the options a render can
@@ -80,7 +117,7 @@ const mask = ( html ) => normalise( html )
 		update_option( 'bpb_blocks_enabled', '1' );
 		$out = [];
 		foreach ( $cases as $c ) {
-			$out[] = [ 'name' => $c['name'], 'type' => $c['type'], 'list' => ! empty( $c['list'] ), 'id' => wp_insert_post( [ 'post_type' => 'bpb_template', 'post_status' => 'publish', 'post_title' => 'Golden ' . $c['name'], 'post_content' => $c['content'], 'meta_input' => [ '_bpb_type' => $c['type'], '_bpb_golden' => 1 ] ] ) ];
+			$out[] = [ 'name' => $c['name'], 'type' => $c['type'], 'list' => ! empty( $c['list'] ), 'phone' => ! empty( $c['phone'] ), 'id' => wp_insert_post( [ 'post_type' => 'bpb_template', 'post_status' => 'publish', 'post_title' => 'Golden ' . $c['name'], 'post_content' => $c['content'], 'meta_input' => [ '_bpb_type' => $c['type'], '_bpb_golden' => 1 ] ] ) ];
 		}
 		echo "\\nBPB_GOLDEN " . wp_json_encode( $out ) . "\\n";
 	` ], 'BPB_GOLDEN' );
@@ -103,6 +140,13 @@ const mask = ( html ) => normalise( html )
 			continue;
 		}
 		const url = ( TYPE_URLS[ c.type ] || [] )[ 0 ];
+		if ( c.phone ) {
+			const result = await phoneCase( contexts.anon, c, url );
+			fails += result.startsWith( 'FAIL' ) ? 1 : 0;
+			lines.push( `| ${ c.name } | ${ result } |` );
+			console.log( `${ result } ${ c.name }` );
+			continue;
+		}
 		for ( const v of VARIANTS[ c.type ] || VARIANTS.default ) {
 			const key = `${ c.name }-${ v }`;
 			const ctx = contexts[ v ];
