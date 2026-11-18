@@ -43,6 +43,7 @@
  * - notice-dismiss              Dismissing a notice: only known notice ids, only with their nonce.
  * - card-line                   One "Card" line per directory and activity row (style and Change, or the card layout row),
  *                                 no Pro labels with Pro licensed.
+ * - elementor-panel             In a BuddyBuilder template: BuddyBuilder categories first, the page's elements only.
  * - community-pages-rows        Create a group as its own row, cards under their page, the intro, the collapsed
  *                               "Variations" link (Pro) starting from a copy of the main layout.
  *
@@ -957,6 +958,50 @@ switch ( $bpb_case ) {
 		}
 		break;
 
+	case 'elementor-panel':
+		// UX review 2026-11-17, item 11: in a BuddyBuilder template the panel opens with BuddyBuilder's categories, the page
+		// category holds only that page's elements, elements for any page sit in BuddyBuilder General, other pages'
+		// elements leave the panel; other documents keep the usual order and every element.
+		if ( ! did_action( 'elementor/loaded' ) ) {
+			$bpb_skip( 'Elementor is not active' );
+			break;
+		}
+		$bpb_tpl = (int) wp_insert_post( [ 'post_type' => 'elementor_library', 'post_status' => 'draft', 'post_title' => 'Regression panel', 'meta_input' => [ '_elementor_template_type' => 'bpb-buddypress', '_bpb_page' => 'member-profile' ] ] );
+		$bpb_widgets = \Elementor\Plugin::$instance->widgets_manager->get_widget_types();
+		$bpb_panel   = static function () use ( $bpb_widgets ) {
+			$out = [];
+			foreach ( [ 'bpb-el-member-header', 'bpb-el-directory-header', 'bpb-el-group-header', 'bpb-el-people-rail' ] as $bpb_name ) {
+				if ( isset( $bpb_widgets[ $bpb_name ] ) ) {
+					$out[ $bpb_name ] = [ $bpb_widgets[ $bpb_name ]->show_in_panel(), $bpb_widgets[ $bpb_name ]->get_categories()[0] ];
+				}
+			}
+			return $out;
+		};
+		$bpb_order = static function () {
+			// The categories are built once per request: forget them so the next read registers them again.
+			$bpb_manager = \Elementor\Plugin::$instance->elements_manager;
+			$bpb_reset   = function () {
+				$this->categories = null;
+			};
+			$bpb_reset->call( $bpb_manager );
+			return array_keys( $bpb_manager->get_categories() );
+		};
+		$_REQUEST['post'] = $bpb_tpl;
+		$bpb_in  = $bpb_panel();
+		$bpb_cat = $bpb_order();
+		$bpb_ok( 'member-profile' === \Buddy_Builder\Integrations\Elementor\EditorPreview::edited_type(), 'the editor knows the template\'s page' );
+		$bpb_ok( [ true, 'buddy-builder-elements' ] === $bpb_in['bpb-el-member-header'], 'Member header: in the page category' );
+		$bpb_ok( false === $bpb_in['bpb-el-directory-header'][0] && false === $bpb_in['bpb-el-group-header'][0], 'Directory header and Group header leave the member profile panel' );
+		$bpb_ok( [ true, 'buddy-builder-general-elements' ] === $bpb_in['bpb-el-people-rail'], 'an element for any page sits in BuddyBuilder General' );
+		$bpb_first = array_values( array_diff( array_slice( $bpb_cat, 0, 4 ), [ 'favorites' ] ) );
+		$bpb_ok( [ 'buddy-builder-elements', 'buddy-builder-header-parts', 'buddy-builder-general-elements' ] === array_slice( $bpb_first, 0, 3 ), 'BuddyBuilder categories first (' . implode( ', ', array_slice( $bpb_cat, 0, 5 ) ) . ')' );
+		unset( $_REQUEST['post'] );
+		$bpb_out = $bpb_panel();
+		$bpb_ok( $bpb_out['bpb-el-directory-header'][0] && $bpb_out['bpb-el-group-header'][0], 'outside a BuddyBuilder template every element is offered' );
+		$bpb_ok( array_search( 'buddy-builder-elements', $bpb_order(), true ) > array_search( 'basic', $bpb_order(), true ), 'outside a BuddyBuilder template the categories keep their place' );
+		wp_delete_post( $bpb_tpl, true );
+		break;
+
 	case 'header-parts':
 		// UX review 2026-11-17, item 1: the header parts are first-class (not deprecated), the navs and forms stay deprecated.
 		$bpb_parts      = [ 'member-cover', 'member-avatar', 'member-username', 'member-meta', 'member-buttons', 'member-latest-update', 'group-cover', 'group-avatar', 'group-name', 'group-status', 'group-description', 'group-last-activity', 'group-buttons' ];
@@ -1046,7 +1091,7 @@ switch ( $bpb_case ) {
 		break;
 
 	default:
-		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install, checker-readylaunch, change-look-undo, cards-follow-layout, layout-actions, element-settings, elementor-basic-controls, layout-import, notice-dismiss, card-line, header-parts, theme-title-space, profile-fields' );
+		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install, checker-readylaunch, change-look-undo, cards-follow-layout, layout-actions, element-settings, elementor-basic-controls, layout-import, notice-dismiss, card-line, community-pages-rows, elementor-panel, header-parts, theme-title-space, profile-fields' );
 }
 
 // Cleanup.

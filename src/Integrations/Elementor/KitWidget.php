@@ -16,6 +16,41 @@ defined( 'ABSPATH' ) || die();
 class KitWidget extends \Buddy_Builder\Kit\ElementorWidget {
 
 	/**
+	 * Page types the element is made for ([] : any page).
+	 *
+	 * @return string[]
+	 */
+	private function page_types() {
+		$element = $this->kit_element();
+		$schema  = $element ? $element->schema() : [];
+
+		return isset( $schema['templateTypes'] ) ? (array) $schema['templateTypes'] : [];
+	}
+
+	/**
+	 * In a BuddyBuilder template the panel offers the elements of its page and the ones for any page, as the block
+	 * inserter does (templates that already use another page's element keep it).
+	 *
+	 * @return bool
+	 */
+	public function show_in_panel() {
+		$types = $this->page_types();
+		$page  = EditorPreview::edited_type();
+
+		return ! $types || '' === $page || in_array( $page, $types, true );
+	}
+
+	/**
+	 * The page category ("BuddyBuilder Member Profile") holds the elements made for pages; elements for any page go
+	 * to "BuddyBuilder General".
+	 *
+	 * @return string[]
+	 */
+	public function get_categories() {
+		return $this->page_types() ? parent::get_categories() : [ 'buddy-builder-general-elements' ];
+	}
+
+	/**
 	 * Widget markup, except on the first view of the Elementor editor page (see EditorPreview::is_first_view()).
 	 */
 	public function render_content() {

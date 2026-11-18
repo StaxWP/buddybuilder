@@ -10,7 +10,6 @@ namespace Buddy_Builder;
 
 defined( 'ABSPATH' ) || die();
 
-use Buddy_Builder\Library\Documents\BuddyPress;
 use Elementor\Controls_Manager;
 
 /**
@@ -163,17 +162,16 @@ class ElementorHooks extends Singleton {
 
 	/**
 	 * Register elementor category
+	 *
+	 * @param \Elementor\Elements_Manager|null $manager Elements manager.
 	 */
-	public function categories_registered() {
-		global $post;
-		$cat_name = 'BuddyBuilder';
+	public function categories_registered( $manager = null ) {
+		$cat_name      = 'BuddyBuilder';
+		$templates     = bpb_get_template_types();
+		$template_type = \Buddy_Builder\Integrations\Elementor\EditorPreview::edited_type();
 
-		$templates = bpb_get_template_types();
-
-		if ( $post && $template_type = get_post_meta( $post->ID, BuddyPress::REMOTE_CATEGORY_META_KEY, true ) ) {
-			if ( isset( $templates[ $template_type ] ) ) {
-				$cat_name .= ' ' . $templates[ $template_type ]['name'];
-			}
+		if ( isset( $templates[ $template_type ] ) ) {
+			$cat_name .= ' ' . $templates[ $template_type ]['name'];
 		}
 
 		\Elementor\Plugin::instance()->elements_manager->add_category(
@@ -200,6 +198,39 @@ class ElementorHooks extends Singleton {
 				'icon'  => 'fa fa-plug',
 			]
 		);
+
+		if ( '' !== $template_type ) {
+			$this->categories_first( $manager ? $manager : \Elementor\Plugin::instance()->elements_manager );
+		}
+	}
+
+	/**
+	 * In a BuddyBuilder template, BuddyBuilder's categories open the panel (after the user's Favorites); elsewhere they
+	 * keep their place. Elementor has no API for the order, so its category list is reordered in place.
+	 *
+	 * @param object $manager Elements manager.
+	 */
+	private function categories_first( $manager ) {
+		$first   = [ 'favorites', 'buddy-builder-elements', \Buddy_Builder\Widgets\Base::HEADER_PARTS_CATEGORY, 'buddy-builder-general-elements' ];
+		$reorder = function () use ( $first ) {
+			if ( ! property_exists( $this, 'categories' ) || ! is_array( $this->categories ) ) {
+				return;
+			}
+
+			$top = [];
+
+			foreach ( $first as $slug ) {
+				if ( isset( $this->categories[ $slug ] ) ) {
+					$top[ $slug ] = $this->categories[ $slug ];
+				}
+			}
+
+			$this->categories = $top + $this->categories;
+		};
+
+		if ( is_object( $manager ) ) {
+			$reorder->call( $manager );
+		}
 	}
 
 	/**

@@ -45,6 +45,7 @@ run eval-file "$TEST" layout-actions
 run $NO_ELEMENTOR eval-file "$TEST" layout-actions
 run eval-file "$TEST" element-settings
 run eval-file "$TEST" elementor-basic-controls
+run eval-file "$TEST" elementor-panel
 run eval-file "$TEST" layout-import
 run eval-file "$TEST" notice-dismiss
 run eval-file "$TEST" upsell-delay

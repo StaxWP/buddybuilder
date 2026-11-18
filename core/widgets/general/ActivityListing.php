@@ -27,7 +27,7 @@ class ActivityListing extends \Buddy_Builder\Widgets\Base {
 	}
 
 	public function get_title() {
-		return esc_html__( 'Activity List', 'stax-buddy-builder' );
+		return esc_html__( 'Custom activity list', 'stax-buddy-builder' );
 	}
 
 	public function get_icon() {

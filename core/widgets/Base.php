@@ -2,7 +2,6 @@
 
 namespace Buddy_Builder\Widgets;
 
-use Buddy_Builder\Library\Documents\BuddyPress;
 use Buddy_Builder\Plugin;
 
 /**
@@ -132,14 +131,12 @@ class Base extends \Elementor\Widget_Base {
 	 * @return bool
 	 */
 	public function show_in_panel() {
-		global $post;
-
 		// Deprecated (2.0): saved layouts keep the widget, new layouts use its replacement.
 		if ( '' !== $this->bpb_element && class_exists( '\\Buddy_Builder\\Elements\\Elements' ) && '' !== \Buddy_Builder\Elements\Elements::deprecated_note( $this->bpb_element ) ) {
 			return false;
 		}
 
-		$template_type = get_post_meta( $post->ID, BuddyPress::REMOTE_CATEGORY_META_KEY, true );
+		$template_type = \Buddy_Builder\Integrations\Elementor\EditorPreview::edited_type();
 		$show          = false;
 
 		foreach ( buddy_builder()->get_elements() as $element ) {

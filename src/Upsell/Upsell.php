@@ -112,17 +112,17 @@ final class Upsell {
 				'elementor' => [ 'icon' => 'bbl-members_messages', 'category' => 'buddy-builder-general-elements' ],
 			],
 			'members-tab-list'     => [
-				'title'     => __( 'Members Tab List', 'stax-buddy-builder' ),
+				'title'     => __( 'Members in tabs', 'stax-buddy-builder' ),
 				'text'      => __( 'A grid of members with tabs to switch between lists, for any page.', 'stax-buddy-builder' ),
 				'elementor' => [ 'icon' => 'bbl-members-tab-list', 'category' => 'buddy-builder-general-elements' ],
 			],
 			'groups-tab-list'      => [
-				'title'     => __( 'Groups Tab List', 'stax-buddy-builder' ),
+				'title'     => __( 'Groups in tabs', 'stax-buddy-builder' ),
 				'text'      => __( 'A grid of groups with tabs to switch between lists, for any page.', 'stax-buddy-builder' ),
 				'elementor' => [ 'icon' => 'bbl-groups-tab-list', 'category' => 'buddy-builder-general-elements' ],
 			],
 			'post-update-form'     => [
-				'title'     => __( 'Post Update Form', 'stax-buddy-builder' ),
+				'title'     => __( 'Post form (any page)', 'stax-buddy-builder' ),
 				'text'      => __( 'The "What\'s new" form, so members can post activity updates from any page.', 'stax-buddy-builder' ),
 				'elementor' => [ 'icon' => 'bbl-post-update-form', 'category' => 'buddy-builder-general-elements' ],
 			],
@@ -135,22 +135,22 @@ final class Upsell {
 			'shortcuts-nav'        => [
 				'title'     => __( 'Community shortcuts', 'stax-buddy-builder' ),
 				'text'      => __( 'Links to the profile, activity, members, groups, messages and notifications: a side menu on large screens, a bottom tab bar on phones.', 'stax-buddy-builder' ),
-				'elementor' => [ 'icon' => 'eicon-nav-menu', 'category' => 'buddy-builder-elements' ],
+				'elementor' => [ 'icon' => 'eicon-nav-menu', 'category' => 'buddy-builder-general-elements' ],
 			],
 			'group-rail'           => [
 				'title'     => __( 'Group rail', 'stax-buddy-builder' ),
 				'text'      => __( 'A narrow rail of group photos (the member\'s groups or the most active ones), with the current group marked.', 'stax-buddy-builder' ),
-				'elementor' => [ 'icon' => 'eicon-navigation-vertical', 'category' => 'buddy-builder-elements' ],
+				'elementor' => [ 'icon' => 'eicon-navigation-vertical', 'category' => 'buddy-builder-general-elements' ],
 			],
 			'member-list'          => [
 				'title'     => __( 'Online members list', 'stax-buddy-builder' ),
 				'text'      => __( 'Members with their online status, grouped Online and Offline: the members of the current group, or the most recently active members.', 'stax-buddy-builder' ),
-				'elementor' => [ 'icon' => 'eicon-person', 'category' => 'buddy-builder-elements' ],
+				'elementor' => [ 'icon' => 'eicon-person', 'category' => 'buddy-builder-general-elements' ],
 			],
 			'highlights-rail'      => [
 				'title'     => __( 'Highlights rail', 'stax-buddy-builder' ),
 				'text'      => __( 'A row of round bubbles: the displayed member\'s groups or friends, or active members.', 'stax-buddy-builder' ),
-				'elementor' => [ 'icon' => 'eicon-slider-push', 'category' => 'buddy-builder-elements' ],
+				'elementor' => [ 'icon' => 'eicon-slider-push', 'category' => 'buddy-builder-general-elements' ],
 			],
 			// Features of BuddyBuilder Pro (Community pages screen only).
 			'card-designer'        => [
@@ -272,7 +272,7 @@ final class Upsell {
 			return $settings;
 		}
 
-		$type  = self::editor_template_type();
+		$type  = \Buddy_Builder\Integrations\Elementor\EditorPreview::edited_type();
 		$items = [];
 
 		foreach ( self::features() as $id => $feature ) {
@@ -300,17 +300,6 @@ final class Upsell {
 		}
 
 		return $settings;
-	}
-
-	/**
-	 * Template type of the BuddyBuilder template open in Elementor ('' for other posts).
-	 *
-	 * @return string
-	 */
-	private static function editor_template_type() {
-		$post_id = isset( $_GET['post'] ) ? absint( $_GET['post'] ) : 0; // phpcs:ignore WordPress.Security.NonceVerification
-
-		return $post_id ? (string) get_post_meta( $post_id, '_bpb_page', true ) : '';
 	}
 
 	/**

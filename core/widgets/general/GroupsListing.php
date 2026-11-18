@@ -27,7 +27,7 @@ class GroupsListing extends \Buddy_Builder\Widgets\Base {
 	}
 
 	public function get_title() {
-		return esc_html__( 'Groups List', 'stax-buddy-builder' );
+		return esc_html__( 'Custom groups list', 'stax-buddy-builder' );
 	}
 
 	public function get_icon() {

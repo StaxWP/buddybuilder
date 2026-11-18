@@ -36,6 +36,7 @@ final class EditorPreview {
 	 */
 	public static function hooks() {
 		add_action( 'elementor/documents/register_controls', [ __CLASS__, 'controls' ] );
+		add_action( 'elementor/preview/enqueue_styles', [ __CLASS__, 'preview_styles' ] );
 		add_action( 'elementor/editor/after_enqueue_scripts', [ __CLASS__, 'script' ] );
 		add_action( 'wp_ajax_' . self::ACTION, [ __CLASS__, 'save' ] );
 	}
@@ -59,13 +60,50 @@ final class EditorPreview {
 	}
 
 	/**
+	 * Page type of the BuddyBuilder template this request edits or previews in Elementor ('' for other documents):
+	 * the editor page, its preview frame and the editor's AJAX requests.
+	 *
+	 * @return string
+	 */
+	public static function edited_type() {
+		global $post;
+
+		// phpcs:disable WordPress.Security.NonceVerification -- which document is open, read only.
+		foreach ( [ 'post', 'editor_post_id', 'elementor-preview' ] as $key ) {
+			if ( ! empty( $_REQUEST[ $key ] ) ) {
+				return self::type_of( absint( $_REQUEST[ $key ] ) );
+			}
+		}
+		// phpcs:enable
+
+		return $post ? self::type_of( $post->ID ) : '';
+	}
+
+	/**
 	 * Page type of a BuddyBuilder template ('' for other documents).
 	 *
 	 * @param int $post_id Template id.
 	 * @return string
 	 */
-	private static function type_of( $post_id ) {
+	public static function type_of( $post_id ) {
 		return 'elementor_library' === get_post_type( $post_id ) ? (string) get_post_meta( $post_id, '_bpb_page', true ) : '';
+	}
+
+	/**
+	 * Preview frame of a BuddyBuilder template: the style components (and the template's style, when it was made from
+	 * one) from the start, so an element dropped now (Member header in a 1.x template) is styled at once; on the site
+	 * the element loads them when it renders.
+	 */
+	public static function preview_styles() {
+		$post_id = isset( $_GET['elementor-preview'] ) ? absint( $_GET['elementor-preview'] ) : 0; // phpcs:ignore WordPress.Security.NonceVerification
+
+		if ( ! $post_id || '' === self::type_of( $post_id ) ) {
+			return;
+		}
+
+		$look = (string) get_post_meta( $post_id, '_bpb_look', true );
+
+		\Buddy_Builder\Assets\Assets::looks( preg_match( '/\bbpb-look--([a-z0-9_-]+)/', $look, $m ) ? $m[1] : '' );
 	}
 
 	/**
