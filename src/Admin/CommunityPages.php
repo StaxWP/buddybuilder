@@ -884,12 +884,8 @@ final class CommunityPages {
 
 		echo '<div class="bpb-cp__name"><h2 id="' . esc_attr( $heading ) . '">' . esc_html( $row['label'] );
 
-		if ( $row['pro'] ) {
-			echo ' <span class="bpb-label">' . esc_html__( 'Pro', 'stax-buddy-builder' ) . '</span>';
-		}
-
-		echo '</h2><p>' . esc_html( self::subtitle( $row ) ) . '</p>';
-		self::render_card_line( $row );
+		echo self::pro_label( $row ) . '</h2><p>' . esc_html( self::subtitle( $row ) ) . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput -- pro_label() escapes.
+		$children = self::render_card_line( $row, $children );
 		echo '</div>';
 
 		echo '<div class="bpb-cp__builder"><span class="screen-reader-text">' . esc_html__( 'Builder:', 'stax-buddy-builder' ) . ' </span>' . esc_html( $row['builder_label'] ? $row['builder_label'] : __( 'none', 'stax-buddy-builder' ) ) . '</div>';
@@ -930,43 +926,78 @@ final class CommunityPages {
 	}
 
 	/**
-	 * "Card: <style>" under the directory and activity rows: how the page's list shows each member, group or post,
-	 * with a link to where it changes (the list element's Card setting in the page layout, or the card layout).
+	 * The "Pro" label of a Pro page type, only while BuddyBuilder Pro is not active and licensed (review 3.4: no Pro
+	 * badges for Pro owners).
 	 *
 	 * @param array $row Row.
+	 * @return string HTML ('' without the label).
 	 */
-	private static function render_card_line( array $row ) {
+	private static function pro_label( array $row ) {
+		$pro = App::pro();
+
+		if ( empty( $row['pro'] ) || ( $pro['active'] && false !== $pro['licensed'] ) ) {
+			return '';
+		}
+
+		return ' <span class="bpb-label">' . esc_html__( 'Pro', 'stax-buddy-builder' ) . '</span>';
+	}
+
+	/**
+	 * The one "Card" line under the directory and activity rows: how the page's list shows each member, group or
+	 * post, and where it changes. A card style: "Card: Compact, Change" (the page layout's editor with the list
+	 * selected) and, with BuddyBuilder Pro, "Design the card" (a card layout from a style). A card layout: its own item
+	 * row is the card line (Edit, Change card, More), so no text line repeats it.
+	 *
+	 * @param array   $row      Row.
+	 * @param array[] $children Item rows of the page.
+	 * @return array[] The item rows still to list under the page (the card row only when a card layout exists).
+	 */
+	private static function render_card_line( array $row, array $children ) {
 		$object = array_search( $row['type'], Cards::PAGE_TYPES, true );
 
 		if ( false === $object || ! $row['active'] ) {
-			return;
+			return $children;
 		}
 
 		$item = Cards::ITEM_TYPES[ $object ];
+		$card = null;
 
-		if ( Cards::has_card_layout( $object ) ) {
-			$text = __( 'Card: your card layout', 'stax-buddy-builder' );
-			$link = [ '#bpb-page-' . $item, __( 'Edit the card', 'stax-buddy-builder' ), '' ];
-		} else {
-			/* translators: %s: card style name, e.g. Compact */
-			$text = sprintf( __( 'Card: %s', 'stax-buddy-builder' ), Cards::label( $object, Cards::saved( $object ) ) );
-			$link = null;
+		foreach ( $children as $i => $child ) {
+			if ( $item === $child['type'] ) {
+				$card = $child;
 
-			if ( $row['post'] && $row['edit_url'] ) {
-				/* translators: %s: page name */
-				$link = [ $row['edit_url'], __( 'Change', 'stax-buddy-builder' ), sprintf( __( 'Change the card style: the Card setting of the list in the %s layout', 'stax-buddy-builder' ), $row['label'] ) ];
-			} elseif ( Types::is_active( $item ) && isset( Types::for_blocks()[ $item ] ) ) {
-				$link = [ '#bpb-page-' . $item, __( 'Design the card', 'stax-buddy-builder' ), '' ];
+				// No card layout: the card row would only say "BuddyPress default" under a page with a card style.
+				if ( ! $child['post'] ) {
+					unset( $children[ $i ] );
+				}
 			}
 		}
 
-		echo '<p class="bpb-cp__card">' . esc_html( $text );
-
-		if ( $link ) {
-			echo ' <a href="' . esc_url( $link[0] ) . '"' . ( $link[2] ? ' aria-label="' . esc_attr( $link[2] ) . '"' : '' ) . '>' . esc_html( $link[1] ) . '</a>';
+		if ( $card && $card['post'] ) {
+			return $children;
 		}
 
-		echo '</p>';
+		echo '<div class="bpb-cp__card">';
+
+		if ( Cards::has_card_layout( $object ) ) {
+			echo esc_html__( 'Card: your card layout', 'stax-buddy-builder' );
+		} else {
+			/* translators: %s: card style name, e.g. Compact */
+			echo esc_html( sprintf( __( 'Card: %s', 'stax-buddy-builder' ), Cards::label( $object, Cards::saved( $object ) ) ) );
+
+			if ( $row['post'] && $row['edit_url'] ) {
+				/* translators: %s: page name */
+				echo ' <a href="' . esc_url( add_query_arg( Cards::SELECT_ARG, $object, $row['edit_url'] ) ) . '" aria-label="' . esc_attr( sprintf( __( 'Change the card style: opens the %s layout with its list selected, Card setting', 'stax-buddy-builder' ), $row['label'] ) ) . '">' . esc_html__( 'Change', 'stax-buddy-builder' ) . '</a>';
+			}
+
+			if ( $card ) {
+				self::render_looks( $card, true );
+			}
+		}
+
+		echo '</div>';
+
+		return $children;
 	}
 
 	/**
@@ -1278,13 +1309,7 @@ final class CommunityPages {
 	 */
 	private static function render_child( array $row ) {
 		echo '<li class="bpb-cp__item" id="bpb-page-' . esc_attr( $row['type'] ) . '">';
-		echo '<span class="bpb-cp__item-name">' . esc_html( $row['label'] );
-
-		if ( $row['pro'] ) {
-			echo ' <span class="bpb-label">' . esc_html__( 'Pro', 'stax-buddy-builder' ) . '</span>';
-		}
-
-		echo '</span>';
+		echo '<span class="bpb-cp__item-name">' . esc_html( $row['label'] ) . self::pro_label( $row ) . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput -- pro_label() escapes.
 		echo '<span class="bpb-cp__item-layout">' . esc_html( $row['post'] ? $row['title'] . ' (' . $row['builder_label'] . ')' : __( 'BuddyPress default', 'stax-buddy-builder' ) ) . '</span>';
 		if ( 'default' !== $row['status']['code'] ) {
 			echo '<span class="bpb-status bpb-status--' . esc_attr( $row['status']['tone'] ) . '">' . esc_html( $row['status']['text'] ) . '</span>';

@@ -563,6 +563,8 @@ final class Elements {
 					'sampleMember' => \Buddy_Builder\Templates\SampleMember::user_id(),
 					'viewers'      => \Buddy_Builder\Templates\PreviewContext::viewer_options(),
 					'canSimulate'  => \Buddy_Builder\Templates\PreviewContext::can_simulate_members(),
+					// Community pages "Card: ..., Change": the list to select when the editor opens.
+					'select'       => \Buddy_Builder\Templates\Cards::editor_selection(),
 				]
 			) . ';',
 			'before'

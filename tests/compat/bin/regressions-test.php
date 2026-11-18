@@ -41,7 +41,8 @@
  * - layout-import               Community pages > Import layout: a block layout export comes back as a draft of the
  *                               same type, look and preset; Elementor exports, other JSON and unknown types are refused.
  * - notice-dismiss              Dismissing a notice: only known notice ids, only with their nonce.
- * - card-line                   "Card: <style>" under the directory and activity rows, with a link to change it.
+ * - card-line                   One "Card" line per directory and activity row (style and Change, or the card layout row),
+ *                                 no Pro labels with Pro licensed.
  *
  * THROWAWAY site only (needs the compat env mu-plugin). Restores the options it touches and deletes the posts it
  * creates. Prints PASS / FAIL / SKIP lines; exits 1 on any FAIL.
@@ -892,6 +893,9 @@ switch ( $bpb_case ) {
 		break;
 
 	case 'card-line':
+		// One "Card" line per directory and activity row (UX review 2026-11-17, item 5): the card style with Change (the
+		// editor with the list selected), or the card layout's own item row; no card row without a card layout; no Pro
+		// labels while BuddyBuilder Pro is active and licensed.
 		ob_start();
 		\Buddy_Builder\Admin\CommunityPages::render();
 		$bpb_html = ob_get_clean();
@@ -899,9 +903,29 @@ switch ( $bpb_case ) {
 			if ( ! \Buddy_Builder\Templates\Types::is_active( $bpb_type ) ) {
 				continue;
 			}
-			$bpb_ok( (bool) preg_match( '/id="bpb-page-' . preg_quote( $bpb_type, '/' ) . '".*?<p class="bpb-cp__card">Card: [^<]+/s', $bpb_html ), $bpb_type . ' row shows its card' );
+			$bpb_item   = \Buddy_Builder\Templates\Cards::ITEM_TYPES[ $bpb_object ];
+			$bpb_layout = (int) Registry::get( $bpb_item )['id'] && get_post( (int) Registry::get( $bpb_item )['id'] );
+			$bpb_row    = preg_match( '/id="bpb-page-' . preg_quote( $bpb_type, '/' ) . '".*?<\/section>/s', $bpb_html, $bpb_m ) ? $bpb_m[0] : '';
+			$bpb_lines  = substr_count( $bpb_row, 'class="bpb-cp__card"' ) + substr_count( $bpb_row, '<li class="bpb-cp__item" id="bpb-page-' . $bpb_item . '"' );
+			$bpb_ok( 1 === $bpb_lines, $bpb_type . ' row has one card line (' . $bpb_lines . ', card layout: ' . ( $bpb_layout ? 'yes' : 'no' ) . ')' );
+			if ( ! $bpb_layout ) {
+				$bpb_ok( (bool) preg_match( '/<div class="bpb-cp__card">Card: [^<]+/', $bpb_row ) && false === strpos( $bpb_row, '<li class="bpb-cp__item" id="bpb-page-' . $bpb_item . '"' ), $bpb_type . ': the card style line, no card row without a card layout' );
+				if ( Registry::get( $bpb_type )['id'] ) {
+					$bpb_ok( false !== strpos( $bpb_row, 'bpb_select=' . $bpb_object ), $bpb_type . ': Change opens the editor with the list selected' );
+				}
+			}
 		}
-		$bpb_ok( 3 >= substr_count( $bpb_html, 'bpb-cp__card' ), 'only the directory and activity rows' );
+		$bpb_ok( 3 >= substr_count( $bpb_html, 'class="bpb-cp__card"' ), 'only the directory and activity rows' );
+		$bpb_pro = \Buddy_Builder\Admin\App::pro();
+		if ( $bpb_pro['active'] && false !== $bpb_pro['licensed'] ) {
+			$bpb_ok( false === strpos( $bpb_html, '<span class="bpb-label">' ), 'no Pro labels with BuddyBuilder Pro active and licensed' );
+		}
+		$bpb_ok( [ 'members-listing', 'bpb-members-directory-list' ] === \Buddy_Builder\Templates\Cards::list_names( 'members' ), 'the members lists to select in the editor' );
+		$_GET[ \Buddy_Builder\Templates\Cards::SELECT_ARG ] = 'groups';
+		$bpb_ok( [ 'groups-listing', 'bpb-groups-directory-list' ] === \Buddy_Builder\Templates\Cards::editor_selection(), 'editor selection from the link' );
+		$_GET[ \Buddy_Builder\Templates\Cards::SELECT_ARG ] = 'nope';
+		$bpb_ok( [] === \Buddy_Builder\Templates\Cards::editor_selection(), 'unknown selection ignored' );
+		unset( $_GET[ \Buddy_Builder\Templates\Cards::SELECT_ARG ] );
 		break;
 
 	case 'header-parts':

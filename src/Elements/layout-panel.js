@@ -68,14 +68,42 @@
 
 	arrange( config.type || 'member-profile' );
 
-	wp.data.subscribe( function () {
-		var editor = wp.data.select( 'core/editor' );
-		var meta = editor && editor.getCurrentPostType && 'bpb_template' === editor.getCurrentPostType() ? editor.getEditedPostAttribute( 'meta' ) : null;
+	// Opened from Community pages ("Card: ..., Change"): select the list whose Card setting changes the cards. Polls
+	// until the editor has its blocks and keeps the selection (the editor clears it while it starts).
+	if ( config.select && config.select.length ) {
+		var find = function ( blocks ) {
+			for ( var i = 0; i < blocks.length; i++ ) {
+				if ( 0 === blocks[ i ].name.indexOf( 'buddybuilder/' ) && config.select.indexOf( blocks[ i ].name.slice( 13 ) ) !== -1 ) {
+					return blocks[ i ];
+				}
+				var inner = find( blocks[ i ].innerBlocks || [] );
+				if ( inner ) {
+					return inner;
+				}
+			}
+			return null;
+		};
+		var tries = 0;
+		var kept = 0;
+		var poll = function () {
+			var editor = wp.data.select( 'core/block-editor' );
+			var block = find( editor.getBlocks() );
 
-		if ( meta && meta._bpb_type ) {
-			arrange( meta._bpb_type );
-		}
-	} );
+			if ( block && editor.getSelectedBlockClientId() === block.clientId ) {
+				kept++;
+			} else if ( block ) {
+				wp.data.dispatch( 'core/block-editor' ).selectBlock( block.clientId );
+				if ( wp.data.dispatch( 'core/edit-post' ) && wp.data.dispatch( 'core/edit-post' ).openGeneralSidebar ) {
+					wp.data.dispatch( 'core/edit-post' ).openGeneralSidebar( 'edit-post/block' );
+				}
+			}
+
+			if ( kept < 3 && ++tries < 40 ) {
+				setTimeout( poll, 300 );
+			}
+		};
+		setTimeout( poll, 300 );
+	}
 
 	function options( list, emptyLabel ) {
 		return [ { value: '0', label: emptyLabel } ].concat( ( list || [] ).map( function ( item ) {

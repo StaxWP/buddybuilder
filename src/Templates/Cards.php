@@ -115,6 +115,7 @@ final class Cards {
 		add_action( 'wp_enqueue_scripts', [ __CLASS__, 'register' ], 1 );
 		add_action( 'enqueue_block_assets', [ __CLASS__, 'register' ], 1 );
 		add_action( 'wp_enqueue_scripts', [ __CLASS__, 'enqueue_for_page' ], 20 );
+		add_action( 'elementor/editor/after_enqueue_scripts', [ __CLASS__, 'elementor_select' ] );
 	}
 
 	/**
@@ -133,16 +134,59 @@ final class Cards {
 	 * @return string members|groups|activity|''
 	 */
 	public static function object_of( $name ) {
-		$map = [
-			'members-listing'            => 'members',
-			'bpb-members-directory-list' => 'members',
-			'groups-listing'             => 'groups',
-			'bpb-groups-directory-list'  => 'groups',
-			'activity-stream'            => 'activity',
-			'bpb-sitewide-content'       => 'activity',
-		];
+		return isset( self::LISTS[ $name ] ) ? self::LISTS[ $name ] : '';
+	}
 
-		return isset( $map[ $name ] ) ? $map[ $name ] : '';
+	/** List elements and 1.x widgets with a card style: element or widget name => object. */
+	const LISTS = [
+		'members-listing'            => 'members',
+		'bpb-members-directory-list' => 'members',
+		'groups-listing'             => 'groups',
+		'bpb-groups-directory-list'  => 'groups',
+		'activity-stream'            => 'activity',
+		'bpb-sitewide-content'       => 'activity',
+	];
+
+	/** Query argument of an editor link that opens the layout with its list selected (value: the object). */
+	const SELECT_ARG = 'bpb_select';
+
+	/**
+	 * Element and 1.x widget names of the lists of an object (block "buddybuilder/<name>", Elementor widget "<name>").
+	 *
+	 * @param string $object members|groups|activity.
+	 * @return string[]
+	 */
+	public static function list_names( $object ) {
+		return array_keys( self::LISTS, $object, true );
+	}
+
+	/**
+	 * The list names to select in the editor this request opens with (?bpb_select=<object>), [] without one.
+	 *
+	 * @return string[]
+	 */
+	public static function editor_selection() {
+		$object = isset( $_GET[ self::SELECT_ARG ] ) ? sanitize_key( wp_unslash( $_GET[ self::SELECT_ARG ] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification -- selects a block in the editor, changes nothing.
+
+		return isset( self::PAGE_TYPES[ $object ] ) ? self::list_names( $object ) : [];
+	}
+
+	/**
+	 * Elementor editor: select the first list widget of ?bpb_select=<object> and open its settings (the Card setting is
+	 * in its first section).
+	 */
+	public static function elementor_select() {
+		$names = self::editor_selection();
+
+		if ( ! $names ) {
+			return;
+		}
+
+		wp_add_inline_script(
+			'elementor-editor',
+			'( function ( names ) { jQuery( window ).on( "elementor:init", function () { elementor.once( "document:loaded", function () { setTimeout( function () { var find = function ( c ) { var type = c.model && c.model.get( "widgetType" ); if ( type && ( names.indexOf( type ) !== -1 || names.indexOf( type.replace( /^bpb-el-/, "" ) ) !== -1 ) ) { return c; } var kids = c.children || []; for ( var i = 0; i < kids.length; i++ ) { var r = find( kids[ i ] ); if ( r ) { return r; } } return null; }; var c = find( elementor.getPreviewContainer() ); if ( c && window.$e ) { $e.run( "document/elements/select", { container: c } ); $e.run( "panel/editor/open", { model: c.model, view: c.view } ); c.view.$el[ 0 ].scrollIntoView( { block: "center" } ); } }, 500 ); } ); } ); } )( ' . wp_json_encode( $names ) . ' );',
+			'before'
+		);
 	}
 
 	/**
