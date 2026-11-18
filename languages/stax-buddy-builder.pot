@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-18T18:56:56+00:00\n"
+"POT-Creation-Date: 2026-11-18T19:20:57+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: stax-buddy-builder\n"
@@ -51,7 +51,7 @@ msgstr ""
 #: src/Admin/App.php:345
 #: src/Presets/Presets.php:105
 #: src/Templates/PostType.php:187
-#: src/Elements/layout-panel.js:176
+#: src/Elements/layout-panel.js:242
 msgid "BuddyBuilder"
 msgstr ""
 
@@ -116,7 +116,7 @@ msgstr ""
 
 #: admin/pages/Status.php:113
 #: core/library/documents/buddypress.php:95
-#: src/Admin/CommunityPages.php:888
+#: src/Admin/CommunityPages.php:893
 msgid "BuddyPress"
 msgstr ""
 
@@ -137,13 +137,14 @@ msgstr ""
 #: admin/pages/templates/templates.php:35
 #: src/Admin/App.php:318
 #: src/Admin/App.php:445
-#: src/Admin/CommunityPages.php:797
-#: src/Admin/CommunityPages.php:1071
-#: src/Admin/Setup.php:802
-#: src/Admin/Setup.php:1038
+#: src/Admin/CommunityPages.php:802
+#: src/Admin/CommunityPages.php:1020
+#: src/Admin/CommunityPages.php:1081
+#: src/Admin/Setup.php:846
+#: src/Admin/Setup.php:1082
 #: src/Upsell/Upsell.php:229
-#: src/Upsell/Upsell.php:336
-#: src/Upsell/Upsell.php:438
+#: src/Upsell/Upsell.php:325
+#: src/Upsell/Upsell.php:427
 msgid "(opens in a new tab)"
 msgstr ""
 
@@ -152,7 +153,7 @@ msgid "Community pages: which layout each page uses and why one may not show"
 msgstr ""
 
 #: admin/pages/Status.php:135
-#: src/Admin/CommunityPages.php:792
+#: src/Admin/CommunityPages.php:797
 #: src/Admin/Options.php:233
 msgid "Run setup again"
 msgstr ""
@@ -273,11 +274,12 @@ msgstr ""
 
 #: admin/pages/templates/templates.php:24
 #: src/Admin/App.php:329
-#: src/Admin/CommunityPages.php:962
-#: src/Admin/Setup.php:799
+#: src/Admin/CommunityPages.php:967
+#: src/Admin/CommunityPages.php:1020
+#: src/Admin/Setup.php:843
 #: src/Upsell/Upsell.php:226
 #: src/Upsell/Upsell.php:292
-#: src/Upsell/Upsell.php:335
+#: src/Upsell/Upsell.php:324
 msgid "Pro"
 msgstr ""
 
@@ -311,7 +313,7 @@ msgid "Import again"
 msgstr ""
 
 #: admin/pages/templates/templates.php:47
-#: src/Admin/CommunityPages.php:869
+#: src/Admin/CommunityPages.php:874
 msgid "Import"
 msgstr ""
 
@@ -325,11 +327,11 @@ msgstr ""
 msgid "of %s (opens in a new tab)"
 msgstr ""
 
-#: core/hooks/ElementorHooks.php:151
+#: core/hooks/ElementorHooks.php:150
 msgid "Column Order"
 msgstr ""
 
-#: core/hooks/ElementorHooks.php:191
+#: core/hooks/ElementorHooks.php:189
 msgid "BuddyBuilder Header parts"
 msgstr ""
 
@@ -378,7 +380,7 @@ msgid "%1$s requires version %3$s or greater of %2$s plugin."
 msgstr ""
 
 #: core/Notices.php:149
-#: src/Admin/CommunityPages.php:313
+#: src/Admin/CommunityPages.php:318
 msgid "Elementor"
 msgstr ""
 
@@ -436,7 +438,7 @@ msgstr ""
 #. translators: %s: name of the designed element, e.g. Member header
 #. translators: %s: name of the new element
 #. translators: %s: name of the element to use instead
-#: core/widgets/Base.php:63
+#: core/widgets/Base.php:62
 #: src/Elements/Elements.php:334
 #: src/Elements/Elements.php:367
 #, php-format
@@ -444,22 +446,23 @@ msgid "Replace with %s"
 msgstr ""
 
 #. translators: %s: name of the designed element, e.g. Member header
-#: core/widgets/Base.php:71
+#: core/widgets/Base.php:70
 #: src/Elements/Elements.php:339
 #, php-format
 msgid "Optional. This part keeps working as it is. One %s can show the header parts of this column in a style's design; it starts from its default settings, and Undo brings the parts back."
 msgstr ""
 
-#: core/widgets/Base.php:79
+#: core/widgets/Base.php:78
 msgid "Replace"
 msgstr ""
 
-#: core/widgets/Base.php:203
+#: core/widgets/Base.php:200
 msgid "The Elementor editor shows BuddyBuilder templates with real data; the static preview templates were removed."
 msgstr ""
 
 #: core/widgets/general/ActivityListing.php:30
-msgid "Activity List"
+#: src/Elements/strings.php:47
+msgid "Custom activity list"
 msgstr ""
 
 #: core/widgets/general/ActivityListing.php:56
@@ -753,7 +756,7 @@ msgstr ""
 #: core/widgets/sitewide-activity/content/BuddypressSettings.php:179
 #: core/widgets/sitewide-activity/navigation/BuddybossSettings.php:105
 #: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:103
-#: src/Elements/strings.php:25
+#: src/Elements/strings.php:24
 msgid "Alignment"
 msgstr ""
 
@@ -818,7 +821,7 @@ msgstr ""
 #: core/widgets/sitewide-activity/navigation/BuddybossSettings.php:158
 #: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:111
 #: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:157
-#: src/Elements/strings.php:34
+#: src/Elements/strings.php:33
 msgid "Center"
 msgstr ""
 
@@ -1103,12 +1106,13 @@ msgstr ""
 #: core/widgets/groups-directory/Listing.php:1471
 #: core/widgets/members-directory/Listing.php:1231
 #: core/widgets/sitewide-activity/Content.php:37
-#: src/Elements/strings.php:33
+#: src/Elements/strings.php:32
 msgid "Card style"
 msgstr ""
 
 #: core/widgets/general/GroupsListing.php:30
-msgid "Groups List"
+#: src/Elements/strings.php:48
+msgid "Custom groups list"
 msgstr ""
 
 #: core/widgets/general/GroupsListing.php:74
@@ -1126,7 +1130,7 @@ msgstr ""
 #: core/widgets/general/MembersListing.php:81
 #: core/widgets/groups-directory/Listing.php:55
 #: core/widgets/members-directory/Listing.php:55
-#: src/Elements/strings.php:37
+#: src/Elements/strings.php:36
 msgid "Columns"
 msgstr ""
 
@@ -1250,7 +1254,7 @@ msgstr ""
 #: core/widgets/members-directory/Listing.php:790
 #: core/widgets/members-directory/Listing.php:792
 #: src/Elements/feed-filters/render.php:43
-#: src/Elements/strings.php:144
+#: src/Elements/strings.php:143
 msgid "Show"
 msgstr ""
 
@@ -1425,7 +1429,8 @@ msgid "Horizontal position"
 msgstr ""
 
 #: core/widgets/general/MembersListing.php:29
-msgid "Members List"
+#: src/Elements/strings.php:49
+msgid "Custom members list"
 msgstr ""
 
 #: core/widgets/general/MembersListing.php:272
@@ -1462,8 +1467,8 @@ msgstr ""
 
 #. translators: %s: style name
 #: core/widgets/general/SaveNotification.php:42
-#: src/Admin/CommunityPages.php:1071
-#: src/Admin/CommunityPages.php:1128
+#: src/Admin/CommunityPages.php:1081
+#: src/Admin/CommunityPages.php:1138
 msgid "Preview"
 msgstr ""
 
@@ -1477,7 +1482,7 @@ msgid "Success"
 msgstr ""
 
 #: core/widgets/general/SaveNotification.php:55
-#: src/Elements/strings.php:55
+#: src/Elements/strings.php:57
 msgid "Error"
 msgstr ""
 
@@ -1584,7 +1589,7 @@ msgstr ""
 #: core/widgets/groups-directory/Filters.php:219
 #: core/widgets/members-directory/Filters.php:64
 #: core/widgets/members-directory/Filters.php:220
-#: src/Elements/strings.php:139
+#: src/Elements/strings.php:138
 msgid "Search > Sort"
 msgstr ""
 
@@ -1594,7 +1599,7 @@ msgstr ""
 #: core/widgets/members-directory/Filters.php:237
 #: core/widgets/sitewide-activity/filters/BuddybossSettings.php:97
 #: core/widgets/sitewide-activity/filters/BuddypressSettings.php:302
-#: src/Elements/strings.php:136
+#: src/Elements/strings.php:135
 msgid "Search"
 msgstr ""
 
@@ -2048,12 +2053,12 @@ msgstr ""
 
 #: core/widgets/profile-group/Avatar.php:78
 #: core/widgets/profile-member/Avatar.php:78
-#: src/Elements/strings.php:60
+#: src/Elements/strings.php:62
 msgid "Full"
 msgstr ""
 
 #: core/widgets/profile-group/Buttons.php:28
-#: src/Elements/strings.php:31
+#: src/Elements/strings.php:30
 msgid "Buttons"
 msgstr ""
 
@@ -2151,7 +2156,7 @@ msgstr ""
 
 #: core/widgets/profile-group/Description.php:28
 #: core/widgets/profile-group/Description.php:40
-#: src/Elements/strings.php:49
+#: src/Elements/strings.php:51
 msgid "Description"
 msgstr ""
 
@@ -2507,7 +2512,7 @@ msgid "Support"
 msgstr ""
 
 #: src/Admin/App.php:385
-#: src/Admin/Setup.php:802
+#: src/Admin/Setup.php:846
 msgid "Get Pro"
 msgstr ""
 
@@ -2581,7 +2586,7 @@ msgid "Edit it in Elementor or the block editor."
 msgstr ""
 
 #: src/Admin/App.php:488
-msgid "Check it with \"Seen by\" in the editor, then press Use."
+msgid "Check it with \"Seen by\" in the editor, then save."
 msgstr ""
 
 #: src/Admin/App.php:495
@@ -2598,10 +2603,10 @@ msgstr ""
 
 #: src/Admin/Checker.php:106
 #: src/Admin/CommunityPages.php:250
-#: src/Admin/CommunityPages.php:1035
-#: src/Admin/CommunityPages.php:1186
-#: src/Admin/CommunityPages.php:1333
-#: src/Admin/Setup.php:954
+#: src/Admin/CommunityPages.php:1045
+#: src/Admin/CommunityPages.php:1196
+#: src/Admin/CommunityPages.php:1343
+#: src/Admin/Setup.php:998
 msgid "BuddyPress default"
 msgstr ""
 
@@ -2610,8 +2615,8 @@ msgstr ""
 #. translators: 1: action, 2: layout title
 #. translators: 1: template type, 2: preset name
 #: src/Admin/Checker.php:114
-#: src/Admin/CommunityPages.php:1111
-#: src/Admin/CommunityPages.php:1232
+#: src/Admin/CommunityPages.php:1121
+#: src/Admin/CommunityPages.php:1242
 #: src/Presets/Presets.php:305
 #, php-format
 msgid "%1$s: %2$s"
@@ -2624,13 +2629,13 @@ msgid "Edit in %s"
 msgstr ""
 
 #: src/Admin/Checker.php:126
-#: src/Admin/CommunityPages.php:1105
+#: src/Admin/CommunityPages.php:1115
 msgid "Change style"
 msgstr ""
 
 #: src/Admin/Checker.php:126
-#: src/Admin/CommunityPages.php:1105
-#: src/Admin/Setup.php:661
+#: src/Admin/CommunityPages.php:1115
+#: src/Admin/Setup.php:698
 msgid "Pick a style"
 msgstr ""
 
@@ -2711,7 +2716,7 @@ msgid "Create a group"
 msgstr ""
 
 #: src/Admin/CommunityPages.php:113
-#: src/Admin/Setup.php:401
+#: src/Admin/Setup.php:432
 #: src/Elements/directory-header/render.php:23
 msgid "Activity"
 msgstr ""
@@ -2726,7 +2731,7 @@ msgstr ""
 
 #. translators: %s: layout title
 #: src/Admin/CommunityPages.php:227
-#: src/Admin/CommunityPages.php:1190
+#: src/Admin/CommunityPages.php:1200
 #: src/Admin/LayoutActions.php:141
 msgid "(no title)"
 msgstr ""
@@ -2759,345 +2764,353 @@ msgid_plural "Live on %s profiles"
 msgstr[0] ""
 msgstr[1] ""
 
+#: src/Admin/CommunityPages.php:281
+msgid "Live, no groups yet"
+msgstr ""
+
 #. translators: %s: number of groups
-#: src/Admin/CommunityPages.php:280
+#: src/Admin/CommunityPages.php:285
 #, php-format
 msgid "Live on %s group"
 msgid_plural "Live on %s groups"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Admin/CommunityPages.php:283
+#: src/Admin/CommunityPages.php:288
 msgid "Live"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:310
+#: src/Admin/CommunityPages.php:315
 msgid "Block editor"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:457
+#: src/Admin/CommunityPages.php:462
 #: src/Admin/Options.php:126
 #: src/Admin/Screens.php:48
-#: src/Admin/Setup.php:521
+#: src/Admin/Setup.php:552
 #: src/Presets/Presets.php:259
-#: src/Templates/SampleMember.php:224
+#: src/Templates/SampleMember.php:254
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
-#: src/Admin/CommunityPages.php:732
+#: src/Admin/CommunityPages.php:737
 msgid "The page now uses the BuddyPress default. Your layout is kept: pick it again any time."
 msgstr ""
 
-#: src/Admin/CommunityPages.php:733
+#: src/Admin/CommunityPages.php:738
 msgid "Layout saved for this page."
 msgstr ""
 
-#: src/Admin/CommunityPages.php:734
+#: src/Admin/CommunityPages.php:739
 msgid "The page uses the new style now. Edit it to make it yours."
 msgstr ""
 
-#: src/Admin/CommunityPages.php:735
+#: src/Admin/CommunityPages.php:740
 msgid "The new style is live."
 msgstr ""
 
-#: src/Admin/CommunityPages.php:736
+#: src/Admin/CommunityPages.php:741
 msgid "The new style was discarded; the page is unchanged."
 msgstr ""
 
-#: src/Admin/CommunityPages.php:737
+#: src/Admin/CommunityPages.php:742
 msgid "Setup done: your new community pages are live."
 msgstr ""
 
-#: src/Admin/CommunityPages.php:738
+#: src/Admin/CommunityPages.php:743
 msgid "Undone: the page uses what it used before."
 msgstr ""
 
-#: src/Admin/CommunityPages.php:739
+#: src/Admin/CommunityPages.php:744
 msgid "A copy was saved as a draft. No page uses it until you pick it."
 msgstr ""
 
-#: src/Admin/CommunityPages.php:740
+#: src/Admin/CommunityPages.php:745
 msgid "The layout was moved to the trash."
 msgstr ""
 
-#: src/Admin/CommunityPages.php:741
+#: src/Admin/CommunityPages.php:746
 msgid "The layout was imported as a draft. No page uses it until you pick it."
 msgstr ""
 
-#: src/Admin/CommunityPages.php:748
-#: src/Admin/CommunityPages.php:754
+#: src/Admin/CommunityPages.php:753
+#: src/Admin/CommunityPages.php:759
 #: src/Admin/LayoutActions.php:298
 msgid "That did not work. Nothing was changed."
 msgstr ""
 
-#: src/Admin/CommunityPages.php:766
+#: src/Admin/CommunityPages.php:771
 msgid "The page now shows the BuddyPress default."
 msgstr ""
 
-#: src/Admin/CommunityPages.php:772
+#: src/Admin/CommunityPages.php:777
 msgid "Edit the imported layout"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:772
+#: src/Admin/CommunityPages.php:777
 msgid "Edit the copy"
 msgstr ""
 
 #. translators: %s: page name
-#: src/Admin/CommunityPages.php:781
+#: src/Admin/CommunityPages.php:786
 msgid "Undo"
 msgstr ""
 
 #. translators: %s: page name
-#: src/Admin/CommunityPages.php:781
+#: src/Admin/CommunityPages.php:786
 #, php-format
 msgid "Undo the change on %s"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:782
+#: src/Admin/CommunityPages.php:787
 msgid "Takes the layout out of the trash and gives it back to the pages that used it."
 msgstr ""
 
-#: src/Admin/CommunityPages.php:782
+#: src/Admin/CommunityPages.php:787
 msgid "Puts back what the page used before. The new layout is kept."
 msgstr ""
 
-#: src/Admin/CommunityPages.php:797
+#: src/Admin/CommunityPages.php:802
 msgid "Preview my profile"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:807
+#: src/Admin/CommunityPages.php:812
 msgid "What each BuddyPress page looks like. Preview a style before it goes live; Undo and the BuddyPress default are always one click away."
 msgstr ""
 
-#: src/Admin/CommunityPages.php:810
+#: src/Admin/CommunityPages.php:815
 msgid "Turn on the block editor layouts in BuddyBuilder > Settings, or activate Elementor, to design these pages."
 msgstr ""
 
-#: src/Admin/CommunityPages.php:864
+#: src/Admin/CommunityPages.php:869
 msgid "Import layout"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:867
+#: src/Admin/CommunityPages.php:872
 msgid "Block layout export (.json)"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:868
+#: src/Admin/CommunityPages.php:873
 msgid "A file made by More > Export of a block layout. It becomes a draft; pick it on its page to use it. Elementor exports go to Elementor > Templates > Import Templates."
 msgstr ""
 
-#: src/Admin/CommunityPages.php:911
+#: src/Admin/CommunityPages.php:916
 msgid "Builder:"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:911
+#: src/Admin/CommunityPages.php:916
 msgid "none"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:913
+#: src/Admin/CommunityPages.php:918
 msgid "Status:"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:916
+#: src/Admin/CommunityPages.php:921
 msgid "New style ready, not live yet"
 msgstr ""
 
 #. translators: %s: page name
-#: src/Admin/CommunityPages.php:928
+#: src/Admin/CommunityPages.php:933
 #, php-format
 msgid "Item layouts of %s"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1003
+#: src/Admin/CommunityPages.php:1008
 msgid "Card: your card layout"
 msgstr ""
 
 #. translators: %s: card style name, e.g. Compact
-#: src/Admin/CommunityPages.php:1006
+#: src/Admin/CommunityPages.php:1011
 #, php-format
 msgid "Card: %s"
 msgstr ""
 
 #. translators: %s: page name
-#: src/Admin/CommunityPages.php:1010
+#: src/Admin/CommunityPages.php:1018
 #, php-format
 msgid "Change the card style: opens the %s layout with its list selected, Card setting"
 msgstr ""
 
 #. translators: %s: page name
-#: src/Admin/CommunityPages.php:1010
+#: src/Admin/CommunityPages.php:1018
 msgid "Change"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1031
+#: src/Admin/CommunityPages.php:1020
+msgid "More card styles"
+msgstr ""
+
+#: src/Admin/CommunityPages.php:1041
 msgid "Turn the component on in the BuddyPress settings to design this page."
 msgstr ""
 
 #. translators: %s: time ago
-#: src/Admin/CommunityPages.php:1048
+#: src/Admin/CommunityPages.php:1058
 #, php-format
 msgid "edited %s ago"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1064
-#: src/Admin/Setup.php:437
+#: src/Admin/CommunityPages.php:1074
+#: src/Admin/Setup.php:468
 msgid "Turn on"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1070
-#: src/Admin/CommunityPages.php:1194
+#: src/Admin/CommunityPages.php:1080
+#: src/Admin/CommunityPages.php:1204
 msgid "Use"
 msgstr ""
 
 #. translators: %s: page name
 #. translators: %s: item layout name
-#: src/Admin/CommunityPages.php:1076
-#: src/Admin/CommunityPages.php:1342
+#: src/Admin/CommunityPages.php:1086
+#: src/Admin/CommunityPages.php:1352
 #, php-format
 msgid "Edit the %s layout"
 msgstr ""
 
 #. translators: %s: page name
 #. translators: %s: item layout name
-#: src/Admin/CommunityPages.php:1076
-#: src/Admin/CommunityPages.php:1342
+#: src/Admin/CommunityPages.php:1086
+#: src/Admin/CommunityPages.php:1352
 msgid "Edit"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1102
+#: src/Admin/CommunityPages.php:1112
 msgid "Change card"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1102
+#: src/Admin/CommunityPages.php:1112
 msgid "Design the card"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1103
+#: src/Admin/CommunityPages.php:1113
 msgid "Start the card from a style, then edit it like any layout. Using it makes it live in every list of this kind; your current card is kept and Undo puts it back."
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1106
+#: src/Admin/CommunityPages.php:1116
 msgid "Preview a style on the real page first. Using it creates a new layout and makes it live; your current layout is kept and Undo puts it back."
 msgstr ""
 
 #. translators: %s: style name
-#: src/Admin/CommunityPages.php:1128
+#: src/Admin/CommunityPages.php:1138
 #, php-format
 msgid "Preview %s on the real page (opens in a new tab)"
 msgstr ""
 
 #. translators: %s: style name
-#: src/Admin/CommunityPages.php:1133
+#: src/Admin/CommunityPages.php:1143
 #, php-format
 msgid "Use %s"
 msgstr ""
 
 #. translators: %s: style name
-#: src/Admin/CommunityPages.php:1133
+#: src/Admin/CommunityPages.php:1143
 msgid "Use this style"
 msgstr ""
 
 #. translators: %s: page name
-#: src/Admin/CommunityPages.php:1135
+#: src/Admin/CommunityPages.php:1145
 #, php-format
 msgid "Make it live on %s now?"
 msgstr ""
 
 #. translators: 1: style name, 2: builder name
-#: src/Admin/CommunityPages.php:1139
+#: src/Admin/CommunityPages.php:1149
 #, php-format
 msgid "Use %1$s with %2$s"
 msgstr ""
 
 #. translators: %s: builder name
-#: src/Admin/CommunityPages.php:1141
+#: src/Admin/CommunityPages.php:1151
 #, php-format
 msgid "Yes, build it with %s"
 msgstr ""
 
 #. translators: %s: builder name
-#: src/Admin/CommunityPages.php:1141
+#: src/Admin/CommunityPages.php:1151
 msgid "Yes, make it live"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1152
+#: src/Admin/CommunityPages.php:1162
 msgid "More styles: starter kits for Elementor"
 msgstr ""
 
 #. translators: %s: page name
-#: src/Admin/CommunityPages.php:1169
+#: src/Admin/CommunityPages.php:1179
 #, php-format
 msgid "More actions for %s"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1172
+#: src/Admin/CommunityPages.php:1182
 msgid "Use the BuddyPress default"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1176
+#: src/Admin/CommunityPages.php:1186
 msgid "Discard the new style"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1185
+#: src/Admin/CommunityPages.php:1195
 msgid "Use a layout you already have"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1200
+#: src/Admin/CommunityPages.php:1210
 msgid "New empty block layout"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1204
+#: src/Admin/CommunityPages.php:1214
 msgid "New empty Elementor template"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1208
+#: src/Admin/CommunityPages.php:1218
 msgid "All block layouts"
 msgstr ""
 
 #. translators: %s: layout title
-#: src/Admin/CommunityPages.php:1235
+#: src/Admin/CommunityPages.php:1245
 #, php-format
 msgid "Layout %s"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1239
+#: src/Admin/CommunityPages.php:1249
 msgid "Duplicate"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1248
+#: src/Admin/CommunityPages.php:1258
 msgid "History"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1250
+#: src/Admin/CommunityPages.php:1260
 msgid "History: no saved changes yet"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1258
+#: src/Admin/CommunityPages.php:1268
 msgid "Export"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1263
+#: src/Admin/CommunityPages.php:1273
 msgid "Delete"
 msgstr ""
 
 #. translators: %s: page name
-#: src/Admin/CommunityPages.php:1267
+#: src/Admin/CommunityPages.php:1277
 #, php-format
 msgid "Move it to the trash? %s shows the BuddyPress default until you pick another layout."
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1268
+#: src/Admin/CommunityPages.php:1278
 msgid "Move it to the trash?"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1270
+#: src/Admin/CommunityPages.php:1280
 msgid "Yes, move to trash"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1270
+#: src/Admin/CommunityPages.php:1280
 msgid "Move to trash"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1316
+#: src/Admin/CommunityPages.php:1326
 msgid "Why the layout may not show:"
 msgstr ""
 
@@ -3191,7 +3204,7 @@ msgid "A hidden member with updates, friends and groups, so previews look real b
 msgstr ""
 
 #: src/Admin/Options.php:96
-#: src/Admin/Setup.php:188
+#: src/Admin/Setup.php:191
 msgid "Setup"
 msgstr ""
 
@@ -3239,289 +3252,297 @@ msgstr ""
 msgid "Create the sample member"
 msgstr ""
 
-#: src/Admin/Setup.php:187
-#: src/Admin/Setup.php:227
-#: src/Admin/Setup.php:666
+#: src/Admin/Setup.php:190
+#: src/Admin/Setup.php:230
+#: src/Admin/Setup.php:703
 msgid "BuddyBuilder setup"
 msgstr ""
 
-#: src/Admin/Setup.php:307
+#: src/Admin/Setup.php:338
 msgid "BuddyBuilder:"
 msgstr ""
 
-#: src/Admin/Setup.php:308
+#: src/Admin/Setup.php:339
 msgid "give your community pages a style in three steps. Nothing changes until you press Use these."
 msgstr ""
 
-#: src/Admin/Setup.php:310
+#: src/Admin/Setup.php:341
 msgid "Start setup"
 msgstr ""
 
-#: src/Admin/Setup.php:393
+#: src/Admin/Setup.php:424
 msgid "BuddyPress or BuddyBoss Platform is not active."
 msgstr ""
 
-#: src/Admin/Setup.php:399
+#: src/Admin/Setup.php:430
 #: src/Elements/directory-header/render.php:21
-#: src/Elements/strings.php:112
+#: src/Elements/strings.php:113
 msgid "Members"
 msgstr ""
 
-#: src/Admin/Setup.php:400
+#: src/Admin/Setup.php:431
 msgid "Profiles"
 msgstr ""
 
-#: src/Admin/Setup.php:402
+#: src/Admin/Setup.php:433
 #: src/Elements/directory-header/render.php:22
 #: src/Elements/member-about/render.php:71
 #: src/Elements/people-rail/render.php:91
-#: src/Elements/strings.php:74
+#: src/Elements/strings.php:76
 msgid "Groups"
 msgstr ""
 
-#: src/Admin/Setup.php:403
+#: src/Admin/Setup.php:434
 #: src/Elements/people-rail/render.php:92
 msgid "Friends"
 msgstr ""
 
-#: src/Admin/Setup.php:404
+#: src/Admin/Setup.php:435
 #: src/Templates/ScriptScreens.php:70
 #: src/Upsell/Upsell.php:110
 msgid "Messages"
 msgstr ""
 
-#: src/Admin/Setup.php:405
+#: src/Admin/Setup.php:436
 #: src/Upsell/Upsell.php:105
 msgid "Notifications"
 msgstr ""
 
 #. translators: %s: version
-#: src/Admin/Setup.php:421
+#: src/Admin/Setup.php:452
 #, php-format
 msgid "BuddyBoss Platform %s"
 msgstr ""
 
 #. translators: %s: version
-#: src/Admin/Setup.php:423
+#: src/Admin/Setup.php:454
 #, php-format
 msgid "BuddyPress %s"
 msgstr ""
 
 #. translators: 1: platform and version, 2: list of components
-#: src/Admin/Setup.php:428
+#: src/Admin/Setup.php:459
 #, php-format
 msgid "%1$s with %2$s"
 msgstr ""
 
 #. translators: %s: component name
-#: src/Admin/Setup.php:435
+#: src/Admin/Setup.php:466
 #, php-format
 msgid "The %s component is off."
 msgstr ""
 
-#: src/Admin/Setup.php:461
+#: src/Admin/Setup.php:492
 #, php-format
 msgid "Pages: %s"
 msgstr ""
 
 #. translators: %s: list of pages
-#: src/Admin/Setup.php:469
+#: src/Admin/Setup.php:500
 #, php-format
 msgid "No WordPress page yet for: %s."
 msgstr ""
 
-#: src/Admin/Setup.php:471
+#: src/Admin/Setup.php:502
 msgid "Set up pages"
 msgstr ""
 
 #. translators: %s: theme name
-#: src/Admin/Setup.php:479
+#: src/Admin/Setup.php:510
 #, php-format
 msgid "Theme: %s. The styles use its colors and fonts."
 msgstr ""
 
-#: src/Admin/Setup.php:485
+#: src/Admin/Setup.php:516
 msgid "BuddyBoss ReadyLaunch is on: it styles these pages. BuddyBuilder layouts take over only for the pages you pick a style for."
 msgstr ""
 
 #. translators: %s: number of members
-#: src/Admin/Setup.php:493
+#: src/Admin/Setup.php:524
 #, php-format
 msgid "%s member. Previews use your own profile."
 msgid_plural "%s members. Previews use your own profile."
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Admin/Setup.php:660
+#: src/Admin/Setup.php:697
 msgid "Check your community"
 msgstr ""
 
-#: src/Admin/Setup.php:662
+#: src/Admin/Setup.php:699
 msgid "Review on your profile"
 msgstr ""
 
-#: src/Admin/Setup.php:669
+#: src/Admin/Setup.php:706
 msgid "Skip setup, I will do it myself"
 msgstr ""
 
 #. translators: 1: step number, 2: step name
-#: src/Admin/Setup.php:676
+#: src/Admin/Setup.php:713
 #, php-format
 msgid "%1$d. %2$s"
 msgstr ""
 
-#: src/Admin/Setup.php:681
+#: src/Admin/Setup.php:718
 msgid "(done)"
 msgstr ""
 
-#: src/Admin/Setup.php:710
+#: src/Admin/Setup.php:747
 msgid "Your community"
 msgstr ""
 
-#: src/Admin/Setup.php:713
+#: src/Admin/Setup.php:750
 msgid "Build the pages with"
 msgstr ""
 
-#: src/Admin/Setup.php:719
+#: src/Admin/Setup.php:755
+msgid "Elementor works too: with Elementor active, you can pick it here."
+msgstr ""
+
+#: src/Admin/Setup.php:761
 msgid "Both make the same styles. You can switch a page to the other builder later."
 msgstr ""
 
-#: src/Admin/Setup.php:722
+#: src/Admin/Setup.php:765
 msgid "Previews"
 msgstr ""
 
-#: src/Admin/Setup.php:723
+#: src/Admin/Setup.php:766
 msgid "Create a sample member with updates, friends and groups, so previews look real. It never shows in directories and you can remove it in Settings."
 msgstr ""
 
-#: src/Admin/Setup.php:726
+#: src/Admin/Setup.php:769
 msgid "Continue"
 msgstr ""
 
-#: src/Admin/Setup.php:739
+#: src/Admin/Setup.php:782
 msgid "Warning:"
 msgstr ""
 
-#: src/Admin/Setup.php:758
+#: src/Admin/Setup.php:801
 msgid "Pick a style for at least one page, or skip the setup."
 msgstr ""
 
-#: src/Admin/Setup.php:762
+#: src/Admin/Setup.php:805
 msgid "No BuddyPress page can get a style yet: turn on the Members component."
 msgstr ""
 
-#: src/Admin/Setup.php:778
+#: src/Admin/Setup.php:821
 msgid "Pick a style for your community"
 msgstr ""
 
-#: src/Admin/Setup.php:790
+#: src/Admin/Setup.php:833
 msgid "Recommended for your theme"
 msgstr ""
 
-#: src/Admin/Setup.php:794
+#: src/Admin/Setup.php:837
 msgid "Choose per page"
 msgstr ""
 
-#: src/Admin/Setup.php:805
+#: src/Admin/Setup.php:843
+msgid "(BuddyBuilder Pro, opens in a new tab)"
+msgstr ""
+
+#: src/Admin/Setup.php:849
 msgid "Customize per page"
 msgstr ""
 
-#: src/Admin/Setup.php:810
+#: src/Admin/Setup.php:854
 msgid "Also"
 msgstr ""
 
-#: src/Admin/Setup.php:834
+#: src/Admin/Setup.php:878
 msgid "your profile"
 msgstr ""
 
-#: src/Admin/Setup.php:837
+#: src/Admin/Setup.php:881
 msgid "the sample member"
 msgstr ""
 
-#: src/Admin/Setup.php:858
+#: src/Admin/Setup.php:902
 msgid "Live preview"
 msgstr ""
 
-#: src/Admin/Setup.php:861
+#: src/Admin/Setup.php:905
 msgid "Previewed with"
 msgstr ""
 
-#: src/Admin/Setup.php:869
+#: src/Admin/Setup.php:913
 msgid "Previewed with your profile"
 msgstr ""
 
-#: src/Admin/Setup.php:872
+#: src/Admin/Setup.php:916
 msgid "Preview of the selected style on a real profile"
 msgstr ""
 
-#: src/Admin/Setup.php:875
-#: src/Admin/Setup.php:1043
+#: src/Admin/Setup.php:919
+#: src/Admin/Setup.php:1087
 msgid "Back"
 msgstr ""
 
-#: src/Admin/Setup.php:878
-msgid "Creates the layouts in Elementor, ready to edit. Your pages stay as they are until you press Use these."
+#: src/Admin/Setup.php:922
+msgid "Creates the layouts in Elementor, ready to edit, and shows them on your pages. Nothing goes live until Use these on the next step."
 msgstr ""
 
-#: src/Admin/Setup.php:879
-msgid "Creates the layouts in the block editor, ready to edit. Your pages stay as they are until you press Use these."
+#: src/Admin/Setup.php:923
+msgid "Creates the layouts in the block editor, ready to edit, and shows them on your pages. Nothing goes live until Use these on the next step."
 msgstr ""
 
-#: src/Admin/Setup.php:881
-msgid "Use these and preview"
+#: src/Admin/Setup.php:925
+msgid "Create and review"
 msgstr ""
 
 #. translators: %s: layout title
-#: src/Admin/Setup.php:933
+#: src/Admin/Setup.php:977
 #, php-format
 msgid "Now: %s. Picking a style replaces it only when you press Use these."
 msgstr ""
 
-#: src/Admin/Setup.php:954
+#: src/Admin/Setup.php:998
 msgid "Keep current"
 msgstr ""
 
 #. translators: %s: profile field names, e.g. Headline, Location
-#: src/Admin/Setup.php:983
+#: src/Admin/Setup.php:1027
 #, php-format
 msgid "Profile fields created: %s. Members fill them in on their profile (Profile > Edit, group \"Profile details\")."
 msgstr ""
 
 #. translators: %s: profile field names, e.g. Headline, Location, About
-#: src/Admin/Setup.php:994
+#: src/Admin/Setup.php:1038
 #, php-format
 msgid "These styles show %s from the member's profile. Your site has no such profile fields yet, so that part stays empty."
 msgstr ""
 
-#: src/Admin/Setup.php:997
+#: src/Admin/Setup.php:1041
 msgid "Create these profile fields"
 msgstr ""
 
-#: src/Admin/Setup.php:998
+#: src/Admin/Setup.php:1042
 msgid "Optional, not on the sign-up form; you can rename or delete them in Users > Profile Fields."
 msgstr ""
 
-#: src/Admin/Setup.php:1026
+#: src/Admin/Setup.php:1070
 msgid "This is your community with the new styles. Only you see them; visitors see the current pages until you press Use these."
 msgstr ""
 
-#: src/Admin/Setup.php:1030
+#: src/Admin/Setup.php:1074
 msgid "Pages to review"
 msgstr ""
 
-#: src/Admin/Setup.php:1038
+#: src/Admin/Setup.php:1082
 msgid "Open in a new tab"
 msgstr ""
 
-#: src/Admin/Setup.php:1039
+#: src/Admin/Setup.php:1083
 msgid "Your community pages with the new styles"
 msgstr ""
 
-#: src/Admin/Setup.php:1046
+#: src/Admin/Setup.php:1090
 msgid "Not now, keep them as drafts"
 msgstr ""
 
-#: src/Admin/Setup.php:1049
+#: src/Admin/Setup.php:1093
 msgid "Use these"
 msgstr ""
 
@@ -3754,346 +3775,334 @@ msgid "A short list for side columns: newest, active or popular members, the dis
 msgstr ""
 
 #: src/Elements/strings.php:20
-msgid "Activity list"
-msgstr ""
-
-#: src/Elements/strings.php:21
 msgid "Activity post form"
 msgstr ""
 
-#: src/Elements/strings.php:22
+#: src/Elements/strings.php:21
 msgid "Activity search and filters"
 msgstr ""
 
-#: src/Elements/strings.php:23
+#: src/Elements/strings.php:22
 msgid "Activity stream"
 msgstr ""
 
-#: src/Elements/strings.php:24
+#: src/Elements/strings.php:23
 msgid "Activity tabs"
 msgstr ""
 
-#: src/Elements/strings.php:26
+#: src/Elements/strings.php:25
 msgid "All / Friends / Groups / Mentions tabs of the activity directory."
 msgstr ""
 
-#: src/Elements/strings.php:27
+#: src/Elements/strings.php:26
 msgid "All / My friends / My groups tabs of the members or groups directory."
 msgstr ""
 
-#: src/Elements/strings.php:28
+#: src/Elements/strings.php:27
 msgid "Badges"
 msgstr ""
 
-#: src/Elements/strings.php:29
+#: src/Elements/strings.php:28
 msgid "BuddyPress notices"
 msgstr ""
 
-#: src/Elements/strings.php:30
+#: src/Elements/strings.php:29
 msgid "Button label (empty: \"Post\")"
 msgstr ""
 
-#: src/Elements/strings.php:32
+#: src/Elements/strings.php:31
 msgid "Card (for a side column)"
 msgstr ""
 
-#: src/Elements/strings.php:35
+#: src/Elements/strings.php:34
 msgid "Centered"
 msgstr ""
 
-#: src/Elements/strings.php:36
+#: src/Elements/strings.php:35
 #: src/Presets/Library.php:91
-#: src/Presets/Styles.php:244
+#: src/Presets/Styles.php:263
 #: src/Templates/Cards.php:87
 msgid "Classic"
 msgstr ""
 
-#: src/Elements/strings.php:38
+#: src/Elements/strings.php:37
 msgid "Columns (mobile)"
 msgstr ""
 
-#: src/Elements/strings.php:39
+#: src/Elements/strings.php:38
 msgid "Columns (tablet)"
 msgstr ""
 
-#: src/Elements/strings.php:40
+#: src/Elements/strings.php:39
 msgid "Compact, no cover"
 msgstr ""
 
-#: src/Elements/strings.php:41
+#: src/Elements/strings.php:40
 msgid "Count"
 msgstr ""
 
-#: src/Elements/strings.php:42
+#: src/Elements/strings.php:41
 msgid "Counts"
 msgstr ""
 
-#: src/Elements/strings.php:43
+#: src/Elements/strings.php:42
 msgid "Cover image"
 msgstr ""
 
-#: src/Elements/strings.php:44
+#: src/Elements/strings.php:43
 msgid "Cover image of the current group."
 msgstr ""
 
-#: src/Elements/strings.php:45
+#: src/Elements/strings.php:44
 msgid "Cover image of the displayed member."
 msgstr ""
 
-#: src/Elements/strings.php:46
+#: src/Elements/strings.php:45
 msgid "Cover, photo, name, headline, details, stats and buttons of the member, in one designed header."
 msgstr ""
 
-#: src/Elements/strings.php:47
+#: src/Elements/strings.php:46
 msgid "Cover, photo, name, privacy, members and the join button of the group, in one designed header."
 msgstr ""
 
-#: src/Elements/strings.php:48
+#: src/Elements/strings.php:50
 msgid "Dark overlay"
 msgstr ""
 
-#: src/Elements/strings.php:50
+#: src/Elements/strings.php:52
 msgid "Description of the current group."
 msgstr ""
 
-#: src/Elements/strings.php:51
+#: src/Elements/strings.php:53
 msgid "Directory header"
 msgstr ""
 
-#: src/Elements/strings.php:52
+#: src/Elements/strings.php:54
 msgid "Directory search and filters"
 msgstr ""
 
-#: src/Elements/strings.php:53
+#: src/Elements/strings.php:55
 msgid "Directory tabs"
 msgstr ""
 
-#: src/Elements/strings.php:54
+#: src/Elements/strings.php:56
 msgid "Display name or @username of the displayed member."
 msgstr ""
 
-#: src/Elements/strings.php:56
+#: src/Elements/strings.php:58
 msgid "Feed filters"
 msgstr ""
 
-#: src/Elements/strings.php:57
+#: src/Elements/strings.php:59
 msgid "Field labels"
 msgstr ""
 
-#: src/Elements/strings.php:58
+#: src/Elements/strings.php:60
 msgid "Friends of the displayed member"
 msgstr ""
 
-#: src/Elements/strings.php:59
+#: src/Elements/strings.php:61
 msgid "Friendship, message and follow buttons for the displayed member."
 msgstr ""
 
-#: src/Elements/strings.php:61
+#: src/Elements/strings.php:63
 msgid "Full width"
 msgstr ""
 
-#: src/Elements/strings.php:62
+#: src/Elements/strings.php:64
 msgid "Group administrators and moderators."
 msgstr ""
 
-#: src/Elements/strings.php:63
+#: src/Elements/strings.php:65
 msgid "Group avatar"
 msgstr ""
 
-#: src/Elements/strings.php:64
+#: src/Elements/strings.php:66
 msgid "Group buttons"
 msgstr ""
 
-#: src/Elements/strings.php:65
+#: src/Elements/strings.php:67
 msgid "Group content"
 msgstr ""
 
-#: src/Elements/strings.php:66
+#: src/Elements/strings.php:68
 msgid "Group cover"
 msgstr ""
 
-#: src/Elements/strings.php:67
+#: src/Elements/strings.php:69
 msgid "Group description"
 msgstr ""
 
-#: src/Elements/strings.php:68
+#: src/Elements/strings.php:70
 msgid "Group header"
 msgstr ""
 
-#: src/Elements/strings.php:69
+#: src/Elements/strings.php:71
 msgid "Group last active"
 msgstr ""
 
-#: src/Elements/strings.php:70
+#: src/Elements/strings.php:72
 msgid "Group leadership"
 msgstr ""
 
-#: src/Elements/strings.php:71
+#: src/Elements/strings.php:73
 msgid "Group name"
 msgstr ""
 
-#: src/Elements/strings.php:72
+#: src/Elements/strings.php:74
 msgid "Group navigation"
 msgstr ""
 
-#: src/Elements/strings.php:73
+#: src/Elements/strings.php:75
 msgid "Group status"
 msgstr ""
 
-#: src/Elements/strings.php:75
+#: src/Elements/strings.php:77
 msgid "Groups directory list"
 msgstr ""
 
-#: src/Elements/strings.php:76
-msgid "Groups list"
-msgstr ""
-
-#: src/Elements/strings.php:77
+#: src/Elements/strings.php:78
 msgid "Groups of the displayed member"
 msgstr ""
 
-#: src/Elements/strings.php:78
+#: src/Elements/strings.php:79
 msgid "H1"
 msgstr ""
 
-#: src/Elements/strings.php:79
+#: src/Elements/strings.php:80
 msgid "H2"
 msgstr ""
 
-#: src/Elements/strings.php:80
+#: src/Elements/strings.php:81
 msgid "H3"
 msgstr ""
 
-#: src/Elements/strings.php:81
+#: src/Elements/strings.php:82
 msgid "H4"
 msgstr ""
 
-#: src/Elements/strings.php:82
+#: src/Elements/strings.php:83
 msgid "H5"
 msgstr ""
 
-#: src/Elements/strings.php:83
+#: src/Elements/strings.php:84
 msgid "H6"
 msgstr ""
 
-#: src/Elements/strings.php:84
+#: src/Elements/strings.php:85
 msgid "HTML tag"
 msgstr ""
 
-#: src/Elements/strings.php:85
+#: src/Elements/strings.php:86
 msgid "Headline"
 msgstr ""
 
-#: src/Elements/strings.php:86
+#: src/Elements/strings.php:87
 msgid "Headline profile field"
 msgstr ""
 
-#: src/Elements/strings.php:87
+#: src/Elements/strings.php:88
 msgid "How each item looks. BuddyBuilder Pro adds more card styles and card layouts."
 msgstr ""
 
-#: src/Elements/strings.php:88
+#: src/Elements/strings.php:89
 msgid "How many"
 msgstr ""
 
-#: src/Elements/strings.php:89
+#: src/Elements/strings.php:90
 msgid "Intro"
 msgstr ""
 
-#: src/Elements/strings.php:90
+#: src/Elements/strings.php:91
 msgid "Join, leave and request membership buttons."
 msgstr ""
 
-#: src/Elements/strings.php:91
+#: src/Elements/strings.php:92
 msgid "Layout"
 msgstr ""
 
-#: src/Elements/strings.php:92
+#: src/Elements/strings.php:93
 msgid "List"
 msgstr ""
 
-#: src/Elements/strings.php:93
+#: src/Elements/strings.php:94
 msgid "List toggle"
 msgstr ""
 
-#: src/Elements/strings.php:94
+#: src/Elements/strings.php:95
 msgid "List toggle > Search"
 msgstr ""
 
-#: src/Elements/strings.php:95
+#: src/Elements/strings.php:96
 msgid "List toggle > Search > Sort"
 msgstr ""
 
-#: src/Elements/strings.php:96
+#: src/Elements/strings.php:97
 msgid "List toggle > Sort"
 msgstr ""
 
-#: src/Elements/strings.php:97
+#: src/Elements/strings.php:98
 msgid "List toggle > Sort > Search"
 msgstr ""
 
-#: src/Elements/strings.php:98
+#: src/Elements/strings.php:99
 msgid "Location and dates"
 msgstr ""
 
-#: src/Elements/strings.php:99
+#: src/Elements/strings.php:100
 msgid "Location profile field"
 msgstr ""
 
-#: src/Elements/strings.php:100
+#: src/Elements/strings.php:101
 msgid "Main tabs of the group (Home, Members, Manage...)."
 msgstr ""
 
-#: src/Elements/strings.php:101
+#: src/Elements/strings.php:102
 msgid "Main tabs of the member profile (Activity, Profile, Friends...)."
 msgstr ""
 
-#: src/Elements/strings.php:102
+#: src/Elements/strings.php:103
 msgid "Member about"
 msgstr ""
 
-#: src/Elements/strings.php:103
+#: src/Elements/strings.php:104
 msgid "Member avatar"
 msgstr ""
 
-#: src/Elements/strings.php:104
+#: src/Elements/strings.php:105
 msgid "Member buttons"
 msgstr ""
 
-#: src/Elements/strings.php:105
+#: src/Elements/strings.php:106
 msgid "Member content"
 msgstr ""
 
-#: src/Elements/strings.php:106
+#: src/Elements/strings.php:107
 msgid "Member cover"
 msgstr ""
 
-#: src/Elements/strings.php:107
+#: src/Elements/strings.php:108
 msgid "Member header"
 msgstr ""
 
-#: src/Elements/strings.php:108
+#: src/Elements/strings.php:109
 msgid "Member last active"
 msgstr ""
 
-#: src/Elements/strings.php:109
+#: src/Elements/strings.php:110
 msgid "Member latest update"
 msgstr ""
 
-#: src/Elements/strings.php:110
+#: src/Elements/strings.php:111
 msgid "Member name"
 msgstr ""
 
-#: src/Elements/strings.php:111
+#: src/Elements/strings.php:112
 msgid "Member navigation"
 msgstr ""
 
-#: src/Elements/strings.php:113
-msgid "Members directory list"
-msgstr ""
-
 #: src/Elements/strings.php:114
-msgid "Members list"
+msgid "Members directory list"
 msgstr ""
 
 #: src/Elements/strings.php:115
@@ -4113,107 +4122,107 @@ msgid "Order"
 msgstr ""
 
 #: src/Elements/strings.php:120
-msgid "People and groups list"
-msgstr ""
-
-#: src/Elements/strings.php:121
 msgid "Photo"
 msgstr ""
 
-#: src/Elements/strings.php:122
+#: src/Elements/strings.php:121
 msgid "Photo grid"
 msgstr ""
 
-#: src/Elements/strings.php:123
+#: src/Elements/strings.php:122
 msgid "Photo of the current group."
 msgstr ""
 
-#: src/Elements/strings.php:124
+#: src/Elements/strings.php:123
 msgid "Photo on the side"
 msgstr ""
 
-#: src/Elements/strings.php:125
+#: src/Elements/strings.php:124
 msgid "Pills"
 msgstr ""
 
-#: src/Elements/strings.php:126
+#: src/Elements/strings.php:125
 msgid "Placeholder (empty: \"What's new, <first name>?\")"
 msgstr ""
 
-#: src/Elements/strings.php:127
+#: src/Elements/strings.php:126
 msgid "Post composer"
 msgstr ""
 
-#: src/Elements/strings.php:128
+#: src/Elements/strings.php:127
 msgid "Preview as"
 msgstr ""
 
-#: src/Elements/strings.php:129
+#: src/Elements/strings.php:128
 msgid "Profile fields"
 msgstr ""
 
-#: src/Elements/strings.php:130
+#: src/Elements/strings.php:129
 msgid "Profile fields shown in the card."
 msgstr ""
 
-#: src/Elements/strings.php:131
+#: src/Elements/strings.php:130
 msgid "Profile photo of the displayed member."
 msgstr ""
 
-#: src/Elements/strings.php:132
+#: src/Elements/strings.php:131
 msgid "Profile tabs"
 msgstr ""
 
-#: src/Elements/strings.php:133
+#: src/Elements/strings.php:132
 msgid "Public, private or hidden status of the group."
 msgstr ""
 
-#: src/Elements/strings.php:134
+#: src/Elements/strings.php:133
 msgid "Recent activity anywhere on the site."
 msgstr ""
 
-#: src/Elements/strings.php:135
+#: src/Elements/strings.php:134
 msgid "Recently active"
 msgstr ""
 
-#: src/Elements/strings.php:137
+#: src/Elements/strings.php:136
 msgid "Search > List toggle"
 msgstr ""
 
-#: src/Elements/strings.php:138
+#: src/Elements/strings.php:137
 msgid "Search > List toggle > Sort"
 msgstr ""
 
-#: src/Elements/strings.php:140
+#: src/Elements/strings.php:139
 msgid "Search > Sort > List toggle"
 msgstr ""
 
-#: src/Elements/strings.php:141
+#: src/Elements/strings.php:140
 msgid "Search and filter of the activity directory."
 msgstr ""
 
-#: src/Elements/strings.php:142
+#: src/Elements/strings.php:141
 msgid "Search, sort and grid/list toggle of the members or groups directory."
 msgstr ""
 
-#: src/Elements/strings.php:143
+#: src/Elements/strings.php:142
 msgid "Segmented"
 msgstr ""
 
-#: src/Elements/strings.php:145
+#: src/Elements/strings.php:144
 msgid "Show and order"
 msgstr ""
 
-#: src/Elements/strings.php:146
+#: src/Elements/strings.php:145
 msgid "Show menu (updates, photos, groups...)"
 msgstr ""
 
-#: src/Elements/strings.php:147
+#: src/Elements/strings.php:146
 msgid "Show the Home tab (default front page)"
 msgstr ""
 
-#: src/Elements/strings.php:148
+#: src/Elements/strings.php:147
 msgid "Show the title"
+msgstr ""
+
+#: src/Elements/strings.php:148
+msgid "Side list: members or groups"
 msgstr ""
 
 #: src/Elements/strings.php:151
@@ -4508,43 +4517,43 @@ msgstr ""
 msgid "who to follow"
 msgstr ""
 
-#: src/Integrations/Elementor/EditorPreview.php:95
+#: src/Integrations/Elementor/EditorPreview.php:133
 msgid "BuddyBuilder preview"
 msgstr ""
 
-#: src/Integrations/Elementor/EditorPreview.php:101
-#: src/Elements/layout-panel.js:188
+#: src/Integrations/Elementor/EditorPreview.php:139
+#: src/Elements/layout-panel.js:216
 msgid "Sample member"
 msgstr ""
 
-#: src/Integrations/Elementor/EditorPreview.php:101
-#: src/Elements/layout-panel.js:188
+#: src/Integrations/Elementor/EditorPreview.php:139
+#: src/Elements/layout-panel.js:216
 msgid "Me (current user)"
 msgstr ""
 
-#: src/Integrations/Elementor/EditorPreview.php:108
-#: src/Integrations/Elementor/EditorPreview.php:131
-#: src/Elements/layout-panel.js:185
-#: src/Elements/layout-panel.js:194
+#: src/Integrations/Elementor/EditorPreview.php:146
+#: src/Integrations/Elementor/EditorPreview.php:169
+#: src/Elements/layout-panel.js:213
+#: src/Elements/layout-panel.js:222
 msgid "Preview with"
 msgstr ""
 
-#: src/Integrations/Elementor/EditorPreview.php:109
+#: src/Integrations/Elementor/EditorPreview.php:147
 msgid "The member the preview shows, with real data."
 msgstr ""
 
-#: src/Integrations/Elementor/EditorPreview.php:118
-#: src/Elements/layout-panel.js:197
+#: src/Integrations/Elementor/EditorPreview.php:156
+#: src/Elements/layout-panel.js:225
 msgid "Newest group"
 msgstr ""
 
-#: src/Integrations/Elementor/EditorPreview.php:143
-#: src/Elements/layout-panel.js:202
+#: src/Integrations/Elementor/EditorPreview.php:181
+#: src/Elements/layout-panel.js:230
 msgid "Seen by"
 msgstr ""
 
-#: src/Integrations/Elementor/EditorPreview.php:144
-#: src/Elements/layout-panel.js:203
+#: src/Integrations/Elementor/EditorPreview.php:182
+#: src/Elements/layout-panel.js:231
 msgid "Buttons, tabs and private fields show as this visitor would see them. Nothing is saved on the profile."
 msgstr ""
 
@@ -4677,11 +4686,35 @@ msgstr ""
 msgid "Hub"
 msgstr ""
 
-#: src/Presets/Styles.php:245
+#: src/Presets/Styles.php:231
+msgid "A creator platform layout: a centered profile, stats as a row of numbers, highlight bubbles and posts as a photo grid."
+msgstr ""
+
+#: src/Presets/Styles.php:232
+msgid "A social network layout: shortcuts on the left, the feed in the middle, people and groups on the right."
+msgstr ""
+
+#: src/Presets/Styles.php:233
+msgid "A professional network layout: a sticky profile card and the profile as stacked section cards."
+msgstr ""
+
+#: src/Presets/Styles.php:234
+msgid "A chat community layout, dark by default: a rail of groups, the stream as message rows and who is online."
+msgstr ""
+
+#: src/Presets/Styles.php:235
+msgid "A compact header, facts in a side card and list directories. Quiet and precise."
+msgstr ""
+
+#: src/Presets/Styles.php:236
+msgid "Feed first, a slim header and people to know on the side."
+msgstr ""
+
+#: src/Presets/Styles.php:264
 msgid "The familiar community page, finished: cover, photo and name on the side, cards with a soft lift."
 msgstr ""
 
-#: src/Presets/Styles.php:246
+#: src/Presets/Styles.php:265
 msgid "Any community"
 msgstr ""
 
@@ -4791,7 +4824,19 @@ msgstr ""
 msgid "Great meetup yesterday, see you at the next one."
 msgstr ""
 
-#: src/Templates/SampleMember.php:345
+#: src/Templates/SampleMember.php:182
+msgid "Community host and weekend photographer"
+msgstr ""
+
+#: src/Templates/SampleMember.php:183
+msgid "Lisbon, Portugal"
+msgstr ""
+
+#: src/Templates/SampleMember.php:184
+msgid "Hosts the monthly meetups and welcomes new members. Ask me about photo walks and good books."
+msgstr ""
+
+#: src/Templates/SampleMember.php:375
 msgid "The sample member login is already used by a real account."
 msgstr ""
 
@@ -4863,7 +4908,7 @@ msgid "A messages icon with a dropdown of the member's latest private messages, 
 msgstr ""
 
 #: src/Upsell/Upsell.php:115
-msgid "Members Tab List"
+msgid "Members in tabs"
 msgstr ""
 
 #: src/Upsell/Upsell.php:116
@@ -4871,7 +4916,7 @@ msgid "A grid of members with tabs to switch between lists, for any page."
 msgstr ""
 
 #: src/Upsell/Upsell.php:120
-msgid "Groups Tab List"
+msgid "Groups in tabs"
 msgstr ""
 
 #: src/Upsell/Upsell.php:121
@@ -4879,7 +4924,7 @@ msgid "A grid of groups with tabs to switch between lists, for any page."
 msgstr ""
 
 #: src/Upsell/Upsell.php:125
-msgid "Post Update Form"
+msgid "Post form (any page)"
 msgstr ""
 
 #: src/Upsell/Upsell.php:126
@@ -4911,7 +4956,7 @@ msgid "A narrow rail of group photos (the member's groups or the most active one
 msgstr ""
 
 #: src/Upsell/Upsell.php:146
-msgid "Member list"
+msgid "Online members list"
 msgstr ""
 
 #: src/Upsell/Upsell.php:147
@@ -5004,43 +5049,59 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: src/Upsell/Upsell.php:326
+#: src/Upsell/Upsell.php:315
 msgid "More with BuddyBuilder Pro"
 msgstr ""
 
 #. translators: %d: number of community pages
-#: src/Upsell/Upsell.php:434
+#: src/Upsell/Upsell.php:423
 #, php-format
 msgid "You have built %d community page with BuddyBuilder."
 msgid_plural "You have built %d community pages with BuddyBuilder."
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Upsell/Upsell.php:435
+#: src/Upsell/Upsell.php:424
 msgid "BuddyBuilder Pro adds more styles, member and group cards, live notifications and messages, ads, birthdays and layouts per member type."
 msgstr ""
 
-#: src/Upsell/Upsell.php:437
+#: src/Upsell/Upsell.php:426
 msgid "See BuddyBuilder Pro"
 msgstr ""
 
-#: src/Upsell/Upsell.php:440
+#: src/Upsell/Upsell.php:429
 msgid "Dismiss"
 msgstr ""
 
-#: src/Upsell/Upsell.php:451
+#: src/Upsell/Upsell.php:440
 msgid "You are not allowed to do that."
 msgstr ""
 
-#: src/Elements/layout-panel.js:178
+#: src/Elements/layout-panel.js:197
+msgid "Layout name"
+msgstr ""
+
+#: src/Elements/layout-panel.js:198
+msgid "Shown on Community pages, not on the site."
+msgstr ""
+
+#: src/Elements/layout-panel.js:204
 msgid "Page"
 msgstr ""
 
-#: src/Elements/layout-panel.js:186
+#: src/Elements/layout-panel.js:208
+msgid "Fixed once the layout is saved."
+msgstr ""
+
+#: src/Elements/layout-panel.js:208
+msgid "Fixed for a saved layout. For another page, make a layout on Community pages."
+msgstr ""
+
+#: src/Elements/layout-panel.js:214
 msgid "The member the preview shows. Type to search all members."
 msgstr ""
 
-#: src/Elements/layout-panel.js:195
+#: src/Elements/layout-panel.js:223
 msgid "The group the preview shows."
 msgstr ""
 

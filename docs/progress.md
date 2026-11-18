@@ -2,6 +2,34 @@
 
 Branch `main` (the 2.0 line since 2026-11-15; 1.x fixes go to `1.x`). Not released.
 
+## 2026-11-18 (later): UX review items 8 to 11, fresh-site first-run test
+
+Approved by Gabriel (vault review, section 7). Commits `6912148` to `014d33d` (Pro `8ea9c4d` to `d451f4f`), local, not pushed.
+
+- **8. Community pages noise** (`6912148`, Pro `8ea9c4d`): "Create a group" is its own row (a page nested under a row by the list filters gets a row, cards stay under their page); the intro no longer mentions a Use button. Pro: while a page and its cards have no variation, one quiet "Variations" link per row opens their add forms (no "Add a variation" button per page and card); a new variation starts from "A copy of the main layout" (a published duplicate, `layout_from( 'copy' )`).
+- **9. Vocabulary** (`b0af09f`): "style" in every UI string (Change style, Pick a style, Use this style, New style ready, setup, Settings, admin bar, upsell); "look" stays in internal names, option keys, hooks and CSS classes. readme and docs/styles.md follow.
+- **10. Block editor** (`bf0ede7`, Pro `301cc8a`): no layout title in the canvas (a Layout name field in the BuddyBuilder panel); Page is disabled once the layout is saved; dashicons in the canvas iframe (the BuddyPress action icons were empty squares); names: Custom members / groups / activity list, Side list: members or groups, Online members list, Members in tabs, Groups in tabs, Post form (any page) (block names and widget keys unchanged).
+- **11. Elementor** (`a6a5ab1`, Pro `d451f4f`): in a BuddyBuilder template the BuddyBuilder categories come first (after Favorites; other documents keep the order, Elementor's category list reordered in place); the page category holds only that page's elements, any-page elements go to BuddyBuilder General, other pages' elements leave the panel (as in the block inserter); the preview frame loads the style CSS from the start (a Member header dropped into a 1.x template is styled at once); 1.x widget and promotion names match the blocks. `EditorPreview::edited_type()` is the one source of the template's page.
+- **Fresh-site test** (bbfresh.test: WP 7.1.5, Twenty Twenty-Five, BuddyPress 14.5.6, Elementor 4.4.1 activated mid-way, BuddyBuilder free only), fixes:
+  - `1b6ba87` the setup never opened when BuddyBuilder was activated before BuddyPress (the pending request was dropped on the first calm page) or when BuddyPress' own activation redirect ran (it redirects without exit, so the setup rendered unseen); the request now ends only when the setup screen renders without a redirect, 3 tries at most.
+  - `7e26045` activating Elementor after a block editor setup turned block layouts off in the UI (Community pages offered only Elementor); the setup saves the choice and a page with a block layout keeps them on (1.x sites unchanged).
+  - `a002187` setup wording: no lone builder radio without Elementor, step 2 button "Create and review", Pro style cards describe the style and link to Pro, Help "then save".
+  - `edadbe2` free Card line: "More card styles Pro" instead of a Change link to a select with one option; "Live, no groups yet".
+  - `06bb878` the block editor's BuddyBuilder panel opens once per user (WordPress starts it closed).
+  - `014d33d` the sample member gets Headline, Location, About, Website values (previews were "Nothing to show").
+- New regression cases `community-pages-rows`, `elementor-panel`, `blocks-stay-on`; `card-line` and `setup-new-install` extended; Pro `variations-test` covers the copy (41 PASS on bbux).
+
+Tests (bbux WP 7.1 / Elementor 4.4, bbmin WP 6.6 / PHP 7.4 / Elementor 3.20):
+
+- PHP lint 7.4 and 8.5 on every changed PHP file (21 free, 6 Pro): 0 errors. No em-dash in the changes.
+- Regressions, before (items 1 to 6) and after: bbux with Pro 474 to 491 PASS, without Pro 381 to 395; bbmin with Pro 477 to 493, without 385 to 399; 0 FAIL. bbmin with Pro 1.7.3: 473 PASS, 1 FAIL `elementor-basic-controls` (known, as before).
+- e2e `tests/e2e/ux.js` on bbux: 43 PASS, 1 FAIL (`elementorFrontendConfig is not defined`, as before); axe SKIP there (`@axe-core/playwright` is not installed anywhere; axe-core 4 injected by hand on bbfresh instead).
+- Goldens on bbux (strict): row `bbux` 70 ok (same set as before), row `tt25` 82 ok and the same 20 known grid class differences.
+- Browser: items 8 to 11 on bbux and bbmin (title hidden and Page locked on WP 6.6, categories and styled Member header on Elementor 3.20); the bbfresh walk with axe 0 violations on setup steps 1 to 3, Community pages, Settings, Help.
+- POT regenerated.
+
+Open (not 2.0 fixes here): Help shows "Data update ... Undo (go back to the 1.9 format)" on sites that never had 1.9; the 18-chip Pro list under the rows is still there; the Elementor header part names (Avatar, Cover, Action Buttons, Meta, Name/Username) differ from the block names (Member avatar, ...); the Classic About card repeats "About" (card title and field label).
+
 ## 2026-11-18: UX review "Fits 2.0" items 1 to 6
 
 Approved by Gabriel (vault `Projects/staxwp/docs/2026-11-17-buddybuilder-page-building-ux-review.md`, section 7). Commits `98edfbc` to `2527231` (Pro `1c21a03`), local, not pushed. Item 7 ("Split into parts", Pro) not started: it needs header parts that print the designed header's markup plus arrangement CSS per style, more than fits cleanly here.
