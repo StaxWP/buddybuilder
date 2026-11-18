@@ -541,7 +541,7 @@ final class Elements {
 		wp_enqueue_script(
 			'bpb-layout-panel',
 			BPB_BASE_URL . 'src/Elements/layout-panel.js',
-			[ 'wp-plugins', 'wp-editor', 'wp-element', 'wp-components', 'wp-data', 'wp-core-data', 'wp-i18n', 'wp-api-fetch', 'wp-url', 'wp-blocks', self::kit()->editor_handle() ],
+			[ 'wp-plugins', 'wp-editor', 'wp-element', 'wp-components', 'wp-data', 'wp-core-data', 'wp-preferences', 'wp-dom-ready', 'wp-i18n', 'wp-api-fetch', 'wp-url', 'wp-blocks', self::kit()->editor_handle() ],
 			BPB_VERSION,
 			true
 		);

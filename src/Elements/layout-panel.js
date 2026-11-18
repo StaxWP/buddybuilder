@@ -134,6 +134,24 @@
 		} );
 	}
 
+	// The panel starts closed in WordPress (initialOpen is not used for document panels): open it once per user, so
+	// a new owner finds Preview with and Seen by; after that the editor remembers what they chose.
+	wp.domReady( function () {
+		var panel = 'bpb-layout-panel/bpb-layout';
+		var prefs = wp.data.select( 'core/preferences' );
+		var editor = wp.data.select( 'core/editor' );
+
+		if ( ! prefs || ! editor.isEditorPanelOpened || ! wp.data.dispatch( 'core/editor' ).toggleEditorPanelOpened || prefs.get( 'buddybuilder', 'layoutPanelShown' ) ) {
+			return;
+		}
+
+		if ( ! editor.isEditorPanelOpened( panel ) ) {
+			wp.data.dispatch( 'core/editor' ).toggleEditorPanelOpened( panel );
+		}
+
+		wp.data.dispatch( 'core/preferences' ).set( 'buddybuilder', 'layoutPanelShown', true );
+	} );
+
 	wp.plugins.registerPlugin( 'bpb-layout-panel', {
 		render: function () {
 			// Member search (REST), so large communities can pick any member, not only the first 50.
