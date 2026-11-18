@@ -485,7 +485,7 @@ final class App {
 				<ol class="bpb-app-steps">
 					<li><?php esc_html_e( 'Pick a style for each page on Community pages.', 'stax-buddy-builder' ); ?></li>
 					<li><?php esc_html_e( 'Edit it in Elementor or the block editor.', 'stax-buddy-builder' ); ?></li>
-					<li><?php esc_html_e( 'Check it with "Seen by" in the editor, then press Use.', 'stax-buddy-builder' ); ?></li>
+					<li><?php esc_html_e( 'Check it with "Seen by" in the editor, then save.', 'stax-buddy-builder' ); ?></li>
 				</ol>
 			</div>
 

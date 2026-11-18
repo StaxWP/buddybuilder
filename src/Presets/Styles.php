@@ -221,6 +221,25 @@ final class Styles {
 	}
 
 	/**
+	 * One line about a BuddyBuilder Pro style (the setup shows the Pro styles as previews while Pro is not active).
+	 *
+	 * @param string $slug Style slug.
+	 * @return string
+	 */
+	public static function pro_teaser_text( $slug ) {
+		$texts = [
+			'creator'      => __( 'A creator platform layout: a centered profile, stats as a row of numbers, highlight bubbles and posts as a photo grid.', 'stax-buddy-builder' ),
+			'network'      => __( 'A social network layout: shortcuts on the left, the feed in the middle, people and groups on the right.', 'stax-buddy-builder' ),
+			'career'       => __( 'A professional network layout: a sticky profile card and the profile as stacked section cards.', 'stax-buddy-builder' ),
+			'hub'          => __( 'A chat community layout, dark by default: a rail of groups, the stream as message rows and who is online.', 'stax-buddy-builder' ),
+			'professional' => __( 'A compact header, facts in a side card and list directories. Quiet and precise.', 'stax-buddy-builder' ),
+			'social'       => __( 'Feed first, a slim header and people to know on the side.', 'stax-buddy-builder' ),
+		];
+
+		return isset( $texts[ $slug ] ) ? $texts[ $slug ] : '';
+	}
+
+	/**
 	 * Whether a style is recommended on this site (its flag, or its callback's answer).
 	 *
 	 * @param array $style Style.

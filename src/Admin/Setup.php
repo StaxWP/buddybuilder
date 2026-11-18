@@ -749,11 +749,17 @@ final class Setup {
 
 		echo '<fieldset class="bpb-setup__field"><legend>' . esc_html__( 'Build the pages with', 'stax-buddy-builder' ) . '</legend>';
 
-		foreach ( $builders as $builder => $label ) {
-			echo '<label class="bpb-choice"><input type="radio" name="builder" value="' . esc_attr( $builder ) . '"' . checked( $current, $builder, false ) . '> ' . esc_html( $label ) . '</label>';
-		}
+		// Only the block editor (no Elementor): nothing to choose, no lone radio button and no "Both".
+		if ( 1 === count( $builders ) ) {
+			echo '<p class="bpb-choice"><input type="hidden" name="builder" value="' . esc_attr( key( $builders ) ) . '">' . esc_html( current( $builders ) ) . '</p>';
+			echo '<p class="description">' . esc_html__( 'Elementor works too: with Elementor active, you can pick it here.', 'stax-buddy-builder' ) . '</p></fieldset>';
+		} else {
+			foreach ( $builders as $builder => $label ) {
+				echo '<label class="bpb-choice"><input type="radio" name="builder" value="' . esc_attr( $builder ) . '"' . checked( $current, $builder, false ) . '> ' . esc_html( $label ) . '</label>';
+			}
 
-		echo '<p class="description">' . esc_html__( 'Both make the same styles. You can switch a page to the other builder later.', 'stax-buddy-builder' ) . '</p></fieldset>';
+			echo '<p class="description">' . esc_html__( 'Both make the same styles. You can switch a page to the other builder later.', 'stax-buddy-builder' ) . '</p></fieldset>';
+		}
 
 		if ( ! SampleMember::user_id() ) {
 			echo '<fieldset class="bpb-setup__field"><legend>' . esc_html__( 'Previews', 'stax-buddy-builder' ) . '</legend>';
@@ -830,10 +836,11 @@ final class Setup {
 
 			echo '<label class="bpb-pick bpb-pick--card bpb-pick--keep"><input type="radio" name="bpb_style" value=""><span class="bpb-pick__name">' . esc_html__( 'Choose per page', 'stax-buddy-builder' ) . '</span></label>';
 
-			// BuddyBuilder Pro styles, as previews only (no locked choices) while Pro is not active.
+			// BuddyBuilder Pro styles, as previews only (no locked choices) while Pro is not active: each says what it is
+			// and links to BuddyBuilder Pro (a card that looked clickable did nothing).
 			$teasers = \Buddy_Builder\Presets\Styles::pro_teasers();
 			foreach ( $teasers as $slug => $name ) {
-				echo '<div class="bpb-pick bpb-pick--card bpb-pick--pro" aria-disabled="true"><span class="bpb-pick__thumb bpb-pick__thumb--image" aria-hidden="true"><img src="' . esc_url( BPB_ASSETS_URL . 'images/styles/' . $slug . '.jpg' ) . '" alt="" loading="lazy"></span><span class="bpb-pick__name">' . esc_html( $name ) . ' <span class="bpb-pick__badge bpb-pick__badge--pro">' . esc_html__( 'Pro', 'stax-buddy-builder' ) . '</span></span></div>';
+				echo '<a class="bpb-pick bpb-pick--card bpb-pick--pro" href="' . esc_url( \Buddy_Builder\Upsell\Upsell::url( 'styles' ) ) . '" target="_blank" rel="noopener"><span class="bpb-pick__thumb bpb-pick__thumb--image" aria-hidden="true"><img src="' . esc_url( BPB_ASSETS_URL . 'images/styles/' . $slug . '.jpg' ) . '" alt="" loading="lazy"></span><span class="bpb-pick__name">' . esc_html( $name ) . ' <span class="bpb-pick__badge bpb-pick__badge--pro">' . esc_html__( 'Pro', 'stax-buddy-builder' ) . '</span></span><span class="bpb-pick__desc">' . esc_html( \Buddy_Builder\Presets\Styles::pro_teaser_text( $slug ) ) . '</span><span class="screen-reader-text"> ' . esc_html__( '(BuddyBuilder Pro, opens in a new tab)', 'stax-buddy-builder' ) . '</span></a>';
 			}
 			if ( $teasers ) {
 				echo '<p class="bpb-styles__pro"><a href="' . esc_url( \Buddy_Builder\Upsell\Upsell::url( 'styles' ) ) . '" target="_blank" rel="noopener">' . esc_html__( 'Get Pro', 'stax-buddy-builder' ) . '<span class="screen-reader-text"> ' . esc_html__( '(opens in a new tab)', 'stax-buddy-builder' ) . '</span></a></p>';
@@ -912,10 +919,10 @@ final class Setup {
 		echo '<div class="bpb-setup__nav"><a class="button" href="' . esc_url( self::url( 1 ) ) . '">' . esc_html__( 'Back', 'stax-buddy-builder' ) . '</a>';
 		// One full sentence per builder: a builder name inside a sentence does not translate (review W4).
 		$note = Registry::ELEMENTOR === self::builder()
-			? __( 'Creates the layouts in Elementor, ready to edit. Your pages stay as they are until you press Use these.', 'stax-buddy-builder' )
-			: __( 'Creates the layouts in the block editor, ready to edit. Your pages stay as they are until you press Use these.', 'stax-buddy-builder' );
+			? __( 'Creates the layouts in Elementor, ready to edit, and shows them on your pages. Nothing goes live until Use these on the next step.', 'stax-buddy-builder' )
+			: __( 'Creates the layouts in the block editor, ready to edit, and shows them on your pages. Nothing goes live until Use these on the next step.', 'stax-buddy-builder' );
 		echo '<p>' . esc_html( $note ) . '</p>';
-		echo '<button type="submit" class="button button-primary button-hero">' . esc_html__( 'Use these and preview', 'stax-buddy-builder' ) . '</button></div>';
+		echo '<button type="submit" class="button button-primary button-hero">' . esc_html__( 'Create and review', 'stax-buddy-builder' ) . '</button></div>';
 		echo '</form>';
 	}
 

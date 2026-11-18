@@ -121,7 +121,7 @@ async function shot( page, name, locator ) {
 		await axeCheck( page, 'setup step 2' );
 		await shot( page, 'setup-2-pick-a-look' );
 		ok( 0 === php( echo( "count( array_filter( wp_list_pluck( \\Buddy_Builder\\Templates\\Registry::all(), 'id' ) ) )" ) ), 'nothing is assigned before Use these' );
-		await Promise.all( [ page.waitForNavigation(), page.click( 'button:has-text("Use these and preview")' ) ] );
+		await Promise.all( [ page.waitForNavigation(), page.click( 'button:has-text("Create and review")' ) ] );
 		ok( page.url().includes( 'step=3' ), 'step 2 leads to step 3' );
 		ok( await page.locator( '.bpb-review-tabs ul a' ).count() >= 1, 'step 3 lists the pages to review' );
 		ok( 0 === php( echo( "count( array_filter( wp_list_pluck( \\Buddy_Builder\\Templates\\Registry::all(), 'id' ) ) )" ) ), 'still nothing live on step 3' );
