@@ -234,6 +234,10 @@ final class ProfileFields {
 
 		self::flush();
 
+		if ( $created ) {
+			SampleMember::fill_profile();
+		}
+
 		return $created;
 	}
 }

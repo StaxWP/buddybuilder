@@ -161,8 +161,38 @@ final class SampleMember {
 
 		update_option( self::OPTION, $data, false );
 		self::flush_counts();
+		self::fill_profile();
 
 		return $user_id;
+	}
+
+	/**
+	 * The sample member's values for the standard profile fields the styles show (Headline, Location, About,
+	 * Website), where the site has the field and the sample has no value yet: previews show a complete header and
+	 * About card instead of "Nothing to show". Called after the sample is created and after the setup creates fields.
+	 */
+	public static function fill_profile() {
+		$user_id = self::user_id();
+
+		if ( ! $user_id || ! function_exists( 'xprofile_get_field_id_from_name' ) || ! function_exists( 'xprofile_set_field_data' ) ) {
+			return;
+		}
+
+		$values = [
+			'Headline' => __( 'Community host and weekend photographer', 'stax-buddy-builder' ),
+			'Location' => __( 'Lisbon, Portugal', 'stax-buddy-builder' ),
+			'About'    => __( 'Hosts the monthly meetups and welcomes new members. Ask me about photo walks and good books.', 'stax-buddy-builder' ),
+			'Website'  => 'https://example.com',
+		];
+
+		foreach ( $values as $name => $value ) {
+			$field_id = (int) xprofile_get_field_id_from_name( $name );
+
+			// The stored value: the formatted one of an empty URL field is an empty link.
+			if ( $field_id && '' === (string) \BP_XProfile_ProfileData::get_value_byid( $field_id, $user_id ) ) {
+				xprofile_set_field_data( $field_id, $user_id, $value );
+			}
+		}
 	}
 
 	/**
