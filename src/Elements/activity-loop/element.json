@@ -1,7 +1,7 @@
 {
 	"version": 1,
 	"name": "activity-loop",
-	"title": "Activity list",
+	"title": "Custom activity list",
 	"category": "buddybuilder",
 	"icon": "rss",
 	"description": "Recent activity anywhere on the site.",

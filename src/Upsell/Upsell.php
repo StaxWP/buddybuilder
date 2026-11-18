@@ -143,7 +143,7 @@ final class Upsell {
 				'elementor' => [ 'icon' => 'eicon-navigation-vertical', 'category' => 'buddy-builder-elements' ],
 			],
 			'member-list'          => [
-				'title'     => __( 'Member list', 'stax-buddy-builder' ),
+				'title'     => __( 'Online members list', 'stax-buddy-builder' ),
 				'text'      => __( 'Members with their online status, grouped Online and Offline: the members of the current group, or the most recently active members.', 'stax-buddy-builder' ),
 				'elementor' => [ 'icon' => 'eicon-person', 'category' => 'buddy-builder-elements' ],
 			],

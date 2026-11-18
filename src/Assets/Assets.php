@@ -305,7 +305,8 @@ final class Assets {
 
 		wp_enqueue_style( self::tokens() );
 		wp_enqueue_style( 'stax-buddy-builder-front-editor', BPB_ASSETS_URL . 'css/index' . $min . '.css', [], BPB_VERSION );
-		wp_enqueue_style( 'bpb-editor-canvas', BPB_ASSETS_URL . 'css/editor-canvas.css', [], BPB_VERSION );
+		// The canvas iframe has no icon font of its own: BuddyPress' action icons (comment, favorite, delete, feed) need it.
+		wp_enqueue_style( 'bpb-editor-canvas', BPB_ASSETS_URL . 'css/editor-canvas.css', [ 'dashicons' ], BPB_VERSION );
 
 		// The styles the layout uses (a layout made from a style, a card from "Design the card").
 		foreach ( self::looks_in( (string) get_post_field( 'post_content', get_the_ID() ) ) as $style ) {

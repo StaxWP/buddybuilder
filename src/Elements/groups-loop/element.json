@@ -1,7 +1,7 @@
 {
 	"version": 1,
 	"name": "groups-loop",
-	"title": "Groups list",
+	"title": "Custom groups list",
 	"category": "buddybuilder",
 	"icon": "screenoptions",
 	"description": "A list of groups anywhere on the site.",

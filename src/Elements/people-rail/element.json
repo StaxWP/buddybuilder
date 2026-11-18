@@ -1,7 +1,7 @@
 {
 	"version": 1,
 	"name": "people-rail",
-	"title": "People and groups list",
+	"title": "Side list: members or groups",
 	"category": "buddybuilder",
 	"icon": "groups",
 	"description": "A short list for side columns: newest, active or popular members, the displayed member's friends or groups, or active groups. As a list or a photo grid.",

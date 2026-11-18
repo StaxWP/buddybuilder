@@ -1,5 +1,6 @@
 /**
- * BuddyBuilder layout panel (block editor, bpb_template only): page, preview member (searchable) or group, seen by.
+ * BuddyBuilder layout panel (block editor, bpb_template only): layout name (the canvas shows no title), page (chosen
+ * until the first save, then fixed: other pages need other elements), preview member (searchable) or group, seen by.
  * The element kit's editor sends the unsaved choices with every preview request (editor_query_args).
  * Element list per page (review 3.5, U3): the BuddyBuilder inserter category lists the elements made for the page
  * first, then the ones for any page; elements made for other pages leave the inserter (layouts that already use them
@@ -142,6 +143,8 @@
 				var core = select( 'core' );
 				return {
 					postType: editor.getCurrentPostType(),
+					isNew: editor.isEditedPostNew(),
+					title: editor.getEditedPostAttribute( 'title' ) || '',
 					meta: editor.getEditedPostAttribute( 'meta' ) || {},
 					users: core.getUsers( searchState[ 0 ] ? { per_page: 20, context: 'view', search: searchState[ 0 ] } : { per_page: 50, context: 'view' } ) || []
 				};
@@ -171,13 +174,20 @@
 				editPost( { meta: meta } );
 			};
 
-			return el(
-				wp.editor.PluginDocumentSettingPanel,
-				{ name: 'bpb-layout', title: __( 'BuddyBuilder', 'stax-buddy-builder' ), initialOpen: true },
+			var controls = [
+				el( wp.components.TextControl, {
+					label: __( 'Layout name', 'stax-buddy-builder' ),
+					help: __( 'Shown on Community pages, not on the site.', 'stax-buddy-builder' ),
+					value: data.title,
+					onChange: function ( v ) { editPost( { title: v } ); },
+					__nextHasNoMarginBottom: true
+				} ),
 				el( SelectControl, {
 					label: __( 'Page', 'stax-buddy-builder' ),
 					value: type,
 					options: config.types,
+					disabled: ! data.isNew,
+					help: data.isNew ? __( 'Fixed once the layout is saved.', 'stax-buddy-builder' ) : __( 'Fixed for a saved layout. For another page, make a layout on Community pages.', 'stax-buddy-builder' ),
 					onChange: function ( v ) { setMeta( '_bpb_type', v ); },
 					__nextHasNoMarginBottom: true
 				} ),
@@ -206,6 +216,15 @@
 					onChange: function ( v ) { setMeta( '_bpb_preview_viewer', v ); },
 					__nextHasNoMarginBottom: true
 				} ) : null
+			];
+
+			// One gap between the settings (the controls have no bottom margin of their own).
+			return el(
+				wp.editor.PluginDocumentSettingPanel,
+				{ name: 'bpb-layout', title: __( 'BuddyBuilder', 'stax-buddy-builder' ), initialOpen: true },
+				controls.filter( Boolean ).map( function ( control, i ) {
+					return el( 'div', { key: i, style: { marginBottom: '16px' } }, control );
+				} )
 			);
 		}
 	} );

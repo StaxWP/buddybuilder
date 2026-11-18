@@ -1,4 +1,11 @@
 /* Block editor canvas of a BuddyBuilder layout: previews are not interactive, the "bpb-el-empty" hint is visible. */
+
+/* The layout's name is not part of the page: no title above the canvas (it is edited in the BuddyBuilder panel). */
+.edit-post-visual-editor__post-title-wrapper,
+.editor-visual-editor__post-title-wrapper {
+	display: none;
+}
+
 .editor-styles-wrapper .bpb-el a,
 .editor-styles-wrapper .bpb-el button,
 .editor-styles-wrapper .bpb-el input {

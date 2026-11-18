@@ -1,7 +1,7 @@
 {
 	"version": 1,
 	"name": "members-loop",
-	"title": "Members list",
+	"title": "Custom members list",
 	"category": "buddybuilder",
 	"icon": "groups",
 	"description": "A list of members anywhere on the site.",
