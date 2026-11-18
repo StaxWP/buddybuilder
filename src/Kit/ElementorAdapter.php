@@ -99,6 +99,16 @@ trait ElementorAdapter {
 				$control['type']    = 'select';
 				$control['options'] = $options;
 				break;
+			case 'checklist':
+				// A string of comma separated values stays a text field (a select2 would save an array); its choices
+				// are listed under it.
+				$control['type']        = 'text';
+				$control['label_block'] = true;
+				$labels                 = (array) $element->kit()->config( 'labels' );
+				if ( $options && ! empty( $labels['choices'] ) ) {
+					$control['description'] = trim( ( isset( $control['description'] ) ? $control['description'] . ' ' : '' ) . sprintf( $labels['choices'], implode( ', ', $options ) ) );
+				}
+				break;
 			case 'multiselect':
 				$control['type']        = 'select2';
 				$control['multiple']    = true;

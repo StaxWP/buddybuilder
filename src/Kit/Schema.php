@@ -27,7 +27,7 @@ final class Schema {
 	/**
 	 * Controls the generated editors understand.
 	 */
-	const CONTROLS = array( 'text', 'textarea', 'url', 'select', 'multiselect', 'toggle', 'number', 'range' );
+	const CONTROLS = array( 'text', 'textarea', 'url', 'select', 'multiselect', 'checklist', 'toggle', 'number', 'range' );
 
 	/**
 	 * Read and check an element.json file.
@@ -165,7 +165,8 @@ final class Schema {
 	 * @return string[]
 	 */
 	public static function allowed( array $def ) {
-		if ( empty( $def['options'] ) || ! is_array( $def['options'] ) ) {
+		// "anyValue": the options are suggestions (for example the site's profile fields); any value is kept.
+		if ( empty( $def['options'] ) || ! is_array( $def['options'] ) || ! empty( $def['anyValue'] ) ) {
 			return array();
 		}
 

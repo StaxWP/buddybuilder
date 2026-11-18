@@ -17,6 +17,32 @@
 	const c = wp.components;
 	const ServerSideRender = wp.serverSideRender;
 
+	/**
+	 * Options of a select, plus the saved values that are not among them when any value is allowed ("anyValue", for
+	 * example a profile field another site has): they stay visible and can be unpicked.
+	 *
+	 * @param {Object}   def    Control definition.
+	 * @param {string[]} values Saved values.
+	 * @return {Object[]} Options.
+	 */
+	function withValues( def, values ) {
+		const options = def.options || [];
+		if ( ! def.anyValue ) {
+			return options;
+		}
+		return options.concat(
+			values
+				.filter( function ( v ) {
+					return ! options.some( function ( o ) {
+						return o.value === v;
+					} );
+				} )
+				.map( function ( v ) {
+					return { value: v, label: v };
+				} )
+		);
+	}
+
 	function control( def, attributes, setAttributes ) {
 		const value = attributes[ def.key ];
 		const set = function ( next ) {
@@ -45,12 +71,26 @@
 					c.SelectControl,
 					Object.assign( common, {
 						value,
-						options: def.options || [],
+						options: withValues( def, value ? [ value ] : [] ),
 						onChange: set,
 						__next40pxDefaultSize: true,
 					} )
 				);
 			case 'multiselect':
+			case 'checklist': {
+				// checklist: a string attribute with the values separated by commas, in the order they were picked
+				// (older kit copies show it as a text field). multiselect: an array in the option order.
+				const text = 'checklist' === def.control;
+				const list = text
+					? String( value || '' )
+							.split( ',' )
+							.map( function ( v ) {
+								return v.trim();
+							} )
+							.filter( Boolean )
+					: Array.isArray( value )
+					? value
+					: [];
 				return el(
 					c.BaseControl,
 					{
@@ -60,8 +100,7 @@
 						id: 'kit-' + def.key,
 						__nextHasNoMarginBottom: true,
 					},
-					( def.options || [] ).map( function ( option ) {
-						const list = Array.isArray( value ) ? value : [];
+					withValues( def, list ).map( function ( option ) {
 						return el( c.CheckboxControl, {
 							key: option.value,
 							label: option.label,
@@ -70,7 +109,9 @@
 								let next = list.filter( function ( v ) {
 									return v !== option.value;
 								} );
-								if ( on ) {
+								if ( on && text ) {
+									next = next.concat( [ option.value ] );
+								} else if ( on ) {
 									// Keep the option order of the schema.
 									next = ( def.options || [] )
 										.map( function ( o ) {
@@ -83,12 +124,13 @@
 											);
 										} );
 								}
-								set( next );
+								set( text ? next.join( ', ' ) : next );
 							},
 							__nextHasNoMarginBottom: true,
 						} );
 					} )
 				);
+			}
 			case 'range':
 				return el(
 					c.RangeControl,

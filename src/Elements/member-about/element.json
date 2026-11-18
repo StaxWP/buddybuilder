@@ -26,10 +26,12 @@
 		"fields": {
 			"type": "string",
 			"default": "About, Location, Website",
-			"control": "text",
+			"control": "checklist",
+			"optionsFrom": "profile_fields",
+			"anyValue": true,
 			"panel": "basic",
 			"label": "Profile fields",
-			"help": "Field names, separated by commas, in this order."
+			"help": "Profile fields shown in the card."
 		},
 		"show_labels": {
 			"type": "boolean",

@@ -296,6 +296,9 @@ final class Element {
 			if ( isset( $def['options'] ) ) {
 				$control['options'] = $this->translated_options( $def['options'] );
 			}
+			if ( ! empty( $def['anyValue'] ) ) {
+				$control['anyValue'] = true;
+			}
 			$controls[] = $control;
 		}
 

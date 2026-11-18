@@ -110,6 +110,8 @@ final class Elements {
 						'basic'    => __( 'Settings', 'stax-buddy-builder' ),
 						'advanced' => __( 'More settings', 'stax-buddy-builder' ), // Not "Advanced": core already has an Advanced panel.
 						'empty'    => __( 'Nothing to show for this preview.', 'stax-buddy-builder' ),
+						/* translators: %s: the choices, separated by commas */
+						'choices'  => __( 'Separated by commas, in this order. On this site: %s', 'stax-buddy-builder' ),
 					],
 					'editor_query_args' => [
 						'bpb_type'          => PostType::META_TYPE,
@@ -121,6 +123,7 @@ final class Elements {
 					'empty_preview'     => [ __CLASS__, 'empty_preview' ],
 				]
 			);
+			\Buddy_Builder\Templates\ProfileFields::add_sources( self::$kit );
 		}
 
 		return self::$kit;

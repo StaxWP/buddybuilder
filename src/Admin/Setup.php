@@ -18,6 +18,7 @@ use Buddy_Builder\Integrations\Elementor\Integration as Elementor;
 use Buddy_Builder\Presets\Presets;
 use Buddy_Builder\Presets\Preview;
 use Buddy_Builder\Templates\LayoutPreview;
+use Buddy_Builder\Templates\ProfileFields;
 use Buddy_Builder\Templates\Registry;
 use Buddy_Builder\Templates\SampleMember;
 use Buddy_Builder\Templates\Types;
@@ -564,6 +565,12 @@ final class Setup {
 				$redirect = add_query_arg( 'bpb_done', 'setup', CommunityPages::url() );
 				break;
 
+			case 'fields':
+				// Only on the explicit click of step 3: the standard fields the new looks show and the site lacks.
+				$created  = ProfileFields::create( self::fields_used() );
+				$redirect = add_query_arg( 'bpb_fields', rawurlencode( implode( ',', $created ) ), self::url( 3 ) );
+				break;
+
 			case 'later':
 				self::save_state( [ 'status' => 'done' ] );
 				$redirect = CommunityPages::url();
@@ -949,6 +956,50 @@ final class Setup {
 	}
 
 	/**
+	 * Profile fields the new looks show (Member header headline and location, Member about), from their style pages.
+	 *
+	 * @return string[] Field names.
+	 */
+	public static function fields_used() {
+		$names = [];
+
+		foreach ( self::all_pending() as $id ) {
+			$preset = CommunityPages::preset_of( $id );
+			$names  = array_merge( $names, ProfileFields::used_by( $preset && ! empty( $preset['content'] ) ? $preset['content'] : '' ) );
+		}
+
+		return array_values( array_unique( $names ) );
+	}
+
+	/**
+	 * Step 3: the profile fields the new looks show that the site does not have, with one button to create them
+	 * (nothing is created without that click), or what was just created.
+	 */
+	private static function render_fields() {
+		$created = isset( $_GET['bpb_fields'] ) ? array_filter( explode( ',', sanitize_text_field( wp_unslash( $_GET['bpb_fields'] ) ) ) ) : []; // phpcs:ignore WordPress.Security.NonceVerification -- a notice after the redirect.
+
+		if ( $created ) {
+			/* translators: %s: profile field names, e.g. Headline, Location */
+			echo '<div class="notice notice-success inline"><p>' . esc_html( sprintf( __( 'Profile fields created: %s. Members fill them in on their profile (Profile > Edit, group "Profile details").', 'stax-buddy-builder' ), implode( ', ', $created ) ) ) . '</p></div>';
+		}
+
+		$missing = ProfileFields::missing( self::fields_used() );
+
+		if ( ! $missing ) {
+			return;
+		}
+
+		echo '<div class="notice notice-info inline bpb-setup__fields"><p>';
+		/* translators: %s: profile field names, e.g. Headline, Location, About */
+		echo esc_html( sprintf( __( 'These looks show %s from the member\'s profile. Your site has no such profile fields yet, so that part stays empty.', 'stax-buddy-builder' ), implode( ', ', $missing ) ) );
+		echo '</p><form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '"><p>';
+		self::fields( 'fields' );
+		echo '<button type="submit" class="button">' . esc_html__( 'Create these profile fields', 'stax-buddy-builder' ) . '</button> ';
+		echo '<span class="description">' . esc_html__( 'Optional, not on the sign-up form; you can rename or delete them in Users > Profile Fields.', 'stax-buddy-builder' ) . '</span>';
+		echo '</p></form></div>';
+	}
+
+	/**
 	 * Step 3: the new looks on your real pages, then "Use these".
 	 */
 	private static function render_review() {
@@ -973,6 +1024,7 @@ final class Setup {
 
 		echo '<div class="bpb-setup__review">';
 		echo '<p class="bpb-lead">' . esc_html__( 'This is your community with the new looks. Only you see them; visitors see the current pages until you press Use these.', 'stax-buddy-builder' ) . '</p>';
+		self::render_fields();
 
 		if ( $links ) {
 			echo '<nav class="bpb-review-tabs" aria-label="' . esc_attr__( 'Pages to review', 'stax-buddy-builder' ) . '"><ul>';

@@ -82,15 +82,19 @@
 		"headline_field": {
 			"type": "string",
 			"default": "Headline",
-			"control": "text",
+			"control": "select",
+			"optionsFrom": "profile_field",
+			"anyValue": true,
 			"panel": "advanced",
 			"label": "Headline profile field",
-			"help": "Name of the profile field shown under the name."
+			"help": "The profile field shown under the name."
 		},
 		"location_field": {
 			"type": "string",
 			"default": "Location",
-			"control": "text",
+			"control": "select",
+			"optionsFrom": "profile_field",
+			"anyValue": true,
 			"panel": "advanced",
 			"label": "Location profile field"
 		}

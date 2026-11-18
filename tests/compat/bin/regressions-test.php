@@ -970,8 +970,54 @@ switch ( $bpb_case ) {
 		$bpb_hide->setValue( null, null );
 		break;
 
+	case 'profile-fields':
+		// UX review 2026-11-17, item 6: field pickers list the site's profile fields, saved values stay strings (any
+		// value is kept, no migration), the setup creates only the missing standard fields a style shows.
+		$bpb_header = \Buddy_Builder\Elements\Elements::get( 'member-header' );
+		$bpb_about  = \Buddy_Builder\Elements\Elements::get( 'member-about' );
+		$bpb_ok( 'Job title' === $bpb_header->normalize( [ 'headline_field' => 'Job title' ] )['headline_field'] && 'Headline' === $bpb_header->normalize( [] )['headline_field'], 'Member header: any saved field name is kept, the default stays Headline' );
+		$bpb_ok( 'Bio, About' === $bpb_about->normalize( [ 'fields' => 'Bio, About' ] )['fields'], 'Member about: the saved field list is kept as written' );
+		$bpb_ctl = [];
+		foreach ( array_merge( $bpb_header->editor_definition()['controls'], $bpb_about->editor_definition()['controls'] ) as $bpb_control ) {
+			$bpb_ctl[ $bpb_control['key'] ] = $bpb_control;
+		}
+		$bpb_names = \Buddy_Builder\Templates\ProfileFields::names();
+		$bpb_ok( 'select' === $bpb_ctl['headline_field']['control'] && ! empty( $bpb_ctl['headline_field']['anyValue'] ) && in_array( 'Headline', wp_list_pluck( $bpb_ctl['headline_field']['options'], 'value' ), true ) && in_array( '', wp_list_pluck( $bpb_ctl['location_field']['options'], 'value' ), true ), 'headline and location: a select of the profile fields (with None, Headline and Location always offered)' );
+		$bpb_ok( 'checklist' === $bpb_ctl['fields']['control'] && wp_list_pluck( $bpb_ctl['fields']['options'], 'value' ) === $bpb_names, 'about fields: a checklist of the ' . count( $bpb_names ) . ' profile fields' );
+		$bpb_ok( [ 'Headline', 'Location', 'About', 'Website' ] === \Buddy_Builder\Templates\ProfileFields::used_by( \Buddy_Builder\Presets\Presets::get( 'classic-member-profile' )['content'] ), 'the Classic profile shows Headline, Location, About, Website' );
+		$bpb_ok( [] === \Buddy_Builder\Templates\ProfileFields::used_by( '<!-- wp:buddybuilder/member-header {"show_headline":false,"show_meta":false} /-->' ), 'hidden parts need no field' );
+		$bpb_missing = \Buddy_Builder\Templates\ProfileFields::missing( [ 'Headline', 'Location', 'About', 'Website', 'Favourite colour' ] );
+		$bpb_ok( ! in_array( 'Favourite colour', $bpb_missing, true ), 'only standard fields can be created' );
+		if ( $bpb_missing && function_exists( 'xprofile_insert_field' ) ) {
+			$bpb_created_fields = \Buddy_Builder\Templates\ProfileFields::create( $bpb_missing );
+			$bpb_ok( $bpb_created_fields === $bpb_missing && [] === \Buddy_Builder\Templates\ProfileFields::missing( $bpb_missing ), 'creates the missing fields: ' . implode( ', ', $bpb_created_fields ) );
+			$bpb_group = 0;
+			foreach ( (array) bp_xprofile_get_groups( [ 'fetch_fields' => true ] ) as $bpb_g ) {
+				if ( \Buddy_Builder\Templates\ProfileFields::GROUP === $bpb_g->name ) {
+					$bpb_group = (int) $bpb_g->id;
+					foreach ( (array) $bpb_g->fields as $bpb_f ) {
+						if ( in_array( $bpb_f->name, $bpb_created_fields, true ) ) {
+							$bpb_ok( ! $bpb_f->is_required && 'public' === bp_xprofile_get_meta( $bpb_f->id, 'field', 'default_visibility' ), $bpb_f->name . ': optional, public, type ' . $bpb_f->type );
+						}
+					}
+				}
+			}
+			$bpb_ok( $bpb_group > 1, 'in their own group, not on the sign-up form' );
+			// Put the site back.
+			foreach ( $bpb_created_fields as $bpb_name ) {
+				xprofile_delete_field( xprofile_get_field_id_from_name( $bpb_name ) );
+			}
+			if ( $bpb_group ) {
+				xprofile_delete_field_group( $bpb_group );
+			}
+			\Buddy_Builder\Templates\ProfileFields::flush();
+		} else {
+			$bpb_skip( 'the site already has every standard field (creation not run)' );
+		}
+		break;
+
 	default:
-		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install, checker-readylaunch, change-look-undo, cards-follow-layout, layout-actions, element-settings, elementor-basic-controls, layout-import, notice-dismiss, card-line, header-parts, theme-title-space' );
+		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install, checker-readylaunch, change-look-undo, cards-follow-layout, layout-actions, element-settings, elementor-basic-controls, layout-import, notice-dismiss, card-line, header-parts, theme-title-space, profile-fields' );
 }
 
 // Cleanup.
