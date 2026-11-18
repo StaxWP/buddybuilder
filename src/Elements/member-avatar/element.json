@@ -2,7 +2,7 @@
 	"version": 1,
 	"name": "member-avatar",
 	"title": "Member avatar",
-	"category": "buddybuilder",
+	"category": "buddybuilder-header-parts",
 	"icon": "admin-users",
 	"description": "Profile photo of the displayed member.",
 	"keywords": [
@@ -56,8 +56,7 @@
 			"bpb-profile-member-avatar"
 		]
 	},
-	"deprecated": {
-		"use": "member-header",
-		"since": "2.0.0"
+	"partOf": {
+		"use": "member-header"
 	}
 }

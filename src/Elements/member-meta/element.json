@@ -2,7 +2,7 @@
 	"version": 1,
 	"name": "member-meta",
 	"title": "Member last active",
-	"category": "buddybuilder",
+	"category": "buddybuilder-header-parts",
 	"icon": "clock",
 	"description": "When the displayed member was last active.",
 	"keywords": [
@@ -44,8 +44,7 @@
 			"bpb-profile-member-meta"
 		]
 	},
-	"deprecated": {
-		"use": "member-header",
-		"since": "2.0.0"
+	"partOf": {
+		"use": "member-header"
 	}
 }

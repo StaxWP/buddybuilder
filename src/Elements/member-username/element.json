@@ -2,7 +2,7 @@
 	"version": 1,
 	"name": "member-username",
 	"title": "Member name",
-	"category": "buddybuilder",
+	"category": "buddybuilder-header-parts",
 	"icon": "id",
 	"description": "Display name or @username of the displayed member.",
 	"keywords": [
@@ -75,8 +75,7 @@
 			"bpb-profile-member-username"
 		]
 	},
-	"deprecated": {
-		"use": "member-header",
-		"since": "2.0.0"
+	"partOf": {
+		"use": "member-header"
 	}
 }

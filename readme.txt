@@ -86,7 +86,7 @@ No. Your Elementor templates and assignments are kept and render as before. The 
 
 = What happens to the old widgets? =
 
-They keep working on the pages that use them. Widgets that have a newer element leave the widget list and show a "Deprecated" note in the editor, with a button to replace them with the new element (Undo brings them back).
+They keep working on the pages that use them. The member and group header parts (cover, photo, name, details, buttons, ...) stay in both editors under "Header parts", for building your own header. The navigations, the activity form and the activity filters have newer elements: they leave the widget list and show a "Deprecated" note in the editor, with a button to replace them with the new element (Undo brings them back).
 
 = Does BuddyBuilder work with my theme? =
 

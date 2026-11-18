@@ -2,7 +2,7 @@
 	"version": 1,
 	"name": "group-status",
 	"title": "Group status",
-	"category": "buddybuilder",
+	"category": "buddybuilder-header-parts",
 	"icon": "lock",
 	"description": "Public, private or hidden status of the group.",
 	"keywords": [
@@ -43,8 +43,7 @@
 			"bpb-profile-group-status"
 		]
 	},
-	"deprecated": {
-		"use": "group-header",
-		"since": "2.0.0"
+	"partOf": {
+		"use": "group-header"
 	}
 }

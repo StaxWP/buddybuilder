@@ -49,6 +49,7 @@ run eval-file "$TEST" layout-import
 run eval-file "$TEST" notice-dismiss
 run eval-file "$TEST" upsell-delay
 run eval-file "$TEST" card-line
+run eval-file "$TEST" header-parts
 if [ -n "${BPB_BUDDYBOSS_PLUGIN:-}" ]; then
 	run --require="$HERE/env/buddyboss.php" eval-file "$TEST" checker-readylaunch
 fi

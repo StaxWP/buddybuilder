@@ -2,7 +2,7 @@
 	"version": 1,
 	"name": "group-cover",
 	"title": "Group cover",
-	"category": "buddybuilder",
+	"category": "buddybuilder-header-parts",
 	"icon": "format-image",
 	"description": "Cover image of the current group.",
 	"keywords": [
@@ -62,8 +62,7 @@
 			"bpb-profile-group-cover"
 		]
 	},
-	"deprecated": {
-		"use": "group-header",
-		"since": "2.0.0"
+	"partOf": {
+		"use": "group-header"
 	}
 }

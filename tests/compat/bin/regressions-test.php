@@ -904,8 +904,32 @@ switch ( $bpb_case ) {
 		$bpb_ok( 3 >= substr_count( $bpb_html, 'bpb-cp__card' ), 'only the directory and activity rows' );
 		break;
 
+	case 'header-parts':
+		// UX review 2026-11-17, item 1: the header parts are first-class (not deprecated), the navs and forms stay deprecated.
+		$bpb_parts      = [ 'member-cover', 'member-avatar', 'member-username', 'member-meta', 'member-buttons', 'member-latest-update', 'group-cover', 'group-avatar', 'group-name', 'group-status', 'group-description', 'group-last-activity', 'group-buttons' ];
+		$bpb_deprecated = \Buddy_Builder\Elements\Elements::deprecated();
+		$bpb_replace    = \Buddy_Builder\Elements\Elements::replacements();
+		foreach ( $bpb_parts as $bpb_part ) {
+			$bpb_element = \Buddy_Builder\Elements\Elements::get( $bpb_part );
+			$bpb_ok( $bpb_element && ! isset( $bpb_deprecated[ $bpb_element->block_name() ] ) && '' === \Buddy_Builder\Elements\Elements::deprecated_note( $bpb_part ), $bpb_part . ': not deprecated, no note' );
+			$bpb_ok( $bpb_element && 'buddybuilder-header-parts' === $bpb_element->schema()['category'], $bpb_part . ': in the header parts category' );
+			$bpb_ok( isset( $bpb_replace[ $bpb_part ] ) && $bpb_replace[ $bpb_part ]['quiet'] && 0 === strpos( $bpb_part, strtok( $bpb_replace[ $bpb_part ]['use'], '-' ) ), $bpb_part . ': quiet Replace with ' . ( isset( $bpb_replace[ $bpb_part ] ) ? $bpb_replace[ $bpb_part ]['use'] : '?' ) );
+		}
+		foreach ( [ 'member-nav', 'group-nav', 'activity-nav', 'activity-filters', 'activity-form' ] as $bpb_old ) {
+			$bpb_ok( '' !== \Buddy_Builder\Elements\Elements::deprecated_note( $bpb_old ) && empty( $bpb_replace[ $bpb_old ]['quiet'] ), $bpb_old . ': still deprecated' );
+		}
+		$bpb_ok( in_array( 'buddybuilder-header-parts', wp_list_pluck( \Buddy_Builder\Templates\PostType::category( [] ), 'slug' ), true ), 'block category registered' );
+		if ( did_action( 'elementor/loaded' ) ) {
+			$bpb_widget = \Elementor\Plugin::$instance->widgets_manager->get_widget_types( 'bpb-profile-member-avatar' );
+			$bpb_ok( $bpb_widget && [ \Buddy_Builder\Widgets\Base::HEADER_PARTS_CATEGORY ] === $bpb_widget->get_categories(), 'Elementor: avatar widget in the header parts category' );
+			$bpb_ok( $bpb_widget && isset( $bpb_widget->get_controls()['bpb_part_of_replace'] ), 'Elementor: quiet Replace button on a part' );
+			$bpb_nav = \Elementor\Plugin::$instance->widgets_manager->get_widget_types( 'bpb-profile-member-navigation' );
+			$bpb_ok( $bpb_nav && ! isset( $bpb_nav->get_controls()['bpb_part_of_replace'] ) && false === $bpb_nav->show_in_panel(), 'Elementor: the member nav stays out of the panel' );
+		}
+		break;
+
 	default:
-		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install, checker-readylaunch, change-look-undo, cards-follow-layout, layout-actions, element-settings, elementor-basic-controls, layout-import, notice-dismiss, card-line' );
+		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install, checker-readylaunch, change-look-undo, cards-follow-layout, layout-actions, element-settings, elementor-basic-controls, layout-import, notice-dismiss, card-line, header-parts' );
 }
 
 // Cleanup.

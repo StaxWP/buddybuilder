@@ -2,7 +2,7 @@
 	"version": 1,
 	"name": "group-avatar",
 	"title": "Group avatar",
-	"category": "buddybuilder",
+	"category": "buddybuilder-header-parts",
 	"icon": "format-image",
 	"description": "Photo of the current group.",
 	"keywords": [
@@ -55,8 +55,7 @@
 			"bpb-profile-group-avatar"
 		]
 	},
-	"deprecated": {
-		"use": "group-header",
-		"since": "2.0.0"
+	"partOf": {
+		"use": "group-header"
 	}
 }

@@ -184,6 +184,15 @@ class ElementorHooks extends Singleton {
 			]
 		);
 
+		// The parts of the member and group headers (element.json category buddybuilder-header-parts).
+		\Elementor\Plugin::instance()->elements_manager->add_category(
+			\Buddy_Builder\Widgets\Base::HEADER_PARTS_CATEGORY,
+			[
+				'title' => __( 'BuddyBuilder Header parts', 'stax-buddy-builder' ),
+				'icon'  => 'fa fa-plug',
+			]
+		);
+
 		\Elementor\Plugin::instance()->elements_manager->add_category(
 			'buddy-builder-general-elements',
 			[

@@ -31,10 +31,6 @@ class Username extends \Buddy_Builder\Widgets\Base {
 		return 'bbl-members-name sq-widget-label';
 	}
 
-	public function get_categories() {
-		return [ 'buddy-builder-elements' ];
-	}
-
 	protected function register_controls() {
 
 		$this->start_controls_section(

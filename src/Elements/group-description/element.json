@@ -2,7 +2,7 @@
 	"version": 1,
 	"name": "group-description",
 	"title": "Group description",
-	"category": "buddybuilder",
+	"category": "buddybuilder-header-parts",
 	"icon": "editor-paragraph",
 	"description": "Description of the current group.",
 	"keywords": [
@@ -43,8 +43,7 @@
 			"bpb-profile-group-description"
 		]
 	},
-	"deprecated": {
-		"use": "group-header",
-		"since": "2.0.0"
+	"partOf": {
+		"use": "group-header"
 	}
 }

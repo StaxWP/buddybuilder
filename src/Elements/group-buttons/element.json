@@ -2,7 +2,7 @@
 	"version": 1,
 	"name": "group-buttons",
 	"title": "Group buttons",
-	"category": "buddybuilder",
+	"category": "buddybuilder-header-parts",
 	"icon": "button",
 	"description": "Join, leave and request membership buttons.",
 	"keywords": [
@@ -44,8 +44,7 @@
 			"bpb-profile-group-buttons"
 		]
 	},
-	"deprecated": {
-		"use": "group-header",
-		"since": "2.0.0"
+	"partOf": {
+		"use": "group-header"
 	}
 }

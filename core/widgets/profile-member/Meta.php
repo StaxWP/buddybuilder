@@ -31,10 +31,6 @@ class Meta extends \Buddy_Builder\Widgets\Base {
 		return 'bbl-members-meta sq-widget-label';
 	}
 
-	public function get_categories() {
-		return [ 'buddy-builder-elements' ];
-	}
-
 	protected function register_controls() {
 
 		$this->start_controls_section(

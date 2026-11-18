@@ -6,7 +6,7 @@
 | [styles.md](styles.md) | The seven styles, how a site picks one, block and Elementor versions, card styles. |
 | [registering-a-style.md](registering-a-style.md) | Themes and kits: add your own style (layouts, tokens, label, preview, recommended flag). |
 | [composer.md](composer.md) | The post composer element: how it posts, its hooks and events. |
-| [deprecated-elements.md](deprecated-elements.md) | Which 1.x elements are deprecated, what replaces them, the "Replace with the new element" action. |
+| [deprecated-elements.md](deprecated-elements.md) | Which 1.x elements are deprecated, the header parts (not deprecated), what replaces them, the "Replace with the new element" action. |
 | [hooks.md](hooks.md) | Public functions, filters and actions of 2.0. |
 | [progress.md](progress.md) | Development log of the 2.0 line. |
 

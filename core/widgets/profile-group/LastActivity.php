@@ -32,10 +32,6 @@ class LastActivity extends \Buddy_Builder\Widgets\Base {
 		return 'bbl-groups-last-activity sq-widget-label';
 	}
 
-	public function get_categories() {
-		return [ 'buddy-builder-elements' ];
-	}
-
 	protected function register_controls() {
 
 		$this->start_controls_section(

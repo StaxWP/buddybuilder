@@ -2,7 +2,7 @@
 	"version": 1,
 	"name": "member-latest-update",
 	"title": "Member latest update",
-	"category": "buddybuilder",
+	"category": "buddybuilder-header-parts",
 	"icon": "format-status",
 	"description": "The displayed member's latest activity update and profile header meta.",
 	"keywords": [
@@ -44,8 +44,7 @@
 			"bpb-profile-member-last-activity"
 		]
 	},
-	"deprecated": {
-		"use": "member-header",
-		"since": "2.0.0"
+	"partOf": {
+		"use": "member-header"
 	}
 }

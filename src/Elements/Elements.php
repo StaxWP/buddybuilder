@@ -55,6 +55,7 @@ final class Elements {
 		add_action( 'enqueue_block_editor_assets', [ __CLASS__, 'replace_assets_blocks' ] );
 		add_filter( 'buddy_builder_kit_elements', [ __CLASS__, 'card_options' ], 20, 2 );
 		add_action( 'elementor/preview/enqueue_scripts', [ __CLASS__, 'replace_assets_elementor' ] );
+		add_action( 'elementor/editor/after_enqueue_scripts', [ __CLASS__, 'replace_assets_elementor' ] );
 	}
 
 	/**
@@ -231,19 +232,38 @@ final class Elements {
 	}
 
 	/**
-	 * "Replace with the new element" data: per deprecated element, its replacement as a block and as an Elementor
-	 * widget. Settings are not carried over (the new element starts from its defaults); deprecated.map in
+	 * The element an element can be replaced with: "deprecated" (the old element is deprecated: a note in editors)
+	 * or "partOf" (a part of a designed element, such as the member header parts: a first-class element, the
+	 * replacement is a quiet optional action). Both take { use, map }.
+	 *
+	 * @param array $schema Element schema.
+	 * @return array [ key ('deprecated' or 'partOf'), settings ] or [] when the element has no replacement.
+	 */
+	private static function replacement_of( array $schema ) {
+		foreach ( [ 'deprecated', 'partOf' ] as $key ) {
+			if ( ! empty( $schema[ $key ]['use'] ) ) {
+				return [ $key, (array) $schema[ $key ] ];
+			}
+		}
+
+		return [];
+	}
+
+	/**
+	 * "Replace with the new element" data: per deprecated element or header part, its replacement as a block and as
+	 * an Elementor widget. Settings are not carried over (the new element starts from its defaults); map in
 	 * element.json can name old => new attributes to carry.
 	 *
-	 * @return array element name => [ use, title, block, from_block, widget, from_widgets, map ]
+	 * @return array element name => [ use, title, block, from_block, widget, from_widgets, map, quiet ]
 	 */
 	public static function replacements() {
 		$widgets = array_flip( self::legacy_map() );
 		$out     = [];
 
 		foreach ( self::kit()->elements() as $element ) {
-			$schema = $element->schema();
-			$use    = ! empty( $schema['deprecated']['use'] ) ? self::get( $schema['deprecated']['use'] ) : null;
+			$schema      = $element->schema();
+			$replacement = self::replacement_of( $schema );
+			$use         = $replacement ? self::get( $replacement[1]['use'] ) : null;
 
 			if ( ! $use ) {
 				continue;
@@ -257,11 +277,25 @@ final class Elements {
 				'from_block'   => $element->block_name(),
 				'widget'       => isset( $widgets[ $use->name() ] ) ? $widgets[ $use->name() ] : ( empty( $new_schema['legacy']['elementor'] ) ? 'bpb-el-' . $use->name() : '' ),
 				'from_widgets' => isset( $schema['legacy']['elementor'] ) ? array_values( (array) $schema['legacy']['elementor'] ) : [],
-				'map'          => isset( $schema['deprecated']['map'] ) ? (array) $schema['deprecated']['map'] : (object) [],
+				'map'          => isset( $replacement[1]['map'] ) ? (array) $replacement[1]['map'] : (object) [],
+				'quiet'        => 'partOf' === $replacement[0],
 			];
 		}
 
 		return $out;
+	}
+
+	/**
+	 * The element a header part belongs to ("partOf" in element.json), or null.
+	 *
+	 * @param string $name Element name.
+	 * @return Element|null
+	 */
+	public static function part_of( $name ) {
+		$element = self::get( $name );
+		$schema  = $element ? $element->schema() : [];
+
+		return ! empty( $schema['partOf']['use'] ) ? self::get( $schema['partOf']['use'] ) : null;
 	}
 
 	/**
@@ -272,7 +306,8 @@ final class Elements {
 	}
 
 	/**
-	 * Elementor editor preview: the button in the deprecated note.
+	 * Elementor editor: the button in the deprecated note (preview frame) and the header parts' Replace button (editor
+	 * frame).
 	 */
 	public static function replace_assets_elementor() {
 		self::replace_script( 'bpb-replace-elementor', 'replace-deprecated-elementor.js', [] );
@@ -297,6 +332,8 @@ final class Elements {
 					/* translators: 1: number of parts, 2: name of the new element */
 					'group'    => __( 'Replace these %1$d parts with one %2$s', 'stax-buddy-builder' ),
 					'help'     => __( 'Deprecated: it keeps working. The new element starts from its default settings; Undo brings the old one back.', 'stax-buddy-builder' ),
+					/* translators: %s: name of the designed element, e.g. Member header */
+					'quiet'    => __( 'Optional. This part keeps working as it is. One %s can show the header parts of this column in a style\'s design; it starts from its default settings, and Undo brings the parts back.', 'stax-buddy-builder' ),
 				]
 			) . ';',
 			'before'

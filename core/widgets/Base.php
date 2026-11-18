@@ -23,6 +23,9 @@ class Base extends \Elementor\Widget_Base {
 	 */
 	protected $bpb_element = '';
 
+	/** Elementor category of the member and group header parts (element.json category buddybuilder-header-parts). */
+	const HEADER_PARTS_CATEGORY = 'buddy-builder-header-parts';
+
 	/**
 	 * Kit element of this widget.
 	 *
@@ -41,6 +44,57 @@ class Base extends \Elementor\Widget_Base {
 		if ( class_exists( '\\Buddy_Builder\\Integrations\\Elementor\\BasicControls' ) ) {
 			\Buddy_Builder\Integrations\Elementor\BasicControls::apply( $this, $this->kit_element() );
 		}
+
+		$this->bpb_part_of_section();
+	}
+
+	/**
+	 * Header parts: a quiet, optional "Replace with Member header" at the end of the Content tab (a UI control, nothing
+	 * is saved; replace-deprecated-elementor.js handles the click in the editor).
+	 */
+	private function bpb_part_of_section() {
+		$use = '' !== $this->bpb_element && class_exists( '\\Buddy_Builder\\Elements\\Elements' ) ? \Buddy_Builder\Elements\Elements::part_of( $this->bpb_element ) : null;
+
+		if ( ! $use ) {
+			return;
+		}
+
+		/* translators: %s: name of the designed element, e.g. Member header */
+		$label = sprintf( __( 'Replace with %s', 'stax-buddy-builder' ), $use->title() );
+
+		$this->start_controls_section( 'bpb_part_of', [ 'label' => $label ] );
+		$this->add_control(
+			'bpb_part_of_note',
+			[
+				'type'            => \Elementor\Controls_Manager::RAW_HTML,
+				/* translators: %s: name of the designed element, e.g. Member header */
+				'raw'             => esc_html( sprintf( __( 'Optional. This part keeps working as it is. One %s can show the header parts of this column in a style\'s design; it starts from its default settings, and Undo brings the parts back.', 'stax-buddy-builder' ), $use->title() ) ),
+				'content_classes' => 'elementor-descriptor',
+			]
+		);
+		$this->add_control(
+			'bpb_part_of_replace',
+			[
+				'type'        => \Elementor\Controls_Manager::BUTTON,
+				'text'        => esc_html__( 'Replace', 'stax-buddy-builder' ),
+				'event'       => 'buddybuilder:replace',
+				'label_block' => false,
+				'show_label'  => false,
+			]
+		);
+		$this->end_controls_section();
+	}
+
+	/**
+	 * Header parts sit in their own category; other widgets keep theirs.
+	 *
+	 * @return string[]
+	 */
+	public function get_categories() {
+		$element = $this->kit_element();
+		$schema  = $element ? $element->schema() : [];
+
+		return isset( $schema['category'] ) && 'buddybuilder-header-parts' === $schema['category'] ? [ self::HEADER_PARTS_CATEGORY ] : parent::get_categories();
 	}
 
 	/**

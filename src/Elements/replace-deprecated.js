@@ -1,8 +1,9 @@
 /**
- * Block editor: "Replace with the new element" for deprecated BuddyBuilder blocks (2.0). Optional and never
- * automatic: a button in the block sidebar (and the toolbar) replaces the block, and its deprecated siblings that
- * point to the same new element, with one new block. Settings named in deprecated.map are carried over; Undo brings
- * the old blocks back.
+ * Block editor: "Replace with the new element" for deprecated BuddyBuilder blocks and for the header parts (2.0).
+ * Optional and never automatic: a button in the block sidebar replaces the block, and its siblings that point to the
+ * same new element, with one new block. Deprecated blocks also get the button in the toolbar; header parts get only a
+ * closed sidebar panel (they are first-class blocks). Settings named in map are carried over; Undo brings the old
+ * blocks back.
  */
 ( function ( wp ) {
 	'use strict';
@@ -53,22 +54,23 @@
 		const count = siblings( props.clientId, item ).length;
 		const label = count > 1 ? sprintf( data.group, count, item.title ) : sprintf( data.button, item.title );
 		const run = () => replace( props.clientId, item );
+		const panel = el(
+			wp.blockEditor.InspectorControls,
+			null,
+			el(
+				wp.components.PanelBody,
+				item.quiet ? { title: sprintf( data.button, item.title ), initialOpen: false } : { title: __( 'Deprecated', 'stax-buddy-builder' ), initialOpen: true },
+				el( 'p', null, item.quiet ? sprintf( data.quiet, item.title ) : data.help ),
+				el( wp.components.Button, { variant: 'secondary', onClick: run }, label )
+			)
+		);
 
 		return el(
 			wp.element.Fragment,
 			null,
 			el( BlockEdit, props ),
-			el( wp.blockEditor.BlockControls, { group: 'other' }, el( wp.components.ToolbarButton, { onClick: run }, sprintf( data.button, item.title ) ) ),
-			el(
-				wp.blockEditor.InspectorControls,
-				null,
-				el(
-					wp.components.PanelBody,
-					{ title: __( 'Deprecated', 'stax-buddy-builder' ), initialOpen: true },
-					el( 'p', null, data.help ),
-					el( wp.components.Button, { variant: 'secondary', onClick: run }, label )
-				)
-			)
+			item.quiet ? null : el( wp.blockEditor.BlockControls, { group: 'other' }, el( wp.components.ToolbarButton, { onClick: run }, sprintf( data.button, item.title ) ) ),
+			panel
 		);
 	}, 'bpbReplaceDeprecated' );
 

@@ -2,7 +2,7 @@
 	"version": 1,
 	"name": "member-buttons",
 	"title": "Member buttons",
-	"category": "buddybuilder",
+	"category": "buddybuilder-header-parts",
 	"icon": "button",
 	"description": "Friendship, message and follow buttons for the displayed member.",
 	"keywords": [
@@ -45,8 +45,7 @@
 			"bpb-profile-member-buttons"
 		]
 	},
-	"deprecated": {
-		"use": "member-header",
-		"since": "2.0.0"
+	"partOf": {
+		"use": "member-header"
 	}
 }

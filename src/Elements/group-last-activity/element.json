@@ -2,7 +2,7 @@
 	"version": 1,
 	"name": "group-last-activity",
 	"title": "Group last active",
-	"category": "buddybuilder",
+	"category": "buddybuilder-header-parts",
 	"icon": "clock",
 	"description": "When the current group was last active.",
 	"keywords": [
@@ -43,8 +43,7 @@
 			"bpb-profile-group-last-activity"
 		]
 	},
-	"deprecated": {
-		"use": "group-header",
-		"since": "2.0.0"
+	"partOf": {
+		"use": "group-header"
 	}
 }

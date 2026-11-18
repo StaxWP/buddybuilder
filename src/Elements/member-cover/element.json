@@ -2,7 +2,7 @@
 	"version": 1,
 	"name": "member-cover",
 	"title": "Member cover",
-	"category": "buddybuilder",
+	"category": "buddybuilder-header-parts",
 	"icon": "format-image",
 	"description": "Cover image of the displayed member.",
 	"keywords": [
@@ -62,8 +62,7 @@
 			"bpb-profile-member-cover"
 		]
 	},
-	"deprecated": {
-		"use": "member-header",
-		"since": "2.0.0"
+	"partOf": {
+		"use": "member-header"
 	}
 }

@@ -185,6 +185,11 @@ final class PostType {
 			[
 				'slug'  => 'buddybuilder',
 				'title' => __( 'BuddyBuilder', 'stax-buddy-builder' ),
+			],
+			// The parts of the member and group headers (cover, photo, name, ...), next to the designed headers.
+			[
+				'slug'  => 'buddybuilder-header-parts',
+				'title' => __( 'BuddyBuilder header parts', 'stax-buddy-builder' ),
 			]
 		);
 
