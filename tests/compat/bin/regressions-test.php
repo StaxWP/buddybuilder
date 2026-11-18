@@ -43,6 +43,8 @@
  * - notice-dismiss              Dismissing a notice: only known notice ids, only with their nonce.
  * - card-line                   One "Card" line per directory and activity row (style and Change, or the card layout row),
  *                                 no Pro labels with Pro licensed.
+ * - community-pages-rows        Create a group as its own row, cards under their page, the intro, the collapsed
+ *                               "Variations" link (Pro) starting from a copy of the main layout.
  *
  * THROWAWAY site only (needs the compat env mu-plugin). Restores the options it touches and deletes the posts it
  * creates. Prints PASS / FAIL / SKIP lines; exits 1 on any FAIL.
@@ -926,6 +928,33 @@ switch ( $bpb_case ) {
 		$_GET[ \Buddy_Builder\Templates\Cards::SELECT_ARG ] = 'nope';
 		$bpb_ok( [] === \Buddy_Builder\Templates\Cards::editor_selection(), 'unknown selection ignored' );
 		unset( $_GET[ \Buddy_Builder\Templates\Cards::SELECT_ARG ] );
+		break;
+
+	case 'community-pages-rows':
+		// UX review 2026-11-17, item 8: pages nested under a row by the list filters (Create a group) get their own row,
+		// cards stay under their page; the intro does not mention a "Use" button; with BuddyBuilder Pro and no
+		// variations, one quiet "Variations" link per row instead of an "Add a variation" button per page and card.
+		$bpb_vars = get_option( 'bpb_template_variations', null );
+		delete_option( 'bpb_template_variations' );
+		ob_start();
+		\Buddy_Builder\Admin\CommunityPages::render();
+		$bpb_html = ob_get_clean();
+		null === $bpb_vars ? delete_option( 'bpb_template_variations' ) : update_option( 'bpb_template_variations', $bpb_vars );
+		$bpb_ok( false === strpos( $bpb_html, 'press Use' ) && false !== strpos( $bpb_html, 'class="bpb-lead"' ), 'the intro does not ask to press a Use button' );
+		$bpb_rows = preg_match_all( '/<section class="bpb-cp__row[^"]*" id="bpb-page-([a-z-]+)"/', $bpb_html, $bpb_m ) ? $bpb_m[1] : [];
+		$bpb_ok( (bool) $bpb_rows && ! array_filter( $bpb_rows, static function ( $t ) { return '-item' === substr( $t, -5 ); } ), 'rows are pages; cards are not rows (' . implode( ', ', $bpb_rows ) . ')' );
+		if ( isset( \Buddy_Builder\Templates\Types::all()['groups-create'] ) && \Buddy_Builder\Templates\Types::is_active( 'groups-create' ) ) {
+			$bpb_ok( in_array( 'groups-create', $bpb_rows, true ) && false === strpos( $bpb_html, '<li class="bpb-cp__item" id="bpb-page-groups-create"' ), 'Create a group is its own row, not an item of the groups directory' );
+			$bpb_ok( array_search( 'groups-create', $bpb_rows, true ) === array_search( 'groups-directory', $bpb_rows, true ) + 1, 'Create a group follows the groups directory' );
+		} else {
+			echo "SKIP community-pages-rows: no Create a group page type here (BuddyBuilder Pro or the Groups component off)\n";
+		}
+		if ( class_exists( '\\Buddy_Builder_Pro\\Variations' ) && \Buddy_Builder_Pro\Variations::can_edit() ) {
+			$bpb_ok( false === strpos( $bpb_html, 'Add a variation' ) && substr_count( $bpb_html, 'class="bpb-variations bpb-variations--empty"' ) <= count( $bpb_rows ), 'no variations: no Add a variation buttons, at most one Variations link per row (' . substr_count( $bpb_html, 'bpb-variations--empty' ) . ')' );
+			$bpb_ok( false !== strpos( $bpb_html, '<option value="copy" selected' ), 'a new variation starts from a copy of the main layout' );
+		} else {
+			$bpb_ok( false === strpos( $bpb_html, 'bpb-variations' ), 'no variations without BuddyBuilder Pro' );
+		}
 		break;
 
 	case 'header-parts':

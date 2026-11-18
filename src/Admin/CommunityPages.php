@@ -804,7 +804,7 @@ final class CommunityPages {
 	public static function render() {
 		self::render_notice();
 
-		echo '<p class="bpb-lead">' . esc_html__( 'What each BuddyPress page looks like. Changes apply when you press Use; the BuddyPress default is always one click away.', 'stax-buddy-builder' ) . '</p>';
+		echo '<p class="bpb-lead">' . esc_html__( 'What each BuddyPress page looks like. Preview a style before it goes live; Undo and the BuddyPress default are always one click away.', 'stax-buddy-builder' ) . '</p>';
 
 		if ( ! self::builders() ) {
 			echo '<div class="notice notice-warning inline"><p>' . esc_html__( 'Turn on the block editor layouts in BuddyBuilder > Settings, or activate Elementor, to design these pages.', 'stax-buddy-builder' ) . '</p></div>';
@@ -816,14 +816,24 @@ final class CommunityPages {
 			$row = self::row( $type, $info['pro'] );
 
 			$children = [];
+			$pages    = [];
 
+			// Cards stay under their page; a page nested there by the list filters (Create a group) gets its own row.
 			foreach ( $info['children'] as $child => $child_info ) {
 				if ( Types::is_active( $child ) ) {
-					$children[] = self::row( $child, $child_info['pro'] );
+					if ( self::is_card( $child ) ) {
+						$children[] = self::row( $child, $child_info['pro'] );
+					} else {
+						$pages[] = self::row( $child, $child_info['pro'] );
+					}
 				}
 			}
 
 			self::render_row( $row, $children );
+
+			foreach ( $pages as $page ) {
+				self::render_row( $page, [] );
+			}
 		}
 
 		echo '</div>';
@@ -831,6 +841,16 @@ final class CommunityPages {
 		self::render_import();
 
 		\Buddy_Builder\Upsell\Upsell::render_features();
+	}
+
+	/**
+	 * Whether a type is a card (an item layout repeated in a list: member card, group card, activity item).
+	 *
+	 * @param string $type Template type.
+	 * @return bool
+	 */
+	private static function is_card( $type ) {
+		return '-item' === substr( $type, -5 );
 	}
 
 	/**
@@ -1075,7 +1095,7 @@ final class CommunityPages {
 		}
 
 		$primary = ! $row['post'] && ! $row['pending'];
-		$card    = '-item' === substr( $row['type'], -5 );
+		$card    = self::is_card( $row['type'] );
 
 		// Cards (item layouts, BuddyBuilder Pro): "Design the card" starts one from a style's card (review 3.3).
 		if ( $card ) {
