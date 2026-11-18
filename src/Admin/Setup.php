@@ -559,8 +559,9 @@ final class Setup {
 				$builder = isset( $_POST['builder'] ) ? sanitize_key( wp_unslash( $_POST['builder'] ) ) : '';
 				$builder = isset( self::builders()[ $builder ] ) ? $builder : self::builder();
 
-				// Choosing the block editor turns block layouts on (the "Blocks" setting).
-				if ( Registry::BLOCKS === $builder && ! Features::blocks_enabled() ) {
+				// Choosing the block editor turns block layouts on (the "Blocks" setting), also when they are on only
+				// because Elementor is not active yet: activating Elementor later must not turn them off.
+				if ( Registry::BLOCKS === $builder && '1' !== (string) get_option( Features::BLOCKS_OPTION ) ) {
 					update_option( Features::BLOCKS_OPTION, '1' );
 				}
 

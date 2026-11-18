@@ -51,6 +51,7 @@ run eval-file "$TEST" notice-dismiss
 run eval-file "$TEST" upsell-delay
 run eval-file "$TEST" card-line
 run eval-file "$TEST" community-pages-rows
+run eval-file "$TEST" blocks-stay-on
 run eval-file "$TEST" header-parts
 run eval-file "$TEST" theme-title-space
 run eval-file "$TEST" profile-fields

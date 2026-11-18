@@ -44,6 +44,7 @@
  * - card-line                   One "Card" line per directory and activity row (style and Change, or the card layout row),
  *                                 no Pro labels with Pro licensed.
  * - elementor-panel             In a BuddyBuilder template: BuddyBuilder categories first, the page's elements only.
+ * - blocks-stay-on              Block layouts stay on when Elementor is activated after a block editor setup.
  * - community-pages-rows        Create a group as its own row, cards under their page, the intro, the collapsed
  *                               "Variations" link (Pro) starting from a copy of the main layout.
  *
@@ -936,6 +937,25 @@ switch ( $bpb_case ) {
 		unset( $_GET[ \Buddy_Builder\Templates\Cards::SELECT_ARG ] );
 		break;
 
+	case 'blocks-stay-on':
+		// Fresh-site test 2026-11-18: a site set up with the block editor before Elementor was active keeps the block
+		// editor when Elementor is activated (the setup saves the choice; without the option, a page with a block layout
+		// keeps block layouts on). 1.x sites (Elementor assignments only) keep the 1.x default.
+		$bpb_opt = get_option( \Buddy_Builder\Features::BLOCKS_OPTION, null );
+		$bpb_reg = get_option( Registry::OPTION, null );
+		delete_option( \Buddy_Builder\Features::BLOCKS_OPTION );
+		update_option( Registry::OPTION, [ 'member-profile' => [ 'builder' => 'blocks', 'id' => 123 ] ] );
+		$bpb_ok( \Buddy_Builder\Features::blocks_enabled(), 'no option, a block layout assigned: block layouts stay on' );
+		update_option( Registry::OPTION, [ 'member-profile' => [ 'builder' => 'elementor', 'id' => 123 ] ] );
+		$bpb_ok( \Buddy_Builder\Features::blocks_enabled() === ( \Buddy_Builder\Features::is_kleo7() || ! defined( 'ELEMENTOR_VERSION' ) ), 'no option, Elementor layouts only: the 1.x default' );
+		update_option( \Buddy_Builder\Features::BLOCKS_OPTION, '0' );
+		update_option( Registry::OPTION, [ 'member-profile' => [ 'builder' => 'blocks', 'id' => 123 ] ] );
+		$bpb_ok( ! \Buddy_Builder\Features::blocks_enabled(), 'turned off in Settings: off' );
+		null === $bpb_opt ? delete_option( \Buddy_Builder\Features::BLOCKS_OPTION ) : update_option( \Buddy_Builder\Features::BLOCKS_OPTION, $bpb_opt );
+		null === $bpb_reg ? delete_option( Registry::OPTION ) : update_option( Registry::OPTION, $bpb_reg );
+		Registry::flush();
+		break;
+
 	case 'community-pages-rows':
 		// UX review 2026-11-17, item 8: pages nested under a row by the list filters (Create a group) get their own row,
 		// cards stay under their page; the intro does not mention a "Use" button; with BuddyBuilder Pro and no
@@ -1096,7 +1116,7 @@ switch ( $bpb_case ) {
 		break;
 
 	default:
-		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install, checker-readylaunch, change-look-undo, cards-follow-layout, layout-actions, element-settings, elementor-basic-controls, layout-import, notice-dismiss, card-line, community-pages-rows, elementor-panel, header-parts, theme-title-space, profile-fields' );
+		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install, checker-readylaunch, change-look-undo, cards-follow-layout, layout-actions, element-settings, elementor-basic-controls, layout-import, notice-dismiss, card-line, blocks-stay-on, community-pages-rows, elementor-panel, header-parts, theme-title-space, profile-fields' );
 }
 
 // Cleanup.
