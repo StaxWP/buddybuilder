@@ -609,6 +609,11 @@ switch ( $bpb_case ) {
 		}
 		$_GET = [];
 		$bpb_ok( 'plugins.php=yes index.php=yes buddy-builder-settings=yes other-plugin-setup=no buddy-builder-setup=no edit.php=no' === implode( ' ', $bpb_where ), 'opens only on calm screens: ' . implode( ' ', $bpb_where ) );
+		// Another plugin's activation redirect can take each try (BuddyPress): a few tries, then the request is given up.
+		$pagenow = 'index.php'; // phpcs:ignore WordPress.WP.GlobalVariablesOverride
+		set_transient( \Buddy_Builder\Admin\Setup::REDIRECT, \Buddy_Builder\Admin\Setup::REDIRECT_TRIES + 1, DAY_IN_SECONDS );
+		\Buddy_Builder\Admin\Setup::maybe_redirect();
+		$bpb_ok( false === get_transient( \Buddy_Builder\Admin\Setup::REDIRECT ), 'after ' . \Buddy_Builder\Admin\Setup::REDIRECT_TRIES . ' redirects the pending setup is given up' );
 		delete_transient( \Buddy_Builder\Admin\Setup::REDIRECT );
 		foreach ( $bpb_keep as $bpb_name => $bpb_value ) {
 			if ( null !== $bpb_value ) {

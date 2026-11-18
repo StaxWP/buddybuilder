@@ -36,6 +36,9 @@ final class Setup {
 	const PENDING  = 'bpb_setup_pending';
 	const REDIRECT = 'bpb_setup_redirect';
 
+	/** Redirects tried before the pending setup is given up (another plugin's redirect may take each one). */
+	const REDIRECT_TRIES = 3;
+
 	/**
 	 * Register hooks.
 	 */
@@ -242,22 +245,50 @@ final class Setup {
 	 * onboarding screen, AJAX, bulk activation and the network admin are left alone; the request stays pending.
 	 */
 	public static function maybe_redirect() {
-		if ( ! get_transient( self::REDIRECT ) ) {
+		$tries = (int) get_transient( self::REDIRECT );
+
+		if ( ! $tries ) {
 			return;
 		}
 
-		if ( headers_sent() || ! self::can_redirect_here() ) {
+		// The request ends when the setup screen shows (render()): another plugin's activation redirect can take this
+		// one on its way (BuddyPress sends its first admin page to its components screen). A few tries at most.
+		if ( $tries > self::REDIRECT_TRIES ) {
+			delete_transient( self::REDIRECT );
+
 			return;
 		}
 
-		delete_transient( self::REDIRECT );
-
-		if ( ! self::is_first_run() || ! function_exists( 'bp_is_active' ) ) {
+		// BuddyBuilder activated before BuddyPress: the setup waits until BuddyPress is active (BuddyPress opens its own
+		// screen right after its activation; the next calm page opens the setup).
+		if ( headers_sent() || self::redirecting() || ! self::can_redirect_here() || ! function_exists( 'bp_is_active' ) ) {
 			return;
 		}
 
+		if ( ! self::is_first_run() ) {
+			delete_transient( self::REDIRECT );
+
+			return;
+		}
+
+		set_transient( self::REDIRECT, $tries + 1, DAY_IN_SECONDS );
 		wp_safe_redirect( self::url() );
 		exit;
+	}
+
+	/**
+	 * Whether this response already redirects (BuddyPress sends its activation redirect without stopping the page).
+	 *
+	 * @return bool
+	 */
+	private static function redirecting() {
+		foreach ( headers_list() as $header ) {
+			if ( 0 === stripos( $header, 'location:' ) ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -650,6 +681,11 @@ final class Setup {
 	 * The screen.
 	 */
 	public static function render() {
+		// The setup is open: the activation request is done (unless another plugin's redirect leads the browser away).
+		if ( ! self::redirecting() ) {
+			delete_transient( self::REDIRECT );
+		}
+
 		$step = isset( $_GET['step'] ) ? max( 1, min( 3, absint( $_GET['step'] ) ) ) : 1; // phpcs:ignore WordPress.Security.NonceVerification
 
 		if ( 3 === $step && ! self::all_pending() ) {
