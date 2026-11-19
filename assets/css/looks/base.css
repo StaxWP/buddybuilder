@@ -1039,8 +1039,10 @@
 	line-height: 1.6;
 }
 
-/* Wide images and videos in a post fit the card (lowest specificity: a style's own media rules win). */
-:where(#buddypress.buddypress-wrap .bpb-look .activity-list .activity-inner) :where(img, video) {
+/* Wide images and videos in a post fit the card. Low specificity (0,1,1) so a style's own media rules win, but above
+ * a theme's element rules (Twenty Twenty-One's `main * { max-width: var(--global--spacing-measure) }` resolved to
+ * none and left a 900 px photo running 600 px off a phone screen). */
+:where(#buddypress.buddypress-wrap .bpb-look .activity-list .activity-inner) :is(img, video):not(.bpb-none) {
 	max-width: 100%;
 	height: auto;
 }
