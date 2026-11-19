@@ -1478,6 +1478,43 @@
 	flex: 0 0 auto;
 }
 
+/* BuddyPress tables (notifications, messages notices, settings) in the style's colors: the 1.x stylesheets stripe
+   rows and draw borders in fixed light colors, unreadable in dark styles. */
+#buddypress.buddypress-wrap .bpb-look table {
+	border-collapse: collapse;
+}
+
+#buddypress.buddypress-wrap .bpb-look table tr {
+	background: transparent;
+}
+
+#buddypress.buddypress-wrap .bpb-look table :is(th, td) {
+	border-color: var(--bpb-color-border);
+	background: transparent;
+	color: var(--bpb-color-text);
+}
+
+#buddypress.buddypress-wrap .bpb-look table thead :is(th, td),
+#buddypress.buddypress-wrap .bpb-look table tbody > tr:nth-child(2n+1) > :is(th, td) {
+	background: color-mix(in srgb, var(--bpb-color-text) 4%, transparent);
+}
+
+#buddypress.buddypress-wrap .bpb-look table thead th {
+	color: var(--bpb-color-muted);
+	font-weight: 600;
+}
+
+#buddypress.buddypress-wrap .bpb-look table :is(a, .dashicons) {
+	color: inherit;
+}
+
+/* Bulk action menus show their whole label ("Bulk Actions"). */
+#buddypress.buddypress-wrap .bpb-look :is(#notification-select, #invitation-select, #messages-select) {
+	width: auto;
+	min-width: 12em;
+	max-width: 100%;
+}
+
 /* Profile streams: the sub filters are quiet text links; the type menu and search stay out of the way. */
 #buddypress.buddypress-wrap .bpb-look .bp-subnavs ul li a {
 	padding: 4px 2px;
