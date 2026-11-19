@@ -866,7 +866,7 @@
 	margin: 0;
 }
 
-#buddypress.buddypress-wrap .bpb-look :is(.dir-search, .subnav-search) {
+#buddypress.buddypress-wrap .bpb-look :is(.dir-search, .subnav-search, .bp-search) {
 	flex: 1 1 260px;
 }
 
@@ -890,7 +890,7 @@
 	box-shadow: none;
 }
 
-#buddypress.buddypress-wrap .bpb-look :is(.dir-search, .subnav-search) form {
+#buddypress.buddypress-wrap .bpb-look :is(.dir-search, .subnav-search, .bp-search) form {
 	position: relative;
 	width: 100%;
 	margin: 0;
@@ -899,12 +899,12 @@
 	box-shadow: none;
 }
 
-#buddypress.buddypress-wrap .bpb-look :is(.dir-search, .subnav-search) input[type="search"] {
+#buddypress.buddypress-wrap .bpb-look :is(.dir-search, .subnav-search, .bp-search) input[type="search"] {
 	width: 100%;
 	padding-left: 40px;
 }
 
-#buddypress.buddypress-wrap .bpb-look :is(.dir-search, .subnav-search) button[type="submit"] {
+#buddypress.buddypress-wrap .bpb-look :is(.dir-search, .subnav-search, .bp-search) button[type="submit"] {
 	position: absolute;
 	top: 0;
 	left: 4px;
@@ -1573,7 +1573,7 @@
 }
 
 /* Form buttons: submit is the style's primary button, the others its secondary one (1.x drew them grey on white). */
-#buddypress.buddypress-wrap .bpb-look :is(input[type="submit"], button[type="submit"]):not(:is(.dir-search, .subnav-search, .bpb-mh, .bpb-gh, .bpb-composer) *),
+#buddypress.buddypress-wrap .bpb-look :is(input[type="submit"], button[type="submit"]):not(:is(.dir-search, .subnav-search, .bp-search, .bp-dir-search-form, .bpb-mh, .bpb-gh, .bpb-composer) *),
 #buddypress.buddypress-wrap .bpb-look :is(input[type="button"], input[type="reset"], a.button, button.button, #bp-browse-button):not(:is(.bpb-mh, .bpb-gh, .bpb-actions, .generic-button, .bpb-composer, .wp-editor-tools) *) {
 	box-sizing: border-box;
 	min-height: 42px;
@@ -1590,7 +1590,7 @@
 	cursor: pointer;
 }
 
-#buddypress.buddypress-wrap .bpb-look :is(input[type="submit"], button[type="submit"]):not(:is(.dir-search, .subnav-search, .bpb-mh, .bpb-gh, .bpb-composer) *) {
+#buddypress.buddypress-wrap .bpb-look :is(input[type="submit"], button[type="submit"]):not(:is(.dir-search, .subnav-search, .bp-search, .bp-dir-search-form, .bpb-mh, .bpb-gh, .bpb-composer) *) {
 	border-color: transparent;
 	background: var(--bpb-button-bg);
 	color: var(--bpb-button-color);
