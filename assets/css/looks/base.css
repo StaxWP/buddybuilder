@@ -1108,8 +1108,17 @@
 	flex: none;
 	width: 36px;
 	height: 36px;
+	justify-content: center;
+	padding: 0;
 	border-radius: 50%;
 	background-color: var(--bpb-accent-soft);
+	color: var(--bpb-color-accent);
+}
+
+/* Errors and warnings keep a red sign (the white 1.x glyph was invisible on the soft circle). */
+#buddypress.buddypress-wrap .bpb-look .bp-feedback:is(.error, .warning) .bp-icon {
+	background-color: color-mix(in srgb, #d33 14%, var(--bpb-color-surface));
+	color: #d33;
 }
 
 #buddypress.buddypress-wrap .bpb-look .bp-feedback p {
