@@ -92,13 +92,14 @@
 }
 
 /* Elementor versions: the same gap between side by side columns as the block versions (the section has no column gap,
- * so a side card touched the main column). Half the gap on each inner side keeps the outer edges aligned. */
+ * so a side card touched the main column; Hub's app frame has no gap in either). Half the gap on each inner side keeps
+ * the outer edges aligned. */
 @media (min-width: 782px) {
-	.bpb-look .bpb-look__cols > .elementor-container > .elementor-column:not(:first-child) > .elementor-widget-wrap {
+	.bpb-look .bpb-look__cols:not(.bpb-look__app) > .elementor-container > .elementor-column:not(:first-child) > .elementor-widget-wrap {
 		padding-inline-start: calc(var(--bpb-page-gap) / 2);
 	}
 
-	.bpb-look .bpb-look__cols > .elementor-container > .elementor-column:not(:last-child) > .elementor-widget-wrap {
+	.bpb-look .bpb-look__cols:not(.bpb-look__app) > .elementor-container > .elementor-column:not(:last-child) > .elementor-widget-wrap {
 		padding-inline-end: calc(var(--bpb-page-gap) / 2);
 	}
 }
@@ -113,6 +114,21 @@
 
 	.bpb-look .wp-block-columns.bpb-look__cols:has(> .wp-block-column + .bpb-look__main) > .bpb-look__main ~ .wp-block-column {
 		flex-basis: 100% !important;
+	}
+
+	/* Elementor versions (column widths in percent): the main column takes the room the trailing one leaves. */
+	.bpb-look .bpb-look__cols > .elementor-container:has(> .elementor-column + .bpb-look__main + .elementor-column) > .bpb-look__main {
+		flex: 1 1 0;
+		width: auto !important;
+		min-width: 0;
+	}
+
+	.bpb-look .bpb-look__cols > .elementor-container:has(> .elementor-column + .bpb-look__main) > .bpb-look__main ~ .elementor-column {
+		width: 100% !important;
+	}
+
+	.bpb-look .bpb-look__cols > .elementor-container > .elementor-column.bpb-look__channels {
+		min-width: 230px;
 	}
 }
 
