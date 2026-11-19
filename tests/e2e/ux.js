@@ -30,7 +30,7 @@ const member = opt( 'member', 'ana' );
 const shots = opt( 'shots', '' );
 const host = new URL( site ).hostname;
 
-const OPTIONS = [ 'bpb_settings', 'bpb_templates', 'bpb_db_version', 'buddybuilder_db_version', 'bpb_imported_templates', 'bpb_setup', 'bpb_setup_pending', 'bpb_blocks_enabled', 'bpb_render_issues', 'bpb_migrations', 'bpb_migrations_checked', '_bpb_enabled_widgets', 'bpb_listings', 'bpb_cards', 'bpb_community_style' ];
+const OPTIONS = [ 'bpb_settings', 'bpb_templates', 'bpb_db_version', 'buddybuilder_db_version', 'bpb_imported_templates', 'bpb_setup', 'bpb_setup_pending', 'bpb_blocks_enabled', 'bpb_render_issues', 'bpb_migrations', 'bpb_migrations_checked', '_bpb_enabled_widgets', 'bpb_listings', 'bpb_cards', 'bpb_community_style', 'bpb_undo' ];
 
 let fails = 0;
 const ok = ( cond, msg ) => {
@@ -164,6 +164,29 @@ async function shot( page, name, locator ) {
 		const select = page.locator( '#bpb-layout-member-profile' );
 		const options = await select.locator( 'option' ).count();
 		ok( options >= 3, `existing layouts listed in More (${ options - 1 })` );
+
+		// Restyle, keep my layout (review item 12): an edited layout changes style and keeps its edits.
+		const mp = php( echo( "\\Buddy_Builder\\Templates\\Registry::get( 'member-profile' )" ) );
+		const other = php( echo( `current( array_diff( array_keys( \\Buddy_Builder\\Presets\\Presets::all( 'member-profile' ) ), [ get_post_meta( ${ mp.id }, '_bpb_preset', true ) ] ) )` ) );
+		if ( other && php( echo( `\\Buddy_Builder\\Presets\\Restyle::can( ${ mp.id }, '${ other }' )` ) ) ) {
+			ok( ! php( echo( `\\Buddy_Builder\\Presets\\Restyle::is_edited( ${ mp.id } )` ) ), 'a layout just made from a style counts as not edited' );
+			php( `wp_update_post( wp_slash( [ 'ID' => ${ mp.id }, 'post_content' => get_post_field( 'post_content', ${ mp.id } ) . "\\n<!-- wp:paragraph -->\\n<p>bpb-e2e-edit</p>\\n<!-- /wp:paragraph -->" ] ) ); ` + echo( '1' ) );
+			await page.goto( site + '/wp-admin/admin.php?page=buddy-builder-settings' );
+			const rs = page.locator( `#bpb-page-member-profile form.bpb-look:has(input[name=preset][value="${ other }"])` );
+			await page.locator( '#bpb-page-member-profile .bpb-looks > summary' ).first().click();
+			await rs.locator( '.bpb-look__confirm > summary' ).click();
+			const first = rs.locator( '.bpb-look__confirm button' ).first();
+			ok( 'restyle' === await first.getAttribute( 'name' ) && ( await first.getAttribute( 'class' ) ).includes( 'button-primary' ), 'edited layout: Restyle, keep my layout is the first answer' );
+			ok( await rs.locator( '.bpb-look__warn' ).count() === 1, 'Replace warns that it leaves out the edits' );
+			await shot( page, 'community-pages-restyle', `#bpb-page-member-profile form.bpb-look:has(input[name=preset][value="${ other }"])` );
+			await Promise.all( [ page.waitForNavigation(), first.click() ] );
+			const after = php( echo( `[ \\Buddy_Builder\\Templates\\Registry::get( 'member-profile' ), \\Buddy_Builder\\Presets\\Presets::get( '${ other }' )['style'] ]` ) );
+			const content = php( echo( `get_post_field( 'post_content', ${ after[ 0 ].id } )` ) );
+			ok( page.url().includes( 'bpb_done=restyle' ) && after[ 0 ].id !== mp.id && content.includes( 'bpb-e2e-edit' ) && content.includes( 'bpb-look--' + after[ 1 ] ), 'Restyle makes a copy with the new style and the edit live' );
+			ok( await page.locator( '.bpb-done button:has-text("Undo")' ).count() === 1, 'Restyle can be undone' );
+		} else {
+			skip( 'Restyle: only one style for the member profile on this site' );
+		}
 
 		// 3. Previews are for the administrator only (B-M2/B-M3). Preview URLs carry a nonce of the browser session,
 		// so take one from the setup screen (rendering it changes nothing).

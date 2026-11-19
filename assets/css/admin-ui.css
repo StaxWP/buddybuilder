@@ -466,6 +466,8 @@
 	.bpb-cp__builder, .bpb-cp__status, .bpb-cp__actions { grid-column: 1; }
 	.bpb-steps { grid-template-columns: 1fr; }
 	.bpb-looks__panel { width: calc(100vw - 48px); }
+	/* The style panel opens under the whole actions line, not under the Change style button (it ran off the screen). */
+	.bpb-cp__actions .bpb-looks { position: static; }
 }
 
 /* Real look thumbnails (square WebP, top of the layout). */
@@ -477,4 +479,9 @@
 .bpb-look__confirm[open] > summary { display: none; }
 .bpb-look__confirm p { margin: 4px 0; font-weight: 600; }
 .bpb-look__confirm .button { width: 100%; margin-top: 4px; }
+/* Long answers (Restyle, Replace with the style's layout) wrap inside the narrow style card. */
+.bpb-app .bpb-look__confirm .button:not(.bpb-app-btn) { height: auto; padding-top: 6px; padding-bottom: 6px; line-height: 1.35; white-space: normal; }
+.bpb-look__confirm p.bpb-look__note, .bpb-look__confirm p.bpb-look__warn { margin: 2px 0 4px; font-size: 12px; font-weight: 400; line-height: 1.4; }
+.bpb-look__confirm p.bpb-look__note { color: var(--bpb-muted); }
+.bpb-look__confirm p.bpb-look__warn { color: var(--bpb-warn); }
 .bpb-done .bpb-inline-form { display: inline; }

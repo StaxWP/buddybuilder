@@ -16,6 +16,8 @@ use Buddy_Builder\Features;
 use Buddy_Builder\Integrations\Elementor\Integration as Elementor;
 use Buddy_Builder\Presets\Presets;
 use Buddy_Builder\Presets\Preview;
+use Buddy_Builder\Presets\Restyle;
+use Buddy_Builder\Presets\Styles;
 use Buddy_Builder\Templates\Cards;
 use Buddy_Builder\Templates\LayoutPreview;
 use Buddy_Builder\Templates\PostType;
@@ -466,6 +468,11 @@ final class CommunityPages {
 		$do     = isset( $_POST['do'] ) ? sanitize_key( wp_unslash( $_POST['do'] ) ) : '';
 		$layout = isset( $_POST['layout'] ) ? absint( $_POST['layout'] ) : 0;
 
+		// "Restyle, keep my layout" is one of the answers of a style's confirm step.
+		if ( 'look' === $do && ! empty( $_POST['restyle'] ) ) {
+			$do = 'restyle';
+		}
+
 		if ( 'import' === $do ) {
 			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- an upload: the file is validated and its JSON sanitized by LayoutActions.
 			$id   = isset( $_FILES['bpb_layout_file'] ) && is_array( $_FILES['bpb_layout_file'] ) ? LayoutActions::import_upload( $_FILES['bpb_layout_file'] ) : LayoutActions::import_upload( [] );
@@ -524,7 +531,7 @@ final class CommunityPages {
 	 * Run one action of the screen (testable without the redirect).
 	 *
 	 * @param string $type Template type.
-	 * @param string $do   default|assign|look|use-pending|discard-pending|undo|duplicate|delete.
+	 * @param string $do   default|assign|look|restyle|use-pending|discard-pending|undo|duplicate|delete.
 	 * @param array  $args layout (id), preset, builder.
 	 * @return bool
 	 */
@@ -543,7 +550,7 @@ final class CommunityPages {
 		);
 
 		// Every change that makes something else live can be undone once (review W6).
-		if ( in_array( $do, [ 'default', 'assign', 'look', 'use-pending' ], true ) ) {
+		if ( in_array( $do, [ 'default', 'assign', 'look', 'restyle', 'use-pending' ], true ) ) {
 			$before = Registry::get( $type );
 		}
 
@@ -669,6 +676,18 @@ final class CommunityPages {
 
 				return true;
 
+			case 'restyle':
+				$entry = Registry::get( $type );
+				$found = Presets::get( $args['preset'] );
+
+				if ( ! $found || $type !== $found['type'] || empty( $entry['id'] ) || is_wp_error( Restyle::apply( (int) $entry['id'], $args['preset'] ) ) ) {
+					return false;
+				}
+
+				Checker::forget( $type );
+
+				return true;
+
 			case 'use-pending':
 				$id = Setup::pending( $type );
 
@@ -737,6 +756,7 @@ final class CommunityPages {
 			'default'         => __( 'The page now uses the BuddyPress default. Your layout is kept: pick it again any time.', 'stax-buddy-builder' ),
 			'assign'          => __( 'Layout saved for this page.', 'stax-buddy-builder' ),
 			'look'            => __( 'The page uses the new style now. Edit it to make it yours.', 'stax-buddy-builder' ),
+			'restyle'         => __( 'The page uses the new style with your layout and its edits. Your previous layout is kept.', 'stax-buddy-builder' ),
 			'use-pending'     => __( 'The new style is live.', 'stax-buddy-builder' ),
 			'discard-pending' => __( 'The new style was discarded; the page is unchanged.', 'stax-buddy-builder' ),
 			'setup'           => __( 'Setup done: your new community pages are live.', 'stax-buddy-builder' ),
@@ -1106,6 +1126,8 @@ final class CommunityPages {
 
 		$primary = ! $row['post'] && ! $row['pending'];
 		$card    = self::is_card( $row['type'] );
+		$current = $row['post'] ? (int) $row['post']->ID : 0;
+		$edited  = $current && Restyle::is_edited( $current );
 
 		// Cards (item layouts, BuddyBuilder Pro): "Design the card" starts one from a style's card (review 3.3).
 		if ( $card ) {
@@ -1114,6 +1136,10 @@ final class CommunityPages {
 		} else {
 			$summary = $row['post'] ? __( 'Change style', 'stax-buddy-builder' ) : __( 'Pick a style', 'stax-buddy-builder' );
 			$intro   = __( 'Preview a style on the real page first. Using it creates a new layout and makes it live; your current layout is kept and Undo puts it back.', 'stax-buddy-builder' );
+		}
+
+		if ( $edited && '' !== Styles::of_layout( $current ) ) {
+			$intro .= ' ' . __( 'This layout has changes of your own: "Restyle, keep my layout" keeps them and changes only the style.', 'stax-buddy-builder' );
 		}
 
 		// Item rows sit under their page row: their summary names the item for screen readers.
@@ -1144,12 +1170,33 @@ final class CommunityPages {
 			/* translators: %s: page name */
 			echo '<p>' . esc_html( sprintf( __( 'Make it live on %s now?', 'stax-buddy-builder' ), $row['label'] ) ) . '</p>';
 
+			// Restyle keeps the current layout and swaps its style (review item 12): the first answer when the owner
+			// edited the layout, the second one otherwise.
+			$restyle = $current && Restyle::can( $current, $id );
+
+			if ( $restyle && $edited ) {
+				self::restyle_button( $preset, true );
+			}
+
 			foreach ( $builders as $builder => $label ) {
 				/* translators: 1: style name, 2: builder name */
 				$aria = sprintf( __( 'Use %1$s with %2$s', 'stax-buddy-builder' ), $preset['title'], $label );
-				/* translators: %s: builder name */
-				$text = count( $builders ) > 1 ? sprintf( __( 'Yes, build it with %s', 'stax-buddy-builder' ), $label ) : __( 'Yes, make it live', 'stax-buddy-builder' );
-				echo '<button type="submit" class="button button-primary" name="builder" value="' . esc_attr( $builder ) . '" aria-label="' . esc_attr( $aria ) . '">' . esc_html( $text ) . '</button>';
+
+				if ( $restyle ) {
+					/* translators: %s: builder name */
+					$text = count( $builders ) > 1 ? sprintf( __( 'Replace with the style\'s layout (%s)', 'stax-buddy-builder' ), $label ) : __( 'Replace with the style\'s layout', 'stax-buddy-builder' );
+				} else {
+					/* translators: %s: builder name */
+					$text = count( $builders ) > 1 ? sprintf( __( 'Yes, build it with %s', 'stax-buddy-builder' ), $label ) : __( 'Yes, make it live', 'stax-buddy-builder' );
+				}
+
+				echo '<button type="submit" class="button' . ( $restyle && $edited ? '' : ' button-primary' ) . '" name="builder" value="' . esc_attr( $builder ) . '" aria-label="' . esc_attr( $aria ) . '">' . esc_html( $text ) . '</button>';
+			}
+
+			if ( $restyle && $edited ) {
+				echo '<p class="bpb-look__warn">' . esc_html__( 'Replacing leaves out the changes you made to this page\'s layout. The current layout is kept and Undo puts it back.', 'stax-buddy-builder' ) . '</p>';
+			} elseif ( $restyle ) {
+				self::restyle_button( $preset, false );
 			}
 
 			echo '</details></form>';
@@ -1160,6 +1207,23 @@ final class CommunityPages {
 		// The 1.x Elementor starter kits are not offered next to the styles (the 2.0 styles replace them; two kinds of
 		// "style" confused owners). Their screen stays registered for bookmarks.
 		echo '</div></details>';
+	}
+
+	/**
+	 * "Restyle, keep my layout": the current layout (elements, settings, edits) with the new style.
+	 *
+	 * @param array $preset  Preset.
+	 * @param bool  $primary The first answer (the layout was edited).
+	 */
+	private static function restyle_button( array $preset, $primary ) {
+		/* translators: %s: style name */
+		$aria = sprintf( __( 'Restyle with %s and keep my layout', 'stax-buddy-builder' ), $preset['title'] );
+
+		echo '<button type="submit" class="button' . ( $primary ? ' button-primary' : '' ) . '" name="restyle" value="1" aria-label="' . esc_attr( $aria ) . '">' . esc_html__( 'Restyle, keep my layout', 'stax-buddy-builder' ) . '</button>';
+
+		if ( $primary ) {
+			echo '<p class="bpb-look__note">' . esc_html__( 'Your elements and edits stay; only the style changes.', 'stax-buddy-builder' ) . '</p>';
+		}
 	}
 
 	/**

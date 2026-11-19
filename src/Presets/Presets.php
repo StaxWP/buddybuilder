@@ -193,6 +193,10 @@ final class Presets {
 			true
 		);
 
+		if ( ! is_wp_error( $post_id ) ) {
+			Restyle::remember( $post_id );
+		}
+
 		Registry::flush();
 
 		return $post_id;
@@ -246,6 +250,7 @@ final class Presets {
 			update_post_meta( $post_id, '_elementor_data', wp_slash( wp_json_encode( $data ) ) );
 		}
 
+		Restyle::remember( $post_id );
 		Registry::flush();
 
 		return $post_id;
@@ -297,7 +302,7 @@ final class Presets {
 	 * @param array $preset Preset.
 	 * @return string
 	 */
-	private static function layout_title( array $preset ) {
+	public static function layout_title( array $preset ) {
 		$types = Types::all();
 		$type  = isset( $types[ $preset['type'] ] ) ? $types[ $preset['type'] ]['name'] : $preset['type'];
 
