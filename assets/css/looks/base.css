@@ -1598,12 +1598,40 @@
 
 /* Avatars in BuddyPress' own lists (messages, group members manager): thumb size, whatever size the image file is
    (images without width attributes showed at their file size, 300 px for the sample members). */
-#buddypress.buddypress-wrap .bpb-look :is(.message-lists .thread-from, #group-members-list-table, #message-thread .message-metadata) img.avatar {
+#buddypress.buddypress-wrap .bpb-look :is(.message-lists :is(.thread-from, .thread-to), #group-members-list-table, #message-thread .message-metadata) img.avatar {
 	width: 40px;
 	max-width: none;
 	height: 40px;
 	border-radius: var(--bpb-avatar-radius);
 	object-fit: cover;
+}
+
+/* Messages list on phones: who and when on the first line, subject and excerpt under them at full width (four
+   columns left the name one letter per line). */
+@media (max-width: 600px) {
+	#buddypress.buddypress-wrap .bpb-look .message-lists li.thread-item {
+		flex-wrap: wrap;
+		gap: 6px 10px;
+	}
+
+	#buddypress.buddypress-wrap .bpb-look .message-lists li.thread-item > .thread-cb {
+		flex: 0 0 auto;
+	}
+
+	#buddypress.buddypress-wrap .bpb-look .message-lists li.thread-item > :is(.thread-from, .thread-to) {
+		flex: 1 1 0;
+		min-width: 0;
+	}
+
+	#buddypress.buddypress-wrap .bpb-look .message-lists li.thread-item > .thread-date {
+		flex: 0 0 auto;
+		order: 2;
+	}
+
+	#buddypress.buddypress-wrap .bpb-look .message-lists li.thread-item > .thread-content {
+		flex: 1 1 100%;
+		order: 3;
+	}
 }
 
 /* Messages: the conversation titles in the style's colors (1.x: gray on a fixed light band). */
@@ -1633,7 +1661,7 @@
 #buddypress.buddypress-wrap .bpb-look .bp-list :is(.item-meta, .meta, .update, .activity, .group-inviters li, li .status),
 #buddypress.buddypress-wrap .bpb-look .bp-invites-content .item-meta span,
 #buddypress.buddypress-wrap .bpb-look table#message-threads .thread-info p.thread-excerpt,
-#buddypress.buddypress-wrap .bpb-look .bp-messages-content :is(.message-lists :is(.excerpt, .thread-date, time), #bp-message-thread-list time),
+#buddypress.buddypress-wrap .bpb-look .bp-messages-content :is(.message-lists :is(.excerpt, .thread-date, time, .num-recipients), #bp-message-thread-list time),
 #buddypress.buddypress-wrap .bpb-look :is(.user-messages-bulk-actions, .groups-manage-members-list, .standard-form div.checkbox, .standard-form div.radio) label,
 #buddypress.buddypress-wrap .bpb-look #group-manage-members-ui #group-roles-filter label {
 	color: var(--bpb-color-muted);
