@@ -1191,7 +1191,8 @@
 	--bpb-button-2-color: var(--bpb-color-text);
 	--bpb-button-2-border: 1px solid var(--bpb-color-border);
 	--bpb-badge-bg: var(--bpb-accent-soft);
-	--bpb-badge-color: var(--bpb-color-accent);
+	/* Accent text on the soft accent, pulled toward the text color so it stays readable (4.5:1) in light and dark. */
+	--bpb-badge-color: color-mix(in srgb, var(--bpb-color-accent) 75%, var(--bpb-color-text));
 	--bpb-badge-radius: var(--bpb-pill);
 	--bpb-cover-overlay: none;
 	--bpb-cover-radius: 0;
