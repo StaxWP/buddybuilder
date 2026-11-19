@@ -15,7 +15,13 @@
 	"templateTypes": [
 		"member-profile"
 	],
-	"attributes": {},
+	"attributes": {
+		"design": {
+			"type": "string",
+			"default": "",
+			"control": "none"
+		}
+	},
 	"supports": {
 		"html": false,
 		"align": [

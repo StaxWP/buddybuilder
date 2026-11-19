@@ -42,6 +42,11 @@
 				"h6": "H6",
 				"div": "div"
 			}
+		},
+		"design": {
+			"type": "string",
+			"default": "",
+			"control": "none"
 		}
 	},
 	"supports": {

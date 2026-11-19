@@ -28,6 +28,11 @@
 			"control": "toggle",
 			"panel": "advanced",
 			"label": "Dark overlay"
+		},
+		"design": {
+			"type": "string",
+			"default": "",
+			"control": "none"
 		}
 	},
 	"supports": {

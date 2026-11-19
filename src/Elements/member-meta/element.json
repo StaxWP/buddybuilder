@@ -14,7 +14,18 @@
 	"templateTypes": [
 		"member-profile"
 	],
-	"attributes": {},
+	"attributes": {
+		"design": {
+			"type": "string",
+			"default": "",
+			"control": "none"
+		},
+		"location_field": {
+			"type": "string",
+			"default": "Location",
+			"control": "none"
+		}
+	},
 	"supports": {
 		"html": false,
 		"align": [

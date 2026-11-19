@@ -44,10 +44,17 @@
 		wp.data.dispatch( 'core/block-editor' ).replaceBlocks( ids, wp.blocks.createBlock( item.block, attrs ) );
 	}
 
+	// A part inside a Member header split into parts (BuddyBuilder Pro): the split header's own action joins it back.
+	function inSplitHeader( clientId ) {
+		const editor = wp.data.select( 'core/block-editor' );
+
+		return editor.getBlockParents( clientId ).some( ( id ) => 'core/group' === editor.getBlockName( id ) && /(^|\s)bpb-mh--parts(\s|$)/.test( ( editor.getBlockAttributes( id ) || {} ).className || '' ) );
+	}
+
 	const withReplace = wp.compose.createHigherOrderComponent( ( BlockEdit ) => ( props ) => {
 		const item = byBlock[ props.name ];
 
-		if ( ! item || ! props.isSelected ) {
+		if ( ! item || ! props.isSelected || ( item.quiet && inSplitHeader( props.clientId ) ) ) {
 			return el( BlockEdit, props );
 		}
 

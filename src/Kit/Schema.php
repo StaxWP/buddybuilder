@@ -25,9 +25,9 @@ final class Schema {
 	const TYPES = array( 'string', 'boolean', 'integer', 'number', 'array' );
 
 	/**
-	 * Controls the generated editors understand.
+	 * Controls the generated editors understand ("none": a stored attribute with no control in either editor).
 	 */
-	const CONTROLS = array( 'text', 'textarea', 'url', 'select', 'multiselect', 'checklist', 'toggle', 'number', 'range' );
+	const CONTROLS = array( 'text', 'textarea', 'url', 'select', 'multiselect', 'checklist', 'toggle', 'number', 'range', 'none' );
 
 	/**
 	 * Read and check an element.json file.

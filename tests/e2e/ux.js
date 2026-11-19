@@ -305,6 +305,78 @@ async function shot( page, name, locator ) {
 			skip( 'Pro modules: BuddyBuilder Pro not active or not licensed' );
 		}
 
+		// 7. Split into parts (review item 7, Pro): the Member header becomes its parts in the block editor, looks the
+		// same on the page, and joins back into one Member header with the same settings.
+		if ( php( echo( "class_exists( '\\\\Buddy_Builder_Pro\\\\HeaderParts' ) && ! \\Buddy_Builder_Pro\\Blocks::locked()" ) ) ) {
+			const ids = php( echo( "[ \\Buddy_Builder\\Presets\\Presets::create_block_layout( \\Buddy_Builder\\Presets\\Presets::get( 'classic-member-profile' ) ), \\Buddy_Builder\\Presets\\Presets::create_block_layout( \\Buddy_Builder\\Presets\\Presets::get( 'classic-member-profile' ) ) ]" ) );
+			const findBlock = ( name ) => page.evaluate( ( n ) => {
+				const walk = ( list ) => {
+					for ( const b of list ) {
+						if ( b.name === n || ( 'bpb-mh--parts' === n && /\bbpb-mh--parts\b/.test( b.attributes.className || '' ) ) ) {
+							return b;
+						}
+						const found = walk( b.innerBlocks );
+						if ( found ) {
+							return found;
+						}
+					}
+					return null;
+				};
+				return walk( wp.data.select( 'core/block-editor' ).getBlocks() );
+			}, name );
+			await page.goto( `${ site }/wp-admin/post.php?post=${ ids[ 1 ] }&action=edit` );
+			await page.waitForFunction( () => window.wp && wp.data && wp.data.select( 'core/block-editor' ).getBlocks().length > 0, null, { timeout: 60000 } );
+			const header = await findBlock( 'buddybuilder/member-header' );
+			await page.evaluate( ( id ) => wp.data.dispatch( 'core/block-editor' ).selectBlock( id ), header.clientId );
+			const splitButton = page.locator( '.block-editor-block-toolbar button:has-text("Split into parts")' );
+			ok( await splitButton.count() === 1, 'Member header: Split into parts in the block toolbar' );
+			await splitButton.click();
+			const frame = await findBlock( 'bpb-mh--parts' );
+			const names = [];
+			const collect = ( b ) => {
+				names.push( b.name.replace( 'buddybuilder/', '' ) );
+				b.innerBlocks.forEach( collect );
+			};
+			if ( frame ) {
+				collect( frame );
+			}
+			ok( frame && 'header' === frame.attributes.tagName && [ 'member-cover', 'member-avatar', 'member-username', 'member-badges', 'member-headline', 'member-meta', 'member-stats', 'member-buttons' ].every( ( n ) => names.includes( n ) ), 'split: the header group holds every part (' + names.filter( ( n ) => 'core/group' !== n ).join( ', ' ) + ')' );
+			await page.locator( 'iframe[name="editor-canvas"]' ).contentFrame().locator( 'header.bpb-mh--parts .bpb-mh__avatar' ).waitFor( { timeout: 20000 } );
+			await shot( page, 'split-header-editor' );
+			await page.evaluate( () => wp.data.dispatch( 'core/editor' ).savePost() );
+			await page.waitForFunction( () => ! wp.data.select( 'core/editor' ).isSavingPost() && ! wp.data.select( 'core/editor' ).isEditedPostDirty(), null, { timeout: 30000 } );
+			const boxes = async ( id ) => {
+				const view = await browser.newContext( { viewport: { width: 1440, height: 900 } } );
+				await view.addCookies( [ { name: 'bpb_compat_tpl', value: 'member-profile:' + id, domain: host, path: '/' } ] );
+				const front = await view.newPage();
+				await front.goto( site + '/members/' + member + '/' );
+				const out = await front.evaluate( () => {
+					const h = document.querySelector( '.bpb-mh' );
+					const o = h ? h.getBoundingClientRect() : null;
+					return o ? [ '.bpb-mh', '.bpb-mh__avatar img', '.bpb-mh__name', '.bpb-mh__meta', '.bpb-mh__stats', '.bpb-mh__actions' ].map( ( sel ) => {
+						const e = h.matches( sel ) ? h : h.querySelector( sel );
+						const b = e ? e.getBoundingClientRect() : null;
+						return b ? [ Math.round( b.x - o.x ), Math.round( b.y - o.y ), Math.round( b.width ), Math.round( b.height ) ].join( ',' ) : '-';
+					} ).join( ' ' ) : null;
+				} );
+				await view.close();
+				return out;
+			};
+			const whole = await boxes( ids[ 0 ] );
+			const parts = await boxes( ids[ 1 ] );
+			ok( whole && whole === parts, 'split header lays out like the one-element header on the page' + ( whole === parts ? '' : ` (${ whole } vs ${ parts })` ) );
+			await page.reload();
+			await page.waitForFunction( () => window.wp && wp.data && wp.data.select( 'core/block-editor' ).getBlocks().length > 0, null, { timeout: 60000 } );
+			const avatar = await findBlock( 'buddybuilder/member-avatar' );
+			await page.evaluate( ( id ) => wp.data.dispatch( 'core/block-editor' ).selectBlock( id ), avatar.clientId );
+			await page.locator( '.block-editor-block-inspector button:has-text("Join into one Member header")' ).first().click();
+			await page.locator( '.block-editor-block-inspector .components-panel__body.is-opened button.is-secondary:has-text("Join into one Member header")' ).click();
+			const joined = await findBlock( 'buddybuilder/member-header' );
+			ok( joined && ! await findBlock( 'bpb-mh--parts' ) && JSON.stringify( joined.attributes ) === JSON.stringify( header.attributes ), 'a part joins the split header back into one Member header with the same settings' );
+		} else {
+			skip( 'Split into parts: BuddyBuilder Pro not active or not licensed' );
+		}
+
 		ok( ! jsErrors.length, 'no JavaScript errors' + ( jsErrors.length ? ': ' + jsErrors.join( ' | ' ) : '' ) );
 	} catch ( e ) {
 		ok( false, 'run stopped: ' + e.message );

@@ -23,7 +23,8 @@
 	background-color: var(--bpb-color-surface-2);
 }
 
-:is(.bpb-template, .editor-styles-wrapper) .bpb-el-member-avatar img,
+/* Not the photo of a split Member header (BuddyBuilder Pro): it takes the header's own size. */
+:is(.bpb-template, .editor-styles-wrapper) .bpb-el-member-avatar img:not(.bpb-mh__photo),
 :is(.bpb-template, .editor-styles-wrapper) .bpb-el-group-avatar img {
 	width: var(--bpb-avatar-size);
 	height: auto;
@@ -43,7 +44,7 @@
 	font-size: 0.875em;
 }
 
-:is(.bpb-template, .editor-styles-wrapper) .bpb-el-member-buttons .member-header-actions,
+:is(.bpb-template, .editor-styles-wrapper) .bpb-el-member-buttons .member-header-actions:not(.bpb-actions),
 :is(.bpb-template, .editor-styles-wrapper) .bpb-el-group-buttons .group-button {
 	display: flex;
 	flex-wrap: wrap;

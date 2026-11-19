@@ -139,19 +139,21 @@ if ( ! function_exists( 'bpb_member_badges' ) ) {
 	/**
 	 * Badges next to a member's name: site role (Admin, Moderator) and member types.
 	 *
-	 * @param int $user_id Member.
+	 * @param int  $user_id Member.
+	 * @param bool $role    Include the site role badge.
+	 * @param bool $types   Include the member type badges.
 	 * @return string[] Labels.
 	 */
-	function bpb_member_badges( $user_id ) {
+	function bpb_member_badges( $user_id, $role = true, $types = true ) {
 		$badges = [];
 
-		if ( user_can( $user_id, 'manage_options' ) ) {
+		if ( $role && user_can( $user_id, 'manage_options' ) ) {
 			$badges[] = __( 'Admin', 'stax-buddy-builder' );
-		} elseif ( user_can( $user_id, 'bp_moderate' ) ) {
+		} elseif ( $role && user_can( $user_id, 'bp_moderate' ) ) {
 			$badges[] = __( 'Moderator', 'stax-buddy-builder' );
 		}
 
-		if ( function_exists( 'bp_get_member_type' ) ) {
+		if ( $types && function_exists( 'bp_get_member_type' ) ) {
 			foreach ( (array) bp_get_member_type( $user_id, false ) as $type ) {
 				$object = bp_get_member_type_object( $type );
 				if ( $object && ! empty( $object->labels['singular_name'] ) ) {
@@ -299,5 +301,199 @@ if ( ! function_exists( 'bpb_link_images' ) ) {
 		}
 
 		return implode( '', $parts );
+	}
+}
+
+/*
+ * Parts of the 2.0 member header. The Member header element prints them all in one <header>; split into parts
+ * (BuddyBuilder Pro), each part element prints one of them inside the header's groups, with the bpb-mh-part class.
+ * One markup for both, so a split header looks like the one-element header.
+ */
+
+if ( ! function_exists( 'bpb_mh_class' ) ) {
+	/**
+	 * Class attribute value of a member header part: its own class, plus bpb-mh-part when it is printed as a part.
+	 *
+	 * @param string $class Part class (bpb-mh__avatar, ...).
+	 * @param bool   $part  Printed by a part element.
+	 * @return string
+	 */
+	function bpb_mh_class( $class, $part ) {
+		return $class . ( $part ? ' bpb-mh-part' : '' );
+	}
+}
+
+if ( ! function_exists( 'bpb_mh_cover' ) ) {
+	/**
+	 * Cover of the member header (the gradient when the member has no cover image).
+	 *
+	 * @param int  $user_id Member.
+	 * @param bool $part    Printed by a part element.
+	 * @return string
+	 */
+	function bpb_mh_cover( $user_id, $part = false ) {
+		$url = bpb_cover_url( 'members', $user_id );
+
+		return '<div class="' . esc_attr( bpb_mh_class( 'bpb-mh__cover' . ( $url ? '' : ' bpb-mh__cover--empty' ), $part ) ) . '"' . ( $url ? ' style="background-image:url(' . esc_url( $url ) . ')"' : '' ) . '></div>';
+	}
+}
+
+if ( ! function_exists( 'bpb_mh_avatar' ) ) {
+	/**
+	 * Photo of the member header, with the online dot.
+	 *
+	 * @param int  $user_id Member.
+	 * @param bool $part    Printed by a part element.
+	 * @return string
+	 */
+	function bpb_mh_avatar( $user_id, $part = false ) {
+		$html = '<div class="' . esc_attr( bpb_mh_class( 'bpb-mh__avatar', $part ) ) . '"><a href="' . esc_url( bpb_user_url( $user_id ) ) . '">'
+			. bp_core_fetch_avatar(
+				[
+					'item_id' => $user_id,
+					'type'    => 'full',
+					'class'   => 'bpb-mh__photo',
+					/* translators: %s: member name */
+					'alt'     => sprintf( __( 'Profile photo of %s', 'stax-buddy-builder' ), bp_core_get_user_displayname( $user_id ) ),
+				]
+			) . '</a>';
+
+		if ( bpb_member_is_online( $user_id ) ) {
+			$html .= '<span class="bpb-mh__online" title="' . esc_attr__( 'Online', 'stax-buddy-builder' ) . '"><span class="screen-reader-text">' . esc_html__( 'Online', 'stax-buddy-builder' ) . '</span></span>';
+		}
+
+		return $html . '</div>';
+	}
+}
+
+if ( ! function_exists( 'bpb_mh_badges' ) ) {
+	/**
+	 * Badges of the member header ('' without any). As a part they sit in a wrapper that takes no box, so each badge
+	 * lines up next to the name like in the one-element header.
+	 *
+	 * @param int  $user_id Member.
+	 * @param bool $part    Printed by a part element.
+	 * @param bool $role    Site role badge.
+	 * @param bool $types   Member type badges.
+	 * @return string
+	 */
+	function bpb_mh_badges( $user_id, $part = false, $role = true, $types = true ) {
+		$html = '';
+
+		foreach ( bpb_member_badges( $user_id, $role, $types ) as $badge ) {
+			$html .= '<span class="bpb-badge">' . esc_html( $badge ) . '</span>';
+		}
+
+		return ( $part && '' !== $html ) ? '<span class="' . esc_attr( bpb_mh_class( 'bpb-mh__badges', true ) ) . '">' . $html . '</span>' : $html;
+	}
+}
+
+if ( ! function_exists( 'bpb_mh_name' ) ) {
+	/**
+	 * Name of the member header: the h1 with the badges in the one-element header; as a part the h1 alone
+	 * (bpb-mh__title), inside the header's name row that carries the name style.
+	 *
+	 * @param int    $user_id Member.
+	 * @param bool   $part    Printed by a part element.
+	 * @param string $badges  Badges markup (one-element header).
+	 * @return string
+	 */
+	function bpb_mh_name( $user_id, $part = false, $badges = '' ) {
+		return '<h1 class="' . esc_attr( $part ? bpb_mh_class( 'bpb-mh__title', true ) : 'bpb-mh__name' ) . '">' . esc_html( bp_core_get_user_displayname( $user_id ) ) . $badges . '</h1>';
+	}
+}
+
+if ( ! function_exists( 'bpb_mh_handle' ) ) {
+	/**
+	 * The member's @username ('' when mentions are off).
+	 *
+	 * @param int  $user_id Member.
+	 * @param bool $part    Printed by a part element.
+	 * @return string
+	 */
+	function bpb_mh_handle( $user_id, $part = false ) {
+		if ( ! bp_is_active( 'activity' ) || ! bp_activity_do_mentions() ) {
+			return '';
+		}
+
+		return '<p class="' . esc_attr( bpb_mh_class( 'bpb-mh__handle', $part ) ) . '">@' . esc_html( bp_activity_get_user_mentionname( $user_id ) ) . '</p>';
+	}
+}
+
+if ( ! function_exists( 'bpb_mh_headline' ) ) {
+	/**
+	 * Headline line of the member header ('' when empty).
+	 *
+	 * @param string $text Plain text.
+	 * @param bool   $part Printed by a part element.
+	 * @return string
+	 */
+	function bpb_mh_headline( $text, $part = false ) {
+		return '' === $text ? '' : '<p class="' . esc_attr( bpb_mh_class( 'bpb-mh__headline', $part ) ) . '">' . esc_html( $text ) . '</p>';
+	}
+}
+
+if ( ! function_exists( 'bpb_mh_meta' ) ) {
+	/**
+	 * Location, join date and last activity of the member header.
+	 *
+	 * @param int    $user_id  Member.
+	 * @param string $location Location (plain text, '' to leave it out).
+	 * @param bool   $part     Printed by a part element.
+	 * @return string
+	 */
+	function bpb_mh_meta( $user_id, $location, $part = false ) {
+		$user = get_userdata( $user_id );
+		$html = '<ul class="' . esc_attr( bpb_mh_class( 'bpb-mh__meta', $part ) ) . '">';
+
+		if ( '' !== $location ) {
+			$html .= '<li>' . bpb_icon( 'pin' ) . esc_html( $location ) . '</li>';
+		}
+		if ( $user ) {
+			/* translators: %s: month and year */
+			$html .= '<li>' . bpb_icon( 'calendar' ) . esc_html( sprintf( __( 'Joined %s', 'stax-buddy-builder' ), date_i18n( 'F Y', strtotime( $user->user_registered ) ) ) ) . '</li>';
+		}
+
+		return $html . '<li>' . bpb_icon( 'clock' ) . esc_html( bp_get_last_activity( $user_id ) ) . '</li></ul>';
+	}
+}
+
+if ( ! function_exists( 'bpb_mh_stats' ) ) {
+	/**
+	 * Counts of the member header.
+	 *
+	 * @param array[] $stats [ key, number, label, url ] rows (bpb_member_stats()).
+	 * @param bool    $part  Printed by a part element.
+	 * @return string
+	 */
+	function bpb_mh_stats( array $stats, $part = false ) {
+		$html = '<ul class="' . esc_attr( bpb_mh_class( 'bpb-mh__stats', $part ) ) . '">';
+
+		foreach ( $stats as $stat ) {
+			$html .= '<li class="bpb-mh__stat bpb-mh__stat--' . esc_attr( $stat[0] ) . '"><a href="' . esc_url( $stat[3] ) . '"><strong>' . esc_html( number_format_i18n( $stat[1] ) ) . '</strong> <span>' . esc_html( $stat[2] ) . '</span></a></li>';
+		}
+
+		return $html . '</ul>';
+	}
+}
+
+if ( ! function_exists( 'bpb_mh_actions' ) ) {
+	/**
+	 * Buttons of the member header (BuddyPress' member header buttons).
+	 *
+	 * @param bool $part Printed by a part element.
+	 * @return string
+	 */
+	function bpb_mh_actions( $part = false ) {
+		ob_start();
+		bp_nouveau_member_header_buttons(
+			[
+				'container'         => 'ul',
+				'button_element'    => 'button',
+				'container_classes' => [ 'member-header-actions', 'bpb-actions' ],
+			]
+		);
+
+		return '<div class="' . esc_attr( bpb_mh_class( 'bpb-mh__actions', $part ) ) . '">' . ob_get_clean() . '</div>';
 	}
 }

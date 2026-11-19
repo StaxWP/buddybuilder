@@ -25,6 +25,11 @@
 				"thumb": "Thumb",
 				"full": "Full"
 			}
+		},
+		"design": {
+			"type": "string",
+			"default": "",
+			"control": "none"
 		}
 	},
 	"supports": {

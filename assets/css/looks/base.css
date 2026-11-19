@@ -229,6 +229,36 @@
 	border: 0;
 }
 
+/* Member header split into parts (BuddyBuilder Pro): groups with the header's classes (header, body, details, name
+   row) hold the part elements. The builders' wrappers around a part take no box and the groups keep no layout
+   spacing of their own, so the parts lay out as in the one-element header; the name part's h1 takes the name row's
+   style (the row is the flex line that also holds the badges). A header with no part left shows nothing. */
+.bpb-mh--parts :is(div, span):not([class*="bpb-mh"]):has(.bpb-mh-part),
+.bpb-mh__badges {
+	display: contents;
+}
+
+/* :not(#bpb-none) outranks the themes' rules for group children (Twenty Twenty-One: 610 px, centered). */
+.bpb-mh--parts:not(#bpb-none) :is(.bpb-mh__body, .bpb-mh__main, .bpb-mh__name) {
+	max-width: none;
+	margin: 0;
+}
+
+.bpb-mh h1.bpb-mh__title,
+.buddypress-wrap .bpb-mh h1.bpb-mh__title {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	color: inherit;
+	font: inherit;
+	letter-spacing: inherit;
+	text-transform: inherit;
+}
+
+.bpb-mh--parts:not(:has(.bpb-mh-part)) {
+	display: none;
+}
+
 :is(.bpb-mh__cover, .bpb-gh__cover) {
 	aspect-ratio: 4 / 1;
 	min-height: 140px;

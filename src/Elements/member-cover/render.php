@@ -13,6 +13,13 @@ if ( ! bp_displayed_user_id() ) {
 	return;
 }
 
+// Part of a split Member header (BuddyBuilder Pro): the header's markup for this part (look-helpers.php).
+if ( 'header' === $attrs['design'] ) {
+	bpb_look_assets();
+	echo bpb_mh_cover( bp_displayed_user_id(), true ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in the helper.
+	return;
+}
+
 $bpb_cover_url = null;
 
 if ( $attrs['cover_advanced_settings'] ) {

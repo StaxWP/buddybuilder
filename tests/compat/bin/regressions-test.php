@@ -47,6 +47,8 @@
  * - blocks-stay-on              Block layouts stay on when Elementor is activated after a block editor setup.
  * - community-pages-rows        Create a group as its own row, cards under their page, the intro, the collapsed
  *                               "Variations" link (Pro) starting from a copy of the main layout.
+ * - split-header                Review item 7: the header parts with design "header" (Split into parts, Pro) print
+ *                               the Member header's markup; 1.x parts keep theirs; Pro stats and badges parts.
  *
  * THROWAWAY site only (needs the compat env mu-plugin). Restores the options it touches and deletes the posts it
  * creates. Prints PASS / FAIL / SKIP lines; exits 1 on any FAIL.
@@ -1118,8 +1120,48 @@ switch ( $bpb_case ) {
 		}
 		break;
 
+	case 'split-header':
+		// UX review 2026-11-17, item 7: a Member header split into parts (BuddyBuilder Pro) prints the header's own
+		// markup, part by part, so it looks the same; without design "header" the 1.x parts keep their markup.
+		$bpb_member = get_users( [ 'number' => 1, 'orderby' => 'ID', 'fields' => 'ID' ] );
+		$bpb_was    = buddypress()->displayed_user->id ?? 0;
+		buddypress()->displayed_user->id = (int) $bpb_member[0];
+		$bpb_render = static function ( $name, $attrs ) {
+			$element = \Buddy_Builder\Elements\Elements::get( $name );
+			if ( ! $element ) {
+				return null;
+			}
+			$attrs = $element->normalize( $attrs );
+			return trim( $element->render( $attrs, $element->kit()->context( $element, $attrs, null, false ) ) );
+		};
+		$bpb_part  = static function ( $name, $attrs = [] ) use ( $bpb_render ) {
+			$html = $bpb_render( $name, $attrs );
+			return null === $html ? null : str_replace( ' bpb-mh-part', '', $html );
+		};
+		$bpb_whole = $bpb_render( 'member-header', [] );
+		foreach ( [ 'member-cover' => [], 'member-avatar' => [], 'member-meta' => [], 'member-buttons' => [], 'member-username' => [ 'username_type' => 'username' ] ] as $bpb_name => $bpb_attrs ) {
+			$bpb_html = $bpb_part( $bpb_name, $bpb_attrs + [ 'design' => 'header' ] );
+			$bpb_ok( '' !== $bpb_html && false !== strpos( $bpb_whole, $bpb_html ), $bpb_name . ': as a header part it prints the Member header\'s markup' );
+		}
+		$bpb_name_html = $bpb_render( 'member-username', [ 'design' => 'header', 'username_type' => 'full_name' ] );
+		$bpb_ok( false !== strpos( $bpb_name_html, '<h1 class="bpb-mh__title bpb-mh-part">' . esc_html( bp_core_get_user_displayname( $bpb_member[0] ) ) . '</h1>' ), 'member-username: as a header part the name is the h1 of the name row' );
+		$bpb_ok( false !== strpos( (string) $bpb_render( 'member-avatar', [] ), 'elementor-image-bpb-avatar' ) && false !== strpos( (string) $bpb_render( 'member-username', [] ), 'user-nicename' ), '1.x parts (no design) keep their markup' );
+		$bpb_ok( ! in_array( 'design', wp_list_pluck( \Buddy_Builder\Elements\Elements::get( 'member-avatar' )->editor_definition()['controls'], 'key' ), true ), 'design has no control in the editors (kit control "none")' );
+		if ( \Buddy_Builder\Elements\Elements::get( 'member-stats' ) ) {
+			$bpb_ok( false !== strpos( $bpb_whole, $bpb_part( 'member-stats' ) ), 'Pro member-stats: by default the Member header\'s counts' );
+			$bpb_order = wp_list_pluck( \Buddy_Builder_Pro\HeaderParts::stats( $bpb_member[0], 'posts, friends' ), 0 );
+			$bpb_ok( array_values( array_intersect( [ 'posts', 'friends' ], $bpb_order ) ) === $bpb_order, 'Pro member-stats: picked counts in the picked order (' . implode( ', ', $bpb_order ) . ')' );
+			$bpb_badges = bpb_mh_badges( $bpb_member[0] );
+			$bpb_ok( '' === $bpb_badges ? '' === $bpb_part( 'member-badges' ) : false !== strpos( $bpb_part( 'member-badges' ), $bpb_badges ), 'Pro member-badges: the Member header\'s badges' );
+			$bpb_ok( '' === $bpb_part( 'member-badges', [ 'show_role' => false, 'show_types' => false ] ) || has_filter( 'buddy_builder/member_badges' ), 'Pro member-badges: role and types can be left out' );
+		} else {
+			$bpb_skip( 'BuddyBuilder Pro not active: no Pro header parts' );
+		}
+		buddypress()->displayed_user->id = $bpb_was;
+		break;
+
 	default:
-		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install, checker-readylaunch, change-look-undo, cards-follow-layout, layout-actions, element-settings, elementor-basic-controls, layout-import, notice-dismiss, card-line, blocks-stay-on, community-pages-rows, elementor-panel, header-parts, theme-title-space, profile-fields' );
+		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install, checker-readylaunch, change-look-undo, cards-follow-layout, layout-actions, element-settings, elementor-basic-controls, layout-import, notice-dismiss, card-line, blocks-stay-on, community-pages-rows, elementor-panel, header-parts, theme-title-space, profile-fields, split-header' );
 }
 
 // Cleanup.
