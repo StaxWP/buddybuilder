@@ -4,7 +4,7 @@
  */
 
 /* Members and groups: the list is a CSS grid (columns from the 1.x classes), each item a card. */
-:is(#buddypress, .buddypress-wrap, body) :is(.bpb-cards, .bpb-look .dir-list) ul.bp-list:is(.members-list, .groups-list) {
+:is(#buddypress, .buddypress-wrap, body) :is(.bpb-cards, .bpb-look .dir-list) ul.bp-list:is(.members-list, .groups-list, .members-group-list) {
 	--bpb-cols: 3;
 	display: grid;
 	grid-template-columns: repeat(var(--bpb-cols), minmax(0, 1fr));
@@ -15,8 +15,8 @@
 }
 
 /* The 1.x clearfix pseudo elements would take grid cells. */
-:is(#buddypress, .buddypress-wrap, body) :is(.bpb-cards, .bpb-look .dir-list) ul.bp-list:is(.members-list, .groups-list)::before,
-:is(#buddypress, .buddypress-wrap, body) :is(.bpb-cards, .bpb-look .dir-list) ul.bp-list:is(.members-list, .groups-list)::after {
+:is(#buddypress, .buddypress-wrap, body) :is(.bpb-cards, .bpb-look .dir-list) ul.bp-list:is(.members-list, .groups-list, .members-group-list)::before,
+:is(#buddypress, .buddypress-wrap, body) :is(.bpb-cards, .bpb-look .dir-list) ul.bp-list:is(.members-list, .groups-list, .members-group-list)::after {
 	content: none;
 	display: none;
 }
@@ -36,7 +36,7 @@
 	:is(.bpb-cards, .bpb-look .dir-list) ul.bp-list.sm-grid-two { --bpb-cols: 2; }
 }
 
-:is(#buddypress, .buddypress-wrap, body) :is(.bpb-cards, .bpb-look .dir-list) ul.bp-list:is(.members-list, .groups-list) > li {
+:is(#buddypress, .buddypress-wrap, body) :is(.bpb-cards, .bpb-look .dir-list) ul.bp-list:is(.members-list, .groups-list, .members-group-list) > li {
 	width: auto;
 	max-width: none;
 	float: none;
@@ -47,7 +47,7 @@
 	min-height: 0;
 }
 
-:is(#buddypress, .buddypress-wrap, body) :is(.bpb-cards, .bpb-look .dir-list) ul.bp-list:is(.members-list, .groups-list) > li :is(.item, .item-block) {
+:is(#buddypress, .buddypress-wrap, body) :is(.bpb-cards, .bpb-look .dir-list) ul.bp-list:is(.members-list, .groups-list, .members-group-list) > li :is(.item, .item-block) {
 	width: auto;
 	min-height: 0;
 	margin: 0;
@@ -55,13 +55,13 @@
 	float: none;
 }
 
-:is(#buddypress, .buddypress-wrap, body) :is(.bpb-cards, .bpb-look .dir-list) ul.bp-list:is(.members-list, .groups-list) > li .list-wrap {
+:is(#buddypress, .buddypress-wrap, body) :is(.bpb-cards, .bpb-look .dir-list) ul.bp-list:is(.members-list, .groups-list, .members-group-list) > li .list-wrap {
 	padding: 0;
 	margin: 0;
 	min-height: 0;
 }
 
-:is(#buddypress, .buddypress-wrap, body) :is(.bpb-cards, .bpb-look .dir-list) ul.bp-list:is(.members-list, .groups-list) > li .list-wrap:hover {
+:is(#buddypress, .buddypress-wrap, body) :is(.bpb-cards, .bpb-look .dir-list) ul.bp-list:is(.members-list, .groups-list, .members-group-list) > li .list-wrap:hover {
 	box-shadow: 0 4px 16px rgb(0 0 0 / 0.06);
 }
 
@@ -89,15 +89,15 @@
 	display: block;
 }
 
-:is(#buddypress, .buddypress-wrap, body) :is(.bpb-cards, .bpb-look .dir-list) ul.bp-list:is(.members-list, .groups-list) > li .list-title,
-:is(#buddypress, .buddypress-wrap, body) :is(.bpb-cards, .bpb-look .dir-list) ul.bp-list:is(.members-list, .groups-list) > li .list-title a {
+:is(#buddypress, .buddypress-wrap, body) :is(.bpb-cards, .bpb-look .dir-list) ul.bp-list:is(.members-list, .groups-list, .members-group-list) > li .list-title,
+:is(#buddypress, .buddypress-wrap, body) :is(.bpb-cards, .bpb-look .dir-list) ul.bp-list:is(.members-list, .groups-list, .members-group-list) > li .list-title a {
 	margin: 0;
 	font-size: 1rem;
 	line-height: 1.3;
 	color: var(--bpb-color-text);
 }
 
-:is(#buddypress, .buddypress-wrap, body) :is(.bpb-cards, .bpb-look .dir-list) ul.bp-list:is(.members-list, .groups-list) > li :is(.item-meta, .item-meta span, .last-activity) {
+:is(#buddypress, .buddypress-wrap, body) :is(.bpb-cards, .bpb-look .dir-list) ul.bp-list:is(.members-list, .groups-list, .members-group-list) > li :is(.item-meta, .item-meta span, .last-activity) {
 	margin: 2px 0 0;
 	color: var(--bpb-color-muted);
 	font-size: 0.8125rem;
@@ -105,7 +105,7 @@
 
 /* Classic card inside a look: avatar, name, meta and buttons, centered, on a card with a hover lift. Not for items
    drawn by a card layout (.bpb-item): their own arrangement applies (a compact card got a centered column and 88 px photo). */
-:is(#buddypress, .buddypress-wrap, body) .bpb-look .dir-list:not(.bpb-cards) ul.bp-list:is(.members-list, .groups-list) > li .list-wrap:not(:has(.bpb-item)) {
+:is(#buddypress, .buddypress-wrap, body) .bpb-look .dir-list:not(.bpb-cards) ul.bp-list:is(.members-list, .groups-list, .members-group-list) > li .list-wrap:not(:has(.bpb-item)) {
 	flex-direction: column;
 	align-items: center;
 	padding: 24px 18px 20px;
@@ -113,23 +113,23 @@
 	gap: 12px;
 }
 
-:is(#buddypress, .buddypress-wrap, body) .bpb-look .dir-list:not(.bpb-cards) ul.bp-list:is(.members-list, .groups-list) .item-avatar img:not(.bpb-item *) {
+:is(#buddypress, .buddypress-wrap, body) .bpb-look .dir-list:not(.bpb-cards) ul.bp-list:is(.members-list, .groups-list, .members-group-list) .item-avatar img:not(.bpb-item *) {
 	width: 88px;
 	height: 88px;
 	border-radius: var(--bpb-avatar-radius, 50%);
 }
 
-:is(#buddypress, .buddypress-wrap, body) .bpb-look .dir-list:not(.bpb-cards) ul.bp-list:is(.members-list, .groups-list) :is(.members-meta, .groups-meta, .action):not(.bpb-item *) {
+:is(#buddypress, .buddypress-wrap, body) .bpb-look .dir-list:not(.bpb-cards) ul.bp-list:is(.members-list, .groups-list, .members-group-list) :is(.members-meta, .groups-meta, .action):not(.bpb-item *) {
 	justify-content: center;
 	margin-top: 8px;
 }
 
-:is(#buddypress, .buddypress-wrap, body) .bpb-look .dir-list:not(.bpb-cards) ul.bp-list:is(.members-list, .groups-list) .user-update:not(.bpb-item *) {
+:is(#buddypress, .buddypress-wrap, body) .bpb-look .dir-list:not(.bpb-cards) ul.bp-list:is(.members-list, .groups-list, .members-group-list) .user-update:not(.bpb-item *) {
 	display: none;
 }
 
 /* Inside a look the grid follows the space it has (columns from the card width, not from the 1.x classes). */
-:is(#buddypress, .buddypress-wrap, body) .bpb-look .dir-list ul.bp-list:is(.members-list, .groups-list) {
+:is(#buddypress, .buddypress-wrap, body) .bpb-look .dir-list ul.bp-list:is(.members-list, .groups-list, .members-group-list) {
 	grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--bpb-card-min, 200px)), 1fr));
 }
 
