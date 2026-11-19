@@ -1508,6 +1508,76 @@
 	color: inherit;
 }
 
+/* BuddyPress forms inside a style (profile edit, settings, messages, group admin, register, group creation): fields in
+   the style's colors that never get wider than their box (the padding came on top of the 1.x width: 100%). */
+#buddypress.buddypress-wrap .bpb-look :is(input:is([type="text"], [type="email"], [type="password"], [type="url"], [type="number"], [type="tel"], [type="search"]), textarea, select) {
+	box-sizing: border-box;
+	max-width: 100%;
+}
+
+#buddypress.buddypress-wrap .bpb-look :is(input:is([type="email"], [type="password"], [type="url"], [type="number"], [type="tel"]), textarea:not(.bpb-composer__input, .wp-editor-area)) {
+	border: 1px solid var(--bpb-color-border);
+	border-radius: var(--bpb-radius);
+	background: var(--bpb-color-surface);
+	color: var(--bpb-color-text);
+	font: inherit;
+	font-size: 14px;
+	box-shadow: none;
+}
+
+#buddypress.buddypress-wrap .bpb-look :is(input:is([type="email"], [type="password"], [type="url"], [type="number"], [type="tel"])) {
+	min-height: 42px;
+	padding: 0 14px;
+}
+
+#buddypress.buddypress-wrap .bpb-look textarea:not(.bpb-composer__input, .wp-editor-area) {
+	padding: 10px 14px;
+}
+
+/* Form buttons: submit is the style's primary button, the others its secondary one (1.x drew them grey on white). */
+#buddypress.buddypress-wrap .bpb-look :is(input[type="submit"], button[type="submit"]):not(:is(.dir-search, .subnav-search, .bpb-mh, .bpb-gh, .bpb-composer) *),
+#buddypress.buddypress-wrap .bpb-look :is(input[type="button"], input[type="reset"], a.button, button.button, #bp-browse-button):not(:is(.bpb-mh, .bpb-gh, .bpb-actions, .generic-button, .bpb-composer, .wp-editor-tools) *) {
+	box-sizing: border-box;
+	min-height: 42px;
+	padding: 0 20px;
+	border: var(--bpb-button-2-border);
+	border-radius: var(--bpb-button-radius);
+	background: var(--bpb-button-2-bg);
+	color: var(--bpb-button-2-color);
+	font: inherit;
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 40px;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+#buddypress.buddypress-wrap .bpb-look :is(input[type="submit"], button[type="submit"]):not(:is(.dir-search, .subnav-search, .bpb-mh, .bpb-gh, .bpb-composer) *) {
+	border-color: transparent;
+	background: var(--bpb-button-bg);
+	color: var(--bpb-button-color);
+}
+
+/* Avatars in BuddyPress' own lists (messages, group members manager): thumb size, whatever size the image file is
+   (images without width attributes showed at their file size, 300 px for the sample members). */
+#buddypress.buddypress-wrap .bpb-look :is(.message-lists .thread-from, #group-members-list-table, #message-thread .message-metadata) img.avatar {
+	width: 40px;
+	max-width: none;
+	height: 40px;
+	border-radius: var(--bpb-avatar-radius);
+	object-fit: cover;
+}
+
+/* Messages: the conversation titles in the style's colors (1.x: gray on a fixed light band). */
+#buddypress.buddypress-wrap .bpb-look .bp-messages-content :is(.preview-thread-title, #message-subject) {
+	background: var(--bpb-color-surface-2);
+	color: var(--bpb-color-text);
+}
+
+#buddypress.buddypress-wrap .bpb-look .bp-messages-content :is(.preview-thread-title, #message-subject) .messages-title {
+	color: inherit;
+}
+
 /* Bulk action menus show their whole label ("Bulk Actions"). */
 #buddypress.buddypress-wrap .bpb-look :is(#notification-select, #invitation-select, #messages-select) {
 	width: auto;
