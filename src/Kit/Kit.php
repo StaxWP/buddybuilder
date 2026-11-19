@@ -74,7 +74,7 @@ final class Kit {
 	 * - array    labels             Translated UI strings: basic, advanced, empty.
 	 * - array    editor_query_args  Block editor previews: query arg => post meta key, sent from the edited (unsaved) post with post_id.
 	 * - callable context            fn( Element element, array attrs, source, Context base ): Context|array. source is a WP_Block, an Elementor widget or null.
-	 * - callable empty_preview      fn( Element element, Context ctx ): string, markup shown in editors when render.php prints nothing.
+	 * - callable empty_preview      fn( Element element, Context ctx ): string, markup shown in editors when render.php prints nothing ('': the element prints nothing there either).
 	 *
 	 * @param array $config Kit configuration (keys above).
 	 */

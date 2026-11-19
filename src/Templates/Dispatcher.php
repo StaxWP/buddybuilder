@@ -204,7 +204,13 @@ final class Dispatcher {
 		}
 
 		if ( is_string( $shortcode ) && '' !== $shortcode ) {
-			return do_shortcode( $shortcode );
+			// The item's context also for a layout printed by its shortcode (the elements in it read their page type
+			// and item from it, in the editor of the page around the list too).
+			self::$stack[] = array_merge( [ 'type' => $type ], $context );
+			$html          = do_shortcode( $shortcode );
+			array_pop( self::$stack );
+
+			return $html;
 		}
 
 		if ( isset( $entry['content'] ) ) {

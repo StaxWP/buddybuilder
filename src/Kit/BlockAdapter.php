@@ -119,6 +119,9 @@ final class BlockAdapter {
 				return '';
 			}
 			$html = $element->kit()->empty_preview( $element, $ctx );
+			if ( '' === $html ) {
+				return '';
+			}
 		}
 
 		return '<div ' . get_block_wrapper_attributes( array( 'class' => $element->kit()->classes( $element ) ) ) . '>' . $html . '</div>';

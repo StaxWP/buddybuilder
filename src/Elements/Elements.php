@@ -169,7 +169,17 @@ final class Elements {
 	 * @return Context
 	 */
 	public static function context( Element $element, array $attrs, $source, Context $base ) {
-		$data = array_merge( Dispatcher::current_context(), PreviewContext::ctx() );
+		$current = Dispatcher::current_context();
+		$preview = PreviewContext::ctx();
+
+		// A loop item (a card in a list) renders with its own page type and its own member, group or activity, also
+		// inside the editor of the page around it: there the item wins over the editor's preview context.
+		$item = isset( $current['type'] ) && '-item' === substr( (string) $current['type'], -5 );
+		$data = $item ? array_merge( $preview, $current ) : array_merge( $current, $preview );
+
+		if ( $item && isset( $preview['type'] ) && $preview['type'] !== $current['type'] ) {
+			$data['nested_item'] = true;
+		}
 
 		if ( $base->is_preview() ) {
 			$data['preview'] = true;
@@ -422,6 +432,12 @@ final class Elements {
 	 * @return string
 	 */
 	public static function empty_preview( Element $element, Context $ctx ) {
+		// A card inside the list of the page being edited shows what the live page shows: nothing (an own card has no
+		// friendship button, a member without a cover has none). Placeholders stay in the card's own editor.
+		if ( $ctx->get( 'nested_item' ) ) {
+			return '';
+		}
+
 		$schema = $element->schema();
 		$types  = isset( $schema['templateTypes'] ) ? (array) $schema['templateTypes'] : [];
 		$type   = (string) $ctx->get( 'type', '' );

@@ -171,6 +171,9 @@ trait ElementorAdapter {
 				return;
 			}
 			$html = $kit->empty_preview( $element, $ctx );
+			if ( '' === $html ) {
+				return;
+			}
 		}
 
 		if ( 'widget' === $kit->config( 'elementor_wrap' ) ) {
