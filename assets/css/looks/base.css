@@ -173,7 +173,10 @@
 	box-shadow: var(--bpb-shadow);
 }
 
-:is(.bpb-mh, .bpb-gh) h1 {
+/* Also beats the 1.x member and group page CSS (body.buddypress .buddypress-wrap h1: margin 1em), which put 34 px
+   above and below the name. */
+:is(.bpb-mh, .bpb-gh) h1,
+.buddypress-wrap :is(.bpb-mh, .bpb-gh) h1:is(.bpb-mh__name, .bpb-gh__name) {
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -1430,7 +1433,7 @@
 	border-radius: var(--bpb-button-radius);
 }
 
-#buddypress.buddypress-wrap .bpb-look :is(.bpb-mh, .bpb-gh) .bpb-actions :is(.not_friends, .join-group, .request-membership),
+#buddypress.buddypress-wrap .bpb-look :is(.bpb-mh, .bpb-gh) .bpb-actions :is(button, a):is(.not_friends, .join-group, .request-membership),
 #buddypress.buddypress-wrap .bpb-look .bpb-mh .bpb-actions:has(.is_friend, .pending, .awaiting_response) .send-message {
 	border-color: transparent;
 	background: var(--bpb-button-bg);
@@ -1467,6 +1470,12 @@
 #buddypress.buddypress-wrap .bpb-look .bpb-mh .bpb-actions .send-message::before {
 	-webkit-mask-image: var(--bpb-i-mail);
 	mask-image: var(--bpb-i-mail);
+}
+
+/* Icon buttons keep their size where the header stacks and its buttons share the row (the primary one grows). */
+#buddypress.buddypress-wrap .bpb-look .bpb-mh .bpb-actions > li:has(> .mention),
+#buddypress.buddypress-wrap .bpb-look .bpb-mh .bpb-actions:not(:has(.is_friend, .pending, .awaiting_response)) > li:has(> .send-message) {
+	flex: 0 0 auto;
 }
 
 /* Profile streams: the sub filters are quiet text links; the type menu and search stay out of the way. */
