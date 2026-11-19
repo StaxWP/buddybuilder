@@ -85,6 +85,19 @@
 	}
 }
 
+/* Tablets and small laptops: a layout with columns on both sides of the main column (Career, Creator and Network
+ * feeds, Network directories, Hub) moves the columns after the main one under it, full width; three fixed side widths
+ * left the feed 80 to 280 px wide between 782 and 1199 px. */
+@media (min-width: 782px) and (max-width: 1199px) {
+	.bpb-look .wp-block-columns.bpb-look__cols:has(> .wp-block-column + .bpb-look__main + .wp-block-column) {
+		flex-wrap: wrap !important;
+	}
+
+	.bpb-look .wp-block-columns.bpb-look__cols:has(> .wp-block-column + .bpb-look__main) > .bpb-look__main ~ .wp-block-column {
+		flex-basis: 100% !important;
+	}
+}
+
 /* Badges. */
 .bpb-badge {
 	display: inline-flex;
