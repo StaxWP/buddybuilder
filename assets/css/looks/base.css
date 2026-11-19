@@ -1616,6 +1616,46 @@
 	color: inherit;
 }
 
+/* The other BuddyPress screens in the style's colors: the 1.x parts paint fixed light panels (profile field boxes,
+   alternate messages, the group members manager, the photo uploader) and gray text, unreadable in dark styles. */
+#buddypress.buddypress-wrap .bpb-look :is(.profile.edit .editfield, .standard-form .description, #avatar-upload, .groups-manage-members-list .section-title),
+#buddypress.buddypress-wrap .bpb-look .bp-messages-content :is(#message-threads li.selected, #thread-preview .preview-content .preview-message, #bp-message-thread-list li:nth-child(2n) .message-content) {
+	border-color: var(--bpb-color-border);
+	background: var(--bpb-color-surface-2);
+	color: var(--bpb-color-text);
+}
+
+#buddypress.buddypress-wrap .bpb-look .groups-manage-members-list ul li:nth-child(even) {
+	background: color-mix(in srgb, var(--bpb-color-text) 4%, transparent);
+}
+
+#buddypress.buddypress-wrap .bpb-look :is(.field-visibility-settings, .field-visibility-settings-header, .field-visibility-settings-toggle, .visibility-toggle-link, .drag-drop-info),
+#buddypress.buddypress-wrap .bpb-look .bp-list :is(.item-meta, .meta, .update, .activity, .group-inviters li, li .status),
+#buddypress.buddypress-wrap .bpb-look .bp-invites-content .item-meta span,
+#buddypress.buddypress-wrap .bpb-look table#message-threads .thread-info p.thread-excerpt,
+#buddypress.buddypress-wrap .bpb-look .bp-messages-content :is(.message-lists :is(.excerpt, .thread-date, time), #bp-message-thread-list time),
+#buddypress.buddypress-wrap .bpb-look :is(.user-messages-bulk-actions, .groups-manage-members-list, .standard-form div.checkbox, .standard-form div.radio) label,
+#buddypress.buddypress-wrap .bpb-look #group-manage-members-ui #group-roles-filter label {
+	color: var(--bpb-color-muted);
+}
+
+#buddypress.buddypress-wrap .bpb-look .bp-messages-content .message-lists .subject {
+	color: var(--bpb-color-text);
+	font-weight: 600;
+}
+
+#buddypress.buddypress-wrap .bpb-look #drag-drop-area {
+	border-color: var(--bpb-color-border);
+	background: transparent;
+}
+
+#buddypress.buddypress-wrap .bpb-look p.warning {
+	border: 1px solid color-mix(in srgb, #d97706 45%, var(--bpb-color-surface));
+	border-radius: var(--bpb-radius);
+	background: color-mix(in srgb, #d97706 10%, var(--bpb-color-surface));
+	color: var(--bpb-color-text);
+}
+
 /* Bulk action menus show their whole label ("Bulk Actions"). */
 #buddypress.buddypress-wrap .bpb-look :is(#notification-select, #invitation-select, #messages-select) {
 	width: auto;
