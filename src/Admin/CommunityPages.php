@@ -1157,11 +1157,8 @@ final class CommunityPages {
 
 		echo '</div>';
 
-		// Starter kits fold into the look picker (decision 5): the Elementor kits stay one click away.
-		if ( Elementor::is_available() ) {
-			echo '<p class="bpb-looks__more"><a href="' . esc_url( admin_url( 'admin.php?page=buddy-builder-templates' ) ) . '">' . esc_html__( 'More styles: starter kits for Elementor', 'stax-buddy-builder' ) . '</a></p>';
-		}
-
+		// The 1.x Elementor starter kits are not offered next to the styles (the 2.0 styles replace them; two kinds of
+		// "style" confused owners). Their screen stays registered for bookmarks.
 		echo '</div></details>';
 	}
 
