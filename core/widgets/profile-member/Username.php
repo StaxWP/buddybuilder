@@ -23,10 +23,6 @@ class Username extends \Buddy_Builder\Widgets\Base {
 		return 'bpb-profile-member-username';
 	}
 
-	public function get_title() {
-		return esc_html__( 'Name/Username', 'stax-buddy-builder' );
-	}
-
 	public function get_icon() {
 		return 'bbl-members-name sq-widget-label';
 	}

@@ -49,6 +49,8 @@
  *                               "Variations" link (Pro) starting from a copy of the main layout.
  * - split-header                Review item 7: the header parts with design "header" (Split into parts, Pro) print
  *                               the Member header's markup; 1.x parts keep theirs; Pro stats and badges parts.
+ * - fresh-site-points           Fresh-site test: undo to 1.9 only after a 1.x update, Turn on in place, part widget
+ *                               names, no repeated About label, short Pro teaser.
  *
  * THROWAWAY site only (needs the compat env mu-plugin). Restores the options it touches and deletes the posts it
  * creates. Prints PASS / FAIL / SKIP lines; exits 1 on any FAIL.
@@ -1160,8 +1162,79 @@ switch ( $bpb_case ) {
 		buddypress()->displayed_user->id = $bpb_was;
 		break;
 
+	case 'fresh-site-points':
+		// Fresh-site test (2026-11-18): Help offers the undo to 1.9 only on sites updated from 1.x; a component's
+		// "Turn on" turns it on in place (nonce'd admin-post action); header part widgets are named like their blocks;
+		// the About card does not repeat its title as a field label; free users see a short Pro teaser.
+		$bpb_from = get_option( \Buddy_Builder\Migrations\Runner::FROM_1X, null );
+		$bpb_help = static function () {
+			ob_start();
+			\Buddy_Builder\Compat\StatusPage::render();
+			return ob_get_clean();
+		};
+		if ( ! class_exists( '\\Buddy_Builder\\Compat\\StatusPage' ) ) {
+			require_once BPB_BASE_PATH . 'admin/pages/Status.php';
+		}
+		wp_set_current_user( (int) get_users( [ 'role' => 'administrator', 'number' => 1, 'fields' => 'ID' ] )[0] );
+		if ( class_exists( '\\Buddy_Builder\\Compat\\StatusPage' ) ) {
+			delete_option( \Buddy_Builder\Migrations\Runner::FROM_1X );
+			$bpb_ok( false === strpos( $bpb_help(), 'value="rollback"' ), 'Help: no undo to 1.9 on a site that never had 1.x data' );
+			update_option( \Buddy_Builder\Migrations\Runner::FROM_1X, 1, false );
+			$bpb_ok( false !== strpos( $bpb_help(), 'value="rollback"' ), 'Help: the undo to 1.9 on a site updated from 1.x' );
+			null === $bpb_from ? delete_option( \Buddy_Builder\Migrations\Runner::FROM_1X ) : update_option( \Buddy_Builder\Migrations\Runner::FROM_1X, $bpb_from, false );
+		} else {
+			$bpb_skip( 'Help screen class not loaded in this context' );
+		}
+		$bpb_url = \Buddy_Builder\Admin\Checker::turn_on_url( 'blogs' );
+		$bpb_ok( false !== strpos( $bpb_url, 'admin-post.php' ) && false !== strpos( $bpb_url, 'component=blogs' ) && false !== strpos( $bpb_url, '_wpnonce=' ), 'Turn on: an admin-post link with the component and a nonce' );
+		$bpb_active = bp_get_option( 'bp-active-components' );
+		if ( ! bp_is_active( 'blogs' ) && ! is_multisite() ) {
+			global $wpdb;
+			$bpb_tables = $wpdb->get_col( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $wpdb->base_prefix . 'bp_user_blogs' ) . '%' ) );
+			$bpb_on     = new ReflectionMethod( \Buddy_Builder\Admin\Checker::class, 'activate_component' );
+			$bpb_on->setAccessible( true );
+			$bpb_ok( $bpb_on->invoke( null, 'blogs' ) && ! empty( bp_get_option( 'bp-active-components' )['blogs'] ), 'Turn on: the component is on, the others stay as they were' );
+			$bpb_ok( ! $bpb_on->invoke( null, 'not-a-component' ), 'Turn on: an unknown component is refused (the components screen opens instead)' );
+			bp_update_option( 'bp-active-components', $bpb_active );
+			foreach ( array_diff( $wpdb->get_col( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $wpdb->base_prefix . 'bp_user_blogs' ) . '%' ) ), $bpb_tables ) as $bpb_table ) {
+				$wpdb->query( 'DROP TABLE `' . esc_sql( $bpb_table ) . '`' ); // phpcs:ignore WordPress.DB
+			}
+		} else {
+			$bpb_skip( 'Site Tracking is on (or multisite): turning a component on not run' );
+		}
+		if ( did_action( 'elementor/loaded' ) ) {
+			foreach ( [ 'bpb-profile-member-avatar' => 'member-avatar', 'bpb-profile-member-meta' => 'member-meta', 'bpb-profile-group-status' => 'group-status' ] as $bpb_widget => $bpb_name ) {
+				$bpb_w = \Elementor\Plugin::$instance->widgets_manager->get_widget_types( $bpb_widget );
+				$bpb_ok( $bpb_w && \Buddy_Builder\Elements\Elements::get( $bpb_name )->title() === $bpb_w->get_title() && $bpb_widget === $bpb_w->get_name(), 'Elementor: ' . $bpb_widget . ' is named like its block (' . ( $bpb_w ? $bpb_w->get_title() : '?' ) . '), same widget name' );
+			}
+		}
+		$bpb_member = get_users( [ 'number' => 1, 'orderby' => 'ID', 'fields' => 'ID' ] );
+		$bpb_was    = buddypress()->displayed_user->id ?? 0;
+		buddypress()->displayed_user->id = (int) $bpb_member[0];
+		$bpb_about  = \Buddy_Builder\Elements\Elements::get( 'member-about' );
+		add_filter( 'xprofile_get_field_data', $bpb_value = static function () { return 'Some words.'; } );
+		$bpb_attrs = $bpb_about->normalize( [ 'fields' => 'About, Location', 'show_groups' => false ] );
+		$bpb_html  = $bpb_about->render( $bpb_attrs, $bpb_about->kit()->context( $bpb_about, $bpb_attrs, null, false ) );
+		remove_filter( 'xprofile_get_field_data', $bpb_value );
+		buddypress()->displayed_user->id = $bpb_was;
+		if ( xprofile_get_field_id_from_name( 'About' ) && xprofile_get_field_id_from_name( 'Location' ) ) {
+			$bpb_ok( false === strpos( $bpb_html, '<dt>About</dt>' ) && false !== strpos( $bpb_html, '<dt>Location</dt>' ), 'About card: the About field has no "About" label under the "About" title, other fields keep theirs' );
+		} else {
+			$bpb_skip( 'no About and Location profile fields on this site' );
+		}
+		if ( \Buddy_Builder\Upsell\Upsell::enabled() ) {
+			ob_start();
+			\Buddy_Builder\Upsell\Upsell::render_features();
+			$bpb_html  = ob_get_clean();
+			$bpb_first = substr( $bpb_html, 0, strpos( $bpb_html, '<details' ) );
+			$bpb_ok( substr_count( $bpb_first, 'data-bpb-pro=' ) <= 4 && false !== strpos( $bpb_html, 'See all in Pro' ) && substr_count( $bpb_html, 'data-bpb-pro=' ) === count( \Buddy_Builder\Upsell\Upsell::features() ), 'Pro teaser: ' . substr_count( $bpb_first, 'data-bpb-pro=' ) . ' highlights, the rest behind See all in Pro' );
+		} else {
+			$bpb_skip( 'BuddyBuilder Pro active: no Pro teaser' );
+		}
+		break;
+
 	default:
-		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install, checker-readylaunch, change-look-undo, cards-follow-layout, layout-actions, element-settings, elementor-basic-controls, layout-import, notice-dismiss, card-line, blocks-stay-on, community-pages-rows, elementor-panel, header-parts, theme-title-space, profile-fields, split-header' );
+		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install, checker-readylaunch, change-look-undo, cards-follow-layout, layout-actions, element-settings, elementor-basic-controls, layout-import, notice-dismiss, card-line, blocks-stay-on, community-pages-rows, elementor-panel, header-parts, theme-title-space, profile-fields, split-header, fresh-site-points' );
 }
 
 // Cleanup.

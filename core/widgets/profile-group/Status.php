@@ -23,10 +23,6 @@ class Status extends \Buddy_Builder\Widgets\Base {
 		return 'bpb-profile-group-status';
 	}
 
-	public function get_title() {
-		return esc_html__( 'Status', 'stax-buddy-builder' );
-	}
-
 	public function get_icon() {
 		return 'bbl-groups-status sq-widget-label';
 	}

@@ -24,10 +24,6 @@ class Cover extends \Buddy_Builder\Widgets\Base {
 		return 'bpb-profile-group-cover';
 	}
 
-	public function get_title() {
-		return esc_html__( 'Cover', 'stax-buddy-builder' );
-	}
-
 	public function get_icon() {
 		return 'bbl-groups-profile-cover sq-widget-label';
 	}

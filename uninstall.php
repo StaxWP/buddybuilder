@@ -57,6 +57,7 @@ function bpb_uninstall_options() {
 		'bpb_migrations',
 		'bpb_migrations_checked',
 		'bpb_migration_lock',
+		'bpb_from_1x',
 		'bpb_db_version',
 		'bpb_blocks_enabled',
 		'bpb_sample_member',

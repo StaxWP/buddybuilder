@@ -23,10 +23,6 @@ class Avatar extends \Buddy_Builder\Widgets\Base {
 		return 'bpb-profile-member-avatar';
 	}
 
-	public function get_title() {
-		return esc_html__( 'Avatar', 'stax-buddy-builder' );
-	}
-
 	public function get_icon() {
 		return 'bbl-members-avatar sq-widget-label';
 	}

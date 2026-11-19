@@ -52,7 +52,7 @@ class StatusPage {
 		check_admin_referer( 'bpb_migrations' );
 
 		$do = isset( $_POST['bpb_do'] ) ? sanitize_key( wp_unslash( $_POST['bpb_do'] ) ) : '';
-		if ( 'rollback' === $do ) {
+		if ( 'rollback' === $do && Runner::from_1x() ) {
 			$report = Runner::rollback( '1.9.2' );
 		} else {
 			$report = Runner::run();
@@ -74,10 +74,16 @@ class StatusPage {
 
 		switch ( $step['state'] ) {
 			case 'done':
+				// The undo is offered only on sites updated from 1.x (it is for going back to 1.9).
+				$label = isset( $step['label'] ) ? $step['label'] : $step['description'];
+				if ( ! Runner::from_1x() ) {
+					/* translators: %s: what the step does */
+					return [ 'live', sprintf( __( '%s Done.', 'stax-buddy-builder' ), $label ) ];
+				}
 				return [
 					'live',
 					/* translators: 1: what the step does, 2: date */
-					$when ? sprintf( __( '%1$s Done on %2$s. Undo is available below.', 'stax-buddy-builder' ), ( isset( $step['label'] ) ? $step['label'] : $step['description'] ), $when ) : sprintf( __( '%s Done. Undo is available below.', 'stax-buddy-builder' ), ( isset( $step['label'] ) ? $step['label'] : $step['description'] ) ),
+					$when ? sprintf( __( '%1$s Done on %2$s. Undo is available below.', 'stax-buddy-builder' ), $label, $when ) : sprintf( __( '%s Done. Undo is available below.', 'stax-buddy-builder' ), $label ),
 				];
 			case 'failed':
 				return [
@@ -160,7 +166,9 @@ class StatusPage {
 					<input type="hidden" name="action" value="bpb_migrations">
 					<?php wp_nonce_field( 'bpb_migrations' ); ?>
 					<button class="button" name="bpb_do" value="run"><?php echo esc_html( $failed ? __( 'Try again', 'stax-buddy-builder' ) : __( 'Run now', 'stax-buddy-builder' ) ); ?></button>
-					<button class="button" name="bpb_do" value="rollback" onclick="return confirm('<?php echo esc_js( __( 'Undo the data update? Use this only before installing BuddyBuilder 1.9 again. Your 2.0 layouts are kept but 1.9 cannot show block layouts.', 'stax-buddy-builder' ) ); ?>');"><?php esc_html_e( 'Undo (go back to the 1.9 format)', 'stax-buddy-builder' ); ?></button>
+					<?php if ( Runner::from_1x() ) : ?>
+						<button class="button" name="bpb_do" value="rollback" onclick="return confirm('<?php echo esc_js( __( 'Undo the data update? Use this only before installing BuddyBuilder 1.9 again. Your 2.0 layouts are kept but 1.9 cannot show block layouts.', 'stax-buddy-builder' ) ); ?>');"><?php esc_html_e( 'Undo (go back to the 1.9 format)', 'stax-buddy-builder' ); ?></button>
+					<?php endif; ?>
 				</form>
 			</div>
 

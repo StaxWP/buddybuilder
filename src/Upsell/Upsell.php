@@ -157,6 +157,10 @@ final class Upsell {
 				'title' => __( 'Card designer', 'stax-buddy-builder' ),
 				'text'  => __( 'Design the member, group and activity cards of your directories and feeds, plus the Compact, Cover, Boxed and Post card styles.', 'stax-buddy-builder' ),
 			],
+			'split-header'         => [
+				'title' => __( 'Split the header into parts', 'stax-buddy-builder' ),
+				'text'  => __( 'Turn the Member header into its parts (photo, name, badges, headline, stats, buttons) and arrange them freely, starting from the same look.', 'stax-buddy-builder' ),
+			],
 			'register-group-pages' => [
 				'title' => __( 'Register and Create a group pages', 'stax-buddy-builder' ),
 				'text'  => __( 'Build the registration form and the Create a group steps with BuddyBuilder elements.', 'stax-buddy-builder' ),
@@ -302,20 +306,45 @@ final class Upsell {
 		return $settings;
 	}
 
+	/** Features shown first on the Community pages screen; the others wait behind "See all in Pro". */
+	const HIGHLIGHTS = [ 'styles', 'card-designer', 'split-header', 'variations' ];
+
 	/**
-	 * Community pages screen: the Pro features, greyed out with a "Pro" badge. Each opens a short description
-	 * with a link (without JavaScript, the link itself).
+	 * Community pages screen: a short teaser of BuddyBuilder Pro (a few highlights, the rest behind "See all in
+	 * Pro"), greyed out with a "Pro" badge. Each opens a short description with a link (without JavaScript, the link
+	 * itself).
 	 */
 	public static function render_features() {
 		if ( ! self::enabled() ) {
 			return;
 		}
 
+		$features = self::features();
+		$first    = array_filter( array_replace( array_fill_keys( self::HIGHLIGHTS, null ), array_intersect_key( $features, array_flip( self::HIGHLIGHTS ) ) ) );
+		$rest     = array_diff_key( $features, $first );
+
 		echo '<section class="bpb-upsell" aria-labelledby="bpb-upsell-title">';
 		echo '<h2 id="bpb-upsell-title" class="bpb-upsell__title">' . esc_html__( 'More with BuddyBuilder Pro', 'stax-buddy-builder' ) . '</h2>';
+		self::render_feature_list( $first );
+
+		if ( $rest ) {
+			echo '<details class="bpb-upsell__more"><summary>' . esc_html__( 'See all in Pro', 'stax-buddy-builder' ) . '</summary>';
+			self::render_feature_list( $rest );
+			echo '</details>';
+		}
+
+		echo '</section>';
+	}
+
+	/**
+	 * One list of Pro feature chips.
+	 *
+	 * @param array $features id => feature.
+	 */
+	private static function render_feature_list( array $features ) {
 		echo '<ul class="bpb-upsell__list">';
 
-		foreach ( self::features() as $id => $feature ) {
+		foreach ( $features as $id => $feature ) {
 			printf(
 				'<li><a class="bpb-upsell__item" href="%1$s" target="_blank" rel="noopener" data-bpb-pro="%2$s" aria-haspopup="dialog">%3$s <span class="bpb-pro-tag">%4$s</span><span class="screen-reader-text"> %5$s</span></a></li>',
 				esc_url( self::url( $id ) ),
@@ -326,7 +355,7 @@ final class Upsell {
 			);
 		}
 
-		echo '</ul></section>';
+		echo '</ul>';
 	}
 
 	/**

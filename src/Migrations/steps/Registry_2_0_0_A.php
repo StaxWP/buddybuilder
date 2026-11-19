@@ -146,6 +146,10 @@ class Registry_2_0_0_A extends Step {
 
 		if ( ! $dry_run ) {
 			update_option( 'bpb_templates', $registry, true );
+
+			if ( $this->legacy() ) {
+				update_option( \Buddy_Builder\Migrations\Runner::FROM_1X, 1, false );
+			}
 		}
 
 		return true;

@@ -24,10 +24,6 @@ class Buttons extends \Buddy_Builder\Widgets\Base {
 		return 'bpb-profile-member-buttons';
 	}
 
-	public function get_title() {
-		return esc_html__( 'Action Buttons', 'stax-buddy-builder' );
-	}
-
 	public function get_icon() {
 		return 'bbl-members-action-buttons sq-widget-label';
 	}

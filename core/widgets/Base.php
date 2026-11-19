@@ -85,6 +85,18 @@ class Base extends \Elementor\Widget_Base {
 	}
 
 	/**
+	 * Header parts are named like their blocks (Member avatar, Group name, ...). The title only: widget names and
+	 * settings stay, so saved templates keep working. Other widgets keep their own title.
+	 *
+	 * @return string
+	 */
+	public function get_title() {
+		$element = $this->kit_element();
+
+		return $element ? $element->title() : '';
+	}
+
+	/**
 	 * Header parts sit in their own category; other widgets keep theirs.
 	 *
 	 * @return string[]

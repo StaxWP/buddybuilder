@@ -23,10 +23,6 @@ class Meta extends \Buddy_Builder\Widgets\Base {
 		return 'bpb-profile-member-meta';
 	}
 
-	public function get_title() {
-		return esc_html__( 'Meta', 'stax-buddy-builder' );
-	}
-
 	public function get_icon() {
 		return 'bbl-members-meta sq-widget-label';
 	}

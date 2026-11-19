@@ -51,7 +51,8 @@ if ( ! $bpb_rows && ! $bpb_groups ) {
 		<dl class="bpb-about__fields">
 			<?php foreach ( $bpb_rows as $bpb_row ) : ?>
 				<div class="bpb-about__row">
-					<?php if ( $attrs['show_labels'] ) : ?>
+					<?php // A field named like the card (About in the About card) needs no label of its own. ?>
+					<?php if ( $attrs['show_labels'] && 0 !== strcasecmp( trim( $bpb_row[0] ), trim( $attrs['title'] ) ) ) : ?>
 						<dt><?php echo esc_html( $bpb_row[0] ); ?></dt>
 					<?php endif; ?>
 					<dd>

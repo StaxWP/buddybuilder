@@ -269,6 +269,8 @@ async function shot( page, name, locator ) {
 		await shot( page, 'settings' );
 		await page.goto( site + '/wp-admin/admin.php?page=buddy-builder-status' );
 		ok( await page.locator( 'h2:has-text("Data update")' ).count() > 0, 'Help and status screen loads' );
+		const from1x = php( echo( '\\Buddy_Builder\\Migrations\\Runner::from_1x()' ) );
+		ok( await page.locator( 'button[value=rollback]' ).count() === ( from1x ? 1 : 0 ), `Help: the undo to 1.9 only on a site updated from 1.x (${ from1x ? 'updated' : 'never had 1.x' })` );
 		await axeCheck( page, 'help and status' );
 		await shot( page, 'help-and-status' );
 		await page.goto( site + '/wp-admin/admin.php?page=buddy-builder-templates' );
@@ -329,6 +331,7 @@ async function shot( page, name, locator ) {
 			const header = await findBlock( 'buddybuilder/member-header' );
 			await page.evaluate( ( id ) => wp.data.dispatch( 'core/block-editor' ).selectBlock( id ), header.clientId );
 			const splitButton = page.locator( '.block-editor-block-toolbar button:has-text("Split into parts")' );
+			await splitButton.waitFor( { timeout: 15000 } ).catch( () => {} );
 			ok( await splitButton.count() === 1, 'Member header: Split into parts in the block toolbar' );
 			await splitButton.click();
 			const frame = await findBlock( 'bpb-mh--parts' );

@@ -24,10 +24,6 @@ class LastActivity extends \Buddy_Builder\Widgets\Base {
 		return 'bpb-profile-group-last-activity';
 	}
 
-	public function get_title() {
-		return esc_html__( 'Last Activity', 'stax-buddy-builder' );
-	}
-
 	public function get_icon() {
 		return 'bbl-groups-last-activity sq-widget-label';
 	}

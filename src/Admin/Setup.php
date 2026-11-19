@@ -443,7 +443,7 @@ final class Setup {
 			if ( 'members' === $component || bp_is_active( $component ) ) {
 				$on[] = $name;
 			} else {
-				$off[] = $name;
+				$off[ $component ] = $name;
 			}
 		}
 
@@ -459,12 +459,12 @@ final class Setup {
 			'text' => sprintf( __( '%1$s with %2$s', 'stax-buddy-builder' ), $platform, implode( ', ', $on ) ),
 		];
 
-		foreach ( $off as $name ) {
+		foreach ( $off as $component => $name ) {
 			$checks[] = [
 				'tone'      => 'warn',
 				/* translators: %s: component name */
 				'text'      => sprintf( __( 'The %s component is off.', 'stax-buddy-builder' ), $name ),
-				'link'      => Checker::components_url(),
+				'link'      => Checker::turn_on_url( $component ),
 				'link_text' => __( 'Turn on', 'stax-buddy-builder' ),
 			];
 		}

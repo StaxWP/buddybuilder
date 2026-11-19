@@ -26,6 +26,9 @@ defined( 'ABSPATH' ) || die();
  */
 final class Checker {
 
+	/** admin-post action of the "Turn on" links of inactive components. */
+	const TURN_ON = 'bpb_component_on';
+
 	/** Last "not applied" finding per type: [ type => [ time, causes[] ] ]. */
 	const OPTION = 'bpb_render_issues';
 
@@ -33,6 +36,7 @@ final class Checker {
 	 * Register hooks.
 	 */
 	public static function hooks() {
+		add_action( 'admin_post_' . self::TURN_ON, [ __CLASS__, 'turn_on' ] );
 		add_action( 'admin_bar_menu', [ __CLASS__, 'admin_bar' ], 90 );
 		add_action( 'wp_footer', [ __CLASS__, 'footer_check' ], 1001 );
 		add_filter( 'do_shortcode_tag', [ __CLASS__, 'shortcode_seen' ], 10, 3 );
@@ -348,6 +352,79 @@ final class Checker {
 		 * @param bool $active Active.
 		 */
 		return (bool) apply_filters( 'buddy_builder/readylaunch_active', $active );
+	}
+
+	/**
+	 * "Turn on" link of an inactive BuddyPress component: turns it on in place and comes back (nonce per component).
+	 *
+	 * @param string $component Component id (groups, activity, ...).
+	 * @return string
+	 */
+	public static function turn_on_url( $component ) {
+		return wp_nonce_url( admin_url( 'admin-post.php?action=' . self::TURN_ON . '&component=' . rawurlencode( $component ) ), self::TURN_ON . '_' . $component );
+	}
+
+	/**
+	 * admin-post handler of turn_on_url(): turns the component on the way BuddyPress' components screen does (its
+	 * tables and directory page), then goes back to the screen the link was on. When that cannot be done here (an
+	 * unknown component, a platform without these functions), it opens the components screen instead.
+	 */
+	public static function turn_on() {
+		$component = isset( $_GET['component'] ) ? sanitize_key( wp_unslash( $_GET['component'] ) ) : '';
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( esc_html__( 'Sorry, you are not allowed to do that.', 'stax-buddy-builder' ), 403 );
+		}
+
+		check_admin_referer( self::TURN_ON . '_' . $component );
+
+		if ( ! self::activate_component( $component ) ) {
+			wp_safe_redirect( self::components_url() );
+			exit;
+		}
+
+		wp_safe_redirect( wp_get_referer() ? wp_get_referer() : Setup::url() );
+		exit;
+	}
+
+	/**
+	 * Turn one optional BuddyPress component on (as bp_core_admin_components_settings_handler() does).
+	 *
+	 * @param string $component Component id.
+	 * @return bool Whether it was turned on here.
+	 */
+	private static function activate_component( $component ) {
+		if ( ! function_exists( 'bp_core_get_components' ) || ! function_exists( 'bp_get_option' ) || ! array_key_exists( $component, (array) bp_core_get_components( 'optional' ) ) ) {
+			return false;
+		}
+
+		$bp     = buddypress();
+		$schema = trailingslashit( $bp->plugin_dir ) . 'bp-core/admin/bp-core-admin-schema.php';
+
+		if ( ! is_readable( $schema ) ) {
+			return false;
+		}
+
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+		require_once $schema;
+
+		if ( ! function_exists( 'bp_core_install' ) || ! function_exists( 'bp_core_add_page_mappings' ) ) {
+			return false;
+		}
+
+		$active               = (array) bp_get_option( 'bp-active-components', [] );
+		$active[ $component ] = 1;
+
+		$bp->active_components = $active;
+		bp_core_install( $active );
+		bp_core_add_page_mappings( $active );
+		bp_update_option( 'bp-active-components', $active );
+
+		if ( function_exists( 'bp_delete_rewrite_rules' ) ) {
+			bp_delete_rewrite_rules();
+		}
+
+		return true;
 	}
 
 	/**

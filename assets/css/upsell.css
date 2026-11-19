@@ -28,6 +28,9 @@
 .bpb-upsell__title { margin: 0 0 8px; font-size: 14px; color: #50575e; }
 .bpb-upsell__list { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; }
 .bpb-upsell__list li { margin: 0; }
+.bpb-upsell__more { margin-top: 8px; }
+.bpb-upsell__more > summary { display: inline-block; color: #2271b1; cursor: pointer; }
+.bpb-upsell__more[open] > summary { margin-bottom: 8px; }
 .bpb-upsell__item {
 	display: inline-block;
 	padding: 5px 10px;

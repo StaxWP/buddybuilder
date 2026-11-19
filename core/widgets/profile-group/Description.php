@@ -24,10 +24,6 @@ class Description extends \Buddy_Builder\Widgets\Base {
 		return 'bpb-profile-group-description';
 	}
 
-	public function get_title() {
-		return esc_html__( 'Description', 'stax-buddy-builder' );
-	}
-
 	public function get_icon() {
 		return 'bbl-groups-description sq-widget-label';
 	}

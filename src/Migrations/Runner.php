@@ -19,12 +19,17 @@ if ( ! defined( 'ABSPATH' ) ) {
  *   (core/Upgrades.php, done 1.x upgrades) is left as it is.
  * - `bpb_migrations`: [ step id => [ state => done|failed|rolled_back, time, message ] ].
  * - `bpb_migration_backup_<id>`: options as they were before the step (not autoloaded).
+ * - `bpb_from_1x`: set when a step moved data a 1.x version had saved (the site was updated from 1.x); only then
+ *   does Help offer the undo, which is for going back to 1.9.
  */
 class Runner {
 
 	const MORE    = 'more';
 	const MISSING = '__bpb_missing__';
 	const LOCK    = 'bpb_migration_lock';
+
+	/** Set when a step moved 1.x data (see from_1x()). */
+	const FROM_1X = 'bpb_from_1x';
 
 	/** Prefix of `bpb_migrations_checked` after a rollback (followed by files_stamp()). */
 	const ROLLED_BACK = 'rolled-back:';
@@ -99,6 +104,16 @@ class Runner {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Whether the data update moved data saved by BuddyBuilder 1.x (the site was updated from 1.x). New 2.0 sites
+	 * have nothing to go back to.
+	 *
+	 * @return bool
+	 */
+	public static function from_1x() {
+		return (bool) get_option( self::FROM_1X, false );
 	}
 
 	/**

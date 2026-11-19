@@ -1090,7 +1090,7 @@ final class CommunityPages {
 		$type = $row['type'];
 
 		if ( ! $row['active'] ) {
-			$url = Checker::components_url();
+			$url = Checker::turn_on_url( Types::component( $type ) );
 			echo '<a class="button" href="' . esc_url( $url ) . '">' . esc_html__( 'Turn on', 'stax-buddy-builder' ) . '</a>';
 
 			return;
