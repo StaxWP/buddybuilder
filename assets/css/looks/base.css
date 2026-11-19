@@ -958,6 +958,7 @@
 	position: absolute;
 	top: 0;
 	left: 4px;
+	width: auto;
 	height: 42px;
 	padding: 0 8px;
 	border: 0;
