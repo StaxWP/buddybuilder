@@ -1036,6 +1036,12 @@
 	line-height: 1.45;
 }
 
+/* Other links in the line (the group, the friend) in the text color, not the theme's link color (Twenty Twenty-One's
+   dark link color on Hub was 1.27:1). */
+#buddypress.buddypress-wrap .bpb-look .activity-list .activity-header a {
+	color: var(--bpb-color-text);
+}
+
 #buddypress.buddypress-wrap .bpb-look .activity-list .activity-header a:first-child {
 	color: var(--bpb-color-text);
 	font-weight: 700;
