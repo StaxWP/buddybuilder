@@ -1051,10 +1051,38 @@
 	background: var(--bpb-color-surface-2);
 }
 
+#buddypress.buddypress-wrap .bpb-look .activity-comments .acomment-meta,
+#buddypress.buddypress-wrap .bpb-look .activity-comments .acomment-meta :is(a, time) {
+	color: var(--bpb-color-muted);
+}
+
+#buddypress.buddypress-wrap .bpb-look .activity-comments .acomment-meta > a:first-child {
+	color: var(--bpb-color-text);
+	font-weight: 600;
+}
+
 #buddypress.buddypress-wrap .bpb-look .activity-comments .acomment-avatar img {
 	width: 28px;
 	height: 28px;
 	border-radius: var(--bpb-avatar-radius);
+}
+
+/* Load more: the style's secondary button (1.x: gray text on a fixed light band). */
+#buddypress.buddypress-wrap .bpb-look :is(.activity-list, .bp-list) > li.load-more {
+	border: 0;
+	background: none;
+	box-shadow: none;
+	text-align: center;
+}
+
+#buddypress.buddypress-wrap .bpb-look :is(.activity-list, .bp-list) > li.load-more a {
+	display: inline-block;
+	padding: 10px 22px;
+	border: var(--bpb-button-2-border);
+	border-radius: var(--bpb-button-radius);
+	background: var(--bpb-button-2-bg);
+	color: var(--bpb-button-2-color);
+	font-weight: 600;
 }
 
 /* Post form. */
