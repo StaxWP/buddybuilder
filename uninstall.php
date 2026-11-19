@@ -66,6 +66,7 @@ function bpb_uninstall_options() {
 		'bpb_render_issues',
 		'bpb_setup',
 		'bpb_setup_pending',
+		'bpb_community_style',
 		'_bpb_installed_time',
 		\Buddy_Builder\Upsell\Upsell::SINCE_OPTION,
 		\Buddy_Builder\Compat\Appsero::VERSION_OPTION,

@@ -186,6 +186,13 @@ final class Assets {
 		if ( ! wp_style_is( 'bpb-looks', 'enqueued' ) ) {
 			// Words the look styles print with CSS (empty states), translated.
 			wp_add_inline_style( 'bpb-looks', '.bpb-look{--bpb-t-no-posts:"' . addcslashes( wp_strip_all_tags( __( 'No posts yet', 'stax-buddy-builder' ) ), '"\\' ) . '"}' );
+
+			// The owner's accent, corners, avatar shape, density and font (BuddyBuilder > Settings > Community style).
+			$custom = \Buddy_Builder\Presets\CommunityStyle::css();
+
+			if ( '' !== $custom ) {
+				wp_add_inline_style( 'bpb-looks', $custom );
+			}
 		}
 
 		wp_enqueue_style( 'bpb-looks' );

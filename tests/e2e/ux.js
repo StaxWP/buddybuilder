@@ -30,7 +30,7 @@ const member = opt( 'member', 'ana' );
 const shots = opt( 'shots', '' );
 const host = new URL( site ).hostname;
 
-const OPTIONS = [ 'bpb_settings', 'bpb_templates', 'bpb_db_version', 'buddybuilder_db_version', 'bpb_imported_templates', 'bpb_setup', 'bpb_setup_pending', 'bpb_blocks_enabled', 'bpb_render_issues', 'bpb_migrations', 'bpb_migrations_checked', '_bpb_enabled_widgets', 'bpb_listings', 'bpb_cards' ];
+const OPTIONS = [ 'bpb_settings', 'bpb_templates', 'bpb_db_version', 'buddybuilder_db_version', 'bpb_imported_templates', 'bpb_setup', 'bpb_setup_pending', 'bpb_blocks_enabled', 'bpb_render_issues', 'bpb_migrations', 'bpb_migrations_checked', '_bpb_enabled_widgets', 'bpb_listings', 'bpb_cards', 'bpb_community_style' ];
 
 let fails = 0;
 const ok = ( cond, msg ) => {
@@ -216,6 +216,32 @@ async function shot( page, name, locator ) {
 			ok( page.url().endsWith( '#bpb-card-agents' ), 'the old Agents screen opens its card' );
 			await page.goto( site + '/wp-admin/admin.php?page=buddy-builder-options' );
 		}
+		// Community style (review item 13): accent, corners, photo shape, spacing, font; printed as tokens on .bpb-look.
+		const cs = page.locator( '#bpb-card-community-style' );
+		ok( await cs.count() === 1 && await cs.locator( 'select' ).count() === 4, 'Settings: Community style card with corners, photo shape, spacing and font' );
+		await cs.locator( '[name=bpb_cs_custom_accent]' ).check();
+		await cs.locator( '[name=bpb_cs_accent]' ).fill( '#facc15' );
+		await cs.locator( '[name=bpb_cs_radius]' ).selectOption( 'square' );
+		await cs.locator( '[name=bpb_cs_avatar]' ).selectOption( 'rounded' );
+		ok( /--bpb-avatar-radius:\s*24%/.test( await cs.locator( '.bpb-cs-sample' ).getAttribute( 'style' ) ), 'the sample follows the choices before saving' );
+		await Promise.all( [ page.waitForNavigation(), cs.locator( 'button:text-is("Save")' ).click() ] );
+		const csSaved = php( echo( "get_option( 'bpb_community_style' )" ) );
+		ok( csSaved && '#facc15' === csSaved.accent && 'square' === csSaved.radius && 'rounded' === csSaved.avatar && undefined === csSaved.density, 'Community style saved (only the changed choices)' );
+		await page.goto( profile );
+		const csFront = await page.evaluate( () => {
+			const look = document.querySelector( '.bpb-look' );
+			const css = look && getComputedStyle( look );
+			return css ? [ css.getPropertyValue( '--bpb-color-accent' ).trim(), css.getPropertyValue( '--bpb-button-color' ).trim(), css.getPropertyValue( '--bpb-radius' ).trim() ] : null;
+		} );
+		ok( csFront && '#facc15' === csFront[ 0 ] && '#111111' === csFront[ 1 ] && '0' === csFront[ 2 ], 'the style on the site takes the accent, a readable button text on it (dark on yellow) and the corners (' + JSON.stringify( csFront ) + ')' );
+		await page.goto( site + '/wp-admin/admin.php?page=buddy-builder-options' );
+		await shot( page, 'settings-community-style', '#bpb-card-community-style' );
+		await Promise.all( [ page.waitForNavigation(), page.locator( '#bpb-card-community-style button:has-text("Reset to style defaults")' ).click() ] );
+		ok( null === php( echo( "get_option( 'bpb_community_style', null )" ) ), 'Reset to style defaults removes the setting' );
+		await page.goto( profile );
+		ok( '#facc15' !== await page.evaluate( () => getComputedStyle( document.querySelector( '.bpb-look' ) ).getPropertyValue( '--bpb-color-accent' ).trim() ), 'after Reset the style has its own accent again' );
+		await page.goto( site + '/wp-admin/admin.php?page=buddy-builder-options' );
+
 		await axeCheck( page, 'settings' );
 		await shot( page, 'settings' );
 		await page.goto( site + '/wp-admin/admin.php?page=buddy-builder-status' );

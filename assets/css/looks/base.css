@@ -140,7 +140,7 @@
 	padding: 2px 10px;
 	border-radius: var(--bpb-pill);
 	background: var(--bpb-accent-soft);
-	color: var(--bpb-color-accent);
+	color: var(--bpb-accent-ink, var(--bpb-color-accent));
 	font-size: 12px;
 	font-weight: 600;
 	line-height: 20px;
@@ -247,7 +247,7 @@
 	grid-template-columns: auto minmax(0, 1fr) auto;
 	gap: 8px 24px;
 	align-items: end;
-	padding: 0 28px 24px;
+	padding: 0 calc(28px * var(--bpb-density, 1)) calc(24px * var(--bpb-density, 1));
 }
 
 .bpb-mh__avatar,
@@ -367,7 +367,7 @@
 }
 
 .bpb-mh__stat a:hover span {
-	color: var(--bpb-color-accent);
+	color: var(--bpb-accent-ink, var(--bpb-color-accent));
 }
 
 .bpb-mh__actions,
@@ -550,7 +550,7 @@
 	.bpb-gh__body {
 		grid-template-columns: minmax(0, 1fr);
 		gap: 8px;
-		padding: 0 18px 20px;
+		padding: 0 calc(18px * var(--bpb-density, 1)) calc(20px * var(--bpb-density, 1));
 	}
 
 	.bpb-mh__avatar,
@@ -632,7 +632,7 @@
  * on classic themes (.stax-buddybuilder-template section). */
 .bpb-about.bpb-about,
 .bpb-rail.bpb-rail {
-	padding: 20px;
+	padding: calc(20px * var(--bpb-density, 1));
 	border: 1px solid var(--bpb-color-border);
 	border-radius: var(--bpb-radius-lg);
 	background: var(--bpb-color-surface);
@@ -684,11 +684,11 @@
 }
 
 :is(.bpb-about, .bpb-rail) a:hover {
-	color: var(--bpb-color-accent);
+	color: var(--bpb-accent-ink, var(--bpb-color-accent));
 }
 
 .bpb-about__row dd a {
-	color: var(--bpb-color-accent);
+	color: var(--bpb-accent-ink, var(--bpb-color-accent));
 }
 
 .bpb-about__groups,
@@ -995,7 +995,7 @@
 /* Feed. */
 #buddypress.buddypress-wrap .bpb-look .activity-list.bp-list {
 	display: grid;
-	gap: 14px;
+	gap: calc(14px * var(--bpb-density, 1));
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -1007,7 +1007,7 @@
 	min-width: 0;
 	min-height: 0;
 	margin: 0;
-	padding: 18px 20px 12px;
+	padding: calc(18px * var(--bpb-density, 1)) calc(20px * var(--bpb-density, 1)) calc(12px * var(--bpb-density, 1));
 	border: 1px solid var(--bpb-color-border);
 	border-radius: var(--bpb-radius-lg);
 	background: var(--bpb-color-surface);
@@ -1205,7 +1205,7 @@
 	padding: 0;
 	border-radius: 50%;
 	background-color: var(--bpb-accent-soft);
-	color: var(--bpb-color-accent);
+	color: var(--bpb-accent-ink, var(--bpb-color-accent));
 }
 
 /* Errors and warnings keep a red sign (the white 1.x glyph was invisible on the soft circle). */
@@ -1240,7 +1240,9 @@
 
 /* ------------------------------------------------------------------------------------------------------------------
  * Design tokens of a style (round 2). Each style file sets these on .bpb-look--<style>; a theme can override the
- * accent with --bpb-accent and the fonts with --bpb-font-heading / --bpb-font-body.
+ * accent with --bpb-accent and the fonts with --bpb-font-heading / --bpb-font-body. BuddyBuilder > Settings > Community
+ * style prints the owner's values (src/Presets/CommunityStyle.php), plus --bpb-accent-ink (accent used as text, made
+ * readable on the page) and --bpb-density (a factor on the main paddings and gaps).
  * ---------------------------------------------------------------------------------------------------------------- */
 .bpb-look {
 	/* Muted text: the theme's preset, else the text color at 70% so it keeps 4.5:1 on a tinted page too (the fixed
@@ -1863,7 +1865,7 @@
 	gap: 12px;
 	align-items: flex-start;
 	margin: 0;
-	padding: 14px 16px;
+	padding: calc(14px * var(--bpb-density, 1)) calc(16px * var(--bpb-density, 1));
 	border: var(--bpb-card-border, 1px solid var(--bpb-color-border));
 	border-radius: var(--bpb-radius-lg);
 	background: var(--bpb-card-bg, var(--bpb-color-surface));
