@@ -309,8 +309,18 @@ final class Assets {
 		wp_enqueue_style( 'bpb-editor-canvas', BPB_ASSETS_URL . 'css/editor-canvas.css', [ 'dashicons' ], BPB_VERSION );
 
 		// The styles the layout uses (a layout made from a style, a card from "Design the card").
-		foreach ( self::looks_in( (string) get_post_field( 'post_content', get_the_ID() ) ) as $style ) {
+		$styles = self::looks_in( (string) get_post_field( 'post_content', get_the_ID() ) );
+
+		foreach ( $styles as $style ) {
 			self::looks( $style );
+		}
+
+		// On the site a BuddyPress page sits inside #buddypress.buddypress-wrap, so the style rules for the BuddyPress
+		// screens (feed, sub tabs, lists, forms) start there. The canvas of a style layout gets the same wrapper on its
+		// body (assets/js/editor-canvas.js; the canvas iframe loads enqueue_block_assets scripts), else those screens looked
+		// like 1.x in the editor.
+		if ( $styles ) {
+			wp_enqueue_script( 'bpb-editor-canvas-wrap', BPB_ASSETS_URL . 'js/editor-canvas.js', [], BPB_VERSION, false );
 		}
 	}
 }
