@@ -83,6 +83,12 @@
 	.bpb-look .bpb-look__aside:has(.bpb-mh, .bpb-gh) {
 		order: 0;
 	}
+
+	/* Elementor versions stack at the same width as the block ones (Elementor keeps columns side by side down to
+	 * 768 px, so between 768 and 781 px the side column went to the right of a narrow main column). */
+	.bpb-look .bpb-look__cols > .elementor-container > .elementor-column {
+		width: 100% !important;
+	}
 }
 
 /* Tablets and small laptops: a layout with columns on both sides of the main column (Career, Creator and Network
