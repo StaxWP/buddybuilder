@@ -646,6 +646,8 @@
 .bpb-about__groups,
 .bpb-rail__list {
 	display: grid;
+	/* One column as wide as the card: a long headline ends with an ellipsis instead of running out of the card. */
+	grid-template-columns: minmax(0, 1fr);
 	gap: 10px;
 	margin: 0;
 	padding: 0;
