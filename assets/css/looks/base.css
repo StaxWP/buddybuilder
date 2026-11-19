@@ -91,6 +91,18 @@
 	}
 }
 
+/* Elementor versions: the same gap between side by side columns as the block versions (the section has no column gap,
+ * so a side card touched the main column). Half the gap on each inner side keeps the outer edges aligned. */
+@media (min-width: 782px) {
+	.bpb-look .bpb-look__cols > .elementor-container > .elementor-column:not(:first-child) > .elementor-widget-wrap {
+		padding-inline-start: calc(var(--bpb-page-gap) / 2);
+	}
+
+	.bpb-look .bpb-look__cols > .elementor-container > .elementor-column:not(:last-child) > .elementor-widget-wrap {
+		padding-inline-end: calc(var(--bpb-page-gap) / 2);
+	}
+}
+
 /* Tablets and small laptops: a layout with columns on both sides of the main column (Career, Creator and Network
  * feeds, Network directories, Hub) moves the columns after the main one under it, full width; three fixed side widths
  * left the feed 80 to 280 px wide between 782 and 1199 px. */
