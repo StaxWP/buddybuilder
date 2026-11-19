@@ -1236,6 +1236,9 @@
  * accent with --bpb-accent and the fonts with --bpb-font-heading / --bpb-font-body.
  * ---------------------------------------------------------------------------------------------------------------- */
 .bpb-look {
+	/* Muted text: the theme's preset, else the text color at 70% so it keeps 4.5:1 on a tinted page too (the fixed
+	   #646970 fallback was 4.1:1 on Twenty Twenty-One's green background). */
+	--bpb-color-muted: var(--wp--preset--color--contrast-2, color-mix(in srgb, var(--bpb-color-text) 70%, transparent));
 	--bpb-color-accent: var(--bpb-accent, var(--bpb-style-accent, #2563eb));
 	--bpb-accent-2: var(--bpb-style-accent-2, var(--bpb-color-accent));
 	--bpb-accent-soft: color-mix(in srgb, var(--bpb-color-accent) 12%, var(--bpb-color-surface));
