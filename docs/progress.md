@@ -2,6 +2,33 @@
 
 Branch `main` (the 2.0 line since 2026-11-15; 1.x fixes go to `1.x`). Not released.
 
+## 2026-11-19: visual QA of the seven styles, block and Elementor versions
+
+Asked by Gabriel ("do a full test for the templates and make sure they are looking good on mobile and desktop. also how customizable they are? also on elementor and block editor"). Report with the matrix, open issues and the customizability assessment: vault `Projects/staxwp/docs/2026-11-19-buddybuilder-styles-qa.md`. Local commits, not pushed.
+
+Tested: 7 styles x 10 page types (5 pages, register, group creation, 3 cards), block and Elementor versions, 1440 / 1024 / 768 / 390 px, visitor, own profile, another member, group admin / member / non-member, empty member and group, every BuddyPress sub-screen inside the profile and group layouts; bbux (Twenty Twenty-Five, Elementor 4.4) and bbmin (Twenty Twenty-One, WP 6.6, PHP 7.4, Elementor 3.20); both editors for every style layout. About 3,480 page loads with automated checks (page scroll, off-screen and cut content, tabs, stretched images, axe contrast, phone header position, JS errors, notices) and screenshots; scratch harness, not committed.
+
+Fixes (all scoped to a style layout, `.bpb-look`; 1.x layouts unchanged):
+
+- BuddyPress tables in the style's colors (`cae9987`, the pending change).
+- Forms and buttons (`1052d9a`): fields never wider than their box, submit as the style's primary button and other form buttons as its secondary one, thumb-size avatars in the messages list and the group members manager (300 px sample thumbs gave a 38 px page scroll on phones), conversation titles in the style's colors.
+- Readability: notice icon visible (`7c02dec`); reply meta and Load more (`ef1f0a7`); badge contrast (`4064d39`); dark styles: profile field boxes, alternate messages, members manager, uploader, 1.x gray texts (`f139936`); muted text falls back to the text color at 70% (`8bdc6be`); every link of an activity line in the text color (`484217a`).
+- Layout: group activity and messages search like the directory search (`6eab7fe`); messages list on phones (`28c3615`); rails keep long headlines in the card (`eec0891`); 782 to 1199 px, the column after the main one goes under it (`b36ed79`, feeds were 80 to 280 px wide); group Members tab uses the style's member cards (`5efa0d2`); card layouts skip the Classic card fallback (`295228a`).
+- Elementor versions: stack below 782 px (`57f9f79`), column gaps (`d8e900d`), 782 to 1199 px columns and Hub frame (`3d96a95`), directory search icon (`85ca160`).
+- Twenty Twenty-One: post photos fit (`f4abe3c`), no BuddyPress theme companion CSS on pages with a style (`71f4c04`, `Assets::drop_theme_companion()`), post form band and About indent (`3bc19e5`).
+- Block editor: the canvas of a style layout gets the front end's `#buddypress.buddypress-wrap` wrapper (`30e840d`, `assets/js/editor-canvas.js`), so BuddyPress screens look as on the site.
+
+Pro fixes: BuddyBuilder Pro's progress of the same day.
+
+Open (not fixed, in the report): block supports (Color, Typography, Border) mostly no-ops on the designed elements; card layouts are a rough preview in the block editor canvas; the member's group Invitations list keeps the 1.x look; no style accent / font / radius setting in either editor, the Elementor kit is ignored, the 12 new Elementor widgets have no Style tab.
+
+Tests:
+
+- Regressions, before and after: bbux with Pro 491 / 491 PASS, without Pro 395 / 395; bbmin (repos symlinked, clones put back) with Pro 493, without 399; 0 FAIL.
+- e2e `tests/e2e/ux.js` on bbux: 43 PASS, 1 FAIL (`elementorFrontendConfig is not defined`, as before).
+- Goldens bbux (strict, nothing written): row `tt25` 72/158 identical, the 20 known grid class differences, 10 activity cases that differ only by an activity update ("ttest", activity 912) posted by the admin on bbux earlier the same day, 56 cases without a tt25 golden (Pro presets, golden in row `bbux`); row `bbux` 48 identical, 22 differ only by the same update, 88 without a bbux golden. The fixes change no markup.
+- PHP lint 7.4 and 8.5 on `src/Assets/Assets.php`: 0 errors. No em-dash in the changes.
+
 ## 2026-11-18 (later): UX review items 8 to 11, fresh-site first-run test
 
 Approved by Gabriel (vault review, section 7). Commits `6912148` to `014d33d` (Pro `8ea9c4d` to `d451f4f`), local, not pushed.
