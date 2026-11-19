@@ -158,6 +158,21 @@ final class Assets {
 	const LOOK_ELEMENTS = [ 'member-header', 'member-about', 'group-header', 'directory-header', 'people-rail', 'composer' ];
 
 	/**
+	 * A page with a style: BuddyPress' companion stylesheet for the theme (bp-twentytwentyone and the like, from
+	 * bp-nouveau/css/) stays out. Its rules are more specific than the style's (body .site #buddypress.<theme>) and
+	 * redraw the styled screens (dotted boxes around every post, theme colored buttons); the styles are made against
+	 * BuddyPress' own stylesheet, as on themes without a companion. Pages without a style keep it.
+	 */
+	public static function drop_theme_companion() {
+		$handle = 'bp-' . get_template();
+		$styles = wp_styles();
+
+		if ( isset( $styles->registered[ $handle ] ) && false !== strpos( (string) $styles->registered[ $handle ]->src, 'bp-nouveau/css/' ) ) {
+			wp_dequeue_style( $handle );
+		}
+	}
+
+	/**
 	 * Enqueue the look components (handle bpb-looks) and one style (bpb-look-<style>).
 	 *
 	 * @param string $style Style slug, '' for the components only.
@@ -174,6 +189,10 @@ final class Assets {
 		}
 
 		wp_enqueue_style( 'bpb-looks' );
+
+		if ( ! has_action( 'wp_print_styles', [ __CLASS__, 'drop_theme_companion' ] ) ) {
+			add_action( 'wp_print_styles', [ __CLASS__, 'drop_theme_companion' ] );
+		}
 
 		if ( '' === $style ) {
 			return;
