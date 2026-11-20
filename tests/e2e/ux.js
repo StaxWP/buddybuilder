@@ -242,6 +242,7 @@ async function shot( page, name, locator ) {
 		// Community style (review item 13): accent, corners, photo shape, spacing, font; printed as tokens on .bpb-look.
 		const cs = page.locator( '#bpb-card-community-style' );
 		ok( await cs.count() === 1 && await cs.locator( 'select' ).count() === 4, 'Settings: Community style card with corners, photo shape, spacing and font' );
+		ok( await cs.locator( 'select:disabled' ).count() === php( echo( 'count( \\Buddy_Builder\\Presets\\CommunityStyle::locked() )' ) ), 'Community style: the Pro choices are locked only without BuddyBuilder Pro' );
 		await cs.locator( '[name=bpb_cs_custom_accent]' ).check();
 		await cs.locator( '[name=bpb_cs_accent]' ).fill( '#facc15' );
 		await cs.locator( '[name=bpb_cs_radius]' ).selectOption( 'square' );

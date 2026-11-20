@@ -156,7 +156,8 @@ final class Options {
 					'avatar'  => isset( $_POST['bpb_cs_avatar'] ) ? sanitize_key( wp_unslash( $_POST['bpb_cs_avatar'] ) ) : '',
 					'density' => isset( $_POST['bpb_cs_density'] ) ? sanitize_key( wp_unslash( $_POST['bpb_cs_density'] ) ) : '',
 					'font'    => isset( $_POST['bpb_cs_font'] ) ? sanitize_key( wp_unslash( $_POST['bpb_cs_font'] ) ) : '',
-				] : []
+				] : [],
+				! empty( $_POST['bpb_reset'] )
 			);
 		} elseif ( 'page-title' === $card ) {
 			update_option( PageTitle::OPTION, empty( $_POST['bpb_hide_theme_title'] ) ? 'show' : 'hide' );
@@ -237,11 +238,13 @@ final class Options {
 
 	/**
 	 * Community style card: accent, corners, avatar shape, density, font, a live sample (the same tokens the styles
-	 * read, see CommunityStyle) and Reset to style defaults.
+	 * read, see CommunityStyle) and Reset to style defaults. Choices that need BuddyBuilder Pro show locked, on
+	 * "Style default", with a "Pro" label and one link to the Pro plans.
 	 */
 	public static function render_community_style() {
 		$values  = CommunityStyle::get();
 		$choices = CommunityStyle::choices();
+		$locked  = CommunityStyle::locked();
 		$labels  = [
 			'radius'  => __( 'Corners', 'stax-buddy-builder' ),
 			'avatar'  => __( 'Photo shape', 'stax-buddy-builder' ),
@@ -251,7 +254,7 @@ final class Options {
 
 		// Tokens of each choice for the live sample (the accent's are worked out in the browser, same rule).
 		$tokens = [];
-		foreach ( $choices as $key => $options ) {
+		foreach ( array_diff_key( $choices, array_flip( $locked ) ) as $key => $options ) {
 			foreach ( array_keys( $options ) as $value ) {
 				$tokens[ $key ][ $value ] = CommunityStyle::tokens( [ $key => $value ] );
 			}
@@ -265,14 +268,26 @@ final class Options {
 		echo '<label class="bpb-cs__color"><span>' . esc_html__( 'Accent color', 'stax-buddy-builder' ) . '</span><input type="color" name="bpb_cs_accent" value="' . esc_attr( '' !== $values['accent'] ? $values['accent'] : '#2563eb' ) . '"></label></div>';
 
 		foreach ( $labels as $key => $label ) {
-			$id = 'bpb-cs-' . $key;
-			echo '<div class="bpb-cs__field"><label for="' . esc_attr( $id ) . '">' . esc_html( $label ) . '</label><select id="' . esc_attr( $id ) . '" name="bpb_cs_' . esc_attr( $key ) . '">';
+			$id   = 'bpb-cs-' . $key;
+			$lock = in_array( $key, $locked, true );
+			echo '<div class="bpb-cs__field' . ( $lock ? ' bpb-cs__field--locked' : '' ) . '"><label for="' . esc_attr( $id ) . '">' . esc_html( $label ) . ( $lock ? ' <span class="bpb-label">' . esc_html__( 'Pro', 'stax-buddy-builder' ) . '</span>' : '' ) . '</label>';
+			echo '<select id="' . esc_attr( $id ) . '" name="bpb_cs_' . esc_attr( $key ) . '"' . ( $lock ? ' disabled aria-describedby="bpb-cs-pro"' : '' ) . '>';
 
 			foreach ( $choices[ $key ] as $value => $text ) {
 				echo '<option value="' . esc_attr( $value ) . '"' . selected( $values[ $key ], $value, false ) . '>' . esc_html( $text ) . '</option>';
 			}
 
 			echo '</select></div>';
+		}
+
+		if ( $locked ) {
+			echo '<p id="bpb-cs-pro" class="bpb-cs__pro">' . esc_html__( 'Photo shape, spacing and font come with BuddyBuilder Pro.', 'stax-buddy-builder' );
+
+			if ( \Buddy_Builder\Upsell\Upsell::enabled() ) {
+				echo ' <a href="' . esc_url( \Buddy_Builder\Upsell\Upsell::url( 'community-style', 'settings' ) ) . '" target="_blank" rel="noopener">' . esc_html__( 'See BuddyBuilder Pro plans', 'stax-buddy-builder' ) . '<span class="screen-reader-text"> ' . esc_html__( '(opens in a new tab)', 'stax-buddy-builder' ) . '</span></a>';
+			}
+
+			echo '</p>';
 		}
 
 		echo '</div>';

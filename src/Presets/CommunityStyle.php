@@ -8,6 +8,10 @@
  * The tokens beat every style's own values: .bpb-look.bpb-look (two classes) outranks .bpb-look--<style>, and the
  * designed elements (.bpb-mh, .bpb-gh, ...), which set a few tokens again for use outside a style, get those too.
  *
+ * Free: accent color and corners. Photo shape, spacing and font come with BuddyBuilder Pro (LOCKED): without it the
+ * card shows them locked and their saved values are kept but not used, so turning Pro off falls back to the style's
+ * own values and turning it on again brings them back.
+ *
  * @package Buddy_Builder
  */
 
@@ -53,6 +57,9 @@ final class CommunityStyle {
 		'spacious' => '1.3',
 	];
 
+	/** Choices that need BuddyBuilder Pro (see the file comment). */
+	const LOCKED = [ 'avatar', 'density', 'font' ];
+
 	/** Text colors tried on the accent (buttons, badges): white first, else near black. */
 	const LIGHT_TEXT = '#ffffff';
 	const DARK_TEXT  = '#111111';
@@ -90,12 +97,28 @@ final class CommunityStyle {
 	}
 
 	/**
-	 * Saved values, every key present ('' = the style's own).
+	 * The choices locked on this site (none with BuddyBuilder Pro).
+	 *
+	 * @return string[]
+	 */
+	public static function locked() {
+		/**
+		 * Filters the Community style choices that need BuddyBuilder Pro on this site (BuddyBuilder Pro returns none).
+		 *
+		 * @since 2.0.0
+		 *
+		 * @param string[] $locked Keys of the locked choices (avatar, density, font).
+		 */
+		return array_values( array_intersect( self::LOCKED, (array) apply_filters( 'buddy_builder/community_style/locked', self::LOCKED ) ) );
+	}
+
+	/**
+	 * Values in use, every key present ('' = the style's own): the saved ones, without the locked choices.
 	 *
 	 * @return array accent, radius, avatar, density, font
 	 */
 	public static function get() {
-		return self::sanitize( (array) get_option( self::OPTION, [] ) );
+		return array_merge( self::sanitize( (array) get_option( self::OPTION, [] ) ), array_fill_keys( self::locked(), '' ) );
 	}
 
 	/**
@@ -119,12 +142,15 @@ final class CommunityStyle {
 	}
 
 	/**
-	 * Save (empty values remove the option, so a reset leaves nothing behind).
+	 * Save (empty values remove the option, so a reset leaves nothing behind). The saved values of locked choices
+	 * stay as they are.
 	 *
 	 * @param array $values Raw values.
+	 * @param bool  $reset  Remove every value, the locked ones too.
 	 */
-	public static function save( array $values ) {
-		$clean = array_filter( self::sanitize( $values ), 'strlen' );
+	public static function save( array $values, $reset = false ) {
+		$kept  = $reset ? [] : array_intersect_key( self::sanitize( (array) get_option( self::OPTION, [] ) ), array_flip( self::locked() ) );
+		$clean = array_filter( array_merge( self::sanitize( $values ), $kept ), 'strlen' );
 
 		if ( $clean ) {
 			update_option( self::OPTION, $clean );

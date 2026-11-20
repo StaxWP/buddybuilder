@@ -9,6 +9,7 @@ Decided by Gabriel on 2026-11-16. Hard rule: nothing that is free in 1.9.x becom
 | Elements | All free elements, including Member header, Member about, Group header, Directory header, People list (list and photo grid), Profile tabs, Feed filters, Post composer | Community shortcuts, Group rail, Member list, Highlights rail; the card designer (19 card blocks and widgets); every other Pro widget as a block too (register, create a group, profile field, notifications, messages, tab lists, post form); member Block Bindings (`buddybuilder/member`) |
 | Member header | The designed header with all its settings; the 1.x header parts (cover, photo, name, details, buttons), as in 1.9 | Split into parts in the block editor (the header becomes its parts, laid out the same way) and Join back; new parts Member stats, Member headline, Member badges |
 | Styles | Classic | Creator, Professional, Social, Network, Career, Hub, and future styles |
+| Community style (Settings) | Accent color and corners, on every style | Photo shape, spacing and font too (shown locked with a "Pro" label and one link without Pro) |
 | Card styles | Classic | Compact and Cover (members, groups); Compact, Boxed and Post (activity) |
 | Variations | | Layout per member type, role, group type or group |
 | Abilities (agents, MCP) | Read only: list-template-types, list-elements, list-presets, get-layout, get-status | Write: apply-preset, apply-style, update-layout, assign-template; off by default (Settings > Agents); agents make drafts, a preview link is returned, then the layout is used; Elementor templates stay read only for agents |
@@ -36,6 +37,7 @@ Pro deactivated, removed, or a Pro that does not load:
 - **A Pro element in a layout** renders nothing for visitors: no markup, no notice, no empty wrapper; the rest of the layout renders. The block editor shows "This element needs BuddyBuilder Pro." in its place.
 - **A page whose layout uses a Pro style** renders with the Classic style page for visitors. No stored data changes: the assignment and the layout stay, and activating Pro brings the page back at once. BuddyBuilder screens show one notice: "Pages using Pro styles show the Classic style until BuddyBuilder Pro is active."
 - **A Pro card style** renders as Classic.
+- **Community style**: the saved photo shape, spacing and font stay saved but are not used (`CommunityStyle::get()`), so each style shows its own; a save without Pro keeps them; activating Pro brings them back. Pro unlocks them with the filter `buddy_builder/community_style/locked` (returns no keys).
 - **A block layout of a Pro page type** (register, create a group, cards) is not used: BuddyPress shows its own page or loop item.
 
 `tests/compat/pro-missing.js` checks both page cases for visitors and members (status, no notices, no Pro markup, no empty wrappers, Classic for the Pro style, identical HTML after reactivation).

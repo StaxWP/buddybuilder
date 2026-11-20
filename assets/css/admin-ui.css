@@ -199,6 +199,8 @@
 .bpb-cs__color { display: inline-flex; align-items: center; gap: 10px; margin-left: 48px; }
 .bpb-cs__color input[type="color"] { width: 52px; height: 34px; padding: 2px; border: 1px solid var(--bpb-border-strong); border-radius: var(--bpb-radius-sm); background: var(--bpb-surface); cursor: pointer; }
 .bpb-cs__color input[type="color"]:disabled { opacity: .45; cursor: not-allowed; }
+.bpb-cs__field--locked select:disabled { opacity: .6; cursor: not-allowed; }
+.bpb-cs__pro { grid-column: 1 / -1; margin: 0; color: var(--bpb-text-2); }
 
 .bpb-cs-sample {
 	--bpb-accent: #2563eb;

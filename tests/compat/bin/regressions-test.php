@@ -51,7 +51,8 @@
  *                               the Member header's markup; 1.x parts keep theirs; Pro stats and badges parts.
  * - fresh-site-points           Fresh-site test: undo to 1.9 only after a 1.x update, Turn on in place, part widget
  *                               names, no repeated About label, short Pro teaser.
- * - pro-locks                   Without Pro: Split into parts locked on the Member header; Pro has the real action.
+ * - pro-locks                   Without Pro: Split into parts locked on the Member header, the Community style's
+ *                               photo shape, spacing and font locked (saved values kept, not used); Pro unlocks them.
  *
  * THROWAWAY site only (needs the compat env mu-plugin). Restores the options it touches and deletes the posts it
  * creates. Prints PASS / FAIL / SKIP lines; exits 1 on any FAIL.
@@ -1235,9 +1236,28 @@ switch ( $bpb_case ) {
 		break;
 
 	case 'pro-locks':
-		// UX review item 7 (free and Pro): without BuddyBuilder Pro, "Split into parts" shows locked on the Member
-		// header (block editor); with BuddyBuilder Pro the real action takes its place.
-		$bpb_pro = defined( 'BPB_PRO_VERSION' );
+		// UX review items 7 and 13 (free and Pro): without BuddyBuilder Pro, "Split into parts" shows locked on the
+		// Member header (block editor) and the Community style's photo shape, spacing and font are locked (their saved
+		// values are kept, not used); BuddyBuilder Pro unlocks both.
+		$bpb_pro    = defined( 'BPB_PRO_VERSION' );
+		$bpb_cs     = \Buddy_Builder\Presets\CommunityStyle::class;
+		$bpb_cs_was = get_option( $bpb_cs::OPTION, null );
+		update_option( $bpb_cs::OPTION, [ 'accent' => '#facc15', 'radius' => 'square', 'avatar' => 'square', 'density' => 'compact', 'font' => 'theme' ] );
+		$bpb_ok( ( $bpb_pro ? [] : [ 'avatar', 'density', 'font' ] ) === $bpb_cs::locked(), 'Community style: locked choices (' . implode( ', ', $bpb_cs::locked() ) . ')' );
+		$bpb_tokens = $bpb_cs::tokens();
+		$bpb_ok( '#facc15' === $bpb_tokens['--bpb-accent'] && '0' === $bpb_tokens['--bpb-radius'], 'Community style: accent and corners apply' );
+		$bpb_ok( $bpb_pro === isset( $bpb_tokens['--bpb-avatar-radius'], $bpb_tokens['--bpb-density'], $bpb_tokens['--bpb-font-body'] ) && ( $bpb_pro || ( ! isset( $bpb_tokens['--bpb-avatar-radius'] ) && ! isset( $bpb_tokens['--bpb-density'] ) && ! isset( $bpb_tokens['--bpb-font-body'] ) ) ), $bpb_pro ? 'Community style: photo shape, spacing and font apply with Pro' : 'Community style: the saved photo shape, spacing and font are not used without Pro' );
+		ob_start();
+		\Buddy_Builder\Admin\Options::render_community_style();
+		$bpb_html = ob_get_clean();
+		$bpb_ok( ( $bpb_pro ? 0 : 3 ) === substr_count( $bpb_html, ' disabled aria-describedby="bpb-cs-pro"' ) && $bpb_pro !== ( false !== strpos( $bpb_html, 'utm_content=community-style' ) ) && 4 === substr_count( $bpb_html, '<select ' ), $bpb_pro ? 'Community style card: every choice open' : 'Community style card: photo shape, spacing and font shown locked with Pro and a link to the plans' );
+		$bpb_cs::save( [ 'radius' => 'small' ] );
+		$bpb_saved_cs = (array) get_option( $bpb_cs::OPTION, [] );
+		$bpb_ok( 'small' === $bpb_saved_cs['radius'] && ( $bpb_pro ? ! isset( $bpb_saved_cs['avatar'] ) : ( 'square' === $bpb_saved_cs['avatar'] && 'compact' === $bpb_saved_cs['density'] && 'theme' === $bpb_saved_cs['font'] ) ), $bpb_pro ? 'Community style: a save sets every choice' : 'Community style: a save keeps the saved Pro choices for when Pro is back' );
+		$bpb_cs::save( [], true );
+		$bpb_ok( null === get_option( $bpb_cs::OPTION, null ), 'Community style: Reset removes every choice' );
+		null === $bpb_cs_was ? delete_option( $bpb_cs::OPTION ) : update_option( $bpb_cs::OPTION, $bpb_cs_was );
+
 		require_once ABSPATH . 'wp-admin/includes/class-wp-screen.php';
 		require_once ABSPATH . 'wp-admin/includes/screen.php';
 		set_current_screen( PostType::POST_TYPE );
