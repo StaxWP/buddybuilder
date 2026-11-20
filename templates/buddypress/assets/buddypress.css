@@ -4902,7 +4902,8 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 .stax-buddybuilder-template .rtmedia-container ul.rtmedia-list li.rtmedia-list-item div.rtmedia-item-thumbnail {
   width: inherit;
   height: inherit;
-  line-height: inherit; }
+  line-height: inherit;
+  max-height: none; }
 
 .stax-buddybuilder-template .rtmedia-container .rtmedia-list {
   display: flex;
@@ -4920,7 +4921,10 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
       -moz-border-radius: 4px;
       -ms-border-radius: 4px;
       border-radius: 4px;
-      background-clip: padding-box; }
+      background-clip: padding-box;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      object-fit: cover; }
   .stax-buddybuilder-template .rtmedia-container .rtmedia-list .rtmedia-gallery-item-actions {
     display: flex;
     justify-content: space-between; }
@@ -4980,6 +4984,9 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 .stax-buddybuilder-template #buddypress ul.rtmedia-album-list li.rtmedia-list-item {
   border: 0;
   padding: 0; }
+
+.stax-buddybuilder-template #buddypress .rtmedia-container .rtmedia-list .rtmedia-list-item {
+  height: auto; }
 
 .stax-buddybuilder-template #buddypress a.rtm-button-back {
   padding: 0.75em 1em; }
