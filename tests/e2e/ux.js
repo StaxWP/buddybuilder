@@ -58,6 +58,28 @@ async function axeCheck( page, label ) {
 	ok( ! bad.length, `axe ${ label }: no serious or critical violations` + ( bad.length ? ' (' + bad.map( ( v ) => v.id + ' x' + v.nodes.length ).join( ', ' ) + ')' : '' ) );
 }
 
+/**
+ * Boxes of the member header parts on the profile with a layout assigned (this request only), relative to the header:
+ * the split header must give the same as the one-element header.
+ */
+async function headerBoxes( browser, id ) {
+	const view = await browser.newContext( { viewport: { width: 1440, height: 900 } } );
+	await view.addCookies( [ { name: 'bpb_compat_tpl', value: 'member-profile:' + id, domain: host, path: '/' } ] );
+	const front = await view.newPage();
+	await front.goto( site + '/members/' + member + '/' );
+	const out = await front.evaluate( () => {
+		const h = document.querySelector( '.bpb-mh' );
+		const o = h ? h.getBoundingClientRect() : null;
+		return o ? [ '.bpb-mh', '.bpb-mh__avatar img', '.bpb-mh__name', '.bpb-mh__meta', '.bpb-mh__stats', '.bpb-mh__actions' ].map( ( sel ) => {
+			const e = h.matches( sel ) ? h : h.querySelector( sel );
+			const b = e ? e.getBoundingClientRect() : null;
+			return b ? [ Math.round( b.x - o.x ), Math.round( b.y - o.y ), Math.round( b.width ), Math.round( b.height ) ].join( ',' ) : '-';
+		} ).join( ' ' ) : null;
+	} );
+	await view.close();
+	return out;
+}
+
 async function shot( page, name, locator ) {
 	if ( ! shots ) {
 		return;
@@ -347,25 +369,8 @@ async function shot( page, name, locator ) {
 			await shot( page, 'split-header-editor' );
 			await page.evaluate( () => wp.data.dispatch( 'core/editor' ).savePost() );
 			await page.waitForFunction( () => ! wp.data.select( 'core/editor' ).isSavingPost() && ! wp.data.select( 'core/editor' ).isEditedPostDirty(), null, { timeout: 30000 } );
-			const boxes = async ( id ) => {
-				const view = await browser.newContext( { viewport: { width: 1440, height: 900 } } );
-				await view.addCookies( [ { name: 'bpb_compat_tpl', value: 'member-profile:' + id, domain: host, path: '/' } ] );
-				const front = await view.newPage();
-				await front.goto( site + '/members/' + member + '/' );
-				const out = await front.evaluate( () => {
-					const h = document.querySelector( '.bpb-mh' );
-					const o = h ? h.getBoundingClientRect() : null;
-					return o ? [ '.bpb-mh', '.bpb-mh__avatar img', '.bpb-mh__name', '.bpb-mh__meta', '.bpb-mh__stats', '.bpb-mh__actions' ].map( ( sel ) => {
-						const e = h.matches( sel ) ? h : h.querySelector( sel );
-						const b = e ? e.getBoundingClientRect() : null;
-						return b ? [ Math.round( b.x - o.x ), Math.round( b.y - o.y ), Math.round( b.width ), Math.round( b.height ) ].join( ',' ) : '-';
-					} ).join( ' ' ) : null;
-				} );
-				await view.close();
-				return out;
-			};
-			const whole = await boxes( ids[ 0 ] );
-			const parts = await boxes( ids[ 1 ] );
+			const whole = await headerBoxes( browser, ids[ 0 ] );
+			const parts = await headerBoxes( browser, ids[ 1 ] );
 			ok( whole && whole === parts, 'split header lays out like the one-element header on the page' + ( whole === parts ? '' : ` (${ whole } vs ${ parts })` ) );
 			await page.reload();
 			await page.waitForFunction( () => window.wp && wp.data && wp.data.select( 'core/block-editor' ).getBlocks().length > 0, null, { timeout: 60000 } );
@@ -377,6 +382,76 @@ async function shot( page, name, locator ) {
 			ok( joined && ! await findBlock( 'bpb-mh--parts' ) && JSON.stringify( joined.attributes ) === JSON.stringify( header.attributes ), 'a part joins the split header back into one Member header with the same settings' );
 		} else {
 			skip( 'Split into parts: BuddyBuilder Pro not active or not licensed' );
+		}
+
+		// 8. Split into parts in Elementor (review item 7, Pro): Flexbox Containers with the header's classes, inside the
+		// style template's column; same layout on the page; Join puts one Member header back with the same settings.
+		if ( php( echo( "class_exists( '\\\\Buddy_Builder_Pro\\\\HeaderParts' ) && ! \\Buddy_Builder_Pro\\Blocks::locked() && did_action( 'elementor/loaded' ) && \\Buddy_Builder_Pro\\HeaderParts::elementor_containers()" ) ) ) {
+			const ids = php( echo( "[ \\Buddy_Builder\\Presets\\Presets::create_elementor_layout( \\Buddy_Builder\\Presets\\Presets::get( 'classic-member-profile' ) ), \\Buddy_Builder\\Presets\\Presets::create_elementor_layout( \\Buddy_Builder\\Presets\\Presets::get( 'classic-member-profile' ) ) ]" ) );
+			const findEl = ( test ) => page.evaluate( ( src ) => {
+				const fn = new Function( 'c', 'return ' + src );
+				const walk = ( c ) => ( c.model && fn( c ) ? c.id : ( c.children || [] ).map( walk ).find( Boolean ) );
+				return walk( elementor.getPreviewContainer() ) || null;
+			}, test );
+			const openEl = async () => {
+				await page.goto( `${ site }/wp-admin/post.php?post=${ ids[ 1 ] }&action=elementor` );
+				await page.waitForFunction( () => {
+					try {
+						return elementor.getPreviewContainer().children.length > 0;
+					} catch ( x ) {
+						return false;
+					}
+				}, null, { timeout: 120000 } );
+				await page.waitForTimeout( 1500 );
+			};
+			const press = async ( id, section ) => {
+				await page.evaluate( ( i ) => {
+					const c = elementor.getContainer( i );
+					$e.run( 'panel/editor/open', { model: c.model, view: c.view } );
+				}, id );
+				const button = page.locator( `.elementor-control-${ section }_run button` );
+				if ( ! await button.isVisible().catch( () => false ) ) {
+					await page.locator( `.elementor-control-${ section } .elementor-panel-heading` ).first().click();
+				}
+				await button.click();
+				await page.waitForTimeout( 1500 );
+			};
+			const FRAME = "'container' === c.type && /bpb-mh--parts/.test( c.settings.get( 'css_classes' ) || '' )";
+			await openEl();
+			const headerId = await findEl( "'widget' === c.type && 'bpb-el-member-header' === c.model.get( 'widgetType' )" );
+			const before = await page.evaluate( ( i ) => JSON.stringify( Object.fromEntries( Object.entries( elementor.getContainer( i ).settings.toJSON( { remove: 'default' } ) ).sort() ) ), headerId );
+			await press( headerId, 'bpb_split' );
+			const frameId = await findEl( FRAME );
+			const shape = frameId ? await page.evaluate( ( i ) => {
+				const c = elementor.getContainer( i );
+				const names = [];
+				const walk = ( x ) => {
+					names.push( 'widget' === x.type ? x.model.get( 'widgetType' ) : ( x.settings.get( 'css_classes' ) || '' ).split( ' ' ).find( ( n ) => /^bpb-mh(__|--parts)/.test( n ) ) );
+					( x.children || [] ).forEach( walk );
+				};
+				walk( c );
+				return { parent: c.parent.type, tag: c.settings.get( 'html_tag' ), names };
+			}, frameId ) : null;
+			ok( shape && 'column' === shape.parent && 'header' === shape.tag && [ 'bpb-mh--parts', 'bpb-mh__body', 'bpb-mh__main', 'bpb-mh__name', 'bpb-profile-member-cover', 'bpb-profile-member-avatar', 'bpb-el-member-badges', 'bpb-el-member-headline', 'bpb-profile-member-meta', 'bpb-el-member-stats', 'bpb-profile-member-buttons' ].every( ( n ) => shape.names.includes( n ) ), 'Elementor: Split into parts makes containers with the header\'s classes in the column, one widget per part (' + ( shape ? shape.names.join( ', ' ) : 'none' ) + ')' );
+			const previewClasses = await page.evaluate( () => [ ...document.querySelector( '#elementor-preview-iframe' ).contentDocument.querySelectorAll( '.bpb-mh--parts, .bpb-mh--parts :is(.bpb-mh__body, .bpb-mh__main, .bpb-mh__name)' ) ].map( ( n ) => n.className ).join( ' ' ) );
+			ok( previewClasses && ! /(^|\s)e-con/.test( previewClasses ), 'Elementor preview: the split header\'s containers drop Elementor\'s container classes' );
+			await shot( page, 'split-header-elementor' );
+			await page.evaluate( () => $e.run( 'document/save/update', { force: true } ) );
+			await page.waitForFunction( () => ! elementor.saver.isSaving, null, { timeout: 60000 } );
+			await page.waitForTimeout( 1500 );
+			const whole = await headerBoxes( browser, ids[ 0 ] );
+			const parts = await headerBoxes( browser, ids[ 1 ] );
+			ok( whole && whole === parts, 'Elementor: the split header lays out like the one-widget header on the page' + ( whole === parts ? '' : ` (${ whole } vs ${ parts })` ) );
+			await openEl();
+			await press( await findEl( "'widget' === c.type && 'bpb-profile-member-avatar' === c.model.get( 'widgetType' )" ), 'bpb_join' );
+			const joinedId = await findEl( "'widget' === c.type && 'bpb-el-member-header' === c.model.get( 'widgetType' )" );
+			const after = joinedId ? await page.evaluate( ( i ) => JSON.stringify( Object.fromEntries( Object.entries( elementor.getContainer( i ).settings.toJSON( { remove: 'default' } ) ).sort() ) ), joinedId ) : '';
+			ok( after === before && ! await findEl( FRAME ), 'Elementor: a part joins the split header back into one Member header with the same settings' );
+			await page.evaluate( () => $e.run( 'document/history/undo' ) );
+			ok( !! await findEl( FRAME ), 'Elementor: Undo brings the parts back in one step' );
+			await page.evaluate( () => elementor.saver.setFlagEditorChange( false ) );
+		} else {
+			skip( 'Split into parts in Elementor: BuddyBuilder Pro, its licence, Elementor or Flexbox Containers missing' );
 		}
 
 		ok( ! jsErrors.length, 'no JavaScript errors' + ( jsErrors.length ? ': ' + jsErrors.join( ' | ' ) : '' ) );

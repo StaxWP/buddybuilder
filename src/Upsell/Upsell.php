@@ -48,6 +48,7 @@ final class Upsell {
 		add_action( 'elementor/editor/after_enqueue_scripts', [ __CLASS__, 'elementor_assets' ] );
 		add_action( 'admin_enqueue_scripts', [ __CLASS__, 'admin_assets' ] );
 		add_action( 'enqueue_block_editor_assets', [ __CLASS__, 'block_editor_assets' ] );
+		add_action( 'elementor/element/bpb-el-member-header/kit_advanced/after_section_end', [ __CLASS__, 'elementor_split' ] );
 		add_action( 'admin_notices', [ __CLASS__, 'notice' ] );
 		add_action( 'buddy_builder/registry/changed', [ __CLASS__, 'layout_live' ], 10, 3 );
 		add_action( 'admin_post_' . self::DISMISS_ACTION, [ __CLASS__, 'dismiss' ] );
@@ -280,6 +281,35 @@ final class Upsell {
 		self::enqueue( 'admin' );
 		wp_enqueue_script( 'bpb-upsell-blocks', BPB_ASSETS_URL . 'js/upsell-blocks.js', [ 'bpb-upsell', 'wp-hooks', 'wp-compose', 'wp-element', 'wp-components', 'wp-block-editor' ], BPB_VERSION, true );
 		wp_localize_script( 'bpb-upsell-blocks', 'bpbUpsellBlocks', self::split_data() );
+	}
+
+	/**
+	 * Elementor, Member header widget: "Split into parts (Pro)", locked: the line, a disabled button and the link to
+	 * the Pro plans (BuddyBuilder Pro has the real action there).
+	 *
+	 * @param \Elementor\Widget_Base $element Member header widget.
+	 */
+	public static function elementor_split( $element ) {
+		$features = self::enabled() ? self::features() : [];
+		$split    = self::split_data();
+
+		if ( empty( $features[ $split['feature'] ] ) ) {
+			return;
+		}
+
+		$pro = __( 'Pro', 'stax-buddy-builder' );
+
+		$element->start_controls_section( 'bpb_split_pro', [ 'label' => $split['label'] . ' (' . $pro . ')' ] );
+		$element->add_control(
+			'bpb_split_pro_note',
+			[
+				'type' => \Elementor\Controls_Manager::RAW_HTML,
+				'raw'  => '<p class="elementor-descriptor">' . esc_html( $features[ $split['feature'] ]['text'] ) . '</p>'
+					. '<p style="margin:10px 0"><button type="button" class="elementor-button elementor-button-default" disabled aria-disabled="true" style="cursor:not-allowed;opacity:.6"><i class="eicon-lock" aria-hidden="true"></i> ' . esc_html( $split['label'] ) . '</button> <span class="bpb-pro-tag">' . esc_html( $pro ) . '</span></p>'
+					. '<a href="' . esc_url( self::url( $split['feature'], 'elementor' ) ) . '" target="_blank" rel="noopener">' . esc_html__( 'See BuddyBuilder Pro plans', 'stax-buddy-builder' ) . '<span class="screen-reader-text"> ' . esc_html__( '(opens in a new tab)', 'stax-buddy-builder' ) . '</span></a>',
+			]
+		);
+		$element->end_controls_section();
 	}
 
 	/**

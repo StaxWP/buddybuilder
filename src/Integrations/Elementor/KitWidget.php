@@ -42,11 +42,16 @@ class KitWidget extends \Buddy_Builder\Kit\ElementorWidget {
 
 	/**
 	 * The page category ("BuddyBuilder Member Profile") holds the elements made for pages; elements for any page go
-	 * to "BuddyBuilder General".
+	 * to "BuddyBuilder General"; header parts (BuddyBuilder Pro's Member stats, headline, badges) join the 1.x parts
+	 * in "BuddyBuilder Header parts".
 	 *
 	 * @return string[]
 	 */
 	public function get_categories() {
+		if ( \Buddy_Builder\Elements\Elements::is_header_part( $this->kit_element() ) ) {
+			return [ \Buddy_Builder\Widgets\Base::HEADER_PARTS_CATEGORY ];
+		}
+
 		return $this->page_types() ? parent::get_categories() : [ 'buddy-builder-general-elements' ];
 	}
 

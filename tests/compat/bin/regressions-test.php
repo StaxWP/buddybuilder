@@ -51,6 +51,9 @@
  *                               the Member header's markup; 1.x parts keep theirs; Pro stats and badges parts.
  * - fresh-site-points           Fresh-site test: undo to 1.9 only after a 1.x update, Turn on in place, part widget
  *                               names, no repeated About label, short Pro teaser.
+ * - split-header-elementor      Item 7 in Elementor: the split header's containers render without Elementor's layout
+ *                               classes, its parts print the header's markup; Split (Pro) or its locked version
+ *                               (free) on the Member header widget; Join on the parts; Pro parts in Header parts.
  * - pro-locks                   Without Pro: Split into parts locked on the Member header, the Community style's
  *                               photo shape, spacing and font locked (saved values kept, not used); Pro unlocks them.
  *
@@ -1267,8 +1270,102 @@ switch ( $bpb_case ) {
 		set_current_screen( 'front' );
 		break;
 
+	case 'split-header-elementor':
+		// UX review item 7 in Elementor: a Member header split into parts is Flexbox Containers with the header's classes
+		// (in a column of a section too); they render without Elementor's container layout classes, so the header's CSS
+		// lays them out; the parts print the header's markup; the Split action (Pro) or its locked version (free) sits
+		// on the Member header widget; the Pro parts sit in the Header parts category.
+		if ( ! did_action( 'elementor/loaded' ) ) {
+			$bpb_skip( 'Elementor is not active' );
+			break;
+		}
+		$bpb_pro     = defined( 'BPB_PRO_VERSION' );
+		$bpb_open    = $bpb_pro && class_exists( '\\Buddy_Builder_Pro\\Blocks' ) && ! \Buddy_Builder_Pro\Blocks::locked();
+		$bpb_widgets = \Elementor\Plugin::$instance->widgets_manager->get_widget_types();
+		$bpb_header  = isset( $bpb_widgets['bpb-el-member-header'] ) ? $bpb_widgets['bpb-el-member-header'] : null;
+		$bpb_has     = static function ( $widget, $control ) {
+			return $widget && null !== $widget->get_controls( $control );
+		};
+		if ( ! $bpb_pro ) {
+			$bpb_ok( $bpb_has( $bpb_header, 'bpb_split_pro_note' ) && ! $bpb_has( $bpb_header, 'bpb_split_note' ), 'Member header widget: Split into parts shown locked, with the link to the Pro plans' );
+		} elseif ( ! $bpb_open ) {
+			$bpb_ok( ! $bpb_has( $bpb_header, 'bpb_split_pro_note' ) && ! $bpb_has( $bpb_header, 'bpb_split_note' ), 'Member header widget: no Split into parts while BuddyBuilder Pro has no licence (its parts are locked)' );
+		} else {
+			$bpb_ok( $bpb_has( $bpb_header, 'bpb_split_note' ) && ! $bpb_has( $bpb_header, 'bpb_split_pro_note' ), 'Member header widget: Split into parts (Pro)' );
+			$bpb_ok( \Buddy_Builder_Pro\HeaderParts::elementor_containers() === $bpb_has( $bpb_header, 'bpb_split_run' ), 'Split button only with Flexbox Containers on (a note otherwise)' );
+			$bpb_ok( $bpb_has( $bpb_widgets['bpb-profile-member-avatar'], 'bpb_join_note' ) && $bpb_has( $bpb_widgets['bpb-el-member-stats'], 'bpb_join_note' ), 'parts offer Join into one Member header (inside a split header)' );
+		}
+		if ( $bpb_pro ) {
+			$bpb_parts = [];
+			foreach ( [ 'bpb-el-member-stats', 'bpb-el-member-headline', 'bpb-el-member-badges' ] as $bpb_name ) {
+				$bpb_parts[] = isset( $bpb_widgets[ $bpb_name ] ) ? $bpb_widgets[ $bpb_name ]->get_categories()[0] : '-';
+			}
+			$bpb_ok( [ 'buddy-builder-header-parts' ] === array_unique( $bpb_parts ), 'Pro parts Stats, Headline, Badges in the Header parts category (' . implode( ', ', $bpb_parts ) . ')' );
+		}
+		$bpb_avatar = $bpb_widgets['bpb-profile-member-avatar'];
+		$bpb_ok( 'header' === ( $bpb_avatar->get_controls( 'bpb_part_of' )['condition']['design!'] ?? '' ), 'a part of a split header does not offer Replace with Member header' );
+
+		// A split header in a column, rendered on the page (Elementor skips container elements while Flexbox Containers
+		// are off: the split header then does not render until they are on again).
+		if ( ! \Elementor\Plugin::$instance->experiments->is_feature_active( 'container' ) ) {
+			$bpb_skip( 'Flexbox Containers are off on this site: a split header does not render' );
+			break;
+		}
+		$bpb_member = get_users( [ 'number' => 1, 'orderby' => 'ID', 'fields' => 'ID' ] );
+		$bpb_was    = buddypress()->displayed_user->id ?? 0;
+		buddypress()->displayed_user->id = (int) $bpb_member[0];
+		$bpb_n      = 0;
+		$bpb_el     = static function ( $type, $settings, $children = [] ) use ( &$bpb_n ) {
+			$bpb_n++;
+			$el = [ 'id' => 'bpbx' . $bpb_n, 'elType' => $type, 'settings' => $settings, 'elements' => $children ];
+			if ( 'container' !== $type && 'section' !== $type && 'column' !== $type ) {
+				$el = [ 'id' => 'bpbx' . $bpb_n, 'elType' => 'widget', 'widgetType' => $type, 'settings' => $settings + [ 'design' => 'header' ], 'elements' => [] ];
+			}
+			return $el;
+		};
+		$bpb_box    = static function ( $classes, $children, $extra = [] ) use ( $bpb_el ) {
+			return $bpb_el( 'container', [ 'content_width' => 'full', 'css_classes' => $classes, 'design' => 'header' ] + $extra, $children );
+		};
+		$bpb_data   = [
+			$bpb_el(
+				'section',
+				[],
+				[
+					$bpb_el(
+						'column',
+						[ '_column_size' => 100 ],
+						[
+							$bpb_box(
+								'bpb-mh bpb-mh--side bpb-mh--has-cover bpb-mh--parts',
+								[
+									$bpb_el( 'bpb-profile-member-cover', [] ),
+									$bpb_box(
+										'bpb-mh__body',
+										[
+											$bpb_el( 'bpb-profile-member-avatar', [] ),
+											$bpb_box( 'bpb-mh__main', [ $bpb_box( 'bpb-mh__name', [ $bpb_el( 'bpb-profile-member-username', [ 'username_type' => 'full_name' ] ) ] ), $bpb_el( 'bpb-profile-member-meta', [] ) ] ),
+											$bpb_el( 'bpb-profile-member-buttons', [] ),
+										]
+									),
+								],
+								[ 'html_tag' => 'header' ]
+							),
+						]
+					),
+				]
+			),
+		];
+		$bpb_doc = (int) wp_insert_post( [ 'post_type' => 'elementor_library', 'post_status' => 'publish', 'post_title' => 'Regression split header', 'meta_input' => [ '_elementor_template_type' => 'bpb-buddypress', '_bpb_page' => 'member-profile', '_elementor_edit_mode' => 'builder', '_elementor_data' => wp_slash( wp_json_encode( $bpb_data ) ) ] ] );
+		$bpb_created[] = $bpb_doc;
+		$bpb_html  = (string) \Elementor\Plugin::$instance->frontend->get_builder_content_for_display( $bpb_doc );
+		$bpb_boxes = preg_match_all( '/<(?:div|header)[^>]*class="([^"]*\b(?:bpb-mh--parts|bpb-mh__body|bpb-mh__main|bpb-mh__name)\b[^"]*)"/', $bpb_html, $bpb_m ) ? $bpb_m[1] : [];
+		$bpb_ok( 4 === count( $bpb_boxes ) && ! preg_grep( '/(^|\s)e-(con|flex|grid|child|parent)(\s|$|-)/', $bpb_boxes ), 'the split header\'s containers render without Elementor\'s container layout classes (' . count( $bpb_boxes ) . ' boxes)' );
+		$bpb_ok( false !== strpos( $bpb_html, '<header class="elementor-element' ) && false !== strpos( $bpb_html, 'bpb-mh__avatar bpb-mh-part' ) && false !== strpos( $bpb_html, 'bpb-mh__title bpb-mh-part' ), 'the frame is a header and the parts print the header\'s markup' );
+		buddypress()->displayed_user->id = $bpb_was;
+		break;
+
 	default:
-		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install, checker-readylaunch, change-look-undo, cards-follow-layout, layout-actions, element-settings, elementor-basic-controls, layout-import, notice-dismiss, card-line, blocks-stay-on, community-pages-rows, elementor-panel, header-parts, theme-title-space, profile-fields, split-header, fresh-site-points, pro-locks' );
+		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install, checker-readylaunch, change-look-undo, cards-follow-layout, layout-actions, element-settings, elementor-basic-controls, layout-import, notice-dismiss, card-line, blocks-stay-on, community-pages-rows, elementor-panel, header-parts, theme-title-space, profile-fields, split-header, fresh-site-points, pro-locks, split-header-elementor' );
 }
 
 // Cleanup.

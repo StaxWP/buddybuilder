@@ -2,6 +2,15 @@
 
 Branch `main` (the 2.0 line since 2026-11-15; 1.x fixes go to `1.x`). Not released.
 
+## 2026-11-20: Split into parts locked in free, Community style gating, Split into parts in Elementor
+
+Local commits, not pushed. No kit change (`src/Kit/*` untouched): the Elementor category of the Pro header parts is set in `KitWidget::get_categories()` (BuddyBuilder's adapter), nothing to port to K Elements.
+
+- **Split into parts (Pro) locked in free** (`ac20cd2`): block editor, Member header toolbar and sidebar, only while Pro is not active (`assets/js/upsell-blocks.js`, Upsell popover and link). Elementor: the Member header widget's Content tab, same line, disabled button and link (`Upsell::elementor_split()`, with the Elementor work below).
+- **Community style gating** (`998ce71`): free keeps accent color and corners; photo shape, spacing and font show locked with a Pro label and one link; their saved values stay saved but are not used without Pro (`CommunityStyle::locked()`, filter `buddy_builder/community_style/locked`, Pro returns none); a save without Pro keeps them; Reset removes all.
+- **Split into parts in Elementor** (with Pro): Flexbox Containers mirroring the block groups, placed in the style template's column (Elementor 3.20+ accepts a container in a column, no section conversion). `SplitHeader.php` drops Elementor's container classes on those containers (page: output held from `should_render` to `after_render`; editor preview: `split-header-preview.js`), so the header CSS lays them out; `base.css` gives the frame a widget's bottom spacing in a column. 1.x parts in a split header hide their Replace section (`design!=header`). Pro parts Stats, Headline, Badges in the Header parts category. Pixel-identical to the one-widget header in all 7 styles, 1440 and 390 px, visitor and signed in, on bbux (Elementor 4.4, Twenty Twenty-Five) and bbmin (Elementor 3.20, Twenty Twenty-One; two signed-in 1440 page shots differ by 6 and 26 antialiased pixels in a side card corner below the header, same geometry to 1/1000 px); Join round-trips the settings; Undo is one step. Flexbox Containers off: a note replaces the button; a split header does not render until they are on again.
+- Tests: regressions bbux 532 (424 without Pro), bbmin 531 (427), 0 FAIL (new cases `pro-locks`, `split-header-elementor`); e2e 73 PASS, 1 known FAIL (`elementorFrontendConfig`; 60 before + 7 axe checks that run when `@axe-core/playwright` is on NODE_PATH + 6 new); goldens tt25 72/158, only the known 20 grid and 10 "ttest" diffs.
+
 ## 2026-11-19 (later): Split into parts (review item 7), fresh-site points, Starter kits removed (item 16)
 
 Local commits, not pushed. Kit change to port to k-elements: `Schema::CONTROLS` accepts `none` (Element and the Elementor adapter already skipped it; Schema rejected it).

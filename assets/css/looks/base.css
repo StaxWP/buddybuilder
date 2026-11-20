@@ -259,6 +259,12 @@
 	display: none;
 }
 
+/* Elementor: the split header's frame container stands in a section's column where the Member header widget stood;
+   it takes the spacing Elementor gives a widget there (its container classes are dropped, see SplitHeader.php). */
+.elementor-widget-wrap > .bpb-mh--parts:not(:last-child) {
+	margin-block-end: var(--kit-widget-spacing, 20px);
+}
+
 :is(.bpb-mh__cover, .bpb-gh__cover) {
 	aspect-ratio: 4 / 1;
 	min-height: 140px;

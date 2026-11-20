@@ -61,7 +61,14 @@ class Base extends \Elementor\Widget_Base {
 		/* translators: %s: name of the designed element, e.g. Member header */
 		$label = sprintf( __( 'Replace with %s', 'stax-buddy-builder' ), $use->title() );
 
-		$this->start_controls_section( 'bpb_part_of', [ 'label' => $label ] );
+		// Not in a header split into parts (BuddyBuilder Pro marks its parts with design "header"; it offers Join there).
+		$this->start_controls_section(
+			'bpb_part_of',
+			[
+				'label'     => $label,
+				'condition' => [ 'design!' => 'header' ],
+			]
+		);
 		$this->add_control(
 			'bpb_part_of_note',
 			[
@@ -102,10 +109,7 @@ class Base extends \Elementor\Widget_Base {
 	 * @return string[]
 	 */
 	public function get_categories() {
-		$element = $this->kit_element();
-		$schema  = $element ? $element->schema() : [];
-
-		return isset( $schema['category'] ) && 'buddybuilder-header-parts' === $schema['category'] ? [ self::HEADER_PARTS_CATEGORY ] : parent::get_categories();
+		return \Buddy_Builder\Elements\Elements::is_header_part( $this->kit_element() ) ? [ self::HEADER_PARTS_CATEGORY ] : parent::get_categories();
 	}
 
 	/**

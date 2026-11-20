@@ -299,6 +299,19 @@ final class Elements {
 	}
 
 	/**
+	 * Whether an element is a member or group header part (element.json category buddybuilder-header-parts): in
+	 * Elementor it sits in the "BuddyBuilder Header parts" category.
+	 *
+	 * @param Element|null $element Element.
+	 * @return bool
+	 */
+	public static function is_header_part( $element ) {
+		$schema = $element ? $element->schema() : [];
+
+		return isset( $schema['category'] ) && 'buddybuilder-header-parts' === $schema['category'];
+	}
+
+	/**
 	 * The element a header part belongs to ("partOf" in element.json), or null.
 	 *
 	 * @param string $name Element name.
