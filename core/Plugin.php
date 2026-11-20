@@ -610,6 +610,26 @@ final class Plugin {
 	}
 
 	/**
+	 * Register the front-end stylesheet of the Elementor widgets (index.css on top of the BuddyPress styles).
+	 * Also called by the widgets when they render outside a BuddyPress template page (Members/Groups List on an
+	 * ordinary page), where front_css() does not register it.
+	 */
+	public function register_front_css() {
+		if ( wp_style_is( 'stax-buddy-builder-front', 'registered' ) ) {
+			return;
+		}
+
+		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+
+		wp_register_style(
+			'stax-buddy-builder-front',
+			BPB_ASSETS_URL . 'css/index' . $min . '.css',
+			[ 'stax-buddy-builder-bp' ],
+			BPB_VERSION
+		);
+	}
+
+	/**
 	 * Enqueue Front CSS
 	 */
 	public function front_css() {
@@ -627,12 +647,7 @@ final class Plugin {
 			$min = '';
 		}
 
-		wp_register_style(
-			'stax-buddy-builder-front',
-			BPB_ASSETS_URL . 'css/index' . $min . '.css',
-			[ 'stax-buddy-builder-bp' ],
-			BPB_VERSION
-		);
+		$this->register_front_css();
 
 		if ( bpb_is_buddyboss() ) {
 			wp_enqueue_style(

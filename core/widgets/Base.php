@@ -250,6 +250,7 @@ class Base extends \Elementor\Widget_Base {
 	 * Render
 	 */
 	protected function render() {
+		buddy_builder()->register_front_css();
 		wp_print_styles( [ 'stax-buddy-builder-front' ] );
 
 		if ( '' !== $this->bpb_element && bpb_is_elementor_editor() && class_exists( '\\Buddy_Builder\\Elements\\Elements' ) ) {
