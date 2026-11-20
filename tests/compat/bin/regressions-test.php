@@ -51,6 +51,7 @@
  *                               the Member header's markup; 1.x parts keep theirs; Pro stats and badges parts.
  * - fresh-site-points           Fresh-site test: undo to 1.9 only after a 1.x update, Turn on in place, part widget
  *                               names, no repeated About label, short Pro teaser.
+ * - pro-locks                   Without Pro: Split into parts locked on the Member header; Pro has the real action.
  *
  * THROWAWAY site only (needs the compat env mu-plugin). Restores the options it touches and deletes the posts it
  * creates. Prints PASS / FAIL / SKIP lines; exits 1 on any FAIL.
@@ -1233,8 +1234,21 @@ switch ( $bpb_case ) {
 		}
 		break;
 
+	case 'pro-locks':
+		// UX review item 7 (free and Pro): without BuddyBuilder Pro, "Split into parts" shows locked on the Member
+		// header (block editor); with BuddyBuilder Pro the real action takes its place.
+		$bpb_pro = defined( 'BPB_PRO_VERSION' );
+		require_once ABSPATH . 'wp-admin/includes/class-wp-screen.php';
+		require_once ABSPATH . 'wp-admin/includes/screen.php';
+		set_current_screen( PostType::POST_TYPE );
+		\Buddy_Builder\Upsell\Upsell::block_editor_assets();
+		$bpb_data = wp_scripts()->get_data( 'bpb-upsell-blocks', 'data' );
+		$bpb_ok( $bpb_pro !== wp_script_is( 'bpb-upsell-blocks', 'enqueued' ) && ( $bpb_pro || ( false !== strpos( (string) $bpb_data, '"feature":"split-header"' ) && isset( \Buddy_Builder\Upsell\Upsell::features()['split-header'] ) ) ), $bpb_pro ? 'block editor: no locked Split into parts with Pro' : 'block editor: Split into parts (Pro) locked on the Member header, with the Pro description and link' );
+		set_current_screen( 'front' );
+		break;
+
 	default:
-		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install, checker-readylaunch, change-look-undo, cards-follow-layout, layout-actions, element-settings, elementor-basic-controls, layout-import, notice-dismiss, card-line, blocks-stay-on, community-pages-rows, elementor-panel, header-parts, theme-title-space, profile-fields, split-header, fresh-site-points' );
+		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install, checker-readylaunch, change-look-undo, cards-follow-layout, layout-actions, element-settings, elementor-basic-controls, layout-import, notice-dismiss, card-line, blocks-stay-on, community-pages-rows, elementor-panel, header-parts, theme-title-space, profile-fields, split-header, fresh-site-points, pro-locks' );
 }
 
 // Cleanup.

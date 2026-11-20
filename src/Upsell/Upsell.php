@@ -47,6 +47,7 @@ final class Upsell {
 		add_filter( 'elementor/editor/localize_settings', [ __CLASS__, 'elementor_promotions' ] );
 		add_action( 'elementor/editor/after_enqueue_scripts', [ __CLASS__, 'elementor_assets' ] );
 		add_action( 'admin_enqueue_scripts', [ __CLASS__, 'admin_assets' ] );
+		add_action( 'enqueue_block_editor_assets', [ __CLASS__, 'block_editor_assets' ] );
 		add_action( 'admin_notices', [ __CLASS__, 'notice' ] );
 		add_action( 'buddy_builder/registry/changed', [ __CLASS__, 'layout_live' ], 10, 3 );
 		add_action( 'admin_post_' . self::DISMISS_ACTION, [ __CLASS__, 'dismiss' ] );
@@ -263,6 +264,35 @@ final class Upsell {
 		if ( self::enabled() && self::is_bpb_screen() ) {
 			self::enqueue( 'admin' );
 		}
+	}
+
+	/**
+	 * Block editor of a BuddyBuilder layout: "Split into parts (Pro)" on the Member header, locked (the popover script
+	 * opens its description; BuddyBuilder Pro has the real action there).
+	 */
+	public static function block_editor_assets() {
+		$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+
+		if ( ! self::enabled() || ! $screen || \Buddy_Builder\Templates\PostType::POST_TYPE !== $screen->post_type ) {
+			return;
+		}
+
+		self::enqueue( 'admin' );
+		wp_enqueue_script( 'bpb-upsell-blocks', BPB_ASSETS_URL . 'js/upsell-blocks.js', [ 'bpb-upsell', 'wp-hooks', 'wp-compose', 'wp-element', 'wp-components', 'wp-block-editor' ], BPB_VERSION, true );
+		wp_localize_script( 'bpb-upsell-blocks', 'bpbUpsellBlocks', self::split_data() );
+	}
+
+	/**
+	 * The locked "Split into parts" action: the element it sits on, its feature id and its label.
+	 *
+	 * @return array
+	 */
+	private static function split_data() {
+		return [
+			'block'   => 'buddybuilder/member-header',
+			'feature' => 'split-header',
+			'label'   => __( 'Split into parts', 'stax-buddy-builder' ),
+		];
 	}
 
 	/**

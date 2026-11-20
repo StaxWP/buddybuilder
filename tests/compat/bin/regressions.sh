@@ -57,6 +57,7 @@ run eval-file "$TEST" theme-title-space
 run eval-file "$TEST" profile-fields
 run eval-file "$TEST" split-header
 run eval-file "$TEST" fresh-site-points
+run eval-file "$TEST" pro-locks
 if [ -n "${BPB_BUDDYBOSS_PLUGIN:-}" ]; then
 	run --require="$HERE/env/buddyboss.php" eval-file "$TEST" checker-readylaunch
 fi

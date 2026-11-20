@@ -82,3 +82,6 @@
 
 /* Notice. */
 .bpb-upsell-notice .bpb-upsell-notice__dismiss { margin-inline-start: 12px; vertical-align: middle; }
+
+/* Block editor: a Pro action shown locked (Split into parts on the Member header). */
+.block-editor-block-toolbar .components-button.bpb-pro-locked { color: #757575; }
