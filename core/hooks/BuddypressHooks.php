@@ -10,7 +10,6 @@ namespace Buddy_Builder;
 
 defined( 'ABSPATH' ) || die();
 
-use Buddy_Builder\Template\Module;
 
 /**
  * Class BuddypressHooks
@@ -182,10 +181,8 @@ class BuddypressHooks extends Singleton {
 	 * @return string
 	 */
 	public function rewrite_theme_id( $pack ) {
-		$importing = isset( $_REQUEST['action'] ) && $_REQUEST['action'] === Module::IMPORT_KEY;
-
 		// on member profile in AJAX needs to be nouveau for some reason.
-		if ( $importing || $this->current_component_has_template() || wp_doing_ajax() ) {
+		if ( $this->current_component_has_template() || wp_doing_ajax() ) {
 			return 'nouveau';
 		}
 

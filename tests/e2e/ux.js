@@ -273,11 +273,9 @@ async function shot( page, name, locator ) {
 		ok( await page.locator( 'button[value=rollback]' ).count() === ( from1x ? 1 : 0 ), `Help: the undo to 1.9 only on a site updated from 1.x (${ from1x ? 'updated' : 'never had 1.x' })` );
 		await axeCheck( page, 'help and status' );
 		await shot( page, 'help-and-status' );
+		// UX review item 16: the Starter kits screen is gone; its slug opens Community pages.
 		await page.goto( site + '/wp-admin/admin.php?page=buddy-builder-templates' );
-		if ( await page.locator( '.bpb-kits' ).count() ) {
-			await axeCheck( page, 'starter kits' );
-			await shot( page, 'starter-kits' );
-		}
+		ok( page.url().includes( 'page=buddy-builder-settings' ) && await page.locator( '.bpb-kits' ).count() === 0, 'the old Starter kits address opens Community pages' );
 
 		// Live page hub: View as a guest renders the page logged out for this request, with the way back.
 		await page.goto( site + '/members/' + member + '/' );

@@ -8,7 +8,7 @@
  * Settings is one screen of cards: BuddyBuilder's own (builders, sample member, setup) and the ones add-ons give
  * through `buddy_builder/admin/settings_cards` (BuddyBuilder Pro: License, Agents). Screens that used to be separate
  * pages (Pro License, Pro Agents) open their card: their slugs stay registered and redirect, so bookmarks, notices
- * and form handlers keep working.
+ * and form handlers keep working. Removed screens (Starter kits) redirect to the screen that replaced them.
  *
  * @package Buddy_Builder
  */
@@ -62,11 +62,20 @@ final class App {
 	];
 
 	/**
+	 * Removed screens: old page slug => page slug that replaced it (bookmarks and old links keep working).
+	 */
+	const MOVED = [
+		'buddy-builder-templates' => 'buddy-builder-settings', // Starter kits: the styles of Community pages replace the 1.x kits.
+	];
+
+	/**
 	 * Register hooks.
 	 */
 	public static function hooks() {
 		// Before the menu is built and anything prints (admin.php fires admin_init first).
 		add_action( 'admin_init', [ __CLASS__, 'legacy_redirect' ] );
+		// A removed screen is no longer registered: WordPress denies it before admin_init, so redirect there too.
+		add_action( 'admin_page_access_denied', [ __CLASS__, 'legacy_redirect' ] );
 	}
 
 	/**
@@ -178,13 +187,19 @@ final class App {
 	}
 
 	/**
-	 * Old screens that became a settings card open the card (query args are kept).
+	 * Old screens that became a settings card open the card (query args are kept); removed screens open the screen
+	 * that replaced them.
 	 */
 	public static function legacy_redirect() {
 		$page = self::page();
 
 		if ( '' === $page || ! current_user_can( 'manage_options' ) || wp_doing_ajax() ) {
 			return;
+		}
+
+		if ( isset( self::MOVED[ $page ] ) ) {
+			wp_safe_redirect( admin_url( 'admin.php?page=' . self::MOVED[ $page ] ) );
+			exit;
 		}
 
 		foreach ( self::cards() as $card ) {
@@ -251,7 +266,7 @@ final class App {
 	}
 
 	/**
-	 * Screen title: its own menu name (a folded screen such as Starter kits keeps it), else the tab's.
+	 * Screen title: its own menu name (a folded screen keeps it), else the tab's.
 	 *
 	 * @param array|null $tab Current tab.
 	 * @return string

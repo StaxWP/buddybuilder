@@ -1204,8 +1204,6 @@ final class CommunityPages {
 
 		echo '</div>';
 
-		// The 1.x Elementor starter kits are not offered next to the styles (the 2.0 styles replace them; two kinds of
-		// "style" confused owners). Their screen stays registered for bookmarks.
 		echo '</div></details>';
 	}
 

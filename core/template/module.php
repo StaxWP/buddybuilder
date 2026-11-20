@@ -9,7 +9,6 @@
 namespace Buddy_Builder\Template;
 
 use Buddy_Builder\Library\Documents\BuddyPress;
-use Buddy_Builder\Templates;
 use Elementor\Core\Base\Document;
 use Elementor\Plugin;
 
@@ -25,6 +24,10 @@ defined( 'ABSPATH' ) || die();
  */
 class Module {
 
+	/**
+	 * Request action and nonce of the 1.x Starter kits import. The screen was removed in 2.0 (the styles replace the
+	 * kits; its slug opens Community pages); kept for code that still references them.
+	 */
 	const IMPORT_KEY = 'bpb_import';
 	const IMPORT_NONCE_KEY = 'bpb-ajax-import';
 	const TEMPLATE_ID_PREFIX = 'buddy_builder_';
@@ -73,8 +76,6 @@ class Module {
 		// Register proper AJAX actions for Buddy_Builder templates.
 		add_action( 'elementor/ajax/register_actions', [ $this, 'register_ajax_actions' ], 20 );
 
-		add_action( 'admin_init', [ $this, 'import_starter_templates' ] );
-
 		// On import save subtype
 		add_action( 'elementor/template-library/after_save_template', [ $this, 'save_subtype_on_import' ], 10, 2 );
 	}
@@ -98,139 +99,6 @@ class Module {
 		}
 
 	}
-
-	/**
-	 * Initial starter templates import and assign
-	 */
-	public function import_starter_templates() {
-
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return;
-		}
-
-		if ( ! isset( $_REQUEST['action'], $_REQUEST['bpb_template'] ) || $_REQUEST['action'] !== self::IMPORT_KEY ) {
-			return;
-		}
-
-		if ( ! $this->verify_request_nonce() ) {
-			$this->send_error();
-
-			return;
-		}
-
-		$bpb_template = sanitize_text_field( $_REQUEST['bpb_template'] );
-
-		$templates = self::get_templates( sanitize_text_field( $bpb_template ) );
-
-		if ( is_wp_error( $templates ) ) {
-			$this->send_error();
-		}
-
-		$imported_templates = get_option( 'bpb_imported_templates', [] );
-		$imported_ids = [];
-
-		if ( ! empty( $templates ) ) {
-
-			// Remove old imported templates
-			if ( isset( $imported_templates[ $bpb_template ] ) && is_array( $imported_templates[ $bpb_template ] ) ) {
-				foreach ( $imported_templates[ $bpb_template ] as $old_id ) {
-					wp_trash_post( $old_id );
-				}
-			}
-
-			foreach ( $templates as $template ) {
-
-				$is_group_tpl = isset( $template['subtype'] ) && strpos( $template['subtype'], 'group' ) !== false;
-
-				if ( $is_group_tpl && ! bp_is_active( 'groups' ) ) {
-					continue;
-				}
-
-				if ( empty( $template ) ) {
-					$this->send_error();
-				}
-
-				$template_id = self::import_template_data( [ 'template_id' => self::TEMPLATE_ID_PREFIX . $template['id'] ] );
-
-				if ( is_wp_error( $template_id ) ) {
-					$this->send_error();
-				} else {
-					$imported_ids[] = $template_id;
-				}
-			}
-
-			if ( ! empty( Source_Buddy_Builder::$imported_templates ) ) {
-				bpb_bulk_save_settings( Source_Buddy_Builder::$imported_templates );
-			}
-
-			$imported_templates[ $bpb_template ] = $imported_ids;
-			update_option( 'bpb_imported_templates', $imported_templates );
-		}
-
-		$this->send_success();
-
-	}
-
-	/**
-	 * Import failed
-	 */
-	private function send_error() {
-		wp_redirect( add_query_arg( 'bpb_import_status', 'error', admin_url( 'admin.php?page=' . Templates::get_instance()->get_slug() ) ) );
-		exit;
-
-	}
-
-	/**
-	 * Import success
-	 */
-	private function send_success() {
-		wp_redirect( add_query_arg( 'bpb_import_status', 'success', admin_url( 'admin.php?page=' . Templates::get_instance()->get_slug() ) ) );
-		exit;
-	}
-
-	/**
-	 * Import template data.
-	 *
-	 * @param array $args Request arguments.
-	 *
-	 * @return array Template data.
-	 * @since 1.0.0
-	 */
-	public static function import_template_data( $args ) {
-		$source = Plugin::instance()->templates_manager->get_source( 'buddy_builder' );
-
-		$args['template_id'] = (int) str_replace( self::TEMPLATE_ID_PREFIX, '', $args['template_id'] );
-
-		$data = $source->get_data( $args );
-
-		if ( is_wp_error( $data ) ) {
-			return false;
-		}
-
-		return $source->import_item(
-			[
-				'content'       => $data['content'],
-				'title'         => $data['title'],
-				'type'          => 'bpb-buddypress',
-				'subtype'       => $data['subtype'],
-				'page_settings' => [],
-			]
-		);
-	}
-
-	/**
-	 * Verify request nonce.
-	 *
-	 * Whether the request nonce verified or not.
-	 *
-	 * @return bool True if request nonce verified, False otherwise.
-	 * @since 2.3.0
-	 * @access public
-	 */
-	public function verify_request_nonce() {
-		return ! empty( $_REQUEST['_wpnonce'] ) && wp_verify_nonce( $_REQUEST['_wpnonce'], self::IMPORT_NONCE_KEY );
-	}
-
 
 	/**
 	 * Fetch templates from server.

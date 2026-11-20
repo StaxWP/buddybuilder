@@ -2,6 +2,15 @@
 
 Branch `main` (the 2.0 line since 2026-11-15; 1.x fixes go to `1.x`). Not released.
 
+## 2026-11-19 (later): Split into parts (review item 7), fresh-site points, Starter kits removed (item 16)
+
+Local commits, not pushed. Kit change to port to k-elements: `Schema::CONTROLS` accepts `none` (Element and the Elementor adapter already skipped it; Schema rejected it).
+
+- **Item 7, Split into parts** (free `2f664e2`, Pro `fe48804`): block editor only (toolbar and sidebar of the Member header, Pro licensed). The header becomes core groups with the header's classes (`bpb-mh ... bpb-mh--parts`, `bpb-mh__body`, `bpb-mh__main`, `bpb-mh__name`) holding the free parts with design `header` (cover, avatar, name, @username, details, buttons) and the new Pro parts Member stats, Member headline, Member badges. One markup source (`bpb_mh_*()` in `look-helpers.php`) for the Member header and its parts; the combined header's markup is unchanged (checked before and after). Pixel-identical to the one-element header in all 7 styles, 1440 and 390 px, visitor and member, Twenty Twenty-Five and Twenty Twenty-One. "Join into one Member header" goes back. Elementor: not feasible with the style templates (sections and columns cannot nest the three groups; containers cannot go in a column); see `deprecated-elements.md`.
+- **Fresh-site points** (`bf737c2`): Help's undo to 1.9 only on sites updated from 1.x (`bpb_from_1x`, set by the data update when it moves 1.x assignments; sites migrated before this change have no marker); Pro teaser: 4 highlights and See all in Pro; header part widget titles match the blocks (13 widgets, titles only); the About card leaves out the label of a field named like the card; Turn on turns the component on in place (nonce'd admin-post action), the components screen only as a fallback.
+- **Item 16, Starter kits removed**: screen, template and import handler gone; `admin.php?page=buddy-builder-templates` opens Community pages (`App::MOVED`, also on `admin_page_access_denied`); the Elementor template library tab (Template\Module, Source) stays; the notification template Pro's Features screen uses stays; Pro drops its kit entries.
+- Tests: regressions bbux 518 (413 without Pro), bbmin 519 (416), 0 FAIL (new cases `split-header`, `fresh-site-points`); e2e 60 PASS, 1 known FAIL (`elementorFrontendConfig`); goldens bbux tt25 72/158, only the known 20 grid and 10 "ttest" diffs.
+
 ## 2026-11-19: visual QA of the seven styles, block and Elementor versions
 
 Asked by Gabriel ("do a full test for the templates and make sure they are looking good on mobile and desktop. also how customizable they are? also on elementor and block editor"). Report with the matrix, open issues and the customizability assessment: vault `Projects/staxwp/docs/2026-11-19-buddybuilder-styles-qa.md`. Local commits, not pushed.

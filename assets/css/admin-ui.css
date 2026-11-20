@@ -382,14 +382,6 @@
 .bpb-look__thumb svg { width: 100%; height: auto; display: block; }
 .bpb-look__desc { color: #50575e; font-size: 12px; flex: 1; }
 
-/* Starter kits. */
-.bpb-kits { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin: 16px 0; }
-.bpb-kit { background: var(--bpb-surface); border: 1px solid var(--bpb-border); border-radius: var(--bpb-radius); box-shadow: var(--bpb-shadow); overflow: hidden; margin: 0; }
-.bpb-kit__image { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; background: #f6f7f7; }
-.bpb-kit__body { padding: 12px 16px; }
-.bpb-kit__name { margin: 0 0 8px; font-size: 14px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
-.bpb-kit__actions .button { margin-right: 6px; }
-
 /* Setup. */
 .bpb-setup__head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
 .bpb-setup__head form { margin: 0; }

@@ -26,7 +26,6 @@ BuddyBuilder replaces the BuddyPress templates of your theme with layouts you de
 * **Card styles** for member, group and activity lists.
 * **Admin bar help**: edit the page you are on, change its look, view it as a guest, and "Layout not applied" with the likely cause when a layout does not show (page template, theme files, page cache and more).
 * **Help and status** in plain language, including the data update and its Undo.
-* **Starter kits** for Elementor, imported in one click.
 
 = BuddyPress pages you can design =
 
@@ -61,7 +60,7 @@ BuddyBuilder is free and complete: all five BuddyPress pages, both builders, the
 
 BuddyBuilder collects no usage data and sends nothing to us on its own. The usage tracker (Appsero) bundled with 1.x was removed in 2.0, and what it stored is deleted on update and on uninstall.
 
-When you open the starter kits in BuddyBuilder or the Elementor template library and import one, the plugin fetches the kit list and the chosen kit from demo.staxwp.com (StaxWP). These requests happen only on that admin action and send the standard WordPress request data (your site URL in the user agent); no personal data is included. See the [StaxWP privacy policy](https://staxwp.com/privacy-policy/).
+When you open the BuddyBuilder templates of the Elementor template library and import one, the plugin fetches the kit list and the chosen kit from demo.staxwp.com (StaxWP). These requests happen only on that admin action and send the standard WordPress request data (your site URL in the user agent); no personal data is included. See the [StaxWP privacy policy](https://staxwp.com/privacy-policy/).
 
 = Found a security issue? =
 

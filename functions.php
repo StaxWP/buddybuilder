@@ -1,6 +1,5 @@
 <?php
 
-use Buddy_Builder\Template\Module;
 use Buddy_Builder\Templates\Dispatcher;
 use Buddy_Builder\Templates\PostType;
 use Buddy_Builder\Templates\Registry;
@@ -345,12 +344,11 @@ function bpb_real_preview() {
  * @return bool
  */
 function bpb_is_elementor_editor() {
-	$importing    = isset( $_REQUEST['action'] ) && $_REQUEST['action'] === Module::IMPORT_KEY;
 	$is_ajax      = ( wp_doing_ajax() && ! isset( $_POST['object'] ) && ! isset( $_POST['target'] ) );
 	$is_db_update = isset( $_GET['buddybuilder_db_update'] );
 
 	return defined( 'ELEMENTOR_VERSION' ) &&
-		   ( $is_ajax || $importing || $is_db_update ||
+		   ( $is_ajax || $is_db_update ||
 			 \Elementor\Plugin::$instance->editor->is_edit_mode() ||
 			 \Elementor\Plugin::$instance->preview->is_preview_mode() ||
 			 bpb_is_preview_mode() || bpb_is_front_library()

@@ -3,7 +3,7 @@
  * Menu fold (decision 5, 2026-11-15): BuddyBuilder shows three entries, Community pages, Features (Pro) and Settings.
  * The app (App) shows the same screens as tabs, plus Help.
  *
- * - Starter kits leaves the menu (1.x Elementor kits, replaced by the 2.0 styles; the screen stays reachable by its URL).
+ * - Starter kits is gone (1.x Elementor kits, replaced by the 2.0 styles); its slug opens Community pages (App::MOVED).
  * - Help and status leaves the menu (a tab of the app); License and Agents (Pro) become cards of Settings.
  * - Every slug stays registered and reachable (bookmarks, the 1.x admin_post handler, links from other plugins);
  *   only the menu entries move. The highlighted menu entry follows the tab.
@@ -60,7 +60,7 @@ final class Menu {
 	 * @return array
 	 */
 	public static function folded() {
-		$folded = [ 'buddy-builder-templates' => self::PARENT ];
+		$folded = [];
 
 		foreach ( array_keys( self::tabs() ) as $slug ) {
 			if ( 'buddy-builder-' . Options::SLUG !== $slug ) {
@@ -81,7 +81,7 @@ final class Menu {
 	}
 
 	/**
-	 * Highlight Settings on its tabs and Community pages on the starter kits.
+	 * Highlight Settings on its tabs.
 	 *
 	 * @param string|null $submenu_file Current submenu file.
 	 * @param string      $parent_file  Parent file.

@@ -42,10 +42,6 @@ final class Admin extends Singleton {
 
 		// Admin pages.
 		require_once self::$plugin_path . '/admin/pages/Base.php';
-		// Starter template kits are Elementor imports.
-		if ( defined( 'ELEMENTOR_VERSION' ) ) {
-			require_once self::$plugin_path . '/admin/pages/Templates.php';
-		}
 		require_once self::$plugin_path . '/admin/pages/Settings.php';
 	}
 
@@ -86,7 +82,7 @@ final class Admin extends Singleton {
 			'58.9'
 		);
 
-		// Submenus, in the order of their priority (Community pages, Starter kits, Pro modules, Settings).
+		// Submenus, in the order of their priority (Community pages, Pro modules, Settings).
 		$sub_menus = apply_filters( BPB_HOOK_PREFIX . 'admin_menu', [] );
 
 		if ( ! empty( $sub_menus ) ) {
