@@ -56,6 +56,9 @@
  *                               (free) on the Member header widget; Join on the parts; Pro parts in Header parts.
  * - pro-locks                   Without Pro: Split into parts locked on the Member header, the Community style's
  *                               photo shape, spacing and font locked (saved values kept, not used); Pro unlocks them.
+ * - pro-unlicensed              BuddyBuilder Pro without a license (state forced to "not licensed" for this run): Split
+ *                               into parts shows locked in both editors with a link to the license, not to the plans;
+ *                               an expired license keeps the real action.
  *
  * THROWAWAY site only (needs the compat env mu-plugin). Restores the options it touches and deletes the posts it
  * creates. Prints PASS / FAIL / SKIP lines; exits 1 on any FAIL.
@@ -1266,8 +1269,55 @@ switch ( $bpb_case ) {
 		set_current_screen( PostType::POST_TYPE );
 		\Buddy_Builder\Upsell\Upsell::block_editor_assets();
 		$bpb_data = wp_scripts()->get_data( 'bpb-upsell-blocks', 'data' );
-		$bpb_ok( $bpb_pro !== wp_script_is( 'bpb-upsell-blocks', 'enqueued' ) && ( $bpb_pro || ( false !== strpos( (string) $bpb_data, '"feature":"split-header"' ) && isset( \Buddy_Builder\Upsell\Upsell::features()['split-header'] ) ) ), $bpb_pro ? 'block editor: no locked Split into parts with Pro' : 'block editor: Split into parts (Pro) locked on the Member header, with the Pro description and link' );
+		// A Pro without a license shows the same lock with a link to the license (case pro-unlicensed).
+		$bpb_open = $bpb_pro && ! \Buddy_Builder_Pro\Blocks::locked();
+		$bpb_ok( $bpb_open !== wp_script_is( 'bpb-upsell-blocks', 'enqueued' ) && ( $bpb_pro || ( false !== strpos( (string) $bpb_data, '"feature":"split-header"' ) && false !== strpos( (string) $bpb_data, 'utm_content=split-header' ) && isset( \Buddy_Builder\Upsell\Upsell::features()['split-header'] ) ) ), $bpb_open ? 'block editor: no locked Split into parts with a licensed Pro' : ( $bpb_pro ? 'block editor: Split into parts locked while Pro is not licensed' : 'block editor: Split into parts (Pro) locked on the Member header, with the Pro description and link' ) );
 		set_current_screen( 'front' );
+		break;
+
+	case 'pro-unlicensed':
+		// BuddyBuilder Pro installed but not licensed: the same locked Split into parts as without Pro, in both editors,
+		// with "Activate your license" to the license card instead of the plans. The state is forced before any widget
+		// builds its controls (Elementor caches them per widget type), so this case runs in its own process.
+		if ( ! defined( 'BPB_PRO_VERSION' ) || ! class_exists( '\\Buddy_Builder_Pro\\License' ) ) {
+			$bpb_skip( 'BuddyBuilder Pro is not active' );
+			break;
+		}
+		$bpb_state = 'locked';
+		add_filter(
+			'bpb_pro_license_state',
+			static function ( $state ) use ( &$bpb_state ) {
+				return array_merge( $state, [ 'source' => 'locked' === $bpb_state ? '' : 'expired', 'licensed' => 'locked' !== $bpb_state, 'locked' => 'locked' === $bpb_state, 'expired' => 'expired' === $bpb_state ] );
+			},
+			99
+		);
+		$bpb_license = \Buddy_Builder_Pro\License::manage_url();
+		require_once ABSPATH . 'wp-admin/includes/class-wp-screen.php';
+		require_once ABSPATH . 'wp-admin/includes/screen.php';
+		set_current_screen( PostType::POST_TYPE );
+		\Buddy_Builder\Upsell\Upsell::block_editor_assets();
+		// The localized objects (WordPress 6.6 escapes their slashes).
+		$bpb_json   = static function ( $handle ) {
+			$data = (string) wp_scripts()->get_data( $handle, 'data' );
+			return (array) json_decode( substr( $data, (int) strpos( $data, '{' ), (int) strrpos( $data, '}' ) - (int) strpos( $data, '{' ) + 1 ), true );
+		};
+		$bpb_data   = $bpb_json( 'bpb-upsell-blocks' );
+		$bpb_upsell = $bpb_json( 'bpb-upsell' );
+		$bpb_ok( wp_script_is( 'bpb-upsell-blocks', 'enqueued' ) && $bpb_license === ( $bpb_data['url'] ?? '' ) && 'Activate your license' === ( $bpb_data['cta'] ?? '' ), 'block editor: Split into parts (Pro) locked, with Activate your license to the license (' . $bpb_license . ')' );
+		$bpb_ok( $bpb_license === ( $bpb_upsell['features']['split-header']['url'] ?? '' ) && 'Activate your license' === ( $bpb_upsell['features']['split-header']['cta'] ?? '' ), 'block editor: the toolbar item\'s description links to the license too' );
+		$bpb_ok( ! wp_script_is( 'bpb-pro-split-header', 'enqueued' ), 'block editor: no real Split into parts while not licensed' );
+		set_current_screen( 'front' );
+		if ( did_action( 'elementor/loaded' ) ) {
+			$bpb_header = \Elementor\Plugin::$instance->widgets_manager->get_widget_types( 'bpb-el-member-header' );
+			$bpb_note   = $bpb_header ? $bpb_header->get_controls( 'bpb_split_pro_note' ) : null;
+			// Outside the editor Elementor keeps no control text: the link is the filter's, which elementor_split() prints.
+			$bpb_lock = apply_filters( 'buddy_builder/upsell/split_lock', null );
+			$bpb_ok( $bpb_note && null === $bpb_header->get_controls( 'bpb_split_note' ) && isset( $bpb_lock['url'], $bpb_lock['cta'] ) && $bpb_license === $bpb_lock['url'] && 'Activate your license' === $bpb_lock['cta'], 'Elementor: Split into parts (Pro) locked on the Member header widget, with Activate your license' );
+		} else {
+			$bpb_skip( 'Elementor is not active' );
+		}
+		$bpb_state = 'expired';
+		$bpb_ok( null === apply_filters( 'buddy_builder/upsell/split_lock', null ), 'expired license: no lock (the editor stays unlocked, the real action shows)' );
 		break;
 
 	case 'split-header-elementor':
@@ -1289,7 +1339,7 @@ switch ( $bpb_case ) {
 		if ( ! $bpb_pro ) {
 			$bpb_ok( $bpb_has( $bpb_header, 'bpb_split_pro_note' ) && ! $bpb_has( $bpb_header, 'bpb_split_note' ), 'Member header widget: Split into parts shown locked, with the link to the Pro plans' );
 		} elseif ( ! $bpb_open ) {
-			$bpb_ok( ! $bpb_has( $bpb_header, 'bpb_split_pro_note' ) && ! $bpb_has( $bpb_header, 'bpb_split_note' ), 'Member header widget: no Split into parts while BuddyBuilder Pro has no licence (its parts are locked)' );
+			$bpb_ok( $bpb_has( $bpb_header, 'bpb_split_pro_note' ) && ! $bpb_has( $bpb_header, 'bpb_split_note' ), 'Member header widget: Split into parts shown locked while BuddyBuilder Pro has no license (link to the license, case pro-unlicensed)' );
 		} else {
 			$bpb_ok( $bpb_has( $bpb_header, 'bpb_split_note' ) && ! $bpb_has( $bpb_header, 'bpb_split_pro_note' ), 'Member header widget: Split into parts (Pro)' );
 			$bpb_ok( \Buddy_Builder_Pro\HeaderParts::elementor_containers() === $bpb_has( $bpb_header, 'bpb_split_run' ), 'Split button only with Flexbox Containers on (a note otherwise)' );
@@ -1365,7 +1415,7 @@ switch ( $bpb_case ) {
 		break;
 
 	default:
-		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install, checker-readylaunch, change-look-undo, cards-follow-layout, layout-actions, element-settings, elementor-basic-controls, layout-import, notice-dismiss, card-line, blocks-stay-on, community-pages-rows, elementor-panel, header-parts, theme-title-space, profile-fields, split-header, fresh-site-points, pro-locks, split-header-elementor' );
+		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install, checker-readylaunch, change-look-undo, cards-follow-layout, layout-actions, element-settings, elementor-basic-controls, layout-import, notice-dismiss, card-line, blocks-stay-on, community-pages-rows, elementor-panel, header-parts, theme-title-space, profile-fields, split-header, fresh-site-points, pro-locks, pro-unlicensed, split-header-elementor' );
 }
 
 // Cleanup.

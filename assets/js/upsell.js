@@ -1,6 +1,7 @@
 /**
  * BuddyBuilder Pro features in the free plugin: clicking a "Pro" item (Elementor panel or Community pages screen)
- * opens a short description with a link to the Pro plans; the Pro notice dismisses without a reload.
+ * opens a short description with a link to the Pro plans (or the feature's own link, cta); the Pro notice dismisses
+ * without a reload.
  * No tracking, no requests other than the dismiss. Data: window.bpbUpsell (Upsell::script_data()).
  */
 ( function () {
@@ -61,7 +62,7 @@
 		var head = el( 'p', 'bpb-upsell-pop__title', feature.title + ' ' );
 		head.appendChild( el( 'span', 'bpb-pro-tag', data.labels.pro ) );
 
-		var link = el( 'a', 'bpb-upsell-pop__cta', data.labels.cta );
+		var link = el( 'a', 'bpb-upsell-pop__cta', feature.cta || data.labels.cta );
 		link.href = feature.url;
 		link.target = '_blank';
 		link.rel = 'noopener';

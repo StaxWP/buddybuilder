@@ -1,8 +1,9 @@
 /**
- * Block editor, without BuddyBuilder Pro: "Split into parts (Pro)" on the Member header, where Pro has the real action
- * (toolbar and sidebar). Locked: the toolbar item opens the short Pro description of upsell.js (data-bpb-pro), the
- * sidebar shows the same line, a disabled button and the link to the Pro plans. Data: window.bpbUpsell (features,
- * labels) and window.bpbUpsellBlocks (block, feature, label).
+ * Block editor, without BuddyBuilder Pro (or while Pro is not licensed): "Split into parts (Pro)" on the Member header,
+ * where a licensed Pro has the real action (toolbar and sidebar). Locked: the toolbar item opens the short Pro
+ * description of upsell.js (data-bpb-pro), the sidebar shows the same line, a disabled button and the link (the Pro
+ * plans, or the license). Data: window.bpbUpsell (features, labels) and window.bpbUpsellBlocks (block, feature, label,
+ * url, cta).
  */
 ( function ( wp, upsell, data ) {
 	'use strict';
@@ -39,7 +40,7 @@
 					{ title, initialOpen: false },
 					el( 'p', null, feature.text ),
 					el( 'p', null, el( Button, { variant: 'secondary', icon: 'lock', disabled: true, accessibleWhenDisabled: true }, data.label ) ),
-					el( ExternalLink, { href: feature.url }, upsell.labels.cta )
+					el( ExternalLink, { href: data.url }, data.cta )
 				)
 			)
 		);

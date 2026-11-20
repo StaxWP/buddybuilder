@@ -2,8 +2,8 @@
 /**
  * BuddyBuilder Pro in the free plugin: Pro elements in the Elementor panel and Pro features on the Community pages
  * screen, greyed out with a "Pro" badge (never hidden, never locking a free feature), and one dismissible notice
- * after a clear milestone. Nothing shows while BuddyBuilder Pro is active (licensed or not). No tracking: links
- * carry UTM parameters only.
+ * after a clear milestone. Nothing shows while BuddyBuilder Pro is active, except the locked "Split into parts" while
+ * Pro is not licensed (with a link to its license). No tracking: links carry UTM parameters only.
  *
  * @package Buddy_Builder
  */
@@ -210,7 +210,7 @@ final class Upsell {
 	}
 
 	/**
-	 * Features for the scripts: id => [ title, text, url ].
+	 * Features for the scripts: id => [ title, text, url, cta (when the link is not to the plans) ].
 	 *
 	 * @param string $medium utm_medium.
 	 * @return array
@@ -224,6 +224,13 @@ final class Upsell {
 				'text'  => $feature['text'],
 				'url'   => self::url( $id, $medium ),
 			];
+		}
+
+		// The locked Split into parts links where split_data() says (the license while Pro is not licensed).
+		$split = self::split_data( $medium );
+		if ( $split && isset( $data[ $split['feature'] ] ) ) {
+			$data[ $split['feature'] ]['url'] = $split['url'];
+			$data[ $split['feature'] ]['cta'] = $split['cta'];
 		}
 
 		return [
@@ -250,10 +257,10 @@ final class Upsell {
 	}
 
 	/**
-	 * Elementor editor: popover script.
+	 * Elementor editor: popover script and the Pro tag (also for the locked Split into parts while Pro is not licensed).
 	 */
 	public static function elementor_assets() {
-		if ( self::enabled() ) {
+		if ( self::enabled() || self::split_data( 'elementor' ) ) {
 			self::enqueue( 'elementor' );
 		}
 	}
@@ -269,31 +276,32 @@ final class Upsell {
 
 	/**
 	 * Block editor of a BuddyBuilder layout: "Split into parts (Pro)" on the Member header, locked (the popover script
-	 * opens its description; BuddyBuilder Pro has the real action there).
+	 * opens its description; a licensed BuddyBuilder Pro has the real action there).
 	 */
 	public static function block_editor_assets() {
 		$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+		$split  = self::split_data();
 
-		if ( ! self::enabled() || ! $screen || \Buddy_Builder\Templates\PostType::POST_TYPE !== $screen->post_type ) {
+		if ( ! $split || ! $screen || \Buddy_Builder\Templates\PostType::POST_TYPE !== $screen->post_type ) {
 			return;
 		}
 
 		self::enqueue( 'admin' );
 		wp_enqueue_script( 'bpb-upsell-blocks', BPB_ASSETS_URL . 'js/upsell-blocks.js', [ 'bpb-upsell', 'wp-hooks', 'wp-compose', 'wp-element', 'wp-components', 'wp-block-editor' ], BPB_VERSION, true );
-		wp_localize_script( 'bpb-upsell-blocks', 'bpbUpsellBlocks', self::split_data() );
+		wp_localize_script( 'bpb-upsell-blocks', 'bpbUpsellBlocks', $split );
 	}
 
 	/**
 	 * Elementor, Member header widget: "Split into parts (Pro)", locked: the line, a disabled button and the link to
-	 * the Pro plans (BuddyBuilder Pro has the real action there).
+	 * the Pro plans, or to the license while BuddyBuilder Pro is not licensed (a licensed Pro has the real action there).
 	 *
 	 * @param \Elementor\Widget_Base $element Member header widget.
 	 */
 	public static function elementor_split( $element ) {
-		$features = self::enabled() ? self::features() : [];
-		$split    = self::split_data();
+		$split    = self::split_data( 'elementor' );
+		$features = self::features();
 
-		if ( empty( $features[ $split['feature'] ] ) ) {
+		if ( ! $split || empty( $features[ $split['feature'] ] ) ) {
 			return;
 		}
 
@@ -306,22 +314,47 @@ final class Upsell {
 				'type' => \Elementor\Controls_Manager::RAW_HTML,
 				'raw'  => '<p class="elementor-descriptor">' . esc_html( $features[ $split['feature'] ]['text'] ) . '</p>'
 					. '<p style="margin:10px 0"><button type="button" class="elementor-button elementor-button-default" disabled aria-disabled="true" style="cursor:not-allowed;opacity:.6"><i class="eicon-lock" aria-hidden="true"></i> ' . esc_html( $split['label'] ) . '</button> <span class="bpb-pro-tag">' . esc_html( $pro ) . '</span></p>'
-					. '<a href="' . esc_url( self::url( $split['feature'], 'elementor' ) ) . '" target="_blank" rel="noopener">' . esc_html__( 'See BuddyBuilder Pro plans', 'stax-buddy-builder' ) . '<span class="screen-reader-text"> ' . esc_html__( '(opens in a new tab)', 'stax-buddy-builder' ) . '</span></a>',
+					. '<a href="' . esc_url( $split['url'] ) . '" target="_blank" rel="noopener">' . esc_html( $split['cta'] ) . '<span class="screen-reader-text"> ' . esc_html__( '(opens in a new tab)', 'stax-buddy-builder' ) . '</span></a>',
 			]
 		);
 		$element->end_controls_section();
 	}
 
 	/**
-	 * The locked "Split into parts" action: the element it sits on, its feature id and its label.
+	 * The locked "Split into parts" action: the element it sits on, its feature id, its label and its link (url, cta).
+	 * Without BuddyBuilder Pro the link goes to the Pro plans; BuddyBuilder Pro shows the same lock while it is not
+	 * licensed, with a link to its license (filter). Null: not shown (a licensed Pro has the real action).
 	 *
-	 * @return array
+	 * @param string $medium utm_medium of the plans link.
+	 * @return array|null
 	 */
-	private static function split_data() {
+	private static function split_data( $medium = 'panel' ) {
+		$feature = 'split-header';
+		$link    = self::enabled() ? [
+			'url' => self::url( $feature, $medium ),
+			'cta' => __( 'See BuddyBuilder Pro plans', 'stax-buddy-builder' ),
+		] : null;
+
+		/**
+		 * Filters the link of the locked "Split into parts" on the Member header (block editor and Elementor).
+		 *
+		 * @since 2.0.0
+		 *
+		 * @param array|null $link url and cta (link text), or null to not show the locked action. BuddyBuilder Pro
+		 *                         sets its license link while it is not licensed.
+		 */
+		$link = apply_filters( 'buddy_builder/upsell/split_lock', $link );
+
+		if ( ! is_array( $link ) || empty( $link['url'] ) || empty( $link['cta'] ) ) {
+			return null;
+		}
+
 		return [
 			'block'   => 'buddybuilder/member-header',
-			'feature' => 'split-header',
+			'feature' => $feature,
 			'label'   => __( 'Split into parts', 'stax-buddy-builder' ),
+			'url'     => (string) $link['url'],
+			'cta'     => (string) $link['cta'],
 		];
 	}
 
