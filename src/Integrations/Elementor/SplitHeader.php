@@ -42,6 +42,64 @@ final class SplitHeader {
 		add_filter( 'elementor/frontend/container/should_render', [ __CLASS__, 'open' ], 10, 2 );
 		add_action( 'elementor/frontend/container/after_render', [ __CLASS__, 'close' ] );
 		add_action( 'elementor/preview/enqueue_scripts', [ __CLASS__, 'preview' ] );
+		add_action( 'elementor/element/after_section_end', [ __CLASS__, 'box_controls' ], 10, 2 );
+	}
+
+	/** Settings that mark the split header's containers (set by Pro's Split into parts). */
+	const MARK = [ 'design' => 'header' ];
+
+	/**
+	 * Container controls that do nothing on these containers, besides the Layout tab's Container section (width, height,
+	 * direction, alignment, gap, wrap): margin, padding, z-index and corner radius. Elementor applies them through its
+	 * container classes and their CSS variables, which these containers drop. Responsive copies follow.
+	 */
+	const IGNORED = [ 'margin', 'padding', 'z_index', 'border_radius', 'border_radius_hover' ];
+
+	/**
+	 * Editor panel of a split header's containers: the settings that do nothing there hide (as each section that holds
+	 * them is registered), and a short note in the Layout tab says why (background, border, shadow and responsive
+	 * visibility still apply). Other containers are unchanged.
+	 *
+	 * @param \Elementor\Controls_Stack $element    Element.
+	 * @param string                    $section_id Section that ended.
+	 */
+	public static function box_controls( $element, $section_id ) {
+		if ( 'container' !== $element->get_name() ) {
+			return;
+		}
+
+		$ids     = [];
+		$devices = '/_(' . implode( '|', BasicControls::DEVICES ) . ')$/';
+
+		foreach ( $element->get_controls() as $id => $control ) {
+			if ( isset( $control['section'] ) && $section_id === $control['section'] && ( 'section_layout_container' === $section_id || in_array( preg_replace( $devices, '', $id ), self::IGNORED, true ) ) ) {
+				$ids[] = $id;
+			}
+		}
+
+		BasicControls::hide_when( $element, 'section_layout_container' === $section_id ? array_merge( $ids, [ $section_id ] ) : $ids, self::MARK );
+
+		if ( 'section_layout_container' !== $section_id ) {
+			return;
+		}
+
+		$element->start_controls_section(
+			'bpb_split_box',
+			[
+				'label'     => __( 'Member header (parts)', 'stax-buddy-builder' ),
+				'tab'       => \Elementor\Controls_Manager::TAB_LAYOUT,
+				'condition' => self::MARK,
+			]
+		);
+		$element->add_control(
+			'bpb_split_box_note',
+			[
+				'type'            => \Elementor\Controls_Manager::RAW_HTML,
+				'raw'             => esc_html__( 'This box is part of a Member header split into parts: the header\'s design lays it out, so its layout, size, margin, padding and corner settings are hidden. Background, border, shadow and responsive visibility still apply.', 'stax-buddy-builder' ),
+				'content_classes' => 'elementor-descriptor',
+			]
+		);
+		$element->end_controls_section();
 	}
 
 	/**

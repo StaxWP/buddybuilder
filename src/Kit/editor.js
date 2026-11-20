@@ -182,11 +182,25 @@
 		}
 	}
 
+	/**
+	 * Whether a control hides for these attributes ("hideWhen": other attributes with these values, opt-in per
+	 * attribute in element.json, for settings that do nothing then).
+	 *
+	 * @param {Object} ctl        Control definition.
+	 * @param {Object} attributes Block attributes.
+	 * @return {boolean} Hidden.
+	 */
+	function hidden( ctl, attributes ) {
+		return Object.keys( ctl.hideWhen || {} ).some( function ( key ) {
+			return attributes[ key ] === ctl.hideWhen[ key ];
+		} );
+	}
+
 	function panels( def, props, labels ) {
 		const out = [];
 		[ 'basic', 'advanced' ].forEach( function ( panel ) {
 			const list = def.controls.filter( function ( ctl ) {
-				return ctl.panel === panel;
+				return ctl.panel === panel && ! hidden( ctl, props.attributes );
 			} );
 			if ( list.length ) {
 				out.push(

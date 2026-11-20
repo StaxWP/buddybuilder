@@ -55,5 +55,10 @@
 		"elementor": [
 			"bpb-sitewide-content"
 		]
-	}
+	},
+	"lookIgnores": [
+		"color.text",
+		"color.link",
+		"typography.fontSize"
+	]
 }

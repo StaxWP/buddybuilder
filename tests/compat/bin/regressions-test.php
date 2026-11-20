@@ -56,6 +56,11 @@
  *                               (free) on the Member header widget; Join on the parts; Pro parts in Header parts.
  * - pro-locks                   Without Pro: Split into parts locked on the Member header, the Community style's
  *                               photo shape, spacing and font locked (saved values kept, not used); Pro unlocks them.
+ * - dead-settings               Settings that do nothing are hidden: block supports a style's CSS overrides (element.json
+ *                               lookIgnores) or a split header part cannot show (splitIgnores) go to the block editor;
+ *                               header part settings with "hideWhen" (block editor and Elementor), the 1.x parts' Style
+ *                               tab and the split header containers' layout settings hide in a split header; saved
+ *                               values keep validating and rendering.
  * - pro-unlicensed              BuddyBuilder Pro without a license (state forced to "not licensed" for this run): Split
  *                               into parts shows locked in both editors with a link to the license, not to the plans;
  *                               an expired license keeps the real action.
@@ -1276,6 +1281,75 @@ switch ( $bpb_case ) {
 		set_current_screen( 'front' );
 		break;
 
+	case 'dead-settings':
+		// UX: settings that do nothing are not shown. Block supports: hidden by the block editor (look-supports.js) from
+		// element.json; the supports stay registered, so saved values keep validating and rendering.
+		$bpb_known   = [ 'color.background', 'color.text', 'color.link', 'typography.fontSize', 'typography.lineHeight', 'typography.textAlign', 'border', 'spacing.padding', 'spacing.margin', 'dimensions.minHeight' ];
+		$bpb_ignored = \Buddy_Builder\Elements\Elements::ignored_supports();
+		$bpb_bad     = [];
+		foreach ( $bpb_ignored as $bpb_place => $bpb_blocks ) {
+			foreach ( $bpb_blocks as $bpb_block => $bpb_list ) {
+				$bpb_type = WP_Block_Type_Registry::get_instance()->get_registered( $bpb_block );
+				foreach ( $bpb_list as $bpb_support ) {
+					$bpb_path = 'border' === $bpb_support ? [ '__experimentalBorder' ] : explode( '.', $bpb_support );
+					if ( ! in_array( $bpb_support, $bpb_known, true ) || ! $bpb_type || null === _wp_array_get( $bpb_type->supports, $bpb_path, null ) ) {
+						$bpb_bad[] = "$bpb_place $bpb_block $bpb_support";
+					}
+				}
+			}
+		}
+		$bpb_ok( ! $bpb_bad && isset( $bpb_ignored['look']['buddybuilder/member-header'], $bpb_ignored['split']['buddybuilder/member-avatar'] ), 'element.json lookIgnores / splitIgnores name supports the blocks have (' . count( $bpb_ignored['look'] ) . ' blocks in a style, ' . count( $bpb_ignored['split'] ) . ' in a split header)' . ( $bpb_bad ? ': ' . implode( ', ', $bpb_bad ) : '' ) );
+		$bpb_mh = $bpb_ignored['look']['buddybuilder/member-header'];
+		$bpb_ok( in_array( 'color.text', $bpb_mh, true ) && in_array( 'typography.fontSize', $bpb_mh, true ) && ! array_intersect( [ 'color.background', 'color.link', 'border', 'spacing.margin' ], $bpb_mh ), 'Member header in a style: no text color or font size controls; background (Creator shows it), link color, border and spacing stay' );
+
+		// Saved values of hidden controls: still valid block attributes, still printed on the wrapper.
+		$bpb_member = get_users( [ 'number' => 1, 'orderby' => 'ID', 'fields' => 'ID' ] );
+		$bpb_was    = buddypress()->displayed_user->id ?? 0;
+		buddypress()->displayed_user->id = (int) $bpb_member[0];
+		$bpb_html = do_blocks( '<!-- wp:group {"className":"bpb-look bpb-look--classic"} --><div class="wp-block-group bpb-look bpb-look--classic"><!-- wp:buddybuilder/member-header {"backgroundColor":"accent-1","style":{"color":{"text":"#ff00aa"},"typography":{"fontSize":"40px"},"spacing":{"margin":{"top":"12px"}}}} /--></div><!-- /wp:group -->' );
+		$bpb_ok( false !== strpos( $bpb_html, 'has-accent-1-background-color' ) && false !== strpos( $bpb_html, 'color:#ff00aa' ) && (bool) preg_match( '/font-size:[^;"]*40px/', $bpb_html ) && false !== strpos( $bpb_html, 'bpb-mh' ), 'a Member header saved with a background, text color and font size in a style renders as before (classes and styles on the wrapper)' );
+		buddypress()->displayed_user->id = $bpb_was;
+
+		// Header parts: settings that do nothing in a split header (design "header").
+		$bpb_defs = [];
+		foreach ( [ 'member-avatar', 'member-cover', 'member-username' ] as $bpb_name ) {
+			foreach ( \Buddy_Builder\Elements\Elements::get( $bpb_name )->editor_definition()['controls'] as $bpb_control ) {
+				if ( isset( $bpb_control['hideWhen'] ) ) {
+					$bpb_defs[] = $bpb_control['key'];
+				}
+			}
+			$bpb_ok( ! \Buddy_Builder\Kit\Schema::errors( \Buddy_Builder\Elements\Elements::get( $bpb_name )->schema() ), $bpb_name . ': a valid schema with hideWhen' );
+		}
+		$bpb_ok( [ 'avatar_size', 'cover_advanced_settings', 'overlay_background', 'username_tag' ] === $bpb_defs, 'block editor: in a split header the part settings that do nothing hide (' . implode( ', ', $bpb_defs ) . '); Show (name or @username) stays' );
+		$bpb_ok( (bool) \Buddy_Builder\Kit\Schema::errors( [ 'name' => 'x', 'title' => 'X', 'attributes' => [ 'a' => [ 'type' => 'string', 'hideWhen' => 'header' ] ] ] ), 'kit: an invalid hideWhen is a schema error' );
+
+		if ( ! did_action( 'elementor/loaded' ) ) {
+			$bpb_skip( 'Elementor is not active' );
+			break;
+		}
+		// Elementor builds the panel in the admin only: the conditions are added there.
+		require_once ABSPATH . 'wp-admin/includes/class-wp-screen.php';
+		require_once ABSPATH . 'wp-admin/includes/screen.php';
+		set_current_screen( 'dashboard' );
+		$bpb_cond = static function ( $stack, $id ) {
+			$control = $stack ? $stack->get_controls( $id ) : null;
+			return $control && isset( $control['condition']['design!'] ) && 'header' === $control['condition']['design!'];
+		};
+		$bpb_avatar = \Elementor\Plugin::$instance->widgets_manager->get_widget_types( 'bpb-profile-member-avatar' );
+		$bpb_ok( $bpb_cond( $bpb_avatar, 'avatar_size' ) && $bpb_cond( $bpb_avatar, 'bpb_basic' ), 'Elementor: Size of a 1.x avatar part hides in a split header (and its Settings section, left empty)' );
+		$bpb_style = $bpb_avatar->get_controls( 'section_style' );
+		if ( isset( $bpb_style['tab'] ) && 'style' === $bpb_style['tab'] ) {
+			$bpb_ok( $bpb_cond( $bpb_avatar, 'avatar_width' ) && $bpb_cond( $bpb_avatar, 'avatar_border_border' ) && ! $bpb_cond( $bpb_avatar, 'avatar_align' ) && ! $bpb_cond( $bpb_avatar, 'section_style' ), 'Elementor: the 1.x part\'s Style tab hides in a split header, Alignment stays' );
+			$bpb_buttons = \Elementor\Plugin::$instance->widgets_manager->get_widget_types( 'bpb-profile-member-buttons' );
+			$bpb_ok( ! $bpb_cond( $bpb_buttons, 'button_text_color' ), 'Elementor: the buttons part keeps its Style tab (it styles the header\'s buttons)' );
+		} else {
+			$bpb_skip( 'Elementor keeps no tab data outside its editor here (optimized control loading): Style tab checked in the editor (e2e)' );
+		}
+		$bpb_box = \Elementor\Plugin::$instance->elements_manager->get_element_types( 'container' );
+		$bpb_ok( $bpb_cond( $bpb_box, 'section_layout_container' ) && $bpb_box->get_controls( 'bpb_split_box_note' ) && ! $bpb_cond( $bpb_box, 'background_background' ) && ! $bpb_cond( $bpb_box, 'css_classes' ), 'Elementor: a split header container hides its Container layout section and says why; background and CSS classes stay' );
+		set_current_screen( 'front' );
+		break;
+
 	case 'pro-unlicensed':
 		// BuddyBuilder Pro installed but not licensed: the same locked Split into parts as without Pro, in both editors,
 		// with "Activate your license" to the license card instead of the plans. The state is forced before any widget
@@ -1416,7 +1490,7 @@ switch ( $bpb_case ) {
 		break;
 
 	default:
-		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install, checker-readylaunch, change-look-undo, cards-follow-layout, layout-actions, element-settings, elementor-basic-controls, layout-import, notice-dismiss, card-line, blocks-stay-on, community-pages-rows, elementor-panel, header-parts, theme-title-space, profile-fields, split-header, fresh-site-points, pro-locks, pro-unlicensed, split-header-elementor' );
+		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install, checker-readylaunch, change-look-undo, cards-follow-layout, layout-actions, element-settings, elementor-basic-controls, layout-import, notice-dismiss, card-line, blocks-stay-on, community-pages-rows, elementor-panel, header-parts, theme-title-space, profile-fields, split-header, fresh-site-points, pro-locks, pro-unlicensed, dead-settings, split-header-elementor' );
 }
 
 // Cleanup.

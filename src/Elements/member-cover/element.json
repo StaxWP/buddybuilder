@@ -16,6 +16,9 @@
 	],
 	"attributes": {
 		"cover_advanced_settings": {
+			"hideWhen": {
+				"design": "header"
+			},
 			"type": "boolean",
 			"default": false,
 			"control": "toggle",
@@ -23,6 +26,9 @@
 			"label": "Use the uploaded cover image as a background layer"
 		},
 		"overlay_background": {
+			"hideWhen": {
+				"design": "header"
+			},
 			"type": "boolean",
 			"default": false,
 			"control": "toggle",
@@ -69,5 +75,15 @@
 	},
 	"partOf": {
 		"use": "member-header"
-	}
+	},
+	"splitIgnores": [
+		"color.background",
+		"color.text",
+		"color.link",
+		"typography.fontSize",
+		"border",
+		"spacing.padding",
+		"spacing.margin",
+		"dimensions.minHeight"
+	]
 }

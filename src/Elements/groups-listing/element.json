@@ -94,5 +94,9 @@
 		"elementor": [
 			"bpb-groups-directory-list"
 		]
-	}
+	},
+	"lookIgnores": [
+		"color.text",
+		"typography.fontSize"
+	]
 }

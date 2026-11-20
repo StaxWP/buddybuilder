@@ -489,6 +489,35 @@ final class Elements {
 	}
 
 	/**
+	 * Block supports that do nothing where a block sits, per block (element.json): inside a style, the ones the style's
+	 * CSS overrides ("lookIgnores"); inside a Member header split into parts, the ones a part's wrapper cannot show, as
+	 * it takes no box there ("splitIgnores"). The block editor hides their controls there (src/Elements/look-supports.js).
+	 * The supports stay registered, so saved values keep validating and rendering.
+	 *
+	 * @return array look and split: block name => supports (color.background, color.text, color.link,
+	 *               typography.fontSize, typography.lineHeight, typography.textAlign, border, spacing.padding,
+	 *               spacing.margin, dimensions.minHeight).
+	 */
+	public static function ignored_supports() {
+		$out = [
+			'look'  => [],
+			'split' => [],
+		];
+
+		foreach ( self::kit()->elements() as $element ) {
+			$schema = $element->schema();
+
+			foreach ( [ 'look' => 'lookIgnores', 'split' => 'splitIgnores' ] as $place => $key ) {
+				if ( ! empty( $schema[ $key ] ) && is_array( $schema[ $key ] ) ) {
+					$out[ $place ][ $element->block_name() ] = array_values( $schema[ $key ] );
+				}
+			}
+		}
+
+		return $out;
+	}
+
+	/**
 	 * Blocks hidden from the inserter outside block layouts: the page blocks (they need a BuddyPress page), and every
 	 * BuddyBuilder block while block layouts are disabled.
 	 *
@@ -565,6 +594,10 @@ final class Elements {
 		if ( ! $screen || PostType::POST_TYPE !== $screen->post_type ) {
 			return;
 		}
+
+		// Inside a style or a split Member header, the block settings that do nothing there are hidden.
+		wp_enqueue_script( 'bpb-look-supports', BPB_BASE_URL . 'src/Elements/look-supports.js', [ 'wp-hooks', 'wp-data', 'wp-block-editor' ], BPB_VERSION, true );
+		wp_add_inline_script( 'bpb-look-supports', 'window.bpbLookSupports = ' . wp_json_encode( array_map( static function ( $blocks ) { return (object) $blocks; }, self::ignored_supports() ) ) . ';', 'before' );
 
 		// After the kit editor script: the element list per page re-registers the blocks it registered.
 		wp_enqueue_script(

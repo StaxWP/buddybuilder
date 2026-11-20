@@ -25,6 +25,17 @@ class Base extends \Elementor\Widget_Base {
 	/** Elementor category of the member and group header parts (element.json category buddybuilder-header-parts). */
 	const HEADER_PARTS_CATEGORY = 'buddy-builder-header-parts';
 
+	/** Settings of a header part inside a Member header split into parts (BuddyBuilder Pro): it prints the header's markup. */
+	const SPLIT_PART = [ 'design' => 'header' ];
+
+	/**
+	 * Settings with which the widget's own Style tab settings do nothing ([] : none), e.g. self::SPLIT_PART for a 1.x
+	 * header part: its Style tab targets the 1.x markup. Those settings hide then; alignment stays (it moves the part).
+	 *
+	 * @var array
+	 */
+	protected $bpb_style_hide_when = [];
+
 	/**
 	 * Kit element of this widget.
 	 *
@@ -45,6 +56,55 @@ class Base extends \Elementor\Widget_Base {
 		}
 
 		$this->bpb_part_of_section();
+		$this->bpb_hide_when();
+	}
+
+	/**
+	 * Settings that do nothing in some cases hide then: the element's attributes with "hideWhen" (element.json, as in
+	 * the block editor; e.g. a header part's settings inside a Member header split into parts) and the widget's own
+	 * Style tab settings with $bpb_style_hide_when (alignment stays). A section left without settings hides too. Keys
+	 * and saved values stay; only conditions grow (responsive copies included). In the editor only (as BasicControls),
+	 * so the page renders exactly as before.
+	 */
+	private function bpb_hide_when() {
+		$element = $this->kit_element();
+		$panel   = '\\Buddy_Builder\\Integrations\\Elementor\\BasicControls';
+
+		if ( ! $element || ! is_admin() || ! class_exists( $panel ) ) {
+			return;
+		}
+
+		$controls = $this->get_controls();
+		$hide     = []; // JSON of the "when" => control ids.
+
+		foreach ( \Buddy_Builder\Kit\Schema::attributes( $element->schema() ) as $key => $def ) {
+			if ( ! empty( $def['hideWhen'] ) && is_array( $def['hideWhen'] ) ) {
+				foreach ( array_merge( [ $key ], preg_filter( '/^/', $key . '_', $panel::DEVICES ) ) as $id ) {
+					$hide[ wp_json_encode( $def['hideWhen'] ) ][] = $id;
+				}
+			}
+		}
+
+		// The widget's own Style tab sections (Elementor's common ones start with "_").
+		foreach ( $this->bpb_style_hide_when ? $controls : [] as $id => $control ) {
+			$section = isset( $control['section'], $controls[ $control['section'] ] ) ? $controls[ $control['section'] ] : null;
+
+			if ( $section && 0 !== strpos( $control['section'], '_' ) && isset( $section['tab'] ) && \Elementor\Controls_Manager::TAB_STYLE === $section['tab'] && ! preg_match( '/_align(_|$)/', $id ) ) {
+				$hide[ wp_json_encode( $this->bpb_style_hide_when ) ][] = $id;
+			}
+		}
+
+		foreach ( $hide as $when => $ids ) {
+			$ids = array_intersect( $ids, array_keys( $controls ) );
+
+			foreach ( array_unique( wp_list_pluck( array_intersect_key( $controls, array_flip( $ids ) ), 'section' ) ) as $section ) {
+				if ( ! array_diff( array_keys( wp_list_filter( $controls, [ 'section' => $section ] ) ), $ids ) ) {
+					$ids[] = $section;
+				}
+			}
+
+			$panel::hide_when( $this, $ids, json_decode( $when, true ) );
+		}
 	}
 
 	/**

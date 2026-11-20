@@ -44,5 +44,9 @@
 		"elementor": [
 			"bpb-profile-member-content"
 		]
-	}
+	},
+	"lookIgnores": [
+		"color.text",
+		"color.link"
+	]
 }

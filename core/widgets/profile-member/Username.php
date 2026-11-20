@@ -19,6 +19,13 @@ class Username extends \Buddy_Builder\Widgets\Base {
 	 */
 	protected $bpb_element = 'member-username';
 
+	/**
+	 * Style tab settings that hide inside a Member header split into parts (they target the 1.x markup).
+	 *
+	 * @var array
+	 */
+	protected $bpb_style_hide_when = self::SPLIT_PART;
+
 	public function get_name() {
 		return 'bpb-profile-member-username';
 	}

@@ -94,5 +94,11 @@
 		"elementor": [
 			"bpb-members-directory-list"
 		]
-	}
+	},
+	"lookIgnores": [
+		"color.background",
+		"color.text",
+		"color.link",
+		"typography.fontSize"
+	]
 }

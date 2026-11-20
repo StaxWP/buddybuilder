@@ -73,5 +73,10 @@
 			"width": true,
 			"color": true
 		}
-	}
+	},
+	"lookIgnores": [
+		"color.text",
+		"color.link",
+		"typography.fontSize"
+	]
 }

@@ -88,6 +88,9 @@ trait ElementorAdapter {
 		if ( ! empty( $def['help'] ) ) {
 			$control['description'] = $element->t( $def['help'] );
 		}
+		foreach ( self::kit_hide_conditions( $def ) as $key => $value ) {
+			$control['condition'][ $key ] = $value;
+		}
 
 		switch ( $type ) {
 			case 'toggle':
@@ -137,6 +140,23 @@ trait ElementorAdapter {
 		}
 
 		return $control;
+	}
+
+	/**
+	 * Elementor conditions of an attribute's "hideWhen" (opt-in in element.json): the control shows while those
+	 * settings do not have those values.
+	 *
+	 * @param array $def Attribute definition.
+	 * @return array Elementor condition (key! => value).
+	 */
+	public static function kit_hide_conditions( array $def ) {
+		$out = array();
+
+		foreach ( isset( $def['hideWhen'] ) && is_array( $def['hideWhen'] ) ? $def['hideWhen'] : array() as $key => $value ) {
+			$out[ $key . '!' ] = $value;
+		}
+
+		return $out;
 	}
 
 	/**

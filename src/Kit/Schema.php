@@ -75,6 +75,9 @@ final class Schema {
 			if ( isset( $def['panel'] ) && ! in_array( $def['panel'], array( 'basic', 'advanced' ), true ) ) {
 				$errors[] = $key . '.panel: basic or advanced';
 			}
+			if ( isset( $def['hideWhen'] ) && ( ! is_array( $def['hideWhen'] ) || array_filter( $def['hideWhen'], 'is_array' ) ) ) {
+				$errors[] = $key . '.hideWhen: an object of attribute => value';
+			}
 		}
 
 		return $errors;

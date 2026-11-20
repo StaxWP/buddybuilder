@@ -28,6 +28,9 @@
 			}
 		},
 		"username_tag": {
+			"hideWhen": {
+				"design": "header"
+			},
 			"type": "string",
 			"default": "h2",
 			"control": "select",
@@ -82,5 +85,12 @@
 	},
 	"partOf": {
 		"use": "member-header"
-	}
+	},
+	"splitIgnores": [
+		"color.background",
+		"color.link",
+		"border",
+		"spacing.padding",
+		"spacing.margin"
+	]
 }

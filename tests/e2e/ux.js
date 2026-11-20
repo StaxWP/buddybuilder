@@ -367,6 +367,19 @@ async function shot( page, name, locator ) {
 			ok( frame && 'header' === frame.attributes.tagName && [ 'member-cover', 'member-avatar', 'member-username', 'member-badges', 'member-headline', 'member-meta', 'member-stats', 'member-buttons' ].every( ( n ) => names.includes( n ) ), 'split: the header group holds every part (' + names.filter( ( n ) => 'core/group' !== n ).join( ', ' ) + ')' );
 			await page.locator( 'iframe[name="editor-canvas"]' ).contentFrame().locator( 'header.bpb-mh--parts .bpb-mh__avatar' ).waitFor( { timeout: 20000 } );
 			await shot( page, 'split-header-editor' );
+			// Settings that do nothing in a split header are hidden (look-supports.js, hideWhen): the avatar part has no
+			// Size and no color, border or spacing controls; the name keeps its text color.
+			const setting = ( name, path ) => page.evaluate( ( [ n, p ] ) => {
+				const walk = ( list ) => list.reduce( ( found, b ) => found || ( b.name === n ? b : walk( b.innerBlocks ) ), null );
+				const b = walk( wp.data.select( 'core/block-editor' ).getBlocks() );
+				return b ? String( wp.hooks.applyFilters( 'blockEditor.useSetting.before', undefined, p, b.clientId, b.name ) ) : 'none';
+			}, [ name, path ] );
+			const part = await findBlock( 'buddybuilder/member-avatar' );
+			await page.evaluate( ( id ) => wp.data.dispatch( 'core/block-editor' ).selectBlock( id ), part.clientId );
+			await page.waitForTimeout( 500 );
+			const inspector = await page.locator( '.block-editor-block-inspector' ).innerText();
+			ok( ! /\bSize\b/.test( inspector ) && 'false' === await setting( 'buddybuilder/member-avatar', 'color.background' ) && 'false' === await setting( 'buddybuilder/member-avatar', 'spacing.margin' ) && 'undefined' === await setting( 'buddybuilder/member-username', 'color.text' ), 'split header: the avatar part shows no Size, color or spacing (they do nothing there); the name keeps its text color' );
+			await shot( page, 'split-header-avatar-settings' );
 			await page.evaluate( () => wp.data.dispatch( 'core/editor' ).savePost() );
 			await page.waitForFunction( () => ! wp.data.select( 'core/editor' ).isSavingPost() && ! wp.data.select( 'core/editor' ).isEditedPostDirty(), null, { timeout: 30000 } );
 			const whole = await headerBoxes( browser, ids[ 0 ] );
@@ -436,6 +449,27 @@ async function shot( page, name, locator ) {
 			const previewClasses = await page.evaluate( () => [ ...document.querySelector( '#elementor-preview-iframe' ).contentDocument.querySelectorAll( '.bpb-mh--parts, .bpb-mh--parts :is(.bpb-mh__body, .bpb-mh__main, .bpb-mh__name)' ) ].map( ( n ) => n.className ).join( ' ' ) );
 			ok( previewClasses && ! /(^|\s)e-con/.test( previewClasses ), 'Elementor preview: the split header\'s containers drop Elementor\'s container classes' );
 			await shot( page, 'split-header-elementor' );
+			// A split header's container: its layout settings hide and a note says why; the avatar part's Style tab
+			// keeps only Alignment.
+			await page.evaluate( ( i ) => {
+				const c = elementor.getContainer( i );
+				$e.run( 'panel/editor/open', { model: c.model, view: c.view } );
+			}, frameId );
+			await page.waitForTimeout( 800 );
+			const boxPanel = await page.evaluate( () => ( {
+				note: !! document.querySelector( '#elementor-panel .elementor-control-bpb_split_box_note' ),
+				layout: !! [ ...document.querySelectorAll( '#elementor-panel .elementor-control-section_layout_container' ) ].find( ( e ) => e.offsetParent ),
+			} ) );
+			ok( boxPanel.note && ! boxPanel.layout, 'Elementor: a split header container hides its Container layout settings and says why' );
+			await page.evaluate( ( i ) => {
+				const c = elementor.getContainer( i );
+				$e.run( 'panel/editor/open', { model: c.model, view: c.view } );
+			}, await findEl( "'widget' === c.type && 'bpb-profile-member-avatar' === c.model.get( 'widgetType' )" ) );
+			await page.waitForTimeout( 800 );
+			await page.locator( '.elementor-panel-navigation-tab.elementor-tab-control-style, .elementor-tab-control-style a, button.elementor-tab-control-style' ).first().click();
+			await page.waitForTimeout( 500 );
+			const avatarStyle = await page.evaluate( () => [ ...document.querySelectorAll( '#elementor-panel .elementor-control' ) ].filter( ( e ) => e.offsetParent ).map( ( e ) => ( e.className.match( /elementor-control-(avatar_[a-z_]+)/ ) || [] )[ 1 ] ).filter( Boolean ) );
+			ok( avatarStyle.includes( 'avatar_align' ) && ! avatarStyle.some( ( id ) => /avatar_(width|border|box_shadow|size)/.test( id ) ), 'Elementor: the avatar part in a split header keeps Alignment, its other Style settings hide (' + avatarStyle.join( ', ' ) + ')' );
 			await page.evaluate( () => $e.run( 'document/save/update', { force: true } ) );
 			await page.waitForFunction( () => ! elementor.saver.isSaving, null, { timeout: 60000 } );
 			await page.waitForTimeout( 1500 );
@@ -452,6 +486,40 @@ async function shot( page, name, locator ) {
 			await page.evaluate( () => elementor.saver.setFlagEditorChange( false ) );
 		} else {
 			skip( 'Split into parts in Elementor: BuddyBuilder Pro, its licence, Elementor or Flexbox Containers missing' );
+		}
+
+		// 9. Block settings that do nothing inside a style are hidden (look-supports.js, element.json lookIgnores): the
+		// Member header in a style has no text color or font size controls, keeps Border and background; outside a style, or
+		// with a saved value, the control is there; saved values stay valid blocks.
+		{
+			const id = php( echo( "\\Buddy_Builder\\Presets\\Presets::create_block_layout( \\Buddy_Builder\\Presets\\Presets::get( 'classic-member-profile' ) )" ) );
+			await page.goto( `${ site }/wp-admin/post.php?post=${ id }&action=edit` );
+			await page.waitForFunction( () => window.wp && wp.data && wp.data.select( 'core/block-editor' ).getBlocks().length > 0, null, { timeout: 60000 } );
+			const state = () => page.evaluate( () => {
+				const be = wp.data.select( 'core/block-editor' );
+				const walk = ( list ) => list.reduce( ( all, b ) => all.concat( [ b ], walk( b.innerBlocks ) ), [] );
+				const blocks = walk( be.getBlocks() );
+				const at = ( b, path ) => String( wp.hooks.applyFilters( 'blockEditor.useSetting.before', undefined, path, b.clientId, b.name ) );
+				const headers = blocks.filter( ( b ) => 'buddybuilder/member-header' === b.name );
+				return {
+					valid: blocks.every( ( b ) => false !== b.isValid ),
+					inLook: headers.map( ( b ) => [ at( b, 'color.text' ), at( b, 'typography.customFontSize' ), at( b, 'border.width' ), at( b, 'color.background' ) ].join( ' ' ) ),
+					ids: headers.map( ( b ) => b.clientId ),
+				};
+			} );
+			let st = await state();
+			ok( st.valid && 'false false undefined undefined' === st.inLook[ 0 ], 'block editor, Member header in a style: no text color or font size controls, border and background stay (' + st.inLook[ 0 ] + ')' );
+			await page.evaluate( ( hid ) => wp.data.dispatch( 'core/block-editor' ).selectBlock( hid ), st.ids[ 0 ] );
+			await page.waitForTimeout( 500 );
+			await shot( page, 'look-supports-header' );
+			// A saved value brings its control back (so it can be cleared); a header outside the style keeps every control.
+			await page.evaluate( ( hid ) => {
+				wp.data.dispatch( 'core/block-editor' ).updateBlockAttributes( hid, { textColor: 'accent-1' } );
+				wp.data.dispatch( 'core/block-editor' ).insertBlocks( wp.blocks.createBlock( 'buddybuilder/member-header' ), 0 );
+			}, st.ids[ 0 ] );
+			st = await state();
+			ok( st.valid && st.inLook.includes( 'undefined undefined undefined undefined' ) && st.inLook.includes( 'undefined false undefined undefined' ), 'block editor: a saved text color keeps its control; a Member header outside a style keeps every control (' + st.inLook.join( ' | ' ) + ')' );
+			await page.evaluate( () => window.onbeforeunload = null );
 		}
 
 		ok( ! jsErrors.length, 'no JavaScript errors' + ( jsErrors.length ? ': ' + jsErrors.join( ' | ' ) : '' ) );

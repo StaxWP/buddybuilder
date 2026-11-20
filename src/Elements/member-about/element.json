@@ -71,5 +71,8 @@
 			"width": true,
 			"color": true
 		}
-	}
+	},
+	"lookIgnores": [
+		"typography.fontSize"
+	]
 }

@@ -167,6 +167,30 @@ final class BasicControls {
 	}
 
 	/**
+	 * Hide controls while other settings have these values (a condition "key!" => value is added to each control that
+	 * exists; keys and saved values stay). For settings that do nothing then.
+	 *
+	 * @param \Elementor\Controls_Stack $stack Widget or element.
+	 * @param string[]                  $ids   Control ids (sections too).
+	 * @param array                     $when  Setting => value.
+	 */
+	public static function hide_when( $stack, array $ids, array $when ) {
+		$hide = [];
+
+		foreach ( $when as $key => $value ) {
+			$hide[ $key . '!' ] = $value;
+		}
+
+		foreach ( $hide ? $ids : [] as $id ) {
+			$control = $stack->get_controls( $id );
+
+			if ( $control ) {
+				$stack->update_control( $id, [ 'condition' => array_merge( isset( $control['condition'] ) ? (array) $control['condition'] : [], $hide ) ] );
+			}
+		}
+	}
+
+	/**
 	 * A control and its device copies, when moving them cannot change the output; [] otherwise.
 	 *
 	 * @param array  $controls Controls of the widget, in order.

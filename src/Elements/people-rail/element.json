@@ -99,5 +99,9 @@
 			"width": true,
 			"color": true
 		}
-	}
+	},
+	"lookIgnores": [
+		"color.text",
+		"typography.fontSize"
+	]
 }

@@ -53,5 +53,14 @@
 	},
 	"partOf": {
 		"use": "member-header"
-	}
+	},
+	"splitIgnores": [
+		"color.background",
+		"color.text",
+		"color.link",
+		"typography.fontSize",
+		"border",
+		"spacing.padding",
+		"spacing.margin"
+	]
 }

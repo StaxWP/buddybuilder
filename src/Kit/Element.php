@@ -299,6 +299,10 @@ final class Element {
 			if ( ! empty( $def['anyValue'] ) ) {
 				$control['anyValue'] = true;
 			}
+			// Opt-in: the control hides while other attributes have these values (it does nothing then).
+			if ( ! empty( $def['hideWhen'] ) && is_array( $def['hideWhen'] ) ) {
+				$control['hideWhen'] = $def['hideWhen'];
+			}
 			$controls[] = $control;
 		}
 

@@ -80,5 +80,9 @@
 			"width": true,
 			"color": true
 		}
-	}
+	},
+	"lookIgnores": [
+		"color.link",
+		"typography.fontSize"
+	]
 }

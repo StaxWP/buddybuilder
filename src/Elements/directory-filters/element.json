@@ -72,5 +72,10 @@
 			"bpb-groups-directory-filters"
 		]
 	},
-	"style": "style.css"
+	"style": "style.css",
+	"lookIgnores": [
+		"color.text",
+		"color.link",
+		"typography.fontSize"
+	]
 }

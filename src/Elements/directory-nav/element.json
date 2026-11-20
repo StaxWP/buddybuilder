@@ -44,5 +44,10 @@
 			"bpb-members-directory-navigation",
 			"bpb-groups-directory-navigation"
 		]
-	}
+	},
+	"lookIgnores": [
+		"color.text",
+		"color.link",
+		"typography.fontSize"
+	]
 }
