@@ -609,22 +609,23 @@ final class Plugin {
 			return;
 		}
 
-		if ( ! bpb_is_current_template_populated() && ! bpb_is_elementor_editor() ) {
-			return;
-		}
-
 		$min = '.min';
 
 		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
 			$min = '';
 		}
 
+		// Registered on every page: the widgets print it when they render (Members/Groups List on an ordinary page).
 		wp_register_style(
 			'stax-buddy-builder-front',
 			BPB_ASSETS_URL . 'css/index' . $min . '.css',
 			[ 'stax-buddy-builder-bp' ],
 			BPB_VERSION
 		);
+
+		if ( ! bpb_is_current_template_populated() && ! bpb_is_elementor_editor() ) {
+			return;
+		}
 
 		if ( bpb_is_buddyboss() ) {
 			wp_enqueue_style(
