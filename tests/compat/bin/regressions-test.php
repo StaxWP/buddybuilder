@@ -1236,6 +1236,7 @@ switch ( $bpb_case ) {
 			$bpb_html  = ob_get_clean();
 			$bpb_first = substr( $bpb_html, 0, strpos( $bpb_html, '<details' ) );
 			$bpb_ok( substr_count( $bpb_first, 'data-bpb-pro=' ) <= 4 && false !== strpos( $bpb_html, 'See all in Pro' ) && substr_count( $bpb_html, 'data-bpb-pro=' ) === count( \Buddy_Builder\Upsell\Upsell::features() ), 'Pro teaser: ' . substr_count( $bpb_first, 'data-bpb-pro=' ) . ' highlights, the rest behind See all in Pro' );
+			$bpb_ok( 4 === substr_count( $bpb_first, 'data-bpb-pro=' ) && false === strpos( $bpb_first, 'data-bpb-pro="community-style"' ) && false !== strpos( $bpb_html, 'data-bpb-pro="community-style"' ) && false !== strpos( $bpb_html, 'Photo shape, spacing and font' ), 'Pro teaser: four highlights; the Community style\'s photo shape, spacing and font in the full list' );
 		} else {
 			$bpb_skip( 'BuddyBuilder Pro active: no Pro teaser' );
 		}

@@ -163,6 +163,10 @@ final class Upsell {
 				'title' => __( 'Split the header into parts', 'stax-buddy-builder' ),
 				'text'  => __( 'Turn the Member header into its parts (photo, name, badges, headline, stats, buttons) and arrange them freely, starting from the same look.', 'stax-buddy-builder' ),
 			],
+			'community-style'      => [
+				'title' => __( 'Photo shape, spacing and font', 'stax-buddy-builder' ),
+				'text'  => __( 'In the Community style setting, for every style: circle, rounded or square photos, compact or spacious spacing, and your theme\'s fonts.', 'stax-buddy-builder' ),
+			],
 			'register-group-pages' => [
 				'title' => __( 'Register and Create a group pages', 'stax-buddy-builder' ),
 				'text'  => __( 'Build the registration form and the Create a group steps with BuddyBuilder elements.', 'stax-buddy-builder' ),

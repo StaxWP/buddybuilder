@@ -43,7 +43,7 @@ Your Elementor templates keep working as they are. BuddyBuilder 2.0 copies which
 
 BuddyBuilder is free and complete: all five BuddyPress pages, both builders, the Classic style and every element above. Nothing that was free in 1.x is locked.
 
-[BuddyBuilder Pro](https://staxwp.com/buddybuilder/) is a separate, paid plugin. It adds six more styles (Creator, Professional, Social, Network, Career, Hub), the register and group creation pages, card layouts you design, layouts per member type, role or group, live notifications and messages, ads, birthdays, link previews and more elements. BuddyBuilder shows these Pro features with a "Pro" label on its own screens and in the Elementor panel; nothing shows while Pro is active.
+[BuddyBuilder Pro](https://staxwp.com/buddybuilder/) is a separate, paid plugin. It adds six more styles (Creator, Professional, Social, Network, Career, Hub), the photo shape, spacing and font of the Community style, the register and group creation pages, card layouts you design, layouts per member type, role or group, live notifications and messages, ads, birthdays, link previews and more elements. BuddyBuilder shows these Pro features with a "Pro" label on its own screens and in the Elementor panel; nothing shows while Pro is active.
 
 = Developers =
 
@@ -97,7 +97,7 @@ BuddyBuilder works with BuddyBoss Platform. When BuddyBoss ReadyLaunch is on, Re
 
 = What is in BuddyBuilder Pro? =
 
-More styles, the register and group creation pages, card layouts, layouts per member type, role or group, live notifications and messages, ads, birthdays, link previews and more elements. See [BuddyBuilder Pro](https://staxwp.com/buddybuilder/).
+More styles, the photo shape, spacing and font of the Community style, the register and group creation pages, card layouts, layouts per member type, role or group, live notifications and messages, ads, birthdays, link previews and more elements. See [BuddyBuilder Pro](https://staxwp.com/buddybuilder/).
 
 = I use BuddyBuilder Pro 1.x. Can I update BuddyBuilder first? =
 
