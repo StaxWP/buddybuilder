@@ -18,13 +18,15 @@ BuddyBuilder replaces the BuddyPress templates of your theme with layouts you de
 
 = What you can do =
 
-* **Community pages**: one screen lists every BuddyPress page with the layout it uses, its builder and whether it is live. Edit, change the look, duplicate, export, import or go back to the BuddyPress default from there.
+* **Community pages**: one screen lists every BuddyPress page with the layout it uses, its builder and whether it is live. Edit, change the style, duplicate, export, import or go back to the BuddyPress default from there.
+* **Restyle, keep my layout**: give a page another style and keep its elements, settings and your edits. Undo puts the previous layout back.
 * **Setup in three steps**: check your community, pick a style with a live preview, then review the new pages before anyone else sees them. Nothing changes until you press Use these.
 * **Classic style**: a finished look for profiles, groups, directories and activity: cover, photo and name, cards with a soft lift. It takes your theme's colors and fonts.
+* **Community style**: your accent color and corners on every community page, whatever style it uses, from BuddyBuilder > Settings. No CSS needed. With BuddyBuilder Pro also the photo shape, spacing and font.
 * **Real data in the editor**: the block editor and Elementor show a real member or group while you edit. "Seen by" shows the page as the member, a friend, another member or a guest would see it.
 * **Elements for both builders**: Member header, Member about, Group header, Directory header, People list (list or photo grid), Profile tabs, Feed filters, Post composer, plus the BuddyBuilder 1.x widgets.
 * **Card styles** for member, group and activity lists.
-* **Admin bar help**: edit the page you are on, change its look, view it as a guest, and "Layout not applied" with the likely cause when a layout does not show (page template, theme files, page cache and more).
+* **Admin bar help**: edit the page you are on, change its style, view it as a guest, and "Layout not applied" with the likely cause when a layout does not show (page template, theme files, page cache and more).
 * **Help and status** in plain language, including the data update and its Undo.
 
 = BuddyPress pages you can design =
@@ -43,7 +45,7 @@ Your Elementor templates keep working as they are. BuddyBuilder 2.0 copies which
 
 BuddyBuilder is free and complete: all five BuddyPress pages, both builders, the Classic style and every element above. Nothing that was free in 1.x is locked.
 
-[BuddyBuilder Pro](https://staxwp.com/buddybuilder/) is a separate, paid plugin. It adds six more styles (Creator, Professional, Social, Network, Career, Hub), the photo shape, spacing and font of the Community style, the register and group creation pages, card layouts you design, layouts per member type, role or group, live notifications and messages, ads, birthdays, link previews and more elements. BuddyBuilder shows these Pro features with a "Pro" label on its own screens and in the Elementor panel; nothing shows while Pro is active.
+[BuddyBuilder Pro](https://staxwp.com/buddybuilder/) is a separate, paid plugin. It adds six more styles (Creator, Professional, Social, Network, Career, Hub), the photo shape, spacing and font of the Community style, the register and group creation pages, card layouts you design, layouts per member type, role or group, live notifications and messages, ads, birthdays, link previews, Split into parts for the Member header (move, remove or add its parts) and more elements. BuddyBuilder shows these Pro features with a "Pro" label on its own screens and in the editors; nothing shows while Pro is active.
 
 = Developers =
 
@@ -87,9 +89,17 @@ No. Your Elementor templates and assignments are kept and render as before. The 
 
 They keep working on the pages that use them. The member and group header parts (cover, photo, name, details, buttons, ...) stay in both editors under "Header parts", for building your own header. The navigations, the activity form and the activity filters have newer elements: they leave the widget list and show a "Deprecated" note in the editor, with a button to replace them with the new element (Undo brings them back).
 
+= Can I use my own colors? =
+
+Yes. BuddyBuilder > Settings > Community style sets your accent color and corners on every style, without CSS; leave a choice on Style default to keep the style's own. BuddyBuilder Pro adds the photo shape, spacing and font. For more, every element has its own settings in the block editor and in Elementor.
+
+= Can I change the style of a page I already edited? =
+
+Yes. In BuddyBuilder > Community pages, Change style offers "Restyle, keep my layout": the page takes the new style and keeps its elements, settings and edits. "Use this style" starts from the style's own layout instead. Both keep your current layout, and Undo puts it back.
+
 = Does BuddyBuilder work with my theme? =
 
-It works with any theme that follows WordPress standards, block themes and classic themes. If a layout does not show, the admin bar on that page says why ("Layout not applied") and what to change.
+It works with any theme that follows WordPress standards, block themes and classic themes. BuddyBuilder layouts have their own header, so BuddyBuilder can hide the theme's page title ("Members", the member's name) on community pages: Settings > Page title from your theme (on for new sites). If a layout does not show, the admin bar on that page says why ("Layout not applied") and what to change.
 
 = Is BuddyBoss supported? =
 
@@ -97,7 +107,7 @@ BuddyBuilder works with BuddyBoss Platform. When BuddyBoss ReadyLaunch is on, Re
 
 = What is in BuddyBuilder Pro? =
 
-More styles, the photo shape, spacing and font of the Community style, the register and group creation pages, card layouts, layouts per member type, role or group, live notifications and messages, ads, birthdays, link previews and more elements. See [BuddyBuilder Pro](https://staxwp.com/buddybuilder/).
+More styles, the photo shape, spacing and font of the Community style, Split into parts for the Member header, the register and group creation pages, card layouts, layouts per member type, role or group, live notifications and messages, ads, birthdays, link previews and more elements. See [BuddyBuilder Pro](https://staxwp.com/buddybuilder/).
 
 = I use BuddyBuilder Pro 1.x. Can I update BuddyBuilder first? =
 
@@ -129,10 +139,15 @@ New:
 
 * Build community pages with the block editor. Elementor is no longer required; your Elementor templates keep working.
 * BuddyBuilder > Community pages: every BuddyPress page with its layout, builder and live status, and Edit, Change style, Duplicate, History, Export, Import and Delete (with Undo).
-* Setup in three steps with a live preview: nothing changes until you press Use these.
+* Setup in three steps with a live preview: nothing changes until you press Use these. The style pictures are screenshots of real pages.
 * Classic style for profiles, groups, directories and activity, in both builders.
+* Community style in BuddyBuilder > Settings: your accent color and corners on every style, without CSS (photo shape, spacing and font with BuddyBuilder Pro).
+* Change style can "Restyle, keep my layout": the page takes the new style and keeps its elements, settings and edits (Undo puts the previous layout back).
 * New elements: Member header, Member about, Group header, Directory header, People list, Profile tabs, Feed filters and Post composer.
 * Card styles for member, group and activity lists.
+* Member header and Member about pick their fields from your site's profile fields.
+* The member and group header parts (cover, photo, name, details, buttons) in both editors under Header parts, for building your own header.
+* The theme's page title is hidden on community pages, where the layout has its own header (on for new sites; a switch in Settings).
 * Real community data in the block editor and in Elementor, with "Seen by" (the member, a friend, another member, a guest).
 * Admin bar on community pages: edit the page, change its look, view it as a guest, and "Layout not applied" with the likely cause.
 * Help and status in plain language, with Undo for the data update.
@@ -143,8 +158,9 @@ New:
 Improvements:
 
 * Elementor widgets show their basic settings first.
+* Inside a style, the block editor hides the settings the style overrides, so every setting you see changes something.
 * The block inserter lists the elements made for the page you edit first.
-* WordPress-native admin screens: Community pages, Settings, Help and status.
+* One admin screen with tabs: Community pages, Features, Settings (cards) and Help and status.
 * Lighter: CSS per page type, a small icon font, no jQuery added to the front end, a much smaller download.
 * Neutral `.bpb-el-*` CSS classes next to the Elementor ones.
 
@@ -154,11 +170,14 @@ Fixes:
 * A page whose address contained "members" or "groups" was treated as a BuddyPress page.
 * A group creation page with its own layout caused a fatal error.
 * JavaScript error in the member profile menu on block themes such as Twenty Twenty-Five.
+* rtMedia: uploaded photos in the profile media gallery stay inside their grid cell.
+* The Members List and Groups List widgets keep their grid and columns on ordinary pages.
 * Dismissing an admin notice now checks a security token (also in 1.9.4).
 
 Removed:
 
 * The usage tracker (Appsero); what it stored is deleted on update.
+* The Starter kits screen (1.x Elementor kits): the styles in the setup and in Change style replace it, and its address opens Community pages.
 * The review request notice, Youzer support and old third-party theme workarounds.
 * The static preview images of the editor (replaced by real data).
 
