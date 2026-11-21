@@ -85,7 +85,7 @@ final class Options {
 		$cards[] = [
 			'id'          => 'community-style',
 			'title'       => __( 'Community style', 'stax-buddy-builder' ),
-			'description' => __( 'Your accent color, corners, photo shape and spacing on every community page, whatever style a page uses. Leave a choice on Style default to keep the style\'s own.', 'stax-buddy-builder' ),
+			'description' => __( 'Your accent color, corners, photo shape, spacing and font on every community page, whatever style a page uses. Leave a choice on Style default to keep the style\'s own.', 'stax-buddy-builder' ),
 			'icon'        => 'palette',
 			'render'      => [ __CLASS__, 'render_community_style' ],
 			'priority'    => 12,
