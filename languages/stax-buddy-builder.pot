@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-18T19:20:57+00:00\n"
+"POT-Creation-Date: 2026-11-21T16:33:37+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: stax-buddy-builder\n"
@@ -39,16 +39,16 @@ msgstr ""
 msgid "https://staxwp.com"
 msgstr ""
 
-#: admin/Admin.php:80
+#: admin/Admin.php:76
 msgid "BuddyBuilder - Community pages"
 msgstr ""
 
-#: admin/Admin.php:81
+#: admin/Admin.php:77
 #: core/Notices.php:148
 #: core/template/source-buddy-builder.php:33
 #: src/Abilities/Abilities.php:49
-#: src/Admin/App.php:265
-#: src/Admin/App.php:345
+#: src/Admin/App.php:284
+#: src/Admin/App.php:364
 #: src/Presets/Presets.php:105
 #: src/Templates/PostType.php:187
 #: src/Elements/layout-panel.js:242
@@ -56,12 +56,12 @@ msgid "BuddyBuilder"
 msgstr ""
 
 #. translators: %s: screen name
-#: admin/Admin.php:109
+#: admin/Admin.php:105
 #, php-format
 msgid "BuddyBuilder - %s"
 msgstr ""
 
-#: admin/Admin.php:126
+#: admin/Admin.php:122
 #: admin/pages/Settings.php:101
 msgid "Community pages"
 msgstr ""
@@ -76,255 +76,193 @@ msgid "Help and status"
 msgstr ""
 
 #: admin/pages/Status.php:50
+#: src/Admin/Checker.php:376
 #: src/Templates/PostType.php:59
 msgid "Sorry, you are not allowed to do that."
 msgstr ""
 
+#. translators: %s: what the step does
+#: admin/pages/Status.php:81
+#, php-format
+msgid "%s Done."
+msgstr ""
+
 #. translators: 1: what the step does, 2: date
-#: admin/pages/Status.php:80
+#: admin/pages/Status.php:86
 #, php-format
 msgid "%1$s Done on %2$s. Undo is available below."
 msgstr ""
 
 #. translators: 1: what the step does, 2: date
-#: admin/pages/Status.php:80
+#: admin/pages/Status.php:86
 #, php-format
 msgid "%s Done. Undo is available below."
 msgstr ""
 
 #. translators: 1: what the step does, 2: error
-#: admin/pages/Status.php:86
+#: admin/pages/Status.php:92
 #, php-format
 msgid "%1$s Did not finish: %2$s. Press Try again; your pages keep their layouts meanwhile."
 msgstr ""
 
 #. translators: %s: what the step does
-#: admin/pages/Status.php:93
+#: admin/pages/Status.php:99
 #, php-format
 msgid "%s Undone (the 1.9 format is back)."
 msgstr ""
 
 #. translators: %s: what the step does
-#: admin/pages/Status.php:100
+#: admin/pages/Status.php:106
 #, php-format
 msgid "%s Waiting: it runs on the next admin page you open, or now with Run now."
 msgstr ""
 
-#: admin/pages/Status.php:113
+#: admin/pages/Status.php:119
 msgid "BuddyBoss Platform"
 msgstr ""
 
-#: admin/pages/Status.php:113
+#: admin/pages/Status.php:119
 #: core/library/documents/buddypress.php:95
-#: src/Admin/CommunityPages.php:893
+#: src/Admin/CommunityPages.php:913
 msgid "BuddyPress"
 msgstr ""
 
-#: admin/pages/Status.php:123
+#: admin/pages/Status.php:129
 msgid "Done. The list below shows the result."
 msgstr ""
 
-#: admin/pages/Status.php:131
+#: admin/pages/Status.php:137
 msgid "Get help"
 msgstr ""
 
-#: admin/pages/Status.php:133
+#: admin/pages/Status.php:139
 msgid "BuddyBuilder documentation"
 msgstr ""
 
-#: admin/pages/Status.php:133
-#: admin/pages/Status.php:136
-#: admin/pages/templates/templates.php:35
-#: src/Admin/App.php:318
-#: src/Admin/App.php:445
-#: src/Admin/CommunityPages.php:802
-#: src/Admin/CommunityPages.php:1020
-#: src/Admin/CommunityPages.php:1081
+#: admin/pages/Status.php:139
+#: admin/pages/Status.php:142
+#: src/Admin/App.php:337
+#: src/Admin/App.php:464
+#: src/Admin/CommunityPages.php:822
+#: src/Admin/CommunityPages.php:1040
+#: src/Admin/CommunityPages.php:1101
+#: src/Admin/Options.php:293
+#: src/Admin/Options.php:299
 #: src/Admin/Setup.php:846
 #: src/Admin/Setup.php:1082
-#: src/Upsell/Upsell.php:229
-#: src/Upsell/Upsell.php:325
-#: src/Upsell/Upsell.php:427
+#: src/Upsell/Upsell.php:246
+#: src/Upsell/Upsell.php:321
+#: src/Upsell/Upsell.php:468
+#: src/Upsell/Upsell.php:570
 msgid "(opens in a new tab)"
 msgstr ""
 
-#: admin/pages/Status.php:134
+#: admin/pages/Status.php:140
 msgid "Community pages: which layout each page uses and why one may not show"
 msgstr ""
 
-#: admin/pages/Status.php:135
-#: src/Admin/CommunityPages.php:797
-#: src/Admin/Options.php:233
+#: admin/pages/Status.php:141
+#: src/Admin/CommunityPages.php:817
+#: src/Admin/Options.php:351
 msgid "Run setup again"
 msgstr ""
 
-#: admin/pages/Status.php:136
+#: admin/pages/Status.php:142
 msgid "Ask on the support forum"
 msgstr ""
 
-#: admin/pages/Status.php:136
+#: admin/pages/Status.php:142
 msgid "Pro support (my.staxwp.com)"
 msgstr ""
 
-#: admin/pages/Status.php:141
+#: admin/pages/Status.php:147
 msgid "Your setup"
 msgstr ""
 
 #. translators: 1: version
-#: admin/pages/Status.php:143
+#: admin/pages/Status.php:149
 #, php-format
 msgid "BuddyBuilder %s"
 msgstr ""
 
 #. translators: %s: version
-#: admin/pages/Status.php:143
+#: admin/pages/Status.php:149
 #, php-format
 msgid " with BuddyBuilder Pro %s"
 msgstr ""
 
 #. translators: %s: version
-#: admin/pages/Status.php:145
+#: admin/pages/Status.php:151
 #, php-format
 msgid "Elementor %s"
 msgstr ""
 
 #. translators: %s: version
-#: admin/pages/Status.php:145
+#: admin/pages/Status.php:151
 msgid "Elementor is not active: block layouts only."
 msgstr ""
 
 #. translators: %s: version
-#: admin/pages/Status.php:146
+#: admin/pages/Status.php:152
 msgid "BuddyBuilder and BuddyBuilder Pro versions work together."
 msgstr ""
 
 #. translators: %s: version
-#: admin/pages/Status.php:146
+#: admin/pages/Status.php:152
 msgid "BuddyBuilder Pro is not active."
 msgstr ""
 
 #. translators: %s: version
-#: admin/pages/Status.php:146
+#: admin/pages/Status.php:152
 msgid "BuddyBuilder and BuddyBuilder Pro need an update to work together (see the notice above)."
 msgstr ""
 
-#: admin/pages/Status.php:151
+#: admin/pages/Status.php:157
 msgid "Data update"
 msgstr ""
 
-#: admin/pages/Status.php:152
+#: admin/pages/Status.php:158
 msgid "BuddyBuilder 2.0 copies which layout each page uses into a new format. Your pages look the same before and after."
 msgstr ""
 
-#: admin/pages/Status.php:162
+#: admin/pages/Status.php:168
 msgid "Try again"
 msgstr ""
 
-#: admin/pages/Status.php:162
+#: admin/pages/Status.php:168
 msgid "Run now"
 msgstr ""
 
-#: admin/pages/Status.php:163
+#: admin/pages/Status.php:170
 msgid "Undo the data update? Use this only before installing BuddyBuilder 1.9 again. Your 2.0 layouts are kept but 1.9 cannot show block layouts."
 msgstr ""
 
-#: admin/pages/Status.php:163
+#: admin/pages/Status.php:170
 msgid "Undo (go back to the 1.9 format)"
 msgstr ""
 
-#: admin/pages/Status.php:168
+#: admin/pages/Status.php:176
 msgid "Theme files"
 msgstr ""
 
-#: admin/pages/Status.php:170
+#: admin/pages/Status.php:178
 msgid "Your theme replaces these BuddyBuilder files. If a page looks wrong after an update, compare them with the plugin copies or ask the theme author."
 msgstr ""
 
-#: admin/pages/Status.php:173
+#: admin/pages/Status.php:181
 msgid "Your theme does not replace any BuddyBuilder file."
 msgstr ""
 
-#: admin/pages/Status.php:178
+#: admin/pages/Status.php:186
 msgid "Technical details for support"
 msgstr ""
 
-#: admin/pages/Status.php:184
+#: admin/pages/Status.php:192
 msgid "Free/Pro pairing"
 msgstr ""
 
-#: admin/pages/Status.php:193
+#: admin/pages/Status.php:201
 msgid "Last run"
-msgstr ""
-
-#: admin/pages/Templates.php:50
-msgid "YAY! The template was imported successfully!"
-msgstr ""
-
-#: admin/pages/Templates.php:57
-msgid "Oops! An error occurred while importing the template!"
-msgstr ""
-
-#: admin/pages/Templates.php:107
-msgid "Starter kits"
-msgstr ""
-
-#: admin/pages/templates/templates.php:13
-msgid "Kits are ready-made Elementor templates for all your community pages. Importing a kit adds its templates; pick them for each page on Community pages."
-msgstr ""
-
-#: admin/pages/templates/templates.php:24
-#: src/Admin/App.php:329
-#: src/Admin/CommunityPages.php:967
-#: src/Admin/CommunityPages.php:1020
-#: src/Admin/Setup.php:843
-#: src/Upsell/Upsell.php:226
-#: src/Upsell/Upsell.php:292
-#: src/Upsell/Upsell.php:324
-msgid "Pro"
-msgstr ""
-
-#: admin/pages/templates/templates.php:27
-msgid "Imported"
-msgstr ""
-
-#: admin/pages/templates/templates.php:33
-msgid "Needs an active BuddyBuilder Pro license."
-msgstr ""
-
-#: admin/pages/templates/templates.php:35
-#: src/Upsell/Upsell.php:227
-msgid "See BuddyBuilder Pro plans"
-msgstr ""
-
-#. translators: %s: kit name
-#: admin/pages/templates/templates.php:45
-#, php-format
-msgid "Import %s again"
-msgstr ""
-
-#. translators: %s: kit name
-#: admin/pages/templates/templates.php:45
-#, php-format
-msgid "Import %s"
-msgstr ""
-
-#: admin/pages/templates/templates.php:47
-msgid "Import again"
-msgstr ""
-
-#: admin/pages/templates/templates.php:47
-#: src/Admin/CommunityPages.php:874
-msgid "Import"
-msgstr ""
-
-#: admin/pages/templates/templates.php:53
-msgid "Demo"
-msgstr ""
-
-#. translators: %s: kit name
-#: admin/pages/templates/templates.php:54
-#, php-format
-msgid "of %s (opens in a new tab)"
 msgstr ""
 
 #: core/hooks/ElementorHooks.php:150
@@ -380,7 +318,7 @@ msgid "%1$s requires version %3$s or greater of %2$s plugin."
 msgstr ""
 
 #: core/Notices.php:149
-#: src/Admin/CommunityPages.php:318
+#: src/Admin/CommunityPages.php:320
 msgid "Elementor"
 msgstr ""
 
@@ -426,7 +364,7 @@ msgstr ""
 msgid "Cheatin&#8217; huh?"
 msgstr ""
 
-#: core/Plugin.php:787
+#: core/Plugin.php:802
 #: core/widgets/general/ActivityListing.php:46
 #: core/widgets/general/GroupsListing.php:46
 #: core/widgets/general/MembersListing.php:45
@@ -438,25 +376,25 @@ msgstr ""
 #. translators: %s: name of the designed element, e.g. Member header
 #. translators: %s: name of the new element
 #. translators: %s: name of the element to use instead
-#: core/widgets/Base.php:62
-#: src/Elements/Elements.php:334
-#: src/Elements/Elements.php:367
+#: core/widgets/Base.php:122
+#: src/Elements/Elements.php:356
+#: src/Elements/Elements.php:389
 #, php-format
 msgid "Replace with %s"
 msgstr ""
 
 #. translators: %s: name of the designed element, e.g. Member header
-#: core/widgets/Base.php:70
-#: src/Elements/Elements.php:339
+#: core/widgets/Base.php:137
+#: src/Elements/Elements.php:361
 #, php-format
 msgid "Optional. This part keeps working as it is. One %s can show the header parts of this column in a style's design; it starts from its default settings, and Undo brings the parts back."
 msgstr ""
 
-#: core/widgets/Base.php:78
+#: core/widgets/Base.php:145
 msgid "Replace"
 msgstr ""
 
-#: core/widgets/Base.php:200
+#: core/widgets/Base.php:276
 msgid "The Elementor editor shows BuddyBuilder templates with real data; the static preview templates were removed."
 msgstr ""
 
@@ -549,20 +487,20 @@ msgstr ""
 #: core/widgets/members-directory/Navigation.php:80
 #: core/widgets/members-directory/Navigation.php:461
 #: core/widgets/members-directory/Navigation.php:665
-#: core/widgets/profile-group/Avatar.php:150
-#: core/widgets/profile-group/Buttons.php:341
-#: core/widgets/profile-group/Cover.php:433
-#: core/widgets/profile-group/Cover.php:460
+#: core/widgets/profile-group/Avatar.php:146
+#: core/widgets/profile-group/Buttons.php:337
+#: core/widgets/profile-group/Cover.php:429
+#: core/widgets/profile-group/Cover.php:456
 #: core/widgets/profile-group/leadership/BuddybossSettings.php:107
 #: core/widgets/profile-group/leadership/BuddybossSettings.php:196
 #: core/widgets/profile-group/leadership/BuddypressSettings.php:157
 #: core/widgets/profile-group/leadership/BuddypressSettings.php:234
 #: core/widgets/profile-group/Navigation.php:404
 #: core/widgets/profile-group/Navigation.php:608
-#: core/widgets/profile-member/Avatar.php:161
-#: core/widgets/profile-member/Buttons.php:341
-#: core/widgets/profile-member/Cover.php:433
-#: core/widgets/profile-member/Cover.php:461
+#: core/widgets/profile-member/Avatar.php:164
+#: core/widgets/profile-member/Buttons.php:337
+#: core/widgets/profile-member/Cover.php:436
+#: core/widgets/profile-member/Cover.php:464
 #: core/widgets/profile-member/Navigation.php:437
 #: core/widgets/profile-member/Navigation.php:653
 #: core/widgets/sitewide-activity/content/BuddybossSettings.php:62
@@ -631,11 +569,11 @@ msgstr ""
 #: core/widgets/members-directory/Listing.php:902
 #: core/widgets/members-directory/Navigation.php:92
 #: core/widgets/members-directory/Navigation.php:677
-#: core/widgets/profile-group/Buttons.php:353
+#: core/widgets/profile-group/Buttons.php:349
 #: core/widgets/profile-group/leadership/BuddybossSettings.php:119
 #: core/widgets/profile-group/leadership/BuddypressSettings.php:136
 #: core/widgets/profile-group/Navigation.php:621
-#: core/widgets/profile-member/Buttons.php:353
+#: core/widgets/profile-member/Buttons.php:349
 #: core/widgets/profile-member/Navigation.php:666
 #: core/widgets/sitewide-activity/content/BuddybossSettings.php:74
 #: core/widgets/sitewide-activity/content/BuddybossSettings.php:146
@@ -691,9 +629,9 @@ msgstr ""
 #: core/widgets/general/ActivityListing.php:172
 #: core/widgets/groups-directory/Navigation.php:218
 #: core/widgets/members-directory/Navigation.php:215
-#: core/widgets/profile-group/Buttons.php:48
+#: core/widgets/profile-group/Buttons.php:44
 #: core/widgets/profile-group/Navigation.php:157
-#: core/widgets/profile-member/Buttons.php:48
+#: core/widgets/profile-member/Buttons.php:44
 #: core/widgets/profile-member/Navigation.php:159
 #: core/widgets/sitewide-activity/content/BuddybossSettings.php:198
 #: core/widgets/sitewide-activity/content/BuddypressSettings.php:163
@@ -705,11 +643,11 @@ msgstr ""
 #: core/widgets/general/ActivityListing.php:176
 #: core/widgets/groups-directory/Navigation.php:222
 #: core/widgets/members-directory/Navigation.php:219
-#: core/widgets/profile-group/Buttons.php:52
+#: core/widgets/profile-group/Buttons.php:48
 #: core/widgets/profile-group/leadership/BuddybossSettings.php:46
 #: core/widgets/profile-group/leadership/BuddypressSettings.php:70
 #: core/widgets/profile-group/Navigation.php:161
-#: core/widgets/profile-member/Buttons.php:52
+#: core/widgets/profile-member/Buttons.php:48
 #: core/widgets/profile-member/Navigation.php:163
 #: core/widgets/sitewide-activity/content/BuddybossSettings.php:202
 #: core/widgets/sitewide-activity/content/BuddypressSettings.php:167
@@ -721,11 +659,11 @@ msgstr ""
 #: core/widgets/general/ActivityListing.php:177
 #: core/widgets/groups-directory/Navigation.php:223
 #: core/widgets/members-directory/Navigation.php:220
-#: core/widgets/profile-group/Buttons.php:53
+#: core/widgets/profile-group/Buttons.php:49
 #: core/widgets/profile-group/leadership/BuddybossSettings.php:47
 #: core/widgets/profile-group/leadership/BuddypressSettings.php:71
 #: core/widgets/profile-group/Navigation.php:162
-#: core/widgets/profile-member/Buttons.php:53
+#: core/widgets/profile-member/Buttons.php:49
 #: core/widgets/profile-member/Navigation.php:164
 #: core/widgets/sitewide-activity/content/BuddybossSettings.php:203
 #: core/widgets/sitewide-activity/content/BuddypressSettings.php:168
@@ -737,21 +675,21 @@ msgstr ""
 #: core/widgets/general/ActivityListing.php:188
 #: core/widgets/groups-directory/Navigation.php:114
 #: core/widgets/members-directory/Navigation.php:114
-#: core/widgets/profile-group/Avatar.php:47
-#: core/widgets/profile-group/Buttons.php:61
-#: core/widgets/profile-group/Buttons.php:121
-#: core/widgets/profile-group/Description.php:48
-#: core/widgets/profile-group/LastActivity.php:48
-#: core/widgets/profile-group/Name.php:47
+#: core/widgets/profile-group/Avatar.php:43
+#: core/widgets/profile-group/Buttons.php:57
+#: core/widgets/profile-group/Buttons.php:117
+#: core/widgets/profile-group/Description.php:44
+#: core/widgets/profile-group/LastActivity.php:44
+#: core/widgets/profile-group/Name.php:43
 #: core/widgets/profile-group/Navigation.php:131
-#: core/widgets/profile-group/Status.php:47
-#: core/widgets/profile-member/Avatar.php:47
-#: core/widgets/profile-member/Buttons.php:61
-#: core/widgets/profile-member/Buttons.php:121
-#: core/widgets/profile-member/LastActivity.php:47
-#: core/widgets/profile-member/Meta.php:47
+#: core/widgets/profile-group/Status.php:43
+#: core/widgets/profile-member/Avatar.php:50
+#: core/widgets/profile-member/Buttons.php:57
+#: core/widgets/profile-member/Buttons.php:117
+#: core/widgets/profile-member/LastActivity.php:43
+#: core/widgets/profile-member/Meta.php:50
 #: core/widgets/profile-member/Navigation.php:133
-#: core/widgets/profile-member/Username.php:88
+#: core/widgets/profile-member/Username.php:91
 #: core/widgets/sitewide-activity/content/BuddybossSettings.php:214
 #: core/widgets/sitewide-activity/content/BuddypressSettings.php:179
 #: core/widgets/sitewide-activity/navigation/BuddybossSettings.php:105
@@ -765,24 +703,24 @@ msgstr ""
 #: core/widgets/groups-directory/Navigation.php:147
 #: core/widgets/members-directory/Navigation.php:118
 #: core/widgets/members-directory/Navigation.php:144
-#: core/widgets/profile-group/Avatar.php:51
-#: core/widgets/profile-group/Buttons.php:65
-#: core/widgets/profile-group/Buttons.php:125
-#: core/widgets/profile-group/Description.php:52
-#: core/widgets/profile-group/LastActivity.php:52
+#: core/widgets/profile-group/Avatar.php:47
+#: core/widgets/profile-group/Buttons.php:61
+#: core/widgets/profile-group/Buttons.php:121
+#: core/widgets/profile-group/Description.php:48
+#: core/widgets/profile-group/LastActivity.php:48
 #: core/widgets/profile-group/leadership/BuddybossSettings.php:62
 #: core/widgets/profile-group/leadership/BuddypressSettings.php:44
-#: core/widgets/profile-group/Name.php:51
+#: core/widgets/profile-group/Name.php:47
 #: core/widgets/profile-group/Navigation.php:135
-#: core/widgets/profile-group/Status.php:51
-#: core/widgets/profile-member/Avatar.php:51
-#: core/widgets/profile-member/Buttons.php:65
-#: core/widgets/profile-member/Buttons.php:125
-#: core/widgets/profile-member/LastActivity.php:51
-#: core/widgets/profile-member/Meta.php:51
+#: core/widgets/profile-group/Status.php:47
+#: core/widgets/profile-member/Avatar.php:54
+#: core/widgets/profile-member/Buttons.php:61
+#: core/widgets/profile-member/Buttons.php:121
+#: core/widgets/profile-member/LastActivity.php:47
+#: core/widgets/profile-member/Meta.php:54
 #: core/widgets/profile-member/Navigation.php:137
 #: core/widgets/profile-member/Navigation.php:183
-#: core/widgets/profile-member/Username.php:92
+#: core/widgets/profile-member/Username.php:95
 #: core/widgets/sitewide-activity/content/BuddybossSettings.php:218
 #: core/widgets/sitewide-activity/content/BuddypressSettings.php:183
 #: core/widgets/sitewide-activity/navigation/BuddybossSettings.php:109
@@ -797,24 +735,24 @@ msgstr ""
 #: core/widgets/groups-directory/Navigation.php:151
 #: core/widgets/members-directory/Navigation.php:122
 #: core/widgets/members-directory/Navigation.php:148
-#: core/widgets/profile-group/Avatar.php:55
-#: core/widgets/profile-group/Buttons.php:69
-#: core/widgets/profile-group/Buttons.php:129
-#: core/widgets/profile-group/Description.php:56
-#: core/widgets/profile-group/LastActivity.php:56
+#: core/widgets/profile-group/Avatar.php:51
+#: core/widgets/profile-group/Buttons.php:65
+#: core/widgets/profile-group/Buttons.php:125
+#: core/widgets/profile-group/Description.php:52
+#: core/widgets/profile-group/LastActivity.php:52
 #: core/widgets/profile-group/leadership/BuddybossSettings.php:66
 #: core/widgets/profile-group/leadership/BuddypressSettings.php:48
-#: core/widgets/profile-group/Name.php:55
+#: core/widgets/profile-group/Name.php:51
 #: core/widgets/profile-group/Navigation.php:139
-#: core/widgets/profile-group/Status.php:55
-#: core/widgets/profile-member/Avatar.php:55
-#: core/widgets/profile-member/Buttons.php:69
-#: core/widgets/profile-member/Buttons.php:129
-#: core/widgets/profile-member/LastActivity.php:55
-#: core/widgets/profile-member/Meta.php:55
+#: core/widgets/profile-group/Status.php:51
+#: core/widgets/profile-member/Avatar.php:58
+#: core/widgets/profile-member/Buttons.php:65
+#: core/widgets/profile-member/Buttons.php:125
+#: core/widgets/profile-member/LastActivity.php:51
+#: core/widgets/profile-member/Meta.php:58
 #: core/widgets/profile-member/Navigation.php:141
 #: core/widgets/profile-member/Navigation.php:187
-#: core/widgets/profile-member/Username.php:96
+#: core/widgets/profile-member/Username.php:99
 #: core/widgets/sitewide-activity/content/BuddybossSettings.php:222
 #: core/widgets/sitewide-activity/content/BuddypressSettings.php:187
 #: core/widgets/sitewide-activity/navigation/BuddybossSettings.php:113
@@ -830,24 +768,24 @@ msgstr ""
 #: core/widgets/groups-directory/Navigation.php:155
 #: core/widgets/members-directory/Navigation.php:126
 #: core/widgets/members-directory/Navigation.php:152
-#: core/widgets/profile-group/Avatar.php:59
-#: core/widgets/profile-group/Buttons.php:73
-#: core/widgets/profile-group/Buttons.php:133
-#: core/widgets/profile-group/Description.php:60
-#: core/widgets/profile-group/LastActivity.php:60
+#: core/widgets/profile-group/Avatar.php:55
+#: core/widgets/profile-group/Buttons.php:69
+#: core/widgets/profile-group/Buttons.php:129
+#: core/widgets/profile-group/Description.php:56
+#: core/widgets/profile-group/LastActivity.php:56
 #: core/widgets/profile-group/leadership/BuddybossSettings.php:70
 #: core/widgets/profile-group/leadership/BuddypressSettings.php:52
-#: core/widgets/profile-group/Name.php:59
+#: core/widgets/profile-group/Name.php:55
 #: core/widgets/profile-group/Navigation.php:143
-#: core/widgets/profile-group/Status.php:59
-#: core/widgets/profile-member/Avatar.php:59
-#: core/widgets/profile-member/Buttons.php:73
-#: core/widgets/profile-member/Buttons.php:133
-#: core/widgets/profile-member/LastActivity.php:59
-#: core/widgets/profile-member/Meta.php:59
+#: core/widgets/profile-group/Status.php:55
+#: core/widgets/profile-member/Avatar.php:62
+#: core/widgets/profile-member/Buttons.php:69
+#: core/widgets/profile-member/Buttons.php:129
+#: core/widgets/profile-member/LastActivity.php:55
+#: core/widgets/profile-member/Meta.php:62
 #: core/widgets/profile-member/Navigation.php:145
 #: core/widgets/profile-member/Navigation.php:191
-#: core/widgets/profile-member/Username.php:100
+#: core/widgets/profile-member/Username.php:103
 #: core/widgets/sitewide-activity/content/BuddybossSettings.php:226
 #: core/widgets/sitewide-activity/content/BuddypressSettings.php:191
 #: core/widgets/sitewide-activity/navigation/BuddybossSettings.php:117
@@ -887,21 +825,21 @@ msgstr ""
 #: core/widgets/members-directory/Listing.php:1013
 #: core/widgets/members-directory/Navigation.php:308
 #: core/widgets/members-directory/Navigation.php:534
-#: core/widgets/profile-group/Avatar.php:105
-#: core/widgets/profile-group/Buttons.php:239
-#: core/widgets/profile-group/Buttons.php:377
-#: core/widgets/profile-group/Buttons.php:493
-#: core/widgets/profile-group/Buttons.php:609
-#: core/widgets/profile-group/Buttons.php:725
-#: core/widgets/profile-group/Cover.php:385
+#: core/widgets/profile-group/Avatar.php:101
+#: core/widgets/profile-group/Buttons.php:235
+#: core/widgets/profile-group/Buttons.php:373
+#: core/widgets/profile-group/Buttons.php:489
+#: core/widgets/profile-group/Buttons.php:605
+#: core/widgets/profile-group/Buttons.php:721
+#: core/widgets/profile-group/Cover.php:381
 #: core/widgets/profile-group/Navigation.php:251
 #: core/widgets/profile-group/Navigation.php:477
-#: core/widgets/profile-member/Avatar.php:105
-#: core/widgets/profile-member/Buttons.php:239
-#: core/widgets/profile-member/Buttons.php:377
-#: core/widgets/profile-member/Buttons.php:493
-#: core/widgets/profile-member/Buttons.php:609
-#: core/widgets/profile-member/Cover.php:385
+#: core/widgets/profile-member/Avatar.php:108
+#: core/widgets/profile-member/Buttons.php:235
+#: core/widgets/profile-member/Buttons.php:373
+#: core/widgets/profile-member/Buttons.php:489
+#: core/widgets/profile-member/Buttons.php:605
+#: core/widgets/profile-member/Cover.php:388
 #: core/widgets/profile-member/Navigation.php:282
 #: core/widgets/profile-member/Navigation.php:510
 #: core/widgets/sitewide-activity/content/BuddybossSettings.php:269
@@ -992,21 +930,21 @@ msgstr ""
 #: core/widgets/members-directory/Listing.php:1066
 #: core/widgets/members-directory/Navigation.php:348
 #: core/widgets/members-directory/Navigation.php:566
-#: core/widgets/profile-group/Avatar.php:122
-#: core/widgets/profile-group/Buttons.php:279
-#: core/widgets/profile-group/Buttons.php:428
-#: core/widgets/profile-group/Buttons.php:544
-#: core/widgets/profile-group/Buttons.php:660
-#: core/widgets/profile-group/Buttons.php:776
-#: core/widgets/profile-group/Cover.php:402
+#: core/widgets/profile-group/Avatar.php:118
+#: core/widgets/profile-group/Buttons.php:275
+#: core/widgets/profile-group/Buttons.php:424
+#: core/widgets/profile-group/Buttons.php:540
+#: core/widgets/profile-group/Buttons.php:656
+#: core/widgets/profile-group/Buttons.php:772
+#: core/widgets/profile-group/Cover.php:398
 #: core/widgets/profile-group/Navigation.php:291
 #: core/widgets/profile-group/Navigation.php:509
-#: core/widgets/profile-member/Avatar.php:122
-#: core/widgets/profile-member/Buttons.php:279
-#: core/widgets/profile-member/Buttons.php:428
-#: core/widgets/profile-member/Buttons.php:544
-#: core/widgets/profile-member/Buttons.php:660
-#: core/widgets/profile-member/Cover.php:402
+#: core/widgets/profile-member/Avatar.php:125
+#: core/widgets/profile-member/Buttons.php:275
+#: core/widgets/profile-member/Buttons.php:424
+#: core/widgets/profile-member/Buttons.php:540
+#: core/widgets/profile-member/Buttons.php:656
+#: core/widgets/profile-member/Cover.php:405
 #: core/widgets/profile-member/Navigation.php:322
 #: core/widgets/profile-member/Navigation.php:554
 #: core/widgets/sitewide-activity/content/BuddybossSettings.php:302
@@ -1050,27 +988,27 @@ msgstr ""
 #: core/widgets/members-directory/Navigation.php:429
 #: core/widgets/members-directory/Navigation.php:596
 #: core/widgets/members-directory/Navigation.php:640
-#: core/widgets/profile-group/Buttons.php:309
-#: core/widgets/profile-group/Buttons.php:407
-#: core/widgets/profile-group/Buttons.php:458
-#: core/widgets/profile-group/Buttons.php:523
-#: core/widgets/profile-group/Buttons.php:574
-#: core/widgets/profile-group/Buttons.php:639
-#: core/widgets/profile-group/Buttons.php:690
-#: core/widgets/profile-group/Buttons.php:755
-#: core/widgets/profile-group/Buttons.php:806
+#: core/widgets/profile-group/Buttons.php:305
+#: core/widgets/profile-group/Buttons.php:403
+#: core/widgets/profile-group/Buttons.php:454
+#: core/widgets/profile-group/Buttons.php:519
+#: core/widgets/profile-group/Buttons.php:570
+#: core/widgets/profile-group/Buttons.php:635
+#: core/widgets/profile-group/Buttons.php:686
+#: core/widgets/profile-group/Buttons.php:751
+#: core/widgets/profile-group/Buttons.php:802
 #: core/widgets/profile-group/Navigation.php:321
 #: core/widgets/profile-group/Navigation.php:372
 #: core/widgets/profile-group/Navigation.php:539
 #: core/widgets/profile-group/Navigation.php:583
-#: core/widgets/profile-member/Avatar.php:129
-#: core/widgets/profile-member/Buttons.php:309
-#: core/widgets/profile-member/Buttons.php:407
-#: core/widgets/profile-member/Buttons.php:458
-#: core/widgets/profile-member/Buttons.php:523
-#: core/widgets/profile-member/Buttons.php:574
-#: core/widgets/profile-member/Buttons.php:639
-#: core/widgets/profile-member/Buttons.php:690
+#: core/widgets/profile-member/Avatar.php:132
+#: core/widgets/profile-member/Buttons.php:305
+#: core/widgets/profile-member/Buttons.php:403
+#: core/widgets/profile-member/Buttons.php:454
+#: core/widgets/profile-member/Buttons.php:519
+#: core/widgets/profile-member/Buttons.php:570
+#: core/widgets/profile-member/Buttons.php:635
+#: core/widgets/profile-member/Buttons.php:686
 #: core/widgets/profile-member/Navigation.php:354
 #: core/widgets/profile-member/Navigation.php:405
 #: core/widgets/profile-member/Navigation.php:540
@@ -1121,8 +1059,8 @@ msgstr ""
 #: core/widgets/members-directory/Listing.php:47
 #: core/widgets/profile-group/Navigation.php:44
 #: core/widgets/profile-member/Navigation.php:45
-#: src/Admin/Options.php:45
-#: src/Elements/Elements.php:110
+#: src/Admin/Options.php:56
+#: src/Elements/Elements.php:109
 msgid "Settings"
 msgstr ""
 
@@ -1172,7 +1110,7 @@ msgstr ""
 #: core/widgets/members-directory/Navigation.php:233
 #: core/widgets/members-directory/Navigation.php:277
 #: core/widgets/members-directory/Navigation.php:507
-#: core/widgets/profile-group/Buttons.php:189
+#: core/widgets/profile-group/Buttons.php:185
 #: core/widgets/profile-group/leadership/BuddybossSettings.php:161
 #: core/widgets/profile-group/leadership/BuddybossSettings.php:209
 #: core/widgets/profile-group/leadership/BuddypressSettings.php:199
@@ -1180,7 +1118,7 @@ msgstr ""
 #: core/widgets/profile-group/Navigation.php:177
 #: core/widgets/profile-group/Navigation.php:221
 #: core/widgets/profile-group/Navigation.php:451
-#: core/widgets/profile-member/Buttons.php:189
+#: core/widgets/profile-member/Buttons.php:185
 #: core/widgets/profile-member/Navigation.php:208
 #: core/widgets/profile-member/Navigation.php:252
 #: core/widgets/profile-member/Navigation.php:484
@@ -1190,6 +1128,7 @@ msgstr ""
 #: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:178
 #: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:222
 #: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:452
+#: src/Admin/Options.php:252
 msgid "Spacing"
 msgstr ""
 
@@ -1205,8 +1144,8 @@ msgstr ""
 #: core/widgets/members-directory/Listing.php:97
 #: core/widgets/members-directory/Listing.php:146
 #: core/widgets/members-directory/Listing.php:195
-#: core/widgets/profile-group/Buttons.php:170
-#: core/widgets/profile-member/Buttons.php:170
+#: core/widgets/profile-group/Buttons.php:166
+#: core/widgets/profile-member/Buttons.php:166
 msgid "Vertical Spacing"
 msgstr ""
 
@@ -1222,8 +1161,8 @@ msgstr ""
 #: core/widgets/members-directory/Listing.php:121
 #: core/widgets/members-directory/Listing.php:170
 #: core/widgets/members-directory/Listing.php:219
-#: core/widgets/profile-group/Buttons.php:150
-#: core/widgets/profile-member/Buttons.php:150
+#: core/widgets/profile-group/Buttons.php:146
+#: core/widgets/profile-member/Buttons.php:146
 msgid "Horizontal Spacing"
 msgstr ""
 
@@ -1353,17 +1292,17 @@ msgstr ""
 #: core/widgets/members-directory/Navigation.php:553
 #: core/widgets/members-directory/Navigation.php:585
 #: core/widgets/members-directory/Navigation.php:629
-#: core/widgets/profile-group/Buttons.php:258
-#: core/widgets/profile-group/Buttons.php:298
-#: core/widgets/profile-group/Buttons.php:396
-#: core/widgets/profile-group/Buttons.php:447
-#: core/widgets/profile-group/Buttons.php:512
-#: core/widgets/profile-group/Buttons.php:563
-#: core/widgets/profile-group/Buttons.php:628
-#: core/widgets/profile-group/Buttons.php:679
-#: core/widgets/profile-group/Buttons.php:744
-#: core/widgets/profile-group/Buttons.php:795
-#: core/widgets/profile-group/Cover.php:48
+#: core/widgets/profile-group/Buttons.php:254
+#: core/widgets/profile-group/Buttons.php:294
+#: core/widgets/profile-group/Buttons.php:392
+#: core/widgets/profile-group/Buttons.php:443
+#: core/widgets/profile-group/Buttons.php:508
+#: core/widgets/profile-group/Buttons.php:559
+#: core/widgets/profile-group/Buttons.php:624
+#: core/widgets/profile-group/Buttons.php:675
+#: core/widgets/profile-group/Buttons.php:740
+#: core/widgets/profile-group/Buttons.php:791
+#: core/widgets/profile-group/Cover.php:44
 #: core/widgets/profile-group/leadership/BuddybossSettings.php:87
 #: core/widgets/profile-group/Navigation.php:81
 #: core/widgets/profile-group/Navigation.php:270
@@ -1372,15 +1311,15 @@ msgstr ""
 #: core/widgets/profile-group/Navigation.php:496
 #: core/widgets/profile-group/Navigation.php:528
 #: core/widgets/profile-group/Navigation.php:572
-#: core/widgets/profile-member/Buttons.php:258
-#: core/widgets/profile-member/Buttons.php:298
-#: core/widgets/profile-member/Buttons.php:396
-#: core/widgets/profile-member/Buttons.php:447
-#: core/widgets/profile-member/Buttons.php:512
-#: core/widgets/profile-member/Buttons.php:563
-#: core/widgets/profile-member/Buttons.php:628
-#: core/widgets/profile-member/Buttons.php:679
-#: core/widgets/profile-member/Cover.php:48
+#: core/widgets/profile-member/Buttons.php:254
+#: core/widgets/profile-member/Buttons.php:294
+#: core/widgets/profile-member/Buttons.php:392
+#: core/widgets/profile-member/Buttons.php:443
+#: core/widgets/profile-member/Buttons.php:508
+#: core/widgets/profile-member/Buttons.php:559
+#: core/widgets/profile-member/Buttons.php:624
+#: core/widgets/profile-member/Buttons.php:675
+#: core/widgets/profile-member/Cover.php:51
 #: core/widgets/profile-member/Navigation.php:83
 #: core/widgets/profile-member/Navigation.php:301
 #: core/widgets/profile-member/Navigation.php:342
@@ -1450,9 +1389,9 @@ msgstr ""
 #: core/widgets/general/SaveNotification.php:424
 #: core/widgets/groups-directory/Navigation.php:665
 #: core/widgets/members-directory/Listing.php:304
-#: core/widgets/profile-group/Name.php:101
-#: core/widgets/profile-group/Status.php:101
-#: core/widgets/profile-member/Username.php:142
+#: core/widgets/profile-group/Name.php:97
+#: core/widgets/profile-group/Status.php:97
+#: core/widgets/profile-member/Username.php:145
 #: core/widgets/sitewide-activity/content/BuddybossSettings.php:86
 #: core/widgets/sitewide-activity/content/BuddypressSettings.php:365
 #: core/widgets/sitewide-activity/filters/BuddypressSettings.php:488
@@ -1467,8 +1406,8 @@ msgstr ""
 
 #. translators: %s: style name
 #: core/widgets/general/SaveNotification.php:42
-#: src/Admin/CommunityPages.php:1081
-#: src/Admin/CommunityPages.php:1138
+#: src/Admin/CommunityPages.php:1101
+#: src/Admin/CommunityPages.php:1164
 msgid "Preview"
 msgstr ""
 
@@ -1718,46 +1657,46 @@ msgstr ""
 #: core/widgets/members-directory/Navigation.php:541
 #: core/widgets/members-directory/Navigation.php:573
 #: core/widgets/members-directory/Navigation.php:617
-#: core/widgets/profile-group/Buttons.php:246
-#: core/widgets/profile-group/Buttons.php:286
-#: core/widgets/profile-group/Buttons.php:384
-#: core/widgets/profile-group/Buttons.php:435
-#: core/widgets/profile-group/Buttons.php:500
-#: core/widgets/profile-group/Buttons.php:551
-#: core/widgets/profile-group/Buttons.php:616
-#: core/widgets/profile-group/Buttons.php:667
-#: core/widgets/profile-group/Buttons.php:732
-#: core/widgets/profile-group/Buttons.php:783
-#: core/widgets/profile-group/Description.php:74
-#: core/widgets/profile-group/LastActivity.php:74
+#: core/widgets/profile-group/Buttons.php:242
+#: core/widgets/profile-group/Buttons.php:282
+#: core/widgets/profile-group/Buttons.php:380
+#: core/widgets/profile-group/Buttons.php:431
+#: core/widgets/profile-group/Buttons.php:496
+#: core/widgets/profile-group/Buttons.php:547
+#: core/widgets/profile-group/Buttons.php:612
+#: core/widgets/profile-group/Buttons.php:663
+#: core/widgets/profile-group/Buttons.php:728
+#: core/widgets/profile-group/Buttons.php:779
+#: core/widgets/profile-group/Description.php:70
+#: core/widgets/profile-group/LastActivity.php:70
 #: core/widgets/profile-group/leadership/BuddybossSettings.php:149
 #: core/widgets/profile-group/leadership/BuddypressSettings.php:187
-#: core/widgets/profile-group/Name.php:73
+#: core/widgets/profile-group/Name.php:69
 #: core/widgets/profile-group/Navigation.php:258
 #: core/widgets/profile-group/Navigation.php:298
 #: core/widgets/profile-group/Navigation.php:349
 #: core/widgets/profile-group/Navigation.php:484
 #: core/widgets/profile-group/Navigation.php:516
 #: core/widgets/profile-group/Navigation.php:560
-#: core/widgets/profile-group/Status.php:73
-#: core/widgets/profile-member/Buttons.php:246
-#: core/widgets/profile-member/Buttons.php:286
-#: core/widgets/profile-member/Buttons.php:384
-#: core/widgets/profile-member/Buttons.php:435
-#: core/widgets/profile-member/Buttons.php:500
-#: core/widgets/profile-member/Buttons.php:551
-#: core/widgets/profile-member/Buttons.php:616
-#: core/widgets/profile-member/Buttons.php:667
-#: core/widgets/profile-member/LastActivity.php:73
-#: core/widgets/profile-member/LastActivity.php:103
-#: core/widgets/profile-member/Meta.php:73
+#: core/widgets/profile-group/Status.php:69
+#: core/widgets/profile-member/Buttons.php:242
+#: core/widgets/profile-member/Buttons.php:282
+#: core/widgets/profile-member/Buttons.php:380
+#: core/widgets/profile-member/Buttons.php:431
+#: core/widgets/profile-member/Buttons.php:496
+#: core/widgets/profile-member/Buttons.php:547
+#: core/widgets/profile-member/Buttons.php:612
+#: core/widgets/profile-member/Buttons.php:663
+#: core/widgets/profile-member/LastActivity.php:69
+#: core/widgets/profile-member/LastActivity.php:99
+#: core/widgets/profile-member/Meta.php:76
 #: core/widgets/profile-member/Navigation.php:289
 #: core/widgets/profile-member/Navigation.php:329
 #: core/widgets/profile-member/Navigation.php:382
 #: core/widgets/profile-member/Navigation.php:517
 #: core/widgets/profile-member/Navigation.php:561
 #: core/widgets/profile-member/Navigation.php:605
-#: core/widgets/profile-member/Username.php:114
+#: core/widgets/profile-member/Username.php:117
 #: core/widgets/sitewide-activity/filters/BuddybossSettings.php:147
 #: core/widgets/sitewide-activity/filters/BuddybossSettings.php:201
 #: core/widgets/sitewide-activity/filters/BuddypressSettings.php:167
@@ -1970,11 +1909,11 @@ msgstr ""
 
 #: core/widgets/groups-directory/Navigation.php:256
 #: core/widgets/members-directory/Navigation.php:253
-#: core/widgets/profile-group/Avatar.php:87
-#: core/widgets/profile-group/Buttons.php:209
+#: core/widgets/profile-group/Avatar.php:83
+#: core/widgets/profile-group/Buttons.php:205
 #: core/widgets/profile-group/Navigation.php:197
-#: core/widgets/profile-member/Avatar.php:87
-#: core/widgets/profile-member/Buttons.php:209
+#: core/widgets/profile-member/Avatar.php:90
+#: core/widgets/profile-member/Buttons.php:205
 #: core/widgets/profile-member/Navigation.php:228
 #: core/widgets/sitewide-activity/navigation/BuddybossSettings.php:199
 #: core/widgets/sitewide-activity/navigation/BuddypressSettings.php:198
@@ -2029,67 +1968,60 @@ msgstr ""
 msgid "Members Navigation"
 msgstr ""
 
-#: core/widgets/profile-group/Avatar.php:27
-#: core/widgets/profile-group/Avatar.php:39
-#: core/widgets/profile-member/Avatar.php:27
-#: core/widgets/profile-member/Avatar.php:39
+#: core/widgets/profile-group/Avatar.php:35
+#: core/widgets/profile-member/Avatar.php:42
 #: core/widgets/sitewide-activity/form/BuddybossSettings.php:250
 #: core/widgets/sitewide-activity/form/BuddypressSettings.php:106
 msgid "Avatar"
 msgstr ""
 
-#: core/widgets/profile-group/Avatar.php:74
+#: core/widgets/profile-group/Avatar.php:70
 #: core/widgets/profile-group/leadership/BuddypressSettings.php:247
-#: core/widgets/profile-member/Avatar.php:74
+#: core/widgets/profile-member/Avatar.php:77
 #: src/Elements/strings.php:149
 msgid "Size"
 msgstr ""
 
-#: core/widgets/profile-group/Avatar.php:77
-#: core/widgets/profile-member/Avatar.php:77
+#: core/widgets/profile-group/Avatar.php:73
+#: core/widgets/profile-member/Avatar.php:80
 #: src/Elements/strings.php:169
 msgid "Thumb"
 msgstr ""
 
-#: core/widgets/profile-group/Avatar.php:78
-#: core/widgets/profile-member/Avatar.php:78
+#: core/widgets/profile-group/Avatar.php:74
+#: core/widgets/profile-member/Avatar.php:81
 #: src/Elements/strings.php:62
 msgid "Full"
 msgstr ""
 
-#: core/widgets/profile-group/Buttons.php:28
-#: src/Elements/strings.php:30
-msgid "Buttons"
-msgstr ""
-
-#: core/widgets/profile-group/Buttons.php:40
-#: core/widgets/profile-member/Buttons.php:40
+#: core/widgets/profile-group/Buttons.php:36
+#: core/widgets/profile-member/Buttons.php:36
 msgid "General Buttons"
 msgstr ""
 
-#: core/widgets/profile-group/Buttons.php:90
-#: core/widgets/profile-member/Buttons.php:90
+#: core/widgets/profile-group/Buttons.php:86
+#: core/widgets/profile-member/Buttons.php:86
 msgid "Display inline"
 msgstr ""
 
-#: core/widgets/profile-group/Buttons.php:106
-#: core/widgets/profile-member/Buttons.php:106
+#: core/widgets/profile-group/Buttons.php:102
+#: core/widgets/profile-member/Buttons.php:102
 msgid "Display block"
 msgstr ""
 
-#: core/widgets/profile-group/Buttons.php:367
+#: core/widgets/profile-group/Buttons.php:363
 msgid "Join Group button"
 msgstr ""
 
-#: core/widgets/profile-group/Buttons.php:483
+#: core/widgets/profile-group/Buttons.php:479
 msgid "Leave Group button"
 msgstr ""
 
-#: core/widgets/profile-group/Buttons.php:599
+#: core/widgets/profile-group/Buttons.php:595
 msgid "Request Membership button"
 msgstr ""
 
-#: core/widgets/profile-group/Buttons.php:715
+#: core/widgets/profile-group/Buttons.php:711
 msgid "Request Sent button"
 msgstr ""
 
@@ -2098,71 +2030,66 @@ msgstr ""
 msgid "Step up your game and customize your profile content with ease."
 msgstr ""
 
-#: core/widgets/profile-group/Cover.php:28
-#: core/widgets/profile-group/Cover.php:40
-#: core/widgets/profile-member/Cover.php:28
-#: core/widgets/profile-member/Cover.php:40
+#: core/widgets/profile-group/Cover.php:36
+#: core/widgets/profile-member/Cover.php:43
 msgid "Cover"
 msgstr ""
 
-#: core/widgets/profile-group/Cover.php:60
-#: core/widgets/profile-member/Cover.php:60
+#: core/widgets/profile-group/Cover.php:56
+#: core/widgets/profile-member/Cover.php:63
 msgid "Image position"
 msgstr ""
 
-#: core/widgets/profile-group/Cover.php:86
-#: core/widgets/profile-member/Cover.php:86
+#: core/widgets/profile-group/Cover.php:82
+#: core/widgets/profile-member/Cover.php:89
 msgid "Image repeat"
 msgstr ""
 
-#: core/widgets/profile-group/Cover.php:106
-#: core/widgets/profile-member/Cover.php:106
+#: core/widgets/profile-group/Cover.php:102
+#: core/widgets/profile-member/Cover.php:109
 msgid "Image size"
 msgstr ""
 
-#: core/widgets/profile-group/Cover.php:347
-#: core/widgets/profile-member/Cover.php:347
+#: core/widgets/profile-group/Cover.php:343
+#: core/widgets/profile-member/Cover.php:350
 msgid "Height"
 msgstr ""
 
-#: core/widgets/profile-group/Cover.php:349
-#: core/widgets/profile-member/Cover.php:349
+#: core/widgets/profile-group/Cover.php:345
+#: core/widgets/profile-member/Cover.php:352
 msgid "This works only when your Cover position is not set to Absolute"
 msgstr ""
 
-#: core/widgets/profile-group/Cover.php:449
-#: core/widgets/profile-group/Cover.php:513
-#: core/widgets/profile-member/Cover.php:450
-#: core/widgets/profile-member/Cover.php:514
+#: core/widgets/profile-group/Cover.php:445
+#: core/widgets/profile-group/Cover.php:509
+#: core/widgets/profile-member/Cover.php:453
+#: core/widgets/profile-member/Cover.php:517
 msgid "Advanced Settings"
 msgstr ""
 
-#: core/widgets/profile-group/Cover.php:487
-#: core/widgets/profile-member/Cover.php:488
+#: core/widgets/profile-group/Cover.php:483
+#: core/widgets/profile-member/Cover.php:491
 msgid "Skew"
 msgstr ""
 
-#: core/widgets/profile-group/Cover.php:526
-#: core/widgets/profile-group/Cover.php:537
-#: core/widgets/profile-member/Cover.php:527
-#: core/widgets/profile-member/Cover.php:538
+#: core/widgets/profile-group/Cover.php:522
+#: core/widgets/profile-group/Cover.php:533
+#: core/widgets/profile-member/Cover.php:530
+#: core/widgets/profile-member/Cover.php:541
 msgid "Overlay"
 msgstr ""
 
-#: core/widgets/profile-group/Cover.php:552
-#: core/widgets/profile-member/Cover.php:553
+#: core/widgets/profile-group/Cover.php:548
+#: core/widgets/profile-member/Cover.php:556
 msgid "Overlay type"
 msgstr ""
 
-#: core/widgets/profile-group/Description.php:28
-#: core/widgets/profile-group/Description.php:40
+#: core/widgets/profile-group/Description.php:36
 #: src/Elements/strings.php:51
 msgid "Description"
 msgstr ""
 
-#: core/widgets/profile-group/LastActivity.php:28
-#: core/widgets/profile-group/LastActivity.php:40
-#: core/widgets/profile-member/LastActivity.php:27
+#: core/widgets/profile-group/LastActivity.php:36
 msgid "Last Activity"
 msgstr ""
 
@@ -2222,14 +2149,7 @@ msgstr ""
 msgid "Moderators BG Color"
 msgstr ""
 
-#: core/widgets/profile-group/Name.php:27
-#: core/widgets/profile-member/Username.php:39
-#: core/widgets/profile-member/Username.php:80
-#: src/Elements/strings.php:116
-msgid "Name"
-msgstr ""
-
-#: core/widgets/profile-group/Name.php:39
+#: core/widgets/profile-group/Name.php:35
 msgid "Username"
 msgstr ""
 
@@ -2259,49 +2179,45 @@ msgstr ""
 msgid "Counter"
 msgstr ""
 
-#: core/widgets/profile-group/Status.php:27
-#: core/widgets/profile-group/Status.php:39
+#: core/widgets/profile-group/Status.php:35
 msgid "Status"
 msgstr ""
 
-#: core/widgets/profile-member/Buttons.php:28
-msgid "Action Buttons"
-msgstr ""
-
-#: core/widgets/profile-member/Buttons.php:367
+#: core/widgets/profile-member/Buttons.php:363
 msgid "Add Friendship button"
 msgstr ""
 
-#: core/widgets/profile-member/Buttons.php:483
+#: core/widgets/profile-member/Buttons.php:479
 msgid "Cancel Friendship Request button"
 msgstr ""
 
-#: core/widgets/profile-member/Buttons.php:599
+#: core/widgets/profile-member/Buttons.php:595
 msgid "Cancel Friendship button"
 msgstr ""
 
-#: core/widgets/profile-member/LastActivity.php:39
+#: core/widgets/profile-member/LastActivity.php:35
 msgid "Activity Status"
 msgstr ""
 
-#: core/widgets/profile-member/LastActivity.php:95
+#: core/widgets/profile-member/LastActivity.php:91
 msgid "Link"
 msgstr ""
 
-#: core/widgets/profile-member/Meta.php:27
-#: core/widgets/profile-member/Meta.php:39
+#: core/widgets/profile-member/Meta.php:42
 msgid "Meta"
 msgstr ""
 
-#: core/widgets/profile-member/Username.php:27
-msgid "Name/Username"
+#: core/widgets/profile-member/Username.php:42
+#: core/widgets/profile-member/Username.php:83
+#: src/Elements/strings.php:116
+msgid "Name"
 msgstr ""
 
-#: core/widgets/profile-member/Username.php:47
+#: core/widgets/profile-member/Username.php:50
 msgid "What to generate"
 msgstr ""
 
-#: core/widgets/profile-member/Username.php:60
+#: core/widgets/profile-member/Username.php:63
 msgid "HTML Tag"
 msgstr ""
 
@@ -2408,35 +2324,35 @@ msgstr ""
 msgid "Cancel Button"
 msgstr ""
 
-#: functions.php:189
+#: functions.php:188
 msgid "Member Profile"
 msgstr ""
 
-#: functions.php:193
+#: functions.php:192
 msgid "Members Directory"
 msgstr ""
 
-#: functions.php:197
+#: functions.php:196
 msgid "Group Profile"
 msgstr ""
 
-#: functions.php:201
+#: functions.php:200
 msgid "Groups Directory"
 msgstr ""
 
-#: functions.php:205
+#: functions.php:204
 msgid "Site-Wide Activity"
 msgstr ""
 
-#: functions.php:530
+#: functions.php:528
 msgid "Shows real community data. Edit it in a BuddyBuilder layout (BuddyBuilder > Community pages) to preview it with a member or group."
 msgstr ""
 
-#: functions.php:532
+#: functions.php:530
 msgid "Pick a preview group in the page settings, section BuddyBuilder preview (or create the sample member and groups)."
 msgstr ""
 
-#: functions.php:534
+#: functions.php:532
 msgid "Pick a preview member in the page settings, section BuddyBuilder preview (or create the sample member)."
 msgstr ""
 
@@ -2464,148 +2380,160 @@ msgstr ""
 msgid "Get the BuddyBuilder status"
 msgstr ""
 
-#: src/Admin/App.php:216
-#: src/Admin/App.php:493
+#: src/Admin/App.php:235
+#: src/Admin/App.php:512
 msgid "Help"
 msgstr ""
 
-#: src/Admin/App.php:321
+#: src/Admin/App.php:340
 msgid "Free"
 msgstr ""
 
-#: src/Admin/App.php:323
+#: src/Admin/App.php:342
 msgid "Pro, license expired"
 msgstr ""
 
-#: src/Admin/App.php:325
+#: src/Admin/App.php:344
 msgid "Pro, licensed"
 msgstr ""
 
-#: src/Admin/App.php:327
+#: src/Admin/App.php:346
 msgid "Pro, no license"
 msgstr ""
 
+#: src/Admin/App.php:348
+#: src/Admin/CommunityPages.php:987
+#: src/Admin/CommunityPages.php:1040
+#: src/Admin/Options.php:274
+#: src/Admin/Setup.php:843
+#: src/Upsell/Upsell.php:243
+#: src/Upsell/Upsell.php:312
+#: src/Upsell/Upsell.php:410
+#: src/Upsell/Upsell.php:467
+msgid "Pro"
+msgstr ""
+
 #. translators: %s: screen name
-#: src/Admin/App.php:335
+#: src/Admin/App.php:354
 #, php-format
 msgid "BuddyBuilder: %s"
 msgstr ""
 
 #. translators: %s: version number.
-#: src/Admin/App.php:350
+#: src/Admin/App.php:369
 #, php-format
 msgid "Version %s"
 msgstr ""
 
 #. translators: %s: version number.
-#: src/Admin/App.php:354
+#: src/Admin/App.php:373
 #, php-format
 msgid "Pro %s"
 msgstr ""
 
-#: src/Admin/App.php:374
+#: src/Admin/App.php:393
 msgid "Docs"
 msgstr ""
 
-#: src/Admin/App.php:379
+#: src/Admin/App.php:398
 msgid "Support"
 msgstr ""
 
-#: src/Admin/App.php:385
+#: src/Admin/App.php:404
 #: src/Admin/Setup.php:846
 msgid "Get Pro"
 msgstr ""
 
-#: src/Admin/App.php:392
+#: src/Admin/App.php:411
 msgid "BuddyBuilder sections"
 msgstr ""
 
-#: src/Admin/App.php:447
+#: src/Admin/App.php:466
 msgid "About BuddyBuilder"
 msgstr ""
 
-#: src/Admin/App.php:450
-#: src/Admin/App.php:464
+#: src/Admin/App.php:469
+#: src/Admin/App.php:483
 msgid "BuddyBuilder Pro"
 msgstr ""
 
-#: src/Admin/App.php:451
+#: src/Admin/App.php:470
 msgid "More for your community pages, in the same editors."
 msgstr ""
 
-#: src/Admin/App.php:453
+#: src/Admin/App.php:472
 msgid "Notifications, messages and member stats"
 msgstr ""
 
-#: src/Admin/App.php:454
+#: src/Admin/App.php:473
 msgid "Member, group and activity cards, register form"
 msgstr ""
 
-#: src/Admin/App.php:455
+#: src/Admin/App.php:474
 msgid "A different layout per member type or group"
 msgstr ""
 
-#: src/Admin/App.php:456
+#: src/Admin/App.php:475
 msgid "Banners, birthdays and link previews"
 msgstr ""
 
-#: src/Admin/App.php:459
+#: src/Admin/App.php:478
 msgid "See Pro plans"
 msgstr ""
 
-#: src/Admin/App.php:468
+#: src/Admin/App.php:487
 msgid "Active and licensed. Thank you for supporting the plugin."
 msgstr ""
 
-#: src/Admin/App.php:470
+#: src/Admin/App.php:489
 msgid "Active, no license yet. Pro elements keep working on your pages; adding or editing them needs a license."
 msgstr ""
 
-#: src/Admin/App.php:472
+#: src/Admin/App.php:491
 msgid "Active."
 msgstr ""
 
-#: src/Admin/App.php:476
+#: src/Admin/App.php:495
 msgid "Manage license"
 msgstr ""
 
-#: src/Admin/App.php:478
+#: src/Admin/App.php:497
 msgid "Your staxwp.com account"
 msgstr ""
 
-#: src/Admin/App.php:484
+#: src/Admin/App.php:503
 msgid "Get started"
 msgstr ""
 
-#: src/Admin/App.php:486
+#: src/Admin/App.php:505
 msgid "Pick a style for each page on Community pages."
 msgstr ""
 
-#: src/Admin/App.php:487
+#: src/Admin/App.php:506
 msgid "Edit it in Elementor or the block editor."
 msgstr ""
 
-#: src/Admin/App.php:488
+#: src/Admin/App.php:507
 msgid "Check it with \"Seen by\" in the editor, then save."
 msgstr ""
 
-#: src/Admin/App.php:495
+#: src/Admin/App.php:514
 msgid "Documentation"
 msgstr ""
 
-#: src/Admin/App.php:496
+#: src/Admin/App.php:515
 msgid "Support forum"
 msgstr ""
 
-#: src/Admin/App.php:497
+#: src/Admin/App.php:516
 msgid "Rate the plugin"
 msgstr ""
 
-#: src/Admin/Checker.php:106
-#: src/Admin/CommunityPages.php:250
-#: src/Admin/CommunityPages.php:1045
-#: src/Admin/CommunityPages.php:1196
-#: src/Admin/CommunityPages.php:1343
+#: src/Admin/Checker.php:110
+#: src/Admin/CommunityPages.php:252
+#: src/Admin/CommunityPages.php:1065
+#: src/Admin/CommunityPages.php:1255
+#: src/Admin/CommunityPages.php:1402
 #: src/Admin/Setup.php:998
 msgid "BuddyPress default"
 msgstr ""
@@ -2614,503 +2542,540 @@ msgstr ""
 #. translators: 1: action (Design the card, Pick a style, ...), 2: item name (Member card, Create a group, ...)
 #. translators: 1: action, 2: layout title
 #. translators: 1: template type, 2: preset name
-#: src/Admin/Checker.php:114
-#: src/Admin/CommunityPages.php:1121
-#: src/Admin/CommunityPages.php:1242
-#: src/Presets/Presets.php:305
+#: src/Admin/Checker.php:118
+#: src/Admin/CommunityPages.php:1147
+#: src/Admin/CommunityPages.php:1301
+#: src/Presets/Presets.php:310
 #, php-format
 msgid "%1$s: %2$s"
 msgstr ""
 
 #. translators: %s: builder name
-#: src/Admin/Checker.php:123
+#: src/Admin/Checker.php:127
 #, php-format
 msgid "Edit in %s"
 msgstr ""
 
-#: src/Admin/Checker.php:126
-#: src/Admin/CommunityPages.php:1115
+#: src/Admin/Checker.php:130
+#: src/Admin/CommunityPages.php:1137
 msgid "Change style"
 msgstr ""
 
-#: src/Admin/Checker.php:126
-#: src/Admin/CommunityPages.php:1115
+#: src/Admin/Checker.php:130
+#: src/Admin/CommunityPages.php:1137
 #: src/Admin/Setup.php:698
 msgid "Pick a style"
 msgstr ""
 
-#: src/Admin/Checker.php:127
+#: src/Admin/Checker.php:131
 msgid "View as a guest"
 msgstr ""
 
-#: src/Admin/Checker.php:128
+#: src/Admin/Checker.php:132
 msgid "View as the sample member"
 msgstr ""
 
-#: src/Admin/Checker.php:129
+#: src/Admin/Checker.php:133
 msgid "All community pages"
 msgstr ""
 
-#: src/Admin/Checker.php:181
+#: src/Admin/Checker.php:185
 msgid "Layout not applied"
 msgstr ""
 
 #. translators: %s: Elementor template title
-#: src/Admin/Checker.php:233
+#: src/Admin/Checker.php:237
 #, php-format
 msgid "The Elementor Pro theme template \"%s\" replaces this page: exclude BuddyPress pages from its display conditions."
 msgstr ""
 
-#: src/Admin/Checker.php:238
+#: src/Admin/Checker.php:242
 msgid "Your theme has BuddyBuilder template files (in its buddybuilder folder) that replace the plugin ones."
 msgstr ""
 
-#: src/Admin/Checker.php:242
+#: src/Admin/Checker.php:246
 msgid "The theme or another plugin printed this page without the BuddyPress templates."
 msgstr ""
 
-#: src/Admin/Checker.php:246
+#: src/Admin/Checker.php:250
 msgid "A page cache is on: visitors may see an older copy until you clear it."
 msgstr ""
 
-#: src/Admin/Checker.php:268
+#: src/Admin/Checker.php:272
 msgid "BuddyBoss ReadyLaunch is on: it styles BuddyBoss pages with its own templates. Turn it off for the pages you design with BuddyBuilder."
 msgstr ""
 
 #. translators: 1: page title, 2: page template file
-#: src/Admin/Checker.php:278
+#: src/Admin/Checker.php:282
 #, php-format
 msgid "The page \"%1$s\" uses the page template \"%2$s\": set it to the default template if the layout does not show."
 msgstr ""
 
-#: src/Admin/Checker.php:334
+#: src/Admin/Checker.php:338
 msgid "(untitled)"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:106
+#: src/Admin/CommunityPages.php:108
 msgid "Member profile"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:107
+#: src/Admin/CommunityPages.php:109
 msgid "Members directory"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:108
+#: src/Admin/CommunityPages.php:110
 msgid "Member card"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:109
+#: src/Admin/CommunityPages.php:111
 msgid "Group page"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:110
+#: src/Admin/CommunityPages.php:112
 msgid "Groups directory"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:111
+#: src/Admin/CommunityPages.php:113
 msgid "Group card"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:112
+#: src/Admin/CommunityPages.php:114
 msgid "Create a group"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:113
+#: src/Admin/CommunityPages.php:115
 #: src/Admin/Setup.php:432
 #: src/Elements/directory-header/render.php:23
 msgid "Activity"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:114
+#: src/Admin/CommunityPages.php:116
 msgid "Activity item"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:115
+#: src/Admin/CommunityPages.php:117
 msgid "Register"
 msgstr ""
 
 #. translators: %s: layout title
-#: src/Admin/CommunityPages.php:227
-#: src/Admin/CommunityPages.php:1200
+#: src/Admin/CommunityPages.php:229
+#: src/Admin/CommunityPages.php:1259
 #: src/Admin/LayoutActions.php:141
 msgid "(no title)"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:246
+#: src/Admin/CommunityPages.php:248
 msgid "BuddyPress component is off"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:254
+#: src/Admin/CommunityPages.php:256
 msgid "Layout deleted: BuddyPress default shows"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:258
+#: src/Admin/CommunityPages.php:260
 msgid "Elementor is off: BuddyPress default shows"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:262
+#: src/Admin/CommunityPages.php:264
 msgid "Layout is empty or not published: BuddyPress default shows"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:268
+#: src/Admin/CommunityPages.php:270
 msgid "Not applied on the last visit"
 msgstr ""
 
 #. translators: %s: number of member profiles
-#: src/Admin/CommunityPages.php:274
+#: src/Admin/CommunityPages.php:276
 #, php-format
 msgid "Live on %s profile"
 msgid_plural "Live on %s profiles"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Admin/CommunityPages.php:281
+#: src/Admin/CommunityPages.php:283
 msgid "Live, no groups yet"
 msgstr ""
 
 #. translators: %s: number of groups
-#: src/Admin/CommunityPages.php:285
+#: src/Admin/CommunityPages.php:287
 #, php-format
 msgid "Live on %s group"
 msgid_plural "Live on %s groups"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Admin/CommunityPages.php:288
+#: src/Admin/CommunityPages.php:290
 msgid "Live"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:315
+#: src/Admin/CommunityPages.php:317
 msgid "Block editor"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:462
-#: src/Admin/Options.php:126
+#: src/Admin/CommunityPages.php:464
+#: src/Admin/Options.php:146
 #: src/Admin/Screens.php:48
 #: src/Admin/Setup.php:552
-#: src/Presets/Presets.php:259
+#: src/Presets/Presets.php:264
 #: src/Templates/SampleMember.php:254
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
-#: src/Admin/CommunityPages.php:737
+#: src/Admin/CommunityPages.php:756
 msgid "The page now uses the BuddyPress default. Your layout is kept: pick it again any time."
 msgstr ""
 
-#: src/Admin/CommunityPages.php:738
+#: src/Admin/CommunityPages.php:757
 msgid "Layout saved for this page."
 msgstr ""
 
-#: src/Admin/CommunityPages.php:739
+#: src/Admin/CommunityPages.php:758
 msgid "The page uses the new style now. Edit it to make it yours."
 msgstr ""
 
-#: src/Admin/CommunityPages.php:740
+#: src/Admin/CommunityPages.php:759
+msgid "The page uses the new style with your layout and its edits. Your previous layout is kept."
+msgstr ""
+
+#: src/Admin/CommunityPages.php:760
 msgid "The new style is live."
 msgstr ""
 
-#: src/Admin/CommunityPages.php:741
+#: src/Admin/CommunityPages.php:761
 msgid "The new style was discarded; the page is unchanged."
 msgstr ""
 
-#: src/Admin/CommunityPages.php:742
+#: src/Admin/CommunityPages.php:762
 msgid "Setup done: your new community pages are live."
 msgstr ""
 
-#: src/Admin/CommunityPages.php:743
+#: src/Admin/CommunityPages.php:763
 msgid "Undone: the page uses what it used before."
 msgstr ""
 
-#: src/Admin/CommunityPages.php:744
+#: src/Admin/CommunityPages.php:764
 msgid "A copy was saved as a draft. No page uses it until you pick it."
 msgstr ""
 
-#: src/Admin/CommunityPages.php:745
+#: src/Admin/CommunityPages.php:765
 msgid "The layout was moved to the trash."
 msgstr ""
 
-#: src/Admin/CommunityPages.php:746
+#: src/Admin/CommunityPages.php:766
 msgid "The layout was imported as a draft. No page uses it until you pick it."
 msgstr ""
 
-#: src/Admin/CommunityPages.php:753
-#: src/Admin/CommunityPages.php:759
+#: src/Admin/CommunityPages.php:773
+#: src/Admin/CommunityPages.php:779
 #: src/Admin/LayoutActions.php:298
 msgid "That did not work. Nothing was changed."
 msgstr ""
 
-#: src/Admin/CommunityPages.php:771
+#: src/Admin/CommunityPages.php:791
 msgid "The page now shows the BuddyPress default."
 msgstr ""
 
-#: src/Admin/CommunityPages.php:777
+#: src/Admin/CommunityPages.php:797
 msgid "Edit the imported layout"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:777
+#: src/Admin/CommunityPages.php:797
 msgid "Edit the copy"
 msgstr ""
 
 #. translators: %s: page name
-#: src/Admin/CommunityPages.php:786
+#: src/Admin/CommunityPages.php:806
 msgid "Undo"
 msgstr ""
 
 #. translators: %s: page name
-#: src/Admin/CommunityPages.php:786
+#: src/Admin/CommunityPages.php:806
 #, php-format
 msgid "Undo the change on %s"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:787
+#: src/Admin/CommunityPages.php:807
 msgid "Takes the layout out of the trash and gives it back to the pages that used it."
 msgstr ""
 
-#: src/Admin/CommunityPages.php:787
+#: src/Admin/CommunityPages.php:807
 msgid "Puts back what the page used before. The new layout is kept."
 msgstr ""
 
-#: src/Admin/CommunityPages.php:802
+#: src/Admin/CommunityPages.php:822
 msgid "Preview my profile"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:812
+#: src/Admin/CommunityPages.php:832
 msgid "What each BuddyPress page looks like. Preview a style before it goes live; Undo and the BuddyPress default are always one click away."
 msgstr ""
 
-#: src/Admin/CommunityPages.php:815
+#: src/Admin/CommunityPages.php:835
 msgid "Turn on the block editor layouts in BuddyBuilder > Settings, or activate Elementor, to design these pages."
 msgstr ""
 
-#: src/Admin/CommunityPages.php:869
+#: src/Admin/CommunityPages.php:889
 msgid "Import layout"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:872
+#: src/Admin/CommunityPages.php:892
 msgid "Block layout export (.json)"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:873
+#: src/Admin/CommunityPages.php:893
 msgid "A file made by More > Export of a block layout. It becomes a draft; pick it on its page to use it. Elementor exports go to Elementor > Templates > Import Templates."
 msgstr ""
 
-#: src/Admin/CommunityPages.php:916
+#: src/Admin/CommunityPages.php:894
+msgid "Import"
+msgstr ""
+
+#: src/Admin/CommunityPages.php:936
 msgid "Builder:"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:916
+#: src/Admin/CommunityPages.php:936
 msgid "none"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:918
+#: src/Admin/CommunityPages.php:938
 msgid "Status:"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:921
+#: src/Admin/CommunityPages.php:941
 msgid "New style ready, not live yet"
 msgstr ""
 
 #. translators: %s: page name
-#: src/Admin/CommunityPages.php:933
+#: src/Admin/CommunityPages.php:953
 #, php-format
 msgid "Item layouts of %s"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1008
+#: src/Admin/CommunityPages.php:1028
 msgid "Card: your card layout"
 msgstr ""
 
 #. translators: %s: card style name, e.g. Compact
-#: src/Admin/CommunityPages.php:1011
+#: src/Admin/CommunityPages.php:1031
 #, php-format
 msgid "Card: %s"
 msgstr ""
 
 #. translators: %s: page name
-#: src/Admin/CommunityPages.php:1018
+#: src/Admin/CommunityPages.php:1038
 #, php-format
 msgid "Change the card style: opens the %s layout with its list selected, Card setting"
 msgstr ""
 
 #. translators: %s: page name
-#: src/Admin/CommunityPages.php:1018
+#: src/Admin/CommunityPages.php:1038
 msgid "Change"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1020
+#: src/Admin/CommunityPages.php:1040
 msgid "More card styles"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1041
+#: src/Admin/CommunityPages.php:1061
 msgid "Turn the component on in the BuddyPress settings to design this page."
 msgstr ""
 
 #. translators: %s: time ago
-#: src/Admin/CommunityPages.php:1058
+#: src/Admin/CommunityPages.php:1078
 #, php-format
 msgid "edited %s ago"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1074
+#: src/Admin/CommunityPages.php:1094
 #: src/Admin/Setup.php:468
 msgid "Turn on"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1080
-#: src/Admin/CommunityPages.php:1204
+#: src/Admin/CommunityPages.php:1100
+#: src/Admin/CommunityPages.php:1263
 msgid "Use"
 msgstr ""
 
 #. translators: %s: page name
 #. translators: %s: item layout name
-#: src/Admin/CommunityPages.php:1086
-#: src/Admin/CommunityPages.php:1352
+#: src/Admin/CommunityPages.php:1106
+#: src/Admin/CommunityPages.php:1411
 #, php-format
 msgid "Edit the %s layout"
 msgstr ""
 
 #. translators: %s: page name
 #. translators: %s: item layout name
-#: src/Admin/CommunityPages.php:1086
-#: src/Admin/CommunityPages.php:1352
+#: src/Admin/CommunityPages.php:1106
+#: src/Admin/CommunityPages.php:1411
 msgid "Edit"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1112
+#: src/Admin/CommunityPages.php:1134
 msgid "Change card"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1112
+#: src/Admin/CommunityPages.php:1134
 msgid "Design the card"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1113
+#: src/Admin/CommunityPages.php:1135
 msgid "Start the card from a style, then edit it like any layout. Using it makes it live in every list of this kind; your current card is kept and Undo puts it back."
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1116
+#: src/Admin/CommunityPages.php:1138
 msgid "Preview a style on the real page first. Using it creates a new layout and makes it live; your current layout is kept and Undo puts it back."
 msgstr ""
 
+#: src/Admin/CommunityPages.php:1142
+msgid "This layout has changes of your own: \"Restyle, keep my layout\" keeps them and changes only the style."
+msgstr ""
+
 #. translators: %s: style name
-#: src/Admin/CommunityPages.php:1138
+#: src/Admin/CommunityPages.php:1164
 #, php-format
 msgid "Preview %s on the real page (opens in a new tab)"
 msgstr ""
 
 #. translators: %s: style name
-#: src/Admin/CommunityPages.php:1143
+#: src/Admin/CommunityPages.php:1169
 #, php-format
 msgid "Use %s"
 msgstr ""
 
 #. translators: %s: style name
-#: src/Admin/CommunityPages.php:1143
+#: src/Admin/CommunityPages.php:1169
 msgid "Use this style"
 msgstr ""
 
 #. translators: %s: page name
-#: src/Admin/CommunityPages.php:1145
+#: src/Admin/CommunityPages.php:1171
 #, php-format
 msgid "Make it live on %s now?"
 msgstr ""
 
 #. translators: 1: style name, 2: builder name
-#: src/Admin/CommunityPages.php:1149
+#: src/Admin/CommunityPages.php:1183
 #, php-format
 msgid "Use %1$s with %2$s"
 msgstr ""
 
 #. translators: %s: builder name
-#: src/Admin/CommunityPages.php:1151
+#: src/Admin/CommunityPages.php:1187
+#, php-format
+msgid "Replace with the style's layout (%s)"
+msgstr ""
+
+#. translators: %s: builder name
+#: src/Admin/CommunityPages.php:1187
+msgid "Replace with the style's layout"
+msgstr ""
+
+#. translators: %s: builder name
+#: src/Admin/CommunityPages.php:1190
 #, php-format
 msgid "Yes, build it with %s"
 msgstr ""
 
 #. translators: %s: builder name
-#: src/Admin/CommunityPages.php:1151
+#: src/Admin/CommunityPages.php:1190
 msgid "Yes, make it live"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1162
-msgid "More styles: starter kits for Elementor"
+#: src/Admin/CommunityPages.php:1197
+msgid "Replacing leaves out the changes you made to this page's layout. The current layout is kept and Undo puts it back."
+msgstr ""
+
+#. translators: %s: style name
+#: src/Admin/CommunityPages.php:1218
+#, php-format
+msgid "Restyle with %s and keep my layout"
+msgstr ""
+
+#: src/Admin/CommunityPages.php:1220
+msgid "Restyle, keep my layout"
+msgstr ""
+
+#: src/Admin/CommunityPages.php:1223
+msgid "Your elements and edits stay; only the style changes."
 msgstr ""
 
 #. translators: %s: page name
-#: src/Admin/CommunityPages.php:1179
+#: src/Admin/CommunityPages.php:1238
 #, php-format
 msgid "More actions for %s"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1182
+#: src/Admin/CommunityPages.php:1241
 msgid "Use the BuddyPress default"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1186
+#: src/Admin/CommunityPages.php:1245
 msgid "Discard the new style"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1195
+#: src/Admin/CommunityPages.php:1254
 msgid "Use a layout you already have"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1210
+#: src/Admin/CommunityPages.php:1269
 msgid "New empty block layout"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1214
+#: src/Admin/CommunityPages.php:1273
 msgid "New empty Elementor template"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1218
+#: src/Admin/CommunityPages.php:1277
 msgid "All block layouts"
 msgstr ""
 
 #. translators: %s: layout title
-#: src/Admin/CommunityPages.php:1245
+#: src/Admin/CommunityPages.php:1304
 #, php-format
 msgid "Layout %s"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1249
+#: src/Admin/CommunityPages.php:1308
 msgid "Duplicate"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1258
+#: src/Admin/CommunityPages.php:1317
 msgid "History"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1260
+#: src/Admin/CommunityPages.php:1319
 msgid "History: no saved changes yet"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1268
+#: src/Admin/CommunityPages.php:1327
 msgid "Export"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1273
+#: src/Admin/CommunityPages.php:1332
 msgid "Delete"
 msgstr ""
 
 #. translators: %s: page name
-#: src/Admin/CommunityPages.php:1277
+#: src/Admin/CommunityPages.php:1336
 #, php-format
 msgid "Move it to the trash? %s shows the BuddyPress default until you pick another layout."
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1278
+#: src/Admin/CommunityPages.php:1337
 msgid "Move it to the trash?"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1280
+#: src/Admin/CommunityPages.php:1339
 msgid "Yes, move to trash"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1280
+#: src/Admin/CommunityPages.php:1339
 msgid "Move to trash"
 msgstr ""
 
-#: src/Admin/CommunityPages.php:1326
+#: src/Admin/CommunityPages.php:1385
 msgid "Why the layout may not show:"
 msgstr ""
 
@@ -3179,76 +3144,149 @@ msgstr ""
 msgid "General"
 msgstr ""
 
-#: src/Admin/Options.php:66
+#: src/Admin/Options.php:77
 msgid "Builders"
 msgstr ""
 
-#: src/Admin/Options.php:67
+#: src/Admin/Options.php:78
 msgid "Which editors you design community pages with."
 msgstr ""
 
-#: src/Admin/Options.php:77
-msgid "Page title from your theme"
-msgstr ""
-
-#: src/Admin/Options.php:78
-msgid "Your theme prints the page name (\"Members\", the member's name) above the layout. BuddyBuilder layouts have their own header."
-msgstr ""
-
 #: src/Admin/Options.php:87
-msgid "Sample member for previews"
+msgid "Community style"
 msgstr ""
 
 #: src/Admin/Options.php:88
+msgid "Your accent color, corners, photo shape and spacing on every community page, whatever style a page uses. Leave a choice on Style default to keep the style's own."
+msgstr ""
+
+#: src/Admin/Options.php:97
+msgid "Page title from your theme"
+msgstr ""
+
+#: src/Admin/Options.php:98
+msgid "Your theme prints the page name (\"Members\", the member's name) above the layout. BuddyBuilder layouts have their own header."
+msgstr ""
+
+#: src/Admin/Options.php:107
+msgid "Sample member for previews"
+msgstr ""
+
+#: src/Admin/Options.php:108
 msgid "A hidden member with updates, friends and groups, so previews look real before your community grows. It never shows in directories, counts or activity."
 msgstr ""
 
-#: src/Admin/Options.php:96
+#: src/Admin/Options.php:116
 #: src/Admin/Setup.php:191
 msgid "Setup"
 msgstr ""
 
-#: src/Admin/Options.php:97
+#: src/Admin/Options.php:117
 msgid "Check your community and pick new styles again. Nothing changes until you press Use these."
 msgstr ""
 
-#: src/Admin/Options.php:146
+#: src/Admin/Options.php:177
 msgid "Settings saved."
 msgstr ""
 
-#: src/Admin/Options.php:166
+#: src/Admin/Options.php:197
 msgid "Design community pages with the block editor"
 msgstr ""
 
-#: src/Admin/Options.php:167
+#: src/Admin/Options.php:198
 msgid "Adds block layouts and the BuddyBuilder blocks. Your Elementor templates keep working; each page uses the layout you pick on Community pages."
 msgstr ""
 
-#: src/Admin/Options.php:180
+#: src/Admin/Options.php:211
 msgid "Hide the theme's page title on community pages"
 msgstr ""
 
-#: src/Admin/Options.php:181
+#: src/Admin/Options.php:212
 msgid "Only on pages that show a BuddyBuilder layout. Pages with the BuddyPress default keep the title."
 msgstr ""
 
-#: src/Admin/Options.php:202
+#: src/Admin/Options.php:235
 msgid "Save"
 msgstr ""
 
-#: src/Admin/Options.php:219
+#: src/Admin/Options.php:250
+msgid "Corners"
+msgstr ""
+
+#: src/Admin/Options.php:251
+msgid "Photo shape"
+msgstr ""
+
+#: src/Admin/Options.php:253
+msgid "Font"
+msgstr ""
+
+#: src/Admin/Options.php:268
+msgid "Use my own accent color"
+msgstr ""
+
+#: src/Admin/Options.php:268
+msgid "Buttons, links, tabs and highlights. Button text turns white or black, whichever is readable."
+msgstr ""
+
+#: src/Admin/Options.php:269
+msgid "Accent color"
+msgstr ""
+
+#: src/Admin/Options.php:290
+msgid "Photo shape, spacing and font need an active BuddyBuilder Pro license."
+msgstr ""
+
+#: src/Admin/Options.php:290
+msgid "Photo shape, spacing and font come with BuddyBuilder Pro."
+msgstr ""
+
+#: src/Admin/Options.php:306
+msgid "Reset to style defaults"
+msgstr ""
+
+#: src/Admin/Options.php:317
+#: src/Elements/look-helpers.php:151
+msgid "Admin"
+msgstr ""
+
+#: src/Admin/Options.php:318
+msgid "Photographer, Lisbon"
+msgstr ""
+
+#: src/Admin/Options.php:319
+msgid "Add friend"
+msgstr ""
+
+#: src/Admin/Options.php:319
+msgid "Message"
+msgstr ""
+
+#: src/Admin/Options.php:320
+msgid "posted an update"
+msgstr ""
+
+#: src/Admin/Options.php:320
+msgid "Who is coming to the meetup on Friday?"
+msgstr ""
+
+#: src/Admin/Options.php:321
+msgid "Sample in the Classic style. Every style applies your choices to its own design."
+msgstr ""
+
+#: src/Admin/Options.php:337
 msgid "Sample member is there"
 msgstr ""
 
-#: src/Admin/Options.php:220
+#: src/Admin/Options.php:338
 msgid "Remove the sample member"
 msgstr ""
 
-#: src/Admin/Options.php:222
+#: src/Admin/Options.php:340
 msgid "No sample member"
 msgstr ""
 
-#: src/Admin/Options.php:223
+#: src/Admin/Options.php:341
 msgid "Create the sample member"
 msgstr ""
 
@@ -3286,7 +3324,7 @@ msgstr ""
 
 #: src/Admin/Setup.php:433
 #: src/Elements/directory-header/render.php:22
-#: src/Elements/member-about/render.php:71
+#: src/Elements/member-about/render.php:72
 #: src/Elements/people-rail/render.php:91
 #: src/Elements/strings.php:76
 msgid "Groups"
@@ -3299,12 +3337,12 @@ msgstr ""
 
 #: src/Admin/Setup.php:435
 #: src/Templates/ScriptScreens.php:70
-#: src/Upsell/Upsell.php:110
+#: src/Upsell/Upsell.php:112
 msgid "Messages"
 msgstr ""
 
 #: src/Admin/Setup.php:436
-#: src/Upsell/Upsell.php:105
+#: src/Upsell/Upsell.php:107
 msgid "Notifications"
 msgstr ""
 
@@ -3546,7 +3584,7 @@ msgstr ""
 msgid "Use these"
 msgstr ""
 
-#: src/Assets/Assets.php:173
+#: src/Assets/Assets.php:188
 msgid "No posts yet"
 msgstr ""
 
@@ -3614,49 +3652,49 @@ msgid_plural "%s groups"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Elements/Elements.php:111
+#: src/Elements/Elements.php:110
 msgid "More settings"
 msgstr ""
 
-#: src/Elements/Elements.php:112
-#: src/Elements/Elements.php:438
+#: src/Elements/Elements.php:111
+#: src/Elements/Elements.php:466
 msgid "Nothing to show for this preview."
 msgstr ""
 
 #. translators: %s: the choices, separated by commas
-#: src/Elements/Elements.php:114
+#: src/Elements/Elements.php:113
 #, php-format
 msgid "Separated by commas, in this order. On this site: %s"
 msgstr ""
 
 #. translators: 1: number of parts, 2: name of the new element
-#: src/Elements/Elements.php:336
+#: src/Elements/Elements.php:358
 #, php-format
 msgid "Replace these %1$d parts with one %2$s"
 msgstr ""
 
-#: src/Elements/Elements.php:337
+#: src/Elements/Elements.php:359
 msgid "Deprecated: it keeps working. The new element starts from its default settings; Undo brings the old one back."
 msgstr ""
 
-#: src/Elements/Elements.php:370
+#: src/Elements/Elements.php:392
 #, php-format
 msgid "Deprecated, use %s."
 msgstr ""
 
-#: src/Elements/Elements.php:430
+#: src/Elements/Elements.php:458
 msgid "This block is made for another page type. Change the template type of this layout, or remove the block."
 msgstr ""
 
-#: src/Elements/Elements.php:432
+#: src/Elements/Elements.php:460
 msgid "Nothing to show for this preview and viewer."
 msgstr ""
 
-#: src/Elements/Elements.php:434
+#: src/Elements/Elements.php:462
 msgid "Pick a preview member in the BuddyBuilder panel (or create the sample member)."
 msgstr ""
 
-#: src/Elements/Elements.php:436
+#: src/Elements/Elements.php:464
 msgid "Pick a preview group in the BuddyBuilder panel (or create the sample member and groups)."
 msgstr ""
 
@@ -3701,27 +3739,23 @@ msgid_plural "Groups"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Elements/look-helpers.php:149
-msgid "Admin"
-msgstr ""
-
-#: src/Elements/look-helpers.php:151
+#: src/Elements/look-helpers.php:153
 #: src/Templates/ScriptScreens.php:138
 msgid "Moderator"
 msgstr ""
 
 #. translators: %s: member name
-#: src/Elements/member-header/render.php:42
+#: src/Elements/look-helpers.php:357
 #, php-format
 msgid "Profile photo of %s"
 msgstr ""
 
-#: src/Elements/member-header/render.php:48
+#: src/Elements/look-helpers.php:362
 msgid "Online"
 msgstr ""
 
 #. translators: %s: month and year
-#: src/Elements/member-header/render.php:76
+#: src/Elements/look-helpers.php:454
 #, php-format
 msgid "Joined %s"
 msgstr ""
@@ -3808,6 +3842,10 @@ msgstr ""
 
 #: src/Elements/strings.php:29
 msgid "Button label (empty: \"Post\")"
+msgstr ""
+
+#: src/Elements/strings.php:30
+msgid "Buttons"
 msgstr ""
 
 #: src/Elements/strings.php:31
@@ -4557,8 +4595,63 @@ msgstr ""
 msgid "Buttons, tabs and private fields show as this visitor would see them. Nothing is saved on the profile."
 msgstr ""
 
+#: src/Integrations/Elementor/SplitHeader.php:89
+msgid "Member header (parts)"
+msgstr ""
+
+#: src/Integrations/Elementor/SplitHeader.php:98
+msgid "This box is part of a Member header split into parts: the header's design lays it out, so its layout, size, margin, padding and corner settings are hidden. Background, border, shadow and responsive visibility still apply."
+msgstr ""
+
 #: src/Migrations/steps/Registry_2_0_0_A.php:37
 msgid "Which layout each page uses: copied to the new format."
+msgstr ""
+
+#: src/Presets/CommunityStyle.php:75
+#: src/Presets/CommunityStyle.php:82
+#: src/Presets/CommunityStyle.php:93
+msgid "Style default"
+msgstr ""
+
+#: src/Presets/CommunityStyle.php:76
+#: src/Presets/CommunityStyle.php:85
+msgid "Square"
+msgstr ""
+
+#: src/Presets/CommunityStyle.php:77
+msgid "Small"
+msgstr ""
+
+#: src/Presets/CommunityStyle.php:78
+msgid "Rounded"
+msgstr ""
+
+#: src/Presets/CommunityStyle.php:79
+msgid "Round (pill buttons)"
+msgstr ""
+
+#: src/Presets/CommunityStyle.php:83
+msgid "Circle"
+msgstr ""
+
+#: src/Presets/CommunityStyle.php:84
+msgid "Rounded square"
+msgstr ""
+
+#: src/Presets/CommunityStyle.php:88
+msgid "Compact"
+msgstr ""
+
+#: src/Presets/CommunityStyle.php:89
+msgid "Comfortable (style default)"
+msgstr ""
+
+#: src/Presets/CommunityStyle.php:90
+msgid "Spacious"
+msgstr ""
+
+#: src/Presets/CommunityStyle.php:94
+msgid "Your theme's fonts"
 msgstr ""
 
 #: src/Presets/Library.php:92
@@ -4654,12 +4747,22 @@ msgstr ""
 msgid "Unknown preset."
 msgstr ""
 
-#: src/Presets/Presets.php:209
+#: src/Presets/Presets.php:213
 msgid "Elementor is not active."
 msgstr ""
 
-#: src/Presets/Presets.php:237
+#: src/Presets/Presets.php:241
 msgid "Could not create the Elementor template."
+msgstr ""
+
+#: src/Presets/Restyle.php:147
+msgid "This layout cannot take that style."
+msgstr ""
+
+#. translators: %s: layout title (Member Profile: Hub)
+#: src/Presets/Restyle.php:164
+#, php-format
+msgid "%s (restyled)"
 msgstr ""
 
 #: src/Presets/Styles.php:60
@@ -4899,181 +5002,210 @@ msgstr ""
 msgid "Back to your view"
 msgstr ""
 
-#: src/Upsell/Upsell.php:106
+#: src/Upsell/Upsell.php:108
 msgid "A notifications icon with a dropdown of the member's latest notifications, updated live."
 msgstr ""
 
-#: src/Upsell/Upsell.php:111
+#: src/Upsell/Upsell.php:113
 msgid "A messages icon with a dropdown of the member's latest private messages, updated live."
 msgstr ""
 
-#: src/Upsell/Upsell.php:115
+#: src/Upsell/Upsell.php:117
 msgid "Members in tabs"
 msgstr ""
 
-#: src/Upsell/Upsell.php:116
+#: src/Upsell/Upsell.php:118
 msgid "A grid of members with tabs to switch between lists, for any page."
 msgstr ""
 
-#: src/Upsell/Upsell.php:120
+#: src/Upsell/Upsell.php:122
 msgid "Groups in tabs"
 msgstr ""
 
-#: src/Upsell/Upsell.php:121
+#: src/Upsell/Upsell.php:123
 msgid "A grid of groups with tabs to switch between lists, for any page."
 msgstr ""
 
-#: src/Upsell/Upsell.php:125
+#: src/Upsell/Upsell.php:127
 msgid "Post form (any page)"
 msgstr ""
 
-#: src/Upsell/Upsell.php:126
+#: src/Upsell/Upsell.php:128
 msgid "The \"What's new\" form, so members can post activity updates from any page."
 msgstr ""
 
-#: src/Upsell/Upsell.php:130
+#: src/Upsell/Upsell.php:132
 msgid "Member XProfile Field"
 msgstr ""
 
-#: src/Upsell/Upsell.php:131
+#: src/Upsell/Upsell.php:133
 msgid "Any profile field of the member, anywhere in the profile layout, with an icon and text."
 msgstr ""
 
-#: src/Upsell/Upsell.php:136
+#: src/Upsell/Upsell.php:138
 msgid "Community shortcuts"
 msgstr ""
 
-#: src/Upsell/Upsell.php:137
+#: src/Upsell/Upsell.php:139
 msgid "Links to the profile, activity, members, groups, messages and notifications: a side menu on large screens, a bottom tab bar on phones."
 msgstr ""
 
-#: src/Upsell/Upsell.php:141
+#: src/Upsell/Upsell.php:143
 msgid "Group rail"
 msgstr ""
 
-#: src/Upsell/Upsell.php:142
+#: src/Upsell/Upsell.php:144
 msgid "A narrow rail of group photos (the member's groups or the most active ones), with the current group marked."
 msgstr ""
 
-#: src/Upsell/Upsell.php:146
+#: src/Upsell/Upsell.php:148
 msgid "Online members list"
 msgstr ""
 
-#: src/Upsell/Upsell.php:147
+#: src/Upsell/Upsell.php:149
 msgid "Members with their online status, grouped Online and Offline: the members of the current group, or the most recently active members."
 msgstr ""
 
-#: src/Upsell/Upsell.php:151
+#: src/Upsell/Upsell.php:153
 msgid "Highlights rail"
 msgstr ""
 
-#: src/Upsell/Upsell.php:152
+#: src/Upsell/Upsell.php:154
 msgid "A row of round bubbles: the displayed member's groups or friends, or active members."
 msgstr ""
 
-#: src/Upsell/Upsell.php:157
+#: src/Upsell/Upsell.php:159
 msgid "Card designer"
 msgstr ""
 
-#: src/Upsell/Upsell.php:158
+#: src/Upsell/Upsell.php:160
 msgid "Design the member, group and activity cards of your directories and feeds, plus the Compact, Cover, Boxed and Post card styles."
 msgstr ""
 
-#: src/Upsell/Upsell.php:161
+#: src/Upsell/Upsell.php:163
+msgid "Split the header into parts"
+msgstr ""
+
+#: src/Upsell/Upsell.php:164
+msgid "Turn the Member header into its parts (photo, name, badges, headline, stats, buttons) and arrange them freely, starting from the same look."
+msgstr ""
+
+#: src/Upsell/Upsell.php:167
+msgid "Photo shape, spacing and font"
+msgstr ""
+
+#: src/Upsell/Upsell.php:168
+msgid "In the Community style setting, for every style: circle, rounded or square photos, compact or spacious spacing, and your theme's fonts."
+msgstr ""
+
+#: src/Upsell/Upsell.php:171
 msgid "Register and Create a group pages"
 msgstr ""
 
-#: src/Upsell/Upsell.php:162
+#: src/Upsell/Upsell.php:172
 msgid "Build the registration form and the Create a group steps with BuddyBuilder elements."
 msgstr ""
 
-#: src/Upsell/Upsell.php:165
+#: src/Upsell/Upsell.php:175
 msgid "Layouts per member type"
 msgstr ""
 
-#: src/Upsell/Upsell.php:166
+#: src/Upsell/Upsell.php:176
 msgid "A different layout per member type, role, group type or group."
 msgstr ""
 
-#: src/Upsell/Upsell.php:169
+#: src/Upsell/Upsell.php:179
 msgid "Live notifications and messages"
 msgstr ""
 
-#: src/Upsell/Upsell.php:170
+#: src/Upsell/Upsell.php:180
 msgid "New notifications and messages appear without reloading the page."
 msgstr ""
 
-#: src/Upsell/Upsell.php:173
+#: src/Upsell/Upsell.php:183
 msgid "Ads Manager"
 msgstr ""
 
-#: src/Upsell/Upsell.php:174
+#: src/Upsell/Upsell.php:184
 msgid "Place banners in the activity stream and the members and groups directories."
 msgstr ""
 
-#: src/Upsell/Upsell.php:177
+#: src/Upsell/Upsell.php:187
 msgid "Birthdays"
 msgstr ""
 
-#: src/Upsell/Upsell.php:178
+#: src/Upsell/Upsell.php:188
 msgid "Show the upcoming birthdays of your members, from a date profile field."
 msgstr ""
 
-#: src/Upsell/Upsell.php:181
+#: src/Upsell/Upsell.php:191
 msgid "Link Preview"
 msgstr ""
 
-#: src/Upsell/Upsell.php:182
+#: src/Upsell/Upsell.php:192
 msgid "Activity updates with a link show a preview of the page, fetched by your own server."
 msgstr ""
 
-#: src/Upsell/Upsell.php:185
+#: src/Upsell/Upsell.php:195
 msgid "Community links in menus"
 msgstr ""
 
-#: src/Upsell/Upsell.php:186
+#: src/Upsell/Upsell.php:196
 msgid "Add BuddyPress links (profile, messages, notifications and more) to your WordPress menus."
 msgstr ""
 
-#: src/Upsell/Upsell.php:192
+#: src/Upsell/Upsell.php:202
 msgid "More community styles"
 msgstr ""
 
 #. translators: %s: comma separated style names
-#: src/Upsell/Upsell.php:194
+#: src/Upsell/Upsell.php:204
 #, php-format
 msgid "Complete styles for every community page: %s."
 msgstr ""
 
-#: src/Upsell/Upsell.php:228
+#: src/Upsell/Upsell.php:244
+#: src/Upsell/Upsell.php:339
+msgid "See BuddyBuilder Pro plans"
+msgstr ""
+
+#: src/Upsell/Upsell.php:245
 msgid "Close"
 msgstr ""
 
-#: src/Upsell/Upsell.php:315
+#: src/Upsell/Upsell.php:378
+msgid "Split into parts"
+msgstr ""
+
+#: src/Upsell/Upsell.php:441
 msgid "More with BuddyBuilder Pro"
 msgstr ""
 
+#: src/Upsell/Upsell.php:445
+msgid "See all in Pro"
+msgstr ""
+
 #. translators: %d: number of community pages
-#: src/Upsell/Upsell.php:423
+#: src/Upsell/Upsell.php:566
 #, php-format
 msgid "You have built %d community page with BuddyBuilder."
 msgid_plural "You have built %d community pages with BuddyBuilder."
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Upsell/Upsell.php:424
+#: src/Upsell/Upsell.php:567
 msgid "BuddyBuilder Pro adds more styles, member and group cards, live notifications and messages, ads, birthdays and layouts per member type."
 msgstr ""
 
-#: src/Upsell/Upsell.php:426
+#: src/Upsell/Upsell.php:569
 msgid "See BuddyBuilder Pro"
 msgstr ""
 
-#: src/Upsell/Upsell.php:429
+#: src/Upsell/Upsell.php:572
 msgid "Dismiss"
 msgstr ""
 
-#: src/Upsell/Upsell.php:440
+#: src/Upsell/Upsell.php:583
 msgid "You are not allowed to do that."
 msgstr ""
 
@@ -5105,6 +5237,6 @@ msgstr ""
 msgid "The group the preview shows."
 msgstr ""
 
-#: src/Elements/replace-deprecated.js:62
+#: src/Elements/replace-deprecated.js:69
 msgid "Deprecated"
 msgstr ""
