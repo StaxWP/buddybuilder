@@ -181,6 +181,10 @@ class BuddypressHooks extends Singleton {
 	 * @return string
 	 */
 	public function rewrite_theme_id( $pack ) {
+		if ( \Buddy_Builder\Compat\Youzify::active() ) {
+			return $pack;
+		}
+
 		// on member profile in AJAX needs to be nouveau for some reason.
 		if ( $this->current_component_has_template() || wp_doing_ajax() ) {
 			return 'nouveau';
@@ -399,6 +403,11 @@ class BuddypressHooks extends Singleton {
 		// short circuit and force
 		if ( $with_filter && apply_filters( 'buddy_builder/has_template/pre', false ) ) {
 			return true;
+		}
+
+		// Youzify draws the BuddyPress pages itself (Legacy pack): stay off them (notice in Compat\Youzify).
+		if ( \Buddy_Builder\Compat\Youzify::active() ) {
+			return false;
 		}
 
 		// Return true when editing or previewing.

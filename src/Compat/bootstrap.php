@@ -14,6 +14,7 @@ require_once __DIR__ . '/Appsero.php';
 require_once __DIR__ . '/Legacy.php';
 require_once __DIR__ . '/Pairing.php';
 require_once __DIR__ . '/Status.php';
+require_once __DIR__ . '/Youzify.php';
 require_once dirname( __DIR__ ) . '/Migrations/Step.php';
 require_once dirname( __DIR__ ) . '/Migrations/Runner.php';
 require_once dirname( __DIR__ ) . '/Migrations/steps/Registry_2_0_0_A.php';
@@ -26,6 +27,7 @@ add_action(
 	'plugins_loaded',
 	static function () {
 		\Buddy_Builder\Compat\Pairing::init();
+		\Buddy_Builder\Compat\Youzify::init();
 
 		if ( is_admin() ) {
 			require_once dirname( __DIR__, 2 ) . '/admin/pages/Status.php';
