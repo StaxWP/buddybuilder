@@ -1,0 +1,42 @@
+{
+	"name": "staxwp/element-kit",
+	"description": "Schema-driven WordPress elements: one element.json and one render.php give a dynamic block and an Elementor widget. Shipped inside plugins as a namespace-prefixed copy (Strauss).",
+	"type": "library",
+	"license": "GPL-2.0-or-later",
+	"require": {
+		"php": ">=7.4"
+	},
+	"require-dev": {
+		"dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+		"phpcompatibility/phpcompatibility-wp": "^2.1",
+		"phpunit/phpunit": "^9.6",
+		"wp-coding-standards/wpcs": "^3.1"
+	},
+	"autoload": {
+		"psr-4": {
+			"StaxWP\\ElementKit\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"StaxWP\\ElementKit\\Tests\\": "tests/"
+		}
+	},
+	"scripts": {
+		"lint": "phpcs",
+		"test:unit": "phpunit",
+		"test": [
+			"@lint",
+			"@test:unit"
+		]
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		},
+		"platform": {
+			"php": "7.4.33"
+		},
+		"sort-packages": true
+	}
+}

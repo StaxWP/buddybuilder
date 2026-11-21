@@ -1,0 +1,62 @@
+{
+	"name": "staxwp/stax-buddy-builder",
+	"description": "BuddyBuilder: build BuddyPress and BuddyBoss pages with blocks or Elementor. Composer is only for the element kit (vendor-prefixed/ is committed; the plugin needs no Composer to run or ship).",
+	"type": "wordpress-plugin",
+	"license": "GPL-2.0-or-later",
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "git@github.com:StaxWP/element-kit.git",
+			"no-api": true
+		}
+	],
+	"require": {
+		"staxwp/element-kit": "^1.0"
+	},
+	"require-dev": {
+		"brianhenryie/strauss": "^0.31"
+	},
+	"extra": {
+		"strauss": {
+			"target_directory": "vendor-prefixed",
+			"namespace_prefix": "Buddy_Builder\\Vendor\\",
+			"namespace_replacement_patterns": {
+				"~^StaxWP\\\\ElementKit~": "Buddy_Builder\\Vendor\\ElementKit"
+			},
+			"classmap_prefix": "Buddy_Builder_Vendor_",
+			"constant_prefix": "BPB_VENDOR_",
+			"packages": [
+				"staxwp/element-kit"
+			],
+			"exclude_from_copy": {
+				"file_patterns": [
+					"~^staxwp/element-kit/(?!src/|assets/|composer\\.json$|README\\.md$)~"
+				]
+			},
+			"classmap_output": false,
+			"update_call_sites": false,
+			"delete_vendor_packages": false,
+			"include_modified_date": false,
+			"include_author": false
+		}
+	},
+	"scripts": {
+		"kit:prefix": "strauss",
+		"kit:check": [
+			"@kit:prefix",
+			"git diff --exit-code -- vendor-prefixed && test -z \"$(git status --porcelain -- vendor-prefixed)\""
+		],
+		"strings": "php bin/element-strings.php",
+		"test": [
+			"@kit:check",
+			"php bin/element-strings.php --check"
+		]
+	},
+	"config": {
+		"preferred-install": {
+			"staxwp/element-kit": "source",
+			"*": "dist"
+		},
+		"sort-packages": true
+	}
+}

@@ -42,7 +42,7 @@ final class ProfileFields {
 	 * The option sources of the element pickers ("optionsFrom" in element.json), resolved only when an element's
 	 * schema is read.
 	 *
-	 * @param \Buddy_Builder\Kit\Kit $kit Kit.
+	 * @param \Buddy_Builder\Vendor\ElementKit\Kit $kit Kit.
 	 */
 	public static function add_sources( $kit ) {
 		$kit->add_option_source( 'profile_field', [ __CLASS__, 'single_options' ] )->add_option_source( 'profile_fields', [ __CLASS__, 'multi_options' ] );

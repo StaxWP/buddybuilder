@@ -1,15 +1,13 @@
 <?php
 /**
- * Reader of element.json and attribute normalizer (element kit, shared with BuddyBuilder).
+ * Reader of element.json and attribute normalizer (element kit).
  *
  * KIT RULES: PHP 7.4 syntax, WordPress 6.6 APIs, no plugin-specific names.
  *
- * @package Buddy_Builder\Kit
- *
- * Synced from k-elements@1cfbcd7 (src/Kit) by bin/sync-kit.sh, do not edit.
+ * @package StaxWP\ElementKit
  */
 
-namespace Buddy_Builder\Kit;
+namespace Buddy_Builder\Vendor\ElementKit;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -86,7 +84,7 @@ final class Schema {
 	/**
 	 * Translatable strings of a schema (title, description, keywords, emptyHint, labels, help,
 	 * static option labels, string defaults marked "translate": true). Used to generate a PHP file
-	 * of __() calls, so the strings reach the POT file (see K Elements bin/element-strings.php).
+	 * of __() calls, so the strings reach the POT file (see Strings).
 	 *
 	 * @param array $schema Schema as read from element.json.
 	 * @return string[]

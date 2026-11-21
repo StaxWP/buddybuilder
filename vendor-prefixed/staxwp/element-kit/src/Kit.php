@@ -1,17 +1,16 @@
 <?php
 /**
- * Element kit entry point (shared with BuddyBuilder; source of truth: K Elements src/Kit/).
+ * Element kit entry point (package staxwp/element-kit).
  *
  * KIT RULES: PHP 7.4 syntax, WordPress 6.6 APIs, Elementor optional, no plugin-specific names.
- * Every name (block namespace, hooks, CSS classes, text domain) comes from the config.
- * Copies in other plugins are made by K Elements bin/sync-kit.sh; never edit a copy.
+ * Every name (block namespace, hooks, script handles, JS global, CSS classes, text domain) comes from the config,
+ * so several plugins can ship their own (namespace-prefixed) copy of the kit on one site.
+ * Plugins consume it through Composer + Strauss (vendor-prefixed/); never edit a prefixed copy.
  *
- * @package Buddy_Builder\Kit
- *
- * Synced from k-elements@1cfbcd7 (src/Kit) by bin/sync-kit.sh, do not edit.
+ * @package StaxWP\ElementKit
  */
 
-namespace Buddy_Builder\Kit;
+namespace Buddy_Builder\Vendor\ElementKit;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -63,9 +62,9 @@ final class Kit {
 	 * - string   text_domain        Text domain of the strings in element.json.
 	 * - string   dir                Folder with one sub-folder per element (element.json, render.php, assets).
 	 * - string   url                URL of that folder.
-	 * - string   kit_url            URL of the kit folder (editor.js).
+	 * - string   kit_url            URL of the kit's assets folder (editor.js); default: found from where the kit is installed.
 	 * - string   version            Asset version.
-	 * - string   js_global          Editor data global, e.g. "kElementsKit" (also pushed to window.__elementKits).
+	 * - string   js_global          Editor data global, e.g. "kElementsKit" (window.<js_global>, read only by this copy's editor.js).
 	 * - string   block_category     Default block category.
 	 * - array    elementor_category [ slug, title ] or empty to use block_category as is.
 	 * - string   elementor_prefix   Elementor widget name prefix, e.g. "kleo-el-".
@@ -347,6 +346,32 @@ final class Kit {
 	}
 
 	/**
+	 * URL of a file in the kit's assets folder, wherever the kit is installed (a plugin's vendor-prefixed/ folder,
+	 * vendor/ in development) unless the config sets kit_url.
+	 *
+	 * @param string $file File name, e.g. "editor.js".
+	 * @return string
+	 */
+	public function asset_url( $file ) {
+		$base = (string) $this->config['kit_url'];
+
+		if ( '' === $base ) {
+			$base = plugins_url( 'assets', dirname( __DIR__ ) . '/composer.json' );
+		}
+
+		return trailingslashit( $base ) . ltrim( $file, '/' );
+	}
+
+	/**
+	 * Name of the editor data global (window.<name>), a valid JavaScript identifier.
+	 *
+	 * @return string
+	 */
+	public function js_global() {
+		return (string) preg_replace( '/[^A-Za-z0-9_$]/', '', (string) $this->config['js_global'] );
+	}
+
+	/**
 	 * Handle of the generic editor script.
 	 *
 	 * @return string
@@ -356,14 +381,16 @@ final class Kit {
 	}
 
 	/**
-	 * Register the generic editor script (one for every element, no build step).
+	 * Register the generic editor script (one for every element, no build step). Each kit copy registers its own
+	 * file under its own handle; the "kit" query arg tells that file which data global is its own, so copies of
+	 * different kit versions never handle each other's blocks.
 	 */
-	private function register_editor_script() {
+	public function register_editor_script() {
 		wp_register_script(
 			$this->editor_handle(),
-			trailingslashit( $this->config['kit_url'] ) . 'editor.js',
+			add_query_arg( 'kit', rawurlencode( $this->js_global() ), $this->asset_url( 'editor.js' ) ),
 			array( 'wp-blocks', 'wp-element', 'wp-block-editor', 'wp-components', 'wp-data', 'wp-server-side-render', 'wp-i18n' ),
-			$this->config['version'],
+			self::VERSION . '-' . $this->config['version'],
 			true
 		);
 	}
@@ -385,14 +412,9 @@ final class Kit {
 				'elements'  => $data,
 			)
 		);
-		$name = 'window.' . $this->config['js_global'];
 
-		// One queue for every kit copy (K Elements, BuddyBuilder): the first editor.js registers them all.
-		wp_add_inline_script(
-			$this->editor_handle(),
-			$name . ' = ' . $json . '; ( window.__elementKits = window.__elementKits || [] ).push( ' . $name . ' );',
-			'before'
-		);
+		// Read only by this copy's editor.js (see register_editor_script()).
+		wp_add_inline_script( $this->editor_handle(), 'window.' . $this->js_global() . ' = ' . $json . ';', 'before' );
 	}
 
 	/**

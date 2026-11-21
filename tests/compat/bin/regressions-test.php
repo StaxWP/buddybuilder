@@ -1322,10 +1322,10 @@ switch ( $bpb_case ) {
 					$bpb_defs[] = $bpb_control['key'];
 				}
 			}
-			$bpb_ok( ! \Buddy_Builder\Kit\Schema::errors( \Buddy_Builder\Elements\Elements::get( $bpb_name )->schema() ), $bpb_name . ': a valid schema with hideWhen' );
+			$bpb_ok( ! \Buddy_Builder\Vendor\ElementKit\Schema::errors( \Buddy_Builder\Elements\Elements::get( $bpb_name )->schema() ), $bpb_name . ': a valid schema with hideWhen' );
 		}
 		$bpb_ok( [ 'avatar_size', 'cover_advanced_settings', 'overlay_background', 'username_tag' ] === $bpb_defs, 'block editor: in a split header the part settings that do nothing hide (' . implode( ', ', $bpb_defs ) . '); Show (name or @username) stays' );
-		$bpb_ok( (bool) \Buddy_Builder\Kit\Schema::errors( [ 'name' => 'x', 'title' => 'X', 'attributes' => [ 'a' => [ 'type' => 'string', 'hideWhen' => 'header' ] ] ] ), 'kit: an invalid hideWhen is a schema error' );
+		$bpb_ok( (bool) \Buddy_Builder\Vendor\ElementKit\Schema::errors( [ 'name' => 'x', 'title' => 'X', 'attributes' => [ 'a' => [ 'type' => 'string', 'hideWhen' => 'header' ] ] ] ), 'kit: an invalid hideWhen is a schema error' );
 
 		if ( ! did_action( 'elementor/loaded' ) ) {
 			$bpb_skip( 'Elementor is not active' );

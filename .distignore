@@ -12,6 +12,8 @@
 /tests
 /node_modules
 /vendor
+# Strauss bookkeeping; the prefixed element kit itself (vendor-prefixed/staxwp/) ships.
+/vendor-prefixed/composer
 /package.json
 /package-lock.json
 /composer.json

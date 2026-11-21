@@ -1,15 +1,13 @@
 <?php
 /**
- * Block adapter: element.json to a dynamic block (element kit, shared with BuddyBuilder).
+ * Block adapter: element.json to a dynamic block (element kit).
  *
  * KIT RULES: PHP 7.4 syntax, WordPress 6.6 APIs, no plugin-specific names.
  *
- * @package Buddy_Builder\Kit
- *
- * Synced from k-elements@1cfbcd7 (src/Kit) by bin/sync-kit.sh, do not edit.
+ * @package StaxWP\ElementKit
  */
 
-namespace Buddy_Builder\Kit;
+namespace Buddy_Builder\Vendor\ElementKit;
 
 defined( 'ABSPATH' ) || exit;
 

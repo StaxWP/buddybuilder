@@ -10,8 +10,8 @@
 	<exclude-pattern>/vendor/*</exclude-pattern>
 	<exclude-pattern>/node_modules/*</exclude-pattern>
 	<exclude-pattern>/tests/*</exclude-pattern>
-	<!-- Synced from K Elements, linted there. -->
-	<exclude-pattern>/src/Kit/*</exclude-pattern>
+	<!-- The element kit (staxwp/element-kit, prefixed by Strauss), linted in its own repository. -->
+	<exclude-pattern>/vendor-prefixed/*</exclude-pattern>
 
 	<config name="testVersion" value="7.4-"/>
 	<config name="minimum_wp_version" value="6.6"/>

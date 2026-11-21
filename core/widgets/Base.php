@@ -13,7 +13,7 @@ use Buddy_Builder\Plugin;
  */
 class Base extends \Elementor\Widget_Base {
 
-	use \Buddy_Builder\Kit\ElementorAdapter;
+	use \Buddy_Builder\Vendor\ElementKit\ElementorAdapter;
 
 	/**
 	 * Element rendered by this widget ('' = the widget renders itself, as in 1.x).
@@ -39,7 +39,7 @@ class Base extends \Elementor\Widget_Base {
 	/**
 	 * Kit element of this widget.
 	 *
-	 * @return \Buddy_Builder\Kit\Element|null
+	 * @return \Buddy_Builder\Vendor\ElementKit\Element|null
 	 */
 	protected function kit_element() {
 		return '' !== $this->bpb_element && class_exists( '\\Buddy_Builder\\Elements\\Elements' ) ? \Buddy_Builder\Elements\Elements::get( $this->bpb_element ) : null;
@@ -77,7 +77,7 @@ class Base extends \Elementor\Widget_Base {
 		$controls = $this->get_controls();
 		$hide     = []; // JSON of the "when" => control ids.
 
-		foreach ( \Buddy_Builder\Kit\Schema::attributes( $element->schema() ) as $key => $def ) {
+		foreach ( \Buddy_Builder\Vendor\ElementKit\Schema::attributes( $element->schema() ) as $key => $def ) {
 			if ( ! empty( $def['hideWhen'] ) && is_array( $def['hideWhen'] ) ) {
 				foreach ( array_merge( [ $key ], preg_filter( '/^/', $key . '_', $panel::DEVICES ) ) as $id ) {
 					$hide[ wp_json_encode( $def['hideWhen'] ) ][] = $id;
@@ -303,7 +303,7 @@ class Base extends \Elementor\Widget_Base {
 			return;
 		}
 
-		$defaults = \Buddy_Builder\Kit\Schema::defaults( $schema );
+		$defaults = \Buddy_Builder\Vendor\ElementKit\Schema::defaults( $schema );
 
 		$this->start_controls_section( 'bpb_' . $key . '_section', [ 'label' => $label ] );
 		$this->add_control( $key, self::kit_control( $element, $schema['attributes'][ $key ], $defaults[ $key ] ) );

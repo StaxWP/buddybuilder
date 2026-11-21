@@ -1,0 +1,61 @@
+{
+    "packages": [
+        {
+            "name": "staxwp/element-kit",
+            "version": "v1.0.0",
+            "version_normalized": "1.0.0.0",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:StaxWP/element-kit.git",
+                "reference": "e0c6dfb1ce495ea1945157239a974c3d323ee41e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/StaxWP/element-kit/zipball/e0c6dfb1ce495ea1945157239a974c3d323ee41e",
+                "reference": "e0c6dfb1ce495ea1945157239a974c3d323ee41e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "require-dev": {
+                "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+                "phpcompatibility/phpcompatibility-wp": "^2.1",
+                "phpunit/phpunit": "^9.6",
+                "wp-coding-standards/wpcs": "^3.1"
+            },
+            "time": "2026-11-21T09:46:15+00:00",
+            "type": "library",
+            "installation-source": "source",
+            "autoload": {
+                "psr-4": {
+                    "Buddy_Builder\\Vendor\\ElementKit\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "StaxWP\\ElementKit\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "lint": [
+                    "phpcs"
+                ],
+                "test:unit": [
+                    "phpunit"
+                ],
+                "test": [
+                    "@lint",
+                    "@test:unit"
+                ]
+            },
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "description": "Schema-driven WordPress elements: one element.json and one render.php give a dynamic block and an Elementor widget. Shipped inside plugins as a namespace-prefixed copy (Strauss).",
+            "install-path": "../staxwp/element-kit"
+        }
+    ],
+    "dev": false,
+    "dev-package-names": []
+}

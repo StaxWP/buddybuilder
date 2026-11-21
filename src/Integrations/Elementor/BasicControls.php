@@ -56,8 +56,8 @@ final class BasicControls {
 	/**
 	 * Basic setting keys of a widget (at most 4).
 	 *
-	 * @param \Elementor\Controls_Stack       $widget  Widget.
-	 * @param \Buddy_Builder\Kit\Element|null $element Element the widget renders, if any.
+	 * @param \Elementor\Controls_Stack                     $widget  Widget.
+	 * @param \Buddy_Builder\Vendor\ElementKit\Element|null $element Element the widget renders, if any.
 	 * @return string[]
 	 */
 	public static function keys( $widget, $element = null ) {
@@ -90,8 +90,8 @@ final class BasicControls {
 	 * Move the basic settings of a widget into the "Settings" section at the top of its Content tab. Runs in the
 	 * admin only (the editor and its AJAX requests): the front end never reads sections.
 	 *
-	 * @param \Elementor\Controls_Stack       $widget  Widget, its controls just registered.
-	 * @param \Buddy_Builder\Kit\Element|null $element Element the widget renders, if any.
+	 * @param \Elementor\Controls_Stack                     $widget  Widget, its controls just registered.
+	 * @param \Buddy_Builder\Vendor\ElementKit\Element|null $element Element the widget renders, if any.
 	 */
 	public static function apply( $widget, $element = null ) {
 		if ( ! is_admin() || ! class_exists( '\\Elementor\\Plugin' ) ) {

@@ -9,9 +9,9 @@
 namespace Buddy_Builder\Elements;
 
 use Buddy_Builder\Features;
-use Buddy_Builder\Kit\Context;
-use Buddy_Builder\Kit\Element;
-use Buddy_Builder\Kit\Kit;
+use Buddy_Builder\Vendor\ElementKit\Context;
+use Buddy_Builder\Vendor\ElementKit\Element;
+use Buddy_Builder\Vendor\ElementKit\Kit;
 use Buddy_Builder\Templates\Dispatcher;
 use Buddy_Builder\Templates\PostType;
 use Buddy_Builder\Templates\PreviewContext;
@@ -66,11 +66,11 @@ final class Elements {
 	 * @param \Elementor\Widgets_Manager $manager Widgets manager.
 	 */
 	public static function elementor_widgets( $manager ) {
-		if ( ! class_exists( '\\Elementor\\Widget_Base' ) || ! class_exists( '\\Buddy_Builder\\Kit\\ElementorWidget' ) ) {
+		if ( ! class_exists( '\\Elementor\\Widget_Base' ) || ! class_exists( '\\Buddy_Builder\\Vendor\\ElementKit\\ElementorWidget' ) ) {
 			return;
 		}
 
-		\Buddy_Builder\Kit\ElementorWidget::$kit = self::kit();
+		\Buddy_Builder\Vendor\ElementKit\ElementorWidget::$kit = self::kit();
 
 		foreach ( self::kit()->elements() as $element ) {
 			$schema = $element->schema();
@@ -84,7 +84,7 @@ final class Elements {
 	}
 
 	/**
-	 * The kit (BuddyBuilder's copy, namespace Buddy_Builder\Kit).
+	 * The element kit (BuddyBuilder's Strauss-prefixed copy of staxwp/element-kit in vendor-prefixed/, namespace Buddy_Builder\Vendor\ElementKit).
 	 *
 	 * @return Kit
 	 */
@@ -98,7 +98,6 @@ final class Elements {
 					'text_domain'       => 'stax-buddy-builder',
 					'dir'               => __DIR__,
 					'url'               => BPB_BASE_URL . 'src/Elements',
-					'kit_url'           => BPB_BASE_URL . 'src/Kit',
 					'version'           => BPB_VERSION,
 					'js_global'         => 'buddyBuilderKit',
 					'block_category'    => 'buddybuilder',
@@ -404,7 +403,7 @@ final class Elements {
 	 * @return string
 	 */
 	public static function preview_wrapper( $html, $element, $attrs, $ctx ) {
-		if ( ! $ctx instanceof Context || ! $ctx->is_preview() || ! \Buddy_Builder\Kit\Kit::is_block_preview() ) {
+		if ( ! $ctx instanceof Context || ! $ctx->is_preview() || ! \Buddy_Builder\Vendor\ElementKit\Kit::is_block_preview() ) {
 			return $html;
 		}
 

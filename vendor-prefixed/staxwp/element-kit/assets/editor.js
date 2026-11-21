@@ -1,17 +1,17 @@
-/* Synced from k-elements@1cfbcd7 (src/Kit) by bin/sync-kit.sh, do not edit. */
 /**
- * Element kit: generic block editor UI for every element (shared with BuddyBuilder).
+ * Element kit: generic block editor UI for every element (package staxwp/element-kit).
  *
  * KIT RULES: plain JavaScript (no JSX, no imports) on wp globals, no build step, no plugin-specific names.
  * The block metadata (title, attributes, supports) comes from the server registration;
- * this file adds edit() and save() and builds the inspector from the kit data. Each kit
- * copy pushes its data object to window.__elementKits (inline script printed before this file),
- * so two copies (K Elements, BuddyBuilder) never register the same block twice.
+ * this file adds edit() and save() and builds the inspector from the kit data. Every plugin
+ * that ships the kit loads its own copy of this file; the "kit" query arg of its URL names
+ * that plugin's data global (window.<js_global>, printed before this file), so a copy only
+ * registers its own plugin's blocks, whatever kit version the other plugins ship.
  *
- * @param {Object} wp   WordPress globals.
- * @param {Array}  kits Kit data objects.
+ * @param {Object}                 wp     WordPress globals.
+ * @param {HTMLScriptElement|null} script This script element.
  */
-( function ( wp, kits ) {
+( function ( wp, script ) {
 	const el = wp.element.createElement;
 	const be = wp.blockEditor;
 	const c = wp.components;
@@ -81,16 +81,15 @@
 				// checklist: a string attribute with the values separated by commas, in the order they were picked
 				// (older kit copies show it as a text field). multiselect: an array in the option order.
 				const text = 'checklist' === def.control;
-				const list = text
-					? String( value || '' )
-							.split( ',' )
-							.map( function ( v ) {
-								return v.trim();
-							} )
-							.filter( Boolean )
-					: Array.isArray( value )
-					? value
-					: [];
+				let list = Array.isArray( value ) ? value : [];
+				if ( text ) {
+					list = String( value || '' )
+						.split( ',' )
+						.map( function ( v ) {
+							return v.trim();
+						} )
+						.filter( Boolean );
+				}
 				return el(
 					c.BaseControl,
 					{
@@ -292,10 +291,16 @@
 		} );
 	}
 
-	kits.forEach( function ( data ) {
-		if ( data && ! data.registered ) {
-			data.registered = true;
-			register( data );
-		}
-	} );
-} )( window.wp, window.__elementKits || [] );
+	const name =
+		script && script.src
+			? new URL( script.src, window.location.href ).searchParams.get(
+					'kit'
+				)
+			: '';
+	const data = name ? window[ name ] : null;
+
+	if ( data && ! data.registered ) {
+		data.registered = true;
+		register( data );
+	}
+} )( window.wp, document.currentScript );

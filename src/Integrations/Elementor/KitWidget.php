@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || die();
 /**
  * Generic element widget.
  */
-class KitWidget extends \Buddy_Builder\Kit\ElementorWidget {
+class KitWidget extends \Buddy_Builder\Vendor\ElementKit\ElementorWidget {
 
 	/**
 	 * Page types the element is made for ([] : any page).
