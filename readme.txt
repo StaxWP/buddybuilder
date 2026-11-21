@@ -131,6 +131,7 @@ In the [support forum](https://wordpress.org/support/plugin/stax-buddy-builder/)
 6. The block editor shows a real member while you edit; "Seen by" shows the page as another visitor would see it.
 7. The same Classic layout in Elementor, with the BuddyBuilder widgets.
 8. Help and status: your setup and the data update, with Undo.
+9. Settings > Community style: your accent color and corners on every style, with a live sample. Photo shape, spacing and font come with BuddyBuilder Pro.
 
 == Changelog ==
 
