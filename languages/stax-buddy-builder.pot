@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-21T17:03:13+00:00\n"
+"POT-Creation-Date: 2026-11-21T17:12:58+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: stax-buddy-builder\n"
@@ -3601,7 +3601,12 @@ msgid "BuddyBuilder Pro %s is too old for this BuddyBuilder version and may not 
 msgstr ""
 
 #: src/Compat/Pairing.php:109
+#: src/Compat/Youzify.php:70
 msgid "Go to Plugins"
+msgstr ""
+
+#: src/Compat/Youzify.php:68
+msgid "BuddyBuilder does not work together with Youzify: Youzify replaces the BuddyPress pages with its own. While Youzify is active, BuddyBuilder layouts are not used on your community pages. Deactivate one of the two plugins."
 msgstr ""
 
 #. translators: %s: first name
