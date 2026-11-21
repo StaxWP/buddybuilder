@@ -191,7 +191,7 @@
 /* Community style card: the fields, and a sample drawn with the same --bpb-* tokens the styles read (the sample sets
  * Classic's values first: the admin screens use some of the same token names for their own look). */
 .bpb-cs { display: grid; grid-template-columns: minmax(0, 1fr) minmax(260px, 340px); gap: 20px 32px; align-items: start; }
-.bpb-cs__fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 20px; }
+.bpb-cs__fields { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr)); gap: 14px 20px; }
 .bpb-cs__field { display: flex; flex-direction: column; gap: 6px; }
 .bpb-cs__field--accent { grid-column: 1 / -1; gap: 10px; }
 .bpb-cs__field > label, .bpb-cs__color span { font-weight: 600; }
