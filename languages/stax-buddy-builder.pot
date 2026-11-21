@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-21T16:33:37+00:00\n"
+"POT-Creation-Date: 2026-11-21T17:03:13+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: stax-buddy-builder\n"
@@ -3157,7 +3157,7 @@ msgid "Community style"
 msgstr ""
 
 #: src/Admin/Options.php:88
-msgid "Your accent color, corners, photo shape and spacing on every community page, whatever style a page uses. Leave a choice on Style default to keep the style's own."
+msgid "Your accent color, corners, photo shape, spacing and font on every community page, whatever style a page uses. Leave a choice on Style default to keep the style's own."
 msgstr ""
 
 #: src/Admin/Options.php:97
