@@ -325,41 +325,58 @@ final class Upsell {
 	}
 
 	/**
-	 * The locked "Split into parts" action: the element it sits on, its feature id, its label and its link (url, cta).
-	 * Without BuddyBuilder Pro the link goes to the Pro plans; BuddyBuilder Pro shows the same lock while it is not
-	 * licensed, with a link to its license (filter). Null: not shown (a licensed Pro has the real action).
+	 * Link of a Pro feature shown locked (url, cta): without BuddyBuilder Pro the Pro plans; BuddyBuilder Pro shows the
+	 * same lock while it is not licensed, with a link to its license (filter). Null: nothing locked here (a licensed
+	 * or expired Pro has the real feature).
 	 *
-	 * @param string $medium utm_medium of the plans link.
-	 * @return array|null
+	 * @param string $feature Feature id (features()).
+	 * @param string $medium  utm_medium of the plans link.
+	 * @return array|null url, cta
 	 */
-	private static function split_data( $medium = 'panel' ) {
-		$feature = 'split-header';
-		$link    = self::enabled() ? [
+	public static function lock_link( $feature, $medium = 'panel' ) {
+		$link = self::enabled() ? [
 			'url' => self::url( $feature, $medium ),
 			'cta' => __( 'See BuddyBuilder Pro plans', 'stax-buddy-builder' ),
 		] : null;
 
 		/**
-		 * Filters the link of the locked "Split into parts" on the Member header (block editor and Elementor).
+		 * Filters the link of a Pro feature shown locked: "Split into parts" on the Member header (block editor and
+		 * Elementor), the Community style's photo shape, spacing and font (Settings).
 		 *
 		 * @since 2.0.0
 		 *
-		 * @param array|null $link url and cta (link text), or null to not show the locked action. BuddyBuilder Pro
-		 *                         sets its license link while it is not licensed.
+		 * @param array|null $link    url and cta (link text), or null when the feature is not locked. BuddyBuilder Pro
+		 *                            sets its license link while it is not licensed.
+		 * @param string     $feature Feature id (split-header, community-style).
 		 */
-		$link = apply_filters( 'buddy_builder/upsell/split_lock', $link );
+		$link = apply_filters( 'buddy_builder/upsell/lock_link', $link, $feature );
 
 		if ( ! is_array( $link ) || empty( $link['url'] ) || empty( $link['cta'] ) ) {
 			return null;
 		}
 
 		return [
+			'url' => (string) $link['url'],
+			'cta' => (string) $link['cta'],
+		];
+	}
+
+	/**
+	 * The locked "Split into parts" action: the element it sits on, its feature id, its label and its link (url, cta,
+	 * lock_link()). Null: not shown (a licensed Pro has the real action).
+	 *
+	 * @param string $medium utm_medium of the plans link.
+	 * @return array|null
+	 */
+	private static function split_data( $medium = 'panel' ) {
+		$feature = 'split-header';
+		$link    = self::lock_link( $feature, $medium );
+
+		return $link ? [
 			'block'   => 'buddybuilder/member-header',
 			'feature' => $feature,
 			'label'   => __( 'Split into parts', 'stax-buddy-builder' ),
-			'url'     => (string) $link['url'],
-			'cta'     => (string) $link['cta'],
-		];
+		] + $link : null;
 	}
 
 	/**

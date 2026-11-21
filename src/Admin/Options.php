@@ -239,7 +239,8 @@ final class Options {
 	/**
 	 * Community style card: accent, corners, avatar shape, density, font, a live sample (the same tokens the styles
 	 * read, see CommunityStyle) and Reset to style defaults. Choices that need BuddyBuilder Pro show locked, on
-	 * "Style default", with a "Pro" label and one link to the Pro plans.
+	 * "Style default", with a "Pro" label and one link: the Pro plans, or "Activate your license" while Pro is installed
+	 * but not licensed. An expired license keeps them, with one quiet renew line.
 	 */
 	public static function render_community_style() {
 		$values  = CommunityStyle::get();
@@ -280,14 +281,22 @@ final class Options {
 			echo '</select></div>';
 		}
 
-		if ( $locked ) {
-			echo '<p id="bpb-cs-pro" class="bpb-cs__pro">' . esc_html__( 'Photo shape, spacing and font come with BuddyBuilder Pro.', 'stax-buddy-builder' );
+		$pro = App::pro();
 
-			if ( \Buddy_Builder\Upsell\Upsell::enabled() ) {
-				echo ' <a href="' . esc_url( \Buddy_Builder\Upsell\Upsell::url( 'community-style', 'settings' ) ) . '" target="_blank" rel="noopener">' . esc_html__( 'See BuddyBuilder Pro plans', 'stax-buddy-builder' ) . '<span class="screen-reader-text"> ' . esc_html__( '(opens in a new tab)', 'stax-buddy-builder' ) . '</span></a>';
+		if ( $locked ) {
+			// Without Pro: the plans (new tab). Pro installed but not licensed: its License card, on this screen.
+			$link = \Buddy_Builder\Upsell\Upsell::lock_link( 'community-style', 'settings' );
+			$new  = \Buddy_Builder\Upsell\Upsell::enabled();
+			echo '<p id="bpb-cs-pro" class="bpb-cs__pro">' . ( false === $pro['licensed'] ? esc_html__( 'Photo shape, spacing and font need an active BuddyBuilder Pro license.', 'stax-buddy-builder' ) : esc_html__( 'Photo shape, spacing and font come with BuddyBuilder Pro.', 'stax-buddy-builder' ) );
+
+			if ( $link ) {
+				echo ' <a href="' . esc_url( $link['url'] ) . '"' . ( $new ? ' target="_blank" rel="noopener"' : '' ) . '>' . esc_html( $link['cta'] ) . ( $new ? '<span class="screen-reader-text"> ' . esc_html__( '(opens in a new tab)', 'stax-buddy-builder' ) . '</span>' : '' ) . '</a>';
 			}
 
 			echo '</p>';
+		} elseif ( $pro['expired'] && ! empty( $pro['renew']['url'] ) ) {
+			// An expired license keeps the choices; one quiet line says how to get updates again.
+			echo '<p class="bpb-cs__pro bpb-cs__renew">' . esc_html( $pro['renew']['text'] ) . ' <a href="' . esc_url( $pro['renew']['url'] ) . '" target="_blank" rel="noopener">' . esc_html( $pro['renew']['cta'] ) . '<span class="screen-reader-text"> ' . esc_html__( '(opens in a new tab)', 'stax-buddy-builder' ) . '</span></a></p>';
 		}
 
 		echo '</div>';

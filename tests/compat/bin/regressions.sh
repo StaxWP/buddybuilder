@@ -59,6 +59,7 @@ run eval-file "$TEST" split-header
 run eval-file "$TEST" fresh-site-points
 run eval-file "$TEST" pro-locks
 run eval-file "$TEST" pro-unlicensed
+run eval-file "$TEST" pro-expired
 run eval-file "$TEST" dead-settings
 run eval-file "$TEST" split-header-elementor
 if [ -n "${BPB_BUDDYBOSS_PLUGIN:-}" ]; then

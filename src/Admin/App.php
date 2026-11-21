@@ -116,7 +116,7 @@ final class App {
 	 * BuddyBuilder Pro status for the header and the sidebar. Pro fills it through `buddy_builder/admin/pro_status`;
 	 * `licensed` stays null when the active Pro does not say (Pro 1.x).
 	 *
-	 * @return array active, licensed (bool|null), expired, label, manage_url
+	 * @return array active, licensed (bool|null), expired, label, manage_url, renew (null, or text, cta, url while expired)
 	 */
 	public static function pro() {
 		$active = defined( 'BPB_PRO_VERSION' ) || function_exists( 'bpb_is_pro' );
@@ -126,7 +126,8 @@ final class App {
 		 *
 		 * @since 2.0.0
 		 *
-		 * @param array $status active, licensed (true, false or null when unknown), expired, label (status line), manage_url.
+		 * @param array $status active, licensed (true, false or null when unknown), expired, label (status line), manage_url,
+		 *                      renew (the renew line while expired: text, cta, url; null otherwise).
 		 */
 		$status = (array) apply_filters(
 			'buddy_builder/admin/pro_status',
@@ -136,6 +137,7 @@ final class App {
 				'expired'    => false,
 				'label'      => '',
 				'manage_url' => '',
+				'renew'      => null,
 			]
 		);
 
@@ -147,6 +149,7 @@ final class App {
 				'expired'    => false,
 				'label'      => '',
 				'manage_url' => '',
+				'renew'      => null,
 			]
 		);
 	}

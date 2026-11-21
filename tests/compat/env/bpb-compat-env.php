@@ -9,6 +9,8 @@
  *   `bpb_settings` and the 2.0 registry option `bpb_templates`), so one site can render every fixture without
  *   writing options between requests.
  * - Cookie `bpb_compat_split=1` turns on the per template type CSS (filter `buddy_builder/split_css`).
+ * - Cookie `bpb_compat_license=locked|expired`: BuddyBuilder Pro's license state for this request only (never
+ *   activated, or expired), so the editors and screens can be checked in each state without touching the license.
  * - Cookie `bpb_compat_sample_only=1`: lists show the sample community only (members "demo-*" and "bpb-sample-*",
  *   groups "demo-*" and "sample-group-*", their activity), so shipped thumbnails never show site or test users.
  * - Collects PHP notices, warnings and deprecations raised from BuddyBuilder files and prints them in an HTML
@@ -153,6 +155,18 @@ if ( ! empty( $_COOKIE['bpb_compat_sample_only'] ) ) {
 // Cookie `bpb_compat_split=1|0`: per template type CSS on or off (default on since 2.0).
 if ( isset( $_COOKIE['bpb_compat_split'] ) ) {
 	add_filter( 'buddy_builder/split_css', '1' === $_COOKIE['bpb_compat_split'] ? '__return_true' : '__return_false' );
+}
+
+// Cookie `bpb_compat_license=locked|expired`: BuddyBuilder Pro never licensed, or expired (editor unlocked).
+if ( isset( $_COOKIE['bpb_compat_license'] ) && in_array( $_COOKIE['bpb_compat_license'], [ 'locked', 'expired' ], true ) ) {
+	$bpb_compat_license = 'locked' === $_COOKIE['bpb_compat_license'];
+	add_filter(
+		'bpb_pro_license_state',
+		static function ( $state ) use ( $bpb_compat_license ) {
+			return array_merge( $state, [ 'source' => $bpb_compat_license ? '' : 'expired', 'licensed' => ! $bpb_compat_license, 'locked' => $bpb_compat_license, 'expired' => ! $bpb_compat_license ] );
+		},
+		99
+	);
 }
 
 // Notices from BuddyBuilder files, printed per request.

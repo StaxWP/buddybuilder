@@ -62,8 +62,12 @@
  *                               tab and the split header containers' layout settings hide in a split header; saved
  *                               values keep validating and rendering.
  * - pro-unlicensed              BuddyBuilder Pro without a license (state forced to "not licensed" for this run): Split
- *                               into parts shows locked in both editors with a link to the license, not to the plans;
- *                               an expired license keeps the real action.
+ *                               into parts shows locked in both editors and the Community style's photo shape, spacing
+ *                               and font are locked (saved values kept, not used), with a link to the license, not to
+ *                               the plans; activating the license brings the saved values back.
+ * - pro-expired                 BuddyBuilder Pro with an expired license (forced for this run): everything unlocked,
+ *                               with the quiet renew line under Split into parts (both editors) and once in the
+ *                               Community style card.
  *
  * THROWAWAY site only (needs the compat env mu-plugin). Restores the options it touches and deletes the posts it
  * creates. Prints PASS / FAIL / SKIP lines; exits 1 on any FAIL.
@@ -1250,22 +1254,23 @@ switch ( $bpb_case ) {
 	case 'pro-locks':
 		// UX review items 7 and 13 (free and Pro): without BuddyBuilder Pro, "Split into parts" shows locked on the
 		// Member header (block editor) and the Community style's photo shape, spacing and font are locked (their saved
-		// values are kept, not used); BuddyBuilder Pro unlocks both.
+		// values are kept, not used); a licensed BuddyBuilder Pro unlocks both (not licensed: case pro-unlicensed).
 		$bpb_pro    = defined( 'BPB_PRO_VERSION' );
+		$bpb_open   = $bpb_pro && class_exists( '\\Buddy_Builder_Pro\\Blocks' ) && ! \Buddy_Builder_Pro\Blocks::locked();
 		$bpb_cs     = \Buddy_Builder\Presets\CommunityStyle::class;
 		$bpb_cs_was = get_option( $bpb_cs::OPTION, null );
 		update_option( $bpb_cs::OPTION, [ 'accent' => '#facc15', 'radius' => 'square', 'avatar' => 'square', 'density' => 'compact', 'font' => 'theme' ] );
-		$bpb_ok( ( $bpb_pro ? [] : [ 'avatar', 'density', 'font' ] ) === $bpb_cs::locked(), 'Community style: locked choices (' . implode( ', ', $bpb_cs::locked() ) . ')' );
+		$bpb_ok( ( $bpb_open ? [] : [ 'avatar', 'density', 'font' ] ) === $bpb_cs::locked(), 'Community style: locked choices (' . implode( ', ', $bpb_cs::locked() ) . ')' );
 		$bpb_tokens = $bpb_cs::tokens();
 		$bpb_ok( '#facc15' === $bpb_tokens['--bpb-accent'] && '0' === $bpb_tokens['--bpb-radius'], 'Community style: accent and corners apply' );
-		$bpb_ok( $bpb_pro === isset( $bpb_tokens['--bpb-avatar-radius'], $bpb_tokens['--bpb-density'], $bpb_tokens['--bpb-font-body'] ) && ( $bpb_pro || ( ! isset( $bpb_tokens['--bpb-avatar-radius'] ) && ! isset( $bpb_tokens['--bpb-density'] ) && ! isset( $bpb_tokens['--bpb-font-body'] ) ) ), $bpb_pro ? 'Community style: photo shape, spacing and font apply with Pro' : 'Community style: the saved photo shape, spacing and font are not used without Pro' );
+		$bpb_ok( $bpb_open === isset( $bpb_tokens['--bpb-avatar-radius'], $bpb_tokens['--bpb-density'], $bpb_tokens['--bpb-font-body'] ) && ( $bpb_open || ( ! isset( $bpb_tokens['--bpb-avatar-radius'] ) && ! isset( $bpb_tokens['--bpb-density'] ) && ! isset( $bpb_tokens['--bpb-font-body'] ) ) ), $bpb_open ? 'Community style: photo shape, spacing and font apply with a licensed Pro' : 'Community style: the saved photo shape, spacing and font are not used without a licensed Pro' );
 		ob_start();
 		\Buddy_Builder\Admin\Options::render_community_style();
 		$bpb_html = ob_get_clean();
-		$bpb_ok( ( $bpb_pro ? 0 : 3 ) === substr_count( $bpb_html, ' disabled aria-describedby="bpb-cs-pro"' ) && $bpb_pro !== ( false !== strpos( $bpb_html, 'utm_content=community-style' ) ) && 4 === substr_count( $bpb_html, '<select ' ), $bpb_pro ? 'Community style card: every choice open' : 'Community style card: photo shape, spacing and font shown locked with Pro and a link to the plans' );
+		$bpb_ok( ( $bpb_open ? 0 : 3 ) === substr_count( $bpb_html, ' disabled aria-describedby="bpb-cs-pro"' ) && $bpb_pro !== ( false !== strpos( $bpb_html, 'utm_content=community-style' ) ) && ( $bpb_open || ! $bpb_pro ) !== ( false !== strpos( $bpb_html, 'Activate your license' ) ) && 4 === substr_count( $bpb_html, '<select ' ), $bpb_open ? 'Community style card: every choice open' : ( $bpb_pro ? 'Community style card: photo shape, spacing and font locked while Pro is not licensed, with Activate your license' : 'Community style card: photo shape, spacing and font shown locked with Pro and a link to the plans' ) );
 		$bpb_cs::save( [ 'radius' => 'small' ] );
 		$bpb_saved_cs = (array) get_option( $bpb_cs::OPTION, [] );
-		$bpb_ok( 'small' === $bpb_saved_cs['radius'] && ( $bpb_pro ? ! isset( $bpb_saved_cs['avatar'] ) : ( 'square' === $bpb_saved_cs['avatar'] && 'compact' === $bpb_saved_cs['density'] && 'theme' === $bpb_saved_cs['font'] ) ), $bpb_pro ? 'Community style: a save sets every choice' : 'Community style: a save keeps the saved Pro choices for when Pro is back' );
+		$bpb_ok( 'small' === $bpb_saved_cs['radius'] && ( $bpb_open ? ! isset( $bpb_saved_cs['avatar'] ) : ( 'square' === $bpb_saved_cs['avatar'] && 'compact' === $bpb_saved_cs['density'] && 'theme' === $bpb_saved_cs['font'] ) ), $bpb_open ? 'Community style: a save sets every choice' : 'Community style: a save keeps the saved Pro choices for when Pro is back' );
 		$bpb_cs::save( [], true );
 		$bpb_ok( null === get_option( $bpb_cs::OPTION, null ), 'Community style: Reset removes every choice' );
 		null === $bpb_cs_was ? delete_option( $bpb_cs::OPTION ) : update_option( $bpb_cs::OPTION, $bpb_cs_was );
@@ -1276,7 +1281,6 @@ switch ( $bpb_case ) {
 		\Buddy_Builder\Upsell\Upsell::block_editor_assets();
 		$bpb_data = wp_scripts()->get_data( 'bpb-upsell-blocks', 'data' );
 		// A Pro without a license shows the same lock with a link to the license (case pro-unlicensed).
-		$bpb_open = $bpb_pro && ! \Buddy_Builder_Pro\Blocks::locked();
 		$bpb_ok( $bpb_open !== wp_script_is( 'bpb-upsell-blocks', 'enqueued' ) && ( $bpb_pro || ( false !== strpos( (string) $bpb_data, '"feature":"split-header"' ) && false !== strpos( (string) $bpb_data, 'utm_content=split-header' ) && isset( \Buddy_Builder\Upsell\Upsell::features()['split-header'] ) ) ), $bpb_open ? 'block editor: no locked Split into parts with a licensed Pro' : ( $bpb_pro ? 'block editor: Split into parts locked while Pro is not licensed' : 'block editor: Split into parts (Pro) locked on the Member header, with the Pro description and link' ) );
 		set_current_screen( 'front' );
 		break;
@@ -1351,14 +1355,18 @@ switch ( $bpb_case ) {
 		break;
 
 	case 'pro-unlicensed':
-		// BuddyBuilder Pro installed but not licensed: the same locked Split into parts as without Pro, in both editors,
-		// with "Activate your license" to the license card instead of the plans. The state is forced before any widget
-		// builds its controls (Elementor caches them per widget type), so this case runs in its own process.
+	case 'pro-expired':
+		// BuddyBuilder Pro installed but never licensed (pro-unlicensed): the same locked Split into parts as without Pro,
+		// in both editors, and the Community style's photo shape, spacing and font locked, with "Activate your license"
+		// to the license card instead of the plans; their saved values are kept and come back with the license.
+		// Expired (pro-expired): everything stays unlocked, with a quiet renew line under Split into parts and once in
+		// the Community style card. The state is forced before any widget builds its controls (Elementor caches them
+		// per widget type), so each state runs in its own process.
 		if ( ! defined( 'BPB_PRO_VERSION' ) || ! class_exists( '\\Buddy_Builder_Pro\\License' ) ) {
 			$bpb_skip( 'BuddyBuilder Pro is not active' );
 			break;
 		}
-		$bpb_state = 'locked';
+		$bpb_state = 'pro-expired' === $bpb_case ? 'expired' : 'locked';
 		add_filter(
 			'bpb_pro_license_state',
 			static function ( $state ) use ( &$bpb_state ) {
@@ -1366,11 +1374,19 @@ switch ( $bpb_case ) {
 			},
 			99
 		);
+		$bpb_expired = 'expired' === $bpb_state;
+		// Pro's status for BuddyBuilder's screens (its License screen class loads in wp-admin only).
+		if ( ! class_exists( '\\Buddy_Builder_Pro\\LicensePage' ) ) {
+			require_once BPB_PRO_BASE_PATH . 'admin/pages/License.php';
+			add_filter( 'buddy_builder/admin/pro_status', [ '\\Buddy_Builder_Pro\\LicensePage', 'pro_status' ] );
+		}
 		$bpb_license = \Buddy_Builder_Pro\License::manage_url();
+		$bpb_renew   = 'Your license has expired. Renew it to get updates and support.';
 		require_once ABSPATH . 'wp-admin/includes/class-wp-screen.php';
 		require_once ABSPATH . 'wp-admin/includes/screen.php';
 		set_current_screen( PostType::POST_TYPE );
 		\Buddy_Builder\Upsell\Upsell::block_editor_assets();
+		\Buddy_Builder_Pro\HeaderParts::editor();
 		// The localized objects (WordPress 6.6 escapes their slashes).
 		$bpb_json   = static function ( $handle ) {
 			$data = (string) wp_scripts()->get_data( $handle, 'data' );
@@ -1378,21 +1394,60 @@ switch ( $bpb_case ) {
 		};
 		$bpb_data   = $bpb_json( 'bpb-upsell-blocks' );
 		$bpb_upsell = $bpb_json( 'bpb-upsell' );
-		$bpb_ok( wp_script_is( 'bpb-upsell-blocks', 'enqueued' ) && $bpb_license === ( $bpb_data['url'] ?? '' ) && 'Activate your license' === ( $bpb_data['cta'] ?? '' ), 'block editor: Split into parts (Pro) locked, with Activate your license to the license (' . $bpb_license . ')' );
-		$bpb_ok( $bpb_license === ( $bpb_upsell['features']['split-header']['url'] ?? '' ) && 'Activate your license' === ( $bpb_upsell['features']['split-header']['cta'] ?? '' ), 'block editor: the toolbar item\'s description links to the license too' );
-		$bpb_ok( ! wp_script_is( 'bpb-pro-split-header', 'enqueued' ), 'block editor: no real Split into parts while not licensed' );
+		if ( $bpb_expired ) {
+			$bpb_split = $bpb_json( 'bpb-pro-split-header' );
+			$bpb_ok( ! wp_script_is( 'bpb-upsell-blocks', 'enqueued' ) && wp_script_is( 'bpb-pro-split-header', 'enqueued' ), 'block editor: the real Split into parts, no lock' );
+			$bpb_ok( $bpb_renew === ( $bpb_split['renew']['text'] ?? '' ) && 'Renew' === ( $bpb_split['renew']['cta'] ?? '' ) && \Buddy_Builder_Pro\License::ACCOUNT_URL === ( $bpb_split['renew']['url'] ?? '' ), 'block editor: the renew line and link under Split into parts' );
+		} else {
+			$bpb_ok( wp_script_is( 'bpb-upsell-blocks', 'enqueued' ) && $bpb_license === ( $bpb_data['url'] ?? '' ) && 'Activate your license' === ( $bpb_data['cta'] ?? '' ), 'block editor: Split into parts (Pro) locked, with Activate your license to the license (' . $bpb_license . ')' );
+			$bpb_ok( $bpb_license === ( $bpb_upsell['features']['split-header']['url'] ?? '' ) && 'Activate your license' === ( $bpb_upsell['features']['split-header']['cta'] ?? '' ), 'block editor: the toolbar item\'s description links to the license too' );
+			$bpb_ok( ! wp_script_is( 'bpb-pro-split-header', 'enqueued' ), 'block editor: no real Split into parts while not licensed' );
+		}
 		set_current_screen( 'front' );
 		if ( did_action( 'elementor/loaded' ) ) {
 			$bpb_header = \Elementor\Plugin::$instance->widgets_manager->get_widget_types( 'bpb-el-member-header' );
-			$bpb_note   = $bpb_header ? $bpb_header->get_controls( 'bpb_split_pro_note' ) : null;
-			// Outside the editor Elementor keeps no control text: the link is the filter's, which elementor_split() prints.
-			$bpb_lock = apply_filters( 'buddy_builder/upsell/split_lock', null );
-			$bpb_ok( $bpb_note && null === $bpb_header->get_controls( 'bpb_split_note' ) && isset( $bpb_lock['url'], $bpb_lock['cta'] ) && $bpb_license === $bpb_lock['url'] && 'Activate your license' === $bpb_lock['cta'], 'Elementor: Split into parts (Pro) locked on the Member header widget, with Activate your license' );
+			if ( $bpb_expired ) {
+				// Outside the editor Elementor keeps no control text: the line is License::renew(), which elementor_split() prints.
+				$bpb_line = \Buddy_Builder_Pro\License::renew();
+				$bpb_ok( $bpb_header && $bpb_header->get_controls( 'bpb_split_note' ) && null === $bpb_header->get_controls( 'bpb_split_pro_note' ) && $bpb_header->get_controls( 'bpb_split_renew' ) && $bpb_renew === ( $bpb_line['text'] ?? '' ), 'Elementor: the real Split into parts on the Member header widget, with the renew line and link' );
+			} else {
+				$bpb_note = $bpb_header ? $bpb_header->get_controls( 'bpb_split_pro_note' ) : null;
+				// Outside the editor Elementor keeps no control text: the link is the filter's, which elementor_split() prints.
+				$bpb_lock = \Buddy_Builder\Upsell\Upsell::lock_link( 'split-header' );
+				$bpb_ok( $bpb_note && null === $bpb_header->get_controls( 'bpb_split_note' ) && null === $bpb_header->get_controls( 'bpb_split_renew' ) && isset( $bpb_lock['url'], $bpb_lock['cta'] ) && $bpb_license === $bpb_lock['url'] && 'Activate your license' === $bpb_lock['cta'], 'Elementor: Split into parts (Pro) locked on the Member header widget, with Activate your license' );
+			}
 		} else {
 			$bpb_skip( 'Elementor is not active' );
 		}
-		$bpb_state = 'expired';
-		$bpb_ok( null === apply_filters( 'buddy_builder/upsell/split_lock', null ), 'expired license: no lock (the editor stays unlocked, the real action shows)' );
+
+		// Community style card: photo shape, spacing and font follow the same rule.
+		$bpb_cs     = \Buddy_Builder\Presets\CommunityStyle::class;
+		$bpb_cs_was = get_option( $bpb_cs::OPTION, null );
+		update_option( $bpb_cs::OPTION, [ 'accent' => '#facc15', 'radius' => 'square', 'avatar' => 'square', 'density' => 'compact', 'font' => 'theme' ] );
+		$bpb_card = static function () {
+			ob_start();
+			\Buddy_Builder\Admin\Options::render_community_style();
+			return (string) ob_get_clean();
+		};
+		$bpb_html   = $bpb_card();
+		$bpb_tokens = $bpb_cs::tokens();
+		$bpb_pro_on = isset( $bpb_tokens['--bpb-avatar-radius'], $bpb_tokens['--bpb-density'], $bpb_tokens['--bpb-font-body'] );
+		if ( $bpb_expired ) {
+			$bpb_ok( [] === $bpb_cs::locked() && $bpb_pro_on && false !== strpos( $bpb_cs::css(), '--bpb-density' ), 'Community style: photo shape, spacing and font work with an expired license (saved values used on the front end)' );
+			$bpb_ok( 0 === substr_count( $bpb_html, ' disabled' ) && false === strpos( $bpb_html, 'Activate your license' ) && 1 === substr_count( $bpb_html, $bpb_renew ) && 1 === substr_count( $bpb_html, 'bpb-cs__renew' ) && false !== strpos( $bpb_html, \Buddy_Builder_Pro\License::ACCOUNT_URL ), 'Community style card: every choice open, the renew line once' );
+		} else {
+			$bpb_ok( [ 'avatar', 'density', 'font' ] === $bpb_cs::locked() && ! $bpb_pro_on && '#facc15' === $bpb_tokens['--bpb-accent'] && false === strpos( $bpb_cs::css(), '--bpb-density' ), 'Community style: photo shape, spacing and font locked, their saved values not used on the front end (accent and corners still work)' );
+			$bpb_ok( 3 === substr_count( $bpb_html, ' disabled aria-describedby="bpb-cs-pro"' ) && false !== strpos( $bpb_html, 'need an active BuddyBuilder Pro license.' ) && false !== strpos( $bpb_html, 'href="' . esc_url( \Buddy_Builder_Pro\LicensePage::url() ) . '">Activate your license</a>' ) && false === strpos( $bpb_html, 'utm_content=community-style' ) && false === strpos( $bpb_html, $bpb_renew ), 'Community style card: photo shape, spacing and font locked with Activate your license to the license, no plans link' );
+			$bpb_cs::save( [ 'radius' => 'small' ] );
+			$bpb_saved_cs = (array) get_option( $bpb_cs::OPTION, [] );
+			$bpb_ok( 'small' === $bpb_saved_cs['radius'] && 'square' === $bpb_saved_cs['avatar'] && 'compact' === $bpb_saved_cs['density'] && 'theme' === $bpb_saved_cs['font'], 'Community style: a save while not licensed keeps the saved Pro choices' );
+			// The license is activated (expired keeps the editor unlocked the same way a valid one does).
+			$bpb_state  = 'expired';
+			$bpb_tokens = $bpb_cs::tokens();
+			$bpb_ok( [] === $bpb_cs::locked() && isset( $bpb_tokens['--bpb-avatar-radius'], $bpb_tokens['--bpb-density'], $bpb_tokens['--bpb-font-body'] ), 'Community style: the saved photo shape, spacing and font come back once the license is active' );
+			$bpb_ok( null === \Buddy_Builder\Upsell\Upsell::lock_link( 'split-header' ) && null === \Buddy_Builder\Upsell\Upsell::lock_link( 'community-style' ), 'expired license: nothing locked (the editor stays unlocked, the real action shows)' );
+		}
+		null === $bpb_cs_was ? delete_option( $bpb_cs::OPTION ) : update_option( $bpb_cs::OPTION, $bpb_cs_was );
 		break;
 
 	case 'split-header-elementor':
@@ -1490,7 +1545,7 @@ switch ( $bpb_case ) {
 		break;
 
 	default:
-		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install, checker-readylaunch, change-look-undo, cards-follow-layout, layout-actions, element-settings, elementor-basic-controls, layout-import, notice-dismiss, card-line, blocks-stay-on, community-pages-rows, elementor-panel, header-parts, theme-title-space, profile-fields, split-header, fresh-site-points, pro-locks, pro-unlicensed, dead-settings, split-header-elementor' );
+		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install, checker-readylaunch, change-look-undo, cards-follow-layout, layout-actions, element-settings, elementor-basic-controls, layout-import, notice-dismiss, card-line, blocks-stay-on, community-pages-rows, elementor-panel, header-parts, theme-title-space, profile-fields, split-header, fresh-site-points, pro-locks, pro-unlicensed, pro-expired, dead-settings, split-header-elementor' );
 }
 
 // Cleanup.

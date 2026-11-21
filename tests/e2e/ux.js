@@ -488,6 +488,56 @@ async function shot( page, name, locator ) {
 			skip( 'Split into parts in Elementor: BuddyBuilder Pro, its licence, Elementor or Flexbox Containers missing' );
 		}
 
+		// 8b. License states (policy 2026-11-12, cookie bpb_compat_license of the compat env): never activated locks
+		// Split into parts and the Community style's photo shape, spacing and font, with "Activate your license";
+		// expired keeps both working, with one quiet renew line under Split into parts and in the card.
+		if ( php( echo( "class_exists( '\\\\Buddy_Builder_Pro\\\\HeaderParts' )" ) ) ) {
+			const setLicense = ( value ) => context.addCookies( [ { name: 'bpb_compat_license', value, domain: host, path: '/' } ] );
+			const renewText = 'Your license has expired. Renew it to get updates and support.';
+			const id = php( echo( "\\Buddy_Builder\\Presets\\Presets::create_block_layout( \\Buddy_Builder\\Presets\\Presets::get( 'classic-member-profile' ) )" ) );
+			const splitPanel = async () => {
+				await page.goto( `${ site }/wp-admin/post.php?post=${ id }&action=edit` );
+				await page.waitForFunction( () => window.wp && wp.data && wp.data.select( 'core/block-editor' ).getBlocks().length > 0, null, { timeout: 60000 } );
+				await page.evaluate( () => {
+					const walk = ( list ) => list.reduce( ( found, b ) => found || ( 'buddybuilder/member-header' === b.name ? b : walk( b.innerBlocks ) ), null );
+					wp.data.dispatch( 'core/block-editor' ).selectBlock( walk( wp.data.select( 'core/block-editor' ).getBlocks() ).clientId );
+				} );
+				const toggle = page.locator( '.block-editor-block-inspector .components-panel__body-toggle:has-text("Split into parts")' ).first();
+				await toggle.waitFor( { timeout: 15000 } );
+				await toggle.click();
+				return page.locator( '.block-editor-block-inspector .components-panel__body.is-opened:has(.components-panel__body-toggle:has-text("Split into parts"))' ).first();
+			};
+			const card = async () => {
+				await page.goto( site + '/wp-admin/admin.php?page=buddy-builder-options' );
+				return page.locator( '#bpb-card-community-style' );
+			};
+			try {
+				await setLicense( 'expired' );
+				let panel = await splitPanel();
+				ok( await page.locator( '.block-editor-block-toolbar button:has-text("Split into parts")' ).count() === 1 && await panel.locator( 'button.is-secondary:has-text("Split into parts"):not([disabled])' ).count() === 1, 'expired license: the real Split into parts (toolbar and sidebar)' );
+				const renew = panel.locator( '.bpb-split-renew' );
+				ok( ( await renew.innerText().catch( () => '' ) ).includes( renewText ) && /staxwp\.com\/account/.test( await renew.locator( 'a' ).getAttribute( 'href' ).catch( () => '' ) || '' ), 'expired license: the quiet renew line with a Renew link under Split into parts' );
+				await shot( page, 'license-expired-split-sidebar', '.interface-complementary-area' );
+				let cs = await card();
+				ok( await cs.locator( 'select:disabled' ).count() === 0 && await cs.locator( '.bpb-cs__renew' ).count() === 1 && ( await cs.locator( '.bpb-cs__renew' ).innerText() ).includes( renewText ), 'expired license: Community style card fully open, the renew line once' );
+				await shot( page, 'license-expired-community-style', '#bpb-card-community-style' );
+
+				await setLicense( 'locked' );
+				cs = await card();
+				const activate = cs.locator( '#bpb-cs-pro a' );
+				ok( await cs.locator( 'select:disabled' ).count() === 3 && 'Activate your license' === ( await activate.innerText() ).trim() && /#bpb-card-license$/.test( await activate.getAttribute( 'href' ) ) && await cs.locator( '.bpb-cs__renew' ).count() === 0, 'not licensed: photo shape, spacing and font locked with Activate your license to the License card' );
+				await axeCheck( page, 'settings, Pro not licensed' );
+				await shot( page, 'license-locked-community-style', '#bpb-card-community-style' );
+				panel = await splitPanel();
+				ok( await panel.locator( 'button[aria-disabled="true"]:has-text("Split into parts"), button:disabled:has-text("Split into parts")' ).count() === 1 && await panel.locator( 'a:has-text("Activate your license")' ).count() === 1 && await panel.locator( '.bpb-split-renew' ).count() === 0, 'not licensed: Split into parts locked in the sidebar with Activate your license' );
+				await shot( page, 'license-locked-split-sidebar', '.interface-complementary-area' );
+			} finally {
+				await setLicense( 'none' );
+			}
+		} else {
+			skip( 'License states: BuddyBuilder Pro not active' );
+		}
+
 		// 9. Block settings that do nothing inside a style are hidden (look-supports.js, element.json lookIgnores): the
 		// Member header in a style has no text color or font size controls, keeps Border and background; outside a style, or
 		// with a saved value, the control is there; saved values stay valid blocks.
