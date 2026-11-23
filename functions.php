@@ -487,6 +487,19 @@ function bpb_is_buddyboss() {
 }
 
 /**
+ * HTML tag from a widget setting, limited to an allow-list. Elementor stores any value sent for a select control,
+ * so a saved tag is never printed as it is (Patchstack 2026-11-23: a Contributor's forged tag became an <img onerror>).
+ *
+ * @param mixed  $tag     Tag from the settings.
+ * @param string $default Fallback.
+ *
+ * @return string
+ */
+function bpb_html_tag( $tag, $default = 'h2' ) {
+	return in_array( $tag, [ 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'div', 'span', 'p' ], true ) ? $tag : $default;
+}
+
+/**
  * Get dummy avatar url
  *
  * @param string $type
