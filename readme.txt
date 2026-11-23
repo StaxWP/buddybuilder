@@ -121,6 +121,9 @@ Visit the [WordPress.org support forum](https://wordpress.org/support/plugin/sta
 
 == Changelog ==
 
+= 1.9.6 =
+* Security: the Name/Username widget accepts only its listed HTML tags (H1 to H6, div). A Contributor could save another value and run JavaScript in the browser of an administrator or editor previewing their post.
+
 = 1.9.5 =
 * Security: only administrators can make a template the layout of a BuddyPress page. A Contributor or Author saving their own Elementor template could set it as the member profile, directory, group, activity or register layout.
 * Fix: Members List and Groups List widgets keep their grid and columns on ordinary pages.
@@ -325,6 +328,9 @@ Enable/disable the feature by editing the members/groups navigation widget
 * Initial release
 
 == Upgrade Notice ==
+
+= 1.9.6 =
+Security fix for the Name/Username widget's HTML tag. Recommended for all users.
 
 = 1.9.5 =
 Security fix: only administrators can assign a template to a BuddyPress page. Recommended for all users.
