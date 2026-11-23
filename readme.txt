@@ -121,6 +121,11 @@ Visit the [WordPress.org support forum](https://wordpress.org/support/plugin/sta
 
 == Changelog ==
 
+= 1.9.5 =
+* Security: only administrators can make a template the layout of a BuddyPress page. A Contributor or Author saving their own Elementor template could set it as the member profile, directory, group, activity or register layout.
+* Fix: Members List and Groups List widgets keep their grid and columns on ordinary pages.
+* Fix: rtMedia photos on a BuddyBuilder member profile stay inside their grid cell instead of overflowing onto the content below.
+
 = 1.9.4 =
 * Security: dismissing an admin notice now checks a security token and accepts only BuddyBuilder's own notices.
 * Fix: help and documentation links point to the current documentation at staxwp.com/docs/buddybuilder/.
@@ -320,6 +325,9 @@ Enable/disable the feature by editing the members/groups navigation widget
 * Initial release
 
 == Upgrade Notice ==
+
+= 1.9.5 =
+Security fix: only administrators can assign a template to a BuddyPress page. Recommended for all users.
 
 = 1.9.4 =
 Security fix for the admin notice dismiss request. Recommended for all users.
