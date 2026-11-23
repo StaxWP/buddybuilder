@@ -41,7 +41,7 @@ $active_post_name = false;
 					'post_type'                            => 'elementor_library',
 					'template_type'                        => 'bpb-buddypress',
 					BuddyPress::REMOTE_CATEGORY_META_KEY   => $key,
-					BuddyPress::SET_AS_ACTIVE_CATEGORY_KEY => 1,
+					BuddyPress::SET_AS_ACTIVE_CATEGORY_KEY => wp_create_nonce( bpb_set_as_active_nonce_action( $key ) ),
 					'_wpnonce'                             => wp_create_nonce( 'elementor_action_new_post' ),
 				],
 				admin_url( 'edit.php' )

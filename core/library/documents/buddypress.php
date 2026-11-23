@@ -93,9 +93,12 @@ class BuddyPress extends Library_Document {
 
 			$this->update_meta( self::REMOTE_CATEGORY_META_KEY, $sub_type );
 
-			// Save as current sub template if we create it from our settings page
-			if ( ! empty( $_REQUEST[ self::SET_AS_ACTIVE_CATEGORY_KEY ] ) ) {
-				bpb_set_template_id( $sub_type, $this->post->ID );
+			// Save as current sub template if we create it from our settings page: administrators only, with the
+			// link's nonce (any author can create or save a template of their own, never the site-wide assignment).
+			if ( ! empty( $_REQUEST[ self::SET_AS_ACTIVE_CATEGORY_KEY ] )
+				 && current_user_can( 'manage_options' )
+				 && wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST[ self::SET_AS_ACTIVE_CATEGORY_KEY ] ) ), bpb_set_as_active_nonce_action( $sub_type ) )
+				 && bpb_set_template_id( $sub_type, $this->post->ID ) ) {
 				ElementorHooks::get_instance()->save_buddypress_options( $this->post->ID, null );
 			}
 		}

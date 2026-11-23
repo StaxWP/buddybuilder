@@ -234,6 +234,18 @@ function bpb_bulk_save_settings( $data ) {
 }
 
 /**
+ * Nonce action of the "Create new" links that make Elementor assign the new template to a page type (the nonce is sent
+ * as _bpb_set_as_active and checked in Library\Documents\BuddyPress::save_template_type()).
+ *
+ * @param string $template_slug Template type.
+ *
+ * @return string
+ */
+function bpb_set_as_active_nonce_action( $template_slug ) {
+	return 'bpb_set_as_active_' . $template_slug;
+}
+
+/**
  * Set active template ID for a specific template type
  *
  * @param $template_slug
@@ -242,6 +254,11 @@ function bpb_bulk_save_settings( $data ) {
  * @return bool
  */
 function bpb_set_template_id( $template_slug, $id ) {
+	// Site-wide assignment: only administrators choose the layout of a BuddyPress page.
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return false;
+	}
+
 	$settings = bpb_get_settings();
 
 	if ( ! isset( $settings['templates'][ $template_slug ] ) || get_post_type( $id ) !== 'elementor_library' ) {
