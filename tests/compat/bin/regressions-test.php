@@ -44,6 +44,8 @@
  * - set-as-active               Patchstack 2026-11-20: creating or saving an Elementor BuddyPress template with
  *                               _bpb_set_as_active assigns it to the page type only for an administrator with the
  *                               "Create new" link's nonce (a Contributor's own template never becomes the layout).
+ * - html-tag                    Patchstack 2026-11-23: a Contributor's Name/Username widget saved with a forged "HTML
+ *                               tag" (img src=x onerror=...) renders as <h2> in the administrator's preview.
  * - card-line                   One "Card" line per directory and activity row (style and Change, or the card layout row),
  *                                 no Pro labels with Pro licensed.
  * - elementor-panel             In a BuddyBuilder template: BuddyBuilder categories first, the page's elements only.
@@ -979,6 +981,60 @@ switch ( $bpb_case ) {
 		wp_delete_user( $bpb_contrib );
 		break;
 
+	case 'html-tag':
+		if ( ! class_exists( '\\Elementor\\Plugin' ) ) {
+			$bpb_skip( 'Elementor is not active' );
+			break;
+		}
+		require_once ABSPATH . 'wp-admin/includes/user.php';
+		$bpb_forged  = 'img src=x onerror=alert(document.domain)';
+		$bpb_admin   = get_current_user_id();
+		$bpb_contrib = wp_insert_user(
+			[
+				'user_login' => 'bpb_contrib_' . wp_generate_password( 6, false ),
+				'user_pass'  => wp_generate_password(),
+				'role'       => 'contributor',
+			]
+		);
+		// The report: the Contributor's own editor save (save_builder) with a forged "HTML tag" on the Name/Username widget.
+		wp_set_current_user( $bpb_contrib );
+		$bpb_post      = (int) wp_insert_post( [ 'post_title' => 'bpb html-tag', 'post_status' => 'pending', 'post_author' => $bpb_contrib ] );
+		$bpb_created[] = $bpb_post;
+		$bpb_doc       = \Elementor\Plugin::$instance->documents->get( $bpb_post );
+		$bpb_doc->set_is_built_with_elementor( true );
+		$bpb_doc->save(
+			[
+				'elements' => [
+					[
+						'id'       => 'c1',
+						'elType'   => 'container',
+						'settings' => [],
+						'elements' => [
+							[
+								'id'         => 'u1',
+								'elType'     => 'widget',
+								'widgetType' => 'bpb-profile-member-username',
+								'settings'   => [ 'username_tag' => $bpb_forged, 'username_type' => 'username' ],
+								'elements'   => [],
+							],
+						],
+					],
+				],
+				'settings' => [ 'post_status' => 'pending' ],
+			]
+		);
+		$bpb_ok( false !== strpos( (string) get_post_meta( $bpb_post, '_elementor_data', true ), 'onerror' ), 'the Contributor\'s save keeps the forged tag (Elementor does not check select values)' );
+		// The administrator's preview of the pending post.
+		wp_set_current_user( $bpb_admin );
+		$bpb_was                         = buddypress()->displayed_user->id;
+		buddypress()->displayed_user->id = $bpb_admin;
+		$bpb_html                        = (string) \Elementor\Plugin::$instance->frontend->get_builder_content_for_display( $bpb_post, true );
+		buddypress()->displayed_user->id = $bpb_was;
+		$bpb_ok( false === strpos( $bpb_html, 'onerror' ) && (bool) preg_match( '/<h2 class="user-nicename">.*?<\/h2>/s', $bpb_html ), 'the administrator\'s preview prints <h2>, not the forged tag' );
+		$bpb_ok( 'h2' === bpb_html_tag( $bpb_forged ) && 'h4' === bpb_html_tag( 'h4' ) && 'div' === bpb_html_tag( 'div' ) && 'h3' === bpb_html_tag( [ 'h1' ], 'h3' ), 'bpb_html_tag(): the allow-list, the fallback for anything else' );
+		wp_delete_user( $bpb_contrib );
+		break;
+
 	case 'card-line':
 		// One "Card" line per directory and activity row (UX review 2026-11-17, item 5): the card style with Change (the
 		// editor with the list selected), or the card layout's own item row; no card row without a card layout; no Pro
@@ -1602,7 +1658,7 @@ switch ( $bpb_case ) {
 		break;
 
 	default:
-		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install, checker-readylaunch, change-look-undo, cards-follow-layout, layout-actions, element-settings, elementor-basic-controls, layout-import, notice-dismiss, set-as-active, card-line, blocks-stay-on, community-pages-rows, elementor-panel, header-parts, theme-title-space, profile-fields, split-header, fresh-site-points, pro-locks, pro-unlicensed, pro-expired, dead-settings, split-header-elementor' );
+		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install, checker-readylaunch, change-look-undo, cards-follow-layout, layout-actions, element-settings, elementor-basic-controls, layout-import, notice-dismiss, set-as-active, html-tag, card-line, blocks-stay-on, community-pages-rows, elementor-panel, header-parts, theme-title-space, profile-fields, split-header, fresh-site-points, pro-locks, pro-unlicensed, pro-expired, dead-settings, split-header-elementor' );
 }
 
 // Cleanup.

@@ -49,6 +49,7 @@ run eval-file "$TEST" elementor-panel
 run eval-file "$TEST" layout-import
 run eval-file "$TEST" notice-dismiss
 run eval-file "$TEST" set-as-active
+run eval-file "$TEST" html-tag
 run eval-file "$TEST" upsell-delay
 run eval-file "$TEST" card-line
 run eval-file "$TEST" community-pages-rows

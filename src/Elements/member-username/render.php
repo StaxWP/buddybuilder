@@ -20,11 +20,13 @@ if ( 'header' === $attrs['design'] ) {
 	return;
 }
 
+// The schema already limits the tag to its options; checked again here because it becomes a tag name.
+$bpb_tag = bpb_html_tag( $attrs['username_tag'] );
 ?>
-<<?php echo esc_attr( $attrs['username_tag'] ); ?> class="user-nicename">
+<<?php echo esc_attr( $bpb_tag ); ?> class="user-nicename">
 	<?php if ( 'full_name' === $attrs['username_type'] ) : ?>
 		<?php bp_displayed_user_fullname(); ?>
 	<?php elseif ( bp_is_active( 'activity' ) && bp_activity_do_mentions() ) : ?>
 		@<?php bp_displayed_user_mentionname(); ?>
 	<?php endif; ?>
-</<?php echo esc_attr( $attrs['username_tag'] ); ?>>
+</<?php echo esc_attr( $bpb_tag ); ?>>
