@@ -1356,7 +1356,7 @@ final class CommunityPages {
 				'post_type'          => 'elementor_library',
 				'template_type'      => 'bpb-buddypress',
 				'_bpb_page'          => $type,
-				'_bpb_set_as_active' => 1,
+				'_bpb_set_as_active' => wp_create_nonce( bpb_set_as_active_nonce_action( $type ) ),
 				'_wpnonce'           => wp_create_nonce( 'elementor_action_new_post' ),
 			],
 			admin_url( 'edit.php' )

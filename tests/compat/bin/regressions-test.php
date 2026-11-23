@@ -41,6 +41,9 @@
  * - layout-import               Community pages > Import layout: a block layout export comes back as a draft of the
  *                               same type, look and preset; Elementor exports, other JSON and unknown types are refused.
  * - notice-dismiss              Dismissing a notice: only known notice ids, only with their nonce.
+ * - set-as-active               Patchstack 2026-11-20: creating or saving an Elementor BuddyPress template with
+ *                               _bpb_set_as_active assigns it to the page type only for an administrator with the
+ *                               "Create new" link's nonce (a Contributor's own template never becomes the layout).
  * - card-line                   One "Card" line per directory and activity row (style and Change, or the card layout row),
  *                                 no Pro labels with Pro licensed.
  * - elementor-panel             In a BuddyBuilder template: BuddyBuilder categories first, the page's elements only.
@@ -922,6 +925,60 @@ switch ( $bpb_case ) {
 		$_REQUEST = [];
 		break;
 
+	case 'set-as-active':
+		if ( ! class_exists( '\\Elementor\\Plugin' ) ) {
+			$bpb_skip( 'Elementor is not active' );
+			break;
+		}
+		require_once ABSPATH . 'wp-admin/includes/user.php';
+		$bpb_type    = 'member-profile';
+		$bpb_admin   = get_current_user_id();
+		$bpb_contrib = wp_insert_user(
+			[
+				'user_login' => 'bpb_contrib_' . wp_generate_password( 6, false ),
+				'user_pass'  => wp_generate_password(),
+				'role'       => 'contributor',
+			]
+		);
+		$bpb_before  = Registry::get( $bpb_type );
+		// Elementor's "new template" request (elementor_new_post) and its editor save both run save_template_type().
+		$bpb_try = static function ( $user, $active ) use ( $bpb_type, &$bpb_created ) {
+			wp_set_current_user( $user );
+			$_REQUEST = [
+				'_bpb_page'          => $bpb_type,
+				'_bpb_set_as_active' => $active,
+			];
+			$doc = \Elementor\Plugin::$instance->documents->create(
+				'bpb-buddypress',
+				[
+					'post_title'  => 'bpb set-as-active ' . $user,
+					'post_status' => 'publish',
+					'post_author' => $user,
+				]
+			);
+			$bpb_created[] = $doc->get_main_id();
+			$doc->save_template_type();
+			$_REQUEST = [];
+			return Registry::get( $bpb_type );
+		};
+		$bpb_nonce = static function ( $user, $type ) {
+			wp_set_current_user( $user );
+			return wp_create_nonce( bpb_set_as_active_nonce_action( $type ) );
+		};
+		$bpb_ok( $bpb_before === $bpb_try( $bpb_contrib, 1 ), 'Contributor with _bpb_set_as_active=1 (the report): assignment unchanged' );
+		$bpb_ok( $bpb_before === $bpb_try( $bpb_contrib, $bpb_nonce( $bpb_contrib, $bpb_type ) ), 'Contributor with a nonce of their own: assignment unchanged' );
+		$bpb_ok( $bpb_before === $bpb_try( $bpb_admin, 1 ), 'administrator without the nonce: assignment unchanged' );
+		$bpb_ok( $bpb_before === $bpb_try( $bpb_admin, $bpb_nonce( $bpb_admin, 'members-directory' ) ), 'administrator with another page type\'s nonce: assignment unchanged' );
+		$bpb_after = $bpb_try( $bpb_admin, $bpb_nonce( $bpb_admin, $bpb_type ) );
+		$bpb_ok( Registry::ELEMENTOR === $bpb_after['builder'] && end( $bpb_created ) === $bpb_after['id'], 'administrator with the "Create new" link\'s nonce: the new template is the layout' );
+		wp_set_current_user( $bpb_contrib );
+		$bpb_ok( false === bpb_set_template_id( $bpb_type, $bpb_created[0] ) && $bpb_after === Registry::get( $bpb_type ), 'bpb_set_template_id() refuses a Contributor' );
+		wp_set_current_user( $bpb_admin );
+		wp_parse_str( (string) wp_parse_url( \Buddy_Builder\Admin\CommunityPages::new_elementor_url( $bpb_type ), PHP_URL_QUERY ), $bpb_query );
+		$bpb_ok( isset( $bpb_query['_bpb_set_as_active'] ) && wp_verify_nonce( $bpb_query['_bpb_set_as_active'], bpb_set_as_active_nonce_action( $bpb_type ) ), 'the "Create new" link carries the nonce' );
+		wp_delete_user( $bpb_contrib );
+		break;
+
 	case 'card-line':
 		// One "Card" line per directory and activity row (UX review 2026-11-17, item 5): the card style with Change (the
 		// editor with the list selected), or the card layout's own item row; no card row without a card layout; no Pro
@@ -1545,7 +1602,7 @@ switch ( $bpb_case ) {
 		break;
 
 	default:
-		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install, checker-readylaunch, change-look-undo, cards-follow-layout, layout-actions, element-settings, elementor-basic-controls, layout-import, notice-dismiss, card-line, blocks-stay-on, community-pages-rows, elementor-panel, header-parts, theme-title-space, profile-fields, split-header, fresh-site-points, pro-locks, pro-unlicensed, pro-expired, dead-settings, split-header-elementor' );
+		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install, checker-readylaunch, change-look-undo, cards-follow-layout, layout-actions, element-settings, elementor-basic-controls, layout-import, notice-dismiss, set-as-active, card-line, blocks-stay-on, community-pages-rows, elementor-panel, header-parts, theme-title-space, profile-fields, split-header, fresh-site-points, pro-locks, pro-unlicensed, pro-expired, dead-settings, split-header-elementor' );
 }
 
 // Cleanup.

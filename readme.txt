@@ -174,6 +174,7 @@ Fixes:
 * rtMedia: uploaded photos in the profile media gallery stay inside their grid cell.
 * The Members List and Groups List widgets keep their grid and columns on ordinary pages.
 * Dismissing an admin notice now checks a security token (also in 1.9.4).
+* Security: only administrators can make a template the layout of a BuddyPress page; a Contributor or Author saving their own Elementor template can no longer change it (also in 1.9.5).
 * Youzify: the Activity page no longer causes a fatal error. Youzify replaces the BuddyPress pages with its own, so while it is active BuddyBuilder stays off them and says so in a notice.
 
 Removed:
