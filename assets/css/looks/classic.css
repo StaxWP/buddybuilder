@@ -4,7 +4,7 @@
  */
 .bpb-look--classic {
 	--bpb-style-accent: #2563eb;
-	--bpb-style-accent-2: #60a5fa;
+	--bpb-style-accent-2: var(--bpb-theme-accent-2, #60a5fa);
 	--bpb-radius: 10px;
 	--bpb-radius-lg: 14px;
 	--bpb-button-radius: 8px;

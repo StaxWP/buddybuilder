@@ -1276,7 +1276,8 @@
 
 /* ------------------------------------------------------------------------------------------------------------------
  * Design tokens of a style (round 2). Each style file sets these on .bpb-look--<style>; a theme can override the
- * accent with --bpb-accent and the fonts with --bpb-font-heading / --bpb-font-body. BuddyBuilder > Settings > Community
+ * accent with --bpb-accent, the second accent (covers, gradients) with --bpb-theme-accent-2 and the fonts with
+ * --bpb-font-heading / --bpb-font-body. BuddyBuilder > Settings > Community
  * style prints the owner's values (src/Presets/CommunityStyle.php), plus --bpb-accent-ink (accent used as text, made
  * readable on the page) and --bpb-density (a factor on the main paddings and gaps).
  * ---------------------------------------------------------------------------------------------------------------- */
