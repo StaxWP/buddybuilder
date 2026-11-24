@@ -59,6 +59,10 @@
  * - split-header-elementor      Item 7 in Elementor: the split header's containers render without Elementor's layout
  *                               classes, its parts print the header's markup; Split (Pro) or its locked version
  *                               (free) on the Member header widget; Join on the parts; Pro parts in Header parts.
+ * - plain-containers            A Flexbox Container outside a split header keeps its layout (e-flex, e-con-boxed and
+ *                               its layout CSS) while BuddyBuilder hides those settings on the split header's boxes:
+ *                               the "design!" conditions read a hidden "design" setting (empty by default), on the
+ *                               containers and on the 1.x header parts, front end and editor.
  * - pro-locks                   Without Pro: Split into parts locked on the Member header, the Community style's
  *                               photo shape, spacing and font locked (saved values kept, not used); Pro unlocks them.
  * - dead-settings               Settings that do nothing are hidden: block supports a style's CSS overrides (element.json
@@ -1657,8 +1661,72 @@ switch ( $bpb_case ) {
 		buddypress()->displayed_user->id = $bpb_was;
 		break;
 
+	case 'plain-containers':
+		// Containers have no "design" setting of their own; Elementor counts a condition on an unset setting as false,
+		// so "design!" => "header" hid every container's layout settings (no e-flex / e-con-boxed, no layout CSS).
+		if ( ! did_action( 'elementor/loaded' ) || ! \Elementor\Plugin::$instance->experiments->is_feature_active( 'container' ) ) {
+			$bpb_skip( 'Elementor or its Flexbox Containers are off on this site' );
+			break;
+		}
+		// Whether BuddyBuilder's "design!" condition alone hides a control that its own conditions show.
+		$bpb_hidden_by = static function ( $stack, $controls, $id, $values ) {
+			$own = $controls[ $id ];
+			unset( $own['condition']['design!'] );
+			return $stack->is_control_visible( $own, $values, $controls ) && ! $stack->is_control_visible( $controls[ $id ], $values, $controls );
+		};
+		$bpb_check = static function ( $where ) use ( $bpb_ok, $bpb_hidden_by ) {
+			$container = \Elementor\Plugin::$instance->elements_manager->get_element_types( 'container' );
+			$controls  = $container->get_controls();
+			$design    = isset( $controls['design'] ) ? $controls['design'] : null;
+			$bpb_ok( $design && \Elementor\Controls_Manager::HIDDEN === $design['type'] && '' === $design['default'], $where . ': containers have a hidden "design" setting, empty by default' );
+			// A plain container's settings: the defaults of its controls (Elementor keeps the style controls apart on
+			// the front end; the classes and the layout CSS follow container_type and content_width).
+			$plain  = wp_list_pluck( array_filter( $controls, static function ( $c ) { return array_key_exists( 'default', $c ); } ), 'default' );
+			$layout = array_keys( wp_list_filter( $controls, [ 'section' => 'section_layout_container' ] ) );
+			$hidden = array_filter( array_merge( [ 'section_layout_container' ], $layout ), static function ( $id ) use ( $bpb_hidden_by, $container, $controls, $plain ) { return $bpb_hidden_by( $container, $controls, $id, $plain ); } );
+			$bpb_ok( in_array( 'content_width', $layout, true ) && ! $hidden, $where . ': a plain container keeps its layout settings (hidden: ' . implode( ', ', $hidden ) . ')' );
+			$split = array_merge( $plain, [ 'design' => 'header' ] );
+			$bpb_ok( ! $container->is_control_visible( $controls['content_width'], $split, $controls ) && ! $container->is_control_visible( $controls['container_type'], $split, $controls ) && $container->is_control_visible( $controls['bpb_split_box_note'], $split, $controls ), $where . ': a split header box still hides them and shows the note' );
+			\Elementor\Plugin::$instance->controls_manager->delete_stack( $container );
+
+			$avatar   = \Elementor\Plugin::$instance->widgets_manager->get_widget_types( 'bpb-profile-member-avatar' );
+			$controls = $avatar->get_controls();
+			$styles   = array_filter( array_keys( $controls ), static function ( $id ) use ( $controls ) { return ! empty( $controls[ $id ]['condition']['design!'] ) && 'section' !== $controls[ $id ]['type']; } );
+			$values   = wp_list_pluck( array_filter( $controls, static function ( $c ) { return array_key_exists( 'default', $c ); } ), 'default' );
+			$hidden   = array_filter( $styles, static function ( $id ) use ( $bpb_hidden_by, $avatar, $controls, $values ) { return $bpb_hidden_by( $avatar, $controls, $id, $values ); } );
+			$bpb_ok( isset( $controls['design'] ) && ! $hidden, $where . ': a 1.x Member avatar outside a split header keeps its ' . count( $styles ) . ' conditioned settings (hidden: ' . implode( ', ', $hidden ) . ')' );
+			\Elementor\Plugin::$instance->controls_manager->delete_stack( $avatar );
+		};
+		$bpb_check( 'front end' );
+
+		$bpb_data = [
+			[
+				'id'       => 'bpbc1',
+				'elType'   => 'container',
+				'settings' => [ 'flex_direction' => 'row', 'flex_gap' => [ 'unit' => 'px', 'size' => 33, 'column' => '33', 'row' => '33' ] ],
+				'elements' => [
+					[ 'id' => 'bpbc2', 'elType' => 'widget', 'widgetType' => 'heading', 'settings' => [ 'title' => 'One' ], 'elements' => [] ],
+					[ 'id' => 'bpbc3', 'elType' => 'widget', 'widgetType' => 'heading', 'settings' => [ 'title' => 'Two' ], 'elements' => [] ],
+				],
+			],
+		];
+		$bpb_doc       = (int) wp_insert_post( [ 'post_type' => 'page', 'post_status' => 'publish', 'post_title' => 'Regression plain containers', 'meta_input' => [ '_elementor_edit_mode' => 'builder', '_elementor_template_type' => 'wp-page', '_elementor_data' => wp_slash( wp_json_encode( $bpb_data ) ) ] ] );
+		$bpb_created[] = $bpb_doc;
+		$bpb_html      = (string) \Elementor\Plugin::$instance->frontend->get_builder_content_for_display( $bpb_doc );
+		$bpb_tag       = preg_match( '/<div[^>]*data-id="bpbc1"[^>]*>/', $bpb_html, $bpb_m ) ? $bpb_m[0] : '';
+		$bpb_ok( (bool) preg_match( '/class="[^"]*\be-flex\b[^"]*\be-con-boxed\b/', $bpb_tag ), 'a plain container renders e-flex and e-con-boxed (' . $bpb_tag . ')' );
+		$bpb_css = \Elementor\Core\Files\CSS\Post::create( $bpb_doc );
+		$bpb_css->update();
+		$bpb_rules = (string) $bpb_css->get_content();
+		$bpb_ok( false !== strpos( $bpb_rules, '.elementor-element-bpbc1' ) && false !== strpos( $bpb_rules, '--flex-direction:row' ) && false !== strpos( $bpb_rules, '33px' ), 'its layout CSS (direction, gap) is in the page CSS' );
+
+		set_current_screen( 'dashboard' ); // is_admin(): the editor and its AJAX requests.
+		$bpb_check( 'editor' );
+		set_current_screen( 'front' );
+		break;
+
 	default:
-		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install, checker-readylaunch, change-look-undo, cards-follow-layout, layout-actions, element-settings, elementor-basic-controls, layout-import, notice-dismiss, set-as-active, html-tag, card-line, blocks-stay-on, community-pages-rows, elementor-panel, header-parts, theme-title-space, profile-fields, split-header, fresh-site-points, pro-locks, pro-unlicensed, pro-expired, dead-settings, split-header-elementor' );
+		WP_CLI::error( 'Unknown case. Cases: customizer-block-layout, elementor-off, settings-save-no-elementor, inserter-js-only-block, preview-buddyboss, sample-member-hidden, preview-seen-by <viewer>, community-pages-read-only, checker-known-issues, setup-new-install, checker-readylaunch, change-look-undo, cards-follow-layout, layout-actions, element-settings, elementor-basic-controls, layout-import, notice-dismiss, set-as-active, html-tag, card-line, blocks-stay-on, community-pages-rows, elementor-panel, header-parts, theme-title-space, profile-fields, split-header, fresh-site-points, pro-locks, pro-unlicensed, pro-expired, dead-settings, split-header-elementor, plain-containers' );
 }
 
 // Cleanup.

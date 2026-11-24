@@ -64,6 +64,7 @@ run eval-file "$TEST" pro-unlicensed
 run eval-file "$TEST" pro-expired
 run eval-file "$TEST" dead-settings
 run eval-file "$TEST" split-header-elementor
+run eval-file "$TEST" plain-containers
 if [ -n "${BPB_BUDDYBOSS_PLUGIN:-}" ]; then
 	run --require="$HERE/env/buddyboss.php" eval-file "$TEST" checker-readylaunch
 fi

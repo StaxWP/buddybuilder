@@ -149,6 +149,9 @@ class Base extends \Elementor\Widget_Base {
 			]
 		);
 		$this->end_controls_section();
+
+		// The 1.x parts have no "design" setting of their own: the condition needs one to read.
+		\Buddy_Builder\Integrations\Elementor\BasicControls::condition_keys( $this, [ 'design' ], $this->get_controls( 'bpb_part_of' ) );
 	}
 
 	/**

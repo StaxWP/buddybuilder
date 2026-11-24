@@ -185,8 +185,38 @@ final class BasicControls {
 			$control = $stack->get_controls( $id );
 
 			if ( $control ) {
+				self::condition_keys( $stack, array_keys( $when ), $control );
 				$stack->update_control( $id, [ 'condition' => array_merge( isset( $control['condition'] ) ? (array) $control['condition'] : [], $hide ) ] );
 			}
+		}
+	}
+
+	/**
+	 * Register the settings a condition reads that the stack does not have, as hidden settings with an empty default.
+	 * Elementor (Controls_Stack::is_control_visible()) counts a condition on an unset setting as false, "key!" ones
+	 * too: without this, "design!" => "header" hides the control, and drops its classes and CSS, on every element
+	 * without a "design" setting (plain Flexbox Containers, the 1.x header parts). Saved values stay.
+	 *
+	 * @param \Elementor\Controls_Stack $stack Widget or element.
+	 * @param string[]                  $keys  Setting keys.
+	 * @param array                     $near  Control (or section) the hidden settings go next to: its section and tab.
+	 */
+	public static function condition_keys( $stack, array $keys, array $near ) {
+		foreach ( $keys as $key ) {
+			if ( null !== $stack->get_controls( $key ) ) {
+				continue;
+			}
+
+			\Elementor\Plugin::$instance->controls_manager->add_control_to_stack(
+				$stack,
+				$key,
+				[
+					'type'    => \Elementor\Controls_Manager::HIDDEN,
+					'default' => '',
+					'section' => \Elementor\Controls_Manager::SECTION === $near['type'] ? $near['name'] : $near['section'],
+					'tab'     => isset( $near['tab'] ) ? $near['tab'] : \Elementor\Controls_Manager::TAB_CONTENT,
+				]
+			);
 		}
 	}
 
