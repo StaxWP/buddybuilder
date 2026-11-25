@@ -1679,6 +1679,7 @@ switch ( $bpb_case ) {
 			$controls  = $container->get_controls();
 			$design    = isset( $controls['design'] ) ? $controls['design'] : null;
 			$bpb_ok( $design && \Elementor\Controls_Manager::HIDDEN === $design['type'] && '' === $design['default'], $where . ': containers have a hidden "design" setting, empty by default' );
+			$bpb_ok( $design && false === $design['style_transfer'], $where . ': Paste style and Reset style leave it alone (a split header box keeps its mark)' );
 			// A plain container's settings: the defaults of its controls (Elementor keeps the style controls apart on
 			// the front end; the classes and the layout CSS follow container_type and content_width).
 			$plain  = wp_list_pluck( array_filter( $controls, static function ( $c ) { return array_key_exists( 'default', $c ); } ), 'default' );

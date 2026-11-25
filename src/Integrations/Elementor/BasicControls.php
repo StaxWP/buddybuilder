@@ -195,7 +195,9 @@ final class BasicControls {
 	 * Register the settings a condition reads that the stack does not have, as hidden settings with an empty default.
 	 * Elementor (Controls_Stack::is_control_visible()) counts a condition on an unset setting as false, "key!" ones
 	 * too: without this, "design!" => "header" hides the control, and drops its classes and CSS, on every element
-	 * without a "design" setting (plain Flexbox Containers, the 1.x header parts). Saved values stay.
+	 * without a "design" setting (plain Flexbox Containers, the 1.x header parts). Saved values stay. Out of Paste style
+	 * and Reset style: a container's Layout tab counts as style there, and Reset style on a split header box would clear
+	 * its "header" mark.
 	 *
 	 * @param \Elementor\Controls_Stack $stack Widget or element.
 	 * @param string[]                  $keys  Setting keys.
@@ -211,10 +213,11 @@ final class BasicControls {
 				$stack,
 				$key,
 				[
-					'type'    => \Elementor\Controls_Manager::HIDDEN,
-					'default' => '',
-					'section' => \Elementor\Controls_Manager::SECTION === $near['type'] ? $near['name'] : $near['section'],
-					'tab'     => isset( $near['tab'] ) ? $near['tab'] : \Elementor\Controls_Manager::TAB_CONTENT,
+					'type'           => \Elementor\Controls_Manager::HIDDEN,
+					'default'        => '',
+					'section'        => \Elementor\Controls_Manager::SECTION === $near['type'] ? $near['name'] : $near['section'],
+					'tab'            => isset( $near['tab'] ) ? $near['tab'] : \Elementor\Controls_Manager::TAB_CONTENT,
+					'style_transfer' => false,
 				]
 			);
 		}
